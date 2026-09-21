@@ -1,0 +1,474 @@
+// Every address and struct offset the mod uses, for Sims.exe 1.10.7 (SHA-256 b7c8765e...).
+// VAs are at the preferred base 0x400000; game::Va() relocates them. Evidence for each entry is
+// in STRUCTS.md / PATCH_TARGETS.md at the repository root. Only core/game uses these.
+#pragma once
+
+#include <cstddef>
+#include <cstdint>
+
+namespace game::addr {
+
+using Va = uintptr_t;
+
+// ---- Globals ------------------------------------------------------------------------------
+constexpr Va kWinMgr = 0xa7f484;          // cTSWinMgrW95*
+constexpr Va kAppActive = 0xa52074;       // u8: WM_ACTIVATEAPP state; input is dropped while 0
+constexpr Va kLotPopup = 0xa65324;        // cWinLotPopup* (shared neighborhood hover card)
+constexpr Va kSimRoot = 0xa67044;         // app root: [[kSimRoot]] + kLotModule = ObjectModule
+constexpr int kLotModule = 0x14;
+constexpr Va kCurrentTool = 0xa67108;     // cTool*: cObjPickerTool in live mode
+constexpr Va kSimsApp = 0xa63570;         // cSimsApp*: + 0xc4 CPState*, whose + 0x70 is the Catalog
+namespace catalog {
+constexpr int kState = 0xc4;
+constexpr int kCatalog = 0x70;
+constexpr int kProducts = 0x04;           // Catalog: std::vector<Product*> (begin, end)
+constexpr int kProductName = 0x04;        // Product: std::string, in the game's language
+constexpr int kProductType = 0x40;        // Product: object type record (resFile at +0)
+}  // namespace catalog
+
+// ---- Functions ----------------------------------------------------------------------------
+// thiscall int (const char* text, int len, int width): wraps a text block, returns line count.
+// Every popup and dialog text passes through it, so hooking it captures drawn text.
+constexpr Va kFontCountLines = 0x723a70;
+// thiscall void cWinLotPopup::Fill(lotRecord*, extra*, bool force)
+constexpr Va kLotPopupFill = 0x492820;
+// cdecl void (int neighborId, std::string* out): a Sim's name
+constexpr Va kNeighborName = 0x43af20;
+// cdecl std::string* (int neighborId): a Sim's short biography
+constexpr Va kNeighborBio = 0x43a4e0;
+// cdecl int (cXPerson*): neighbor ID of a Sim on the lot (matches its GUID), -1 if none
+constexpr Va kPersonNeighborId = 0x43aac0;
+// cdecl SimState* (int neighborId): a Sim's live state; float mood (-100..100) at +0xc. What the
+// family panel's mood meter draws (0x4bb980). Returns a shared default record for unknown IDs.
+constexpr Va kSimState = 0x43aec0;
+constexpr int kSimStateMood = 0x0c;
+// A Sim's action queue, as the queue icons get it (0x40f6c0): cdecl void (int neighborId,
+// std::vector<Entry>* out) appends 0x28-byte entries, the current action first, the action's
+// name in a std::string at +0x10. The icon builder keeps a static vector for it at kQueueScratch
+// ({first, last, end}), empties it with the entry destructor (thiscall) and refills it.
+constexpr Va kSimQueue = 0x43b230;
+constexpr Va kQueueEntryDtor = 0x438700;
+constexpr Va kQueueScratch = 0xa61ec0;
+constexpr int kQueueEntrySize = 0x28;
+constexpr int kQueueEntryName = 0x10;
+// cdecl short* (int neighborId): a Sim's person data (personality traits at their index, 0..1000)
+constexpr Va kSimPersonData = 0x43a480;
+// cdecl int (int neighborId, int personDataIndex): a Sim's skill points, 0..1000 (one bar per 100)
+constexpr Va kSimSkill = 0x43bc30;
+constexpr Va kJobPanelSkillIds = 0x98aca0;  // int[6]: person data indices of the job panel's skills
+constexpr int kJobPanelSkillCount = 6;
+
+// StringSet (string list resources such as CTSS catalog strings), all thiscall:
+constexpr Va kStringSetCtor = 0x58c2f0;       // void ()
+constexpr Va kStringSetSource = 0x58ef00;     // void (resFile*, short id, u32 type, bool, char lang)
+constexpr Va kStringSetLoad = 0x58d4c0;       // int (char, char): 0 on success
+constexpr Va kStringSetGet = 0x58cd60;        // const char* (int index 1-based, char lang -1)
+constexpr Va kStringSetDtor = 0x58c4b0;       // void ()
+constexpr size_t kStringSetSize = 0x100;      // fields used up to +0x6c
+constexpr uint32_t kResourceCTSS = 0x43545353;  // 'CTSS'
+
+// House ratings (the house subpanel's draw, 0x4dc390, does the same): a HouseStats of 11 dwords
+// is initialised, filled by the sim root ([[kSimRoot]]), then asked for each rating (0..100).
+namespace house {
+constexpr Va kStatsInit = 0x56a990;   // thiscall void (): zeroes the struct
+constexpr Va kStatsFill = 0x56b460;   // thiscall void (HouseStats*) on the sim root
+constexpr size_t kStatsSize = 0x2c;
+constexpr Va kRatings[5] = {0x56b7e0, 0x56b400, 0x56b940, 0x56b850, 0x56b620};  // thiscall int ()
+}  // namespace house
+
+// Rooms. The world ([kWorld], cRotatableWorld) keeps a room map per level: rows by tile y, each
+// a u16 room id per tile x (the debug tile window 0x4e8f30 reads it through 0x4e8c70). The sim
+// root keeps the room records in a std::map (id -> Room*).
+constexpr Va kWorld = 0xa675b4;
+constexpr int kWorldRotation = 0x84;  // world: int camera rotation 0..3
+constexpr int kWorldSpan = 0x400;     // the grid in 1/16 tile units (64 tiles)
+namespace rooms {
+constexpr int kLevelMaps = 0x28;      // world: RoomMap* per level (index = level, 1 = ground)
+constexpr int kMaxLevel = 7;
+constexpr int kMapRows = 0x0c;        // RoomMap: u16** rows (by tile y), each a u16 per tile x
+constexpr uint16_t kNone = 0xfffb;
+constexpr int kManager = 0x24;        // sim root ([[kSimRoot]]): room manager
+constexpr Va kFindRoom = 0x627c70;    // thiscall Room* (u16 id) on the manager
+constexpr Va kIsOutside = 0x6280a0;   // thiscall bool () on a Room
+constexpr int kArea = 0x38;           // Room: int area in half tiles
+constexpr int kBeds = 0x58;           // Room: int bed count
+constexpr int kBathObjects = 0x5c;    // Room: int bathroom object count
+}  // namespace rooms
+
+// cObjPickerTool vtable slot 30: void (int worldX, int worldY, short objectId, pickInfo*):
+// hover + click on an object: builds its interactions and runs the pie menu modally.
+constexpr Va kPickerOpenMenu = 0x621960;
+constexpr int kPickerOpenMenuSlot = 30;
+// cTSPieMenu vtable slots (thiscall)
+constexpr Va kPieSetSelection = 0x6ec760;     // slot 102: (int index, bool choose): choose notifies
+                                              // the owner (code 0xf), which queues the interaction
+constexpr int kPieSetSelectionSlot = 102;
+constexpr Va kPieEndModal = 0x6eb930;         // slot 147: (int result): ends DoModal with result
+constexpr int kPieEndModalSlot = 147;
+// cTSWinSlider slot 101: void SetValue(int): clamps, moves the thumb and notifies the owner
+// (message {3, 12, slider}) the way dragging does.
+constexpr Va kSliderSetValue = 0x707120;
+constexpr int kSliderSetValueSlot = 101;
+
+// ---- Buy mode (see STRUCTS.md "Buy mode") -------------------------------------------------
+// [kSimRoot] is a table of subsystems: [0] the sim root, [1] the house viewer, [7] cSimulator.
+namespace sim {
+constexpr int kSimulator = 0x1c;      // cSimulator*: the family's money
+constexpr int kFunds = 0x90;          // cSimulator: int funds
+constexpr int kFundsMode = 0x50;      // cSimulator: short; 1 = unlimited (the funds getter
+                                      // 0x556e20 answers 999999)
+}  // namespace sim
+namespace product {
+constexpr int kName = 0x04;           // Product: std::string, the catalog name
+constexpr int kDescription = 0x1c;    // std::string, the catalog description
+constexpr int kPrice = 0x34;          // int (0x5368e0 returns it)
+constexpr int kButton = 0x38;         // ProductButton* showing it
+constexpr int kType = 0x40;           // object type record
+constexpr int kTypeObjd = 0x60;       // type record: the lead object's OBJD (u16 fields)
+}  // namespace product
+constexpr int kProductButtonProduct = 0x1e0;  // ProductButton: Product*
+// CPState ([kSimsApp] + catalog::kState): the buy panel's state. SelectProduct(-1, 0) is what the
+// catalog does when nothing is chosen: the buy tool gives way to the plain hand tool.
+constexpr Va kSelectProduct = 0x408750;       // thiscall void (int index, Product*)
+constexpr Va kMarkPanelDirty = 0x407fa0;      // thiscall void (u32 flags); 0x200 after a selection
+constexpr uint32_t kPanelSelectionChanged = 0x200;
+constexpr Va kButtonSetChecked = 0x6e9b30;    // cTSWinBtn: thiscall void (int checked), redraws
+constexpr int kCatalogProducts = 0x474;       // cWinCatalog: std::vector<Product*> of the page set
+
+// The buy/move tool (cMoveTool, [kCurrentTool] in buy mode). Mouse handlers take (int worldX,
+// int worldY, int objectUnderMouse, PickInfo*) with PickInfo {int 12, view, 0, short y, short x}
+// (screen position in game coordinates). Every one of them calls slot 7 first.
+namespace movetool {
+constexpr int kMoveSlot = 7;          // 0x56dc90: re-places the held object at the tile under the
+constexpr Va kMove = 0x56dc90;        //   mouse (ScreenToWorld 0x5e00e0), rotates while dragging
+constexpr int kDownSlot = 8;          // 0x56ccc0: mouse down
+constexpr Va kDown = 0x56ccc0;
+constexpr int kUpSlot = 11;           // 0x56ec10: mouse up: buys and places a validly held object
+constexpr Va kUp = 0x56ec10;
+constexpr int kBeginSlot = 22;        // 0x56ea30: creates the held object for the chosen product
+constexpr Va kBegin = 0x56ea30;       //   (the view calls it when the mouse enters the lot)
+constexpr int kDropSlot = 6;          // 0x56d200: puts the held object away (cancel)
+constexpr Va kDrop = 0x56d200;
+constexpr int kKeySlot = 18;          // 0x56ea80: int (int vk): Delete sells (or throws away) the
+constexpr Va kKey = 0x56ea80;         //   held object, Escape puts it back; nonzero = handled
+constexpr int kBuying = 0x75;         // u8: the held object is a new purchase (else moved)
+constexpr int kMode = 0x34;           // int: 2 = buying from the catalog
+constexpr int kCursor = 0x3c;         // cXCursorObject*: the held object's cursor, 0 when none
+constexpr int kProductType = 0x44;    // object type record of the product being bought
+constexpr int kDragging = 0x7b;       // u8: mouse held down (dragging rotates)
+constexpr int kActive = 0x97;         // u8: the held object follows the mouse; slot 22 (mouse
+                                      // entered the lot) sets it, slot 23 (left) clears it and
+                                      // takes the held object out of the world
+constexpr int kBuyMode = 2;
+}  // namespace movetool
+constexpr Va kScreenToWorld = 0x5e00e0;  // cdecl int* (int* out, u32* packedScreen, int flag):
+                                         // view coordinates (1/16 tile) under a screen point
+constexpr Va kPlacementError = 0xa67078; // int: the last placement check's reason, a 1-based index
+                                         // into STR# 137 (PlacementErrs); 0 = none
+constexpr Va kPlacementErrorStrings = 0xa6713c;  // StringSet* of STR# 137, 0 until first used
+constexpr Va kLoadPlacementErrors = 0x56e6c0;    // cdecl void (): creates it
+constexpr Va kStringSetGetAt = 0x58cd10;         // thiscall const char* (int index1, char lang)
+constexpr Va kCurrentLevel = 0x590080;           // cdecl int (): the floor build/buy mode work on
+// cXCursorObject (the held object's footprint outline; the object itself at +0x1b0)
+namespace cursor {
+constexpr int kObject = 0x1b0;        // cXObject*: the object being placed
+constexpr int kPlacedOk = 0x1b4;      // short: the object sits validly where the cursor is
+constexpr int kRemoveSlot = 20;       // 0x633fa0: takes cursor and object out of the world
+constexpr Va kRemove = 0x633fa0;
+constexpr int kRelayoutSlot = 34;     // 0x633200: copies the object's part offsets to the cursor
+constexpr Va kRelayout = 0x633200;
+}  // namespace cursor
+// Objects (cXObject / cXMTObject), placement related
+namespace place {
+constexpr int kCanPlaceSlot = 24;     // bool (int pos[2], int level, cXObject* surface, int slot):
+constexpr Va kCanPlaceSingle = 0x53efc0;  // the pure check the held object gets on every tile
+constexpr Va kCanPlaceMulti = 0x630ee0;   //   (bounds, floor, walls, other objects); sets the error
+constexpr int kTurnSlot = 19;         // cXObject 0x53e690: void (int turns): turns a single-tile object
+constexpr Va kTurnSingle = 0x53e690;  //   by turns * kRotationStep (the held cursor's turn uses it)
+constexpr int kRelayoutSlot = 34;     // cXMTObject 0x62fcd0: recomputes part offsets for the direction
+constexpr Va kRelayoutMulti = 0x62fcd0;
+constexpr Va kPartRefresh = 0x53a6f0; // thiscall void (int 0): a part's graphics after a turn
+constexpr Va kPartRedraw = 0x53a760;  // thiscall void (): redraws a placed part's tile
+constexpr int kDirection = 0x4c;      // short 0..7 (0, 2, 4, 6 = the four sides)
+constexpr Va kSaleValue = 0x53adc0;   // fastcall int (cXObject*): what selling it pays now
+constexpr int kContainer = 0x4e;      // short: id of the object it sits on or in (a lamp's table), 0
+constexpr int kFlags = 0x5a;          // short: object flags (FreeSO VMEntityFlags): 4 no floor
+                                      // extent (windows 0x404), 8 walks (Sims), 16 people pass
+                                      // (doors 0x410, trees)
+constexpr int kRotationStep = 0x78;   // short: direction step per turn (2 = quarter turn, 0 = fixed)
+constexpr int kLevel = 0x110;         // int
+constexpr int kNextPart = 0x190;      // cXMTObject*: next part (0 = last)
+constexpr int kLead = 0x194;          // cXMTObject*: the lead part (0 on the lead itself)
+constexpr int kPartY = 0x1a4;         // int: part offset in tiles, y
+constexpr int kPartX = 0x1a8;         //                             x
+constexpr int kPartLevel = 0x1ac;     //                             level
+constexpr int kContainerSlots = 0x134;  // std::vector of 0x24-byte container slots (SLOT type 0):
+                                        // entry 0 is the object itself, then places on it (a
+                                        // table's top): +0x10 short occupant id, +0x14 int height
+constexpr int kContainerSlotSize = 0x24;
+constexpr int kSlotOccupant = 0x10;
+constexpr int kSlotHeight = 0x14;
+constexpr int kAllowedHeights = 0x52;  // short: bit (height - 1) set = fits a slot of that height
+constexpr int kRoutingSlots = 0x140;  // std::vector of 0x3c-byte routing slots (SLOT type 3)
+constexpr int kRoutingSlotSize = 0x3c;
+}  // namespace place
+// A routing slot (where a Sim stands to use the object), loaded by 0x62c820 from the object's
+// SLOT resource: offsets relative to the object in its own frame.
+namespace rslot {
+constexpr int kX = 0x00;              // float, 1/16 tile
+constexpr int kY = 0x04;              // float
+constexpr int kFlags = 0x1c;          // u32: bits 0-7 N, NE, E, SE, S, SW, W, NW relative to the
+                                      // object's front; 0x1000 snap to direction
+constexpr int kSnapTarget = 0x20;     // int: container slot to snap to, -1 none
+constexpr int kMinProximity = 0x24;   // int, 1/16 tile
+constexpr int kMaxProximity = 0x28;
+constexpr int kOptimalProximity = 0x2c;
+}  // namespace rslot
+// The lot grid ([kWorld], cRotatableWorld; the same object as [kWorldArch]). Per-level maps at
+// +offset + level * 4, each {..., +0x0c rows[y]}, a row holding one entry per tile x.
+constexpr Va kWorldArch = 0xa675b8;
+namespace grid {
+constexpr int kSize = 0x10;           // [kWorldArch]: int tiles per side (56 on a small lot)
+constexpr int kFloors = 0x20;         // u16 per tile: floor pattern (0 = none)
+constexpr int kFlags = 0x30;          // u8 per tile: 1 floorable, 2 seeded, 4 outside, 0x20 not editable
+constexpr int kObjects = 0x38;        // u16 per tile: id of the object standing there (Sims too)
+constexpr Va kWalls = 0x585a30;       // thiscall WallInfo* (WallInfo* out, u8 tile[3] {y, x, level})
+                                      // on [kWorldArch]: u32 mask at +0 (1 = edge toward y-1,
+                                      // 2 = toward x-1, 4 = toward y+1, 8 = toward x+1, 0x10/0x20
+                                      // diagonals), u16 style per segment at +8
+constexpr size_t kWallInfoSize = 0x2c;
+}  // namespace grid
+
+// ---- The cheat console (main window, cTSMainWindowW95) ------------------------------------
+namespace cheat {
+constexpr int kField = 0x140;         // cTSWinTextEdit2*: the console's text field (slot 105 sets it)
+constexpr int kShowSlot = 107;        // 0x6f0c50: void (char show); what Ctrl+Shift+C calls from the
+constexpr Va kShow = 0x6f0c50;        //   main window's key handler 0x6f0f70
+constexpr int kManager = 0x144;       // cTSCheatCodeManager*
+constexpr int kCommands = 0x04;       // manager: std::map<std::string, command> (head, size)
+constexpr int kUsages = 0x0c;         // manager: std::map<std::string, std::string usage>
+constexpr Va kRun = 0x6e67d0;         // thiscall bool (const char* line) on the manager: the interpreter
+constexpr Va kSetText = 0x6ffd40;     // cTSWinTextEdit2: thiscall void (const char*, char, char)
+}  // namespace cheat
+
+// ---- cTSWinMgr ----------------------------------------------------------------------------
+namespace winmgr {
+constexpr int kInputRoot = 0x24;   // cTSWin*: the widget that owns input: a screen, a modal
+                                   // dialog, a panel inside them, or the text field being typed in
+constexpr int kMainWindow = 0x2c;  // cTSMainWindowW95*
+}  // namespace winmgr
+
+// ---- cTSWin (every widget) ----------------------------------------------------------------
+namespace win {
+constexpr int kRect = 0x0c;        // RECT, absolute 1024x768 game coordinates
+constexpr int kChildren = 0x38;    // std::list<cTSWin*>: head node, count at +4
+constexpr int kParent = 0x44;      // cTSWin*
+constexpr int kCaption = 0x50;     // std::string
+constexpr int kTooltip = 0xbc;     // std::string
+constexpr int kFlags = 0xf4;       // u32
+constexpr uint32_t kFlagVisible = 0x1;
+}  // namespace win
+
+// cTSWin message types, delivered through vtable slot 0 with {type, x, y, flags}
+// (coordinates relative to the widget), as recorded from real mouse clicks.
+namespace msg {
+constexpr uint32_t kMouseEnter = 24;  // slot 64: sets the hovered flag release needs
+constexpr uint32_t kLeftDown = 7;     // slots 69 + 55
+constexpr uint32_t kLeftUp = 11;      // slots 71 + 59: notifies the owner (click)
+constexpr uint32_t kMouseMove = 13;   // slots 70 + 61
+constexpr uint32_t kMouseLeave = 25;  // slot 65
+constexpr uint32_t kLeftButtonFlag = 0x10;
+}  // namespace msg
+
+// ---- cTSWinSlider --------------------------------------------------------------------------
+namespace slider {
+constexpr int kMin = 0x12c;        // int (slot 99 returns it)
+constexpr int kMax = 0x130;        // int (slot 100)
+constexpr int kValue = 0x134;      // int (slot 98)
+}  // namespace slider
+
+// ---- cTSWinTextEdit2 (a text field) -------------------------------------------------------
+namespace textedit {
+constexpr int kCaret = 0x128;      // int caret position (characters)
+constexpr int kText = 0x138;       // std::string cp1252 (its size can count a trailing NUL)
+}  // namespace textedit
+
+// ---- cTSWinBtn ----------------------------------------------------------------------------
+namespace btn {
+constexpr int kChecked = 0x130;    // int
+constexpr int kType = 0x148;       // int: 0 push, 1 toggle/mode, 2 check/radio
+constexpr int kEnabled = 0x1b8;    // u8
+}  // namespace btn
+
+// ---- cWinLotBtn (a house on the neighborhood map) -----------------------------------------
+namespace lot {
+constexpr int kRecord = 0x1e0;     // lot record passed to the popup fill
+constexpr int kFamily = 0x1f8;     // std::string, empty when vacant
+constexpr int kNumber = 0x220;     // int house number
+constexpr int kExtra = 0x274;      // second popup fill argument
+}  // namespace lot
+
+// ---- cPickFamilyItem (family picker row) / cPickFamilyItemMember (portrait) ---------------
+namespace famrow {
+constexpr int kMembers = 0x1e0;    // cPickFamilyItemMember*[8]; hidden portraits are empty slots
+constexpr int kMemberSlots = 8;
+constexpr int kName = 0x210;       // std::string family name
+}  // namespace famrow
+namespace fammember {
+constexpr int kNeighborId = 0x1e0; // int
+}  // namespace fammember
+
+// ---- cWinMotive (need meter; caption is the need's name) ----------------------------------
+namespace motive {
+constexpr int kValue = 0x1e0;      // int -100..100
+constexpr int kHelp = 0x20c;       // std::string, the game's explanation of the need
+}  // namespace motive
+
+// ---- cWinBudgetRow (a row of the family budget dialog, cWinBudgetDlg) ---------------------
+namespace budget {
+constexpr int kColumn1 = 0x148;    // std::string: value in the first period column ("$0"), or its name
+constexpr int kColumn2 = 0x160;    // std::string: second period column ("Hoy" on the header row)
+constexpr int kSummaryFormat = 0x17c;  // std::string: "Total contabilidad doméstica: %s"
+constexpr int kSummaryValue = 0x194;   // std::string: "$9.500"
+}  // namespace budget
+
+// ---- cWinViewControl (the lot view's control panel: clock, funds, speed) ------------------
+namespace viewctl {
+constexpr int kLiveModeButton = 0x154; // cTSWinBtn* "Modo Vivir - F1" (then buy, build, options, camera)
+constexpr int kFundsButton = 0x168;    // cTSWinBtn*: caption "$9.500", tooltip "Fondos"
+constexpr int kPauseButton = 0x178;    // cTSWinBtn* toggle, checked while paused
+constexpr int kSpeedButtons = 0x17c;   // cTSWinBtn*[3]: normal, high, ultra; the checked one is the speed
+constexpr int kSpeedLevels = 3;
+constexpr int kClock = 0x1cc;          // std::string: the time as drawn ("11:46")
+constexpr int kFriendsButton = 0x25c;  // cTSWinBtn*: caption = the family's friend count
+}  // namespace viewctl
+
+// ---- cWinPeople (the live mode family panel) ----------------------------------------------
+namespace people {
+constexpr int kMemberButtons = 0x148;  // std::vector<cTSWinBtn*>: portraits (tooltip = first name,
+                                       // checked = selected Sim); unused slots are hidden
+constexpr int kNeedsBox = 0x158;       // cTSWin*: the "Necesidades" container
+constexpr int kLivePopup = 0x1b0;      // cWinLivePopup*
+constexpr int kSubpanelButtons = 0x1b4;  // cTSWinBtn*[7]: mood, relationships, job, house,
+constexpr int kSubpanelCount = 7;        // personality, interests, inventory
+}  // namespace people
+
+// ---- cWinSubpanelJob (the family panel's job subpanel) ------------------------------------
+namespace jobpanel {
+constexpr int kSkillButtons = 0x130;  // cFlashyBtn** [6], same order as kJobPanelSkillIds
+constexpr int kInfoButtons = 0x13c;   // cFlashyBtn** [4]: job, pay, performance, family friends
+                                      // needed; their captions are set while the panel is drawn
+}  // namespace jobpanel
+
+// ---- cWinPersonality (a personality trait; caption = trait name) ---------------------------
+namespace trait {
+constexpr int kIndex = 0x1e0;      // int person data index of the trait
+constexpr int kNeighborId = 0x1e4; // int whose trait it is (-1 = none)
+}  // namespace trait
+
+// ---- cWinInterest (an interest on the interests subpanel; tooltip = its name) -------------
+namespace interest {
+constexpr int kIndex = 0x1e0;      // int interest number
+constexpr int kPoints = 0x1e4;     // int 0..10 (the draw 0x48df00 makes the bar 4 px per point)
+}  // namespace interest
+
+// ---- cWinSubpanelHouse (the family panel's house subpanel) --------------------------------
+namespace housepanel {
+constexpr int kButtons = 0x130;       // cTSWinBtn** [9]: 0-4 ratings (size, furnishings, yard,
+constexpr int kButtonCount = 9;       // upkeep, layout), 5-8 area, bedrooms, bathrooms, lot size
+}  // namespace housepanel
+
+// ---- cWinDesignCharacter (create a Sim) and its personality bars (cWinPersonalityWidget) ---
+namespace designsim {
+constexpr int kAdult = 0x174;         // cTSWinBtn* age, sex and skin choices (checked = chosen)
+constexpr int kChild = 0x178;
+constexpr int kFemale = 0x17c;
+constexpr int kMale = 0x180;
+constexpr int kSkinDark = 0x184;
+constexpr int kSkinMedium = 0x188;
+constexpr int kSkinLight = 0x18c;
+constexpr int kPreview = 0x1cc;       // cWinVitaBtn*
+constexpr int kZodiac = 0x260;        // cTSWinBtn*: caption "(Cáncer)" once points are spent
+constexpr int kPointsLeft = 0x16c;    // int personality points still to spend (of 25)
+constexpr int kPrevBody = 0x190;      // cTSWinBtn* arrows: previous/next body, previous/next head
+constexpr int kNextBody = 0x194;
+constexpr int kPrevHead = 0x198;
+constexpr int kNextHead = 0x19c;
+constexpr int kHeadIndex = 0x1b8;     // int into the designer's head list
+constexpr int kBodyIndex = 0x1bc;     // int into the designer's body list
+}  // namespace designsim
+// The character designer ([kDesigner]): the heads and bodies that fit the Sim's sex, age and
+// skin, as vectors of 0x98-byte entries with the mesh name ("HEAD-HEAD=c036malgt_dave") in a
+// StackString<64> at +0x4c (text at +0x0c of it).
+constexpr Va kDesigner = 0xa6347c;
+namespace designer {
+constexpr int kHeads = 0x78;          // vector*: {begin, end}
+constexpr int kBodies = 0x7c;
+constexpr int kEntrySize = 0x98;
+constexpr int kMeshName = 0x4c + 0x0c;
+constexpr int kMeshNameSize = 64;
+}  // namespace designer
+namespace traitbar {
+constexpr int kPoints = 0x1e0;        // int 0..10
+constexpr int kName = 0x1e8;          // std::string trait name ("Pulcritud")
+constexpr int kScreen = 0x23c;        // cWinDesignCharacter*
+}  // namespace traitbar
+
+// ---- cWinRelationship (a card on the relationships subpanel; tooltip "Marisa Compañeras") -
+namespace relcard {
+constexpr int kOtherId = 0x1e0;    // int neighbor ID of the Sim on the card
+constexpr int kOwnerId = 0x1e4;    // int neighbor ID of the selected Sim
+constexpr int kLifetime = 0x1e8;   // int -100..100, the lower number and bar
+constexpr int kDaily = 0x1ec;      // int -100..100, the upper number and bar (moves with each chat)
+}  // namespace relcard
+
+// ---- The lot (ObjectModule) and its objects -----------------------------------------------
+namespace world {
+constexpr int kObjects = 0x18;     // std::vector<cXObject*>, index = object id - 1
+constexpr int kPeople = 0x80;      // std::vector<cXPerson*>
+}  // namespace world
+namespace obj {
+constexpr int kId = 0xf0;          // short
+constexpr int kX = 0xf4;           // int, 1/16 tile
+constexpr int kY = 0xf8;           // int, 1/16 tile
+constexpr int kPlacement = 0xfc;   // u32: byte0 tile y, byte1 tile x, byte2 level; 0xffff = not placed
+constexpr int kFlags = 0x114;      // u32; people: bit 0x2 = selected Sim
+constexpr uint32_t kFlagSelected = 0x2;
+constexpr int kObjd = 0x11c;       // raw OBJD resource (little-endian u16 fields)
+constexpr int kType = 0x120;       // object type record
+}  // namespace obj
+namespace objtype {
+constexpr int kResFile = 0x00;     // ObjResFile* (the object's IFF)
+constexpr int kInternalName = 0x18; // char* (English internal name, e.g. "Trash Outside")
+}  // namespace objtype
+// OBJD field indices (u16 each; the version takes fields 0-1)
+namespace objd {
+constexpr int kObjectType = 9;     // 2 person, 4 normal, 7 system, 12 inventory
+constexpr int kMasterId = 10;      // multi-tile group; 0 = single tile
+constexpr int kSubIndex = 11;      // the part's tile offset in the group, (y << 8) | x
+constexpr int kRoomFlags = 39;     // suggested rooms
+constexpr int kFunctionFlags = 40; // buy mode categories
+constexpr int kCatalogStringsId = 41;  // CTSS resource id (name = string 1)
+constexpr int kFieldCount = 42;
+}  // namespace objd
+
+// ---- cTSPieMenu ---------------------------------------------------------------------------
+namespace pie {
+constexpr int kItems = 0x1e8;      // std::vector of 0x34-byte items: std::string label at +0
+constexpr int kItemSize = 0x34;
+constexpr int kItemFlags = 0x1c;   // u32 (0x1 normal; other bits unmapped)
+constexpr int kHighlight = 0x128;  // int, -1 = none
+// DoModal results the menu runner (0x61fe70) understands: an item index, -3 next page, -2 leave
+// the runner (the picker then re-hovers and REOPENS the top-level menu), -1 back (from the top
+// level: the runner returns 0 and the picker closes without doing anything).
+constexpr int kResultLeave = -2;
+constexpr int kResultBack = -1;
+}  // namespace pie
+
+// ---- cObjPickerTool (the live mode tool) --------------------------------------------------
+namespace picker {
+constexpr int kTopMenu = 0x148;    // cTSPieMenu* of the top level
+constexpr int kSubMenu = 0x14c;    // cTSPieMenu* of sub-levels (entries ending in "...")
+}  // namespace picker
+
+}  // namespace game::addr

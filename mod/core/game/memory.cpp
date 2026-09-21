@@ -1,0 +1,145 @@
+#include "memory.h"
+
+#include <cstring>
+
+#include "../util/log.h"
+#include "../util/text.h"
+#include "addresses.h"
+
+namespace game {
+namespace {
+
+constexpr Ptr kPreferredBase = 0x400000;
+Ptr g_base = 0;
+Ptr g_imageEnd = 0;
+
+struct Signature {
+    Ptr va;
+    const char* name;
+    unsigned char bytes[8];
+    unsigned char len;  // compared bytes; relocated operands are left out
+    bool ok;
+};
+
+Signature g_signatures[] = {
+    {addr::kFontCountLines, "cTSFont::CountLines", {0x55, 0x8b, 0xec, 0x51, 0x8b, 0x45, 0x0c, 0x53}, 8, false},
+    {addr::kLotPopupFill, "cWinLotPopup::Fill", {0x55, 0x8b, 0xec, 0x6a, 0xff}, 5, false},
+    {addr::kNeighborName, "NeighborName", {0x55, 0x8b, 0xec, 0x6a, 0xff}, 5, false},
+    {addr::kNeighborBio, "NeighborBio", {0x55, 0x8b, 0xec, 0x6a, 0xff}, 5, false},
+    {addr::kPersonNeighborId, "PersonNeighborId", {0x55, 0x8b, 0xec, 0x8b, 0x4d, 0x08, 0x56, 0x85}, 8, false},
+    {addr::kSimState, "SimState", {0x55, 0x8b, 0xec, 0xff, 0x75, 0x08, 0xe8}, 7, false},
+    {addr::kSimPersonData, "SimPersonData", {0x55, 0x8b, 0xec, 0x56, 0x8b, 0x75, 0x08, 0x85}, 8, false},
+    {addr::kSimQueue, "SimQueue", {0x55, 0x8b, 0xec, 0x6a, 0xff}, 5, false},
+    {addr::kQueueEntryDtor, "QueueEntry::~QueueEntry", {0x56, 0x8b, 0xf1}, 3, false},
+    {addr::kSimSkill, "SimSkill", {0x55, 0x8b, 0xec, 0x53, 0x57, 0xff, 0x75, 0x08}, 8, false},
+    {addr::kStringSetCtor, "StringSet::StringSet", {0x55, 0x8b, 0xec, 0x6a, 0xff}, 5, false},
+    {addr::kStringSetSource, "StringSet::SetSource", {0x55, 0x8b, 0xec, 0x8b, 0x45, 0x08, 0x89, 0x41}, 8, false},
+    {addr::kStringSetLoad, "StringSet::Load", {0x55, 0x8b, 0xec, 0x83, 0xec, 0x20, 0x56, 0x8b}, 8, false},
+    {addr::kStringSetGet, "StringSet::Get", {0x55, 0x8b, 0xec, 0x8a, 0x55, 0x0c, 0x8a, 0x41}, 8, false},
+    {addr::kStringSetDtor, "StringSet::~StringSet", {0x55, 0x8b, 0xec, 0x6a, 0xff}, 5, false},
+    {addr::house::kStatsInit, "HouseStats::HouseStats", {0xc7, 0x01, 0x00, 0x00, 0x00, 0x00, 0x8b, 0xc1}, 8, false},
+    {addr::house::kStatsFill, "SimRoot::FillHouseStats", {0x55, 0x8b, 0xec, 0x51, 0x53, 0x8b, 0x5d, 0x08}, 8, false},
+    {addr::house::kRatings[0], "HouseStats::Size", {0x55, 0x8b, 0xec, 0x51, 0x8b, 0x41, 0x04, 0x85}, 8, false},
+    {addr::house::kRatings[1], "HouseStats::Furnishings", {0x55, 0x8b, 0xec, 0x51}, 4, false},
+    {addr::house::kRatings[2], "HouseStats::Yard", {0xa1}, 1, false},  // mov eax, [kSimRoot] (relocated)
+    {addr::house::kRatings[3], "HouseStats::Upkeep", {0x8b, 0x51, 0x28, 0x85, 0xd2, 0x75, 0x03}, 7, false},
+    {addr::house::kRatings[4], "HouseStats::Layout", {0x8b, 0x41, 0x18, 0xc3}, 4, false},
+    {addr::rooms::kFindRoom, "RoomManager::Find", {0x55, 0x8b, 0xec, 0x83, 0xec, 0x0c, 0x56, 0x8d}, 8, false},
+    {addr::rooms::kIsOutside, "Room::IsOutside", {0x55, 0x8b, 0xec, 0x83, 0xec, 0x0c, 0x8b, 0xd1}, 8, false},
+    {addr::kPickerOpenMenu, "cObjPickerTool::OpenMenu", {0x55, 0x8b, 0xec, 0x6a, 0xff}, 5, false},
+    {addr::kPieSetSelection, "cTSPieMenu::SetSelection", {0x55, 0x8b, 0xec, 0x83, 0xec, 0x10, 0x56, 0x57}, 8, false},
+    {addr::kSliderSetValue, "cTSWinSlider::SetValue", {0x55, 0x8b, 0xec, 0x83, 0xec, 0x10, 0x56, 0x8b}, 8, false},
+    {addr::kPieEndModal, "cTSPieMenu::EndModal", {0x55, 0x8b, 0xec, 0x56, 0x8b, 0xf1, 0x80, 0xbe}, 8, false},
+    {addr::kScreenToWorld, "ScreenToWorld", {0x55, 0x8b, 0xec, 0x8b, 0x45, 0x0c, 0xff, 0x75}, 8, false},
+    {addr::movetool::kMove, "cMoveTool::MouseMove", {0x55, 0x8b, 0xec, 0x83, 0xec, 0x38, 0x53, 0x56}, 8, false},
+    {addr::movetool::kDown, "cMoveTool::MouseDown", {0x55, 0x8b, 0xec, 0x83, 0xec, 0x10, 0x53, 0x56}, 8, false},
+    {addr::movetool::kUp, "cMoveTool::MouseUp", {0x55, 0x8b, 0xec, 0x6a, 0xff}, 5, false},
+    {addr::movetool::kBegin, "cMoveTool::BeginPlacing", {0x56, 0x8b, 0xf1, 0x8b, 0x06, 0xff, 0x50, 0x14}, 8, false},
+    {addr::movetool::kDrop, "cMoveTool::Drop", {0x55, 0x8b, 0xec, 0x51, 0x56, 0x8b, 0xf1, 0x57}, 8, false},
+    {addr::cursor::kRemove, "cXCursorObject::Remove", {0x55, 0x8b, 0xec, 0x56, 0xff, 0x75, 0x08, 0x8b}, 8, false},
+    {addr::cursor::kRelayout, "cXCursorObject::Relayout", {0x56, 0x8b, 0xf1, 0x8b, 0x8e, 0xb0, 0x01, 0x00}, 8, false},
+    {addr::place::kCanPlaceSingle, "cXObject::CanPlaceAt", {0x55, 0x8b, 0xec, 0x83, 0xec, 0x08, 0x53, 0x56}, 8, false},
+    {addr::place::kCanPlaceMulti, "cXMTObject::CanPlaceAt", {0x55, 0x8b, 0xec, 0x83, 0xec, 0x08, 0x8b, 0x45}, 8, false},
+    {addr::place::kTurnSingle, "cXObject::Turn", {0x55, 0x8b, 0xec, 0x8b, 0x55, 0x08, 0x56, 0x8b}, 8, false},
+    {addr::place::kRelayoutMulti, "cXMTObject::Relayout", {0x55, 0x8b, 0xec, 0x83, 0xec, 0x08, 0x8b, 0x81}, 8, false},
+    {addr::place::kPartRefresh, "cXObject::RefreshAfterTurn", {0x55, 0x8b, 0xec, 0x83, 0xec, 0x18, 0x83, 0x7d}, 8, false},
+    {addr::place::kPartRedraw, "cXObject::RedrawTile", {0x55, 0x8b, 0xec, 0x51, 0x80, 0x3d}, 6, false},
+    {addr::grid::kWalls, "Grid::WallsAt", {0x55, 0x8b, 0xec, 0x83, 0xec, 0x18, 0x8b, 0x45}, 8, false},
+    {addr::kLoadPlacementErrors, "LoadPlacementErrors", {0x55, 0x8b, 0xec, 0x6a, 0xff}, 5, false},
+    {addr::kStringSetGetAt, "StringSet::GetAt", {0x55, 0x8b, 0xec, 0x80, 0x7d, 0x0c, 0xff, 0x0f}, 8, false},
+    {addr::kSelectProduct, "CPState::SelectProduct", {0x55, 0x8b, 0xec, 0x8b, 0x45, 0x08, 0x56, 0x8b}, 8, false},
+    {addr::kMarkPanelDirty, "CPState::MarkDirty", {0x55, 0x8b, 0xec, 0x8b, 0x45, 0x08, 0x09, 0x41}, 8, false},
+    {addr::kButtonSetChecked, "cTSWinBtn::SetChecked", {0x55, 0x8b, 0xec, 0x8b, 0x45, 0x08, 0x56, 0x8b}, 8, false},
+    {addr::movetool::kKey, "cMoveTool::KeyDown", {0x55, 0x8b, 0xec, 0x8b, 0x45, 0x08, 0x56, 0x83}, 8, false},
+    {addr::place::kSaleValue, "cXObject::SaleValue", {0x8b, 0x81, 0x1c, 0x01, 0x00, 0x00, 0x53, 0x32}, 8, false},
+    {addr::cheat::kShow, "cTSMainWindowW95::ShowCheatConsole", {0x55, 0x8b, 0xec, 0x56, 0x8b, 0xf1, 0x8b, 0x8e}, 8, false},
+    {addr::cheat::kRun, "cTSCheatCodeManager::Run", {0x55, 0x8b, 0xec, 0x6a, 0xff}, 5, false},
+    {addr::cheat::kSetText, "cTSWinTextEdit2::SetText", {0x55, 0x8b, 0xec, 0x56, 0x8b, 0xf1, 0x6a, 0x01}, 8, false},
+    {addr::kCurrentLevel, "CurrentLevel", {0xe8, 0x7b, 0xfe, 0x04, 0x00, 0x85, 0xc0, 0xb9}, 8, false},
+};
+
+bool RawRead(Ptr addr, void* out, size_t n) {
+    __try {
+        memcpy(out, (const void*)addr, n);
+        return true;
+    } __except (EXCEPTION_EXECUTE_HANDLER) {
+        return false;
+    }
+}
+
+}  // namespace
+
+void InitMemory(HMODULE exe) {
+    g_base = (Ptr)exe;
+    auto* dos = (IMAGE_DOS_HEADER*)g_base;
+    auto* nt = (IMAGE_NT_HEADERS*)(g_base + dos->e_lfanew);
+    g_imageEnd = g_base + nt->OptionalHeader.SizeOfImage;
+    Log("Sims.exe base %p, image end %p", (void*)g_base, (void*)g_imageEnd);
+    for (Signature& sig : g_signatures) {
+        unsigned char got[8] = {};
+        sig.ok = Read(Va(sig.va), got, sig.len) && memcmp(got, sig.bytes, sig.len) == 0;
+        Log("signature %s at 0x%06x: %s", sig.name, (unsigned)sig.va, sig.ok ? "ok" : "MISMATCH");
+    }
+}
+
+Ptr Va(Ptr preferredVa) { return preferredVa - kPreferredBase + g_base; }
+
+bool InImage(Ptr p) { return p >= g_base && p < g_imageEnd; }
+
+bool Read(Ptr addr, void* out, size_t n) {
+    if (addr < 0x10000) return false;
+    return RawRead(addr, out, n);
+}
+
+bool WriteU32(Ptr addr, uint32_t value) {
+    __try {
+        *(volatile uint32_t*)addr = value;
+        return true;
+    } __except (EXCEPTION_EXECUTE_HANDLER) {
+        return false;
+    }
+}
+
+bool WriteU8(Ptr addr, uint8_t value) {
+    return Guarded([&] { *(volatile uint8_t*)addr = value; });
+}
+
+std::string ReadStdString(Ptr addr) {
+    uint32_t size = Rd<uint32_t>(addr + 0x10);
+    uint32_t cap = Rd<uint32_t>(addr + 0x14);
+    if (size == 0 || size > 8192 || cap < 15 || size > cap) return "";
+    Ptr data = cap > 15 ? Rd<Ptr>(addr) : addr;  // inline buffer while capacity <= 15
+    std::string s(size, '\0');
+    if (!Read(data, s.data(), size)) return "";
+    return s;
+}
+
+std::string ReadStdStringUtf8(Ptr addr) { return util::Cp1252ToUtf8(ReadStdString(addr)); }
+
+bool FunctionOk(Ptr preferredVa) {
+    for (const Signature& sig : g_signatures)
+        if (sig.va == preferredVa) return sig.ok;
+    return false;
+}
+
+}  // namespace game

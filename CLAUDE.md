@@ -1,0 +1,268 @@
+# The Sims Legacy Collection: screen reader accessibility mod
+
+Playbook: `template_generic.md` (read it first; its rules apply). This file holds what has been
+learned about *this* game. Anything marked **hypothesis** has not been verified yet.
+
+Status (2026-09-21): the native mod runs (`mod/`, see "The mod" below). Speech through NVDA works
+(Prism in `SpeechHost.exe`). Keyboard navigation covers the neighborhood (toolbar, houses with
+their cards, the neighborhood number), the family picker (members with personality and bio),
+create-a-family and create-a-Sim (typing with echo, personality points, appearance), every
+dialog, the options pages (check boxes, sliders, value pickers), and the lot view: a HUD (status
+line, mood, needs, family, action queue, controls, every Sim panel with real values), an object
+browser by category or by engine room with distances, interaction menus whose choices are queued,
+walking to an object's spot, and what each Sim is doing. Buy mode: products read like their
+hover popup, and placing, moving and selling go through a list of spots the mod computes from
+the engine (placement check, routing slots, walls, doors) so every object stays usable. Not done
+yet: build mode, expansions and travel, review buffers, help. Planned work: `ROADMAP.md`. Screen
+inventory: `SCREENS.md`. Verified targets: `PATCH_TARGETS.md`; layouts: `STRUCTS.md`.
+
+## Working on this machine (read first)
+
+- **The user uses this PC while sessions run** (e.g. audio in Chrome in front of the game). Never
+  move the real mouse, steal focus, or grab the screen. Use `tools/game.py shot` (PrintWindow,
+  works while the game is covered) and `tools/frida/virtual_mouse.js` (fakes `GetCursorPos` for
+  Sims.exe and posts mouse messages to the game window).
+- **The game runs in Spanish** (`HKCU\Software\Electronic Arts\The Sims 25\SIMS_LANGUAGE = Spanish`,
+  STR# language code 6). Test against Spanish text; the mod's own strings need Spanish and English.
+- **Save files are disposable**: the user wipes them before really playing. Tests may answer yes
+  to save / buy / move-in prompts. (An old backup of the stock saves exists in
+  `C:\Users\Nitropc\code\mods\sims-backups\2026-09-21-pre-first-launch`.)
+- NVDA runs on this PC; audible speech tests are allowed any time (keep them short).
+
+## The mod (`mod/`)
+
+| Part | Output | Notes |
+|---|---|---|
+| `mod/loader/` | `version.dll` (x86) next to `Sims.exe` | Proxy for the system DLL (all 17 exports). Checks the exe hash, waits for the window, subclasses it (ANSI), loads a **copy** of the core, runs a 30 ms timer. Catches crashes in the core and disables it. Owns the log file. |
+| `mod/core/` | `SimsAccess\SimsAccess.dll` (x86) | The mod. `main.cpp` wires `util/` (log, text, strings), `speech/`, `game/` (all addresses in `game/addresses.h`), `nav/` (collect, describe, screens, navigator), `input/` (keys). |
+| `mod/speechhost/` | `SimsAccess\SpeechHost.exe` (x64) + `prism.dll` | Owns Prism; reads `say 0 <utf8>` lines from `\\.\pipe\SimsAccessSpeech-<pid>`; logs every line to `SpeechHost.log`; `--mute` logs without speaking. |
+| `mod/third_party/minhook/` | | Vendored MinHook (BSD). |
+
+- Build: `mod\build.bat` (MSVC 2022, x64 + x86); `mod\build.bat deploy` copies into the game folder.
+- **Dev loop**: with `SimsAccess\dev.txt` present, the loader hot-reloads `SimsAccess.dll` within a
+  second of a rebuild (no game restart; Ctrl+Alt+F12 forces it) and verbose logging is on. With
+  `SimsAccess\force_active.txt` the core keeps the game's app-active flag set, so the game takes
+  input while other windows are in front (development only). `version.dll` and `SpeechHost.exe`
+  only update after the game exits.
+- `python tools/nav_to.py <key> <text>` presses a key until the mod speaks a line containing the
+  text (stops at a group's end); never chain an `enter` after it with `;`, only with `&&`.
+- Drive the game by keyboard without focusing it: `python tools/keys.py tab down enter` (posts key
+  messages; TranslateMessage in the game makes the WM_CHAR). Posted keys carry lParam bit 25 so
+  the mod tracks their Shift from the messages; real keys use the physical keyboard state
+  (`GetAsyncKeyState`), because a system shortcut (Ctrl+Win+Alt) once left the tracked Ctrl
+  "held" and every key went to the game. Read results in
+  `<game>\SimsAccess\SimsAccess.log` (every spoken line is logged as `Spoke:`).
+- Mod keys (none is a game hotkey; Ctrl/Alt combinations are free for later features):
+  - Ctrl+F1 anywhere: the mod's keys for the current screen, spoken.
+  - Review buffers (`nav/buffers.cpp`, playbook section 11): Ctrl+Up reads the next line deeper,
+    Ctrl+Down goes back toward the top (no wrap); Ctrl+Left/Right switch buffers, skipping empty
+    ones ("detalles, 5 elementos"). **detalles**: the details of what focus last spoke (a
+    product's ratings, rooms and description by sentences; a placement spot's parts, tile and the
+    area's refusals; a lot object's actions, room, distance, categories and sale value; any
+    control's tooltip and place in its group), replaced on each focus change, the position kept
+    when the same thing is spoken again. **eventos**: purchases, sales, speed changes, dialog
+    texts, queued actions, cheat results, newest first (200 kept).
+  - Cheat console: Ctrl+Shift+C (the mod calls the game's own opener, main window slot 107, so
+    posted keys work too). It reads "consola de trucos <text>, campo de texto" and a hint once.
+    Up/Down/Home/End pick one of the cheats this build registers (read from the game's cheat
+    manager: 23, e.g. rosebud, move_objects, set_hour, grid, with the game's usage text when it
+    has one) and put its name in the field; typing is echoed and adds to it ("set_hour 12");
+    Enter runs the line through the game's interpreter and keeps the console open, so Enter
+    again repeats it ("truco: rosebud. fondos $4.232, +$1.000"); the game's errors come as a
+    message box ("Sorry. No such cheat!"); Escape closes.
+  - Screens and dialogs: arrows (move in group), Home/End, Tab/Shift+Tab (groups), Enter/Space
+    (press; texts the press changes are read, e.g. a help topic), R (repeat), Escape (cancel an
+    open interaction menu).
+  - Text fields (family and Sim names, biography): typing goes to the game's field; the mod
+    echoes each character and the one Backspace deletes; the field reads "Introduce apellido:
+    luna, campo de texto". While a field is on screen, letters, Space and R are typing.
+  - Values: PageUp/PageDown change the focused slider ("Efectos, 8 de 10"), value picker
+    ("Detalle del terreno: Alta") or personality bar. Check boxes read and toggle with Enter
+    ("Autocentrado, marcado").
+  - Create a Sim: PageUp/PageDown on a personality bar add/remove a point ("4 de 10, quedan 6
+    puntos"); age, sex and skin choices and the head/body arrows say the new head and body
+    ("cabeza 3 de 137: waylon").
+  - Lot view (the HUD): Up/Down switch groups (status line: time, funds, speed, friends; needs;
+    family, where Enter selects a Sim; action queue, where Enter cancels; controls; Sim panels),
+    Left/Right move inside a group. Pausing (the game's P) says "Pausa. 11:46, $9.500" and puts
+    focus on the status line; unpausing and speed changes are spoken.
+  - Lot (live mode) object browser: PageDown/PageUp (next/previous object in the category or
+    room), Shift+PageDown/PageUp (next/previous category: Sims, then the buy mode categories,
+    then "other"), Ctrl+PageDown/PageUp (next/previous room, the selected Sim's first: "cocina,
+    piso 1, 22 objetos, 74 casillas"), Enter/Space on the object (open its interaction menu),
+    Ctrl+Enter (walk the selected Sim to the object's spot, e.g. into that room), R
+    (repeat with distance). Arrows/Tab return to the panels. Objects read as "name, room, a N
+    casillas al noreste" from the selected Sim. Rooms are the engine's; their names are the
+    mod's guess from their contents (`nav/room_names.cpp`).
+  - Interaction menu: Up/Down/Home/End (items; the game highlights them too), Enter (choose;
+    entries ending in "..." open a sub-level), Escape (back one level / close).
+  - Buy mode (F2): the catalog's buttons by arrows; a product reads name, price, ratings and its
+    description (the details buffer: all ratings, rooms it is meant for). Enter on a product starts placing
+    it: PageDown/PageUp the spots (best first), Ctrl+PageDown/PageUp rooms, Shift+PageDown/PageUp
+    other directions on the tile, Enter buys, Escape cancels, R repeats; the details buffer has
+    the spot's tile and the area's refused spots with the game's reason. Enter on an object of the lot browser picks it up to move it (same spot list;
+    Escape puts it back, Delete sells it and says the refund). Moving past a page's last product
+    (or back from its first) turns the catalog's page by itself ("página siguiente").
+- Buy mode placement internals: the mod hooks `ScreenToWorld` (0x5e00e0) and drives the buy tool's
+  own mouse handlers on the tile it chose; the held object is only visible while the real mouse
+  is over the lot (the view calls the tool's "mouse left" every frame otherwise), which does not
+  matter for buying. Spots come from `nav/placement.cpp`; object directions are the engine's
+  (0 = -x, 2 = +y, 4 = +x, 6 = -y; the mod calls -y north), see `STRUCTS.md` "Buy mode".
+- When the game window has keyboard focus, everything typed goes to it: Space and R are mod keys
+  there (Space presses the focused item, e.g. cancels a queued action) and letters are game
+  hotkeys (T shows the FPS counter). Happened once when the user typed elsewhere-bound text.
+- Game behaviors that affect testing: posted keys arriving during a screen transition are
+  discarded by the game's input flush (`0x6da260`); SimAntics notice dialogs close themselves after
+  about 40 s; the live panel is hidden when a lot loads until F1 (or a mode switch).
+
+## RE workflow (all scripts in `tools/`)
+
+1. `python tools/game.py launch [switches]` (through Steam, prints PID), `game.py shot <name>`,
+   `game.py kill`. Borderless 2560x1600 window, class `Gonzo`; the 1024x768 (4:3) game image is
+   scaled into it (hypothesis for the exact internal resolution; measured scale about 2.08).
+2. `python tools/dump_exe.py`: writes `dumps/Sims_1.10.7_b7c8765e_dump.exe` (decrypted `.text` from
+   the live process, relocations undone to base 0x400000, everything else from disk).
+3. Ghidra headless (`re/run_ghidra.bat`, about 2 min) imports the dump into `re/ghidra/SimsRE` and
+   runs `tools/ghidra/ExportRE.java` -> `re/functions.tsv`, `re/string_xrefs.tsv`,
+   `re/import_xrefs.tsv`. Ghidra 12's RTTI analyzer does not run on this dump, so:
+4. `python tools/rtti.py` -> `re/classes.tsv` (596 vtables, bases) and `re/vtables.tsv` (14,916 slots).
+5. `python tools/decompile.py <va> ...` -> `re/decomp/<entry>_<name>.c`.
+6. `python tools/memtool.py "<code>"` / `-f tools/wintree.py` inspects live memory with RTTI class
+   names (e.g. dump the current screen's widget tree); `python tools/disasm.py <va> [n|--func]`
+   disassembles the dump quickly (capstone).
+7. `python tools/frida_run.py a.js[,b.js] [seconds] [--drive x.py] [--speech|--speech-mute]` runs Frida scripts
+   (with `tools/frida/common.js` helpers: `va()`, `where()`); `python tools/trace_class.py
+   <Class>[,...] --with frida/virtual_mouse.js --drive drive_*.py` hooks every virtual method of a
+   class and reports calls with sampled arguments.
+
+Tools installed for this: Frida 17.18 + pymem + mss (pip --user), Ghidra 12.1.3 and Temurin
+JDK 21 (scoop, buckets `extras` and `java`). Ghidra needs `JAVA_HOME` set explicitly in the
+shell (the scripts do it).
+
+## Target build
+
+| Item | Value |
+|---|---|
+| Install | `S:\steam\steamapps\common\The Sims Legacy Collection` (Steam app 3314060) |
+| Game | The Sims 1 + all 7 expansions, 2025 re-release ("25th year Release") |
+| `Sims.exe` | FileVersion 1.10.7, 7,125,288 bytes, SHA-256 `b7c8765ed2383cbda8c047694d54a21d97895c8dae57dcc87716ca6e78b342e3` |
+| `changelist.txt` | 936127 (`eadpsdk.json` says applicationVersion 1.10.0) |
+| Bitness | **x86 (32-bit)** PE, MSVC linker 14.40, ASLR on (DllCharacteristics 0x8140), preferred base 0x400000 |
+| PDB | `C:\dev\sims1remaster\build\Sims\Release\Sims.pdb` (path only; not shipped) |
+| Other binaries | `steam_api.dll` (Steamworks), `gimex.dll` (EA image lib), `ijl10.dll` (Intel JPEG), `crashpad_handler.exe` (uploads to backtrace.io) |
+
+## Reconnaissance findings
+
+- **Engine**: original Maxis Sims 1 C++ engine, recompiled. No managed runtime, no scripting
+  language in the exe; object behaviour is SimAntics bytecode (BHAV chunks) inside IFF files.
+- **Protection**: `.text` entropy 8.00 plus a `.bind` section = SteamStub DRM wrapper; code is
+  encrypted on disk. Static analysis must use a **dump of the running process**, not the file.
+  `.rdata`/`.data` are plaintext (strings and RTTI readable). Do not strip the DRM (template 1).
+  FaithBeam's hack tool AOB-scans the live process successfully, which agrees with this.
+- **RTTI**: 562 class names in `.rdata`. Highlights:
+  - UI toolkit: `cTSWin` base, `cTSWinBtn`, `cTSWinCheck`, `cTSWinSlider`, `cTSWinScrollbar`,
+    `cTSWinText`, `cTSWinTextEdit2`, `cTSWinTextList`, `cTSWinDlg`, `cTSWinGenDlg`,
+    `cTSWinMsgBox`, `cTSWinMgrW95` (window manager), `cTSWinCtrlMgr`, `cTSPieMenu`,
+    `cTSWinTutorialHighlight`, `cTSCursorManager`, `cTSKeyboard`.
+  - Screens/panels: `cWinNeighborhood`, `cWinPickFamily`, `cWinDesignFamily`,
+    `cWinDesignCharacter`, `cWinCPanel` (control panel), `cWinMotive`, `cWinRelationship`,
+    `cWinPersonality`, `cWinInterest`, `cWinSubpanelJob/House/Fame/ReportCard/CatSkills/DogSkills`,
+    `cWinCatalog`, `cWinBudgetDlg`, `cWinOptions`, `cWinLivePopup`, `cWinLotPopup`,
+    `cWinPhoneBook`, `cWinScrapbook`, `cWinCredits`, `cWinDowntown`, `cWinVacation`,
+    `cWinStudiotown`, `cWinMagicland`, `cWinHelp`, `cWinGift`, ... (full list: re-run the RTTI grep).
+  - Simulation: `cSimulator`, `cXObject`, `cXPerson`, `cXPortal`, `House`, `Family`,
+    `Neighborhood`, `Behavior`, `TreeSim`, `ObjectModule`.
+  - Build tools: `cNewWallTool`, `cNewFloorTool`, `cObjPickerTool`, `cMoveTool`, `cPoolTool`, ...
+  - Debug leftovers: `cDebugPanel`, `cWinMemView`, `cCheatCommandLine`, `cTSCheatCodeManager`.
+- **Rendering**: Vulkan (`vulkan-1.dll` loaded at runtime; not in the import table). Runs as a
+  borderless popup window, not exclusive fullscreen: debugger breakpoints will not freeze the desktop.
+- **Text**: the game draws text with its own bitmap-font code (`cTSFont`), **not GDI**: a Frida trace
+  of `DrawText*`, `TextOut*`, `ExtTextOut*`, `GetTextExtentPoint32*` saw zero calls while tooltips
+  rendered. Hook the game's own text functions instead (see `PATCH_TARGETS.md`).
+- **Input**: window messages (`PeekMessageA` at `0x712574`, wndproc `0x6f0e40`); the mouse position
+  is **polled** with `GetCursorPos` + `ScreenToClient` (`0x6da408`), about 13 Hz while the game is in
+  the background. No DirectInput/XInput strings or imports found.
+- **Strings**: legacy single-byte code page; Windows-1252 verified for Spanish (UI text and the
+  live tooltip `std::string` both decode correctly as cp1252).
+  The exe calls `GetACP` and warns when the Windows user name does not match the locale.
+- **Command-line switches** (strings next to each other at VA 0x980b90): `memlog`, `memdiffNT`,
+  `enable_sound_trycatch`, `skip_intro`, `software_intro`, `no_thread_init`, `dynamic_draw`,
+  `debug_objects`, `rebuild_catalog`, `non_us_locale`, `show_init_progress`, `soundguys`,
+  `dumpassets`, `reportassets`. Prefix syntax (`-x`?) not yet verified.
+- **Saves**: inside the install folder: `UserData` .. `UserData8` (Houses, Characters, Neighborhood.iff,
+  Options.iff). Current neighborhood is in the registry (`SIMS_CURRENT_NEIGHBORHOOD_PATH`).
+- **Startup**: no launcher, no EA account prompt; through Steam the game reaches the neighborhood
+  screen in about 10 seconds on this machine (first launch, 2026-09-21).
+- **Custom content**: `Downloads\<name>\*.far|*.iff` and `GameData\UserObjects`.
+
+## Mod loading
+
+- **Proxy DLL: `version.dll`**. Imported by `Sims.exe` (`GetFileVersionInfoSizeA`,
+  `GetFileVersionInfoA`, `VerQueryValueA`), not in KnownDLLs on this machine. Alternatives: `winmm.dll`,
+  `dwmapi.dll`, `msvfw32.dll`, `wininet.dll` (all not KnownDLLs). `imm32.dll` is a KnownDLL.
+- The mod DLL must be **x86**. Prism ships x64 only, so speech needs the out-of-process
+  `SpeechHost.exe` bridge (template 8.3).
+- Hooks must wait until SteamStub has decrypted `.text`: the loader waits for the game window
+  (verified: signatures match and hooks install once the window exists).
+- UI model (verified, details in `STRUCTS.md`): every widget is a `cTSWin` with a child list,
+  rectangle, caption, tooltip and visible flag. The window manager's `+0x24` is the window that owns
+  input (screen or modal dialog). Pressing = handing the widget the same messages a real click
+  delivers (mouse enter, left down, left up) through its own handler (`game::Press`).
+
+## Data formats (verified parsers in `tools/simsfmt.py`)
+
+- **FAR** v1 archives (`FAR!byAZ`), uncompressed entries in all files checked so far.
+- **IFF** 2.5 (`IFF FILE 2.5:TYPE FOLLOWED BY SIZE`, header says "JAMIE DOORNBOS & MAXIS 1").
+  Big-endian chunk headers, 76 bytes.
+- **`GameData\UIText.iff`**: all UI text for all languages as `STR#` chunks (format -3: each entry
+  has a language byte), one chunk per screen/panel (e.g. #128 PickFamilyStrs, #129
+  DesignFamilyStrs, #130 DesignCharStrs, #138 VCtlTips, #145 optionstrs, #146 budgetstrs, #148
+  Pause, #151 NghbBtnTips, #161 LocalKeys, #166 Help). Entries carry a comment naming the widget
+  (`"2 Control Panel: Button07: Tooltip"`) and many screens store widget positions as `"(x;y)"`
+  strings. Language codes verified: 1 US English, 2 UK English, 3 French, 6 Spanish.
+  Dumps: `extracted/uitext_en.txt` (`... strings GameData\UIText.iff 1`), `extracted/uitext_es.txt` (`... 6`).
+  The Spanish text has translation slips (the "Import Family" tooltip reads "Barrio actual").
+- `UIGraphics\*.RT` + `*.h`: resource scripts mapping resource IDs to bitmaps (parsed by the
+  game's `cGZResMgrRTParser`).
+
+## Game key bindings (from `UIText.iff` STR# 161 LocalKeys and 138 VCtlTips)
+
+| Key | Action |
+|---|---|
+| F1 / F2 / F3 / F4 / F5 | Live / Buy / Build / Camera / Options mode |
+| P, `~`, `` ` `` | Pause |
+| 1 / 2 / 3 | Normal / High / Ultra speed |
+| `,` `.` (`<` `>`) | Rotate left / right |
+| `+` `=` / `-` `_` | Zoom in / out |
+| x / z | Next / previous page |
+| a, s, t, v | Anti-alias, shadows, framerate, version |
+| y / n | Yes / No in dialogs |
+| q | Quit |
+| Ctrl+S, Ctrl+Q | Save, quit game |
+| Ctrl+X/C/V/Z/Y/A | Text editing |
+| Ctrl+Shift+C | Cheat console (verified: main window key handler `0x6f0f70` checks Ctrl+Shift in the message flags, then slot 107 `0x6f0c50` shows the field at `+0x140`; cheat names are the table near `0x981ddc`: rosebud, move_objects, set_hour, ...; no klapaucius or motherlode, and "help" is not registered) |
+
+## Tooling on this machine
+
+- Present: Python 3.14 (+ `pefile`, `pillow`, `frida-tools`, `pymem`, `mss`), Ghidra 12.1.3,
+  Temurin JDK 21, MSVC x86 compilers (VS 2022 14.44, VS 2026 14.51), MinGW-w64 x64 (winlibs),
+  Rust (x64 targets only), .NET SDK, git, scoop (buckets main, extras, java), winget.
+- Not installed: x32dbg, cdb, Detect It Easy (not needed so far).
+
+## Community leads (verify before trusting)
+
+- **FreeSO / Simitone** (github.com/riperiperi): open-source C# reimplementation of TS1/TSO. Best
+  reference for IFF chunk formats, SimAntics, and the game's object model concepts; says nothing
+  about this exe's memory layout.
+- **FaithBeam/Sims1LegacyCollectionHacks**: external `WriteProcessMemory` patcher. Debug-cheat
+  patch = find `80 7B 4C 00 75 43` in memory and write `EB` at +4 (turns a `jnz` into `jmp`).
+- No existing Sims 1 screen reader mod was found (Sims 4 has one by tyjokr).
+
+## Layout
+
+- `mod/`: the mod's source and build script (`mod/out/` is build output).
+- `tools/`: RE and data scripts (not shipped).
+- `extracted/`: dumped game text and data (gitignored; copyrighted, never shipped).
+- `dumps/`: decrypted exe dump (gitignored; never shipped).
+- `re/`: Ghidra project and exports, decompiled C (gitignored).
+- `shots/`: screenshots from `game.py shot`.

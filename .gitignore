@@ -1,0 +1,18 @@
+# Copyrighted game material: never commit or ship
+extracted/
+re/
+dumps/
+
+# Build output
+mod/out/
+build/
+bin/
+obj/
+*.pdb
+*.ilk
+*.obj
+
+__pycache__/
+
+# Game screenshots
+shots/

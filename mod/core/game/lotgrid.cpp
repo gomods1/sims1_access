@@ -1,0 +1,179 @@
+#include "lotgrid.h"
+
+#include <algorithm>
+#include <cmath>
+#include <cstring>
+
+#include "addresses.h"
+#include "rtti.h"
+
+namespace game {
+namespace {
+
+Ptr Grid() { return Rd<Ptr>(Va(addr::kWorldArch)); }
+
+// Row y of a per-level map at `mapOffset` in the grid object, 0 when missing.
+Ptr MapRow(int mapOffset, int level, int y) {
+    if (level < 0 || level > addr::rooms::kMaxLevel || y < 0 || y >= GridSize()) return 0;
+    Ptr grid = Grid();
+    Ptr map = grid ? Rd<Ptr>(grid + mapOffset + level * 4) : 0;
+    Ptr rows = map ? Rd<Ptr>(map + addr::rooms::kMapRows) : 0;
+    return rows ? Rd<Ptr>(rows + y * 4) : 0;
+}
+
+int16_t Short(Ptr object, int offset) { return Rd<int16_t>(object + offset); }
+
+// One tile toward each engine direction (0xa50f88 x, 0xa50f64 y).
+const int kStepX[8] = {-1, -1, 0, 1, 1, 1, 0, -1};
+const int kStepY[8] = {0, 1, 1, 1, 0, -1, -1, -1};
+
+// A unit vector toward an engine direction.
+void DirectionVector(int direction, double* dx, double* dy) {
+    double length = (direction & 1) ? 1.41421356237 : 1.0;
+    *dx = kStepX[direction & 7] / length;
+    *dy = kStepY[direction & 7] / length;
+}
+
+}  // namespace
+
+int GridSize() {
+    int size = Rd<int>(Grid() + addr::grid::kSize);
+    return size > 0 && size <= 256 ? size : 0;
+}
+
+bool InGrid(int x, int y) {
+    int size = GridSize();
+    return x >= 1 && y >= 1 && x < size - 1 && y < size - 1;
+}
+
+int ObjectIdAt(int level, int x, int y) {
+    Ptr row = x >= 0 && x < GridSize() ? MapRow(addr::grid::kObjects, level, y) : 0;
+    return row ? Rd<uint16_t>(row + x * 2) : 0;
+}
+
+uint8_t TileFlags(int level, int x, int y) {
+    Ptr row = x >= 0 && x < GridSize() ? MapRow(addr::grid::kFlags, level, y) : 0;
+    return row ? Rd<uint8_t>(row + x) : 0;
+}
+
+bool HasFloor(int level, int x, int y) {
+    Ptr row = x >= 0 && x < GridSize() ? MapRow(addr::grid::kFloors, level, y) : 0;
+    return row && Rd<uint16_t>(row + x * 2) != 0;
+}
+
+uint32_t WallsAt(int level, int x, int y) {
+    typedef void*(__thiscall * WallsFn)(void* grid, void* out, const uint8_t* tile);
+    if (!FunctionOk(addr::grid::kWalls) || x < 0 || y < 0 || x >= GridSize() || y >= GridSize()) return 0;
+    Ptr grid = Grid();
+    if (!grid || level < 1 || level > addr::rooms::kMaxLevel) return 0;
+    alignas(4) unsigned char info[addr::grid::kWallInfoSize] = {};
+    uint8_t tile[4] = {(uint8_t)y, (uint8_t)x, (uint8_t)level, 0};
+    if (!Guarded([&] { ((WallsFn)Va(addr::grid::kWalls))((void*)grid, info, tile); })) return 0;
+    uint32_t mask;
+    memcpy(&mask, info, sizeof mask);
+    return mask;
+}
+
+Tile Step(Tile t, int direction) { return Tile{t.x + kStepX[direction & 7], t.y + kStepY[direction & 7]}; }
+
+int CompassOf(int direction) { return (6 - direction) & 7; }
+
+std::vector<Ptr> ObjectParts(Ptr object) {
+    std::vector<Ptr> parts;
+    if (!IsKindOf(object, "cXObject")) return parts;
+    if (!IsKindOf(object, "cXMTObject")) return {object};
+    Ptr lead = Rd<Ptr>(object + addr::place::kLead);
+    for (Ptr p = lead ? lead : object; p && parts.size() < 64; p = Rd<Ptr>(p + addr::place::kNextPart))
+        parts.push_back(p);
+    return parts;
+}
+
+int ObjectDirection(Ptr object) { return Short(object, addr::place::kDirection) & 7; }
+
+int ObjectLevel(Ptr object) { return Rd<int>(object + addr::place::kLevel); }
+
+bool IsPortal(Ptr object) { return IsKindOf(object, "cXPortal"); }
+
+int ContainerOf(Ptr object) { return Rd<uint16_t>(object + addr::place::kContainer); }
+
+bool CanWalkOver(Ptr object) { return (Short(object, addr::place::kFlags) & 0x1c) != 0; }
+
+bool PeoplePass(Ptr object) { return (Short(object, addr::place::kFlags) & 0x14) == 0x10; }
+
+uint32_t RoutingSides(Ptr object) {
+    uint32_t sides = 0;
+    for (Ptr part : ObjectParts(object)) {
+        Ptr slots = Rd<Ptr>(part + addr::place::kRoutingSlots);
+        Ptr end = Rd<Ptr>(part + addr::place::kRoutingSlots + 4);
+        for (Ptr s = slots; s && s < end && s - slots < addr::place::kRoutingSlotSize * 32;
+             s += addr::place::kRoutingSlotSize)
+            sides |= Rd<uint32_t>(s + addr::rslot::kFlags) & 0xff;
+    }
+    return sides;
+}
+
+std::vector<Tile> FootprintAt(Ptr object, Tile lead) {
+    std::vector<Tile> tiles;
+    std::vector<Ptr> parts = ObjectParts(object);
+    if (parts.empty()) return tiles;
+    int baseX = Rd<int>(parts[0] + addr::place::kPartX), baseY = Rd<int>(parts[0] + addr::place::kPartY);
+    for (Ptr p : parts) {
+        if (parts.size() == 1) {
+            tiles.push_back(lead);
+            break;
+        }
+        tiles.push_back(Tile{lead.x + Rd<int>(p + addr::place::kPartX) - baseX,
+                             lead.y + Rd<int>(p + addr::place::kPartY) - baseY});
+    }
+    return tiles;
+}
+
+// Routing slots are written for the object facing north (-y, direction 6): offsets with -y in
+// front, +x to its right, and side bits 0 N (its front), 1 NE, 2 E ... clockwise. For an object
+// facing `direction`, side bit b points toward direction - b, and the offset turns with it.
+// Proximities are in 1/32 tile (a fridge's 32 puts the Sim on the next tile, as measured).
+std::vector<Tile> UseTilesAt(Ptr object, Tile lead, int direction) {
+    std::vector<Tile> out;
+    std::vector<Tile> footprint = FootprintAt(object, lead);
+    std::vector<Ptr> parts = ObjectParts(object);
+    auto add = [&](Tile t) {
+        if (std::find(out.begin(), out.end(), t) == out.end() &&
+            std::find(footprint.begin(), footprint.end(), t) == footprint.end())
+            out.push_back(t);
+    };
+    double fx, fy, rx, ry;  // the object's front and right in the lot's grid
+    DirectionVector(direction, &fx, &fy);
+    DirectionVector(direction - 2 + 8, &rx, &ry);
+    for (size_t i = 0; i < parts.size() && i < footprint.size(); i++) {
+        Ptr slots = Rd<Ptr>(parts[i] + addr::place::kRoutingSlots);
+        Ptr end = Rd<Ptr>(parts[i] + addr::place::kRoutingSlots + 4);
+        if (!slots || end <= slots) continue;
+        size_t count = std::min<size_t>((end - slots) / addr::place::kRoutingSlotSize, 32);
+        double cx = footprint[i].x * 16 + 8, cy = footprint[i].y * 16 + 8;
+        for (size_t s = 0; s < count; s++) {
+            Ptr slot = slots + s * addr::place::kRoutingSlotSize;
+            uint32_t flags = Rd<uint32_t>(slot + addr::rslot::kFlags);
+            double ox = Rd<float>(slot + addr::rslot::kX), oy = Rd<float>(slot + addr::rslot::kY);
+            double px = cx + ox * rx - oy * fx, py = cy + ox * ry - oy * fy;
+            if ((flags & 0xff) == 0) {  // no sides: the Sim stands on the offset itself (a sofa's
+                if (ox != 0 || oy != 0)  // front); none at all means a spot on the object
+                    add(Tile{(int)std::floor(px / 16), (int)std::floor(py / 16)});
+                continue;
+            }
+            int proximity = Rd<int>(slot + addr::rslot::kMinProximity);
+            if (proximity <= 0) proximity = Rd<int>(slot + addr::rslot::kOptimalProximity);
+            if (proximity <= 0 || proximity > 32 * 8) proximity = 32;
+            double reach = proximity / 2.0;  // 1/16 tile
+            for (int side = 0; side < 8; side++) {
+                if (!(flags & (1u << side))) continue;
+                double dx, dy;
+                DirectionVector((direction - side + 8) & 7, &dx, &dy);
+                add(Tile{(int)std::floor((px + dx * reach) / 16), (int)std::floor((py + dy * reach) / 16)});
+            }
+        }
+    }
+    if (out.empty() && !footprint.empty()) add(Step(footprint[0], direction));  // no routing slots: the front
+    return out;
+}
+
+}  // namespace game
