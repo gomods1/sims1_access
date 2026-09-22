@@ -49,13 +49,18 @@ std::string Ratings(const game::ProductInfo& p, bool all) {
     return s;
 }
 
-std::string ProductLine(const game::ProductInfo& p, const std::string& price) {
-    std::string s = p.name + ", " + price;
+// "$80, comodidad 2": what follows the product's name.
+std::string ProductFacts(const game::ProductInfo& p, const std::string& price) {
+    std::string s = price;
     int funds = 0;
     if (game::GetFunds(&funds) && p.price > funds) s += std::string(", ") + S(Str::CannotAfford);
     std::string ratings = Ratings(p, false);
     if (!ratings.empty()) s += ", " + ratings;
     return s;
+}
+
+std::string ProductLine(const game::ProductInfo& p, const std::string& price) {
+    return p.name + ", " + ProductFacts(p, price);
 }
 
 placement::Area* CurrentArea() {
@@ -329,13 +334,16 @@ void Repeat() {
     SaySpot(SpotLine());
 }
 
-// What the catalog's popup shows on hover: name, price, ratings, then its description.
+// What the catalog's popup shows on hover: name, price, ratings, then its description. The
+// button's role and state follow the name: "Silla Nalghaus, botón, $80, comodidad 2. ...".
 std::string ProductText(game::Ptr button) {
+    std::string role = std::string(", ") + S(Str::RoleButton);
     game::ProductInfo p;
-    if (!game::ReadProductOfButton(button, &p)) return game::Tooltip(button);
+    if (!game::ReadProductOfButton(button, &p)) return game::Tooltip(button) + role;
     std::string price = game::Tooltip(button);  // the game's own money format
-    std::string s = ProductLine(p, price.empty() ? util::Money(p.price) : price);
+    std::string s = p.name + role;
     if (game::ButtonChecked(button)) s += std::string(", ") + S(Str::Selected);
+    s += ", " + ProductFacts(p, price.empty() ? util::Money(p.price) : price);
     if (!p.description.empty()) s += ". " + p.description;
     return s;
 }

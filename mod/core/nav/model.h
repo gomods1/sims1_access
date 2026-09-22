@@ -15,7 +15,9 @@ using game::Ptr;
 // How an item reads and behaves. Decided once when the widget tree is collected.
 enum class Role {
     Button,        // any pressable widget with a label (tooltip or caption)
-    Text,          // read-only text: dialog messages, titles
+    Tab,           // a button that shows one page of its panel (a mode, a Sim panel, an options
+                   // page, a catalog category, a build tool, a subpanel's filter)
+    Text,         // read-only text: dialog messages, titles
     Lot,           // a house on the neighborhood map
     FamilyRow,     // a family in the family picker
     Motive,        // a need meter
@@ -79,6 +81,12 @@ inline ItemId IdOf(const Item& it) { return ItemId{it.widget, it.role, it.number
 inline bool IsReadOnly(const Item& it) {
     return it.role == Role::Text || it.role == Role::Info ||
            (it.role == Role::Status && it.number == (int)StatusField::Clock);
+}
+
+// Controls holding a value: Left/Right (and PageUp/PageDown) change it, Enter does not press them
+// (a press lands in the middle of a slider and sets it to half).
+inline bool IsValueControl(const Item& it) {
+    return it.role == Role::Slider || it.role == Role::Spinner || it.role == Role::TraitBar;
 }
 
 struct Group {

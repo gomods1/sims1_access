@@ -76,15 +76,26 @@ inventory: `SCREENS.md`. Verified targets: `PATCH_TARGETS.md`; layouts: `STRUCTS
   - Text fields (family and Sim names, biography): typing goes to the game's field; the mod
     echoes each character and the one Backspace deletes; the field reads "Introduce apellido:
     luna, campo de texto". While a field is on screen, letters, Space and R are typing.
-  - Values: PageUp/PageDown change the focused slider ("Efectos, 8 de 10"), value picker
-    ("Detalle del terreno: Alta") or personality bar. Check boxes read and toggle with Enter
-    ("Autocentrado, marcado").
-  - Create a Sim: PageUp/PageDown on a personality bar add/remove a point ("4 de 10, quedan 6
+  - Roles: controls say what they are after their name, as a screen reader does: "Guardar,
+    botón"; "Opciones de sonido, pestaña, seleccionada"; "Autocentrado, casilla de verificación,
+    marcado"; "Efectos, control deslizante, 8 de 10"; "Detalle del terreno, selector, Alta".
+    Tabs (`Role::Tab`, `IsTab` in `nav/collect.cpp`) are the buttons that show a page of their
+    panel: the five mode buttons, the Sim panels, options pages, catalog categories, build tools,
+    the inventory and relationship filters. List entries say "botón" right after their name,
+    before their details: houses ("Calle Sim,1, botón. La familia ..."), families, catalog
+    products ("Silla ..., botón, $80, ..."), interaction menu entries. Read-only items say no role.
+  - Values: Left/Right (or PageUp/PageDown) change the focused slider ("6 de 10"), value picker
+    ("Media") or personality bar; Up/Down move; Enter only repeats them (a press would click the
+    slider's middle and set it to half). Check boxes toggle with Enter.
+  - Create a Sim: Left/Right on a personality bar add/remove a point ("4 de 10, quedan 6
     puntos"); age, sex and skin choices and the head/body arrows say the new head and body
     ("cabeza 3 de 137: waylon").
   - Lot view (the HUD): Up/Down switch groups (status line: time, funds, speed, friends; needs;
     family, where Enter selects a Sim; action queue, where Enter cancels; controls; Sim panels),
-    Left/Right move inside a group. Pausing (the game's P) says "Pausa. 11:46, $9.500" and puts
+    Left/Right move inside a group. On a settings page (an options page, or any group with a
+    slider) Up/Down walk its rows first and leave it at either end; coming up into one lands on
+    its last row. The options panel opens with no page shown until a page tab is pressed (the
+    game's behavior). Pausing (the game's P) says "Pausa. 11:46, $9.500" and puts
     focus on the status line; unpausing and speed changes are spoken.
   - Lot (live mode) object browser: PageDown/PageUp (next/previous object in the category or
     room), Shift+PageDown/PageUp (next/previous category: Sims, then the buy mode categories,

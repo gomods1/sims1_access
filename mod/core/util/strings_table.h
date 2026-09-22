@@ -7,18 +7,22 @@
     X(ModLoaded, "Sims accessibility loaded", "Accesibilidad de Los Sims cargada")                 \
     /* Key help (Ctrl+F1) */                                                                       \
     X(KeysScreen, "Arrows move within a group, Tab and Shift+Tab change group, Home and End go to the ends, "\
-      "Enter presses, R repeats, Page Up and Page Down change a value. Control+Up and Control+Down read the "\
+      "Enter presses, R repeats. On a slider or value picker, left and right change it and up and down move. "\
+      "Control+Up and Control+Down read the "\
       "details of what was said, Control+Left and Control+Right switch between details and events.",\
       "Las flechas se mueven dentro de un grupo, Tab y Mayúsculas+Tab cambian de grupo, Inicio y Fin van a los "\
-      "extremos, Intro pulsa, R repite, Retroceder página y Avanzar página cambian un valor. Control+Arriba y "\
+      "extremos, Intro pulsa, R repite. En un control deslizante o un selector, izquierda y derecha lo cambian "\
+      "y arriba y abajo se mueven. Control+Arriba y "\
       "Control+Abajo leen los detalles de lo dicho, Control+Izquierda y Control+Derecha cambian entre detalles "\
       "y eventos.")                                                                                \
-    X(KeysLot, "Up and down change group, left and right move within it. Page Down and Page Up go through "\
+    X(KeysLot, "Up and down change group, left and right move within it; on a settings page up and down go "\
+      "through the settings and left and right change a slider or value picker. Page Down and Page Up go through "\
       "objects, Shift with them changes category, Control with them changes room. Enter opens the object's "\
       "interactions, Control+Enter walks there, R repeats. P pauses and reads the time and money. Control+Up "\
       "and Control+Down read the details, Control+Left and Control+Right switch between details and events.",\
-      "Arriba y abajo cambian de grupo, izquierda y derecha se mueven dentro. Avanzar y Retroceder página "\
-      "recorren los objetos, con Mayúsculas cambian de categoría, con Control cambian de habitación. Intro abre "\
+      "Arriba y abajo cambian de grupo, izquierda y derecha se mueven dentro; en una página de ajustes arriba y "\
+      "abajo recorren los ajustes e izquierda y derecha cambian un control deslizante o un selector. Avanzar y "\
+      "Retroceder página recorren los objetos, con Mayúsculas cambian de categoría, con Control cambian de habitación. Intro abre "\
       "las interacciones del objeto, Control+Intro camina hasta allí, R repite. P pausa y lee la hora y el dinero. "\
       "Control+Arriba y Control+Abajo leen los detalles, Control+Izquierda y Control+Derecha cambian entre "\
       "detalles y eventos.")                                                                       \
@@ -46,8 +50,16 @@
     X(Checked, "checked", "marcado")                                                               \
     X(NotChecked, "not checked", "no marcado")                                                     \
     X(Selected, "selected", "seleccionado")                                                        \
+    X(TabSelected, "selected", "seleccionada")                                                     \
     X(Unavailable, "unavailable", "no disponible")                                                 \
     X(UnlabeledButton, "unlabeled button", "botón sin nombre")                                     \
+    X(Unnamed, "unnamed", "sin nombre")                                                            \
+    /* Control roles: what a control is, said after its name */                                    \
+    X(RoleButton, "button", "botón")                                                               \
+    X(RoleTab, "tab", "pestaña")                                                                   \
+    X(RoleCheckBox, "check box", "casilla de verificación")                                        \
+    X(RoleSlider, "slider", "control deslizante")                                                  \
+    X(RolePicker, "value picker", "selector")                                                      \
     X(NothingHere, "nothing to navigate here", "no hay nada que recorrer aquí")                    \
     X(NextPage, "next page", "página siguiente")                                                   \
     X(BufferDetails, "details", "detalles")                                                        \
@@ -232,7 +244,6 @@
     X(Space, "space", "espacio")                                                                   \
     /* Create a Sim */                                                                             \
     X(OutOfTen, "%d of 10", "%d de 10")                                                            \
-    X(SliderValue, "%s, %d of %d", "%s, %d de %d")                                                 \
     X(ValueOfMax, "%d of %d", "%d de %d")                                                          \
     X(PointsLeft, "%d points left", "quedan %d puntos")                                            \
     X(PointLeft, "1 point left", "queda 1 punto")                                                  \

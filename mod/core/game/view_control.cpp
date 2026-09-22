@@ -23,6 +23,14 @@ Ptr FindViewControl(Ptr lotView) {
 
 Ptr LiveModeButton(Ptr vc) { return ButtonAt(vc, addr::viewctl::kLiveModeButton); }
 
+bool IsModeButton(Ptr w) {
+    Ptr vc = Parent(w);
+    if (!w || !IsKindOf(vc, "cWinViewControl")) return false;
+    for (int i = 0; i < addr::viewctl::kModeButtons; i++)
+        if (w == ButtonAt(vc, addr::viewctl::kLiveModeButton + i * 4)) return true;
+    return false;
+}
+
 bool ModePanelShown(Ptr lotView) {
     static const char* const kModePanels[] = {"cWinPeople", "cWinCatalog", "cWinArch", "cWinOptions", "cWinCamPanel"};
     for (Ptr panel : Children(lotView)) {

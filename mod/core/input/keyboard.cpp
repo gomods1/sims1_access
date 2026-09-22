@@ -21,7 +21,9 @@ namespace {
 // Keys the mod owns (none of them is a game hotkey; see CLAUDE.md "Game key bindings"):
 //   Up/Left, Down/Right            previous/next item in the group
 //                                  lot view (the HUD): Up/Down previous/next group (status,
-//                                  needs, family, action queue, panels), Left/Right the items
+//                                  needs, family, action queue, panels), Left/Right the items;
+//                                  on a settings page (options) Up/Down walk its rows first
+//                                  on a slider, value picker or personality bar: Left/Right change it
 //   Home, End                      first/last item in the group
 //   Tab, Shift+Tab                 next/previous group
 //   Enter, Space                   press the focused item, or in the lot view after PageUp/Down
@@ -33,7 +35,8 @@ namespace {
 //   Ctrl+Left / Ctrl+Right         previous / next review buffer
 //   buy mode, while placing an object (nav/buy_mode.h): PageUp/PageDown the spots, Ctrl+ the rooms,
 //   Shift+ the directions on a spot, Enter buys, Escape cancels, R repeats
-//   PageUp/PageDown                a value control (personality bar): one point up/down
+//   PageUp/PageDown                a value control (slider, value picker, personality bar): one
+//                                  step up/down, like Right/Left
 //                                  lot view: previous/next object in the category
 //   Shift+PageUp/PageDown          lot view: previous/next object category
 //   Ctrl+PageUp/PageDown           lot view: previous/next room
@@ -70,10 +73,12 @@ void SayKeyHelp() {
     else speech::Say(S(Str::KeysScreen));
 }
 
-// The lot view's HUD is a list of groups read top to bottom, each read left to right.
+// The lot view's HUD is a list of groups read top to bottom, each read left to right. Left/Right
+// change a slider or value picker instead of leaving it.
 void Arrow(bool vertical, int delta) {
     nav::FocusWorld(false);
-    if (vertical && nav::LotViewActive()) nav::NextGroup(delta);
+    if (!vertical && nav::Adjust(delta)) return;
+    if (vertical && nav::LotViewActive()) nav::NextRowOrGroup(delta);
     else nav::Move(delta);
 }
 

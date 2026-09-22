@@ -125,4 +125,11 @@ bool TakesFocusWhenOpened(const Group& g) {
     return true;
 }
 
+bool IsSettingsPage(const Group& g) {
+    if (game::IsKindOf(game::Parent(g.key), "cWinOptions")) return true;
+    for (const Item& it : g.items)
+        if (IsValueControl(it)) return true;
+    return false;
+}
+
 }  // namespace nav

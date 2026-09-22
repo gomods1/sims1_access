@@ -28,6 +28,76 @@ screens and dialogs lives in `SCREENS.md`; this file is the list of flows still 
 - Options, saving, quitting, the help system (done). Out of scope: photo/camera mode and the
   family album (visual only; the players are blind).
 
+## Live mode: following the Sim by ear (planned, not started)
+
+A sighted player watches the selected Sim walk, act, and show thought balloons. A blind player
+hears none of that today unless they ask (the Sims category of the object browser, the action
+queue group). The mod should announce what changes, briefly, as it happens, and put each line in
+the eventos buffer.
+
+What to announce (the selected Sim; the others only when it needs the player):
+
+- **Rooms**: "Cris entra en la cocina", "sale al jardín", "sube al piso 2". The Sim's room is
+  already known (`game::LotObjects`: `room`, `level`; names from `nav/room_names.cpp`). Speak
+  only after the Sim has been in the room about a second, so a walk through a hallway or a
+  doorway does not produce three lines. Rooms crossed on the way to a target could be skipped
+  entirely: only the room where the Sim stops matters.
+- **Actions starting and ending**: "Cris: Tomar un tentempié", "terminó de comer". Compare
+  `game::SimActions` (current action first) every few hundred ms: a new first entry means an
+  action started, and a first entry that disappears means it ended. Queuing by the player is
+  already spoken. Open questions: whether an action is shown while the Sim walks to the object
+  or only once it starts using it; telling a finished action from a cancelled one; telling the
+  player's actions from free will ("por su cuenta"). The debug dump `0x52da90` ("Action
+  Queues:") prints each entry's "Priority" and "Entry Index", which should give the layout
+  (user-directed actions have a higher priority than autonomous ones: **hypothesis**).
+- **Needs and mood**: speak when a need falls past a threshold ("Cris tiene hambre" around -30,
+  "urgente: vejiga" around -70), once per crossing, with some margin so a value hovering near a
+  threshold does not repeat the line. Speak when the mood meter turns red. Recovery goes into the
+  buffer and is not spoken. The values must be read without the panel, which is hidden until F1
+  and drawn only for the selected Sim: find where `cWinMotive` gets its value (`+0x1e8` looks
+  like the Sim's motive index, 7, 5, 6, 15 seen: **hypothesis**) and read every Sim that way.
+- **What the game only shows**:
+  - Thought balloons: the Sim thinks about food, the toilet, a bed, or someone. Leads: the
+    SimAntics error texts near `0x9959a0` ("Balloon Type Is Invalid. Values are 0:thought,
+    1:scream, 2:speak"; "Search type ... 0: all motive, 1:mental motives, 2:physical motives",
+    the "find worst motives" primitive). `FUN_0063e760` only maps error codes to texts; the
+    primitive handlers still have to be found (FreeSO's `VMSetBalloonHeadline` documents the
+    operands).
+  - Route failures: "Cris no puede llegar a Nevera Llamark". The routing code `0x5f7950` has
+    "Route failure feedback" and "route waiting animation". Without this the player cannot tell
+    why a chosen action never happened.
+  - Refusals (the Sim shakes their head when their mood is too low for an action).
+  - Conversation topics (interest icons in green or red): "hablan de deportes, a Marisa le
+    gusta". Relationship changes after an interaction (the plus and minus signs): compare the
+    relationship values before and after, "+3 con Marisa".
+  - Skill gains: "Cris: cocina 3" (compare `game::SkillPoints` per 100).
+  - Arrivals and departures: visitors, the carpool, the school bus, the maid (compare the Sims
+    on the lot). Dialogs about these (carpool, passing out, bills) are already read.
+  - Sounds the player hears but may not recognise: the phone ringing, the doorbell, the smoke
+    alarm, the burglar alarm, a crying baby. The game names its sound events (`UI_queued` in
+    `0x40df10`), so hooking where they are played could name them. **Hypothesis**: the same path
+    plays object sounds.
+- **The other family members**: only urgent needs, passing out, and events that need the player
+  ("Marisa se ha quedado dormida en el suelo"), not every action (free will would flood the
+  speech). What each one is doing is already available from the object browser.
+
+Rules:
+
+- Announcements never interrupt the player's own navigation (`speech::Say` without interrupt).
+  Several changes in one poll become one line. Lines of the same kind are rate-limited, since
+  ultra speed changes everything quickly.
+- Switching the selected Sim, leaving the lot, or changing mode resets the baselines, so no stale
+  change is announced.
+- A verbosity setting (all / important / off) and one mod key that says the whole state on
+  demand: "Cris, en la cocina, Cocinar, hambre baja, humor 2 verde". The key is still to be
+  chosen; Ctrl combinations are free.
+- One module (`nav/narrator.cpp`, ticked from the navigator in live mode) that polls and
+  compares snapshots. Hooks only for what cannot be polled (balloons, route failures, sounds).
+
+Research first, in this order: need values for any Sim without the panel; the queue entry layout
+(priority, and whether the current action is running or still routing); the balloon primitive;
+route failure feedback.
+
 ## Buy mode
 
 How it works (done, `nav/buy_mode.cpp`, `nav/placement.cpp`, `game/buy.cpp`, `game/lotgrid.cpp`):

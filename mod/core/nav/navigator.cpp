@@ -158,7 +158,8 @@ void AnnounceAfterPie() {
     if (!g.choseInPie) return;
     g.choseInPie = false;
     for (const Group& group : Groups())
-        if (IsActionQueue(group) && !group.items.empty()) buffers::Event(Describe(group.items.back()));
+        if (IsActionQueue(group) && !group.items.empty())
+            buffers::Event(util::Format(S(Str::QueuedAction), group.items.back().label.c_str()));
 }
 
 // Screen: its name, then the focused item with its group. Dialog: its text (title, message),
@@ -318,6 +319,10 @@ void CheckPressFeedback() {
     if (p.item != g.focus || !game::IsKindOf(w, "cTSWinBtn") || game::IsSpeedButton(w)) return;
     bool checked = game::ButtonChecked(w);
     if (checked == p.wasChecked) return;
+    if (item.role == Role::Tab) {
+        if (checked) speech::Say(S(Str::TabSelected));
+        return;
+    }
     switch (game::GetButtonType(w)) {
     case game::ButtonType::Check: speech::Say(S(checked ? Str::Checked : Str::NotChecked)); break;
     case game::ButtonType::Toggle: if (checked) speech::Say(S(Str::Selected)); break;
@@ -514,6 +519,34 @@ void NextGroup(int delta) {
     AnnounceFocus(true);
 }
 
+// A settings page's rows are stacked, and Left/Right change the focused slider there, so Up/Down
+// walk the rows; past the first or last row they go on to the neighbouring group. Coming up into
+// a settings page lands on its last row, as going up a list does.
+void NextRowOrGroup(int delta) {
+    EnsureCurrent();
+    if (!Focused()) {
+        NextGroup(delta);
+        return;
+    }
+    const Group& current = Groups()[g.group];
+    if (IsSettingsPage(current)) {
+        int next = g.index + delta;
+        if (next >= 0 && next < (int)current.items.size()) {
+            SetFocus(g.group, next);
+            AnnounceFocus(false);
+            return;
+        }
+    }
+    int n = (int)Groups().size();
+    int above = ((g.group - 1) % n + n) % n;
+    if (delta < 0 && IsSettingsPage(Groups()[above])) {
+        SetFocus(above, (int)Groups()[above].items.size() - 1);
+        AnnounceFocus(true);
+        return;
+    }
+    NextGroup(delta);
+}
+
 void Activate() {
     EnsureCurrent();
     const Item* it = Focused();
@@ -521,7 +554,7 @@ void Activate() {
         speech::Say(S(Str::NothingHere));
         return;
     }
-    if (IsReadOnly(*it)) {
+    if (IsReadOnly(*it) || IsValueControl(*it)) {
         AnnounceFocus(false);
         return;
     }

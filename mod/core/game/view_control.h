@@ -10,6 +10,7 @@ namespace game {
 
 Ptr FindViewControl(Ptr lotView);  // 0 when the lot view has none
 Ptr LiveModeButton(Ptr vc);
+bool IsModeButton(Ptr w);  // live, buy, build, options or camera mode
 
 // The control panel shows one of its mode panels: the live mode family panel (cWinPeople), or
 // buy, build, options or camera mode. None is shown after a lot loads until a mode is chosen.

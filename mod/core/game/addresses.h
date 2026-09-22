@@ -335,6 +335,7 @@ constexpr int kSummaryValue = 0x194;   // std::string: "$9.500"
 // ---- cWinViewControl (the lot view's control panel: clock, funds, speed) ------------------
 namespace viewctl {
 constexpr int kLiveModeButton = 0x154; // cTSWinBtn* "Modo Vivir - F1" (then buy, build, options, camera)
+constexpr int kModeButtons = 5;
 constexpr int kFundsButton = 0x168;    // cTSWinBtn*: caption "$9.500", tooltip "Fondos"
 constexpr int kPauseButton = 0x178;    // cTSWinBtn* toggle, checked while paused
 constexpr int kSpeedButtons = 0x17c;   // cTSWinBtn*[3]: normal, high, ultra; the checked one is the speed

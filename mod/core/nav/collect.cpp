@@ -24,6 +24,19 @@ namespace {
 
 constexpr int kMaxDepth = 24;
 
+// A button that shows one page of its panel: the lot view's modes, a mode panel's own toggles
+// (options pages, catalog categories, build tools) and a live mode subpanel's filters
+// (inventory, relationships). Push buttons (save, back, page arrows) only act.
+bool IsTab(Ptr w) {
+    using game::IsKindOf;
+    if (game::GetButtonType(w) == game::ButtonType::Push) return false;
+    Ptr parent = game::Parent(w);
+    if (IsKindOf(parent, "cWinViewControl")) return game::IsModeButton(w);
+    if (IsKindOf(parent, "cWinOptions") || IsKindOf(parent, "cWinCatalog") || IsKindOf(parent, "cWinArch"))
+        return true;
+    return game::ClassName(parent) == "cTSWin" && IsKindOf(game::Parent(parent), "cWinPeople");
+}
+
 // A button whose meaning its panel defines (a skill of the job panel, a family portrait...).
 struct Registered {
     Role role;
@@ -90,7 +103,7 @@ struct Walker {
         using game::IsKindOf;
         if (IsKindOf(w, "cWinPeople")) {
             Register(game::FamilyMemberButtons(w), Role::FamilyMember, 0);
-            Register(game::SubpanelButtons(w), Role::Button, kSimPanelsGroup, 1);  // the mood is 0
+            Register(game::SubpanelButtons(w), Role::Tab, kSimPanelsGroup, 1);  // the mood is 0
             Ptr box = game::NeedsBox(w);
             needsBox = box && game::Visible(box) ? box : 0;
             return true;
@@ -183,7 +196,8 @@ struct Walker {
         if (IsKindOf(w, "cTSWinBtn")) {
             if (label.empty()) label = game::Caption(w);
             // An unlabeled button holding other widgets is a panel background, not a control.
-            if (!label.empty() || (!hasChildren && game::ButtonEnabled(w))) Add(w, Role::Button, label);
+            if (!label.empty()) Add(w, IsTab(w) ? Role::Tab : Role::Button, label);
+            else if (!hasChildren && game::ButtonEnabled(w)) Add(w, Role::Button, label);
             return true;
         }
         // Any other widget with hover text is something a sighted player can point at.

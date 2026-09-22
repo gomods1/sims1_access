@@ -35,8 +35,10 @@ bool Cancel();
 void Move(int delta);        // previous/next item in the current group (no wrap)
 void MoveToEdge(bool last);  // first/last item in the current group
 void NextGroup(int delta);   // previous/next group (wraps)
+void NextRowOrGroup(int delta);  // lot view Up/Down: the next group, or the next row of a settings page
 void Activate();             // press the focused item
-bool Adjust(int delta);      // change the focused value (a slider, a personality bar); false if none
+bool Adjust(int delta);      // change the focused value (a slider, a value picker, a personality
+                             // bar); false if the focus holds none
 void RepeatFocus();          // say the focused item again, with its group
 
 }  // namespace nav

@@ -42,4 +42,8 @@ bool IsActionQueue(const Group& g);
 // A group that appears while staying on the same screen (options, catalog...) takes focus.
 bool TakesFocusWhenOpened(const Group& g);
 
+// A page of settings (an options page, or any group with a slider or value picker): in the lot
+// view Up/Down walk its rows, since Left/Right change its values.
+bool IsSettingsPage(const Group& g);
+
 }  // namespace nav
