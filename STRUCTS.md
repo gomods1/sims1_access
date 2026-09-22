@@ -35,7 +35,7 @@ Node: `{next, prev, T* value}`. Walk from `head->next` until back at `head`.
 | `0xa7f488` | keyboard object | receives WM_KEYDOWN (vtable+0x1c) / WM_KEYUP (+0x20) with the VK | `0x6f1af2` |
 | `0xa52074` | u8 | app active (WM_ACTIVATEAPP wParam); while 0 the input dispatcher `0x6dae40` drops all input and the main loop sleeps 100 ms per frame | `0x6f1699`, `0x6dae46`, `0x6d7ca3`; forcing it to 1 made background hover work |
 | `0xa65324` | `cWinLotPopup*` | the shared lot popup (neighborhood hover card) | `0x490cc0` |
-| `0xa67044` | app root | `[[0xa67044]] + 0x14` = the lot's `ObjectModule` (below) | read live on a lot |
+| `0xa67044` | app root | `[[0xa67044]] + 0x14` = the lot's `ObjectModule` (below); `+ 0x68` u8 = the game's language number (1 US English ... 6 Spanish ... 20 Korean, CLAUDE.md "Languages") | read live on a lot; the language byte: setter `0x45d580` and getter `0x455820` are `mov eax,[0xa67044]; mov [eax+0x68],cl` / `mov al,[eax+0x68]` |
 | `0xa67108` | `cTool*` | current world tool: `cObjPickerTool` in live mode | read live; the picker's slot 30 opens pie menus |
 | `0xa63570` | `cSimsApp*` | `+0xc4` `CPState*`, whose `+0x70` is the buy mode `Catalog` | read live |
 | `0xa634e0` | `cPickFamilyPersonInfo*` | shared person card of the family picker | |
@@ -214,6 +214,14 @@ Values the panel only draws are read through the game: see "Sims' data" and "Hou
 | `0x43bba0()` | neighbor ID of the selected Sim (-1 none) | used by the panel draws |
 | `0x43b230(id, vector* out)` | appends the Sim's action queue to a `std::vector` of 0x28-byte entries (current action first; `+0x0c` interaction record, `+0x10` `std::string` action name). The queue icon builder `0x40f6c0` keeps a static vector at `0xa61ec0` ({first, last, end}), empties it with the entry destructor `0x438700` (thiscall) and refills it for the selected Sim; between updates it is empty, so the mod borrows it for any Sim | "Hecuba, Comprobar jaula", "Menelaus, Perseguir el rabo"; the selected Sim's icons unaffected |
 
+## Camera
+
+- `[0xa67548]` `cXPerson*`: the Sim the camera follows. The house viewer's frame function `0x567d30` calls its vtable slot 33 (`cXPerson` `0x5f5f90`) each frame while `viewer + 0x1c0` is 0; `0x57f480(person)` (cdecl) sets it, `cWinPeople::0x4ba880()` clears it with the panel's marker at `cWinPeople + 0x4a4` (the "following" icon on the portrait).
+- `cXObject::0x53a210(char immediate)` (thiscall) scrolls the view to the object: its grid position through `0x57a850`, rotated for the camera with `0x586ae0`, then `0x5e0130(x, y, level, 1, !immediate)` (-> `0x565d70`), `0x5e0180(0)`. Works on Sims, objects and the held buy-mode object.
+- The lot view's key handler `0x40e610` (`cDDDSimsView` slot 53): Enter in live mode follows the selected Sim (`cWinPeople::0x4bc220`), Tab/PageUp/PageDown change floors (`0x408000`), Home/End cycle the wall modes (`0x408630`), Escape cancels the tutorial (`0x548720`), F1..F5 the modes (`0x408050(mode)`: 0 build, 1 buy, 2 live, 3 options, 4 camera; F1 in live mode toggles the panel with `0x407d90`). Plain arrows do nothing here; scrolling is polled elsewhere.
+- `cWinPeople + 0x140`: index of the selected portrait (-1 none); `+0x148` the portrait vector (`people::kMemberButtons`), whose index is also the family member index for `0x43b3b0`.
+- `CPState` (`[0xa63570] + 0xc4`): `+0x50` camera rotation 0..3 (`0x407cf0` / `0x407d50` rotate, calling `0x5662c0`), `+0x240/+0x244` the camera-mode frame position (`0x407500`).
+
 ## Rooms
 
 The world `[0xa675b4]` (`cRotatableWorld`) keeps one room map per level at `+0x28 + level * 4`
@@ -275,6 +283,7 @@ holds the column names in the value fields; the last rows are sentences with a v
 |---|---|---|---|
 | 0x18 | `std::vector<cXObject*>` | every object on the lot, index = object id - 1 (null gaps) | ids at `+0xf0` match the index; `re/lot_objects.txt` |
 | 0x80 | `std::vector<cXPerson*>` | the Sims on the lot (family and visitors) | 3 entries with Cris, Marisa and a visitor |
+| 0xa4 | `cXObject*` | the help system's waiting "situation" (a tip): set while the tip icon blinks, 0 once shown or expired; the icon click runs "show situation info" on it (`0x532060`) | read live: set while the icon blinked, 0 after Ctrl+H |
 
 ### `cXObject` (and `cXPerson`)
 
@@ -301,7 +310,7 @@ wrong.
 
 | Field | Meaning | Values seen |
 |---|---|---|
-| 9 | object type | 2 person, 4 normal, 7 system, 12 inventory item |
+| 9 | object type | 2 person, 4 normal, 7 system, 12 inventory item, 34 food (a pizza box, a slice; FreeSO's OBJDType) |
 | 10 | MasterID (multi-tile group; 0 single tile) | |
 | 11 | SubIndex: the part's tile offset `(y << 8) | x` (not a lead flag) | 0x0, 0x1, 0x100, 0x200 |
 | 39 | room flags (suggested rooms) | 0x1 kitchen, 0x2 bedroom, 0x4 bathroom, 0x8 living, 0x10 outside, 0x20 dining |
@@ -313,12 +322,114 @@ wrong.
 The game's string list class ("StringSet") loads a `CTSS` resource from the object's IFF in the
 game language: construct (`0x58c2f0`, 0x100 bytes of storage are enough), `SetSource(resFile, id,
 'CTSS', 0, -1)` (`0x58ef00`), `Load(1, 0)` (`0x58d4c0`, 0 = success), `Get(1, -1)` (`0x58cd60`,
-1-based index), destroy (`0x58c4b0`). Returns the Spanish catalog names. The default lot objects
+1-based index; null past the last string), destroy (`0x58c4b0`). Returns the Spanish catalog
+names. With `'STR#'` and 301 on the tutorial object's file it returns the tutorial's step texts
+(`game::TutorialTexts`). The default lot objects
 `MailBox.iff`, `TrashOutside.iff` and the trees have **no `CTSS` chunk at all**, so the mod
 carries its own names for them (`nav/world.cpp`, `KnownObject`).
 
 The buy catalog (`[0xa63570] + 0xc4 -> + 0x70`) keeps a vector of `Product` at `+4/+8` (name
 `std::string` at `+4`, type record at `+0x40`): the same names, for objects that can be bought.
+
+## SimAntics and balloons
+
+Evidence: the decompiled dispatcher `0x615cb0`, the balloon primitive `0x61bc40`, its debugger
+describer `0x65f8b0`, the frame runner `0x62d6e0`; `Behavior.iff` STR# 129, 161, 162, 500-510;
+the sprite labels in `GameData\Sprites.iff`; balloons logged by the mod in the running game
+(Lápida lot, 2026-09-22), each matching what the game had just done (a route failure right
+before the route-failure help tip, conversations, the skill notice after the progress bar).
+
+**Running primitives.** `cXObject` vtable slot 0 (`0x615cb0`, thiscall `(Frame*, Instruction*)`,
+`ret 8`) runs one primitive; `cXPerson` slot 0 (`0x5f6880`) handles opcodes 3, 6, 0x11, 0x16,
+0x1b, 0x1d, 0x1e, 0x25, 0x2c, 0x2d, 0x2f itself and passes the others to it. The tick
+`0x62e9e0` runs the top frame through `0x62d6e0`. An instruction is u16 opcode (low 15 bits;
+0x100 and up call a tree), u8 true target, u8 false target (0xfd error, 0xfe true, 0xff false),
+8 operand bytes. Errors are C++ exceptions (`__CxxThrowException`) caught by the tick, so they
+pass through any hook on these functions.
+
+| Frame offset | Type | Meaning |
+|---|---|---|
+| 0x00 | u16 | tree id (0x100.. global, 0x1000.. the code owner's private, 0x2000.. semi-global) |
+| 0x02 | u16 | instruction index |
+| 0x04 | short | stack object id |
+| 0x06 / 0x07 | u8 | local count / argument count |
+| 0x0c | ptr | the tree's instructions (heap data; no path from here to the tree's name was found) |
+| 0x10 | short[] | arguments, then locals (the accessor `0x62db70` is `frame + 0x10 + 2 * args`) |
+
+Variables (the accessor `0x610d90`): an object's attributes are `short*` at `cXObject + 0x2c`,
+count at `+0x30`; globals are shorts at `[[0xa67044] + 0x1c]` (`cSimulator`) `+ 0x10`: 0 hour,
+1 day of month, 2 zoom, 3 selected Sim's object id, 4 time of day, 5 minute, 6 second, 7 month,
+8 year (names: `Behavior.iff` STR# 129; read live at 2:13 AM: 2, 17, 1, 21, ...).
+
+**Remove Object Instance** (opcode 0x12) is inline in the dispatcher: operand short 0 = 0 the
+running object, 1 the stack object, 2 none; it calls `ObjectModule::0x52bfc0(id, flag)`.
+
+**Set Balloon/Headline** (opcode 0x29 = 41, `0x61bc40`, thiscall `(Frame*, const u8 op[8])`,
+`ret 8`; the dispatcher is its only caller, and it is the only code that sets a balloon's icon):
+
+| Operand | Meaning |
+|---|---|
+| short 0 | bit 0: shown over the stack object instead of the running object; `>> 1`: the local holding an object id (group 7, icon 2) |
+| u8 2 | icon index in the group |
+| u8 3 | group (below) |
+| short 4 | duration: -1 forever, 0 clears the balloon, else ticks (or loops, flag 8) |
+| u8 6 | balloon: 0 thought, 1 scream, 2 speak, 3 none (`Behavior.iff` STR# 162) |
+| u8 7 | flags: 1 show when inactive, 2 crossed out, 4 animation reversed, 8 duration in loops, 0x10 icon index + the running object's short at `+0x3a` (a temp; the idle motive thoughts use it) |
+
+The balloon is kept in the first 0x3c-byte entry of the vector at `cXObject + 0x14c` (above):
+
+| Off | Type | Meaning |
+|---|---|---|
+| 0x10 | int | ticks left: -1 forever, 0 nothing shown (decremented by `0x62cdb0` from the object's slot 5) |
+| 0x14 | int | sprite id (group base + index), or -1 for a picture |
+| 0x18 | ptr | the sprite set, or the picture (an object's cached icon, `cXObject + 0x8c`, `0x5964a0`) |
+| 0x1c / 0x20 / 0x24 / 0x28 | int | frame count, frame, direction, tick counter |
+| 0x2c | int | balloon sprite: 100 thought, 101 scream, 102 speak, 0 none |
+| 0x30 | int | 103 = crossed out ("not" overlay), 0 |
+| 0x34 | int | priority: 2 for the relationship group, else 1. A new balloon of lower priority does not replace one still shown |
+| 0x38 | u8 | show when inactive |
+
+Groups (table at `0xa51bc0`: `{int group, u16 sprite base, u16 STR# of the icon names}`; group
+names `Behavior.iff` STR# 500; sprites in `Sprites.iff`, which labels them as listed):
+
+| Group | Base | Names (STR#) | Icons |
+|---|---|---|---|
+| 0 old style | - | 161 | mapped by the table at `0x998d88` to sprites 200-213 (motives) and 400-404 (topics) |
+| 1 balloon | 100 | 505 | the balloon frames themselves |
+| 2 conversation | 400 | 501 | three per interest in the order of `Live.iff` STR# 140 (Travel, Money, Politics, The 60's, Weather, Sports, Music, Outdoors, Toys, Aliens, Pets, School, Exercise, Food, Parties, Style, Hollywood, Technology, Romance; the sprite labels say "Violence" where the interest is Money), then 57-72 careers, 73 bored, 74-75 bad mood |
+| 3 motive | 200 | 502 | 0 hunger, 1 bladder, 3 hygiene, 4 energy, 5 comfort, 6 fun, 10 social, 13 room (others have no sprite) |
+| 4 relationship | 300 | 503 | 0 romance, 1 friends |
+| 5 headline | 500 | 504 | hate, stress, surprise, idea, love, drunk, hurt, smell, flies |
+| 6 social / debug | 600 | 506 | 1-11 hug, gift, back rub, cheer up, entertain, tickle, brag, slap, scare, tease, attack; 12 need chair, 13 in use, 14 can't route, 15-18 `++ + - --` (the relationship change after a social), 19 pizza, 20-29 and 32 routing debug icons (the `route_balloons` cheat), 30 friends, 31 romance, 33 crush, 34-37 fame |
+| 7 algorithmic | - | 507 | 0 the stack object's picture, 1 the face of the Sim whose neighbor id is the stack object value, 2 the picture of the object in a local |
+| 8 route failure | 700 | 508 | chair not found, door not found, wall in the way, terrain not level, no pool ladder |
+| 9 progress | 800 | 509 | 0-9 skill, 10-19 repair, 20-29 interest, in tenths |
+| 10 conversation 2 | 900 | 510 | magic |
+
+Trees that set balloons, seen live: global 0x18e "route failure feedback" (the router `0x5f7950`
+runs it by name with the failure code and the blocking object; it shows the blocker's picture,
+group 7, or a group 8 reason; "Bella can't get past RustyRedneck Barrel Chair"), global 0x137
+"help display - route failure" (the help tip about it), 0x11e "show skill progress", 0x1a0
+"Relationship Impact for Join" (repeats a "-" every second or so), 0x18f "wake everyone up in
+stack objects room" (a shout); the beds' private "Dream Topic", "Dream Person", "Dream Object",
+"Dream Motive" (0x1034-0x1037 in `Beds.iff`; other beds number them differently) and "tweak sleep
+finished" (0x1015, the bladder shout on waking); semi-global 0x201a-0x201e (idle thoughts about a
+need); the social trees 0x1004 (topics) and 0x1029/0x102a (`+`).
+
+**The burglar** (`NPCController.iff`, `thief.iff`): the thief is the object "NPC Thief" ("Some
+Sneaky Sim" in its catalog strings); the NPC Controller's "steal object" takes each object with
+opcode 0x12. Not seen live yet. Two things that looked like him: "El Bandito" is the Unleashed
+raccoon ("NPC - Unleashed - Raccoon"), created by an NPC generator object (tree 0x100b) and
+removing itself within half a second when nothing tempts it; and the night music with Sims
+"arriving" is the ghosts: each grave (internal name "Urn/Tombstone") creates its ghost with
+Create Object Instance from its tree 0x1004 ("Bratty", "Cousin", "Auntie" on the Lápida lot). The
+controller's attribute 4 holds the day of month of the thief night ("CT - Force Thief" sets it to
+global 1, "Thief Day?" compares); attributes 0 and 6 took the new day of month as each day was
+processed (read live). Setting attribute 4 to today brought no burglar, neither at 2 AM (day 17)
+nor at 7 AM (day 18): the spawn needs more than that (**hypothesis**: the Scheduler's "find
+thief's portal" and a random roll in "process burglar"). The only theft texts are the
+capture dialogs (NPCController STR# 301) and the officer's "haven't been able to catch the Sim
+who robbed you" (Officer.iff).
 
 ## Live mode tool and pie menus
 
@@ -530,7 +641,7 @@ place, slot 34 (`0x62fcd0`, multi-tile) recompute part offsets. `0x53a6f0(part, 
 | 0x78 | short | direction step per turn (2 quarter turns, 0 fixed) |
 | 0x134 | vector of 0x24 | container slots (SLOT type 0): entry 0 the object, then places on it; `+0x10` short occupant id, `+0x14` int height (counters 4 and 5, dining tables 3, end tables 8) |
 | 0x140 | vector of 0x3c | routing slots (SLOT type 3): `+0` / `+4` float offset (1/16 tile, written for the object facing -y: -y in front, +x its right), `+0x1c` side bits 0-7 (N = its front, clockwise), `+0x20` snap target, `+0x24` / `+0x28` / `+0x2c` min / max / optimal proximity in 1/32 tile |
-| 0x14c | vector of 0x3c | SLOT type 1 entries |
+| 0x14c | vector of 0x3c | SLOT type 1 entries: where the balloon is drawn (floats at `+0/+4/+8`: 0, 0, 2.0 over a Sim, 4.0 over the trash can); the first entry also holds the balloon shown ("SimAntics and balloons"). Objects without one get no balloon |
 | 0x190 / 0x194 | ptr | next part / lead part (multi-tile) |
 | 0x1a4 / 0x1a8 / 0x1ac | int | part offset y / x / level in tiles |
 

@@ -16,13 +16,16 @@
 #include "../util/strings.h"
 #include "../util/text.h"
 #include "buy_mode.h"
+#include "camera.h"
 #include "cheat_console.h"
 #include "collect.h"
 #include "describe.h"
 #include "arrange.h"
 #include "buffers.h"
 #include "game_speed.h"
+#include "narrator.h"
 #include "screens.h"
+#include "tutorial.h"
 
 namespace nav {
 namespace {
@@ -40,6 +43,7 @@ struct PendingPress {
     bool wasChecked = false;
     ULONGLONG at = 0;
     std::vector<std::pair<Ptr, std::string>> texts;  // the screen's texts before the press
+    bool reshowPanel = false;  // a selected mode tab was pressed: it hides the panel, press again
 };
 
 // The on/off state a press can change, for the feedback after it.
@@ -75,6 +79,7 @@ struct State {
     Role pageRole = Role::Button;  // ...from an item of this kind (a product)...
     ULONGLONG pageAt = 0;      // ...at this time
     bool leftPie = false;      // the root before this one was an interaction menu
+    ULONGLONG pieSeenAt = 0;   // when an interaction menu was last the root
     bool choseInPie = false;   // ...and the player chose an entry in it (not cancelled)
 };
 
@@ -240,6 +245,7 @@ void CheckRootChange() {
     Ptr root = game::InputRoot();
     if (!root || root == g.root) return;
     g.leftPie = game::IsPieMenu(g.root) && !game::IsPieMenu(root);
+    if (game::IsPieMenu(root)) g.pieSeenAt = GetTickCount64();
     if (g.root && !IsScreen(g.root)) g.focusByScreen.erase(g.root);
     g.root = root;
     g.rootSince = GetTickCount64();
@@ -296,6 +302,17 @@ void CheckPressFeedback() {
     if (!Locate(p.item, &gi, &ii)) return;  // the press closed or replaced it
     Ptr w = p.item.widget;
     const Item& item = Groups()[gi].items[ii];
+    if (p.reshowPanel) {
+        game::Unhover(w);
+        if (!game::ModePanelShown(g.root)) {
+            Log("mode tab hid the panel: pressing it again");
+            game::Press(w);
+            game::Unhover(w);
+            g.quietUntil = GetTickCount64() + kPrepareQuietMs;
+        }
+        speech::Say(S(Str::TabSelected));
+        return;
+    }
     if (item.role == Role::Spinner) {
         speech::Say(util::CleanForSpeech(game::Caption(w)));
         return;
@@ -385,11 +402,15 @@ void Reset() {
     g = State{};
     speed::Reset();
     buy::Reset();
+    camera::Reset();
+    tutorial::Reset();
+    narrator::Reset();
     buffers::Reset();
 }
 
 void Tick() {
     cheats::Tick();  // before a dialog the cheat opened is announced
+    narrator::Tick();  // what happens on the lot is heard even while a screen settles
     CheckRootChange();
     ULONGLONG now = GetTickCount64();
     if (g.entering) {
@@ -427,6 +448,8 @@ void Tick() {
     CheckPressFeedback();
     speed::Tick(g.root);
     buy::Tick();
+    camera::Tick();
+    tutorial::Tick();
 }
 
 bool TextEntryActive() { return g.screen.textEntryVisible; }
@@ -451,6 +474,37 @@ void FocusStatus() {
 }
 
 bool WorldFocused() { return g.worldFocused; }
+
+bool PieMenuSeenSince(ULONGLONG time) { return g.pieSeenAt >= time; }
+
+// The item nearest to a rectangle (the tutorial arrow), by the gap between the rectangles; text
+// and the arrow's own panel are skipped. Returns its description, and its group's name.
+std::string NearestItemTo(const RECT& r, std::string* groupName) {
+    EnsureCurrent();
+    const Item* best = nullptr;
+    const Group* bestGroup = nullptr;
+    long bestGap = LONG_MAX;
+    for (const Group& gr : Groups()) {
+        if (tutorial::IsStepGroup(gr)) continue;
+        for (const Item& it : gr.items) {
+            if (it.role == Role::Text) continue;
+            // Panels listed as one item (the clock stands for the whole control panel) would
+            // contain the arrow; the arrow points at a control-sized widget.
+            if (it.rect.right - it.rect.left > 120 || it.rect.bottom - it.rect.top > 120) continue;
+            long dx = std::max(0L, std::max(it.rect.left - r.right, r.left - it.rect.right));
+            long dy = std::max(0L, std::max(it.rect.top - r.bottom, r.top - it.rect.bottom));
+            long gap = dx + dy;
+            if (gap < bestGap) {
+                bestGap = gap;
+                best = &it;
+                bestGroup = &gr;
+            }
+        }
+    }
+    if (!best || bestGap > 40) return "";
+    *groupName = bestGroup->items.size() > 1 ? GroupName(*bestGroup) : "";
+    return Describe(*best);
+}
 
 bool Cancel() {
     Ptr root = game::InputRoot();
@@ -565,12 +619,16 @@ void Activate() {
         return;
     }
     Ptr w = it->role == Role::CheckBox ? game::CheckBoxButton(it->widget) : it->widget;
+    // The selected mode tab pressed again hides the whole panel (the game's F1 toggle): a trap
+    // for a player who cannot see the panel vanish. The press still happens (the tutorial waits
+    // for it), and the panel is pressed back when it went away.
+    bool reshow = it->role == Role::Tab && game::IsModeButton(w) && game::ButtonChecked(w) && game::ModePanelShown(g.root);
     bool isButton = game::IsKindOf(w, "cTSWinBtn");
     if (isButton && !game::ButtonEnabled(w)) {
         speech::Say(S(Str::Unavailable));
         return;
     }
-    g.press = PendingPress{IdOf(*it), CheckedState(*it), GetTickCount64(), TextSnapshot()};
+    g.press = PendingPress{IdOf(*it), CheckedState(*it), GetTickCount64(), TextSnapshot(), reshow};
     Log("press %s %p (%s)", game::ClassName(w).c_str(), (void*)w, it->label.c_str());
     game::Press(w);  // may open a dialog or change screens; the tick picks that up
 }

@@ -26,7 +26,7 @@ T Rd(Ptr addr, T fallback = T{}) {
 bool WriteU8(Ptr addr, uint8_t value);
 bool WriteU32(Ptr addr, uint32_t value);
 
-std::string ReadStdString(Ptr addr);          // MSVC std::string, raw cp1252 bytes
+std::string ReadStdString(Ptr addr);          // MSVC std::string, raw bytes of game text
 std::string ReadStdStringUtf8(Ptr addr);      // same, converted to UTF-8
 
 // True when the function at this preferred VA matched its expected prologue at startup.

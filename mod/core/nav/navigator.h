@@ -3,6 +3,10 @@
 // the focused widget. All functions run on the game's main thread.
 #pragma once
 
+#include <windows.h>
+
+#include <string>
+
 namespace nav {
 
 void Reset();
@@ -27,6 +31,10 @@ void FocusStatus();
 // instead of being read: walking by keyboard, the floor's menu only offers "Ir a este punto".
 void ChooseInNextMenu(int index);
 
+// True when an interaction menu owned input at some point since `time` (GetTickCount64): tells
+// whether a menu call that has returned showed a menu at all.
+bool PieMenuSeenSince(ULONGLONG time);
+
 // Escape: closes a menu the mod drives (the interaction menu). false when there is none, so the
 // key goes to the game.
 bool Cancel();
@@ -40,5 +48,9 @@ void Activate();             // press the focused item
 bool Adjust(int delta);      // change the focused value (a slider, a value picker, a personality
                              // bar); false if the focus holds none
 void RepeatFocus();          // say the focused item again, with its group
+
+// The description of the item nearest to a rectangle on screen (within a few pixels), and the
+// name of its group; empty when nothing is near. For the tutorial arrow.
+std::string NearestItemTo(const RECT& r, std::string* groupName);
 
 }  // namespace nav

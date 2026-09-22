@@ -1,266 +1,465 @@
-// Every string the mod speaks, in the game's two supported languages here (UTF-8).
-// X(id, English, Spanish). Keep ids grouped by feature; printf placeholders must match.
+// Every string the mod speaks, in English: the source the translations in lang/ follow.
+// X(Id, "English"), grouped by feature. A translation keeps the printf placeholders (it may
+// reorder them as %1$s, %2$d); tools/mod_strings.py checks that and lists missing translations.
+// The direction words (Dir*) are only ever inserted into TilesAway, OneTileAway, FacingDirection,
+// InCorner, AgainstWall and BesideWall; a translation may store them in the form those need
+// (Finnish keeps compound stems), so never speak one on its own.
 #pragma once
 
-#define SA_STRINGS(X)                                                                              \
-    /* Startup */                                                                                  \
-    X(ModLoaded, "Sims accessibility loaded", "Accesibilidad de Los Sims cargada")                 \
-    /* Key help (Ctrl+F1) */                                                                       \
-    X(KeysScreen, "Arrows move within a group, Tab and Shift+Tab change group, Home and End go to the ends, "\
-      "Enter presses, R repeats. On a slider or value picker, left and right change it and up and down move. "\
-      "Control+Up and Control+Down read the "\
-      "details of what was said, Control+Left and Control+Right switch between details and events.",\
-      "Las flechas se mueven dentro de un grupo, Tab y Mayúsculas+Tab cambian de grupo, Inicio y Fin van a los "\
-      "extremos, Intro pulsa, R repite. En un control deslizante o un selector, izquierda y derecha lo cambian "\
-      "y arriba y abajo se mueven. Control+Arriba y "\
-      "Control+Abajo leen los detalles de lo dicho, Control+Izquierda y Control+Derecha cambian entre detalles "\
-      "y eventos.")                                                                                \
-    X(KeysLot, "Up and down change group, left and right move within it; on a settings page up and down go "\
-      "through the settings and left and right change a slider or value picker. Page Down and Page Up go through "\
-      "objects, Shift with them changes category, Control with them changes room. Enter opens the object's "\
-      "interactions, Control+Enter walks there, R repeats. P pauses and reads the time and money. Control+Up "\
-      "and Control+Down read the details, Control+Left and Control+Right switch between details and events.",\
-      "Arriba y abajo cambian de grupo, izquierda y derecha se mueven dentro; en una página de ajustes arriba y "\
-      "abajo recorren los ajustes e izquierda y derecha cambian un control deslizante o un selector. Avanzar y "\
-      "Retroceder página recorren los objetos, con Mayúsculas cambian de categoría, con Control cambian de habitación. Intro abre "\
-      "las interacciones del objeto, Control+Intro camina hasta allí, R repite. P pausa y lee la hora y el dinero. "\
-      "Control+Arriba y Control+Abajo leen los detalles, Control+Izquierda y Control+Derecha cambian entre "\
-      "detalles y eventos.")                                                                       \
-    X(KeysPlacing, "Page Down and Page Up go through the spots where it fits and can be used, best first; "\
-      "Control with them changes room, Shift turns it on the same spot. Enter buys it there, Escape cancels, "\
-      "R repeats. Control+Up and Control+Down read the spot's details and what else was checked.",\
-      "Avanzar y Retroceder página recorren los sitios donde cabe y se puede usar, los mejores primero; con "\
-      "Control cambian de habitación, con Mayúsculas lo giran en el mismo sitio. Intro lo compra ahí, Escape "\
-      "cancela, R repite. Control+Arriba y Control+Abajo leen los detalles del sitio y qué más se comprobó.")\
-    X(KeysBuy, "Arrows go through the catalog; a product reads its price and description, Control+Up and "\
-      "Control+Down everything "\
-      "about it. Enter on a product starts placing it where it fits and can be used. Page Down and Page Up go "\
-      "through the lot's objects, Shift with them changes category, Control with them changes room; Enter "\
-      "picks the object up to move it, Delete then sells it.",                                     \
-      "Las flechas recorren el catálogo; un producto dice su precio y descripción, Control+Arriba y "\
-      "Control+Abajo todo sobre él. "\
-      "Intro sobre un producto empieza a colocarlo donde cabe y se puede usar. Avanzar y Retroceder página "\
-      "recorren los objetos del solar, con Mayúsculas cambian de categoría, con Control de habitación; Intro "\
-      "recoge el objeto para moverlo, y Suprimir lo vende.")                                        \
-    X(KeysMenu, "Up and down choose an interaction, Enter does it, Escape goes back.",             \
-      "Arriba y abajo eligen una interacción, Intro la hace, Escape vuelve atrás.")                \
-    X(UnsupportedBuild, "Sims accessibility: unsupported game version, mod disabled",              \
-      "Accesibilidad de Los Sims: versión del juego no compatible, mod desactivado")               \
-    /* Control state */                                                                            \
-    X(Checked, "checked", "marcado")                                                               \
-    X(NotChecked, "not checked", "no marcado")                                                     \
-    X(Selected, "selected", "seleccionado")                                                        \
-    X(TabSelected, "selected", "seleccionada")                                                     \
-    X(Unavailable, "unavailable", "no disponible")                                                 \
-    X(UnlabeledButton, "unlabeled button", "botón sin nombre")                                     \
-    X(Unnamed, "unnamed", "sin nombre")                                                            \
-    /* Control roles: what a control is, said after its name */                                    \
-    X(RoleButton, "button", "botón")                                                               \
-    X(RoleTab, "tab", "pestaña")                                                                   \
-    X(RoleCheckBox, "check box", "casilla de verificación")                                        \
-    X(RoleSlider, "slider", "control deslizante")                                                  \
-    X(RolePicker, "value picker", "selector")                                                      \
-    X(NothingHere, "nothing to navigate here", "no hay nada que recorrer aquí")                    \
-    X(NextPage, "next page", "página siguiente")                                                   \
-    X(BufferDetails, "details", "detalles")                                                        \
-    X(CheatConsole, "cheat console", "consola de trucos")                                           \
-    X(CheatsUnavailable, "the cheat console is not available here", "la consola de trucos no está disponible aquí")\
-    X(CheatRan, "cheat: %s", "truco: %s")                                                          \
-    X(CheatOf, "%s, %d of %d", "%s, %d de %d")                                                     \
-    X(CheatEmpty, "type or pick a cheat first", "escribe o elige antes un truco")                  \
-    X(CheatHint, "Up and Down pick a cheat, typing adds to it, Enter runs it and Enter again repeats it, Escape closes.",\
-      "Arriba y Abajo eligen un truco, lo que escribas se añade, Intro lo ejecuta y otro Intro lo repite, Escape cierra.")\
-    X(FundsNow, "funds %s, %s", "fondos %s, %s")                                                   \
-    X(BufferEvents, "events", "eventos")                                                           \
-    X(BufferEmpty, "%s, empty", "%s, vacío")                                                       \
-    X(PositionInGroup, "%d of %d, %s", "%d de %d, %s")                                             \
-    X(TileAt, "tile %d, %d", "casilla %d, %d")                                                     \
-    X(SellsFor, "sells for %s", "se vende por %s")                                                 \
-    X(PreviousPage, "previous page", "página anterior")                                            \
-    /* Groups */                                                                                   \
-    X(GroupSummary, "%s, %d items", "%s, %d elementos")                                            \
-    X(GroupSummaryOne, "%s, 1 item", "%s, 1 elemento")                                             \
-    X(GroupButtons, "buttons", "botones")                                                          \
-    X(GroupText, "text", "texto")                                                                  \
-    X(GroupHouses, "houses", "casas")                                                              \
-    X(GroupFamilies, "families", "familias")                                                       \
-    X(GroupControls, "controls", "controles")                                                      \
-    X(GroupOptions, "options", "opciones")                                                         \
-    X(GroupCatalog, "catalog", "catálogo")                                                         \
-    X(GroupBuild, "build", "construcción")                                                         \
-    X(GroupCamera, "camera", "cámara")                                                             \
-    X(GroupFamilyPanel, "Sim panels", "paneles del Sim")                                           \
-    X(GroupActionQueue, "action queue", "cola de acciones")                                        \
-    /* Screens */                                                                                  \
-    X(ScreenNeighborhood, "Neighborhood", "Barrio")                                                \
-    X(ScreenNeighborhoodNumber, "Neighborhood %s", "Barrio %s")                                    \
-    X(ScreenLot, "Lot", "Solar")                                                                   \
-    X(ScreenPickFamily, "Choose a family", "Elegir familia")                                       \
-    X(ScreenDesignFamily, "Create a family", "Crear familia")                                      \
-    X(ScreenDesignCharacter, "Create a Sim", "Crear un Sim")                                       \
-    /* Widgets */                                                                                  \
-    X(MotiveValue, "%s, %d percent", "%s, %d por ciento")                                          \
-    X(QueuedAction, "%s, queued", "%s, en cola")                                                   \
-    X(TutorialIcon, "help system tip", "consejo del sistema de ayuda")                             \
-    X(HouseNumber, "House %d", "Casa %d")                                                          \
-    X(FamilyMemberOne, "1 member", "1 miembro")                                                    \
-    X(FamilyMembers, "%d members", "%d miembros")                                                  \
-    X(NetWorth, "net worth", "valor neto")                                                         \
-    X(Friends, "friends", "amigos")                                                                \
-    /* Lot: object browser (PageUp/PageDown) */                                                    \
-    X(CategorySims, "Sims", "Sims")                                                                \
-    X(CategorySeating, "seating", "asientos")                                                      \
-    X(CategorySurfaces, "surfaces", "superficies")                                                 \
-    X(CategoryAppliances, "appliances", "electrodomésticos")                                       \
-    X(CategoryElectronics, "electronics", "electrónica")                                           \
-    X(CategoryPlumbing, "plumbing", "fontanería")                                                  \
-    X(CategoryLighting, "lighting", "iluminación")                                                 \
-    X(CategoryDecorative, "decorative", "decoración")                                              \
-    X(CategoryMiscellaneous, "miscellaneous", "varios")                                            \
-    X(CategoryOther, "other objects", "otros objetos")                                             \
-    X(NoObjects, "no objects here", "no hay objetos aquí")                                         \
-    /* Lot: rooms (Ctrl+PageUp/PageDown) */                                                        \
-    X(RoomOutside, "outside", "exterior")                                                          \
-    X(RoomBathroom, "bathroom", "baño")                                                            \
-    X(RoomBedroom, "bedroom", "dormitorio")                                                        \
-    X(RoomKitchen, "kitchen", "cocina")                                                            \
-    X(RoomDining, "dining room", "comedor")                                                        \
-    X(RoomLiving, "living room", "sala de estar")                                                  \
-    X(RoomStudy, "study", "estudio")                                                               \
-    X(RoomOther, "room", "habitación")                                                             \
-    X(FloorNumber, "floor %d", "piso %d")                                                          \
-    X(RoomObjects, "%s, %d objects", "%s, %d objetos")                                             \
-    X(RoomObjectsOne, "%s, 1 object", "%s, 1 objeto")                                              \
-    X(RoomTiles, "%d tiles", "%d casillas")                                                        \
-    X(SameObjects, "%d alike", "%d iguales")                                                       \
-    X(NotOnLot, "not on a lot", "no estás en un solar")                                            \
-    X(HereNow, "right here", "aquí mismo")                                                         \
-    X(TilesAway, "%d tiles %s", "a %d casillas al %s")                                             \
-    X(OneTileAway, "1 tile %s", "a 1 casilla al %s")                                               \
-    X(DirNorth, "north", "norte")                                                                  \
-    X(DirNorthEast, "north-east", "noreste")                                                       \
-    X(DirEast, "east", "este")                                                                     \
-    X(DirSouthEast, "south-east", "sureste")                                                       \
-    X(DirSouth, "south", "sur")                                                                    \
-    X(DirSouthWest, "south-west", "suroeste")                                                      \
-    X(DirWest, "west", "oeste")                                                                    \
-    X(DirNorthWest, "north-west", "noroeste")                                                      \
-    X(OtherFloor, "on another floor", "en otro piso")                                              \
-    X(SelectedSimSuffix, "selected", "seleccionado")                                               \
-    X(PieMenu, "interactions", "interacciones")                                                    \
-    X(NoInteractions, "no interactions", "sin interacciones")                                      \
-    X(Cancelled, "cancelled", "cancelado")                                                         \
-    X(WalkingThere, "walking there", "yendo hacia allí")                                           \
-    X(CannotWalk, "cannot walk there", "no puede ir allí")                                         \
-    /* Buy mode: catalog */                                                                        \
-    X(CannotAfford, "can't afford", "no te alcanza")                                               \
-    X(RatingHunger, "hunger", "hambre")                                                            \
-    X(RatingComfort, "comfort", "comodidad")                                                       \
-    X(RatingHygiene, "hygiene", "higiene")                                                         \
-    X(RatingBladder, "bladder", "vejiga")                                                          \
-    X(RatingEnergy, "energy", "energía")                                                           \
-    X(RatingFun, "fun", "diversión")                                                               \
-    X(RatingRoom, "room", "habitación")                                                            \
-    X(SkillCooking, "+cooking", "+cocina")                                                         \
-    X(SkillMechanical, "+mechanical", "+mecánica")                                                 \
-    X(SkillLogic, "+logic", "+lógica")                                                             \
-    X(SkillBody, "+body", "+físico")                                                               \
-    X(SkillCreativity, "+creativity", "+creatividad")                                              \
-    X(SkillCharisma, "+charisma", "+carisma")                                                      \
-    X(SkillStudy, "+study", "+estudio")                                                            \
-    /* Buy mode: placing */                                                                        \
-    X(AreaSpots, "%s, %d spots", "%s, %d sitios")                                                  \
-    X(AreaSpotsOne, "%s, 1 spot", "%s, 1 sitio")                                                   \
-    X(AreaNoSpot, "%s, no spot: %s", "%s, sin sitio: %s")                                          \
-    X(SpotOf, "%d of %d: %s", "%d de %d: %s")                                                      \
-    X(NoSpotAnywhere, "no spot on this floor: %s", "no hay sitio en este piso: %s")                \
-    X(NoOtherTurn, "no other direction works here", "aquí no cabe en otra dirección")              \
-    X(Bought, "bought %s", "comprado: %s")                                                         \
-    X(FundsLeft, "%s left", "quedan %s")                                                           \
-    X(AnotherInHand, "another one in hand, Escape to stop", "tienes otro en la mano, Escape para terminar")\
-    X(PlaceFailed, "could not place it: %s", "no se pudo colocar: %s")                             \
-    X(PlacingCancelled, "purchase cancelled", "compra cancelada")                                  \
-    X(Moving, "moving %s, sells for %s", "moviendo %s, se vende por %s")                           \
-    X(PutDown, "placed: %s", "colocado: %s")                                                       \
-    X(PutBack, "%s put back", "%s vuelve a su sitio")                                              \
-    X(Sold, "sold %s for %s, you have %s", "vendido %s por %s, tienes %s")                         \
-    X(ThrownAway, "%s thrown away", "%s tirado a la basura")                                       \
-    X(CannotSell, "it cannot be sold", "no se puede vender")                                       \
-    X(CannotPickUp, "cannot pick it up. %s", "no se puede recoger. %s")                            \
-    X(AreaChecked, "%s: %d good spots; %d do not fit, %d cannot be reached to use it, %d would block a door, "\
-      "%d would leave another object unusable",                                                    \
-      "%s: %d sitios buenos; en %d no cabe, en %d no se podría llegar a usarlo, %d bloquearían una puerta, "\
-      "%d dejarían otro objeto sin uso")                                                           \
-    X(MostlyBecause, "mostly: %s", "sobre todo: %s")                                               \
-    X(UsedFromTiles, "used from %d tiles", "se usa desde %d casillas")                                 X(UsedFromTile, "used from 1 tile", "se usa desde 1 casilla")                                  \
-    X(RoomEmpty, "empty room, %d tiles", "habitación vacía, %d casillas")                          \
-    X(InCorner, "in the %s corner", "en el rincón %s")                                             \
-    X(AgainstWall, "back to the %s wall", "contra la pared %s")                                    \
-    X(BesideWall, "beside the %s wall", "junto a la pared %s")                                     \
-    X(AwayFromWalls, "away from the walls", "lejos de las paredes")                                \
-    X(FacingDirection, "facing %s", "mirando al %s")                                               \
-    X(FacingObject, "facing %s", "frente a %s")                                                    \
-    X(NextToObject, "next to %s", "junto a %s")                                                    \
-    X(OnTopOf, "on %s", "sobre %s")                                                                \
-    X(MeantFor, "meant for: %s", "para: %s")                                                       \
-    X(CutsOff, "cuts off %d tiles", "deja aisladas %d casillas")                                   \
-    X(WouldBlockObject, "it would leave %s unusable", "dejaría sin uso %s")                        \
-    X(NoReachableSpot, "no Sim could get to it", "ningún Sim podría llegar a usarlo")              \
-    X(WouldBlockDoor, "it would block a door", "bloquearía una puerta")                            \
-    X(DoesNotFit, "it does not fit", "no cabe")                                                    \
-    /* Default lot objects that have no catalog name */                                            \
-    X(ObjMailbox, "mailbox", "buzón")                                                              \
-    X(ObjTrashOutside, "outdoor trash can", "cubo de basura exterior")                             \
-    X(ObjPineTree, "pine tree", "pino")                                                            \
-    X(ObjBirchTree, "birch tree", "abedul")                                                        \
-    X(ObjSycamoreTree, "sycamore", "sicómoro")                                                     \
-    X(ObjOakTree, "oak", "roble")                                                                  \
-    X(ObjMapleTree, "maple", "arce")                                                               \
-    X(ObjPalmTree, "palm tree", "palmera")                                                         \
-    X(ObjWillowTree, "willow", "sauce")                                                            \
-    X(ObjAppleTree, "apple tree", "manzano")                                                       \
-    X(ObjCherryTree, "cherry tree", "cerezo")                                                      \
-    X(ObjElmTree, "elm", "olmo")                                                                   \
-    X(ObjCypressTree, "cypress", "ciprés")                                                         \
-    X(ObjTree, "tree", "árbol")                                                                    \
-    /* Lot: status (the HUD) */                                                                    \
-    X(GroupStatus, "status", "estado")                                                             \
-    X(GroupFamily, "family", "familia")                                                            \
-    X(LabelValue, "%s: %s", "%s: %s")                                                              \
-    /* Lot: the selected Sim */                                                                    \
-    X(MoodGood, "%s, %d of 5 bars green", "%s, %d de 5 barras en verde")                           \
-    X(MoodBad, "%s, %d of 5 bars red", "%s, %d de 5 barras en rojo")                               \
-    X(MoodNeutral, "%s, neutral", "%s, neutro")                                                    \
-    X(RelationshipValues, "%s. Daily %d, lifetime %d", "%s. Diaria %d, de por vida %d")            \
-    X(SkillValue, "%s, %d of 10", "%s, %d de 10")                                                  \
-    X(GroupJob, "job", "empleo")                                                                   \
-    X(JobPay, "pay", "sueldo")                                                                     \
-    X(JobFriendsNeeded, "family friends", "amigos de la familia")                                  \
-    X(JobPerformance, "performance", "rendimiento")                                                \
-    X(GroupHouse, "house", "casa")                                                                 \
-    /* Text fields */                                                                              \
-    X(TextField, "%s %s, text field", "%s %s, campo de texto")                                     \
-    X(Blank, "blank", "vacío")                                                                     \
-    X(Space, "space", "espacio")                                                                   \
-    /* Create a Sim */                                                                             \
-    X(OutOfTen, "%d of 10", "%d de 10")                                                            \
-    X(ValueOfMax, "%d of %d", "%d de %d")                                                          \
-    X(PointsLeft, "%d points left", "quedan %d puntos")                                            \
-    X(PointLeft, "1 point left", "queda 1 punto")                                                  \
-    X(NoPointsLeft, "no points left", "no quedan puntos")                                          \
-    X(HeadLook, "head %d of %d: %s", "cabeza %d de %d: %s")                                        \
-    X(BodyLook, "body %d of %d, %s: %s", "cuerpo %d de %d, %s: %s")                                \
-    X(BodyFit, "fit", "atlético")                                                                  \
-    X(BodyFat, "heavy", "grueso")                                                                  \
-    X(BodySkinny, "thin", "delgado")                                                               \
-    X(BodyLookNoShape, "body %d of %d: %s", "cuerpo %d de %d: %s")                                                               \
-    X(SimPreview, "Sim preview", "vista del Sim")                                                  \
-    X(GroupPersonality, "personality", "personalidad")                                             \
-    X(GroupLooks, "appearance", "aspecto")                                                         \
-    /* Family picker */                                                                            \
-    X(GroupMembers, "members", "miembros")                                                         \
-    X(TraitNeat, "Neat", "Pulcritud")                                                              \
-    X(TraitOutgoing, "Outgoing", "Extroversión")                                                   \
-    X(TraitActive, "Active", "Actividad")                                                          \
-    X(TraitPlayful, "Playful", "Ánimo lúdico")                                                     \
-    X(TraitNice, "Nice", "Cordialidad")
+#define SA_STRINGS(X) \
+    /* Startup */                                                                                                      \
+    X(ModLoaded, "Sims accessibility loaded")                                                                          \
+    /* Key help (Ctrl+F1) */                                                                                           \
+    X(KeysScreen,                                                                                                      \
+      "Arrows move within a group, Tab and Shift+Tab change group, Home and End go to the ends, Enter presses, R "     \
+      "repeats. On a slider or value picker, left and right change it and up and down move. Control+Up and "           \
+      "Control+Down read the details of what was said, Control+Left and Control+Right switch between details and "     \
+      "events.")                                                                                                       \
+    X(KeysLot,                                                                                                         \
+      "Up and down change group, left and right move within it; on a settings page up and down go through the "        \
+      "settings and left and right change a slider or value picker. Page Down and Page Up go through objects, "        \
+      "Shift with them changes category, Control with them changes room. Enter opens the object's interactions, "      \
+      "Control+Enter walks there, R repeats. Space selects the next Sim, Control+1 to 9 select a Sim of the "          \
+      "family, Control+F makes the camera follow the selected Sim or not. P pauses and reads the time and money. "     \
+      "Control+Up and Control+Down read the details, Control+Left and Control+Right switch between details and "       \
+      "events.")                                                                                                       \
+    X(KeysPlacing,                                                                                                     \
+      "Page Down and Page Up go through the spots where it fits and can be used, best first; Control with them "       \
+      "changes room, Shift turns it on the same spot. Enter buys it there, Escape cancels, R repeats. Control+Up "     \
+      "and Control+Down read the spot's details and what else was checked.")                                           \
+    X(KeysBuy,                                                                                                         \
+      "Arrows go through the catalog; a product reads its price and description, Control+Up and Control+Down "         \
+      "everything about it. Enter on a product starts placing it where it fits and can be used. Page Down and Page "   \
+      "Up go through the lot's objects, Shift with them changes category, Control with them changes room; Enter "      \
+      "picks the object up to move it, Delete then sells it.")                                                         \
+    X(KeysMenu, "Up and down choose an interaction, Enter does it, Escape goes back.")                                 \
+    X(UnsupportedBuild, "Sims accessibility: unsupported game version, mod disabled")                                  \
+    /* Control state */                                                                                                \
+    X(Checked, "checked")                                                                                              \
+    X(NotChecked, "not checked")                                                                                       \
+    X(Selected, "selected")                                                                                            \
+    X(TabSelected, "selected")                                                                                         \
+    X(Unavailable, "unavailable")                                                                                      \
+    X(UnlabeledButton, "unlabeled button")                                                                             \
+    X(Unnamed, "unnamed")                                                                                              \
+    /* Control roles: what a control is, said after its name */                                                        \
+    X(RoleButton, "button")                                                                                            \
+    X(RoleTab, "tab")                                                                                                  \
+    X(RoleCheckBox, "check box")                                                                                       \
+    X(RoleSlider, "slider")                                                                                            \
+    X(RolePicker, "value picker")                                                                                      \
+    X(NothingHere, "nothing to navigate here")                                                                         \
+    X(NextPage, "next page")                                                                                           \
+    X(BufferDetails, "details")                                                                                        \
+    X(CheatConsole, "cheat console")                                                                                   \
+    X(CheatsUnavailable, "the cheat console is not available here")                                                    \
+    X(CheatRan, "cheat: %s")                                                                                           \
+    X(CheatOf, "%s, %d of %d")                                                                                         \
+    X(CheatEmpty, "type or pick a cheat first")                                                                        \
+    X(CheatHint,                                                                                                       \
+      "Up and Down pick a cheat, typing adds to it, Enter runs it and Enter again repeats it, Escape closes.")         \
+    X(FundsNow, "funds %s, %s")                                                                                        \
+    X(BufferEvents, "events")                                                                                          \
+    X(BufferEmpty, "%s, empty")                                                                                        \
+    X(PositionInGroup, "%d of %d, %s")                                                                                 \
+    X(TileAt, "tile %d, %d")                                                                                           \
+    X(SellsFor, "sells for %s")                                                                                        \
+    X(PreviousPage, "previous page")                                                                                   \
+    /* Groups */                                                                                                       \
+    X(GroupSummary, "%s, %d items")                                                                                    \
+    X(GroupSummaryOne, "%s, 1 item")                                                                                   \
+    X(GroupButtons, "buttons")                                                                                         \
+    X(GroupText, "text")                                                                                               \
+    X(GroupHouses, "houses")                                                                                           \
+    X(GroupFamilies, "families")                                                                                       \
+    X(GroupControls, "controls")                                                                                       \
+    X(GroupOptions, "options")                                                                                         \
+    X(GroupCatalog, "catalog")                                                                                         \
+    X(GroupBuild, "build")                                                                                             \
+    X(GroupCamera, "camera")                                                                                           \
+    X(GroupFamilyPanel, "Sim panels")                                                                                  \
+    X(GroupActionQueue, "action queue")                                                                                \
+    /* Screens */                                                                                                      \
+    X(ScreenNeighborhood, "Neighborhood")                                                                              \
+    X(ScreenNeighborhoodNumber, "Neighborhood %s")                                                                     \
+    X(ScreenLot, "Lot")                                                                                                \
+    X(ScreenPickFamily, "Choose a family")                                                                             \
+    X(ScreenDesignFamily, "Create a family")                                                                           \
+    X(ScreenDesignCharacter, "Create a Sim")                                                                           \
+    /* Widgets */                                                                                                      \
+    X(MotiveValue, "%s, %d percent")                                                                                   \
+    X(QueuedAction, "%s, queued")                                                                                      \
+    X(TutorialIcon, "help system tip")                                                                                 \
+    X(HouseNumber, "House %d")                                                                                         \
+    X(FamilyMemberOne, "1 member")                                                                                     \
+    X(FamilyMembers, "%d members")                                                                                     \
+    X(NetWorth, "net worth")                                                                                           \
+    X(Friends, "friends")                                                                                              \
+    /* Lot: object browser (PageUp/PageDown) */                                                                        \
+    X(CategorySims, "Sims")                                                                                            \
+    X(CategorySeating, "seating")                                                                                      \
+    X(CategorySurfaces, "surfaces")                                                                                    \
+    X(CategoryAppliances, "appliances")                                                                                \
+    X(CategoryElectronics, "electronics")                                                                              \
+    X(CategoryPlumbing, "plumbing")                                                                                    \
+    X(CategoryLighting, "lighting")                                                                                    \
+    X(CategoryDecorative, "decorative")                                                                                \
+    X(CategoryMiscellaneous, "miscellaneous")                                                                          \
+    X(CategoryOther, "other objects")                                                                                  \
+    X(NoObjects, "no objects here")                                                                                    \
+    /* Lot: rooms (Ctrl+PageUp/PageDown) */                                                                            \
+    X(RoomOutside, "outside")                                                                                          \
+    X(RoomBathroom, "bathroom")                                                                                        \
+    X(RoomBedroom, "bedroom")                                                                                          \
+    X(RoomKitchen, "kitchen")                                                                                          \
+    X(RoomDining, "dining room")                                                                                       \
+    X(RoomLiving, "living room")                                                                                       \
+    X(RoomStudy, "study")                                                                                              \
+    X(RoomOther, "room")                                                                                               \
+    X(FloorNumber, "floor %d")                                                                                         \
+    X(RoomObjects, "%s, %d objects")                                                                                   \
+    X(RoomObjectsOne, "%s, 1 object")                                                                                  \
+    X(RoomTiles, "%d tiles")                                                                                           \
+    X(SameObjects, "%d alike")                                                                                         \
+    X(JustBought, "just bought")                                                                                       \
+    X(NotOnLot, "not on a lot")                                                                                        \
+    X(HereNow, "right here")                                                                                           \
+    X(TilesAway, "%d tiles %s")                                                                                        \
+    X(OneTileAway, "1 tile %s")                                                                                        \
+    X(DirNorth, "north")                                                                                               \
+    X(DirNorthEast, "north-east")                                                                                      \
+    X(DirEast, "east")                                                                                                 \
+    X(DirSouthEast, "south-east")                                                                                      \
+    X(DirSouth, "south")                                                                                               \
+    X(DirSouthWest, "south-west")                                                                                      \
+    X(DirWest, "west")                                                                                                 \
+    X(DirNorthWest, "north-west")                                                                                      \
+    X(OtherFloor, "on another floor")                                                                                  \
+    X(SelectedSimSuffix, "selected")                                                                                   \
+    X(PieMenu, "interactions")                                                                                         \
+    X(NoInteractions, "no interactions")                                                                               \
+    X(Cancelled, "cancelled")                                                                                          \
+    X(WalkingThere, "walking there")                                                                                   \
+    X(CannotWalk, "cannot walk there")                                                                                 \
+    /* Camera and Sim selection (nav/camera.h) */                                                                      \
+    X(FollowOn, "following %s")                                                                                        \
+    X(FollowOnNoSim, "follow on; no Sim selected")                                                                     \
+    X(FollowOff, "camera free, not following")                                                                         \
+    X(NoSuchSim, "no Sim %d")                                                                                          \
+    X(SimSelectedNow, "%s, selected")                                                                                  \
+    /* The tutorial and help tips (nav/tutorial.h) */                                                                  \
+    X(GroupTutorial, "tutorial")                                                                                       \
+    X(TutorialSays, "Tutorial:")                                                                                       \
+    X(TutorialPointsAt, "the arrow points at %s")                                                                      \
+    X(TutorialPointsAtIn, "the arrow points at %s, in %s")                                                             \
+    X(TutorialHide, "hide the tutorial text")                                                                          \
+    X(TipAvailable, "help system tip available: Control+H reads it")                                                   \
+    X(GroupTip, "help tip")                                                                                            \
+    X(NoTip, "no help tip right now")                                                                                  \
+    X(TutorialPointsAtSpot, "the arrow points at a spot on the lot: %s")                                               \
+    X(SpotOnLot, "spot")                                                                                               \
+    X(HintNewspaper,                                                                                                   \
+      "Keyboard: Shift+Page Down to miscellaneous or other objects, Page Down to the newspaper, Enter, choose Find "   \
+      "a job.")                                                                                                        \
+    X(TutorialEscapeAgain, "Escape again leaves the tutorial")                                                         \
+    X(TutorialOver, "the tutorial is over")                                                                            \
+    /* The tutorial's steps told for the keyboard (nav/tutorial.cpp) */                                                \
+    X(StepZoom,                                                                                                        \
+      "Take a look at our tutorial house. Press the Zoom in button: Tab to controls, arrows to Zoom in, Enter. You "   \
+      "can press Escape twice at any time to cancel the tutorial.")                                                    \
+    X(StepZoomAgain, "This is the medium zoom level. Now press Enter on Zoom in again to get even closer.")            \
+    X(StepScroll,                                                                                                      \
+      "There are many ways to scroll the screen. With the keyboard the camera follows what you browse: press Page "    \
+      "Down to go to the next object.")                                                                                \
+    X(StepScrollAgain,                                                                                                 \
+      "Good. Page Down and Page Up go through the objects, Shift with them changes category, and the camera goes "     \
+      "to each one. Press Page Down again.")                                                                           \
+    X(StepRotate, "Now let us rotate the point of view: in controls, press Rotate right.")                             \
+    X(StepLive,                                                                                                        \
+      "You know how to control the view; time for Live mode. Press F1, or Live mode in controls. If it is selected "   \
+      "already, press Buy mode (F2) first and then Live mode.")                                                        \
+    X(StepPortrait,                                                                                                    \
+      "The family members are on the control panel below. This family is one person, Bob. Press Control+1, his "       \
+      "portrait, to center him on the screen.")                                                                        \
+    X(StepGoHere,                                                                                                      \
+      "Now you will learn to control Bob. Choose an object with Page Down and press Control+Enter: Bob walks to "      \
+      "that spot.")                                                                                                    \
+    X(StepGoHereAgain, "Press Control+Enter on an object so that Bob goes there.")                                     \
+    X(StepInteract,                                                                                                    \
+      "You can order Sims to interact with most objects. Page Down goes through the objects; Enter on one opens "      \
+      "its interactions, and Enter chooses one for Bob.")                                                              \
+    X(StepMood,                                                                                                        \
+      "The mood tab, in the Sim panels, is both a button and a meter: green means Bob is happy, red that he is "       \
+      "not. Tab to the Sim panels, Enter on Mood to see his needs.")                                                   \
+    X(StepShower,                                                                                                      \
+      "Let us improve Bob's hygiene. Shift+Page Down to plumbing, Page Down to the shower, Enter, then choose Take "   \
+      "a shower.")                                                                                                     \
+    X(StepNeeds,                                                                                                       \
+      "Go through the needs: Tab to Needs, left and right, Enter on one reads its explanation and which objects "      \
+      "satisfy it. Objects satisfy needs with different efficiency.")                                                  \
+    X(StepBuy,                                                                                                         \
+      "If you keep most needs green, your Sim will be satisfied; usually you satisfy the most critical first. Now "    \
+      "Buy mode: press F2, or Buy mode in controls.")                                                                  \
+    X(StepChooseChair,                                                                                                 \
+      "Take a look at the catalog: Tab to catalog, Enter on Seating, arrows along the chairs; Enter on the one Bob "   \
+      "would like starts placing it.")                                                                                 \
+    X(StepPlace,                                                                                                       \
+      "To buy it: Page Down and Page Up choose a free spot, Enter buys it there. Escape puts away the next one "       \
+      "that stays in hand.")                                                                                           \
+    X(StepTurn,                                                                                                        \
+      "Great, now let us rotate it: Page Down to the chair just bought, Enter picks it up, Shift+Page Down turns "     \
+      "it, Enter puts it down.")                                                                                       \
+    X(StepBackToLive,                                                                                                  \
+      "Remember you can always return to Buy mode to buy new objects or rearrange the house. Now back to Live "        \
+      "mode: F1, or Live mode in controls.")                                                                           \
+    X(StepPersonality,                                                                                                 \
+      "If you give no orders, Sims decide on their own, by their needs and personality. Let us look at Bob's "         \
+      "personality: Tab to the Sim panels, arrows to Personality, Enter.")                                             \
+    X(StepPersonalityTab, "Press Enter on the Personality tab to see the personality panel.")                          \
+    X(StepSecondSim,                                                                                                   \
+      "Now let us add one more person to this family: Betty. Press Control+2 to select her, and Control+2 again to "   \
+      "center her on the screen.")                                                                                     \
+    X(StepSecondObject,                                                                                                \
+      "Choose an object with Page Down and press Enter so that Betty does something; the interactions are hers now.")  \
+    X(StepSelectFirst, "There are several ways to change the active Sim. Press Control+1 to select Bob.")              \
+    X(StepSpace,                                                                                                       \
+      "Very good, Bob is selected. Another way to choose a Sim is the space bar. Press Space now and you are back "    \
+      "to Betty.")                                                                                                     \
+    X(StepSocial,                                                                                                      \
+      "Good. Sims interact with each other like with objects. With Betty selected: Shift+Page Up to Sims, Page "       \
+      "Down to Bob, Enter, and choose an interaction.")                                                                \
+    X(StepSocialAgain,                                                                                                 \
+      "How the Sims feel about each other is in the Relationships panel, with daily and lifetime scores. Try "         \
+      "another interaction with Bob and see the result there.")                                                        \
+    X(StepRelationships,                                                                                               \
+      "Tab to the Sim panels, arrows to Relationships, Enter: it shows how the selected Sim feels about this "         \
+      "person.")                                                                                                       \
+    X(StepNewspaper,                                                                                                   \
+      "Sims earn money by working. Find the newspaper outside: Shift+Page Down to other objects, Page Down to "        \
+      "Newspaper, Enter, and choose Find a job.")                                                                      \
+    X(StepJobTab, "Congratulations! Now Tab to the Sim panels, arrows to Job, Enter to find out about the new job.")   \
+    X(StepJobName,                                                                                                     \
+      "This panel shows the selected Sim's job and skill levels, important for promotions. Tab to job, Enter on "      \
+      "the job name to learn when the car pool comes.")                                                                \
+    X(StepSkills,                                                                                                      \
+      "The skills (Cooking, Mechanical...) read with their points; one that needs improving for a promotion says "     \
+      "so. Arrows to a skill, Enter to learn how to gain it.")                                                         \
+    X(StepOptions,                                                                                                     \
+      "Options mode is where you save, quit or return to the neighborhood, and choose graphics, sound and game "       \
+      "options. Press F5, or Options mode in controls.")                                                               \
+    /* Buy mode: catalog */                                                                                            \
+    X(CannotAfford, "can't afford")                                                                                    \
+    X(RatingHunger, "hunger")                                                                                          \
+    X(RatingComfort, "comfort")                                                                                        \
+    X(RatingHygiene, "hygiene")                                                                                        \
+    X(RatingBladder, "bladder")                                                                                        \
+    X(RatingEnergy, "energy")                                                                                          \
+    X(RatingFun, "fun")                                                                                                \
+    X(RatingRoom, "room")                                                                                              \
+    X(SkillCooking, "+cooking")                                                                                        \
+    X(SkillMechanical, "+mechanical")                                                                                  \
+    X(SkillLogic, "+logic")                                                                                            \
+    X(SkillBody, "+body")                                                                                              \
+    X(SkillCreativity, "+creativity")                                                                                  \
+    X(SkillCharisma, "+charisma")                                                                                      \
+    X(SkillStudy, "+study")                                                                                            \
+    /* Buy mode: placing */                                                                                            \
+    X(AreaSpots, "%s, %d spots")                                                                                       \
+    X(AreaSpotsOne, "%s, 1 spot")                                                                                      \
+    X(AreaNoSpot, "%s, no spot: %s")                                                                                   \
+    X(SpotOf, "%d of %d: %s")                                                                                          \
+    X(NoSpotAnywhere, "no spot on this floor: %s")                                                                     \
+    X(NoOtherTurn, "no other direction works here")                                                                    \
+    X(Bought, "bought %s")                                                                                             \
+    X(FundsLeft, "%s left")                                                                                            \
+    X(AnotherInHand, "another one in hand, Escape to stop")                                                            \
+    X(PlaceFailed, "could not place it: %s")                                                                           \
+    X(PlacingCancelled, "purchase cancelled")                                                                          \
+    X(Moving, "moving %s, sells for %s")                                                                               \
+    X(PutDown, "placed: %s")                                                                                           \
+    X(PutBack, "%s put back")                                                                                          \
+    X(Sold, "sold %s for %s, you have %s")                                                                             \
+    X(ThrownAway, "%s thrown away")                                                                                    \
+    X(CannotSell, "it cannot be sold")                                                                                 \
+    X(CannotPickUp, "cannot pick it up. %s")                                                                           \
+    X(AreaChecked,                                                                                                     \
+      "%s: %d good spots; %d do not fit, %d cannot be reached to use it, %d would block a door, %d would leave "       \
+      "another object unusable")                                                                                       \
+    X(MostlyBecause, "mostly: %s")                                                                                     \
+    X(UsedFromTiles, "used from %d tiles")                                                                             \
+    X(UsedFromTile, "used from 1 tile")                                                                                \
+    X(RoomEmpty, "empty room, %d tiles")                                                                               \
+    X(InCorner, "in the %s corner")                                                                                    \
+    X(AgainstWall, "back to the %s wall")                                                                              \
+    X(BesideWall, "beside the %s wall")                                                                                \
+    X(AwayFromWalls, "away from the walls")                                                                            \
+    X(FacingDirection, "facing %s")                                                                                    \
+    X(FacingObject, "facing %s")                                                                                       \
+    X(NextToObject, "next to %s")                                                                                      \
+    X(OnTopOf, "on %s")                                                                                                \
+    X(MeantFor, "meant for: %s")                                                                                       \
+    X(CutsOff, "cuts off %d tiles")                                                                                    \
+    X(WouldBlockObject, "it would leave %s unusable")                                                                  \
+    X(NoReachableSpot, "no Sim could get to it")                                                                       \
+    X(WouldBlockDoor, "it would block a door")                                                                         \
+    X(DoesNotFit, "it does not fit")                                                                                   \
+    /* Default lot objects that have no catalog name */                                                                \
+    X(ObjMailbox, "mailbox")                                                                                           \
+    X(ObjTrashOutside, "outdoor trash can")                                                                            \
+    X(ObjPineTree, "pine tree")                                                                                        \
+    X(ObjBirchTree, "birch tree")                                                                                      \
+    X(ObjSycamoreTree, "sycamore")                                                                                     \
+    X(ObjOakTree, "oak")                                                                                               \
+    X(ObjMapleTree, "maple")                                                                                           \
+    X(ObjPalmTree, "palm tree")                                                                                        \
+    X(ObjWillowTree, "willow")                                                                                         \
+    X(ObjAppleTree, "apple tree")                                                                                      \
+    X(ObjCherryTree, "cherry tree")                                                                                    \
+    X(ObjElmTree, "elm")                                                                                               \
+    X(ObjCypressTree, "cypress")                                                                                       \
+    X(ObjTree, "tree")                                                                                                 \
+    /* Lot: status (the HUD) */                                                                                        \
+    X(GroupStatus, "status")                                                                                           \
+    X(GroupFamily, "family")                                                                                           \
+    X(LabelValue, "%s: %s")                                                                                            \
+    /* Lot: the selected Sim */                                                                                        \
+    X(MoodGood, "%s, %d of 5 bars green")                                                                              \
+    X(MoodBad, "%s, %d of 5 bars red")                                                                                 \
+    X(MoodNeutral, "%s, neutral")                                                                                      \
+    X(RelationshipValues, "%s. Daily %d, lifetime %d")                                                                 \
+    X(SkillValue, "%s, %d of 10")                                                                                      \
+    X(GroupJob, "job")                                                                                                 \
+    X(JobPay, "pay")                                                                                                   \
+    X(JobFriendsNeeded, "family friends")                                                                              \
+    X(JobPerformance, "performance")                                                                                   \
+    X(GroupHouse, "house")                                                                                             \
+    /* Text fields */                                                                                                  \
+    X(TextField, "%s %s, text field")                                                                                  \
+    X(Blank, "blank")                                                                                                  \
+    X(Space, "space")                                                                                                  \
+    /* Create a Sim */                                                                                                 \
+    X(OutOfTen, "%d of 10")                                                                                            \
+    X(ValueOfMax, "%d of %d")                                                                                          \
+    X(PointsLeft, "%d points left")                                                                                    \
+    X(PointLeft, "1 point left")                                                                                       \
+    X(NoPointsLeft, "no points left")                                                                                  \
+    X(HeadLook, "head %d of %d: %s")                                                                                   \
+    X(BodyLook, "body %d of %d, %s: %s")                                                                               \
+    X(BodyFit, "fit")                                                                                                  \
+    X(BodyFat, "heavy")                                                                                                \
+    X(BodySkinny, "thin")                                                                                              \
+    X(BodyLookNoShape, "body %d of %d: %s")                                                                            \
+    X(SimPreview, "Sim preview")                                                                                       \
+    X(GroupPersonality, "personality")                                                                                 \
+    X(GroupLooks, "appearance")                                                                                        \
+    /* Family picker */                                                                                                \
+    X(GroupMembers, "members")                                                                                         \
+    X(TraitNeat, "Neat")                                                                                               \
+    X(TraitOutgoing, "Outgoing")                                                                                       \
+    X(TraitActive, "Active")                                                                                           \
+    X(TraitPlayful, "Playful")                                                                                         \
+    X(TraitNice, "Nice")                                                                                               \
+    /* Balloons over Sims and objects, visitors, taken objects (nav/narrator.cpp) */                                   \
+    X(BalloonThinks, "%1$s thinks: %2$s")                                                                              \
+    X(BalloonShouts, "%1$s shouts: %2$s")                                                                              \
+    X(BalloonSays, "%1$s says: %2$s")                                                                                  \
+    X(BalloonShows, "%1$s: %2$s")                                                                                      \
+    X(BalloonRouteBlocked, "%1$s can't get past %2$s")                                                                 \
+    X(BalloonRouteFailed, "%1$s can't get there: %2$s")                                                                \
+    X(ShownThinks, "thinks: %s")                                                                                       \
+    X(ShownShouts, "shouts: %s")                                                                                       \
+    X(ShownSays, "says: %s")                                                                                           \
+    X(ShownRouteBlocked, "can't get past %s")                                                                          \
+    X(ShownRouteFailed, "can't get there: %s")                                                                         \
+    X(BalloonCrossedOut, "%s, crossed out")                                                                            \
+    X(NeedSocial, "social")                                                                                            \
+    X(InterestTravel, "Travel")                                                                                        \
+    X(InterestMoney, "Money")                                                                                          \
+    X(InterestPolitics, "Politics")                                                                                    \
+    X(InterestSixties, "The 60's")                                                                                     \
+    X(InterestWeather, "Weather")                                                                                      \
+    X(InterestSports, "Sports")                                                                                        \
+    X(InterestMusic, "Music")                                                                                          \
+    X(InterestOutdoors, "Outdoors")                                                                                    \
+    X(InterestToys, "Toys")                                                                                            \
+    X(InterestAliens, "Aliens")                                                                                        \
+    X(InterestPets, "Pets")                                                                                            \
+    X(InterestSchool, "School")                                                                                        \
+    X(InterestExercise, "Exercise")                                                                                    \
+    X(InterestFood, "Food")                                                                                            \
+    X(InterestParties, "Parties")                                                                                      \
+    X(InterestStyle, "Style")                                                                                          \
+    X(InterestHollywood, "Hollywood")                                                                                  \
+    X(InterestTechnology, "Technology")                                                                                \
+    X(InterestRomance, "Romance")                                                                                      \
+    X(TopicWork, "work, %s")                                                                                           \
+    X(CareerBusiness, "business")                                                                                      \
+    X(CareerEntertainment, "entertainment")                                                                            \
+    X(CareerLaw, "law enforcement")                                                                                    \
+    X(CareerCrime, "crime")                                                                                            \
+    X(CareerMedicine, "medicine")                                                                                      \
+    X(CareerMilitary, "military")                                                                                      \
+    X(CareerPolitics, "politics")                                                                                      \
+    X(CareerAthletics, "sports")                                                                                       \
+    X(CareerScience, "science")                                                                                        \
+    X(CareerXtreme, "extreme sports")                                                                                  \
+    X(CareerMusic, "music")                                                                                            \
+    X(CareerSlacker, "slacker")                                                                                        \
+    X(CareerParanormal, "paranormal")                                                                                  \
+    X(CareerJournalism, "journalism")                                                                                  \
+    X(CareerHacker, "hacker")                                                                                          \
+    X(CareerUnemployed, "unemployed")                                                                                  \
+    X(TopicBored, "bored")                                                                                             \
+    X(TopicBadMood, "bad mood")                                                                                        \
+    X(TopicMagic, "magic")                                                                                             \
+    X(BalloonRomance, "romance")                                                                                       \
+    X(BalloonFriends, "friends")                                                                                       \
+    X(HeadlineHate, "hate")                                                                                            \
+    X(HeadlineStress, "stress")                                                                                        \
+    X(HeadlineSurprise, "surprise")                                                                                    \
+    X(HeadlineIdea, "idea")                                                                                            \
+    X(HeadlineLove, "love")                                                                                            \
+    X(HeadlineDrunk, "drunk")                                                                                          \
+    X(HeadlineHurt, "hurt")                                                                                            \
+    X(HeadlineSmell, "bad smell")                                                                                      \
+    X(HeadlineFlies, "flies")                                                                                          \
+    X(SocialHug, "Hug")                                                                                                \
+    X(SocialGift, "Give Gift")                                                                                         \
+    X(SocialBackRub, "Give Back Rub")                                                                                  \
+    X(SocialCheerUp, "Cheer Up")                                                                                       \
+    X(SocialEntertain, "Entertain")                                                                                    \
+    X(SocialTickle, "Tickle")                                                                                          \
+    X(SocialBrag, "Brag")                                                                                              \
+    X(SocialSlap, "Slap")                                                                                              \
+    X(SocialScare, "Scare")                                                                                            \
+    X(SocialTease, "Tease")                                                                                            \
+    X(SocialAttack, "Attack")                                                                                          \
+    X(BalloonNeedsChair, "needs a chair")                                                                              \
+    X(BalloonInUse, "in use")                                                                                          \
+    X(BalloonCantGetThere, "can't get there")                                                                          \
+    X(BalloonRelationUpMuch, "relationship up a lot")                                                                  \
+    X(BalloonRelationUp, "relationship up")                                                                            \
+    X(BalloonRelationDown, "relationship down")                                                                        \
+    X(BalloonRelationDownMuch, "relationship down a lot")                                                              \
+    X(BalloonPizza, "pizza")                                                                                           \
+    X(BalloonCrush, "crush")                                                                                           \
+    X(BalloonFameUpMuch, "fame up a lot")                                                                              \
+    X(BalloonFameUp, "fame up")                                                                                        \
+    X(BalloonFameDown, "fame down")                                                                                    \
+    X(BalloonFameDownMuch, "fame down a lot")                                                                          \
+    X(RouteNoChair, "no chair found")                                                                                  \
+    X(RouteNoDoor, "no door found")                                                                                    \
+    X(RouteWall, "a wall is in the way")                                                                               \
+    X(RouteNotLevel, "the ground is not level")                                                                        \
+    X(RouteNoLadder, "no pool ladder")                                                                                 \
+    X(ProgressSkill, "skill %d percent")                                                                               \
+    X(ProgressRepair, "repair %d percent")                                                                             \
+    X(ProgressInterest, "interest %d percent")                                                                         \
+    X(VisitorArrived, "%s arrived")                                                                                    \
+    X(VisitorLeft, "%s left")                                                                                          \
+    X(GhostAppeared, "the ghost of %s appeared")                                                                       \
+    X(GhostLeft, "the ghost of %s went away")                                                                          \
+    X(ObjectTakenBy, "%1$s took %2$s, worth %3$s")                                                                     \
+    X(ObjectTakenByNoValue, "%1$s took %2$s")                                                                          \
+    X(ObjectGone, "%1$s is gone, worth %2$s")                                                                          \
+    X(ObjectGoneNoValue, "%s is gone")

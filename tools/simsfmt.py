@@ -23,8 +23,22 @@ IFF_MAGIC = b"IFF FILE 2.5:TYPE FOLLOWED BY SIZE"
 FAR_MAGIC = b"FAR!byAZ"
 CHUNK_HEADER = 76
 
-# Legacy code page for Western languages; verify per language before relying on it.
-TEXT_ENCODING = "cp1252"
+# Code page of the text in each language, by the language byte of STR# entries (also the game's
+# own language number, [[0xa67044] + 0x68]). Verified on UIText.iff: Polish decodes with its
+# letters, Japanese to kana/kanji, Chinese to hanzi, Korean to hangul, Thai to Thai script (whose
+# words are joined by '_'). 12 Hebrew and 13 Russian hold English placeholders.
+LANGUAGE_NAMES = {
+    1: "US English", 2: "UK English", 3: "French", 4: "German", 5: "Italian", 6: "Spanish",
+    7: "Dutch", 8: "Danish", 9: "Swedish", 10: "Norwegian", 11: "Finnish", 12: "Hebrew",
+    13: "Russian", 14: "Portuguese (Brazil)", 15: "Japanese", 16: "Polish",
+    17: "Simplified Chinese", 18: "Traditional Chinese", 19: "Thai", 20: "Korean",
+}
+LANGUAGE_ENCODINGS = {15: "cp932", 16: "cp1250", 17: "cp936", 18: "cp950", 19: "cp874", 20: "cp949"}
+TEXT_ENCODING = "cp1252"  # every other language, and untagged strings
+
+
+def encoding_of(language: int) -> str:
+    return LANGUAGE_ENCODINGS.get(language, TEXT_ENCODING)
 
 
 @dataclass
@@ -84,20 +98,21 @@ def read_iff(data: bytes) -> list[Chunk]:
     return chunks
 
 
-def _cstr(data: bytes, pos: int) -> tuple[str, int]:
+def _cstr(data: bytes, pos: int, encoding: str = TEXT_ENCODING) -> tuple[str, int]:
     end = data.index(b"\0", pos)
-    return data[pos:end].decode(TEXT_ENCODING, "replace"), end + 1
+    return data[pos:end].decode(encoding, "replace"), end + 1
 
 
-def _pstr(data: bytes, pos: int) -> tuple[str, int]:
+def _pstr(data: bytes, pos: int, encoding: str = TEXT_ENCODING) -> tuple[str, int]:
     n = data[pos]
-    return data[pos + 1 : pos + 1 + n].decode(TEXT_ENCODING, "replace"), pos + 1 + n
+    return data[pos + 1 : pos + 1 + n].decode(encoding, "replace"), pos + 1 + n
 
 
 def read_str(chunk_data: bytes) -> list[tuple[int, str, str]]:
     """Parse a STR#-family chunk into (language, value, comment) tuples.
 
-    Language 0 means "not language tagged". Raises ValueError on an unknown format code.
+    Language 0 means "not language tagged"; each entry is decoded with its language's code page.
+    Raises ValueError on an unknown format code.
     """
     (fmt,) = struct.unpack_from("<h", chunk_data, 0)
     out: list[tuple[int, str, str]] = []
@@ -125,8 +140,8 @@ def read_str(chunk_data: bytes) -> list[tuple[int, str, str]]:
         pos = 4
         for _ in range(count):
             lang = chunk_data[pos]
-            s, pos = _cstr(chunk_data, pos + 1)
-            c, pos = _cstr(chunk_data, pos)
+            s, pos = _cstr(chunk_data, pos + 1, encoding_of(lang))
+            c, pos = _cstr(chunk_data, pos, encoding_of(lang))
             out.append((lang, s, c))
     elif fmt == -4:  # language sets, each a list of Pascal value/comment pairs
         sets = chunk_data[2]
@@ -136,8 +151,8 @@ def read_str(chunk_data: bytes) -> list[tuple[int, str, str]]:
             pos += 2
             for _ in range(count):
                 lang = chunk_data[pos]
-                s, pos = _pstr(chunk_data, pos + 1)
-                c, pos = _pstr(chunk_data, pos)
+                s, pos = _pstr(chunk_data, pos + 1, encoding_of(lang))
+                c, pos = _pstr(chunk_data, pos, encoding_of(lang))
                 out.append((lang, s, c))
     else:
         raise ValueError(f"unknown STR# format {fmt}")

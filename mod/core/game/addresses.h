@@ -16,6 +16,9 @@ constexpr Va kAppActive = 0xa52074;       // u8: WM_ACTIVATEAPP state; input is 
 constexpr Va kLotPopup = 0xa65324;        // cWinLotPopup* (shared neighborhood hover card)
 constexpr Va kSimRoot = 0xa67044;         // app root: [[kSimRoot]] + kLotModule = ObjectModule
 constexpr int kLotModule = 0x14;
+// u8 at [kSimRoot] + kLanguage: the game's language number (util/language.h), chosen at startup
+// by 0x457600 through the setter 0x45d580; the getter 0x455820 and the font code read it.
+constexpr int kLanguage = 0x68;
 constexpr Va kCurrentTool = 0xa67108;     // cTool*: cObjPickerTool in live mode
 constexpr Va kSimsApp = 0xa63570;         // cSimsApp*: + 0xc4 CPState*, whose + 0x70 is the Catalog
 namespace catalog {
@@ -66,6 +69,10 @@ constexpr Va kStringSetGet = 0x58cd60;        // const char* (int index 1-based,
 constexpr Va kStringSetDtor = 0x58c4b0;       // void ()
 constexpr size_t kStringSetSize = 0x100;      // fields used up to +0x6c
 constexpr uint32_t kResourceCTSS = 0x43545353;  // 'CTSS'
+constexpr uint32_t kResourceSTR = 0x53545223;   // 'STR#'
+constexpr int kThiefStrings = 305;              // STR# of the burglar (thief.iff): entry 0 "Burglar!"
+constexpr const char* kThiefName = "NPC Thief";   // the burglar's internal name (OBJD label)
+constexpr int kTutorialTexts = 301;             // STR# of the tutorial object (Tutorial.iff): its step texts
 
 // House ratings (the house subpanel's draw, 0x4dc390, does the same): a HouseStats of 11 dwords
 // is initialised, filled by the sim root ([[kSimRoot]]), then asked for each rating (0..100).
@@ -145,6 +152,9 @@ constexpr int kDownSlot = 8;          // 0x56ccc0: mouse down
 constexpr Va kDown = 0x56ccc0;
 constexpr int kUpSlot = 11;           // 0x56ec10: mouse up: buys and places a validly held object
 constexpr Va kUp = 0x56ec10;
+constexpr int kLeftSlot = 23;         // 0x56ea50: the mouse left the lot: clears kActive and takes the
+constexpr Va kLeft = 0x56ea50;        //   held object out of the world (the view calls it every frame
+                                      //   the real mouse is elsewhere; hooked while the mod shows a spot)
 constexpr int kBeginSlot = 22;        // 0x56ea30: creates the held object for the chosen product
 constexpr Va kBegin = 0x56ea30;       //   (the view calls it when the mouse enters the lot)
 constexpr int kDropSlot = 6;          // 0x56d200: puts the held object away (cancel)
@@ -290,7 +300,7 @@ constexpr int kValue = 0x134;      // int (slot 98)
 // ---- cTSWinTextEdit2 (a text field) -------------------------------------------------------
 namespace textedit {
 constexpr int kCaret = 0x128;      // int caret position (characters)
-constexpr int kText = 0x138;       // std::string cp1252 (its size can count a trailing NUL)
+constexpr int kText = 0x138;       // std::string of game text (its size can count a trailing NUL)
 }  // namespace textedit
 
 // ---- cTSWinBtn ----------------------------------------------------------------------------
@@ -424,10 +434,67 @@ constexpr int kDaily = 0x1ec;      // int -100..100, the upper number and bar (m
 }  // namespace relcard
 
 // ---- The lot (ObjectModule) and its objects -----------------------------------------------
+// The help system's waiting tip: a click on its icon (cTutorialIcon slot 55, 0x46a2e0) calls this
+// on the ObjectModule, which runs the help system object's tree "show situation info" through
+// the run-tree-by-name helper 0x613850.
+constexpr Va kShowHelpTip = 0x532060;  // thiscall void () on the ObjectModule
+constexpr int kModuleSituation = 0xa4; // ObjectModule: the object of the waiting tip, 0 when none
 namespace world {
 constexpr int kObjects = 0x18;     // std::vector<cXObject*>, index = object id - 1
 constexpr int kPeople = 0x80;      // std::vector<cXPerson*>
 }  // namespace world
+
+// ---- SimAntics (object behavior; see STRUCTS.md "SimAntics and balloons") ------------------
+// Primitives run through the object's vtable slot 0 (cXPerson's 0x5f6880 handles person-only
+// opcodes and passes the rest here): thiscall int (Frame*, Instruction*), ret 8. An instruction
+// is u16 opcode (low 15 bits), u8 true target, u8 false target, 8 operand bytes.
+namespace simantics {
+constexpr Va kDispatch = 0x615cb0;
+constexpr int kOpcodeMask = 0x7fff;
+constexpr int kOperands = 4;          // instruction: operand bytes
+constexpr int kOpRemoveObject = 0x12; // Remove Object Instance: operand short 0 = 0 self, 1 the
+                                      // stack object; handled inline (ObjectModule 0x52bfc0)
+constexpr int kOpCreateObject = 0x2a; // Create New Object Instance (0x614700): the new object
+                                      // becomes the stack object (hypothesis; logged)
+// Frame (the running tree's stack frame): u16 tree id at +0, u16 instruction index at +2
+constexpr int kFrameTree = 0x00;
+constexpr int kFrameStackObject = 0x04;  // short: id of the stack object
+constexpr int kModule = 0xdc;         // cXObject: its ObjectModule*
+// Primitive 41, Set Balloon/Headline (the dispatcher's only caller of it): thiscall int (Frame*,
+// const u8 operand[8]), ret 8. Operand (from it and the debugger's describer 0x65f8b0):
+//   short 0: (local index << 1) | 1 = shown over the stack object instead of the running object
+//   u8 2: icon index in the group   u8 3: group (Behavior.iff STR# 500: 0 old style, 1 balloon,
+//   2 conversation, 3 motive, 4 relationship, 5 headline, 6 social, 7 algorithmic, 8 route
+//   failure, 9 progress, 10 conversation 2)
+//   short 4: duration (-1 forever, 0 = clear)   u8 6: balloon (0 thought, 1 scream, 2 speak, 3 none)
+//   u8 7: 1 show when inactive, 2 crossed out, 4 animation reversed, 8 duration in loops,
+//         0x10 icon index + the running object's short at kIconOffset (a temp)
+constexpr Va kSetBalloon = 0x61bc40;
+constexpr int kIconOffset = 0x3a;     // cXObject: short added to the icon index (flag 0x10)
+constexpr int kGroupAlgorithmic = 7;  // index 0 the stack object's picture, 1 the face of the
+                                      // Sim whose neighbor id is the stack object value, 2 the
+                                      // picture of the object whose id is in local (short 0 >> 1)
+constexpr int kFrameLocalCount = 0x06;  // Frame: u8
+constexpr int kFrameArgCount = 0x07;  // Frame: u8; the locals (shorts) follow the arguments at
+constexpr int kFrameArgs = 0x10;      //   kFrameArgs (the frame's own accessor 0x62db70)
+// Global tree 0x18e "route failure feedback": the router runs it when a Sim cannot get where it
+// was going (args: failure code, blocking object); it shows the blocker's picture or a reason.
+constexpr uint16_t kRouteFailureTree = 0x18e;
+// Graves bring their ghost out at night by creating it (Create Object Instance, the grave's tree
+// 0x1004); the graves' internal names ("Urn/Tombstone" seen live; UrnStone.iff, UrnStonePet.iff,
+// UrnStoneCelebrity.iff) contain this.
+constexpr const char* kGraveNamePart = "Urn";
+// The balloon over an object: the first entry of a std::vector of 0x3c-byte records
+constexpr int kHeadlines = 0x14c;
+constexpr int kHeadlineSize = 0x3c;
+constexpr int kHeadlineLeft = 0x10;   // int: ticks left, -1 forever, 0 = nothing shown
+constexpr int kHeadlineSprite = 0x14; // int: sprite id (group base + index), -1 = a picture (below)
+constexpr int kHeadlinePicture = 0x18;// the sprite set, or the object's picture when sprite is -1
+constexpr int kHeadlineBalloon = 0x2c;// int: balloon sprite (100 thought, 101 scream, 102 speak), 0
+constexpr int kHeadlineCrossed = 0x30;// int: 103 = crossed out, 0
+constexpr int kHeadlinePriority = 0x34;  // int: 2 for the relationship group, else 1; a lower one
+                                         // does not replace a balloon still shown
+}  // namespace simantics
 namespace obj {
 constexpr int kId = 0xf0;          // short
 constexpr int kX = 0xf4;           // int, 1/16 tile
@@ -444,7 +511,7 @@ constexpr int kInternalName = 0x18; // char* (English internal name, e.g. "Trash
 }  // namespace objtype
 // OBJD field indices (u16 each; the version takes fields 0-1)
 namespace objd {
-constexpr int kObjectType = 9;     // 2 person, 4 normal, 7 system, 12 inventory
+constexpr int kObjectType = 9;     // 2 person, 4 normal, 7 system, 12 inventory, 34 food (FreeSO OBJDType)
 constexpr int kMasterId = 10;      // multi-tile group; 0 = single tile
 constexpr int kSubIndex = 11;      // the part's tile offset in the group, (y << 8) | x
 constexpr int kRoomFlags = 39;     // suggested rooms
@@ -471,5 +538,27 @@ namespace picker {
 constexpr int kTopMenu = 0x148;    // cTSPieMenu* of the top level
 constexpr int kSubMenu = 0x14c;    // cTSPieMenu* of sub-levels (entries ending in "...")
 }  // namespace picker
+
+// ---- Camera and the selected Sim ----------------------------------------------------------
+// The lot view scrolls to a Sim or object through the object's own "center on me" (0x53a210),
+// which the family panel calls when the selected portrait is clicked again. Following: the
+// house viewer (0x567d30) calls slot 33 of [kFollowed] every frame while it is set (what Enter
+// does in live mode through cWinPeople 0x4bc220).
+namespace camera {
+constexpr Va kCenterOnObject = 0x53a210;   // cXObject: thiscall void (char immediate): scrolls the
+                                           // view (rotation applied, floor set) to the object
+constexpr Va kFollowed = 0xa67548;         // cXPerson*: the Sim the camera follows, 0 = none
+constexpr Va kSetFollowed = 0x57f480;      // cdecl void (cXPerson*): sets it (fires event 0xf5)
+constexpr Va kPeopleStopFollow = 0x4ba880; // cWinPeople: thiscall void (): clears its PIP, then follows nobody
+constexpr Va kSelectedNeighborId = 0x43bba0;  // cdecl int (): the selected Sim's neighbor id, -1
+// What a click on a family portrait does (cWinPeople notify 0x4ba8d0, code 1): index into the
+// panel's portrait vector (people::kMemberButtons), the family member's neighbor id, the buy panel
+// state's select, mark dirty (8), then the panel's own update.
+constexpr int kPeopleSelectedIndex = 0x140;   // cWinPeople: int, -1 none
+constexpr Va kFamilyMemberId = 0x43b3b0;      // cdecl int (int index): neighbor id of the family's member
+constexpr Va kSelectById = 0x4083e0;          // CPState: thiscall bool (int neighborId), ret 4
+constexpr uint32_t kDirtySelection = 8;       // CPState::MarkDirty flag after a selection
+constexpr Va kPeopleAfterSelect = 0x4b9900;   // cWinPeople: thiscall void (int neighborId)
+}  // namespace camera
 
 }  // namespace game::addr

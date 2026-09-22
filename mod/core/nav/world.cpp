@@ -1,5 +1,7 @@
 #include "world.h"
 
+#include <windows.h>
+
 #include <algorithm>
 #include <cmath>
 #include <map>
@@ -13,6 +15,8 @@
 #include "../util/strings.h"
 #include "../util/text.h"
 #include "buffers.h"
+#include "camera.h"
+#include "narrator.h"
 #include "navigator.h"
 #include "room_names.h"
 
@@ -72,6 +76,7 @@ Mode g_mode = Mode::Category;
 int g_category = 0;
 int g_room = game::kNoRoom;  // room id in room mode
 int g_focusId = -1;          // object id of the focused object
+int g_boughtId = -1;         // object id of the last purchase ("recién comprado")
 
 // One reading of the lot, taken for each key press.
 struct Lot {
@@ -111,13 +116,14 @@ struct Entry {
 };
 
 // Objects of the same name collapse into one entry, in the order of their nearest member. Sims
-// are never merged.
+// are never merged, nor anything in buy mode (one particular object is to be moved or sold).
 std::vector<Entry> Collapse(const std::vector<LotObject>& sorted) {
     std::vector<Entry> out;
     std::map<std::string, size_t> byName;
+    bool merge = !game::InBuyTool();
     for (const LotObject& o : sorted) {
         std::string name = DisplayName(o);
-        auto hit = o.person ? byName.end() : byName.find(name);
+        auto hit = o.person || !merge ? byName.end() : byName.find(name);
         if (hit != byName.end()) {
             out[hit->second].ids.push_back(o.id);
             continue;
@@ -179,12 +185,15 @@ std::string Describe(const Entry& e, const Lot& lot) {
     const LotObject& o = e.nearest;
     std::string s = e.name;
     if (e.ids.size() > 1) s += ", " + util::Format(S(Str::SameObjects), (int)e.ids.size());
+    if (o.id == g_boughtId) s += std::string(", ") + S(Str::JustBought);
     const LotObject* ref = lot.Ref();
     if (ref && o.object == ref->object) s += std::string(", ") + S(Str::SelectedSimSuffix);
     if (o.person) {  // what the Sim is doing: its current action
         std::vector<std::string> actions = game::SimActions(game::SimNeighborId(o.object));
         if (!actions.empty()) s += ", " + actions.front();
     }
+    std::string balloon = narrator::ShownBalloon(o.object);  // "piensa: hambre", flies over the trash
+    if (!balloon.empty()) s += ", " + balloon;
     if (g_mode == Mode::Category) {
         std::string room = rooms::NameOf(lot.rooms, o.room);
         if (!room.empty()) s += ", " + room;
@@ -210,6 +219,8 @@ std::vector<std::string> Details(const Entry& e, const Lot& lot) {
         for (size_t i = 0; i < actions.size(); i++)
             lines.push_back(i == 0 ? actions[i] : util::Format(S(Str::QueuedAction), actions[i].c_str()));
     }
+    std::string balloon = narrator::ShownBalloon(o.object);
+    if (!balloon.empty()) lines.push_back(balloon);
     std::string room = rooms::NameOf(lot.rooms, o.room);
     if (!room.empty()) lines.push_back(room);
     const LotObject* ref = lot.Ref();
@@ -233,6 +244,7 @@ std::vector<std::string> Details(const Entry& e, const Lot& lot) {
 // Speaks an entry and puts its details in the buffer.
 void SayEntry(const std::string& line, const Entry& e, const Lot& lot) {
     buffers::SetDetails(Details(e, lot));
+    camera::LookAt(e.nearest.object);  // the player hears what the camera shows
     speech::Say(line);
 }
 
@@ -280,7 +292,37 @@ std::string DisplayName(const game::LotObject& o) {
     return internal;
 }
 
+std::string DescribeObject(game::Ptr object) {
+    Lot lot = ReadLot();
+    LotObject o;
+    if (!game::GetObject(object, &o)) return "";
+    Entry e{o, {o.id}, DisplayName(o)};
+    buffers::SetDetails(Details(e, lot));
+    return Describe(e, lot);
+}
+
+std::string DescribeSpot(int tileX, int tileY, int level) {
+    Lot lot = ReadLot();
+    LotObject o;
+    o.x = tileX * kUnitsPerTile + kUnitsPerTile / 2;
+    o.y = tileY * kUnitsPerTile + kUnitsPerTile / 2;
+    o.level = level;
+    o.room = game::RoomAt(level, tileX, tileY);
+    Entry e{o, {}, S(Str::SpotOnLot)};
+    Mode mode = g_mode;
+    g_mode = Mode::Category;  // the room is part of the description
+    std::string s = Describe(e, lot);
+    g_mode = mode;
+    return s;
+}
+
+void MarkBought(game::Ptr object) {
+    LotObject o;
+    g_boughtId = game::GetObject(object, &o) ? o.id : -1;
+}
+
 void Reset() {
+    g_boughtId = -1;
     g_mode = Mode::Category;
     g_category = 0;
     g_room = game::kNoRoom;
@@ -362,7 +404,10 @@ void Interact() {
     for (const LotObject& o : game::LotObjects()) {
         if (o.id != g_focusId) continue;
         // The menu opens at the centre of the game view; the game runs it modally in this call.
-        if (!game::OpenInteractionMenu(o, 512, 384)) speech::Say(S(Str::NoInteractions));
+        // An object with nothing to offer right now makes no menu at all (the bed of a Sim who is
+        // not tired): the call returns as if one had been closed.
+        ULONGLONG before = GetTickCount64();
+        if (!game::OpenInteractionMenu(o, 512, 384) || !PieMenuSeenSince(before)) speech::Say(S(Str::NoInteractions));
         return;
     }
     NextObject(0);  // the focused object is gone: say what is focused now

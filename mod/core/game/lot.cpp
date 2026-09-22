@@ -1,5 +1,7 @@
 #include "lot.h"
 
+#include <windows.h>
+
 #include <map>
 #include <unordered_map>
 
@@ -22,32 +24,46 @@ bool IsPlaced(Ptr object) {
     return (Rd<uint32_t>(object + addr::obj::kPlacement) & 0xffff) != 0xffff;
 }
 
-// Catalog strings (CTSS) of an object type through the game's StringSet: string 1 is the name
-// in the game's language.
-std::string CatalogName(Ptr type, int ctssId) {
+// A string list resource (CTSS, STR#) of an object type through the game's StringSet, in the
+// game's language: raw game text, empty when it cannot be loaded.
+std::vector<std::string> ObjectStrings(Ptr type, int id, uint32_t resourceType) {
     typedef void(__thiscall * CtorFn)(void*);
     typedef void(__thiscall * SourceFn)(void*, void* resFile, short id, uint32_t type, char flag, char lang);
     typedef int(__thiscall * LoadFn)(void*, char, char);
     typedef const char*(__thiscall * GetFn)(void*, int index, char lang);
     typedef void(__thiscall * DtorFn)(void*);
+    std::vector<std::string> strings;
     if (!FunctionOk(addr::kStringSetCtor) || !FunctionOk(addr::kStringSetSource) ||
         !FunctionOk(addr::kStringSetLoad) || !FunctionOk(addr::kStringSetGet) || !FunctionOk(addr::kStringSetDtor))
-        return "";
+        return strings;
     void* resFile = (void*)Rd<Ptr>(type + addr::objtype::kResFile);
-    if (!resFile) return "";
+    if (!resFile) return strings;
     alignas(8) unsigned char set[addr::kStringSetSize] = {};
-    std::string name;
     bool constructed = Guarded([&] { ((CtorFn)Va(addr::kStringSetCtor))(set); });
-    if (!constructed) return "";
+    if (!constructed) return strings;
+    // The set owns the strings: pointers first (no C++ objects inside Guarded), copies after.
+    const char* raw[1000] = {};
     Guarded([&] {
-        ((SourceFn)Va(addr::kStringSetSource))(set, resFile, (short)ctssId, addr::kResourceCTSS, 0, -1);
-        if (((LoadFn)Va(addr::kStringSetLoad))(set, 1, 0) == 0) {
-            const char* s = ((GetFn)Va(addr::kStringSetGet))(set, 1, -1);
-            if (s) name = s;
+        ((SourceFn)Va(addr::kStringSetSource))(set, resFile, (short)id, resourceType, 0, -1);
+        if (((LoadFn)Va(addr::kStringSetLoad))(set, 1, 0) != 0) return;
+        GetFn get = (GetFn)Va(addr::kStringSetGet);
+        for (int i = 0; i < 1000; i++) {
+            raw[i] = get(set, i + 1, -1);  // 1-based; null past the last string
+            if (!raw[i]) break;
         }
     });
+    for (const char* s : raw) {
+        if (!s) break;
+        strings.push_back(s);
+    }
     Guarded([&] { ((DtorFn)Va(addr::kStringSetDtor))(set); });
-    return util::Cp1252ToUtf8(name);
+    return strings;
+}
+
+// String 1 of an object type's catalog strings (CTSS) is its name.
+std::string CatalogName(Ptr type, int ctssId) {
+    std::vector<std::string> strings = ObjectStrings(type, ctssId, addr::kResourceCTSS);
+    return strings.empty() ? "" : util::GameTextToUtf8(strings[0]);
 }
 
 // The buy catalog's product for an object: parts of multi-tile objects (fireplace halves, table
@@ -155,6 +171,97 @@ std::vector<PlacedPart> PlacedParts() {
     return out;
 }
 
+// The tutorial object of the lot, 0 when none.
+Ptr FindTutorialObject() {
+    Ptr module = LotModule();
+    if (!module) return 0;
+    Ptr begin = Rd<Ptr>(module + addr::world::kObjects);
+    Ptr end = Rd<Ptr>(module + addr::world::kObjects + 4);
+    size_t count = (end - begin) / 4;
+    if (end < begin || count > 20000) return 0;
+    for (size_t i = 0; i < count; i++) {
+        Ptr object = Rd<Ptr>(begin + i * 4);
+        if (object && InternalName(Rd<Ptr>(object + addr::obj::kType)) == "Tutorial") return object;
+    }
+    return 0;
+}
+
+bool TutorialObjectPresent() {
+    static Ptr cachedModule = 0;
+    static ULONGLONG checkedAt = 0;
+    static bool present = false;
+    Ptr module = LotModule();
+    ULONGLONG now = GetTickCount64();
+    if (module == cachedModule && now - checkedAt < 1000) return present;
+    cachedModule = module;
+    checkedAt = now;
+    present = FindTutorialObject() != 0;
+    return present;
+}
+
+std::vector<std::string> TutorialTexts() {
+    static Ptr cachedType = 0;
+    static std::vector<std::string> texts;
+    Ptr object = FindTutorialObject();
+    Ptr type = object ? Rd<Ptr>(object + addr::obj::kType) : 0;
+    if (type != cachedType) {
+        cachedType = type;
+        texts.clear();
+        if (type)
+            for (const std::string& raw : ObjectStrings(type, addr::kTutorialTexts, addr::kResourceSTR))
+                texts.push_back(util::GameTextToUtf8(raw));
+    }
+    return texts;
+}
+
+std::vector<std::string> ObjectStringTable(Ptr object, int strId) {
+    std::vector<std::string> texts;
+    Ptr type = IsKindOf(object, "cXObject") ? Rd<Ptr>(object + addr::obj::kType) : 0;
+    if (type)
+        for (const std::string& raw : ObjectStrings(type, strId, addr::kResourceSTR))
+            texts.push_back(util::GameTextToUtf8(raw));
+    return texts;
+}
+
+std::string BurglarShout(Ptr person) {
+    if (!IsKindOf(person, "cXPerson") || InternalName(Rd<Ptr>(person + addr::obj::kType)) != addr::kThiefName)
+        return "";
+    std::vector<std::string> texts = ObjectStringTable(person, addr::kThiefStrings);
+    return texts.empty() ? "" : texts[0];
+}
+
+bool ShowHelpTip() {
+    typedef void(__thiscall * Fn)(void*);
+    Ptr module = LotModule();
+    if (!module || !FunctionOk(addr::kShowHelpTip)) return false;
+    return Guarded([&] { ((Fn)Va(addr::kShowHelpTip))((void*)module); });
+}
+
+bool HelpTipPending() {
+    Ptr module = LotModule();
+    return module && Rd<Ptr>(module + addr::kModuleSituation) != 0;
+}
+
+// The inverse of the picker's view-to-grid rotation (0x586ae0; GridToView below is its inverse).
+Ptr ObjectAtView(int viewX, int viewY, int level, int* tileX, int* tileY) {
+    int r = -Rd<int>(Rd<Ptr>(Va(addr::kWorld)) + addr::kWorldRotation) & 3;
+    int n = addr::kWorldSpan - 1;
+    int gridX, gridY;
+    switch (r) {
+    case 1: gridX = viewY; gridY = n - viewX; break;
+    case 2: gridX = n - viewX; gridY = n - viewY; break;
+    case 3: gridX = n - viewY; gridY = viewX; break;
+    default: gridX = viewX; gridY = viewY; break;
+    }
+    *tileX = gridX >> 4;
+    *tileY = gridY >> 4;
+    for (const PlacedPart& p : PlacedParts())
+        if (p.tileX == *tileX && p.tileY == *tileY && p.level == level && !IsInvisibleHelper(p.object) &&
+            !IsKindOf(p.object, "cXPerson"))
+            return p.object;
+    return 0;
+}
+
 Ptr LotModule() {
     Ptr root = Rd<Ptr>(Rd<Ptr>(Va(addr::kSimRoot)));
     Ptr module = Rd<Ptr>(root + addr::kLotModule);
@@ -218,7 +325,7 @@ std::vector<LotObject> LotObjects() {
         Ptr object = Rd<Ptr>(begin + i * 4);
         if (!object || !IsPlaced(object)) continue;
         uint16_t kind = ObjdField(object, addr::objd::kObjectType);
-        if (kind != 2 && kind != 4) continue;  // people and normal objects
+        if (kind != 2 && kind != 4 && kind != 34) continue;  // people, normal objects, food (a pizza box on a counter)
         if (IsInvisibleHelper(object)) continue;
         candidates.push_back(object);
         if (ObjdField(object, addr::objd::kMasterId) != 0)
@@ -269,6 +376,19 @@ Ptr SelectedSim() {
         if (Rd<uint32_t>(person + addr::obj::kFlags) & addr::obj::kFlagSelected) return person;
     }
     return 0;
+}
+
+std::vector<Ptr> LotPeople() {
+    std::vector<Ptr> out;
+    Ptr module = LotModule();
+    if (!module) return out;
+    Ptr begin = Rd<Ptr>(module + addr::world::kPeople);
+    Ptr end = Rd<Ptr>(module + addr::world::kPeople + 4);
+    for (Ptr p = begin; p < end && p - begin < 4 * 64; p += 4) {
+        Ptr person = Rd<Ptr>(p);
+        if (person && IsPlaced(person)) out.push_back(person);  // unplaced ones are hidden NPCs
+    }
+    return out;
 }
 
 namespace {

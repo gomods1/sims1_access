@@ -17,6 +17,7 @@
 #include "../util/text.h"
 #include "buy_mode.h"
 #include "screens.h"
+#include "tutorial.h"
 
 namespace nav {
 namespace {
@@ -281,6 +282,9 @@ std::string Describe(const Item& it) {
         return util::Format(S(Str::QueuedAction), it.label.c_str()) + ", " + S(Str::RoleButton);
     case Role::TutorialIcon:
         return S(Str::TutorialIcon) + std::string(", ") + S(Str::RoleButton);
+    case Role::Button:
+        if (tutorial::IsStepHideButton(it)) return S(Str::TutorialHide) + std::string(", ") + S(Str::RoleButton);
+        return ButtonText(it);
     case Role::BudgetRow:
         return BudgetRowText(it);
     case Role::Status:
@@ -330,7 +334,6 @@ std::string Describe(const Item& it) {
         return util::Format(S(Str::SkillValue), it.label.c_str(), game::InterestPoints(it.widget));
     case Role::Product:  // "Silla todoterreno Nalghaus, $80, comodidad 2"
         return buy::ProductText(it.widget);
-    case Role::Button:
     case Role::Tab:
     case Role::FamilyMember:
         return ButtonText(it);

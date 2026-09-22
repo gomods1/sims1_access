@@ -50,13 +50,16 @@ everywhere (the game has no keyboard focus; the mod walks the widget tree).
 | Lot card | `cWinLotPopup` | read as the house's label |
 | Person card | `cPickFamilyPersonInfo` | covered by the family picker's "miembros" group (name, personality, biography) |
 | Tooltip | `cDefaultTTWindow` | tooltips are the labels of buttons |
-| Tutorial arrow / help icon | `cTSWinTutorialHighlight`, `cTutorialIcon` | help icon navigable ("consejo del sistema de ayuda") |
+| Tutorial arrow / help icon | `cTSWinTutorialHighlight`, `cTutorialIcon` | help icon navigable ("consejo del sistema de ayuda") and announced when it appears; the arrow's target is named by the tutorial watcher |
+| Tutorial step panel (house 7) | `cTSObjectDialog` inside `cDDDSimsView` (non-modal), text in a `cWinTextWrap`, unnamed hide button | verified: every step spoken as it appears with a keyboard hint (`nav/tutorial.cpp`); the whole tutorial completed by keyboard (`tools/tutorial_drive.py`) |
 | Cheat console | `cTSWinTextEdit2` of `cTSMainWindowW95` (+0x140), `cTSCheatCodeManager` (+0x144) | verified: opens with Ctrl+Shift+C; Up/Down pick from the 23 registered cheats (usage texts read); typing echoed; rosebud ran twice by Enter, Enter (+$1.000 each, said); set_hour 12 set the clock; "No such cheat!" read. The cheat help window (`cTSWinCheatHelp`) could not be opened ("help" is not registered in this build) |
 
 ## Hover-only, spatial-only and non-verbal information still to cover
 
 - The neighborhood number (drawn between the arrow buttons).
 - Mood meter values ("Grado de humor"), personality trait values, relationship values.
-- Everything in the world: object positions, Sims' positions and actions, thought bubbles,
-  room boundaries.
+- Everything in the world: object positions, Sims' positions and actions, room boundaries.
+  Balloons (thoughts, shouts, conversation topics, the icons over heads and objects, route
+  failures) are spoken as they appear and read in the object browser (`nav/narrator.cpp`);
+  visitors arriving and leaving too.
 - Live popups (need warnings) and the event log (`cEventLog`).

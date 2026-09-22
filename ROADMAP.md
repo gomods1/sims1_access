@@ -7,7 +7,7 @@ screens and dialogs lives in `SCREENS.md`; this file is the list of flows still 
 ## Everywhere
 
 - Keyboard navigation of every screen, panel, dialog and popup (see `SCREENS.md` for what is not
-  started yet), with each control read correctly in Spanish and English.
+  started yet), with each control read correctly in every language the game ships.
 - Objects work: every object type's interaction menu opens by keyboard, its choices are queued and
   performed, and the result is announced (what the Sim is doing, needs changing, messages).
 - Game state by ear: pause and speed changes, clock, day, money, the selected Sim's current action,
@@ -28,7 +28,41 @@ screens and dialogs lives in `SCREENS.md`; this file is the list of flows still 
 - Options, saving, quitting, the help system (done). Out of scope: photo/camera mode and the
   family album (visual only; the players are blind).
 
-## Live mode: following the Sim by ear (planned, not started)
+## Camera (done)
+
+The game's sounds come from what the camera shows, so the camera is part of what a blind player
+hears. Done (`nav/camera.cpp`): the camera follows the selected Sim through the game's own follow
+mode; while PageUp/PageDown browse (objects, Sims, rooms, placement spots) it points at the browsed
+thing and following pauses; leaving the browser (arrows, Tab, Home/End) resumes following. Ctrl+F
+turns following off and on. Ctrl+1..9 select a family member by position. Open: what a player
+hears while browsing far from the Sim is the object's surroundings, not the Sim; the narrator
+below is what will keep them informed of the Sim meanwhile (its actions, needs, rooms, spoken as
+they change, wherever the camera is).
+
+## The tutorial (done)
+
+House 7 ("Para aprender a jugar") runs the game's tutorial: a SimAntics object (`Tutorial.iff`,
+text in its STR# 301) that shows each step in a non-modal panel with an arrow on the control to
+use and waits for UI events (zoom, scroll, rotate, the live button, a portrait click, "Ir a este
+punto", an interaction, the shower, a need bar, buy mode, a chair bought, placed and rotated, back
+to live, personality, the second Sim, Space, socials, relationships, the newspaper job, the job
+panel, options). `nav/tutorial.cpp` speaks each step (known by its index in STR# 301, so in any
+language), the arrow's target and a keyboard hint;
+`tools/tutorial_drive.py` replays the whole tutorial by keyboard to check it still passes. Options
+> Opciones de juego > Reiniciar tutorial restarts it. Known: the "press Live" step only
+completes by a mode change back to live when live mode is already on (the hint says so).
+
+## Languages (done; checks open)
+
+The mod speaks the game's language: all 17 translations of its strings (`mod/core/lang/`, English
+in `util/strings_table.h`), the game's text decoded with each language's code page, tutorial
+steps matched by index. Still to check in the real game (launch with `-l<Language>`, CLAUDE.md
+"Languages"): each translation read aloud by a native speaker's synthesizer; the game's own money
+format in each language (the mod's separators follow each language's custom); Thai text without
+the `_` word marks; typing echo in Japanese, Chinese and Korean fields (lead bytes wait for the
+second byte; untested, and whether the game's text fields take IME input at all is unknown).
+
+## Live mode: following the Sim by ear (balloons, visitors and thefts done; the rest planned)
 
 A sighted player watches the selected Sim walk, act, and show thought balloons. A blind player
 hears none of that today unless they ask (the Sims category of the object browser, the action
@@ -57,22 +91,32 @@ What to announce (the selected Sim; the others only when it needs the player):
   and drawn only for the selected Sim: find where `cWinMotive` gets its value (`+0x1e8` looks
   like the Sim's motive index, 7, 5, 6, 15 seen: **hypothesis**) and read every Sim that way.
 - **What the game only shows**:
-  - Thought balloons: the Sim thinks about food, the toilet, a bed, or someone. Leads: the
-    SimAntics error texts near `0x9959a0` ("Balloon Type Is Invalid. Values are 0:thought,
-    1:scream, 2:speak"; "Search type ... 0: all motive, 1:mental motives, 2:physical motives",
-    the "find worst motives" primitive). `FUN_0063e760` only maps error codes to texts; the
-    primitive handlers still have to be found (FreeSO's `VMSetBalloonHeadline` documents the
-    operands).
-  - Route failures: "Cris no puede llegar a Nevera Llamark". The routing code `0x5f7950` has
-    "Route failure feedback" and "route waiting animation". Without this the player cannot tell
-    why a chosen action never happened.
-  - Refusals (the Sim shakes their head when their mood is too low for an action).
-  - Conversation topics (interest icons in green or red): "hablan de deportes, a Marisa le
-    gusta". Relationship changes after an interaction (the plus and minus signs): compare the
-    relationship values before and after, "+3 con Marisa".
-  - Skill gains: "Cris: cocina 3" (compare `game::SkillPoints` per 100).
-  - Arrivals and departures: visitors, the carpool, the school bus, the maid (compare the Sims
-    on the lot). Dialogs about these (carpool, passing out, bills) are already read.
+  - Balloons (done, `nav/narrator.cpp`; CLAUDE.md "The narrator"): thoughts, shouts,
+    conversation topics, the `+`/`-` after a social, headlines over objects (flies), and route
+    failures ("Bella no puede pasar: Silla ... bloquea el camino") come from the balloon
+    primitive, hooked. Open: dreams are recognised only by repetition (a tree that keeps
+    showing balloons is spoken once); knowing the tree's name ("Dream Topic") would let them be
+    left out entirely, but no path from a frame to its tree's name was found yet. The listener
+    answers a topic with the same topic, crossed out or not ("Bella dice: Alimentos", then
+    "Mortimer dice: Alimentos, tachado"); **hypothesis**: crossed out = the listener dislikes
+    the topic. Once confirmed (compare with the Sims' interests), say it in words.
+  - Refusals (the Sim shakes their head when their mood is too low for an action): check
+    whether they come with a balloon (crossed out) now that every balloon is logged.
+  - Relationship changes after an interaction as numbers: compare the relationship values
+    before and after, "+3 con Marisa" (the `+`/`-` icons are spoken already).
+  - Skill gains: the game announces each point itself ("Mortimer received 1 Creativity Skill
+    Point", read as a dialog); the progress bars in between are in the object browser's line.
+  - Arrivals and departures (done for Sims): anyone placed on the lot from outside the family,
+    "X ha llegado" / "X se ha ido". Walk-by townies and strays make it chatty at ultra speed; a
+    verbosity setting (below) should be able to leave them out. Open: the carpool and the school
+    bus are not Sims on the lot (their dialogs are read).
+  - Thefts (done, not seen live yet): furniture removed by someone outside the family ("Some
+    Sneaky Sim se ha llevado ..., valor $...") through the Remove Object Instance primitive.
+    Ghosts are announced as ghosts; the burglar's arrival starts with "¡Ladrón!". "El Bandito"
+    is the Unleashed raccoon, not the burglar. To
+    test, a thief night can be forced by setting the NPC Controller's attribute 4 to the day of
+    month early in the day (`STRUCTS.md` "SimAntics and balloons"); set at 2 AM or 7 AM it did not
+    bring one in two tries (the controller also keeps attribute 6, meaning unknown).
   - Sounds the player hears but may not recognise: the phone ringing, the doorbell, the smoke
     alarm, the burglar alarm, a crying baby. The game names its sound events (`UI_queued` in
     `0x40df10`), so hooking where they are played could name them. **Hypothesis**: the same path
@@ -95,8 +139,7 @@ Rules:
   compares snapshots. Hooks only for what cannot be polled (balloons, route failures, sounds).
 
 Research first, in this order: need values for any Sim without the panel; the queue entry layout
-(priority, and whether the current action is running or still routing); the balloon primitive;
-route failure feedback.
+(priority, and whether the current action is running or still routing).
 
 ## Buy mode
 

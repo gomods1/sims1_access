@@ -7,6 +7,7 @@
 #include "MinHook.h"
 #include "addresses.h"
 #include "memory.h"
+#include "simantics.h"
 
 namespace game {
 namespace {
@@ -18,7 +19,7 @@ typedef int(__thiscall* CountLinesFn)(void* font, const char* text, int len, int
 CountLinesFn g_countLines = nullptr;
 bool g_captureHooked = false;
 bool g_capturing = false;
-std::string g_captured;  // cp1252
+std::string g_captured;  // game text (util/text.h)
 
 int __fastcall CountLinesDetour(void* font, void* /*edx*/, const char* text, int len, int width) {
     if (g_capturing && g_captured.empty() && text && len > 0 && len < 4096) g_captured.assign(text, len);
@@ -38,6 +39,58 @@ int* __cdecl ScreenToWorldDetour(int* out, uint32_t* packedScreen, int flag) {
         out[0] = g_worldX;
         out[1] = g_worldY;
     }
+    return result;
+}
+
+// ---- cMoveTool::MouseLeft (keep the held object in the world) --------------------------------
+// While the mod shows the held object on a spot, the view keeps telling the buy tool that the
+// mouse left the lot (the real mouse is elsewhere), which takes the object out of the world: it
+// vanished from the screen and from anything looking for it (the tutorial cancelled itself).
+typedef void(__thiscall* MouseLeftFn)(void* tool);
+MouseLeftFn g_mouseLeft = nullptr;
+bool g_mouseLeftHooked = false;
+bool g_keepHeldShown = false;
+
+void __fastcall MouseLeftDetour(void* tool, void* /*edx*/) {
+    if (g_keepHeldShown) return;
+    g_mouseLeft(tool);
+}
+
+// ---- GetAsyncKeyState (Ctrl suppression) -----------------------------------------------------
+// The family panel opens a Sim's card instead of selecting when a portrait is clicked with Ctrl
+// held (it polls GetAsyncKeyState when the click notification arrives). Ctrl+1..9 press the
+// portrait, so for a moment the game is told Ctrl is up. The mod reads keys through the original.
+typedef short(WINAPI* GetAsyncKeyStateFn)(int);
+GetAsyncKeyStateFn g_getAsyncKeyState = nullptr;
+ULONGLONG g_suppressCtrlUntil = 0;
+
+short WINAPI GetAsyncKeyStateDetour(int vk) {
+    if ((vk == VK_CONTROL || vk == VK_LCONTROL || vk == VK_RCONTROL) && GetTickCount64() < g_suppressCtrlUntil) return 0;
+    return g_getAsyncKeyState(vk);
+}
+
+// ---- SimAntics: balloons and removed objects (simantics.h) ----------------------------------
+// The game's behavior code throws C++ exceptions through these detours: they keep no C++
+// objects alive across the call to the original.
+typedef int(__thiscall* SetBalloonFn)(void* object, void* frame, const uint8_t* operand);
+SetBalloonFn g_setBalloon = nullptr;
+
+int __fastcall SetBalloonDetour(void* object, void* /*edx*/, void* frame, const uint8_t* operand) {
+    BalloonCall call;
+    BeforeSetBalloon((Ptr)object, (Ptr)frame, operand, &call);
+    int result = g_setBalloon(object, frame, operand);
+    if (call.watch) AfterSetBalloon(call);
+    return result;
+}
+
+typedef int(__thiscall* DispatchFn)(void* object, void* frame, const uint16_t* instruction);
+DispatchFn g_dispatch = nullptr;
+
+int __fastcall DispatchDetour(void* object, void* /*edx*/, void* frame, const uint16_t* instruction) {
+    int opcode = *instruction & addr::simantics::kOpcodeMask;
+    if (opcode == addr::simantics::kOpRemoveObject) BeforePrimitive((Ptr)object, (Ptr)frame, (const uint8_t*)instruction);
+    int result = g_dispatch(object, frame, instruction);
+    if (opcode == addr::simantics::kOpCreateObject) AfterCreateObject((Ptr)object, (Ptr)frame);
     return result;
 }
 
@@ -75,6 +128,12 @@ void InitHooks(bool blockCursorWarp) {
                               "cTSFont::CountLines");
     g_worldPointerHooked = Install(addr::kScreenToWorld, (void*)&ScreenToWorldDetour, (void**)&g_screenToWorld,
                                    "ScreenToWorld");
+    g_mouseLeftHooked = Install(addr::movetool::kLeft, (void*)&MouseLeftDetour, (void**)&g_mouseLeft, "cMoveTool::MouseLeft");
+    Install(addr::simantics::kSetBalloon, (void*)&SetBalloonDetour, (void**)&g_setBalloon, "SetBalloonPrimitive");
+    Install(addr::simantics::kDispatch, (void*)&DispatchDetour, (void**)&g_dispatch, "cXObject::DoPrimitive");
+    MH_STATUS ks = MH_CreateHookApi(L"user32", "GetAsyncKeyState", (void*)&GetAsyncKeyStateDetour, (void**)&g_getAsyncKeyState);
+    if (ks == MH_OK) ks = MH_EnableHook(MH_ALL_HOOKS);
+    Log("hook GetAsyncKeyState: %s", MH_StatusToString(ks));
     if (blockCursorWarp) {
         MH_STATUS st = MH_CreateHookApi(L"user32", "SetCursorPos", (void*)&SetCursorPosDetour, (void**)&g_setCursorPos);
         if (st == MH_OK) st = MH_EnableHook(MH_ALL_HOOKS);
@@ -90,6 +149,8 @@ void ShutdownHooks() {
     g_captureHooked = false;
     g_worldPointerHooked = false;
     g_worldOverride = false;
+    g_mouseLeftHooked = false;
+    g_keepHeldShown = false;
 }
 
 bool TextCaptureAvailable() { return g_captureHooked; }
@@ -101,7 +162,7 @@ void BeginTextCapture() {
 
 std::string EndTextCapture() {
     g_capturing = false;
-    return util::Cp1252ToUtf8(g_captured);
+    return util::GameTextToUtf8(g_captured);
 }
 
 bool WorldPointerHooked() { return g_worldPointerHooked; }
@@ -113,5 +174,26 @@ void SetWorldPointerOverride(int viewX, int viewY) {
 }
 
 void ClearWorldPointerOverride() { g_worldOverride = false; }
+
+bool ScreenPointToView(int gameX, int gameY, int* viewX, int* viewY) {
+    if (!g_worldPointerHooked || !g_screenToWorld) return false;
+    uint32_t packed = (uint32_t)(uint16_t)gameY | ((uint32_t)(uint16_t)gameX << 16);  // as the pick message
+    int out[4] = {0, 0, 0, 0};
+    bool override = g_worldOverride;
+    g_worldOverride = false;
+    int* result = nullptr;
+    bool ok = Guarded([&] { result = g_screenToWorld(out, &packed, 0); });
+    g_worldOverride = override;
+    if (!ok || !result) return false;
+    *viewX = out[0];
+    *viewY = out[1];
+    return true;
+}
+
+void KeepHeldShown(bool keep) { g_keepHeldShown = keep && g_mouseLeftHooked; }
+
+void SuppressCtrlFor(unsigned ms) { g_suppressCtrlUntil = GetTickCount64() + ms; }
+
+short RealGetAsyncKeyState(int vk) { return g_getAsyncKeyState ? g_getAsyncKeyState(vk) : GetAsyncKeyState(vk); }
 
 }  // namespace game

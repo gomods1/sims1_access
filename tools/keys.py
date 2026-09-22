@@ -63,6 +63,10 @@ def press(hwnd, name):
     for m in modifiers:
         post_modifier(hwnd, m, True)
     user32.PostMessageW(hwnd, WM_KEYDOWN, vk, lp_down)
+    # The game's TranslateMessage posts the WM_CHAR after the key-down is dispatched; a key-up
+    # posted right away would come before it (a real keyboard sends char, then key-up), and the
+    # game counts key-downs since the last key-up to tell a first press from a repeat.
+    time.sleep(0.06)
     user32.PostMessageW(hwnd, WM_KEYUP, vk, lp_up)
     for m in reversed(modifiers):
         post_modifier(hwnd, m, False)

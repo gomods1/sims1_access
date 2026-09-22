@@ -36,6 +36,30 @@ struct LotObject {
 
 Ptr LotModule();  // the ObjectModule of the loaded lot, 0 when none
 
+// The game's tutorial object (house 7) is on the lot: the tutorial is running. Cheap: cached for a
+// second.
+bool TutorialObjectPresent();
+
+// The tutorial's step texts in the game's language (its STR# 301, UTF-8), by their index there;
+// empty when the tutorial object is not on the lot.
+std::vector<std::string> TutorialTexts();
+
+// A STR# resource of the object's own file in the game's language (UTF-8, entry 0 first); empty
+// when it has none.
+std::vector<std::string> ObjectStringTable(Ptr object, int strId);
+
+// The game's own cry for the burglar ("¡Ladrón!", its STR# 305) when the Sim is the burglar (the
+// object "NPC Thief"), else empty.
+std::string BurglarShout(Ptr person);
+
+// Shows the help system's waiting tip (what a click on its icon does). false when unavailable.
+bool ShowHelpTip();
+bool HelpTipPending();  // the help system has a tip waiting (the icon blinks)
+
+// The object standing on the tile under view coordinates (1/16 tile, view orientation) on a
+// floor, invisible helpers left out; 0 when none. The grid tile is returned too.
+Ptr ObjectAtView(int viewX, int viewY, int level, int* tileX, int* tileY);
+
 // Placed, visible objects a player can interact with: one entry per multi-tile object (its lead
 // part), invisible helpers (portals, phone line, the plumb-bob) left out.
 std::vector<LotObject> LotObjects();
@@ -60,6 +84,9 @@ std::vector<PlacedPart> PlacedParts();
 bool IsInvisibleHelper(Ptr object);  // portals of the lot edge, phone line, plumb-bob, markers
 
 Ptr SelectedSim();                // cXPerson* of the Sim the player controls, 0 if none
+// Every Sim placed on the lot (the family, visitors, pets), cXPerson*. The game also keeps
+// unplaced NPCs in its list ("Grandma", "Mystery Man"); they are left out.
+std::vector<Ptr> LotPeople();
 int SimNeighborId(Ptr person);    // the Sim's neighbor ID (for game/people.h), -1 if none
 bool GetObject(Ptr object, LotObject* out);
 

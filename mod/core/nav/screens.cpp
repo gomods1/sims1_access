@@ -8,6 +8,7 @@
 #include "../util/game_settings.h"
 #include "../util/strings.h"
 #include "../util/text.h"
+#include "tutorial.h"
 
 namespace nav {
 namespace {
@@ -89,7 +90,9 @@ std::string GroupName(const Group& g) {
     if (g.key == kPersonalityGroup) return S(Str::GroupPersonality);
     if (g.key == kLooksGroup) return S(Str::GroupLooks);
     if (g.key == kMembersGroup) return S(Str::GroupMembers);
+    if (g.key == kTipGroup) return S(Str::GroupTip);
     if (game::IsPieMenu(g.key)) return S(Str::PieMenu);
+    if (tutorial::IsStepGroup(g)) return S(Str::GroupTutorial);
     for (const Item& it : g.items)
         if (it.role == Role::Text && it.label.size() <= kMaxTitleLength) return it.label;
     for (const Named& p : kPanels)
@@ -122,6 +125,7 @@ bool IsActionQueue(const Group& g) { return g.key == kActionQueueGroup; }
 // only panels a player opened (options, a subpanel, the catalog) take focus.
 bool TakesFocusWhenOpened(const Group& g) {
     if (g.items.size() < 2 || IsTextOnly(g) || GroupOrder(g) < 4 || g.key == kSimPanelsGroup) return false;
+    if (tutorial::IsStepGroup(g)) return false;  // announced by the tutorial watcher instead
     return true;
 }
 

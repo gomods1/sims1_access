@@ -108,6 +108,7 @@ constexpr Ptr kHouseGroup = 7;         // the house subpanel: ratings, then area
 constexpr Ptr kPersonalityGroup = 8;   // create a Sim: the personality bars and the zodiac sign
 constexpr Ptr kLooksGroup = 9;         // create a Sim: age, sex, skin, head and body
 constexpr Ptr kMembersGroup = 10;      // family picker: the selected family's members
+constexpr Ptr kTipGroup = 11;          // lot view: the help system's tip icon (it blinks)
 
 inline bool HasRole(const Group& g, Role role) {
     for (const Item& it : g.items)

@@ -3,13 +3,16 @@
 #include <cstring>
 
 #include "../game/buy.h"
+#include "../game/hooks.h"
 #include "../game/pie.h"
 #include "../game/ui.h"
 #include "../nav/buffers.h"
 #include "../nav/buy_mode.h"
+#include "../nav/camera.h"
 #include "../nav/cheat_console.h"
 #include "../nav/navigator.h"
 #include "../nav/text_entry.h"
+#include "../nav/tutorial.h"
 #include "../speech/speech.h"
 #include "../util/strings.h"
 #include "../nav/world.h"
@@ -26,6 +29,7 @@ namespace {
 //                                  on a slider, value picker or personality bar: Left/Right change it
 //   Home, End                      first/last item in the group
 //   Tab, Shift+Tab                 next/previous group
+//   Space                          lot view: the game's next-Sim key (the selection is announced)
 //   Enter, Space                   press the focused item, or in the lot view after PageUp/Down
 //                                  open the focused object's interaction menu (Space is typing
 //                                  while a text field is shown)
@@ -43,6 +47,9 @@ namespace {
 //   Ctrl+Enter                     lot view, after PageUp/PageDown: walk to the focused object
 //   Escape                         close the interaction menu (otherwise the game's Escape)
 //   Ctrl+F1                        say the mod's keys for this screen
+//   Ctrl+1 .. Ctrl+9               lot view: select the n-th Sim of the family (its portrait)
+//   Ctrl+F                         lot view: follow the selected Sim with the camera on/off
+//   Ctrl+H                         lot view: open the help system's waiting tip
 //   Ctrl+Shift+C                   the game's cheat console (nav/cheat_console.h): Up/Down/Home/End pick
 //                                  a cheat, typing edits the line, Enter runs it (again: repeats)
 
@@ -57,7 +64,7 @@ constexpr LPARAM kSyntheticKey = 1 << 25;
 bool g_syntheticDown[256] = {};
 bool g_synthetic = false;  // the key being handled was posted by the tool
 bool Held(int vk) {
-    return g_synthetic ? g_syntheticDown[vk] : (GetAsyncKeyState(vk) & 0x8000) != 0;
+    return g_synthetic ? g_syntheticDown[vk] : (game::RealGetAsyncKeyState(vk) & 0x8000) != 0;
 }
 bool IsModifier(WPARAM vk) { return vk == VK_SHIFT || vk == VK_CONTROL || vk == VK_MENU; }
 
@@ -126,6 +133,21 @@ bool Dispatch(WPARAM vk, bool shift, bool ctrl) {
         else if (shift) nav::world::NextCategory(vk == VK_NEXT ? +1 : -1);
         else nav::world::NextObject(vk == VK_NEXT ? +1 : -1);
         return true;
+    case '1': case '2': case '3': case '4': case '5': case '6': case '7': case '8': case '9':
+        if (!ctrl || shift) return false;
+        g_swallowChar = vk;  // a posted digit still makes its character (a game speed key)
+        nav::camera::SelectSim((int)vk - '1');
+        return true;
+    case 'H':  // Ctrl+H: the help system's waiting tip
+        if (!ctrl || shift) return false;
+        g_swallowChar = 'h';
+        nav::tutorial::OpenTip();
+        return true;
+    case 'F':
+        if (!ctrl || shift) return false;
+        g_swallowChar = 'f';
+        nav::camera::ToggleFollow();
+        return true;
     case 'C':  // Ctrl+Shift+C: the cheat console, opened the way the game's own key does
         if (!ctrl || !shift) return false;
         g_swallowChar = 'c';  // Ctrl+C comes as 0x03, a posted one as 'c': neither may reach the console
@@ -133,6 +155,9 @@ bool Dispatch(WPARAM vk, bool shift, bool ctrl) {
         return true;
     case VK_SPACE:
         if (typing) return false;
+        // In the lot view Space is the game's own key: the next Sim of the family becomes the
+        // selected one (the camera watcher says who); Enter presses.
+        if (nav::LotViewActive() && !nav::cheats::Entering()) return false;
         [[fallthrough]];
     case VK_RETURN:
         if (vk == VK_RETURN && nav::cheats::Entering()) {  // runs the line; the console stays for repeats
@@ -164,7 +189,7 @@ bool Dispatch(WPARAM vk, bool shift, bool ctrl) {
         return true;
     case VK_ESCAPE:
         g_swallowChar = 0x1b;
-        if (nav::Cancel() || nav::buy::Cancel()) return true;
+        if (nav::Cancel() || nav::buy::Cancel() || nav::tutorial::GuardEscape()) return true;
         g_swallowChar = 0;
         return false;
     case 'R':
@@ -195,7 +220,7 @@ bool OnKeyDown(WPARAM vk, LPARAM lp) {
     }
     bool ctrl = Held(VK_CONTROL);
     bool ctrlKey = vk == VK_PRIOR || vk == VK_NEXT || vk == VK_RETURN || vk == VK_F1 || vk == VK_UP ||
-                   vk == VK_DOWN || vk == VK_LEFT || vk == VK_RIGHT ||
+                   vk == VK_DOWN || vk == VK_LEFT || vk == VK_RIGHT || (vk >= '1' && vk <= '9') || vk == 'F' || vk == 'H' ||
                    (vk == 'C' && Held(VK_SHIFT));  // the mod's Ctrl combinations
     if (Held(VK_MENU) || (ctrl && !ctrlKey)) {
         LogVerbose("key 0x%02x left to the game: %s held", (unsigned)vk, ctrl ? "Ctrl" : "Alt");

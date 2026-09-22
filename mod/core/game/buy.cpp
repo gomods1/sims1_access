@@ -326,7 +326,7 @@ std::string PlacementErrorText(int code) {
         return "";
     char copy[256] = {};
     if (!Read((Ptr)text, copy, sizeof copy - 1)) return "";
-    return util::CleanForSpeech(util::Cp1252ToUtf8(copy));
+    return util::CleanForSpeech(util::GameTextToUtf8(copy));
 }
 
 // The tool puts the held object there now (one mouse move) and on its later moves.
@@ -334,11 +334,15 @@ void ShowHeldAt(Tile lead) {
     Ptr tool = Tool();
     if (!tool || !Cursor() || !WorldPointerHooked()) return;
     Activate(tool);
+    KeepHeldShown(true);
     OverrideTile(lead);
     MouseEvent(addr::movetool::kMoveSlot, addr::movetool::kMove, "cMoveTool::MouseMove", lead);
 }
 
-void StopShowingHeld() { ClearWorldPointerOverride(); }
+void StopShowingHeld() {
+    KeepHeldShown(false);
+    ClearWorldPointerOverride();
+}
 
 int PlaceHeldAt(Tile lead) {
     Ptr tool = Tool();

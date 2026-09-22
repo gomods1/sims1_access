@@ -29,20 +29,6 @@ std::vector<Ptr> MapNodes(Ptr head) {
     return nodes;
 }
 
-// cp1252 for the game; the mod's text is UTF-8 (cheat lines are ASCII in practice).
-std::string ToGame(const std::string& utf8) {
-    std::string out;
-    for (size_t i = 0; i < utf8.size(); i++) {
-        unsigned char c = (unsigned char)utf8[i];
-        if (c < 0x80) out += (char)c;
-        else if ((c & 0xe0) == 0xc0 && i + 1 < utf8.size()) {
-            out += (char)(((c & 0x1f) << 6) | ((unsigned char)utf8[i + 1] & 0x3f));
-            i++;
-        }
-    }
-    return out;
-}
-
 }  // namespace
 
 Ptr CheatField() {
@@ -84,7 +70,7 @@ bool SetCheatText(const std::string& utf8) {
     typedef void(__thiscall * Fn)(void*, const char*, char, char);
     Ptr field = CheatField();
     if (!field || !FunctionOk(addr::cheat::kSetText)) return false;
-    std::string text = ToGame(utf8);
+    std::string text = util::Utf8ToGameText(utf8);
     return Guarded([&] { ((Fn)Va(addr::cheat::kSetText))((void*)field, text.c_str(), 0, 0); });
 }
 
@@ -92,7 +78,7 @@ bool RunCheat(const std::string& utf8) {
     typedef bool(__thiscall * Fn)(void*, const char*);
     Ptr manager = Manager();
     if (!manager || !FunctionOk(addr::cheat::kRun)) return false;
-    std::string line = ToGame(utf8);
+    std::string line = util::Utf8ToGameText(utf8);
     if (line.size() > 255) line.resize(255);
     bool ran = false;
     Guarded([&] { ran = ((Fn)Va(addr::cheat::kRun))((void*)manager, line.c_str()); });

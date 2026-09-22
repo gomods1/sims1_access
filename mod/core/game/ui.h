@@ -36,7 +36,7 @@ bool ButtonChecked(Ptr b);
 // Text fields (cTSWinTextEdit2)
 Ptr KeyboardFocus();                  // the widget typing goes to (a text field while one is active)
 std::string TextFieldText(Ptr edit);  // UTF-8
-std::string TextFieldRaw(Ptr edit);   // cp1252, one byte per character
+std::string TextFieldRaw(Ptr edit);   // game text: one byte per character, two for a double-byte one
 int TextFieldCaret(Ptr edit);
 
 // Check boxes (cTSWinCheck): a container holding the actual tick button; the box's name is a

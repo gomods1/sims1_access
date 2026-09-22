@@ -50,7 +50,7 @@ std::string TextFieldRaw(Ptr edit) {
     return text;
 }
 
-std::string TextFieldText(Ptr edit) { return util::Cp1252ToUtf8(TextFieldRaw(edit)); }
+std::string TextFieldText(Ptr edit) { return util::GameTextToUtf8(TextFieldRaw(edit)); }
 
 int TextFieldCaret(Ptr edit) { return Rd<int>(edit + addr::textedit::kCaret); }
 

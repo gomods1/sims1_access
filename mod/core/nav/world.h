@@ -25,5 +25,13 @@ void Interact();     // opens the focused object's interaction menu (runs modall
 void WalkToFocus();  // sends the selected Sim to the focused object's spot
 void Repeat();       // says the focused object again
 game::Ptr FocusedObject();  // the object PageUp/PageDown last spoke, 0 if gone
+// The object bought last reads "recién comprado", so it can be told from identical ones (in buy
+// mode identical objects are listed one by one, since one of them is to be moved).
+void MarkBought(game::Ptr object);
+
+// What the browser would say for this object (name, room, distance from the selected Sim), with
+// its details in the buffer; or for a bare tile of a floor.
+std::string DescribeObject(game::Ptr object);
+std::string DescribeSpot(int tileX, int tileY, int level);
 
 }  // namespace nav::world

@@ -10,6 +10,7 @@
 #include "../util/strings.h"
 #include "../util/text.h"
 #include "buffers.h"
+#include "camera.h"
 #include "navigator.h"
 #include "placement.h"
 #include "room_names.h"
@@ -86,6 +87,7 @@ void ShowCurrent() {
     game::LiftHeld();
     if (s->direction >= 0) game::TurnHeld(s->direction);
     game::ShowHeldAt(s->tile);
+    camera::LookAt(game::HeldObject());
     LogVerbose("spot %d,%d direction %d walls %x score %d, walls there %x", s->tile.x, s->tile.y, s->direction,
                s->wallSides, s->score, game::WallsAt(game::HeldLevel(), s->tile.x, s->tile.y));
 }
@@ -260,6 +262,7 @@ void Confirm() {
     std::string name = buying ? "" : HeldName();
     game::ProductInfo p;
     if (buying && game::HeldProduct(&p)) name = p.name;
+    game::Ptr placed = game::HeldObject();
     game::LiftHeld();
     if (s->direction >= 0) game::TurnHeld(s->direction);
     int error = game::PlaceHeldAt(tile);
@@ -269,6 +272,7 @@ void Confirm() {
         ShowCurrent();
         return;
     }
+    if (buying) world::MarkBought(placed);
     std::string line = util::Format(S(buying ? Str::Bought : Str::PutDown), name.c_str());
     int funds = 0;
     if (buying && game::GetFunds(&funds)) line += ". " + util::Format(S(Str::FundsLeft), util::Money(funds).c_str());

@@ -24,4 +24,16 @@ bool WorldPointerHooked();
 void SetWorldPointerOverride(int viewX, int viewY);
 void ClearWorldPointerOverride();
 
+// The game's own screen-to-world: the view coordinates (1/16 tile, view orientation) under a
+// point of the 1024x768 game screen; false when nothing is there or the hook is missing.
+bool ScreenPointToView(int gameX, int gameY, int* viewX, int* viewY);
+
+// While set, the buy tool ignores the view telling it the mouse left the lot, so the object the
+// mod shows on a spot stays in the world (visible, and findable by the game).
+void KeepHeldShown(bool keep);
+
+// For a moment the game reads Ctrl as not held (a portrait click with Ctrl opens the Sim's card).
+void SuppressCtrlFor(unsigned ms);
+short RealGetAsyncKeyState(int vk);  // the key state without that suppression
+
 }  // namespace game

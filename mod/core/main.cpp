@@ -1,7 +1,8 @@
 // SimsAccess.dll: the mod core, loaded by the version.dll proxy (mod/loader). Every entry point
 // runs on the game's main thread (the window procedure and a 30 ms timer). This file only wires
 // the modules together:
-//   util/     log, text conversion, the mod's own strings
+//   util/     log, text conversion, the game's language, the mod's own strings
+//   lang/     the mod's strings in every language the game ships
 //   speech/   speech through SpeechHost.exe
 //   game/     the only code that knows addresses and offsets (game/addresses.h)
 //   nav/      keyboard navigation over the game's widgets
@@ -12,12 +13,14 @@
 
 #include "../loader/loader_api.h"
 #include "game/hooks.h"
+#include "game/app.h"
 #include "game/memory.h"
 #include "game/rtti.h"
 #include "game/ui.h"
 #include "input/keyboard.h"
 #include "nav/navigator.h"
 #include "speech/speech.h"
+#include "util/language.h"
 #include "util/log.h"
 #include "util/strings.h"
 
@@ -38,7 +41,7 @@ extern "C" __declspec(dllexport) int __cdecl SA_Init(const SaLoaderApi* api) {
     bool dev = ModFileExists(api, L"dev.txt");
     util::InitLog(api, dev);
     Log("SimsAccess core init (built %s %s)", __DATE__, __TIME__);
-    util::InitStrings();
+    util::InitLanguage();  // from the registry: even an unsupported build speaks the player's language
     speech::Start(api->mod_dir);
     if (!api->build_ok) {
         Log("unsupported Sims.exe build %s: installing nothing", api->exe_hash);
@@ -46,6 +49,7 @@ extern "C" __declspec(dllexport) int __cdecl SA_Init(const SaLoaderApi* api) {
         return 1;
     }
     game::InitMemory(api->game);
+    util::SetGameLanguage(game::LanguageNumber());
     g_forceActive = ModFileExists(api, L"force_active.txt");
     game::InitHooks(g_forceActive);
     nav::Reset();

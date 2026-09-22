@@ -8,6 +8,7 @@
 #include "../game/cheats.h"
 #include "../game/design.h"
 #include "../game/house.h"
+#include "../game/lot.h"
 #include "../game/neighborhood.h"
 #include "../game/people.h"
 #include "../game/pie.h"
@@ -206,7 +207,9 @@ struct Walker {
     }
 
     void Walk(Ptr w, int depth) {
-        if (depth > kMaxDepth || !game::Visible(w)) return;
+        // The help system's tip icon blinks (hidden half the time) while a tip waits: it is
+        // listed as long as it exists, so the player can reach it.
+        if (depth > kMaxDepth || (!game::Visible(w) && !(game::IsKindOf(w, "cTutorialIcon") && game::HelpTipPending()))) return;
         std::vector<Ptr> children = game::Children(w);
         if (!Visit(w, !children.empty())) return;
         for (Ptr c : children) Walk(c, depth + 1);
@@ -231,6 +234,7 @@ Ptr GroupKey(const Item& it) {
     case Role::Status: return kStatusGroup;
     case Role::FamilyMember: return kFamilyGroup;
     case Role::QueuedAction: return kActionQueueGroup;
+    case Role::TutorialIcon: return kTipGroup;
     default: return game::Parent(it.widget);
     }
 }
