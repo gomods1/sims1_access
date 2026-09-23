@@ -743,6 +743,8 @@ const Translation kEntries[] = {
      "Down หมุน, Enter วางตรงนั้น, Page Down กลับไปที่รายการตำแหน่ง"},
     // Sim card
     {Str::BioFor, "ประวัติของ %s"},
+    // Key help
+    {Str::KeysSimCard, "Ctrl+Shift+1 ถึง 9 เปิดการ์ดของซิม ซึ่งแก้ไขประวัติได้"},
 };
 
 }  // namespace

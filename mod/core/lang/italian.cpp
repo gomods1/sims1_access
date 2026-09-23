@@ -761,6 +761,8 @@ const Translation kEntries[] = {
      "su e Maiusc+Pagina giù lo ruotano, Invio lo mette lì, Pagina giù torna ai posti."},
     // Sim card
     {Str::BioFor, "Bio per %s"},
+    // Key help
+    {Str::KeysSimCard, "Control+Maiusc+1 a 9 aprono la scheda di un Sim, dove se ne può modificare la biografia."},
 };
 
 }  // namespace

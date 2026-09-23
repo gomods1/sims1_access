@@ -679,6 +679,8 @@ const Translation kEntries[] = {
      "Downで場所の一覧に戻ります。"},
     // Sim card
     {Str::BioFor, "%s　のバイオグラフィー"},
+    // Key help
+    {Str::KeysSimCard, "Ctrl+Shift+1～9でシムのカードを開き、バイオグラフィーを編集できます。"},
 };
 
 }  // namespace

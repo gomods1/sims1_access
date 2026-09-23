@@ -768,6 +768,9 @@ const Translation kEntries[] = {
      "zurück."},
     // Sim card
     {Str::BioFor, "Biografie für %s"},
+    // Key help
+    {Str::KeysSimCard,
+     "Strg+Umschalt+1 bis 9 öffnen die Karte eines Sims, auf der seine Biografie bearbeitet werden kann."},
 };
 
 }  // namespace

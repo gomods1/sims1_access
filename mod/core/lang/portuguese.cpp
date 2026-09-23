@@ -761,6 +761,8 @@ const Translation kEntries[] = {
      "e Shift+Page Down o giram, Enter o coloca ali, Page Down volta aos lugares."},
     // Sim card
     {Str::BioFor, "Biografia de %s"},
+    // Key help
+    {Str::KeysSimCard, "Control+Shift+1 a 9 abrem a ficha de um Sim, onde a biografia pode ser editada."},
 };
 
 }  // namespace

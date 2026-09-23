@@ -682,6 +682,8 @@ const Translation kEntries[] = {
      "Page Down으로 자리 목록으로 돌아갑니다."},
     // Sim card
     {Str::BioFor, "%s의 인적 사항"},
+    // Key help
+    {Str::KeysSimCard, "Ctrl+Shift+1~9로 심의 카드를 열어 인적 사항을 편집할 수 있습니다."},
 };
 
 }  // namespace

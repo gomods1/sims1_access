@@ -755,6 +755,8 @@ const Translation kEntries[] = {
      "Skift+Page Down vrider den, Enter ställer den där, Page Down går tillbaka till platserna."},
     // Sim card
     {Str::BioFor, "Bakgrund för %s"},
+    // Key help
+    {Str::KeysSimCard, "Ctrl+Skift+1 till 9 öppnar en simmes kort, där bakgrunden kan redigeras."},
 };
 
 }  // namespace

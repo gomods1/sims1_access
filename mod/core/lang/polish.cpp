@@ -756,6 +756,8 @@ const Translation kEntries[] = {
      "Down go obracają, Enter stawia go tam, Page Down wraca do miejsc."},
     // Sim card
     {Str::BioFor, "%s - charakterystyka"},
+    // Key help
+    {Str::KeysSimCard, "Control+Shift+1 do 9 otwierają kartę Sima, gdzie można edytować jego charakterystykę."},
 };
 
 }  // namespace

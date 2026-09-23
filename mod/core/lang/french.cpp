@@ -773,6 +773,8 @@ const Translation kEntries[] = {
      "précédente et Maj+Page suivante le tournent, Entrée le pose là, Page suivante revient aux emplacements."},
     // Sim card
     {Str::BioFor, "Biographie de %s"},
+    // Key help
+    {Str::KeysSimCard, "Contrôle+Maj+1 à 9 ouvrent la fiche d'un Sim, où l'on peut modifier sa biographie."},
 };
 
 }  // namespace

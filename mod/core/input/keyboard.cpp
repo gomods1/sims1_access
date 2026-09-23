@@ -85,7 +85,7 @@ void SayKeyHelp() {
     else if (nav::cheats::Entering()) speech::Say(S(Str::CheatHint));
     else if (nav::buy::Placing()) speech::Say(std::string(S(Str::KeysPlacing)) + " " + S(Str::KeysPlacingFree));
     else if (nav::LotViewActive() && game::InBuyTool()) speech::Say(std::string(S(Str::KeysBuy)) + " " + S(Str::KeysRoomFilter) + " " + S(Str::KeysLayoutHint));
-    else if (nav::LotViewActive()) speech::Say(std::string(S(Str::KeysLot)) + " " + S(Str::KeysLayoutHint));
+    else if (nav::LotViewActive()) speech::Say(std::string(S(Str::KeysLot)) + " " + S(Str::KeysSimCard) + " " + S(Str::KeysLayoutHint));
     else speech::Say(S(Str::KeysScreen));
 }
 

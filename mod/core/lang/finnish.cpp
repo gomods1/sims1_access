@@ -760,6 +760,8 @@ const Translation kEntries[] = {
      "Vaihto+Page Down kääntävät sitä, Enter asettaa sen siihen, Page Down palaa paikkoihin."},
     // Sim card
     {Str::BioFor, "Tausta - %s"},
+    // Key help
+    {Str::KeysSimCard, "Ctrl+Vaihto+1–9 avaavat simin kortin, jossa taustaa voi muokata."},
 };
 
 }  // namespace

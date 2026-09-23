@@ -659,6 +659,8 @@ const Translation kEntries[] = {
      "方向键一次移动一格，按住 Shift 一次五格，并说明能否放下；Shift+Page Up 和 Shift+Page Down 旋转，回车放在这里，Page Down 回到位置列表。"},
     // Sim card
     {Str::BioFor, "%s 的个人简历"},
+    // Key help
+    {Str::KeysSimCard, "Ctrl+Shift+1 到 9 打开模拟市民的卡片，可以编辑个人简历。"},
 };
 
 }  // namespace

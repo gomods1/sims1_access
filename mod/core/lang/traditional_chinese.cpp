@@ -658,6 +658,8 @@ const Translation kEntries[] = {
      "方向鍵一次移動一格，按住 Shift 一次五格，並說明能否放下；Shift+Page Up 和 Shift+Page Down 旋轉，Enter 放在這裡，Page Down 回到位置清單。"},
     // Sim card
     {Str::BioFor, "%s的小傳"},
+    // Key help
+    {Str::KeysSimCard, "Ctrl+Shift+1 到 9 打開模擬人物的卡片，可以編輯小傳。"},
 };
 
 }  // namespace
