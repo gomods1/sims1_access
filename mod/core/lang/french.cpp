@@ -64,6 +64,7 @@ const Translation kEntries[] = {
      "Haut et Bas choisissent un code, ce que vous tapez s'y ajoute, Entrée l'exécute et Entrée encore le "
      "répète, Échap ferme."},
     {Str::FundsNow, "fonds %s, %s"},
+    {Str::FundsChanged, "%1$s, il reste %2$s"},
     {Str::BufferEvents, "événements"},
     {Str::BufferEmpty, "%s, vide"},
     {Str::PositionInGroup, "%d sur %d, %s"},

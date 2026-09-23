@@ -6,6 +6,7 @@
 #include <map>
 #include <vector>
 
+#include "../game/buy.h"
 #include "../game/lot.h"
 #include "../game/people.h"
 #include "../game/simantics.h"
@@ -13,6 +14,7 @@
 #include "../util/log.h"
 #include "../util/strings.h"
 #include "../util/text.h"
+#include "cheat_console.h"
 #include "narrator.h"
 #include "room_names.h"
 
@@ -35,6 +37,10 @@ constexpr ULONGLONG kActionStartMs = 700;
 constexpr ULONGLONG kActionEndMs = 1500;
 constexpr ULONGLONG kNeedPollMs = 1000;
 constexpr ULONGLONG kRelationPollMs = 1000;
+// Money: polled often, spoken once it has not moved for this long, so a bill paid in parts or
+// several purchases in a row become one line.
+constexpr ULONGLONG kFundsPollMs = 250;
+constexpr ULONGLONG kFundsSettleMs = 800;
 
 // Need thresholds (-100 empty .. 100 full) with a margin, so a value hovering at a threshold
 // does not say the line again and again.
@@ -93,6 +99,14 @@ struct State {
     // How the selected Sim feels about each Sim on the lot (daily value), by neighbor id.
     ULONGLONG relationsPolled = 0;
     std::map<int, int> daily;
+    std::map<int, ULONGLONG> relationSaid;  // by neighbor id (both Sims of the line)
+
+    // Family funds.
+    ULONGLONG fundsPolled = 0;
+    bool fundsSeeded = false;
+    int funds = 0;             // last spoken (or first read)
+    int fundsSeen = 0;         // last read
+    ULONGLONG fundsChanged = 0;  // when fundsSeen last moved; 0 = settled
 
     // Needs of every family member.
     ULONGLONG needsPolled = 0;
@@ -226,10 +240,41 @@ void PollRelationships(ULONGLONG now) {
         it->second = r.daily;
         if (!delta) continue;
         std::string amount = (delta > 0 ? "+" : "") + std::to_string(delta);
+        g.relationSaid[other] = g.relationSaid[g.selected] = now;
         narrator::Announce(util::Format(S(Str::RelationChanged), SimName(g.selected).c_str(), SimName(other).c_str(),
                                         amount.c_str(), r.daily),
                            false);
     }
+}
+
+// ---- Money ---------------------------------------------------------------------------------
+
+// The game only plays a sound when money is paid or received (the pizza, bills, a job's pay, a
+// sale): the amount and what is left are spoken. Buy mode says its own prices and refunds.
+void PollFunds(ULONGLONG now) {
+    if (now - g.fundsPolled < kFundsPollMs) return;
+    g.fundsPolled = now;
+    int funds = 0;
+    if (!game::GetFunds(&funds)) return;
+    // The cheat console says its own result ("rosebud ... +$1.000").
+    if (!g.fundsSeeded || game::InBuyTool() || cheats::Entering()) {
+        g.fundsSeeded = true;
+        g.funds = g.fundsSeen = funds;
+        g.fundsChanged = 0;
+        return;
+    }
+    if (funds != g.fundsSeen) {
+        g.fundsSeen = funds;
+        g.fundsChanged = now;
+        return;
+    }
+    if (!g.fundsChanged || now - g.fundsChanged < kFundsSettleMs) return;
+    g.fundsChanged = 0;
+    int delta = funds - g.funds;
+    g.funds = funds;
+    if (!delta) return;
+    std::string amount = (delta > 0 ? "+" : "-") + util::Money(delta > 0 ? delta : -delta);
+    narrator::Announce(util::Format(S(Str::FundsChanged), amount.c_str(), util::Money(funds).c_str()), true);
 }
 
 // ---- Needs and mood ------------------------------------------------------------------------
@@ -318,11 +363,17 @@ void Tick() {
     int selected = game::SelectedNeighborId();
     if (selected != g.selected) ResetSelected(selected);
     PollNeeds(selected, now);
+    PollFunds(now);
     Ptr sim = game::SelectedSim();
     if (selected < 0 || !sim) return;
     PollRoom(sim, now);
     PollAction(now);
     PollRelationships(now);
+}
+
+bool RelationSaidSince(int neighborId, unsigned long long since) {
+    auto it = g.relationSaid.find(neighborId);
+    return it != g.relationSaid.end() && it->second >= since;
 }
 
 std::string Status() {

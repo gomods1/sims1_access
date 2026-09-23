@@ -51,6 +51,7 @@ const Translation kEntries[] = {
     {Str::CheatEmpty, "先にチートを入力するか選んでください"},
     {Str::CheatHint, "上下の矢印でチートを選び、入力すると後ろに追加され、エンターで実行、もう一度エンターで繰り返し、エスケープで閉じます。"},
     {Str::FundsNow, "予算 %s、%s"},
+    {Str::FundsChanged, "%1$s、残り%2$s"},
     {Str::BufferEvents, "イベント"},
     {Str::BufferEmpty, "%s、項目なし"},
     {Str::PositionInGroup, "%2$d件中%1$d件目、%3$s"},

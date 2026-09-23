@@ -52,7 +52,8 @@ inventory: `SCREENS.md`. Verified targets: `PATCH_TARGETS.md`; layouts: `STRUCTS
   then waits for the user to confirm "launch with these arguments" (2026-09-23: `launch.py` and
   `game.py launch` both hung there; every later launch queues behind it). Ask the user to accept
   it, or launch with no arguments (`steam://run/3314060`). `launch.py` writes the user's
-  foreground window to `SimsAccesseturn_focus.txt`; a dev core hands the foreground back to it
+  foreground window to `SimsAccess
+eturn_focus.txt`; a dev core hands the foreground back to it
   when the game window takes it at startup.
 - `python tools/nav_to.py <key> <text>` presses a key until the mod speaks a line containing the
   text (stops at a group's end); never chain an `enter` after it with `;`, only with `&&`.
@@ -193,7 +194,10 @@ inventory: `SCREENS.md`. Verified targets: `PATCH_TARGETS.md`; layouts: `STRUCTS
     action ("Cris: Sentarte" when the player chose it, "Cris, por su cuenta: ..." for free will,
     by the queue record's priority 50 / 2), the end of what the player chose ("Cris terminó:
     Sentarte"), room changes once the Sim stays ("Cris, ahora en cocina"), needs falling low
-    (selected Sim) or urgent (anyone), the mood turning red. Sounds are **not** narrated (the
+    (selected Sim) or urgent (anyone), the mood turning red, the selected Sim's daily
+    relationship changes ("Marisa, con Cris: +8, ahora 28"; the game's `+`/`-` balloon is then
+    only kept in the buffer), money paid or received outside buy mode ("-$40, quedan $8.415").
+    An empty interaction menu says why ("sin interacciones. solo para niños: Jugar"). Sounds are **not** narrated (the
     player hears them), except which car honks (carpool, school bus, police) through the sound
     event hook `0x527250`.
   - In buy mode identical objects are listed one by one (one of them is to be moved) and the
@@ -223,6 +227,9 @@ inventory: `SCREENS.md`. Verified targets: `PATCH_TARGETS.md`; layouts: `STRUCTS
 - Since the narrator speaks on its own, the last spoken line is often a balloon: `tools/nav_to.py`
   can miss the item it looks for. Check every line spoken after the key instead, and never send
   an Enter unless the item was found (an Enter once pressed OK on a notice instead).
+- memtool pointer trap: `G(0xa67044)` is already `[0xa67044]` (the app root): the simulator
+  (funds) is `u32(G(0xa67044) + 0x1c)`, the ObjectModule `u32(u32(G(0xa67044)) + 0x14)`. A write
+  through one deref too many hit a heap value once (restored at once, 2026-09-23).
 - **Frida Interceptor on SimAntics code can crash the game when it detaches**: SimAntics throws
   C++ exceptions through its primitives, which breaks Frida's per-call state (fail-fast
   0xC0000409 in frida-agent.dll after `tools/frida/prim_trace.js` watched `0x615cb0` for 15

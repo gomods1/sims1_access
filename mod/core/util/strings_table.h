@@ -60,6 +60,7 @@
     X(CheatHint,                                                                                                       \
       "Up and Down pick a cheat, typing adds to it, Enter runs it and Enter again repeats it, Escape closes.")         \
     X(FundsNow, "funds %s, %s")                                                                                        \
+    X(FundsChanged, "%1$s, %2$s left")                                                                                 \
     X(BufferEvents, "events")                                                                                          \
     X(BufferEmpty, "%s, empty")                                                                                        \
     X(PositionInGroup, "%d of %d, %s")                                                                                 \

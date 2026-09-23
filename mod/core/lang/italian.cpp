@@ -63,6 +63,7 @@ const Translation kEntries[] = {
      "Su e Giù scelgono un trucco, quello che scrivi si aggiunge, Invio lo esegue e un altro Invio lo ripete, "
      "Esc chiude."},
     {Str::FundsNow, "denaro %s, %s"},
+    {Str::FundsChanged, "%1$s, restano %2$s"},
     {Str::BufferEvents, "eventi"},
     {Str::BufferEmpty, "%s, vuoto"},
     {Str::PositionInGroup, "%d di %d, %s"},

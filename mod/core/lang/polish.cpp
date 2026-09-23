@@ -64,6 +64,7 @@ const Translation kEntries[] = {
      "Strzałki w górę i w dół wybierają kod, wpisany tekst zostaje do niego dodany, Enter go wykonuje, a kolejny "
      "Enter powtarza, Escape zamyka."},
     {Str::FundsNow, "fundusze %s, %s"},
+    {Str::FundsChanged, "%1$s, zostało %2$s"},
     {Str::BufferEvents, "zdarzenia"},
     {Str::BufferEmpty, "%s, puste"},
     {Str::PositionInGroup, "%d z %d, %s"},

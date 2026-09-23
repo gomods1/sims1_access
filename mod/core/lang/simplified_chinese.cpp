@@ -51,6 +51,7 @@ const Translation kEntries[] = {
     {Str::CheatEmpty, "请先输入或选择一个秘籍"},
     {Str::CheatHint, "上下方向键选择秘籍，输入的内容会加在后面，回车执行，再按回车重复，Esc关闭。"},
     {Str::FundsNow, "资金%s，%s"},
+    {Str::FundsChanged, "%1$s，剩余%2$s"},
     {Str::BufferEvents, "事件"},
     {Str::BufferEmpty, "%s，空"},
     {Str::PositionInGroup, "第%d项，共%d项，%s"},

@@ -65,6 +65,7 @@ const Translation kEntries[] = {
      "Pfeil nach oben und unten wählen einen Cheat, Getipptes wird angehängt, Eingabe führt ihn aus und nochmals "
      "Eingabe wiederholt ihn, Esc schließt."},
     {Str::FundsNow, "Vermögen %s, %s"},
+    {Str::FundsChanged, "%1$s, übrig %2$s"},
     {Str::BufferEvents, "Ereignisse"},
     {Str::BufferEmpty, "%s, leer"},
     {Str::PositionInGroup, "%d von %d, %s"},

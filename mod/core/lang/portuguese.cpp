@@ -63,6 +63,7 @@ const Translation kEntries[] = {
      "Seta para cima e Seta para baixo escolhem um código, o que você digitar é adicionado, Enter executa e "
      "Enter de novo repete, Esc fecha."},
     {Str::FundsNow, "fundos %s, %s"},
+    {Str::FundsChanged, "%1$s, restam %2$s"},
     {Str::BufferEvents, "eventos"},
     {Str::BufferEmpty, "%s, vazio"},
     {Str::PositionInGroup, "%d de %d, %s"},

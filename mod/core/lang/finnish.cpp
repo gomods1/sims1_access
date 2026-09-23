@@ -65,6 +65,7 @@ const Translation kEntries[] = {
      "Nuoli ylös ja nuoli alas valitsevat huijauksen, kirjoittamasi teksti lisätään siihen, Enter suorittaa sen "
      "ja uusi Enter toistaa sen, Escape sulkee."},
     {Str::FundsNow, "rahat %s, %s"},
+    {Str::FundsChanged, "%1$s, jäljellä %2$s"},
     {Str::BufferEvents, "tapahtumat"},
     {Str::BufferEmpty, "%s, tyhjä"},
     {Str::PositionInGroup, "%d, yhteensä %d, ryhmä %s"},

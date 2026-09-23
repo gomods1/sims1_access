@@ -98,6 +98,8 @@ What to announce (the selected Sim; the others only when it needs the player):
     whether they come with a balloon (crossed out) now that every balloon is logged.
   - Relationship changes as numbers (done, verified): the selected Sim's daily relationship with
     each Sim on the lot, "Marisa, con Cris: +8, ahora 28".
+  - Money (done): every payment or income outside buy mode, "-$40, quedan $8.415" (the game
+    only plays a sound).
   - Empty interaction menus explained (done): "sin interacciones. solo para niños: Jugar,
     Participar" from the object's tree table flags; "ahora no disponible: ..." when the game's
     own test refused (it gives no reason); "con este objeto no se puede hacer nada".

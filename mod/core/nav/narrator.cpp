@@ -10,6 +10,7 @@
 #include "../game/people.h"
 #include "../game/simantics.h"
 #include "../game/sounds.h"
+#include "../game/view.h"
 #include "../speech/speech.h"
 #include "../util/log.h"
 #include "../util/settings.h"
@@ -59,6 +60,12 @@ struct State {
     std::map<int, Shown> shown;                   // by owner id
     std::map<std::string, ULONGLONG> spokenAt;    // "<owner id>|<line>" -> when
     std::map<std::pair<int, int>, ULONGLONG> treeSeen;  // (owner id, tree) -> its last balloon
+    struct RelationSign {
+        std::string line;
+        int neighborId;
+        ULONGLONG at;
+    };
+    std::vector<RelationSign> relationSigns;       // + / - balloons waiting (FlushRelationSigns)
     std::map<int, ULONGLONG> alertSaid;           // by game::SoundAlert: when it was last spoken
     std::map<int, Visitor> visitors;              // by object id: Sims from outside the family
     bool visitorsSeeded = false;
@@ -245,12 +252,9 @@ void Report(const Balloon& b, const std::vector<int>& family) {
     bool withFamily = b.otherId != b.ownerId && game::GetObject(game::ObjectById(b.otherId), &other) &&
                       other.person && Contains(family, game::SimNeighborId(other.object));
     bool speak = Speak(b, o.person, inFamily, withFamily);
-    // The + or - after a social with the selected Sim: the family watch says it with the number.
-    Ptr selected = game::SelectedSim();
-    game::LotObject sel;
-    if (speak && b.group == grp::kSocial && b.index >= 15 && b.index <= 18 && selected &&
-        game::GetObject(selected, &sel) && (sel.id == b.ownerId || sel.id == b.otherId))
-        speak = false;
+    // The + or - after a social: when it concerns the selected Sim the family watch says it with
+    // the number (polled once a second), so the balloon waits a moment and is dropped then.
+    bool relationSign = b.group == grp::kSocial && b.index >= 15 && b.index <= 18 && o.person;
     ULONGLONG now = GetTickCount64();
     const char* quiet = speak ? "" : ", not spoken";
     if (speak && o.person && !RouteTrouble(b) && b.kind != BalloonKind::Scream) {
@@ -271,7 +275,30 @@ void Report(const Balloon& b, const std::vector<int>& family) {
         b.ownerId, b.otherId, quiet, line.c_str());
     if (!speak) return;
     g.spokenAt[key] = now;
+    if (relationSign) {
+        g.relationSigns.push_back({line, game::SimNeighborId(owner), now});
+        return;
+    }
     Announce(line, RouteTrouble(b) || b.kind == BalloonKind::Scream);
+}
+
+// Relationship signs held back: spoken unless the number for the same Sim came meanwhile.
+constexpr ULONGLONG kRelationSignWaitMs = 1500;
+
+void FlushRelationSigns() {
+    ULONGLONG now = GetTickCount64();
+    int selected = game::SelectedNeighborId();
+    for (auto it = g.relationSigns.begin(); it != g.relationSigns.end();) {
+        if (now - it->at < kRelationSignWaitMs) {
+            ++it;
+            continue;
+        }
+        bool covered = it->neighborId >= 0 &&
+                       (it->neighborId == selected || simwatch::RelationSaidSince(it->neighborId, it->at - 500));
+        if (covered) Record(it->line);
+        else Announce(it->line, false);
+        it = g.relationSigns.erase(it);
+    }
 }
 
 // ---- Visitors ------------------------------------------------------------------------------
@@ -417,6 +444,7 @@ void Tick() {
     for (const game::SoundEvent& e : sounds) ReportSound(e);
     PollVisitors(family);
     simwatch::Tick();
+    FlushRelationSigns();
 }
 
 std::string ShownBalloon(Ptr object) {

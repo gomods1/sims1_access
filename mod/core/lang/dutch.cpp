@@ -65,6 +65,7 @@ const Translation kEntries[] = {
      "Pijl omhoog en omlaag kiezen een cheat, wat je typt wordt eraan toegevoegd, Enter voert hem uit en nog een "
      "keer Enter herhaalt hem, Escape sluit."},
     {Str::FundsNow, "geld %s, %s"},
+    {Str::FundsChanged, "%1$s, nog %2$s"},
     {Str::BufferEvents, "gebeurtenissen"},
     {Str::BufferEmpty, "%s, leeg"},
     {Str::PositionInGroup, "%d van %d, %s"},

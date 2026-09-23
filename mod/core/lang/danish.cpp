@@ -61,6 +61,7 @@ const Translation kEntries[] = {
      "Pil op og Pil ned vælger en snydekode, det du skriver, føjes til, Enter udfører den, og Enter igen "
      "gentager den, Escape lukker."},
     {Str::FundsNow, "penge %s, %s"},
+    {Str::FundsChanged, "%1$s, tilbage %2$s"},
     {Str::BufferEvents, "hændelser"},
     {Str::BufferEmpty, "%s, tom"},
     {Str::PositionInGroup, "%d af %d, %s"},

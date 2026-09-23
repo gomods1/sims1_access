@@ -53,6 +53,7 @@ const Translation kEntries[] = {
     {Str::CheatEmpty, "먼저 치트를 입력하거나 고르세요"},
     {Str::CheatHint, "위아래 화살표로 치트를 고르고, 입력하면 뒤에 덧붙고, 엔터로 실행하고 엔터를 다시 누르면 반복하고, 이스케이프로 닫습니다."},
     {Str::FundsNow, "자금 %s, %s"},
+    {Str::FundsChanged, "%1$s, 남은 돈 %2$s"},
     {Str::BufferEvents, "이벤트"},
     {Str::BufferEmpty, "%s, 비어 있음"},
     {Str::PositionInGroup, "%2$d개 중 %1$d번째, %3$s"},

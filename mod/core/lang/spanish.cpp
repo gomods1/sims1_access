@@ -62,6 +62,7 @@ const Translation kEntries[] = {
      "Arriba y Abajo eligen un truco, lo que escribas se añade, Intro lo ejecuta y otro Intro lo repite, Escape "
      "cierra."},
     {Str::FundsNow, "fondos %s, %s"},
+    {Str::FundsChanged, "%1$s, quedan %2$s"},
     {Str::BufferEvents, "eventos"},
     {Str::BufferEmpty, "%s, vacío"},
     {Str::PositionInGroup, "%d de %d, %s"},

@@ -50,6 +50,7 @@ const Translation kEntries[] = {
     {Str::CheatEmpty, "請先輸入或選擇一個密技"},
     {Str::CheatHint, "上下方向鍵選擇密技，輸入的文字會加在後面，Enter執行，再按Enter重複，Esc關閉。"},
     {Str::FundsNow, "資金%s，%s"},
+    {Str::FundsChanged, "%1$s，剩餘%2$s"},
     {Str::BufferEvents, "事件"},
     {Str::BufferEmpty, "%s，空的"},
     {Str::PositionInGroup, "第%d項，共%d項，%s"},

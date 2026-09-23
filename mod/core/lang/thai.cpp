@@ -59,6 +59,7 @@ const Translation kEntries[] = {
     {Str::CheatHint,
      "ลูกศรขึ้นและลงเลือกสูตรโกง, สิ่งที่พิมพ์จะต่อท้าย, Enter ใช้สูตรโกง และ Enter อีกครั้งใช้ซ้ำ, Escape ปิด"},
     {Str::FundsNow, "เงินสำรอง %s, %s"},
+    {Str::FundsChanged, "%1$s เหลือ %2$s"},
     {Str::BufferEvents, "เหตุการณ์"},
     {Str::BufferEmpty, "%s, ว่างเปล่า"},
     {Str::PositionInGroup, "%d จาก %d, %s"},
