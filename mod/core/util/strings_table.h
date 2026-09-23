@@ -628,4 +628,34 @@
     X(LayoutMiddle, "in the middle: %s")                                                                             \
     X(LayoutNothing, "nothing in it yet")                                                                            \
     X(LayoutMore, "Control+Up says what is in it")                                                                   \
-    X(KeysLayoutHint, "Control+L describes the room: its size, doors, windows and what stands along each wall.")
+    X(KeysLayoutHint, "Control+L describes the room: its size, doors, windows and what stands along each wall.")     \
+    /* House overview (build mode, Ctrl+Shift+L) */                                                                  \
+    X(HouseRoomItem, "%1$s, %2$d")                                                                                   \
+    X(HouseNone, "No house yet: the lot is all outdoors, %d tiles")                                                  \
+    X(HouseSummary, "The house: %1$d floors, %2$d rooms, %3$d tiles indoors; %4$d tiles outdoors")                   \
+    X(HouseFloorRooms, "floor %1$d: %2$s")                                                                           \
+    X(HouseRateSize, "Size")                                                                                         \
+    X(HouseRateFurnishings, "Furnishings")                                                                           \
+    X(HouseRateYard, "Yard")                                                                                         \
+    X(HouseRateUpkeep, "Upkeep")                                                                                     \
+    X(HouseRateLayout, "Layout")                                                                                     \
+    X(HouseRating, "%1$s %2$d")                                                                                      \
+    X(HouseRatings, "house ratings, out of 10: %s")                                                                  \
+    X(NeedToilet, "a toilet")                                                                                        \
+    X(NeedWash, "a shower or bath")                                                                                  \
+    X(NeedFridge, "a fridge")                                                                                        \
+    X(NeedStove, "a stove")                                                                                          \
+    X(NeedPhone, "a phone")                                                                                          \
+    X(NeedSmokeAlarm, "a smoke alarm")                                                                               \
+    X(HouseMissing, "missing: %s")                                                                                   \
+    X(HouseBeds, "beds for %1$d of %2$d Sims")                                                                       \
+    X(HouseClosedRooms, "no way in: %s")                                                                             \
+    X(HouseUnreachable, "Sims cannot reach: %s")                                                                     \
+    X(HouseDark, "dark, with no window or lamp: %s")                                                                 \
+    X(HouseDisliked, "the Sims dislike being in: %s")                                                                \
+    X(HouseLiked, "the Sims like being in: %s")                                                                      \
+    X(HouseAllGood, "nothing missing, nothing blocked")                                                              \
+    X(HouseToCheck, "%d things to check: Control+Up reads them")                                                     \
+    /* House overview (one floor) */                                                                                 \
+    X(HouseSummaryOneFloor, "The house: one floor, %1$d rooms, %2$d tiles indoors; %3$d tiles outdoors")             \
+    X(HouseSummaryOneRoom, "The house: one room, %1$d tiles; %2$d tiles outdoors")

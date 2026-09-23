@@ -17,6 +17,7 @@
 #include "../util/text.h"
 #include "buy_mode.h"
 #include "build_mode.h"
+#include "house_overview.h"
 #include "camera.h"
 #include "cheat_console.h"
 #include "collect.h"
@@ -404,6 +405,7 @@ void Reset() {
     speed::Reset();
     buy::Reset();
     build::Reset();
+    house::Reset();
     camera::Reset();
     tutorial::Reset();
     narrator::Reset();
@@ -451,6 +453,7 @@ void Tick() {
     speed::Tick(g.root);
     buy::Tick();
     build::Tick();
+    house::Tick();
     camera::Tick();
     tutorial::Tick();
 }

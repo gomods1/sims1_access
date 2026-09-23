@@ -143,6 +143,13 @@ constexpr Va kIsOutside = 0x6280a0;   // thiscall bool () on a Room
 constexpr int kArea = 0x38;           // Room: int area in half tiles
 constexpr int kBeds = 0x58;           // Room: int bed count
 constexpr int kBathObjects = 0x5c;    // Room: int bathroom object count
+// Room fields the debug tile window prints (STRUCTS.md "Rooms"): light, dirt, the room score.
+constexpr int kWindowLight = 0x44;
+constexpr int kObjectLight = 0x48;
+constexpr int kDirt = 0x4c;
+constexpr int kImpact = 0x50;
+constexpr int kGoodObjects = 0x54;
+constexpr int kLamps = 0x280;
 }  // namespace rooms
 
 // cObjPickerTool vtable slot 30: void (int worldX, int worldY, short objectId, pickInfo*):

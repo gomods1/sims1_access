@@ -14,6 +14,7 @@
 #include "../nav/cheat_console.h"
 #include "../nav/narrator.h"
 #include "../nav/room_layout.h"
+#include "../nav/house_overview.h"
 #include "../nav/navigator.h"
 #include "../nav/text_entry.h"
 #include "../nav/tutorial.h"
@@ -57,6 +58,7 @@ namespace {
 //   Ctrl+E                         lot view: the selected Sim's state (room, actions, needs, mood)
 //   Ctrl+N                         the narrator's verbosity: everything, warnings only, off
 //   Ctrl+L                         lot view: the room's layout (the build cursor's, else the Sim's)
+//   Ctrl+Shift+L                   the house: floors, rooms, ratings, what is missing or wrong
 //   Ctrl+Shift+C                   the game's cheat console (nav/cheat_console.h): Up/Down/Home/End pick
 //                                  a cheat, typing edits the line, Enter runs it (again: repeats)
 
@@ -180,10 +182,11 @@ bool Dispatch(WPARAM vk, bool shift, bool ctrl) {
         g_swallowChar = 'e';
         nav::narrator::SayStatus();
         return true;
-    case 'L':
-        if (!ctrl || shift) return false;
+    case 'L':  // Ctrl+L the room's layout, Ctrl+Shift+L the whole house
+        if (!ctrl) return false;
         g_swallowChar = 'l';
-        nav::layout::SayRoomLayout();
+        if (shift) nav::house::SayOverview();
+        else nav::layout::SayRoomLayout();
         return true;
     case 'N':
         if (!ctrl || shift) return false;

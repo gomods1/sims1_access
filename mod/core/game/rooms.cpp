@@ -42,6 +42,12 @@ bool GetRoom(int id, Room* out) {
     out->outside = outside;
     out->beds = Rd<int>(room + addr::rooms::kBeds);
     out->bathObjects = Rd<int>(room + addr::rooms::kBathObjects);
+    out->windowLight = Rd<int>(room + addr::rooms::kWindowLight);
+    out->objectLight = Rd<int>(room + addr::rooms::kObjectLight);
+    out->dirt = Rd<int>(room + addr::rooms::kDirt);
+    out->impact = Rd<int>(room + addr::rooms::kImpact);
+    out->goodObjects = Rd<int>(room + addr::rooms::kGoodObjects);
+    out->lamps = Rd<int>(room + addr::rooms::kLamps);
     return true;
 }
 

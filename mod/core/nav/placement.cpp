@@ -689,6 +689,34 @@ namespace {
 WallCheck CompareFloors(int level, Floor& before, Floor& after, WallCheck check);
 }  // namespace
 
+ReachReport CheckReach(int level) {
+    ReachReport report;
+    Floor f = ReadFloor(level);
+    if (!f.entrance.empty()) f.starts = f.entrance;
+    std::vector<uint8_t> none(f.size * f.size, 0);
+    std::vector<uint8_t> reach = Reach(f, none);
+    std::map<int, int> reached, seen;  // room -> tiles reached / standable tiles
+    for (int i = 0; i < f.size * f.size; i++) {
+        Tile t{i % f.size, i / f.size};
+        if (f.room[i] == game::kNoRoom || !Standable(f, t, none)) continue;
+        seen[f.room[i]]++;
+        if (reach[i]) reached[f.room[i]]++;
+    }
+    for (const auto& [room, n] : seen)
+        if (n > 0 && !reached[room]) report.closedRooms.push_back(room);
+    for (const game::LotObject& o : game::LotObjects()) {
+        if (o.person || o.level != level || game::IsPortal(o.object)) continue;
+        Tile at = TileOf(o);
+        std::vector<Tile> use = game::UseTilesAt(o.object, at, game::ObjectDirection(o.object));
+        if (use.empty()) continue;
+        if (!UsableTiles(f, use, game::FootprintAt(o.object, at), none, reach).empty()) continue;
+        std::string name = world::DisplayName(o);
+        if (std::find(report.unusableObjects.begin(), report.unusableObjects.end(), name) == report.unusableObjects.end())
+            report.unusableObjects.push_back(name);
+    }
+    return report;
+}
+
 WallCheck CheckBlockedTiles(int level, const std::vector<Tile>& tiles) {
     Floor before = ReadFloor(level);
     Floor after = before;

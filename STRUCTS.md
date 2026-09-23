@@ -264,6 +264,10 @@ The records live in a `std::map<u16, Room*>` in the room manager `[[0xa67044]] +
 | 0x5c | bathroom object count (toilet, sink, shower...) |
 | 0x280 / 0x284 | lamp count / people count |
 
+A new empty 5 by 4 room read: area field 68 (the record said 34 tiles, the room map 20), window
+light 260, object light 0, lamps 0, dirt 0, impact 0, good objects 4 (read live 2026-09-23). The
+mod counts tiles on the room map instead (`game::RoomTileCount`).
+
 `0x6280a0` (thiscall on a Room) = IsOutside. Verified on the Goth house: toilet and bathroom sink
 in room 9 (4 bath objects), fridge, stove and counters in room 6 (74 tiles), the double bed in
 1025, the shower in 1030.

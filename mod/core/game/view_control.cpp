@@ -42,6 +42,15 @@ bool ModePanelShown(Ptr lotView) {
     return false;
 }
 
+bool BuildPanelShown(Ptr lotView) {
+    for (Ptr panel : Children(lotView)) {
+        if (!IsKindOf(panel, "cWinCPanel") || !Visible(panel)) continue;
+        for (Ptr c : Children(panel))
+            if (IsKindOf(c, "cWinArch") && Visible(c)) return true;
+    }
+    return false;
+}
+
 std::string ClockText(Ptr vc) {
     if (!IsKindOf(vc, "cWinViewControl")) return "";
     return ReadStdStringUtf8(vc + addr::viewctl::kClock);

@@ -211,8 +211,12 @@ for a second Enter. A new room without a door is said, not asked about. Still to
   floors (`cWinArch`, `cWinRoofPanel`, tools such as `cNewWallTool`, `cNewFloorTool`,
   `cPoolTool`): a keyboard cursor on the lot grid, drawing by start and end points, costs and
   errors spoken.
-- Hear the lot layout: rooms, their sizes, doors between them (per room: Ctrl+L; a whole-lot
-  summary is still to do).
+- Hear the lot layout (done): entering build mode speaks the house (`nav/house_overview.cpp`,
+  also Ctrl+Shift+L): floors and rooms with sizes, the yard, the game's house ratings, what a
+  household needs and is missing (toilet, shower or bath, beds for everyone, fridge, stove,
+  phone, smoke alarm, by internal names), rooms with no way in, objects nobody can reach, dark
+  rooms, rooms the Sims dislike or like (the room record's impact, sign only: its scale is not
+  calibrated yet on a furnished house). Per room: Ctrl+L.
 
 ## Expansions (each flow end to end)
 

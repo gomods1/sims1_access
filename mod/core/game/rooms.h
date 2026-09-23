@@ -17,6 +17,11 @@ struct Room {
     bool outside = false;
     int beds = 0;         // the engine's own counters (the house panel counts bedrooms and
     int bathObjects = 0;  // bathrooms with them)
+    int windowLight = 0, objectLight = 0;  // light from windows / from lamps (debug window's names)
+    int dirt = 0;         // dirt total
+    int impact = 0;       // room impact: what the room does to the Room need of Sims in it
+    int goodObjects = 0;  // objects that raise it
+    int lamps = 0;
 };
 bool GetRoom(int id, Room* out);
 // The room's tiles counted on the room map (its floor is id >> 10, plus 1). The record's own

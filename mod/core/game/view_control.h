@@ -15,6 +15,7 @@ bool IsModeButton(Ptr w);  // live, buy, build, options or camera mode
 // The control panel shows one of its mode panels: the live mode family panel (cWinPeople), or
 // buy, build, options or camera mode. None is shown after a lot loads until a mode is chosen.
 bool ModePanelShown(Ptr lotView);
+bool BuildPanelShown(Ptr lotView);  // build mode's panel (cWinArch) is up
 
 std::string ClockText(Ptr vc);     // the time exactly as drawn ("11:46"), UTF-8
 Ptr FundsButton(Ptr vc);           // caption: the funds ("$9.500"); pressing opens the budget
