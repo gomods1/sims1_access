@@ -604,6 +604,16 @@ const Translation kEntries[] = {
      "inde eller afskære en del af grunden, og Enter igen graver alligevel. Kontrol+Enter fylder bassinfelter "
      "op. Stiger, vipper og rutsjebaner placeres fra listen som genstande. Home går tilbage til den valgte Sim, "
      "Escape forlader markøren."},
+    // Terrain cursor
+    {Str::LevelPlan, "Enter jævner %1$d gange %2$d til højden ved starten"},
+    {Str::TerrainCursorStart, "Terrænmarkør, %s. Kontrol+F1 siger tasterne."},
+    {Str::TerrainChanged, "udført"},
+    {Str::TerrainLeveled, "terræn jævnet, %1$d gange %2$d"},
+    {Str::KeysTerrainCursor,
+     "Piletasterne flytter markøren ét felt, med Skift fem. Med jævneværktøjet markerer Mellemrum feltet, hvis "
+     "højde bevares, og Enter jævner alt derfra til markøren: vægge, gulve og de fleste genstande kræver jævnt "
+     "terræn, og spillet siger det, når det ikke er. Med hæv eller sænk hæver eller sænker Enter terrænet én "
+     "gang ved markøren. Home går tilbage til den valgte Sim, Escape forlader markøren."},
 };
 
 }  // namespace

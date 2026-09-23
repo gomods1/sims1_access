@@ -612,6 +612,17 @@ const Translation kEntries[] = {
      "puerta, encerraría a alguien o aislaría parte del solar, e Intro otra vez cava de todos modos. "
      "Control+Intro rellena casillas de piscina. Las escalerillas, trampolines y toboganes se colocan desde la "
      "lista como objetos. Inicio vuelve al Sim seleccionado, Escape sale del cursor."},
+    // Terrain cursor
+    {Str::LevelPlan, "Intro nivela %1$d por %2$d a la altura del inicio"},
+    {Str::TerrainCursorStart, "Cursor de terreno, %s. Control+F1 dice las teclas."},
+    {Str::TerrainChanged, "hecho"},
+    {Str::TerrainLeveled, "terreno nivelado, %1$d por %2$d"},
+    {Str::KeysTerrainCursor,
+     "Las flechas mueven el cursor una casilla, con Mayúsculas cinco. Con la herramienta de nivelar, Espacio "
+     "marca la casilla cuya altura se mantiene e Intro nivela todo desde allí hasta el cursor: las paredes, los "
+     "suelos y casi todos los objetos necesitan terreno llano, y el juego avisa cuando no lo es. Con elevar o "
+     "rebajar, Intro eleva o rebaja el terreno una vez en el cursor. Inicio vuelve al Sim seleccionado, Escape "
+     "sale del cursor."},
 };
 
 }  // namespace

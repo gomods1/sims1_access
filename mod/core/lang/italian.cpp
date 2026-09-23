@@ -613,6 +613,16 @@ const Translation kEntries[] = {
      "porta, chiuderebbe dentro qualcuno o isolerebbe parte del lotto, e Invio di nuovo scava comunque. "
      "Control+Invio riempie caselle di piscina. Scalette, trampolini e scivoli si mettono dalla lista come "
      "oggetti. Home torna al Sim selezionato, Esc esce dal cursore."},
+    // Terrain cursor
+    {Str::LevelPlan, "Invio livella %1$d per %2$d all'altezza dell'inizio"},
+    {Str::TerrainCursorStart, "Cursore terreno, %s. Control+F1 dice i tasti."},
+    {Str::TerrainChanged, "fatto"},
+    {Str::TerrainLeveled, "terreno livellato, %1$d per %2$d"},
+    {Str::KeysTerrainCursor,
+     "Le frecce spostano il cursore di una casella, con Maiusc di cinque. Con lo strumento livella, Spazio segna "
+     "la casella di cui si tiene l'altezza e Invio livella tutto da lì al cursore: muri, pavimenti e quasi tutti "
+     "gli oggetti vogliono terreno piano, e il gioco lo dice quando non lo è. Con alza o abbassa, Invio alza o "
+     "abbassa il terreno una volta sul cursore. Home torna al Sim selezionato, Esc esce dal cursore."},
 };
 
 }  // namespace

@@ -618,6 +618,17 @@ const Translation kEntries[] = {
      "blockieren, jemanden einsperren oder einen Teil des Grundstücks abtrennen würde; noch einmal Eingabe gräbt "
      "trotzdem. Strg+Eingabe schüttet Poolfelder zu. Leitern, Sprungbretter und Rutschen werden aus der Liste "
      "wie Objekte platziert. Pos1 springt zum ausgewählten Sim, Escape verlässt den Cursor."},
+    // Terrain cursor
+    {Str::LevelPlan, "Eingabe ebnet %1$d mal %2$d auf die Höhe am Start"},
+    {Str::TerrainCursorStart, "Geländecursor, %s. Strg+F1 nennt die Tasten."},
+    {Str::TerrainChanged, "erledigt"},
+    {Str::TerrainLeveled, "Gelände geebnet, %1$d mal %2$d"},
+    {Str::KeysTerrainCursor,
+     "Die Pfeiltasten bewegen den Cursor um ein Feld, mit Umschalt um fünf. Mit dem Ebnen-Werkzeug markiert "
+     "Leertaste das Feld, dessen Höhe bleibt, und Eingabe ebnet alles von dort bis zum Cursor: Wände, Böden und "
+     "die meisten Objekte brauchen ebenen Boden, und das Spiel sagt, wenn er es nicht ist. Mit Anheben oder "
+     "Absenken hebt oder senkt Eingabe den Boden einmal am Cursor. Pos1 springt zum ausgewählten Sim, Escape "
+     "verlässt den Cursor."},
 };
 
 }  // namespace

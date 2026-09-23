@@ -522,6 +522,14 @@ const Translation kEntries[] = {
     {Str::KeysPoolCursor,
      "方向键把光标移动一格，按住Shift移动五格。空格设泳池的一个角，光标随后会说出大小和价格。Enter从起点到光标挖泳池，或只挖所在格；挖之前，如果水会让模拟市民到不了某个物品、挡住门、困住某人或隔开地块的一部分，"
      "模组会警告，再按Enter仍然挖。Ctrl+Enter填平泳池格。泳池梯、跳板和滑梯像物品一样从列表放置。Home回到选中的模拟市民，Escape退出光标。"},
+    // Terrain cursor
+    {Str::LevelPlan, "Enter把%1$d乘%2$d整平到起点的高度"},
+    {Str::TerrainCursorStart, "地形光标，%s。Ctrl+F1朗读按键。"},
+    {Str::TerrainChanged, "完成"},
+    {Str::TerrainLeveled, "地面已整平，%1$d乘%2$d"},
+    {Str::KeysTerrainCursor,
+     "方向键把光标移动一格，按住Shift移动五格。使用整平工具时，空格设定保持高度的格子，Enter把从那里到光标的范围整平：墙、地板和大多数物品都需要平地，不平时游戏会提示。使用升高或降低工具时，Enter在光标处升"
+     "高或降低地面一次。Home回到选中的模拟市民，Escape退出光标。"},
 };
 
 }  // namespace

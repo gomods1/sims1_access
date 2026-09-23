@@ -619,6 +619,17 @@ const Translation kEntries[] = {
      "blokkeren, iemand zou insluiten of een deel van het terrein zou afsluiten; nog een keer Enter graaft toch. "
      "Control+Enter dempt zwembadvakjes. Trapjes, duikplanken en glijbanen plaats je vanuit de lijst als "
      "voorwerpen. Home gaat terug naar de geselecteerde Sim, Escape verlaat de cursor."},
+    // Terrain cursor
+    {Str::LevelPlan, "Enter egaliseert %1$d bij %2$d tot de hoogte bij het begin"},
+    {Str::TerrainCursorStart, "Terreincursor, %s. Control+F1 noemt de toetsen."},
+    {Str::TerrainChanged, "klaar"},
+    {Str::TerrainLeveled, "terrein geëgaliseerd, %1$d bij %2$d"},
+    {Str::KeysTerrainCursor,
+     "De pijltjes verplaatsen de cursor één vakje, met Shift vijf. Met het egaliseergereedschap markeert Spatie "
+     "het vakje waarvan de hoogte blijft, en Enter egaliseert alles van daar tot de cursor: muren, vloeren en de "
+     "meeste voorwerpen hebben vlakke grond nodig, en het spel zegt het als die niet vlak is. Met ophogen of "
+     "verlagen hoogt Enter de grond één keer op of verlaagt hem bij de cursor. Home gaat terug naar de "
+     "geselecteerde Sim, Escape verlaat de cursor."},
 };
 
 }  // namespace

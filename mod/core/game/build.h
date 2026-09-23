@@ -50,6 +50,13 @@ bool PoolToolActive();  // the water tool (pools and ponds)
 // Digs (or fills in) the rectangle of tiles; tiles = the drag's tile count.
 int DrawPool(Corner fromTile, Corner toTile, bool remove, int* tiles);
 
+// Terrain: 1 the level tool, 2 raise or lower (by the chosen product), 0 none of them.
+int TerrainToolKind();
+// Levels the tiles from `from` to `to` to the height at `from`; cost = the price the tool showed.
+int LevelTerrain(Corner from, Corner to, int* cost);
+// Raise or lower once at a tile, as a click does.
+int PressTerrain(Corner at);
+
 // The lot's buildable area: the engine's tile flag 0x20 marks tiles outside it (0x58a660).
 bool CornerBuildable(Corner c);
 

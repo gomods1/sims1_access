@@ -603,6 +603,16 @@ const Translation kEntries[] = {
      "eller skjære av en del av tomten, og Enter igjen graver likevel. Kontroll+Enter fyller igjen bassengruter. "
      "Stiger, stupebrett og sklier plasseres fra listen som gjenstander. Home går tilbake til den valgte simmen, "
      "Escape forlater markøren."},
+    // Terrain cursor
+    {Str::LevelPlan, "Enter jevner %1$d ganger %2$d til høyden ved starten"},
+    {Str::TerrainCursorStart, "Terrengmarkør, %s. Kontroll+F1 sier tastene."},
+    {Str::TerrainChanged, "ferdig"},
+    {Str::TerrainLeveled, "terreng jevnet, %1$d ganger %2$d"},
+    {Str::KeysTerrainCursor,
+     "Piltastene flytter markøren én rute, med Skift fem. Med jevneverktøyet merker Mellomrom ruten der høyden "
+     "beholdes, og Enter jevner alt derfra til markøren: vegger, gulv og de fleste gjenstander trenger jevnt "
+     "terreng, og spillet sier fra når det ikke er det. Med hev eller senk hever eller senker Enter terrenget én "
+     "gang ved markøren. Home går tilbake til den valgte simmen, Escape forlater markøren."},
 };
 
 }  // namespace

@@ -612,6 +612,16 @@ const Translation kEntries[] = {
      "sisään tai erottaisi osan tontista, ja Enter uudelleen kaivaa silti. Control+Enter täyttää allasruutuja. "
      "Tikkaat, ponnahduslaudat ja liukumäet sijoitetaan listasta kuten esineet. Home palaa valittuun simiin, "
      "Escape poistuu kohdistimesta."},
+    // Terrain cursor
+    {Str::LevelPlan, "Enter tasoittaa %1$d kertaa %2$d alun korkeuteen"},
+    {Str::TerrainCursorStart, "Maastokohdistin, %s. Control+F1 kertoo näppäimet."},
+    {Str::TerrainChanged, "valmis"},
+    {Str::TerrainLeveled, "maasto tasoitettu, %1$d kertaa %2$d"},
+    {Str::KeysTerrainCursor,
+     "Nuolet siirtävät kohdistinta yhden ruudun, Vaihdon kanssa viisi. Tasoitustyökalulla välilyönti merkitsee "
+     "ruudun, jonka korkeus säilyy, ja Enter tasoittaa kaiken siitä kohdistimeen: seinät, lattiat ja useimmat "
+     "esineet tarvitsevat tasaisen maan, ja peli kertoo, kun se ei ole. Nosto- tai laskutyökalulla Enter nostaa "
+     "tai laskee maata kerran kohdistimessa. Home palaa valittuun simiin, Escape poistuu kohdistimesta."},
 };
 
 }  // namespace

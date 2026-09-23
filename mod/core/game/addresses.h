@@ -254,6 +254,20 @@ constexpr int kRemoveMode = 0x2c;
 constexpr int kTiles = 0x48;
 constexpr int kOverLot = 0x58;
 }  // namespace pooltool
+// Terrain tools. cLevelDirtTool (level): down 0x658540 keeps the start in the globals 0xa6caf4/8,
+// drag 0x658600 the end in 0xa6caec/f0 and the price at +0x30 (+0x38 = 6: not enough money), up
+// 0x658940 flattens the rectangle to the height at the start; all only while +0x2c is 0.
+// cSimpleAltTool (raise / lower, the chosen product decides): down 0x656580, up 0x657960.
+namespace terraintool {
+constexpr int kDownSlot = 8, kDragSlot = 10, kUpSlot = 11;
+constexpr Va kLevelDown = 0x658540;
+constexpr Va kLevelDrag = 0x658600;
+constexpr Va kLevelUp = 0x658940;
+constexpr int kLevelCost = 0x30;
+constexpr int kLevelError = 0x38;
+constexpr Va kAltDown = 0x656580;
+constexpr Va kAltUp = 0x657960;
+}  // namespace terraintool
 // cdecl void (int code, int arg): the build tools' "Can't place here!" message; code = 1-based
 // index into STR# 137 (as buy mode's placement errors), 0 hides it. Hooked: the mod speaks it.
 constexpr Va kBuildError = 0x56f7f0;

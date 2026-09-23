@@ -606,6 +606,16 @@ const Translation kEntries[] = {
      "in någon eller skära av en del av tomten, och Enter igen gräver ändå. Kontroll+Enter fyller igen "
      "poolrutor. Stegar, trampoliner och rutschkanor placeras från listan som föremål. Home går tillbaka till "
      "den valda simmen, Escape lämnar markören."},
+    // Terrain cursor
+    {Str::LevelPlan, "Enter jämnar %1$d gånger %2$d till höjden vid starten"},
+    {Str::TerrainCursorStart, "Terrängmarkör, %s. Kontroll+F1 säger tangenterna."},
+    {Str::TerrainChanged, "klart"},
+    {Str::TerrainLeveled, "terräng utjämnad, %1$d gånger %2$d"},
+    {Str::KeysTerrainCursor,
+     "Piltangenterna flyttar markören en ruta, med Skift fem. Med utjämningsverktyget markerar Mellanslag rutan "
+     "vars höjd behålls, och Enter jämnar ut allt därifrån till markören: väggar, golv och de flesta föremål "
+     "behöver plan mark, och spelet säger till när den inte är det. Med höj eller sänk höjer eller sänker Enter "
+     "marken en gång vid markören. Home går tillbaka till den valda simmen, Escape lämnar markören."},
 };
 
 }  // namespace

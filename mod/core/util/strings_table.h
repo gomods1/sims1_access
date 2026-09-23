@@ -601,4 +601,14 @@
       "alone; before digging, the mod warns if the water would cut Sims off from an object, block a door, "          \
       "shut someone in or isolate part of the lot, and Enter again digs anyway. Control+Enter fills pool "           \
       "tiles back in. Ladders, diving boards and slides are placed from the list like objects. Home goes "           \
-      "back to the selected Sim, Escape leaves the cursor.")
+      "back to the selected Sim, Escape leaves the cursor.")                                                         \
+    /* Terrain cursor */                                                                                             \
+    X(LevelPlan, "Enter levels %1$d by %2$d to the height at the start")                                             \
+    X(TerrainCursorStart, "Terrain cursor, %s. Control+F1 says the keys.")                                           \
+    X(TerrainChanged, "done")                                                                                        \
+    X(TerrainLeveled, "ground levelled, %1$d by %2$d")                                                               \
+    X(KeysTerrainCursor,                                                                                             \
+      "Arrows move the cursor one tile, with Shift five. With the level tool, Space marks the tile whose "           \
+      "height is kept, and Enter levels everything from there to the cursor: walls, floors and most objects "        \
+      "need level ground, and the game says when it is not. With raise or lower, Enter raises or lowers the "        \
+      "ground once at the cursor. Home goes back to the selected Sim, Escape leaves the cursor.")

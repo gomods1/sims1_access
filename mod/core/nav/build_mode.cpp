@@ -42,6 +42,7 @@ struct State {
     bool floors = false;     // the floor or wallpaper tool: the cursor is on tiles, not corners
     bool paper = false;      // the wallpaper tool: whole rooms
     bool pool = false;       // the water tool: rectangles of pool
+    int terrain = 0;         // 1 the level tool, 2 raise or lower (game::TerrainToolKind)
     Corner cursor;
     bool hasStart = false;
     Corner start;
@@ -178,6 +179,9 @@ std::string PoolPlanLine() {
 }
 
 std::string PlanLine() {
+    if (g.terrain == 1 && g.hasStart)
+        return util::Format(S(Str::LevelPlan), Width(g.start, g.cursor), Depth(g.start, g.cursor));
+    if (g.terrain) return "";
     if (g.pool) return g.hasStart ? PoolPlanLine() : "";
     if (g.paper) {
         std::string room = RoomName(Tile{g.cursor.x, g.cursor.y});
@@ -206,7 +210,7 @@ Tile TileSE(Corner c) { return Tile{c.x, c.y}; }
 std::string ShortLine() {
     std::string line = util::Format(S(Str::BuildCorner), g.cursor.x, g.cursor.y);
     if (!game::CornerBuildable(g.cursor)) line += ", " + std::string(S(Str::BuildNotBuildableHere));
-    if (g.floors && !g.paper && !g.pool) {
+    if (g.floors && !g.paper && !g.pool && !g.terrain) {
         line += ", " + std::string(S(game::HasFloor(g.level, g.cursor.x, g.cursor.y) ? Str::FloorHere : Str::FloorNone));
     } else {
         std::vector<Str> walls = WallsAtCorner(g.cursor);
@@ -352,11 +356,13 @@ void Reset() { g = State{}; }
 
 bool Active() { return g.active; }
 
-bool FloorCursor() { return g.active && g.floors && !g.paper && !g.pool; }
+bool FloorCursor() { return g.active && g.floors && !g.paper && !g.pool && !g.terrain; }
 
 bool PaperCursor() { return g.active && g.paper; }
 
 bool PoolCursor() { return g.active && g.pool; }
+
+bool TerrainCursor() { return g.active && g.terrain; }
 
 bool Begin(uintptr_t productButton) {
     if (!LotViewActive()) return false;
@@ -370,18 +376,23 @@ namespace {
 constexpr ULONGLONG kSettleMs = 250, kGiveUpMs = 1500;
 
 bool ToolActive() {
+    if (g.terrain) return game::TerrainToolKind() == g.terrain;
     if (g.pool) return game::PoolToolActive();
     return g.paper ? game::PaperToolActive() : g.floors ? game::FloorToolActive() : game::WallToolActive();
 }
 
 bool Start(uintptr_t productButton) {
     bool paper = game::PaperToolActive(), pool = game::PoolToolActive();
-    if (!LotViewActive() || (!game::WallToolActive() && !game::FloorToolActive() && !paper && !pool)) return false;
-    bool floors = game::FloorToolActive() || paper || pool;
-    if (g.active && (floors != g.floors || paper != g.paper || pool != g.pool)) g.active = false;  // another tool
+    int terrain = game::TerrainToolKind();
+    if (!LotViewActive() || (!game::WallToolActive() && !game::FloorToolActive() && !paper && !pool && !terrain))
+        return false;
+    bool floors = game::FloorToolActive() || paper || pool || terrain;
+    if (g.active && (floors != g.floors || paper != g.paper || pool != g.pool || terrain != g.terrain))
+        g.active = false;  // another tool: start afresh
     g.floors = floors;
     g.paper = paper;
     g.pool = pool;
+    g.terrain = terrain;
     game::ProductInfo p;
     if (productButton && game::ReadProductOfButton(productButton, &p)) {
         g.price = p.price;
@@ -399,7 +410,7 @@ bool Start(uintptr_t productButton) {
     }
     std::vector<std::string> lines = FullLines();
     buffers::SetDetails(lines);
-    Str start = g.pool ? Str::PoolCursorStart : g.paper ? Str::PaperCursorStart
+    Str start = g.terrain ? Str::TerrainCursorStart : g.pool ? Str::PoolCursorStart : g.paper ? Str::PaperCursorStart
               : g.floors ? Str::FloorCursorStart : Str::BuildCursorStart;
     speech::Say(util::Format(S(start), g.style.c_str()) + " " + ShortLine());
     return true;
@@ -576,7 +587,39 @@ void BuildPool(bool remove) {
 
 }  // namespace
 
+namespace {
+
+void BuildTerrain() {
+    g.pending = false;
+    if (g.terrain == 2) {
+        int error = game::PressTerrain(g.cursor);
+        if (error != 0) {
+            std::string reason = error > 0 ? game::PlacementErrorText(error) : "";
+            speech::Say(reason.empty() ? std::string(S(Str::BuildFailed)) : reason);
+            return;
+        }
+        buffers::Event(S(Str::TerrainChanged));
+        return;
+    }
+    Corner a = g.hasStart ? g.start : g.cursor;
+    int cost = 0;
+    int error = game::LevelTerrain(a, g.cursor, &cost);
+    if (error != 0) {
+        std::string reason = error > 0 ? game::PlacementErrorText(error) : "";
+        speech::Say(reason.empty() ? std::string(S(Str::BuildFailed)) : reason);
+        return;
+    }
+    std::string line = util::Format(S(Str::TerrainLeveled), Width(a, g.cursor), Depth(a, g.cursor));
+    buffers::Event(cost > 0 ? line + ". " + util::Format(S(Str::BuildCostWas), Money(cost).c_str()) : line);
+}
+
+}  // namespace
+
 void Build(bool room, bool remove) {
+    if (g.terrain) {
+        BuildTerrain();
+        return;
+    }
     if (g.pool) {
         BuildPool(remove);
         return;
@@ -626,7 +669,7 @@ void Build(bool room, bool remove) {
 }
 
 void NextPreset(int delta) {
-    if (g.floors || g.paper || g.pool) {
+    if (g.floors || g.paper || g.pool || g.terrain) {
         speech::Say(S(Str::FloorNoPresets));
         return;
     }

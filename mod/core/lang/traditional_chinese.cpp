@@ -521,6 +521,14 @@ const Translation kEntries[] = {
     {Str::KeysPoolCursor,
      "方向鍵把游標移動一格，按住Shift移動五格。空白鍵設泳池的一個角，游標隨後會說出大小和價格。Enter從起點到游標挖泳池，或只挖所在格；挖之前，如果水會讓模擬人物到不了某個物品、擋住門、困住某人或隔開地段的一部分"
      "，模組會警告，再按Enter仍然挖。Ctrl+Enter填平泳池格。泳池梯、跳板和滑梯像物品一樣從清單放置。Home回到選取的模擬人物，Escape退出游標。"},
+    // Terrain cursor
+    {Str::LevelPlan, "Enter把%1$d乘%2$d整平到起點的高度"},
+    {Str::TerrainCursorStart, "地形游標，%s。Ctrl+F1朗讀按鍵。"},
+    {Str::TerrainChanged, "完成"},
+    {Str::TerrainLeveled, "地面已整平，%1$d乘%2$d"},
+    {Str::KeysTerrainCursor,
+     "方向鍵把游標移動一格，按住Shift移動五格。使用整平工具時，空白鍵設定保持高度的格子，Enter把從那裡到游標的範圍整平：牆、地板和大多數物品都需要平地，不平時遊戲會提示。使用升高或降低工具時，Enter在游標處"
+     "升高或降低地面一次。Home回到選取的模擬人物，Escape退出游標。"},
 };
 
 }  // namespace

@@ -609,6 +609,16 @@ const Translation kEntries[] = {
      "jeśli woda odcięłaby Simów od przedmiotu, zablokowała drzwi, kogoś zamknęła lub odcięła część działki, a "
      "Enter jeszcze raz kopie mimo to. Control+Enter zasypuje pola basenu. Drabinki, trampoliny i zjeżdżalnie "
      "stawia się z listy jak przedmioty. Home wraca do wybranego Sima, Escape opuszcza kursor."},
+    // Terrain cursor
+    {Str::LevelPlan, "Enter wyrównuje %1$d na %2$d do wysokości początku"},
+    {Str::TerrainCursorStart, "Kursor terenu, %s. Control+F1 podaje klawisze."},
+    {Str::TerrainChanged, "gotowe"},
+    {Str::TerrainLeveled, "teren wyrównany, %1$d na %2$d"},
+    {Str::KeysTerrainCursor,
+     "Strzałki przesuwają kursor o jedno pole, z Shiftem o pięć. Z narzędziem wyrównywania Spacja zaznacza pole, "
+     "którego wysokość zostaje, a Enter wyrównuje wszystko stamtąd do kursora: ściany, podłogi i większość "
+     "przedmiotów wymagają płaskiego terenu, a gra mówi, gdy taki nie jest. Z podnoszeniem lub obniżaniem Enter "
+     "raz podnosi lub obniża teren przy kursorze. Home wraca do wybranego Sima, Escape opuszcza kursor."},
 };
 
 }  // namespace

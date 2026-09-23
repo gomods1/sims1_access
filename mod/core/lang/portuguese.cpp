@@ -613,6 +613,16 @@ const Translation kEntries[] = {
      "isolaria parte do lote, e Enter de novo cava mesmo assim. Control+Enter aterra quadrados de piscina. "
      "Escadas, trampolins e escorregadores são colocados pela lista como objetos. Home volta ao Sim selecionado, "
      "Escape sai do cursor."},
+    // Terrain cursor
+    {Str::LevelPlan, "Enter nivela %1$d por %2$d na altura do início"},
+    {Str::TerrainCursorStart, "Cursor de terreno, %s. Control+F1 diz as teclas."},
+    {Str::TerrainChanged, "feito"},
+    {Str::TerrainLeveled, "terreno nivelado, %1$d por %2$d"},
+    {Str::KeysTerrainCursor,
+     "As setas movem o cursor um quadrado, com Shift cinco. Com a ferramenta de nivelar, Espaço marca o quadrado "
+     "cuja altura é mantida, e Enter nivela tudo dali até o cursor: paredes, pisos e a maioria dos objetos "
+     "precisam de terreno plano, e o jogo avisa quando não é. Com elevar ou rebaixar, Enter eleva ou rebaixa o "
+     "terreno uma vez no cursor. Home volta ao Sim selecionado, Escape sai do cursor."},
 };
 
 }  // namespace

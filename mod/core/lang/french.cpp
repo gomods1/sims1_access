@@ -623,6 +623,17 @@ const Translation kEntries[] = {
      "une porte, enfermerait quelqu'un ou isolerait une partie du terrain, et Entrée encore une fois creuse "
      "quand même. Contrôle+Entrée comble des cases de piscine. Échelles, plongeoirs et toboggans se placent "
      "depuis la liste comme des objets. Début revient au Sim sélectionné, Échap quitte le curseur."},
+    // Terrain cursor
+    {Str::LevelPlan, "Entrée nivelle %1$d sur %2$d à la hauteur du départ"},
+    {Str::TerrainCursorStart, "Curseur de terrain, %s. Contrôle+F1 donne les touches."},
+    {Str::TerrainChanged, "fait"},
+    {Str::TerrainLeveled, "terrain nivelé, %1$d sur %2$d"},
+    {Str::KeysTerrainCursor,
+     "Les flèches déplacent le curseur d'une case, avec Maj de cinq. Avec l'outil de nivellement, Espace marque "
+     "la case dont la hauteur est gardée, et Entrée nivelle tout de là jusqu'au curseur : murs, sols et la "
+     "plupart des objets demandent un terrain plat, et le jeu le dit quand il ne l'est pas. Avec élever ou "
+     "abaisser, Entrée élève ou abaisse le terrain une fois au curseur. Début revient au Sim sélectionné, Échap "
+     "quitte le curseur."},
 };
 
 }  // namespace

@@ -115,6 +115,48 @@ Ptr PoolTool() {
 
 bool PoolToolActive() { return PoolTool() != 0; }
 
+int TerrainToolKind() {
+    Ptr tool = Rd<Ptr>(Va(addr::kCurrentTool));
+    if (IsKindOf(tool, "cLevelDirtTool")) return 1;
+    if (IsKindOf(tool, "cSimpleAltTool")) return 2;
+    return 0;
+}
+
+int LevelTerrain(Corner from, Corner to, int* cost) {
+    Ptr tool = Rd<Ptr>(Va(addr::kCurrentTool));
+    if (cost) *cost = 0;
+    if (!IsKindOf(tool, "cLevelDirtTool")) return -1;
+    int ax, ay, bx, by;
+    TileToView(from, &ax, &ay);
+    TileToView(to, &bx, &by);
+    g_lastError = 0;
+    bool ok = CallMouse(tool, addr::terraintool::kDownSlot, addr::terraintool::kLevelDown, "cLevelDirtTool::MouseDown", ax, ay) &&
+              CallMouse(tool, addr::terraintool::kDragSlot, addr::terraintool::kLevelDrag, "cLevelDirtTool::MouseDrag", bx, by, 60);
+    int price = Rd<int>(tool + addr::terraintool::kLevelCost);
+    int refused = Rd<int>(tool + addr::terraintool::kLevelError);
+    ok = ok && CallMouse(tool, addr::terraintool::kUpSlot, addr::terraintool::kLevelUp, "cLevelDirtTool::MouseUp", bx, by, 60);
+    Log("build: level %d,%d -> %d,%d: %s, cost %d, refused %d, error %d", from.x, from.y, to.x, to.y,
+        ok ? "done" : "failed", price, refused, g_lastError);
+    if (cost) *cost = price;
+    if (!ok) return -1;
+    if (refused) return refused;
+    return g_lastError;
+}
+
+int PressTerrain(Corner at) {
+    Ptr tool = Rd<Ptr>(Va(addr::kCurrentTool));
+    if (!IsKindOf(tool, "cSimpleAltTool")) return -1;
+    int vx, vy;
+    TileToView(at, &vx, &vy);
+    g_lastError = 0;
+    g_lastCost = 0;
+    bool ok = CallMouse(tool, addr::terraintool::kDownSlot, addr::terraintool::kAltDown, "cSimpleAltTool::MouseDown", vx, vy) &&
+              CallMouse(tool, addr::terraintool::kUpSlot, addr::terraintool::kAltUp, "cSimpleAltTool::MouseUp", vx, vy);
+    Log("build: terrain press %d,%d: %s, error %d", at.x, at.y, ok ? "done" : "failed", g_lastError);
+    if (!ok) return -1;
+    return g_lastError;
+}
+
 int DrawPool(Corner fromTile, Corner toTile, bool remove, int* tilesOut) {
     Ptr tool = PoolTool();
     if (tilesOut) *tilesOut = 0;
