@@ -243,6 +243,11 @@ void PollAction(ULONGLONG now) {
     g.idleSince = actions.empty() ? (g.idleSince ? g.idleSince : now) : 0;
     if (!running.empty()) {
         if (running == g.actionSaid || now - g.runningSince < kActionStartMs) return;
+        // The player's action gave way to another with no idle moment between (free will picks
+        // the next thing at once): its end is still news.
+        if (!g.endSaid && g.saidByPlayer && !g.actionSaid.empty())
+            narrator::Announce(util::Format(S(Str::ActionFinished), SimName(g.selected).c_str(), g.actionSaid.c_str()),
+                               false);
         g.actionSaid = running;
         g.saidByPlayer = byPlayer;
         g.endSaid = false;
