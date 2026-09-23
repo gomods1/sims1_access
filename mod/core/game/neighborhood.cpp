@@ -41,7 +41,9 @@ int LotKind(int number) {
 
 Ptr TravelMap(Ptr widget) {
     for (int depth = 0; widget && depth < 12; depth++, widget = Parent(widget))
-        if (IsKindOf(widget, "cWinNeighborhoodUL")) return widget;
+        // The home neighborhood is the same class: its filter bar is off (the filter keys 1..7
+        // work only while +0x185 is 0, 0x4a9c80).
+        if (IsKindOf(widget, "cWinNeighborhoodUL")) return Rd<uint8_t>(widget + addr::travelmap::kFiltersOff) ? 0 : widget;
     return 0;
 }
 

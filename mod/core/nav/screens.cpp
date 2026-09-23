@@ -3,6 +3,7 @@
 #include "../game/lot.h"
 #include "../game/pie.h"
 #include "../game/view_control.h"
+#include "../game/neighborhood.h"
 #include "../game/rtti.h"
 #include "../game/ui.h"
 #include "../util/game_settings.h"
@@ -45,7 +46,7 @@ constexpr size_t kMaxTitleLength = 40;  // longer text is a message, not a title
 
 // The neighborhood says its number ("Barrio 1"), as the game shows it between its arrows.
 std::string ScreenName(Ptr root) {
-    if (game::IsKindOf(root, "cWinNeighborhoodUL")) return S(Str::ScreenOldTown);
+    if (game::TravelMap(root) == root && root) return S(Str::ScreenOldTown);
     if (game::IsKindOf(root, "cWinNeighborhood")) {
         std::string number = util::ReadGameSetting("SIMS_CURRENT_NEIGHBORHOOD_NUM");
         if (!number.empty()) return util::Format(S(Str::ScreenNeighborhoodNumber), number.c_str());

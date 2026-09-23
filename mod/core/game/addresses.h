@@ -476,6 +476,7 @@ constexpr int kFilterBits = 0x1f0; // what the travel map's filter bar marks the
 // lodging 1 (the homes carry 1 too).
 namespace travelmap {
 constexpr int kFilter = 0x1ec;
+constexpr int kFiltersOff = 0x185;  // byte: 1 on the home neighborhood (no filter bar), 0 on a travel map
 constexpr int kNeighborhood = 0x24;
 constexpr int kLotKinds = 0x180;
 constexpr int kKindCommunity = 2;
