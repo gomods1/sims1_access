@@ -97,7 +97,8 @@ What to announce (the selected Sim; the others only when it needs the player):
   - Refusals (the Sim shakes their head when their mood is too low for an action): check
     whether they come with a balloon (crossed out) now that every balloon is logged.
   - Relationship changes as numbers (done, verified): the selected Sim's daily relationship with
-    each Sim on the lot, "Marisa, con Cris: +8, ahora 28".
+    each Sim on the lot, "Marisa, con Cris: +8, ahora 28"; the game's own drift of a point or two with no
+    social behind it (no + / - balloon in the last 4 s) only goes to the events buffer.
   - Money (done): every payment or income outside buy mode, "-$40, quedan $8.415" (the game
     only plays a sound).
   - Empty interaction menus explained (done): "sin interacciones. solo para niños: Jugar,

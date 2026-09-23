@@ -28,6 +28,8 @@ void Tick();
 // buffer. important = a warning (spoken unless the narrator is off).
 void Announce(const std::string& line, bool important);
 void Record(const std::string& line);  // only kept in the buffer
+// A + or - balloon (a social's effect) showed over the Sim since then.
+bool RelationSignSince(int neighborId, unsigned long long since);
 
 void CycleVerbosity();  // Ctrl+N: everything -> warnings only -> off -> everything
 void SayStatus();       // Ctrl+E: the selected Sim's room, actions, low needs and mood

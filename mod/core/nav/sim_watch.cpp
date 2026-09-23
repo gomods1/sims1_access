@@ -37,6 +37,8 @@ constexpr ULONGLONG kActionStartMs = 700;
 constexpr ULONGLONG kActionEndMs = 1500;
 constexpr ULONGLONG kNeedPollMs = 1000;
 constexpr ULONGLONG kRelationPollMs = 1000;
+constexpr ULONGLONG kRelationSocialMs = 4000;  // a + / - balloon this recent: a social made the change
+constexpr int kRelationDrift = 2;              // the game's own drift, a point or two
 // Money: polled often, spoken once it has not moved for this long, so a bill paid in parts or
 // several purchases in a row become one line.
 constexpr ULONGLONG kFundsPollMs = 250;
@@ -240,10 +242,18 @@ void PollRelationships(ULONGLONG now) {
         it->second = r.daily;
         if (!delta) continue;
         std::string amount = (delta > 0 ? "+" : "") + std::to_string(delta);
+        std::string line = util::Format(S(Str::RelationChanged), SimName(g.selected).c_str(), SimName(other).c_str(),
+                                        amount.c_str(), r.daily);
+        // The game also moves relationships by a point or two on its own every few hours, with
+        // no social (said every half minute at ultra speed): those only go to the buffer.
+        bool social = narrator::RelationSignSince(other, now - kRelationSocialMs) ||
+                      narrator::RelationSignSince(g.selected, now - kRelationSocialMs);
+        if (!social && delta >= -kRelationDrift && delta <= kRelationDrift) {
+            narrator::Record(line);
+            continue;
+        }
         g.relationSaid[other] = g.relationSaid[g.selected] = now;
-        narrator::Announce(util::Format(S(Str::RelationChanged), SimName(g.selected).c_str(), SimName(other).c_str(),
-                                        amount.c_str(), r.daily),
-                           false);
+        narrator::Announce(line, false);
     }
 }
 

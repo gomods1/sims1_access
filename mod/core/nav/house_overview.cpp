@@ -27,7 +27,7 @@ namespace nav::house {
 namespace {
 
 bool g_buildShown = false;  // the build panel was up at the last tick
-uintptr_t g_lot = 0;  // game::LotIdentity
+game::Ptr g_lot = 0;
 
 std::string Join(const std::vector<std::string>& items) {
     std::string out;
@@ -70,7 +70,7 @@ void Reset() {
 
 void Tick() {
     game::Ptr root = game::InputRoot();
-    uintptr_t lot = game::LotIdentity();
+    game::Ptr lot = game::LotModule();
     if (lot != g_lot) {
         g_lot = lot;
         g_buildShown = false;

@@ -77,6 +77,7 @@ struct State {
     ULONGLONG visitorsPolled = 0;
 };
 
+std::map<int, ULONGLONG> g_relationSignAt;  // by neighbor ID: the last + / - balloon over the Sim
 State g;
 
 // Verbosity levels as saved in SimsAccess.ini ("narrator").
@@ -260,6 +261,7 @@ void Report(const Balloon& b, const std::vector<int>& family) {
     // The + or - after a social: when it concerns the selected Sim the family watch says it with
     // the number (polled once a second), so the balloon waits a moment and is dropped then.
     bool relationSign = b.group == grp::kSocial && b.index >= 15 && b.index <= 18 && o.person;
+    if (relationSign) g_relationSignAt[game::SimNeighborId(owner)] = GetTickCount64();
     ULONGLONG now = GetTickCount64();
     const char* quiet = speak ? "" : ", not spoken";
     if (speak && o.person && !RouteTrouble(b) && b.kind != BalloonKind::Scream) {
@@ -411,6 +413,11 @@ void Announce(const std::string& line, bool important) {
     int v = CurrentVerbosity();
     if (v == kEverything || (important && v == kWarnings)) buffers::Event(line);
     else Record(line);
+}
+
+bool RelationSignSince(int neighborId, unsigned long long since) {
+    auto it = g_relationSignAt.find(neighborId);
+    return it != g_relationSignAt.end() && it->second >= since;
 }
 
 void Record(const std::string& line) {

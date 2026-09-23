@@ -9,6 +9,7 @@
 #include "../util/log.h"
 #include "../util/text.h"
 #include "addresses.h"
+#include "buy.h"
 #include "people.h"
 #include "rtti.h"
 #include "ui.h"
@@ -329,8 +330,10 @@ Ptr LotModule() {
     return IsKindOf(module, "ObjectModule") ? module : 0;
 }
 
-// Where the lot's first objects stand: another lot has other objects at other places, and a lot
-// keeps its first ones (a purchase gets a higher id). Cached for half a second.
+// Where the lot's first pieces of furniture stand: another lot has other furniture at other
+// places. Only objects with a sale value count: the trolley, cars, plates of food and the like
+// come and go and take free low ids (the Mercado's fingerprint flapped when the trolley came).
+// Cached for half a second.
 uintptr_t LotIdentity() {
     static ULONGLONG at = 0;
     static uintptr_t cached = 0;
@@ -343,7 +346,7 @@ uintptr_t LotIdentity() {
     uint32_t hash = 2166136261u;
     int used = 0;
     for (const PlacedPart& p : parts) {
-        if (IsKindOf(p.object, "cXPerson")) continue;
+        if (IsKindOf(p.object, "cXPerson") || SaleValue(p.object) <= 0) continue;
         for (int v : {p.id, p.tileX, p.tileY, p.level}) hash = (hash ^ (uint32_t)v) * 16777619u;
         if (++used == 12) break;
     }
