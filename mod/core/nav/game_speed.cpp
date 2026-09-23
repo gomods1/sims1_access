@@ -1,5 +1,7 @@
 #include "game_speed.h"
 
+#include <windows.h>
+
 #include "buffers.h"
 
 #include "../game/rtti.h"
@@ -13,9 +15,16 @@
 namespace nav::speed {
 namespace {
 
+// A running speed is spoken once it has held this long: the game sometimes switches between
+// high and ultra by itself every half second (seen at 3 AM with no key pressed, 2026-09-23),
+// which would otherwise be a stream of "ultra, alta, ultra". A pause is spoken at once.
+constexpr ULONGLONG kSpeedSettleMs = 700;
+
 struct State {
     Ptr viewControl = 0;  // the panel the last reading came from; 0 when not in the lot view
-    game::GameSpeed last;
+    game::GameSpeed last;       // last spoken (or first read)
+    game::GameSpeed pending;    // a running speed waiting to settle
+    ULONGLONG pendingSince = 0; // 0 when nothing waits
 };
 
 State g;
@@ -49,7 +58,21 @@ void Tick(Ptr root) {
         g.last = now;
         return;
     }
-    if (now == g.last) return;
+    ULONGLONG t = GetTickCount64();
+    if (now == g.last) {
+        g.pendingSince = 0;
+        return;
+    }
+    if (!now.paused) {
+        if (!g.pendingSince || !(now == g.pending)) {
+            g.pending = now;
+            g.pendingSince = t;
+            LogVerbose("game speed: running level %d (settling)", now.level);
+            return;
+        }
+        if (t - g.pendingSince < kSpeedSettleMs) return;
+    }
+    g.pendingSince = 0;
     g.last = now;
     Log("game speed: %s level %d", now.paused ? "paused" : "running", now.level);
     if (now.paused) AnnouncePause(vc);
