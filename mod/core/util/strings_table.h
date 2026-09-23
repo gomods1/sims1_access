@@ -888,4 +888,6 @@
     /* Narrator: bills */                                                                                            \
     X(BillsArrived, "bills have come: %d unpaid")                                                                    \
     /* Narrator: the Grim Reaper */                                                                                  \
-    X(ReaperCame, "%s has come for %s")
+    X(ReaperCame, "%s has come for %s")                                                                              \
+    /* Trips: arrival */                                                                                             \
+    X(ArrivedAt, "arrived: %s")

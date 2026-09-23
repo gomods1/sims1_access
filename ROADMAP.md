@@ -263,7 +263,11 @@ for a second Enter. A new room without a door is said, not asked about. Still to
   ("Buscar conjuros" says the book wants one otherwise); the Sim refuses both in a bad mood. Not
   tried: casting (the charm case, ingredients), the cookbook, magic duels.
 - **Vacation**: trip verified 2026-09-23 (the tour dialogs, the van, the Vacation Island map with
-  filters, a camping lot); lodging, activities and souvenirs not tried.
+  filters, a camping lot). Lodging verified the same day: the whole family must be home to leave;
+  the hotel ("Hotel Palmeras Palazzo") is an ordinary lot to the mod (beds, bathrooms by floor, "en
+  otro piso"); its phone's "Llamar taxi > Ir a otra parte" brings the map back, and the lot
+  chosen on any travel map is said on arrival ("llegada: Playa Atardecer"). Activities and
+  souvenirs not tried.
 
 ## Travel
 

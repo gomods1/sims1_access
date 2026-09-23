@@ -13,7 +13,9 @@ std::string Describe(const Item& it);
 // The details buffer's lines for a focused item: what was spoken, then what else there is (a
 // product's ratings and description, the tooltip, its place in the group).
 std::vector<std::string> DetailLines(const Item& it, const Group& g, int index);
-std::string GroupSummary(const Group& g);  // "casas, 41 elementos"
+std::string GroupSummary(const Group& g);
+// A lot's own name from its card ("Hotel Palmeras Palazzo"); the address when it has none.
+std::string LotPlaceName(const Item& it);  // "casas, 41 elementos"
 
 // Create a Sim: "cabeza 2 de 137: dave" / "cuerpo 5 de 143, atlético: beachguy2".
 std::string DescribeLook(Ptr screen, game::LookPart part);

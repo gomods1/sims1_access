@@ -23,6 +23,7 @@
 #include "cheat_console.h"
 #include "collect.h"
 #include "credits.h"
+#include "../game/neighborhood.h"
 #include "describe.h"
 #include "arrange.h"
 #include "buffers.h"
@@ -727,6 +728,7 @@ void Activate() {
         return;
     }
     if (it->role == Role::QueuedAction) simwatch::NoteCancelled(it->label);  // not a refusal
+    if (it->role == Role::Lot && game::TravelMap(g.root)) narrator::NoteDestination(LotPlaceName(*it));
     g.press = PendingPress{IdOf(*it), CheckedState(*it), GetTickCount64(), TextSnapshot(), reshow};
     Log("press %s %p (%s)", game::ClassName(w).c_str(), (void*)w, it->label.c_str());
     game::Press(w);  // may open a dialog or change screens; the tick picks that up

@@ -819,6 +819,8 @@ const Translation kEntries[] = {
     {Str::BillsArrived, "청구서가 도착했습니다: 미납 %d건"},
     // Narrator: the Grim Reaper
     {Str::ReaperCame, "%s이(가) %s을(를) 데리러 왔습니다"},
+    // Trips: arrival
+    {Str::ArrivedAt, "도착: %s"},
 };
 
 }  // namespace

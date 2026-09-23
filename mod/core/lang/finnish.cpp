@@ -898,6 +898,8 @@ const Translation kEntries[] = {
     {Str::BillsArrived, "laskuja on tullut: %d maksamatta"},
     // Narrator: the Grim Reaper
     {Str::ReaperCame, "%s on tullut hakemaan: %s"},
+    // Trips: arrival
+    {Str::ArrivedAt, "perillä: %s"},
 };
 
 }  // namespace

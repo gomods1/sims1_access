@@ -28,6 +28,8 @@ void Tick();
 // buffer. important = a warning (spoken unless the narrator is off).
 void Announce(const std::string& line, bool important);
 void Record(const std::string& line);  // only kept in the buffer
+// A lot was chosen on a travel map: its name is said when the family is on the next lot.
+void NoteDestination(const std::string& name);
 // A + or - balloon (a social's effect) showed over the Sim since then.
 bool RelationSignSince(int neighborId, unsigned long long since);
 

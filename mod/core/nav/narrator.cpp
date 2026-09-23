@@ -95,6 +95,11 @@ State g;
 // A trip: a travel map (Old Town, Studio Town, downtown, vacation, Magic Town) leads to it; the
 // plain neighborhood, or going from lot to lot (the ride home), ends it. Not reset with the lot.
 bool g_onTrip = false;
+// The lot chosen on a travel map, said on arrival (the lot view stays the same window, so the
+// screen itself says nothing new); forgotten after a while (a cancelled choice).
+std::string g_destination;
+ULONGLONG g_destinationAt = 0;
+constexpr ULONGLONG kDestinationMs = 180000;
 
 // Verbosity levels as saved in SimsAccess.ini ("narrator").
 enum Verbosity { kOff = 0, kWarnings = 1, kEverything = 2 };
@@ -523,6 +528,11 @@ bool OnMap() {
     return false;
 }
 
+void NoteDestination(const std::string& name) {
+    g_destination = name;
+    g_destinationAt = GetTickCount64();
+}
+
 void Tick() {
     uintptr_t lot = OnMap() ? 0 : game::LotIdentity();
     if (lot != g.lot) {  // another lot, or none: nothing seen before applies
@@ -530,6 +540,9 @@ void Tick() {
         Reset();
         g.lot = lot;
         g.lotSince = GetTickCount64();
+        if (lot && !g_destination.empty() && g.lotSince - g_destinationAt < kDestinationMs)
+            Announce(util::Format(S(Str::ArrivedAt), g_destination.c_str()), true);
+        if (lot) g_destination.clear();
         LogVerbose("narrator: lot %p", (void*)lot);
     }
     std::vector<Balloon> balloons = game::TakeBalloons();

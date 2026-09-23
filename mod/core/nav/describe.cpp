@@ -66,14 +66,14 @@ std::string LotText(const Item& it) {
 
 // A lot's own name from its card: the line after the address, up to its first sentence's end
 // ("El Paraíso de las Mascotas"); the address when the card has no name.
-std::string LotPlaceName(const Item& it) {
+std::string PlaceNameOf(const Item& it) {
     std::string text = HouseText(it);
     size_t lineEnd = text.find_first_of("\r\n");
     if (lineEnd == std::string::npos) return text;
     std::string address = text.substr(0, lineEnd);
     size_t start = text.find_first_not_of("\r\n", lineEnd);
     if (start == std::string::npos) return address;
-    size_t end = text.find_first_of(".\r\n", start);
+    size_t end = text.find_first_of(".:\r\n", start);  // "Playa Atardecer: Romántico rinconcito..."
     std::string name = text.substr(start, end == std::string::npos ? std::string::npos : end - start);
     return name.empty() ? address : name;
 }
@@ -340,7 +340,7 @@ std::string DescribeMarkedLots(Ptr map) {
             it.widget = w;
             it.number = game::LotNumber(w);
             if (game::MapLotVisitable(map, it.number) && (game::LotFilterBits(w) & bit))
-                names.push_back(LotPlaceName(it));
+                names.push_back(PlaceNameOf(it));
             continue;
         }
         for (Ptr c : game::Children(w)) stack.push_back(c);
@@ -461,6 +461,8 @@ std::string Describe(const Item& it) {
 // description), for the details buffer. The panels keep these in Live.iff: needs (the widget holds
 // its own), personality (the widget, by points), interests 140/142, job 137, house 135, pet skills
 // 172, report card 139, relationships 132.
+std::string LotPlaceName(const Item& it) { return PlaceNameOf(it); }
+
 std::vector<std::string> PanelHelp(const Item& it) {
     const char* kLive = "Live.iff";
     std::string title, text;

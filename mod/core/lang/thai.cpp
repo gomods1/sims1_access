@@ -881,6 +881,8 @@ const Translation kEntries[] = {
     {Str::BillsArrived, "บิลมาถึงแล้ว: ยังไม่จ่าย %d ใบ"},
     // Narrator: the Grim Reaper
     {Str::ReaperCame, "%s มารับ %s แล้ว"},
+    // Trips: arrival
+    {Str::ArrivedAt, "มาถึง: %s"},
 };
 
 }  // namespace
