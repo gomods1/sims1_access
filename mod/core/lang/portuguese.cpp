@@ -715,6 +715,8 @@ const Translation kEntries[] = {
     {Str::BreedBrownTabby, "rajado marrom"},
     // Room kinds (community lots)
     {Str::RoomShop, "loja"},
+    // Pet skills
+    {Str::GroupPetSkills, "Habilidades dos Bichos"},
 };
 
 }  // namespace

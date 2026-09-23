@@ -43,6 +43,9 @@ int MoodBars(int mood);
 // Skills as the job subpanel shows them: slot 0..5 = cooking, mechanical, charisma, body, logic,
 // creativity. Points 0..1000; the panel draws one bar per 100.
 bool SkillPoints(int neighborId, int slot, int* points);
+// Slots of the pets' skills subpanel: kPetSkillSlot + 0..2 = housebroken, tricks, obedience.
+constexpr int kPetSkillSlot = 100;
+std::vector<Ptr> PetSkillButtons(Ptr petPanel);  // index = slot - kPetSkillSlot
 std::vector<Ptr> JobPanelSkillButtons(Ptr jobPanel);  // index = slot
 // Job, pay, performance, family friends needed for the next promotion. Their captions hold the
 // values ("Decano de universidad", "$700", "Excelente", "Necesarios 9") once the panel is drawn.

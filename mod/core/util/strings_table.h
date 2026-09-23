@@ -704,4 +704,6 @@
     X(BreedWhite, "white")                                                                                           \
     X(BreedBrownTabby, "brown tabby")                                                                                \
     /* Room kinds (community lots) */                                                                                \
-    X(RoomShop, "shop")
+    X(RoomShop, "shop")                                                                                              \
+    /* Pet skills */                                                                                                 \
+    X(GroupPetSkills, "pet skills")

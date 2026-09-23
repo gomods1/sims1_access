@@ -35,6 +35,8 @@ const Named kPanels[] = {
     {"cWinCamPanel", Str::GroupCamera},
     {"cWinPeople", Str::GroupFamilyPanel},
     {"cPickFamilyList", Str::GroupFamilies},
+    {"cWinSubpanelDogSkills", Str::GroupPetSkills},
+    {"cWinSubpanelCatSkills", Str::GroupPetSkills},
 };
 
 constexpr size_t kMaxTitleLength = 40;  // longer text is a message, not a title

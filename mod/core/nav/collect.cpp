@@ -116,6 +116,10 @@ struct Walker {
             Register(game::JobPanelSkillButtons(w), Role::Skill, kJobGroup);
             return true;
         }
+        if (IsKindOf(w, "cWinSubpanelDogSkills") || IsKindOf(w, "cWinSubpanelCatSkills")) {
+            Register(game::PetSkillButtons(w), Role::Skill, 0, game::kPetSkillSlot);
+            return true;
+        }
         if (IsKindOf(w, "cWinSubpanelHouse")) {
             std::vector<Ptr> buttons = game::HousePanelButtons(w);
             size_t ratings = std::min(buttons.size(), (size_t)game::kHouseRatingCount);

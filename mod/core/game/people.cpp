@@ -139,9 +139,12 @@ int MoodBars(int mood) {
 
 bool SkillPoints(int neighborId, int slot, int* points) {
     typedef int(__cdecl * SkillFn)(int id, int index);
-    if (neighborId < 0 || slot < 0 || slot >= addr::kJobPanelSkillCount || !FunctionOk(addr::kSimSkill))
+    bool pet = slot >= kPetSkillSlot;
+    int i = pet ? slot - kPetSkillSlot : slot;
+    if (neighborId < 0 || i < 0 || i >= (pet ? addr::kPetPanelSkillCount : addr::kJobPanelSkillCount) ||
+        !FunctionOk(addr::kSimSkill))
         return false;
-    int index = Rd<int>(Va(addr::kJobPanelSkillIds) + slot * 4, -1);
+    int index = Rd<int>(Va(pet ? addr::kPetPanelSkillIds : addr::kJobPanelSkillIds) + i * 4, -1);
     if (index < 0) return false;
     auto fn = (SkillFn)Va(addr::kSimSkill);
     return Guarded([&] { *points = fn(neighborId, index); });
@@ -186,6 +189,15 @@ std::vector<Ptr> JobPanelSkillButtons(Ptr jobPanel) {
     if (!IsKindOf(jobPanel, "cWinSubpanelJob")) return buttons;
     Ptr array = Rd<Ptr>(jobPanel + addr::jobpanel::kSkillButtons);
     for (int i = 0; array && i < addr::kJobPanelSkillCount; i++) buttons.push_back(Rd<Ptr>(array + i * 4));
+    return buttons;
+}
+
+std::vector<Ptr> PetSkillButtons(Ptr petPanel) {
+    std::vector<Ptr> buttons;
+    if (!IsKindOf(petPanel, "cWinSubpanelDogSkills") && !IsKindOf(petPanel, "cWinSubpanelCatSkills")) return buttons;
+    Ptr begin = Rd<Ptr>(petPanel + addr::kPetPanelSkillButtons), end = Rd<Ptr>(petPanel + addr::kPetPanelSkillButtons + 4);
+    for (Ptr p = begin; p && p < end && buttons.size() < (size_t)addr::kPetPanelSkillCount; p += 4)
+        buttons.push_back(Rd<Ptr>(p));
     return buttons;
 }
 

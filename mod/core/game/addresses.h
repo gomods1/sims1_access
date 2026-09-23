@@ -83,6 +83,13 @@ constexpr int kRelOutLifetime = 0x08;
 constexpr int kRelOutDaily = 0x0c;
 constexpr Va kJobPanelSkillIds = 0x98aca0;  // int[6]: person data indices of the job panel's skills
 constexpr int kJobPanelSkillCount = 6;
+// The pets' skills subpanels (cWinSubpanelDogSkills, cWinSubpanelCatSkills; both read this table in
+// their slot 87, 0x4e23b0 / 0x4e1f50): person data 10, 12, 11 = housebroken, tricks, obedience
+// (the same indices as a person's cooking, mechanical, charisma). Their buttons: a vector of
+// cFlashyBtn* at +0x130 (begin) / +0x134 (end), in this order.
+constexpr Va kPetPanelSkillIds = 0x98b02c;
+constexpr int kPetPanelSkillCount = 3;
+constexpr int kPetPanelSkillButtons = 0x130;
 
 // StringSet (string list resources such as CTSS catalog strings), all thiscall:
 constexpr Va kStringSetCtor = 0x58c2f0;       // void ()
