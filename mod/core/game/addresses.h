@@ -488,6 +488,13 @@ constexpr int kStudioFilters = 0x144;
 constexpr int kStudioFilterCount = 9;
 constexpr int kStudioFilter = 0x16c;
 constexpr int kStudioBits[] = {0x20, 8, 4, 2, 0x40, 0x80, 0x100, 0x200, 0x400};
+// cWinMagicland (Makin' Magic's map, a cWinNeighborhood): seven filter buttons at +0x15c, the
+// chosen filter at +0x17c (0x49d830 -> 0x49c2c0): attractions 0x1000, caged pets, shops,
+// garden, restaurants, recreation, magic places 0x800. Its lots 90-92 are homes.
+constexpr int kMagicFilters = 0x15c;
+constexpr int kMagicFilterCount = 7;
+constexpr int kMagicFilter = 0x17c;
+constexpr int kMagicBits[] = {0x1000, 0x20, 8, 4, 2, 0x40, 0x800};
 }  // namespace travelmap
 
 // ---- cPickFamilyItem (family picker row) / cPickFamilyItemMember (portrait) ---------------
