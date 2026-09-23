@@ -397,8 +397,22 @@ void ReportSound(const game::SoundEvent& e) {
     ULONGLONG now = GetTickCount64();
     auto last = g.alertSaid.find((int)e.alert);
     if (last != g.alertSaid.end() && now - last->second < kAlertRepeatMs) return;
+    // Which car it is: the object playing the sound. A taxi says so; a carpool or school bus
+    // only comes home, and on a trip (some of the family stayed home) a honk is traffic.
+    game::LotObject car;
+    std::string internal = game::GetObject(game::ObjectById(e.source), &car) ? game::ObjectInternalName(car) : "";
+    bool taxi = internal.find("Taxi") != std::string::npos;
+    if (!taxi && e.alert != game::SoundAlert::PoliceCar) {
+        std::vector<int> onLot;
+        for (Ptr person : game::LotPeople()) onLot.push_back(game::SimNeighborId(person));
+        for (int id : game::FamilyNeighborIds())
+            if (!Contains(onLot, id)) {
+                Log("sound '%s' from #%d (%s): not at home, not said", e.name.c_str(), e.source, internal.c_str());
+                return;
+            }
+    }
     g.alertSaid[(int)e.alert] = now;
-    std::string line = S(AlertText(e.alert));
+    std::string line = S(taxi ? Str::SoundTaxi : AlertText(e.alert));
     Log("sound '%s' from #%d: %s", e.name.c_str(), e.source, line.c_str());
     Announce(line, true);
 }

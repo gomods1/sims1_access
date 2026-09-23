@@ -81,6 +81,7 @@ struct SimNeeds {
 
 struct State {
     uintptr_t lot = 0;  // game::LotIdentity
+    ULONGLONG lotSince = 0;  // when this lot was first seen
     int selected = -2;  // neighbor id the room and action baselines belong to (-2: none yet)
 
     // Room of the selected Sim.
@@ -183,6 +184,7 @@ void PollRoom(Ptr sim, ULONGLONG now) {
 std::string g_cancelled;  // the queued action the player last cancelled (NoteCancelled)
 ULONGLONG g_cancelledAt = 0;
 constexpr ULONGLONG kCancelMs = 5000;
+constexpr ULONGLONG kArrivalQuietMs = 15000;
 
 // ---- Actions -------------------------------------------------------------------------------
 
@@ -216,6 +218,8 @@ void PollAction(ULONGLONG now) {
         if (started && !gone.empty()) gone.erase(gone.begin());
         for (const std::string& name : gone) {
             if (name == g_cancelled && now - g_cancelledAt < kCancelMs) continue;
+            // Arriving on a lot the game queues and drops its own welcome ("Ser Bienvenido").
+            if (now - g.lotSince < kArrivalQuietMs) continue;
             int mood = 0;
             bool bad = game::SimMood(g.selected, &mood) && game::MoodBars(mood) < 0;
             narrator::Announce(util::Format(S(bad ? Str::ActionDroppedMood : Str::ActionDropped),
@@ -415,6 +419,7 @@ void Tick() {
     if (lot != g.lot) {
         g = State{};
         g.lot = lot;
+        g.lotSince = GetTickCount64();
     }
     if (!lot) return;
     ULONGLONG now = GetTickCount64();

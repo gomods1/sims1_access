@@ -766,6 +766,8 @@ const Translation kEntries[] = {
     // Travel maps
     {Str::ScreenStudioTown, "Studio Town, para onde?"},
     {Str::ScreenMagicTown, "Cidade da Magia, para onde?"},
+    // Sounds
+    {Str::SoundTaxi, "o táxi está buzinando"},
 };
 
 }  // namespace
