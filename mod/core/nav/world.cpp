@@ -61,6 +61,7 @@ struct KnownObject {
 const KnownObject kKnownObjects[] = {
     {"MailBox", Str::ObjMailbox},
     {"Trash Outside", Str::ObjTrashOutside},
+    {"Trash Pile", Str::ObjTrashPile},
 };
 const KnownObject kTreeSpecies[] = {
     {"Pine", Str::ObjPineTree},     {"Birch", Str::ObjBirchTree},   {"Sycamore", Str::ObjSycamoreTree},

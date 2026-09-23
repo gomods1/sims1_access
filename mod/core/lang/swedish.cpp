@@ -319,6 +319,7 @@ const Translation kEntries[] = {
     // Default lot objects that have no catalog name
     {Str::ObjMailbox, "brevlåda"},
     {Str::ObjTrashOutside, "soptunna utomhus"},
+    {Str::ObjTrashPile, "sophög"},
     {Str::ObjPineTree, "tall"},
     {Str::ObjBirchTree, "björk"},
     {Str::ObjSycamoreTree, "platan"},

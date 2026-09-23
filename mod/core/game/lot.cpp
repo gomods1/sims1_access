@@ -129,7 +129,7 @@ int NeighborIdOf(Ptr person) {
 
 // Invisible helper objects, by internal name prefix (constant English resource names, the same
 // in every language). No OBJD field tells them apart from visible objects.
-const char* const kInvisibleHelpers[] = {"Portal - ", "Phone Line", "PlumbBob", "Location - "};
+const char* const kInvisibleHelpers[] = {"Portal - ", "Phone Line", "PlumbBob", "Location - ", "Ped Marker"};
 
 // Names by object type, valid for one lot.
 Ptr g_nameCacheLot = 0;

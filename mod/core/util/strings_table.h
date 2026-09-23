@@ -312,6 +312,7 @@
     /* Default lot objects that have no catalog name */                                                                \
     X(ObjMailbox, "mailbox")                                                                                           \
     X(ObjTrashOutside, "outdoor trash can")                                                                            \
+    X(ObjTrashPile, "pile of trash")                                                                                   \
     X(ObjPineTree, "pine tree")                                                                                        \
     X(ObjBirchTree, "birch tree")                                                                                      \
     X(ObjSycamoreTree, "sycamore")                                                                                     \
