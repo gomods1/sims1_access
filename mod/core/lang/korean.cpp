@@ -571,7 +571,7 @@ const Translation kEntries[] = {
     {Str::LayoutMore, "컨트롤+위쪽 화살표로 안에 있는 것을 읽습니다"},
     {Str::KeysLayoutHint, "컨트롤+L은 방의 크기, 문, 창문, 벽마다 놓인 것을 설명합니다."},
     // House overview (build mode, Ctrl+Shift+L)
-    {Str::HouseRoomItem, "%1$s, %2$d"},
+    {Str::HouseRoomItem, "%1$s, %2$d칸"},
     {Str::HouseNone, "아직 집이 없습니다: 부지 전체가 바깥입니다, %d칸"},
     {Str::HouseSummary, "집: %1$d층, 방 %2$d개, 실내 %3$d칸, 실외 %4$d칸"},
     {Str::HouseFloorRooms, "%1$d층: %2$s"},
@@ -693,6 +693,8 @@ const Translation kEntries[] = {
     {Str::ScreenVacation, "휴가의 섬, 어디로 갈까요?"},
     // Sounds
     {Str::SoundVacationVan, "휴가 승합차가 경적을 울림"},
+    // House overview
+    {Str::HouseToCheckOne, "확인할 것 1개: 컨트롤+위쪽 화살표로 읽습니다"},
 };
 
 }  // namespace

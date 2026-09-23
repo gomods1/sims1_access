@@ -35,6 +35,8 @@ std::string Join(const std::vector<std::string>& items) {
     return out;
 }
 
+constexpr int kLikedImpact = 50;
+
 bool Has(const std::string& name, const char* word) { return name.find(word) != std::string::npos; }
 
 // What a household needs, by the objects' internal (English, resource) names: stable across
@@ -110,8 +112,12 @@ void SayOverview() {
                 }
                 floors[level][room]++;
             }
-    auto label = [&](int room, int tiles) {
+    // Inside a floor's list the floor is said once, not after every room.
+    auto label = [&](int room, int tiles, int level) {
         std::string name = rooms::NameOf(named, room);
+        std::string floor = ", " + util::Format(S(Str::FloorNumber), level);
+        if (name.size() > floor.size() && name.compare(name.size() - floor.size(), floor.size(), floor) == 0)
+            name.erase(name.size() - floor.size());
         return name.empty() ? util::Format(S(Str::RoomEmpty), tiles) : util::Format(S(Str::HouseRoomItem), name.c_str(), tiles);
     };
 
@@ -130,7 +136,7 @@ void SayOverview() {
             lines.push_back(util::Format(S(Str::HouseSummaryOneRoom), indoor, outsideTiles));
         for (const auto& [level, rooms] : floors) {
             std::vector<std::string> items;
-            for (const auto& [room, tiles] : rooms) items.push_back(label(room, tiles));
+            for (const auto& [room, tiles] : rooms) items.push_back(label(room, tiles, level));
             lines.push_back(util::Format(S(Str::HouseFloorRooms), level, Join(items).c_str()));
         }
     }
@@ -165,7 +171,7 @@ void SayOverview() {
         placement::ReachReport r = placement::CheckReach(level);
         std::vector<std::string> closed;
         for (int room : r.closedRooms)
-            if (floors[level].count(room)) closed.push_back(label(room, floors[level][room]));
+            if (floors[level].count(room)) closed.push_back(label(room, floors[level][room], level));
         if (!closed.empty()) problems.push_back(util::Format(S(Str::HouseClosedRooms), Join(closed).c_str()));
         if (!r.unusableObjects.empty()) problems.push_back(util::Format(S(Str::HouseUnreachable), Join(r.unusableObjects).c_str()));
     }
@@ -176,10 +182,13 @@ void SayOverview() {
             if (!game::GetRoom(room, &info)) continue;
             LogVerbose("house: room %d (%d tiles): window light %d, object light %d, lamps %d, dirt %d, impact %d, good %d",
                        room, tiles, info.windowLight, info.objectLight, info.lamps, info.dirt, info.impact, info.goodObjects);
-            std::string name = label(room, tiles);
+            std::string name = label(room, tiles, level);
+            if (floors.size() > 1) name += ", " + util::Format(S(Str::FloorNumber), level);
             if (info.windowLight <= 0 && info.objectLight <= 0 && info.lamps <= 0) dark.push_back(name);
+            // The room record's impact (a furnished house read 96 and 123 for its kitchen and
+            // living room, 1 to 40 for plainer rooms): only a clear margin counts as liked.
             if (info.impact < 0) disliked.push_back(name);
-            else if (info.impact > 0) liked.push_back(name);
+            else if (info.impact >= kLikedImpact) liked.push_back(name);
         }
     if (!dark.empty()) problems.push_back(util::Format(S(Str::HouseDark), Join(dark).c_str()));
     if (!disliked.empty()) problems.push_back(util::Format(S(Str::HouseDisliked), Join(disliked).c_str()));
@@ -192,8 +201,9 @@ void SayOverview() {
     buffers::SetDetails(lines);
     std::string say;
     for (int i = 0; i < spoken; i++) say += (say.empty() ? "" : ". ") + lines[i];
-    say += ". " + (problems.empty() ? std::string(S(Str::HouseAllGood))
-                                    : util::Format(S(Str::HouseToCheck), (int)problems.size()));
+    say += ". " + (problems.empty()        ? std::string(S(Str::HouseAllGood))
+                   : problems.size() == 1 ? std::string(S(Str::HouseToCheckOne))
+                                          : util::Format(S(Str::HouseToCheck), (int)problems.size()));
     speech::Say(say);
 }
 

@@ -641,7 +641,7 @@ const Translation kEntries[] = {
     {Str::LayoutMore, "Control+nuoli ylös kertoo, mitä siinä on"},
     {Str::KeysLayoutHint, "Control+L kuvailee huoneen: koon, ovet, ikkunat ja mitä kunkin seinän vieressä on."},
     // House overview (build mode, Ctrl+Shift+L)
-    {Str::HouseRoomItem, "%1$s, %2$d"},
+    {Str::HouseRoomItem, "%1$s, %2$d ruutua"},
     {Str::HouseNone, "Ei vielä taloa: koko tontti on ulkona, %d ruutua"},
     {Str::HouseSummary, "Talo: %1$d kerrosta, %2$d huonetta, %3$d ruutua sisällä; %4$d ruutua ulkona"},
     {Str::HouseFloorRooms, "kerros %1$d: %2$s"},
@@ -771,6 +771,8 @@ const Translation kEntries[] = {
     {Str::ScreenVacation, "Lomasaari, minne mennään?"},
     // Sounds
     {Str::SoundVacationVan, "lomapakettiauto tööttää"},
+    // House overview
+    {Str::HouseToCheckOne, "1 tarkistettava asia: Control+nuoli ylös lukee sen"},
 };
 
 }  // namespace

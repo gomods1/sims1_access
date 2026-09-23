@@ -643,7 +643,7 @@ const Translation kEntries[] = {
     {Str::KeysLayoutHint,
      "Control+L describe la habitación: su tamaño, puertas, ventanas y lo que hay junto a cada pared."},
     // House overview (build mode, Ctrl+Shift+L)
-    {Str::HouseRoomItem, "%1$s, %2$d"},
+    {Str::HouseRoomItem, "%1$s, %2$d casillas"},
     {Str::HouseNone, "Todavía no hay casa: el solar es todo exterior, %d casillas"},
     {Str::HouseSummary, "La casa: %1$d pisos, %2$d habitaciones, %3$d casillas dentro; %4$d casillas fuera"},
     {Str::HouseFloorRooms, "piso %1$d: %2$s"},
@@ -774,6 +774,8 @@ const Translation kEntries[] = {
     {Str::ScreenVacation, "Isla Vacaciones, ¿a dónde vamos?"},
     // Sounds
     {Str::SoundVacationVan, "la furgoneta de las vacaciones toca el claxon"},
+    // House overview
+    {Str::HouseToCheckOne, "1 cosa que revisar: Control+Arriba la lee"},
 };
 
 }  // namespace

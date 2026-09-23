@@ -229,8 +229,8 @@ for a second Enter. A new room without a door is said, not asked about. Still to
   also Ctrl+Shift+L): floors and rooms with sizes, the yard, the game's house ratings, what a
   household needs and is missing (toilet, shower or bath, beds for everyone, fridge, stove,
   phone, smoke alarm, by internal names), rooms with no way in, objects nobody can reach, dark
-  rooms, rooms the Sims dislike or like (the room record's impact, sign only: its scale is not
-  calibrated yet on a furnished house). Per room: Ctrl+L.
+  rooms, rooms the Sims dislike (negative impact) or clearly like (impact 50 or more: a furnished
+  house read 96 and 123 for its kitchen and living room, 1 to 40 for plainer rooms). Per room: Ctrl+L.
 
 ## Expansions (each flow end to end)
 

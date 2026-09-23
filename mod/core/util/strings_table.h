@@ -631,7 +631,7 @@
     X(LayoutMore, "Control+Up says what is in it")                                                                   \
     X(KeysLayoutHint, "Control+L describes the room: its size, doors, windows and what stands along each wall.")     \
     /* House overview (build mode, Ctrl+Shift+L) */                                                                  \
-    X(HouseRoomItem, "%1$s, %2$d")                                                                                   \
+    X(HouseRoomItem, "%1$s, %2$d tiles")                                                                             \
     X(HouseNone, "No house yet: the lot is all outdoors, %d tiles")                                                  \
     X(HouseSummary, "The house: %1$d floors, %2$d rooms, %3$d tiles indoors; %4$d tiles outdoors")                   \
     X(HouseFloorRooms, "floor %1$d: %2$s")                                                                           \
@@ -761,4 +761,6 @@
     /* Travel maps */                                                                                                \
     X(ScreenVacation, "Vacation Island, where to?")                                                                  \
     /* Sounds */                                                                                                     \
-    X(SoundVacationVan, "the vacation van is honking")
+    X(SoundVacationVan, "the vacation van is honking")                                                               \
+    /* House overview */                                                                                             \
+    X(HouseToCheckOne, "1 thing to check: Control+Up reads it")

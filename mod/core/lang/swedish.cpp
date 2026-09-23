@@ -636,7 +636,7 @@ const Translation kEntries[] = {
     {Str::KeysLayoutHint,
      "Kontroll+L beskriver rummet: storlek, dörrar, fönster och vad som står längs varje vägg."},
     // House overview (build mode, Ctrl+Shift+L)
-    {Str::HouseRoomItem, "%1$s, %2$d"},
+    {Str::HouseRoomItem, "%1$s, %2$d rutor"},
     {Str::HouseNone, "Inget hus ännu: hela tomten är utomhus, %d rutor"},
     {Str::HouseSummary, "Huset: %1$d våningar, %2$d rum, %3$d rutor inomhus; %4$d rutor utomhus"},
     {Str::HouseFloorRooms, "våning %1$d: %2$s"},
@@ -766,6 +766,8 @@ const Translation kEntries[] = {
     {Str::ScreenVacation, "Semesterön, vart ska vi?"},
     // Sounds
     {Str::SoundVacationVan, "semesterbussen tutar"},
+    // House overview
+    {Str::HouseToCheckOne, "1 sak att kolla: Kontroll+Pil upp läser den"},
 };
 
 }  // namespace

@@ -633,7 +633,7 @@ const Translation kEntries[] = {
     {Str::LayoutMore, "Kontrol+Pil op siger, hvad der er i det"},
     {Str::KeysLayoutHint, "Kontrol+L beskriver rummet: størrelse, døre, vinduer og hvad der står langs hver væg."},
     // House overview (build mode, Ctrl+Shift+L)
-    {Str::HouseRoomItem, "%1$s, %2$d"},
+    {Str::HouseRoomItem, "%1$s, %2$d fliser"},
     {Str::HouseNone, "Intet hus endnu: hele grunden er udendørs, %d felter"},
     {Str::HouseSummary, "Huset: %1$d etager, %2$d rum, %3$d felter indendørs; %4$d felter udendørs"},
     {Str::HouseFloorRooms, "etage %1$d: %2$s"},
@@ -763,6 +763,8 @@ const Translation kEntries[] = {
     {Str::ScreenVacation, "Ferieøen, hvor skal vi hen?"},
     // Sounds
     {Str::SoundVacationVan, "feriebussen dytter"},
+    // House overview
+    {Str::HouseToCheckOne, "1 ting at se på: Kontrol+Pil op læser den"},
 };
 
 }  // namespace

@@ -415,7 +415,10 @@ std::vector<LotObject> LotObjects() {
         Ptr object = Rd<Ptr>(begin + i * 4);
         if (!object || !IsPlaced(object)) continue;
         uint16_t kind = ObjdField(object, addr::objd::kObjectType);
-        if (kind != 2 && kind != 4 && kind != 34) continue;  // people, normal objects, food (a pizza box on a counter)
+        // People, normal objects, food (a pizza box on a counter); and type 7 with catalog strings
+        // (the cheap stove is one: the other type 7 objects are invisible controllers).
+        bool catalogued7 = kind == 7 && ObjdField(object, addr::objd::kCatalogStringsId) != 0;
+        if (kind != 2 && kind != 4 && kind != 34 && !catalogued7) continue;
         if (IsInvisibleHelper(object)) continue;
         candidates.push_back(object);
         if (ObjdField(object, addr::objd::kMasterId) != 0) {

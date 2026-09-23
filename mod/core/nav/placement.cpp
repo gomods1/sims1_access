@@ -773,13 +773,32 @@ ReachReport CheckReach(int level) {
     }
     for (const auto& [room, n] : seen)
         if (n > 0 && !reached[room]) report.closedRooms.push_back(room);
+    if (util::VerboseLogging()) {
+        int total = 0;
+        for (uint8_t r : reach) total += r != 0;
+        std::string rooms;
+        for (const auto& [room, n] : seen) rooms += util::Format(" %d:%d/%d", room, reached[room], n);
+        LogVerbose("reach level %d: %d entrance tiles, %d starts, %d tiles reached; rooms%s", level, (int)f.entrance.size(),
+                   (int)f.starts.size(), total, rooms.c_str());
+    }
     for (const game::LotObject& o : game::LotObjects()) {
         if (o.person || o.level != level || game::IsPortal(o.object)) continue;
+        // Cars and the morning paper on the street are not the house's.
+        if (game::ObjectInternalName(o).rfind("Car - ", 0) == 0 || !f.Inside(TileOf(o)) ||
+            f.room[f.Index(TileOf(o))] == game::kNoRoom)
+            continue;
         Tile at = TileOf(o);
         std::vector<Tile> use = game::UseTilesAt(o.object, at, game::ObjectDirection(o.object));
         if (use.empty()) continue;
         if (!UsableTiles(f, use, game::FootprintAt(o.object, at), none, reach).empty()) continue;
+        // A use tile taken by other furniture is how it is used (the piano from its bench, a
+        // counter from its stool): only open floor nobody can get to makes it unreachable.
+        bool openButCutOff = false;
+        for (Tile u : use)
+            openButCutOff |= f.Inside(u) && Standable(f, u, none) && !reach[f.Index(u)];
+        if (!openButCutOff) continue;
         std::string name = world::DisplayName(o);
+        LogVerbose("reach: %s (#%d at %d,%d) has no reachable use tile of %d", game::ObjectInternalName(o).c_str(), o.id, at.x, at.y, (int)use.size());
         if (std::find(report.unusableObjects.begin(), report.unusableObjects.end(), name) == report.unusableObjects.end())
             report.unusableObjects.push_back(name);
     }

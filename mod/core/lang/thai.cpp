@@ -625,7 +625,7 @@ const Translation kEntries[] = {
     {Str::LayoutMore, "Control+ลูกศรขึ้นบอกว่ามีอะไรบ้าง"},
     {Str::KeysLayoutHint, "Control+L บรรยายห้อง: ขนาด ประตู หน้าต่าง และสิ่งที่อยู่ชิดผนังแต่ละด้าน"},
     // House overview (build mode, Ctrl+Shift+L)
-    {Str::HouseRoomItem, "%1$s, %2$d"},
+    {Str::HouseRoomItem, "%1$s, %2$d ช่อง"},
     {Str::HouseNone, "ยังไม่มีบ้าน: ที่ดินเป็นพื้นที่นอกบ้านทั้งหมด %d ช่อง"},
     {Str::HouseSummary, "บ้าน: %1$d ชั้น %2$d ห้อง ในบ้าน %3$d ช่อง นอกบ้าน %4$d ช่อง"},
     {Str::HouseFloorRooms, "ชั้น %1$d: %2$s"},
@@ -754,6 +754,8 @@ const Translation kEntries[] = {
     {Str::ScreenVacation, "เกาะวันหยุดพักผ่อน ไปไหนดี?"},
     // Sounds
     {Str::SoundVacationVan, "รถตู้ท่องเที่ยวบีบแตร"},
+    // House overview
+    {Str::HouseToCheckOne, "มี 1 เรื่องให้ตรวจ: Control+ลูกศรขึ้นอ่าน"},
 };
 
 }  // namespace

@@ -548,7 +548,7 @@ const Translation kEntries[] = {
     {Str::LayoutMore, "Ctrl+上方向鍵朗讀裡面的物品"},
     {Str::KeysLayoutHint, "Ctrl+L描述房間：大小、門、窗和每面牆邊的物品。"},
     // House overview (build mode, Ctrl+Shift+L)
-    {Str::HouseRoomItem, "%1$s，%2$d"},
+    {Str::HouseRoomItem, "%1$s，%2$d格"},
     {Str::HouseNone, "還沒有房子：整個地段都是室外，%d格"},
     {Str::HouseSummary, "房子：%1$d層，%2$d個房間，室內%3$d格，室外%4$d格"},
     {Str::HouseFloorRooms, "第%1$d層：%2$s"},
@@ -669,6 +669,8 @@ const Translation kEntries[] = {
     {Str::ScreenVacation, "渡假島，去哪裡？"},
     // Sounds
     {Str::SoundVacationVan, "渡假廂型車在按喇叭"},
+    // House overview
+    {Str::HouseToCheckOne, "有1件事要檢查：Ctrl+上方向鍵朗讀"},
 };
 
 }  // namespace

@@ -568,7 +568,7 @@ const Translation kEntries[] = {
     {Str::LayoutMore, "コントロール+上矢印で中の物を読みます"},
     {Str::KeysLayoutHint, "コントロール+Lで部屋の大きさ、ドア、窓、各壁沿いの物を読みます。"},
     // House overview (build mode, Ctrl+Shift+L)
-    {Str::HouseRoomItem, "%1$s、%2$d"},
+    {Str::HouseRoomItem, "%1$s、%2$dマス"},
     {Str::HouseNone, "まだ家がありません：区画はすべて屋外です、%dマス"},
     {Str::HouseSummary, "家：%1$d階、%2$d部屋、屋内%3$dマス、屋外%4$dマス"},
     {Str::HouseFloorRooms, "%1$d階：%2$s"},
@@ -690,6 +690,8 @@ const Translation kEntries[] = {
     {Str::ScreenVacation, "バケーション・アイランド、どこへ行く？"},
     // Sounds
     {Str::SoundVacationVan, "バケーションのバンがクラクションを鳴らしている"},
+    // House overview
+    {Str::HouseToCheckOne, "確認すること1件：コントロール+上矢印で読みます"},
 };
 
 }  // namespace
