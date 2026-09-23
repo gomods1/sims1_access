@@ -15,8 +15,13 @@ walking to an object's spot, what each Sim is doing, and a narrator for what the
 burglar or the repo man takes). Buy mode: products read like their
 hover popup, and placing, moving and selling go through a list of spots the mod computes from
 the engine (placement check, routing slots, walls, doors) so every object stays usable. The mod
-speaks every language the game ships (see "Languages"). Not done yet: build mode, expansions
-and travel, review buffers, help. Planned work: `ROADMAP.md`. Screen
+speaks every language the game ships (see "Languages"). Since 2026-09-23 also: build mode (a
+corner/tile cursor for walls, rooms, floors, wallpaper, pools, terrain and upper floors, with
+ready-made rooms and warnings before walls cut anything off; `nav/build_mode.cpp`), the house
+overview on entering build mode, the family watch (needs, actions, rooms, relationships, money;
+`nav/sim_watch.cpp`), trips (Hot Date downtown, Unleashed's Old Town map and pet adoption), the
+wardrobe and the pet picker. Not done yet: see `ROADMAP.md` (Vacation, Superstar and Makin'
+Magic flows, the catalog by room, a tile cursor for buy mode). Screen
 inventory: `SCREENS.md`. Verified targets: `PATCH_TARGETS.md`; layouts: `STRUCTS.md`.
 
 ## Working on this machine (read first)
