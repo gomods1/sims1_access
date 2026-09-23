@@ -248,6 +248,13 @@ eturn_focus.txt`; a dev core hands the foreground back to it
 - memtool pointer trap: `G(0xa67044)` is already `[0xa67044]` (the app root): the simulator
   (funds) is `u32(G(0xa67044) + 0x1c)`, the ObjectModule `u32(u32(G(0xa67044)) + 0x14)`. A write
   through one deref too many hit a heap value once (restored at once, 2026-09-23).
+- **Hot reload and modal loops** (crash 2026-09-23, fixed): a modal loop inside a call into the
+  core (the cheat interpreter's "No such cheat!" box, a SimAntics dialog inside the primitive
+  hook) keeps pumping timer ticks; a reload then freed code still on the stack and the game died
+  with 0xC0000409 (`__report_gsfailure`) when the box closed. The loader now counts calls into the
+  core and asks `SA_Busy()` (a detour on the stack) and only reloads when both are clear.
+  `moduild.bat` writes `mod\out\SimsAccess.map` for looking up crash offsets.
+- The cheat console gives its keys to a dialog opened over it (Enter used to re-run the cheat).
 - **Frida Interceptor on SimAntics code can crash the game when it detaches**: SimAntics throws
   C++ exceptions through its primitives, which breaks Frida's per-call state (fail-fast
   0xC0000409 in frida-agent.dll after `tools/frida/prim_trace.js` watched `0x615cb0` for 15

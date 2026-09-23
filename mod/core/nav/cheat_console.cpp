@@ -7,6 +7,7 @@
 
 #include "../game/buy.h"
 #include "../game/cheats.h"
+#include "../game/rtti.h"
 #include "../game/ui.h"
 #include "../speech/speech.h"
 #include "../util/log.h"
@@ -62,7 +63,14 @@ void Open() {
     // The navigator announces the console as the field that now takes the typing.
 }
 
-bool Entering() { return game::CheatConsoleOpen(); }
+// A dialog on top of the console (the game's "No such cheat!" box) takes the keys: Enter must
+// press its OK, not run the line again (which brought the box straight back).
+bool Entering() {
+    if (!game::CheatConsoleOpen()) return false;
+    game::Ptr root = game::InputRoot();
+    return !(game::IsKindOf(root, "cTSWinMsgBox") || game::IsKindOf(root, "cTSObjectDialog") ||
+             game::IsKindOf(root, "cTSWinDlg"));
+}
 
 void Select(int delta) { Pick(g.index < 0 ? (delta > 0 ? 0 : 1 << 20) : g.index + delta); }
 

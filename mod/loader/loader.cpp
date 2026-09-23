@@ -103,6 +103,9 @@ SaInitFn g_init = nullptr;
 SaShutdownFn g_shutdown = nullptr;
 SaOnMessageFn g_onMessage = nullptr;
 SaOnTickFn g_onTick = nullptr;
+typedef int(__cdecl* SaBusyFn)(void);
+SaBusyFn g_busy = nullptr;  // optional export: the core's hooks are on the stack
+int g_inCore = 0;           // calls into the core under way (a modal loop inside one re-enters)
 SaLoaderApi g_api = {};
 bool g_coreBroken = false;
 int g_loadCount = 0;
@@ -165,13 +168,36 @@ bool SafeShutdown() {
     __try { g_shutdown(); return true; }
     __except (EXCEPTION_EXECUTE_HANDLER) { return false; }
 }
-int SafeOnMessage(HWND h, UINT m, WPARAM w, LPARAM l, LRESULT* r, DWORD* code) {
+int SafeOnMessageInner(HWND h, UINT m, WPARAM w, LPARAM l, LRESULT* r, DWORD* code) {
     __try { return g_onMessage(h, m, w, l, r); }
     __except (*code = GetExceptionCode(), EXCEPTION_EXECUTE_HANDLER) { return -1; }
 }
-bool SafeTick(DWORD* code) {
+int SafeOnMessage(HWND h, UINT m, WPARAM w, LPARAM l, LRESULT* r, DWORD* code) {
+    g_inCore++;
+    int result = SafeOnMessageInner(h, m, w, l, r, code);
+    g_inCore--;
+    return result;
+}
+bool SafeTickInner(DWORD* code) {
     __try { g_onTick(); return true; }
     __except (*code = GetExceptionCode(), EXCEPTION_EXECUTE_HANDLER) { return false; }
+}
+bool SafeTick(DWORD* code) {
+    g_inCore++;
+    bool ok = SafeTickInner(code);
+    g_inCore--;
+    return ok;
+}
+
+// A reload must not free code that is still on the stack: a key handler that runs a modal loop
+// (the cheat interpreter's message box) or a game dialog opened inside one of the core's hooks
+// (SimAntics dialogs run inside the primitive hook) pumps messages, and so timer ticks, while
+// the core's frames wait below. Returning into a freed (or reloaded) image crashed the game.
+bool CoreBusy() {
+    if (g_inCore > 0) return true;
+    if (!g_busy) return false;
+    __try { return g_busy() != 0; }
+    __except (EXCEPTION_EXECUTE_HANDLER) { return false; }
 }
 
 void UnloadCore() {
@@ -179,7 +205,7 @@ void UnloadCore() {
     if (g_shutdown && !g_coreBroken && !SafeShutdown()) LogLine("core shutdown crashed");
     FreeLibrary(g_core);
     g_core = nullptr;
-    g_init = nullptr; g_shutdown = nullptr; g_onMessage = nullptr; g_onTick = nullptr;
+    g_init = nullptr; g_shutdown = nullptr; g_onMessage = nullptr; g_onTick = nullptr; g_busy = nullptr;
     DeleteFileW(g_coreCopy.c_str());
 }
 
@@ -199,6 +225,7 @@ void LoadCore() {
     g_shutdown = (SaShutdownFn)GetProcAddress(g_core, "SA_Shutdown");
     g_onMessage = (SaOnMessageFn)GetProcAddress(g_core, "SA_OnMessage");
     g_onTick = (SaOnTickFn)GetProcAddress(g_core, "SA_OnTick");
+    g_busy = (SaBusyFn)GetProcAddress(g_core, "SA_Busy");
     if (!g_init || !g_shutdown || !g_onMessage || !g_onTick) {
         LogLine("core is missing exports");
         FreeLibrary(g_core);
@@ -231,8 +258,12 @@ LRESULT CALLBACK SubclassProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
             FILETIME st;
             if (DevMode() && FileStamp(g_modDir + L"\\SimsAccess.dll", &st) &&
                 CompareFileTime(&st, &g_coreStamp) != 0) {
-                Sleep(300);  // let the linker finish writing
-                ReloadCore();
+                if (CoreBusy()) {
+                    LogLine("core changed; the reload waits until the core is off the stack");
+                } else {
+                    Sleep(300);  // let the linker finish writing
+                    ReloadCore();
+                }
             }
         }
         if (g_core && !g_coreBroken) {

@@ -10,6 +10,7 @@ namespace game {
 // developer shares the machine that must not happen, so SetCursorPos from the game is ignored.
 void InitHooks(bool blockCursorWarp);
 void ShutdownHooks();
+bool HooksBusy();  // a detour is on the stack (a modal loop runs inside it)
 
 // Text capture: while active, the first text block the game lays out (cTSFont::CountLines) is
 // recorded. Used to read cards and popups that the game renders straight into a bitmap.

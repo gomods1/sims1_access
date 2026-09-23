@@ -16,6 +16,14 @@ namespace {
 
 bool g_minhookReady = false;
 
+// Detours under way: while one is on the stack (a SimAntics dialog runs a modal loop inside the
+// primitive hook) the core must not be unloaded (SA_Busy).
+int g_hookDepth = 0;
+struct InHook {
+    InHook() { g_hookDepth++; }
+    ~InHook() { g_hookDepth--; }
+};
+
 // ---- cTSFont::CountLines (text capture) -----------------------------------------------------
 typedef int(__thiscall* CountLinesFn)(void* font, const char* text, int len, int width);
 CountLinesFn g_countLines = nullptr;
@@ -24,6 +32,7 @@ bool g_capturing = false;
 std::string g_captured;  // game text (util/text.h)
 
 int __fastcall CountLinesDetour(void* font, void* /*edx*/, const char* text, int len, int width) {
+    InHook inHook;
     if (g_capturing && g_captured.empty() && text && len > 0 && len < 4096) g_captured.assign(text, len);
     return g_countLines(font, text, len, width);
 }
@@ -36,6 +45,7 @@ bool g_worldOverride = false;
 int g_worldX = 0, g_worldY = 0;
 
 int* __cdecl ScreenToWorldDetour(int* out, uint32_t* packedScreen, int flag) {
+    InHook inHook;
     int* result = g_screenToWorld(out, packedScreen, flag);
     if (g_worldOverride && out) {
         out[0] = g_worldX;
@@ -54,6 +64,7 @@ bool g_mouseLeftHooked = false;
 bool g_keepHeldShown = false;
 
 void __fastcall MouseLeftDetour(void* tool, void* /*edx*/) {
+    InHook inHook;
     if (g_keepHeldShown) return;
     g_mouseLeft(tool);
 }
@@ -78,6 +89,7 @@ typedef int(__thiscall* SetBalloonFn)(void* object, void* frame, const uint8_t* 
 SetBalloonFn g_setBalloon = nullptr;
 
 int __fastcall SetBalloonDetour(void* object, void* /*edx*/, void* frame, const uint8_t* operand) {
+    InHook inHook;
     BalloonCall call;
     BeforeSetBalloon((Ptr)object, (Ptr)frame, operand, &call);
     int result = g_setBalloon(object, frame, operand);
@@ -89,6 +101,7 @@ typedef int(__thiscall* DispatchFn)(void* object, void* frame, const uint16_t* i
 DispatchFn g_dispatch = nullptr;
 
 int __fastcall DispatchDetour(void* object, void* /*edx*/, void* frame, const uint16_t* instruction) {
+    InHook inHook;
     int opcode = *instruction & addr::simantics::kOpcodeMask;
     if (opcode == addr::simantics::kOpRemoveObject) BeforePrimitive((Ptr)object, (Ptr)frame, (const uint8_t*)instruction);
     int result = g_dispatch(object, frame, instruction);
@@ -114,6 +127,7 @@ typedef void(__cdecl* BuildErrorFn)(int code, int arg);
 BuildErrorFn g_buildError = nullptr;
 
 void __cdecl BuildErrorDetour(int code, int arg) {
+    InHook inHook;
     OnBuildError(code, arg);
     g_buildError(code, arg);
 }
@@ -123,6 +137,7 @@ typedef int(__thiscall* PlaySoundEventFn)(void* manager, const char* name, int s
 PlaySoundEventFn g_playSoundEvent = nullptr;
 
 int __fastcall PlaySoundEventDetour(void* manager, void* /*edx*/, const char* name, int source) {
+    InHook inHook;
     OnSoundEvent(name, (short)source);
     return g_playSoundEvent(manager, name, source);
 }
@@ -198,6 +213,8 @@ void ForceModifiers(bool shift, bool ctrl) {
 }
 
 void ClearForcedModifiers() { g_forceModifiers = false; }
+
+bool HooksBusy() { return g_hookDepth > 0; }
 
 bool TextCaptureAvailable() { return g_captureHooked; }
 

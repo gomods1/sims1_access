@@ -120,6 +120,9 @@ extern "C" __declspec(dllexport) int __cdecl SA_OnMessage(HWND, UINT msg, WPARAM
     return consumed ? 1 : 0;
 }
 
+// The loader asks before a hot reload: nonzero while one of the core's hooks is on the stack.
+extern "C" __declspec(dllexport) int __cdecl SA_Busy() { return g_active && game::HooksBusy() ? 1 : 0; }
+
 extern "C" __declspec(dllexport) void __cdecl SA_OnTick() {
     ReturnFocus();
     if (!g_active) return;
