@@ -21,7 +21,7 @@ ready-made rooms and warnings before walls cut anything off; `nav/build_mode.cpp
 overview on entering build mode, the family watch (needs, actions, rooms, relationships, money;
 `nav/sim_watch.cpp`), trips (Hot Date downtown, Unleashed's Old Town map and pet adoption), the
 wardrobe and the pet picker. Not done yet: see `ROADMAP.md` (Vacation, Superstar and Makin'
-Magic flows, the catalog by room, a tile cursor for buy mode). Screen
+Magic flows, a tile cursor for buy mode). Screen
 inventory: `SCREENS.md`. Verified targets: `PATCH_TARGETS.md`; layouts: `STRUCTS.md`.
 
 ## Working on this machine (read first)
@@ -57,8 +57,7 @@ inventory: `SCREENS.md`. Verified targets: `PATCH_TARGETS.md`; layouts: `STRUCTS
   then waits for the user to confirm "launch with these arguments" (2026-09-23: `launch.py` and
   `game.py launch` both hung there; every later launch queues behind it). Ask the user to accept
   it, or launch with no arguments (`steam://run/3314060`). `launch.py` writes the user's
-  foreground window to `SimsAccess
-eturn_focus.txt`; a dev core hands the foreground back to it
+  foreground window to `SimsAccesseturn_focus.txt`; a dev core hands the foreground back to it
   when the game window takes it at startup.
 - `python tools/nav_to.py <key> <text>` presses a key until the mod speaks a line containing the
   text (stops at a group's end); never chain an `enter` after it with `;`, only with `&&`.
