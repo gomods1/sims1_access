@@ -755,6 +755,10 @@ const Translation kEntries[] = {
     // Lot objects
     {Str::ObjDigHole, "von einem Hund gegrabenes Loch"},
     {Str::ObjDigPile, "von einem Hund ausgegrabener Erdhaufen"},
+    // Narrator: visitors
+    {Str::PizzaGreetHint,
+     "Begrüße ihn, um die Pizza zu bekommen: in der Kategorie Sims mit Bild ab zu ihm, Eingabe, Begrüßen. "
+     "Begrüßt ihn niemand, geht er mit ihr wieder."},
 };
 
 }  // namespace

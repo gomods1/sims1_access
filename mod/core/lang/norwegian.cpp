@@ -740,6 +740,10 @@ const Translation kEntries[] = {
     // Lot objects
     {Str::ObjDigHole, "hull gravd av en hund"},
     {Str::ObjDigPile, "jordhaug gravd opp av en hund"},
+    // Narrator: visitors
+    {Str::PizzaGreetHint,
+     "Hils på ham for å få pizzaen: i kategorien simmer, Page Down til ham, Enter, Hils. Hvis ingen hilser, går "
+     "han med den."},
 };
 
 }  // namespace

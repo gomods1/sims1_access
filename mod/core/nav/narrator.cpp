@@ -54,6 +54,7 @@ struct Shown {
 struct Visitor {
     std::string name;
     std::string burglarShout;  // the game's cry when it is the burglar, else empty
+    bool waitsForGreeting = false;  // the pizza man: he leaves with the pizza unless greeted
     bool ghost = false;        // a grave brought it out
     ULONGLONG since = 0;       // first seen
     bool announced = false;    // its arrival was said (or it was already there)
@@ -336,6 +337,7 @@ void PollVisitors(const std::vector<int>& family) {
         v.name = Trimmed(game::ObjectName(o));
         v.ghost = game::IsGhost(person);
         v.burglarShout = Trimmed(game::BurglarShout(person));  // the game's own "¡Ladrón!"
+        v.waitsForGreeting = game::ObjectInternalName(o).rfind("NPC Pizza Dude", 0) == 0;
         v.since = now;
         // Those present when the lot was first seen, or placed while it loads (a downtown lot
         // brings its crowd in over its first seconds), count as already there.
@@ -351,7 +353,9 @@ void PollVisitors(const std::vector<int>& family) {
             continue;
         }
         std::string line = util::Format(S(Str::VisitorArrived), v.name.c_str());
-        if (v.burglarShout.empty()) Announce(line, false);
+        // At ultra speed he is gone in seconds: what to do comes with the arrival.
+        if (v.waitsForGreeting) Announce(line + ". " + S(Str::PizzaGreetHint), true);
+        else if (v.burglarShout.empty()) Announce(line, false);
         else Announce(v.burglarShout + " " + line, true);
     }
     for (const auto& [id, v] : g.visitors)

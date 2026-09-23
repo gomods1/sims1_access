@@ -748,6 +748,10 @@ const Translation kEntries[] = {
     // Lot objects
     {Str::ObjDigHole, "koiran kaivama kuoppa"},
     {Str::ObjDigPile, "koiran kaivama multakasa"},
+    // Narrator: visitors
+    {Str::PizzaGreetHint,
+     "Tervehdi häntä saadaksesi pizzan: simit-luokassa Page Down hänen kohdalleen, Enter, Tervehdi. Jos kukaan "
+     "ei tervehdi, hän lähtee pizzan kanssa."},
 };
 
 }  // namespace

@@ -650,6 +650,8 @@ const Translation kEntries[] = {
     // Lot objects
     {Str::ObjDigHole, "狗挖的洞"},
     {Str::ObjDigPile, "狗挖出的土堆"},
+    // Narrator: visitors
+    {Str::PizzaGreetHint, "和他打招呼才能拿到比萨：在模拟市民类别里用 Page Down 找到他，按回车，选择问候。没人打招呼他就带着比萨走了。"},
 };
 
 }  // namespace

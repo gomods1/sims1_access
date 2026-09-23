@@ -738,4 +738,8 @@
     X(ActionDroppedMood, "%s refuses, in a bad mood: %s")                                                            \
     /* Lot objects */                                                                                                \
     X(ObjDigHole, "hole a dog dug")                                                                                  \
-    X(ObjDigPile, "pile of dirt a dog dug up")
+    X(ObjDigPile, "pile of dirt a dog dug up")                                                                       \
+    /* Narrator: visitors */                                                                                         \
+    X(PizzaGreetHint,                                                                                                \
+      "Greet him to get the pizza: in the Sims category, Page Down to him, Enter, Greet. Unless someone "            \
+      "greets him he leaves with it.")
