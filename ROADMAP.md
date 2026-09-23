@@ -246,9 +246,14 @@ for a second Enter. A new room without a door is said, not asked about. Still to
   picker, the name; the pet skills subpanel reads its points; a Sim's menu on the new pet only
   offered "Jugar con... > Acariciar": training (the Old Town pet trainer) not tried), community lots (room
   rooms: toilets by name, "tienda" for rooms with a cash register or display cases).
-- **Superstar**: Studio Town, fame and the career, performing.
+- **Superstar**: Studio Town, fame and the career, performing. (Trip verified 2026-09-23: the
+  car's dialogs, the Studio Town map with filters, a studio lot, the pay phone's "Ir a casa";
+  fame, the career and performing not tried.)
 - **Makin' Magic**: travelling to Magic Town, spells and charms, magic recipes and ingredients
   (the spell book `CWinMagicBook`, `cPickSpellList`), magic duels and the other magic places.
+  (Trip verified 2026-09-23: the balloon's dialogs, the Magic Town map with filters, a magic
+  lot; its shop was closed at night, so buying ingredients and the spell book are untested.)
+- **Vacation**: not tried yet (the first family was too unhappy to travel).
 
 ## Travel
 
