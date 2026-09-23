@@ -885,6 +885,8 @@ const Translation kEntries[] = {
     {Str::ArrivedAt, "มาถึง: %s"},
     // Inventory
     {Str::ItemCount, "%s, %d ชิ้น"},
+    // Trips: home again
+    {Str::ArrivedHome, "กลับถึงบ้านแล้ว"},
 };
 
 }  // namespace

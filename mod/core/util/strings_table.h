@@ -892,4 +892,6 @@
     /* Trips: arrival */                                                                                             \
     X(ArrivedAt, "arrived: %s")                                                                                      \
     /* Inventory */                                                                                                  \
-    X(ItemCount, "%s, %d of them")
+    X(ItemCount, "%s, %d of them")                                                                                   \
+    /* Trips: home again */                                                                                          \
+    X(ArrivedHome, "back home")

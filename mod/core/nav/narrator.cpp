@@ -98,6 +98,29 @@ bool g_onTrip = false;
 // The lot chosen on a travel map, said on arrival (the lot view stays the same window, so the
 // screen itself says nothing new); forgotten after a while (a cancelled choice).
 std::string g_destination;
+// Some objects of the lot being watched (object, id): the identity is a furniture fingerprint,
+// which moving or selling furniture also changes; a lot really changed only when these are gone.
+std::vector<std::pair<Ptr, int>> g_lotSample;
+
+std::vector<std::pair<Ptr, int>> SampleLot() {
+    std::vector<std::pair<Ptr, int>> out;
+    for (const game::LotObject& o : game::LotObjects()) {
+        if (o.person) continue;
+        out.push_back({o.object, o.id});
+        if (out.size() == 20) break;
+    }
+    return out;
+}
+
+bool SampleStillHere() {
+    if (g_lotSample.empty()) return false;
+    size_t same = 0;
+    for (const auto& [object, id] : g_lotSample) {
+        game::LotObject o;
+        same += game::GetObject(object, &o) && o.id == id;
+    }
+    return same * 2 > g_lotSample.size();
+}
 ULONGLONG g_destinationAt = 0;
 constexpr ULONGLONG kDestinationMs = 180000;
 
@@ -535,14 +558,22 @@ void NoteDestination(const std::string& name) {
 
 void Tick() {
     uintptr_t lot = OnMap() ? 0 : game::LotIdentity();
+    if (lot && g.lot && lot != g.lot && SampleStillHere()) {  // furniture moved or sold, same lot
+        LogVerbose("narrator: lot identity %p -> %p, same objects: same lot", (void*)g.lot, (void*)lot);
+        g.lot = lot;
+    }
     if (lot != g.lot) {  // another lot, or none: nothing seen before applies
+        bool wasOnLot = g.lot != 0 && lot != 0;
         if (lot && g.lot) g_onTrip = false;  // lot to lot: the ride home
         Reset();
         g.lot = lot;
         g.lotSince = GetTickCount64();
         if (lot && !g_destination.empty() && g.lotSince - g_destinationAt < kDestinationMs)
             Announce(util::Format(S(Str::ArrivedAt), g_destination.c_str()), true);
+        else if (lot && g.lot == 0 && wasOnLot)  // lot to lot with no map: the ride home
+            Announce(S(Str::ArrivedHome), true);
         if (lot) g_destination.clear();
+        g_lotSample = lot ? SampleLot() : std::vector<std::pair<Ptr, int>>{};
         LogVerbose("narrator: lot %p", (void*)lot);
     }
     std::vector<Balloon> balloons = game::TakeBalloons();
