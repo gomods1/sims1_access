@@ -761,6 +761,8 @@ const Translation kEntries[] = {
     {Str::SoundTaxi, "taxaen dytter"},
     // Travel maps
     {Str::ScreenVacation, "Ferieøen, hvor skal vi hen?"},
+    // Sounds
+    {Str::SoundVacationVan, "feriebussen dytter"},
 };
 
 }  // namespace

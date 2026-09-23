@@ -253,7 +253,8 @@ for a second Enter. A new room without a door is said, not asked about. Still to
   (the spell book `CWinMagicBook`, `cPickSpellList`), magic duels and the other magic places.
   (Trip verified 2026-09-23: the balloon's dialogs, the Magic Town map with filters, a magic
   lot; its shop was closed at night, so buying ingredients and the spell book are untested.)
-- **Vacation**: not tried yet (the first family was too unhappy to travel).
+- **Vacation**: trip verified 2026-09-23 (the tour dialogs, the van, the Vacation Island map with
+  filters, a camping lot); lodging, activities and souvenirs not tried.
 
 ## Travel
 

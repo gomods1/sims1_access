@@ -406,6 +406,12 @@ void ReportSound(const game::SoundEvent& e) {
     game::LotObject car;
     std::string internal = game::GetObject(game::ObjectById(e.source), &car) ? game::ObjectInternalName(car) : "";
     bool taxi = internal.find("Taxi") != std::string::npos;
+    bool van = internal.find("Vacation") != std::string::npos;  // "Car - Vacation Wagon" / "Van"
+    if (van) {
+        g.alertSaid[(int)e.alert] = now;
+        Announce(S(Str::SoundVacationVan), true);
+        return;
+    }
     if (!taxi && g_onTrip) {
         Log("sound '%s' from #%d (%s): on a trip, traffic, not said", e.name.c_str(), e.source, internal.c_str());
         return;

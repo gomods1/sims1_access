@@ -759,4 +759,6 @@
     /* Sounds */                                                                                                     \
     X(SoundTaxi, "the taxi is honking")                                                                              \
     /* Travel maps */                                                                                                \
-    X(ScreenVacation, "Vacation Island, where to?")
+    X(ScreenVacation, "Vacation Island, where to?")                                                                  \
+    /* Sounds */                                                                                                     \
+    X(SoundVacationVan, "the vacation van is honking")

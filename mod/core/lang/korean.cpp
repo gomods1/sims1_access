@@ -691,6 +691,8 @@ const Translation kEntries[] = {
     {Str::SoundTaxi, "택시가 경적을 울림"},
     // Travel maps
     {Str::ScreenVacation, "휴가의 섬, 어디로 갈까요?"},
+    // Sounds
+    {Str::SoundVacationVan, "휴가 승합차가 경적을 울림"},
 };
 
 }  // namespace
