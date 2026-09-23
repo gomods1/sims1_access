@@ -31,7 +31,7 @@ everywhere (the game has no keyboard focus; the mod walks the widget tree).
 | Help | `cWinHelp` | topic list with a scroll bar | topics and their text | verified: all 47 topics reachable (also those scrolled out of view); choosing one reads its text |
 | Budget | `cWinBudgetDlg`, `cWinBudgetRow` | | income/expense table, totals | navigable (rows read with column names) |
 | Phone book | `CWinPhoneBook` | | whom to call | dialog reads ("Gunther no conoce a nadie.", Llamar, Cancelar); a filled contact list not seen yet |
-| Scrapbook | `cWinScrapbook` | | | not started |
+| Scrapbook (the family album of snapshots) | `cWinScrapbook` | | pages of photos with captions | out of scope (user decision: photos are visual only) |
 | Magic book / spells | `CWinMagicBook`, `cPickSpellList`, `cPickSpellItem` | | page of four spells drawn as ingredient icons; the chosen one's name and description on the right | done (verified 2026-09-23 with the starter kit's book): group "conjuros" with one item per spell ("ingredientes: Cera de abejas, Cera de abejas, Cera de abejas"); Enter chooses it and reads the right page ("Talismán desconocido. Combine..."; undiscovered spells keep the game's "desconocido"); the description reads as text; anterior / Página 1 de 6 / siguiente / Cancelar. The cookbook uses the same window (group "recetas", by a flag that is a hypothesis; not seen) |
 | Gift | `cWinGift` | | | not started |
 | Sim's card (Ctrl+Shift+1..9 in the lot view: the game's Ctrl+click on a portrait) | `cWinEditBio` | text entry | | done: "Bio de Cris: ..., campo de texto", OK, Cancelar (whose card: `+0x128`) |
