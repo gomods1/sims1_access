@@ -35,6 +35,9 @@ struct LotObject {
 };
 
 Ptr LotModule();  // the ObjectModule of the loaded lot, 0 when none
+// Tells loaded lots apart (the module and the world are the same objects on every lot): a
+// fingerprint of the lot's first objects and where they stand. 0 when no lot is loaded.
+uintptr_t LotIdentity();
 
 // The game's tutorial object (house 7) is on the lot: the tutorial is running. Cheap: cached for a
 // second.

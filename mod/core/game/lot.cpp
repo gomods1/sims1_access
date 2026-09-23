@@ -2,6 +2,7 @@
 
 #include <windows.h>
 
+#include <algorithm>
 #include <map>
 #include <unordered_map>
 
@@ -326,6 +327,27 @@ Ptr LotModule() {
     Ptr root = Rd<Ptr>(Rd<Ptr>(Va(addr::kSimRoot)));
     Ptr module = Rd<Ptr>(root + addr::kLotModule);
     return IsKindOf(module, "ObjectModule") ? module : 0;
+}
+
+// Where the lot's first objects stand: another lot has other objects at other places, and a lot
+// keeps its first ones (a purchase gets a higher id). Cached for half a second.
+uintptr_t LotIdentity() {
+    static ULONGLONG at = 0;
+    static uintptr_t cached = 0;
+    if (!LotModule()) return cached = 0;
+    ULONGLONG now = GetTickCount64();
+    if (cached && now - at < 500) return cached;
+    at = now;
+    std::vector<PlacedPart> parts = PlacedParts();
+    std::sort(parts.begin(), parts.end(), [](const PlacedPart& a, const PlacedPart& b) { return a.id < b.id; });
+    uint32_t hash = 2166136261u;
+    int used = 0;
+    for (const PlacedPart& p : parts) {
+        if (IsKindOf(p.object, "cXPerson")) continue;
+        for (int v : {p.id, p.tileX, p.tileY, p.level}) hash = (hash ^ (uint32_t)v) * 16777619u;
+        if (++used == 12) break;
+    }
+    return cached = used ? (uintptr_t)(hash | 1) : 0;
 }
 
 bool GetObject(Ptr object, LotObject* out) {

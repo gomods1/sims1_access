@@ -60,7 +60,7 @@ struct Visitor {
 };
 
 struct State {
-    Ptr lot = 0;                                  // the ObjectModule the state belongs to
+    uintptr_t lot = 0;                            // the lot the state belongs to (game::LotIdentity)
     std::map<int, Shown> shown;                   // by owner id
     std::map<std::string, ULONGLONG> spokenAt;    // "<owner id>|<line>" -> when
     std::map<std::pair<int, int>, ULONGLONG> treeSeen;  // (owner id, tree) -> its last balloon
@@ -445,11 +445,12 @@ bool OnMap() {
 }
 
 void Tick() {
-    Ptr lot = OnMap() ? 0 : game::LotModule();
+    uintptr_t lot = OnMap() ? 0 : game::LotIdentity();
     if (lot != g.lot) {  // another lot, or none: nothing seen before applies
         Reset();
         g.lot = lot;
         g.lotSince = GetTickCount64();
+        LogVerbose("narrator: lot %p", (void*)lot);
     }
     std::vector<Balloon> balloons = game::TakeBalloons();
     std::vector<game::TakenObject> taken = game::TakeTakenObjects();
