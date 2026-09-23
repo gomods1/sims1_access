@@ -774,4 +774,106 @@
     X(ViewStudioTown, "Studio Town view")                                                                            \
     X(ViewMagicTown, "Magic Town view")                                                                              \
     /* Sim panels */                                                                                                 \
-    X(GroupReportCard, "Report Card")
+    X(GroupReportCard, "Report Card")                                                                                \
+    /* Create-a-Sim appearance */                                                                                    \
+    X(LookHairBlack, "black hair")                                                                                   \
+    X(LookHairBrown, "brown hair")                                                                                   \
+    X(LookHairBlond, "blond hair")                                                                                   \
+    X(LookHairRed, "red hair")                                                                                       \
+    X(LookHairGray, "gray hair")                                                                                     \
+    X(LookHairWhite, "white hair")                                                                                   \
+    X(LookHairDyed, "dyed hair")                                                                                     \
+    X(LookHairVeryShort, "very short")                                                                               \
+    X(LookHairShort, "short")                                                                                        \
+    X(LookHairMedium, "medium length")                                                                               \
+    X(LookHairLong, "long")                                                                                          \
+    X(LookSpiky, "spiky")                                                                                            \
+    X(LookCurly, "curly")                                                                                            \
+    X(LookWavy, "wavy")                                                                                              \
+    X(LookSlickedBack, "slicked back")                                                                               \
+    X(LookBob, "bob cut")                                                                                            \
+    X(LookBun, "in a bun")                                                                                           \
+    X(LookAfro, "afro")                                                                                              \
+    X(LookMohawk, "mohawk")                                                                                          \
+    X(LookPonytail, "ponytail")                                                                                      \
+    X(LookBraids, "braids")                                                                                          \
+    X(LookPigtails, "pigtails")                                                                                      \
+    X(LookBangs, "bangs")                                                                                            \
+    X(LookUpdo, "hair up")                                                                                           \
+    X(LookBald, "bald")                                                                                              \
+    X(LookBeard, "beard")                                                                                            \
+    X(LookMoustache, "moustache")                                                                                    \
+    X(LookGoatee, "goatee")                                                                                          \
+    X(LookStubble, "stubble")                                                                                        \
+    X(LookSideburns, "sideburns")                                                                                    \
+    X(LookGlasses, "glasses")                                                                                        \
+    X(LookSunglasses, "sunglasses")                                                                                  \
+    X(LookHat, "hat")                                                                                                \
+    X(LookCap, "cap")                                                                                                \
+    X(LookHelmet, "helmet")                                                                                          \
+    X(LookHeadscarf, "headscarf")                                                                                    \
+    X(LookHeadband, "headband")                                                                                      \
+    X(LookMask, "mask")                                                                                              \
+    X(LookMonster, "monster face")                                                                                   \
+    X(LookOlder, "older face")                                                                                       \
+    X(LookEarrings, "earrings")                                                                                      \
+    X(LookHairFlower, "flower in the hair")                                                                          \
+    X(LookArmor, "armor")                                                                                            \
+    X(LookUniform, "uniform")                                                                                        \
+    X(LookTShirt, "T-shirt")                                                                                         \
+    X(LookShirt, "shirt")                                                                                            \
+    X(LookTankTop, "tank top")                                                                                       \
+    X(LookSweater, "sweater")                                                                                        \
+    X(LookHoodie, "hoodie")                                                                                          \
+    X(LookJacket, "jacket")                                                                                          \
+    X(LookLeatherJacket, "leather jacket")                                                                           \
+    X(LookVest, "vest")                                                                                              \
+    X(LookCoat, "long coat")                                                                                         \
+    X(LookSuit, "suit")                                                                                              \
+    X(LookTuxedo, "tuxedo")                                                                                          \
+    X(LookTie, "tie")                                                                                                \
+    X(LookTrousers, "trousers")                                                                                      \
+    X(LookJeans, "jeans")                                                                                            \
+    X(LookShorts, "shorts")                                                                                          \
+    X(LookOveralls, "overalls")                                                                                      \
+    X(LookLederhosen, "lederhosen")                                                                                  \
+    X(LookKilt, "kilt")                                                                                              \
+    X(LookRobe, "robe")                                                                                              \
+    X(LookToga, "toga")                                                                                              \
+    X(LookKimono, "kimono")                                                                                          \
+    X(LookCostume, "costume")                                                                                        \
+    X(LookSportswear, "sports kit")                                                                                  \
+    X(LookApron, "apron")                                                                                            \
+    X(LookShirtless, "shirtless")                                                                                    \
+    X(LookBarefoot, "barefoot")                                                                                      \
+    X(LookSandals, "sandals")                                                                                        \
+    X(LookBoots, "boots")                                                                                            \
+    X(LookSneakers, "sneakers")                                                                                      \
+    X(LookHeels, "high heels")                                                                                       \
+    X(LookTattoos, "tattoos")                                                                                        \
+    X(LookLeather, "leather")                                                                                        \
+    X(LookDress, "dress")                                                                                            \
+    X(LookLongDress, "long dress")                                                                                   \
+    X(LookSkirt, "skirt")                                                                                            \
+    X(LookBlouse, "blouse")                                                                                          \
+    X(LookSwimsuit, "swimsuit")                                                                                      \
+    X(LookBikini, "bikini")                                                                                          \
+    X(LookTop, "top")                                                                                                \
+    X(LookLeggings, "leggings")                                                                                      \
+    X(LookColorBlack, "black")                                                                                       \
+    X(LookColorWhite, "white")                                                                                       \
+    X(LookColorGray, "gray")                                                                                         \
+    X(LookColorRed, "red")                                                                                           \
+    X(LookColorBlue, "blue")                                                                                         \
+    X(LookColorGreen, "green")                                                                                       \
+    X(LookColorYellow, "yellow")                                                                                     \
+    X(LookColorOrange, "orange")                                                                                     \
+    X(LookColorPurple, "purple")                                                                                     \
+    X(LookColorPink, "pink")                                                                                         \
+    X(LookColorBrown, "brown")                                                                                       \
+    X(LookColorBeige, "beige")                                                                                       \
+    X(LookCamouflage, "camouflage")                                                                                  \
+    X(LookChecked, "checked")                                                                                        \
+    X(LookFloral, "floral")                                                                                          \
+    X(LookStriped, "striped")                                                                                        \
+    X(LookPatterned, "patterned")

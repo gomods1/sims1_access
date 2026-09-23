@@ -16,6 +16,7 @@
 #include "../game/view_control.h"
 #include "../util/strings.h"
 #include "../util/text.h"
+#include "appearance.h"
 #include "buy_mode.h"
 #include "screens.h"
 #include "tutorial.h"
@@ -268,7 +269,8 @@ bool BodyShape(const std::string& mesh, Str* shape) {
 std::string DescribeLook(Ptr screen, game::LookPart part) {
     game::Look look;
     if (!game::CurrentLook(screen, part, &look)) return "";
-    std::string word = LookWord(look.mesh);
+    std::string word = appearance::Describe(look.mesh);  // the mod's own description, else the mesh's word
+    if (word.empty()) word = LookWord(look.mesh);
     if (part == game::LookPart::Head)
         return util::Format(S(Str::HeadLook), look.index + 1, look.count, word.c_str());
     Str shape;
@@ -315,7 +317,8 @@ std::string DescribeOutfit(Ptr dialog) {
         return util::Format(S(Str::PetLook), look.index + 1, look.count, BreedName(look.mesh).c_str());
     }
     if (look.index < 0) return util::Format(S(Str::OutfitNotListed), look.count);
-    std::string word = LookWord(look.mesh);
+    std::string word = appearance::Describe(look.mesh);
+    if (word.empty()) word = LookWord(look.mesh);
     Str shape;
     if (!BodyShape(look.mesh, &shape)) return util::Format(S(Str::OutfitLookNoShape), look.index + 1, look.count, word.c_str());
     return util::Format(S(Str::OutfitLook), look.index + 1, look.count, S(shape), word.c_str());
