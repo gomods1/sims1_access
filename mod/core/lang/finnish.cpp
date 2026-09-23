@@ -752,6 +752,12 @@ const Translation kEntries[] = {
     {Str::PizzaGreetHint,
      "Tervehdi häntä saadaksesi pizzan: simit-luokassa Page Down hänen kohdalleen, Enter, Tervehdi. Jos kukaan "
      "ei tervehdi, hän lähtee pizzan kanssa."},
+    // Placing: free cursor
+    {Str::FreeFits, "mahtuu"},
+    {Str::FreeNoFit, "ei mahdu: %s"},
+    {Str::KeysPlacingFree,
+     "Nuolet siirtävät sitä ruutu kerrallaan, Vaihdon kanssa viisi, ja kertovat mahtuuko se; Vaihto+Page Up ja "
+     "Vaihto+Page Down kääntävät sitä, Enter asettaa sen siihen, Page Down palaa paikkoihin."},
 };
 
 }  // namespace

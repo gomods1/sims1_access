@@ -83,7 +83,7 @@ bool WorldTarget() { return nav::WorldFocused() && nav::LotViewActive(); }
 void SayKeyHelp() {
     if (game::IsPieMenu(game::InputRoot())) speech::Say(S(Str::KeysMenu));
     else if (nav::cheats::Entering()) speech::Say(S(Str::CheatHint));
-    else if (nav::buy::Placing()) speech::Say(S(Str::KeysPlacing));
+    else if (nav::buy::Placing()) speech::Say(std::string(S(Str::KeysPlacing)) + " " + S(Str::KeysPlacingFree));
     else if (nav::LotViewActive() && game::InBuyTool()) speech::Say(std::string(S(Str::KeysBuy)) + " " + S(Str::KeysRoomFilter) + " " + S(Str::KeysLayoutHint));
     else if (nav::LotViewActive()) speech::Say(std::string(S(Str::KeysLot)) + " " + S(Str::KeysLayoutHint));
     else speech::Say(S(Str::KeysScreen));
@@ -128,6 +128,18 @@ bool BuildCursorKey(WPARAM vk, bool shift, bool ctrl) {
 bool Dispatch(WPARAM vk, bool shift, bool ctrl) {
     bool typing = nav::TextEntryActive();
     if (nav::build::Active() && !typing && BuildCursorKey(vk, shift, ctrl)) return true;
+    switch (vk) {
+    case VK_UP: case VK_DOWN: case VK_LEFT: case VK_RIGHT:
+        // Placing with the world focused: the arrows move the held object tile by tile.
+        if (!ctrl && WorldTarget() && nav::buy::Placing()) {
+            int n = shift ? 5 : 1;
+            nav::buy::MoveFree(vk == VK_LEFT ? -n : vk == VK_RIGHT ? n : 0, vk == VK_UP ? -n : vk == VK_DOWN ? n : 0);
+            return true;
+        }
+        break;
+    default:
+        break;
+    }
     switch (vk) {
     case VK_UP:
         if (ctrl) nav::buffers::Deeper();

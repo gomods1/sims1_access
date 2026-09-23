@@ -175,8 +175,11 @@ Still to do:
   room, dining room, study, outside, all) by the products' OBJD room flags; moving through a list
   skips other products and turns pages until one fits ("no hay más productos para ... en esa
   dirección" at the end).
-- A tile-by-tile cursor for fine control (each tile spoken: walls, doors, objects), for placements
-  the spot list leaves out.
+- A tile-by-tile cursor (done, verified 2026-09-23): while placing, the arrows move the held
+  object one tile (Shift: five), each step saying the tile, whether the engine lets it stand
+  there (its reason when not), the room, the walls around the tile and its direction;
+  Shift+PageUp/PageDown turn it, Enter puts it there, PageDown goes back to the spot list. The
+  mod's usability checks (reach, doors) are not run for these.
 - Upper floors (spots are searched on the floor buy mode shows; the level buttons and stairs
   reachability are untested) and multi-tile objects on surfaces. (Wall hangings work: "contra
   la pared norte, mirando al sur"; having no floor footprint they block nothing.)

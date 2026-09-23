@@ -744,6 +744,12 @@ const Translation kEntries[] = {
     {Str::PizzaGreetHint,
      "Hils på ham for å få pizzaen: i kategorien simmer, Page Down til ham, Enter, Hils. Hvis ingen hilser, går "
      "han med den."},
+    // Placing: free cursor
+    {Str::FreeFits, "passer"},
+    {Str::FreeNoFit, "passer ikke: %s"},
+    {Str::KeysPlacingFree,
+     "Piltastene flytter den én rute om gangen, med Shift fem, og sier om den passer; Shift+Page Up og "
+     "Shift+Page Down snur den, Enter setter den der, Page Down går tilbake til plassene."},
 };
 
 }  // namespace

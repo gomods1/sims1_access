@@ -31,6 +31,10 @@ void NextSpot(int delta);
 void NextArea(int delta);
 void NextTurn(int delta);
 void Confirm();
+// Arrows while placing: the held object moves one tile (the engine says whether it fits there);
+// Shift+PageUp/PageDown then turn it, Enter puts it there, PageUp/PageDown go back to the spots.
+void MoveFree(int dx, int dy);
+bool FreeTurn(int delta);
 bool Cancel();      // false when nothing is being placed
 void Sell();        // Delete while moving an object: sell it (a purchase is cancelled instead)
 void PickUpFocused();  // buy mode, Enter on an object of the lot browser: pick it up to move it

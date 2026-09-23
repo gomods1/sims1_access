@@ -651,6 +651,11 @@ const Translation kEntries[] = {
     {Str::ObjDigPile, "狗挖出的土堆"},
     // Narrator: visitors
     {Str::PizzaGreetHint, "和他打招呼才能拿到披薩：在模擬人物類別裡用 Page Down 找到他，按 Enter，選擇問候。沒人打招呼他就帶著披薩走了。"},
+    // Placing: free cursor
+    {Str::FreeFits, "放得下"},
+    {Str::FreeNoFit, "放不下：%s"},
+    {Str::KeysPlacingFree,
+     "方向鍵一次移動一格，按住 Shift 一次五格，並說明能否放下；Shift+Page Up 和 Shift+Page Down 旋轉，Enter 放在這裡，Page Down 回到位置清單。"},
 };
 
 }  // namespace

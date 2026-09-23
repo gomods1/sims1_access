@@ -748,6 +748,12 @@ const Translation kEntries[] = {
     {Str::PizzaGreetHint,
      "Przywitaj go, żeby dostać pizzę: w kategorii Simowie Page Down do niego, Enter, Przywitaj. Jeśli nikt go "
      "nie przywita, odejdzie z nią."},
+    // Placing: free cursor
+    {Str::FreeFits, "mieści się"},
+    {Str::FreeNoFit, "nie mieści się: %s"},
+    {Str::KeysPlacingFree,
+     "Strzałki przesuwają go o jedno pole, z Shiftem o pięć, i mówią, czy się mieści; Shift+Page Up i Shift+Page "
+     "Down go obracają, Enter stawia go tam, Page Down wraca do miejsc."},
 };
 
 }  // namespace

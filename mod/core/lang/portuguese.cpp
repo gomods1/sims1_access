@@ -753,6 +753,12 @@ const Translation kEntries[] = {
     {Str::PizzaGreetHint,
      "Cumprimente-o para receber a pizza: na categoria Sims, Page Down até ele, Enter, Receber. Se ninguém o "
      "cumprimentar, ele vai embora com ela."},
+    // Placing: free cursor
+    {Str::FreeFits, "cabe"},
+    {Str::FreeNoFit, "não cabe: %s"},
+    {Str::KeysPlacingFree,
+     "As setas o movem de quadrado em quadrado, com Shift de cinco em cinco, dizendo se cabe ali; Shift+Page Up "
+     "e Shift+Page Down o giram, Enter o coloca ali, Page Down volta aos lugares."},
 };
 
 }  // namespace

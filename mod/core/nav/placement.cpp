@@ -647,6 +647,8 @@ std::string Describe(const Spot& spot) {
 }
 
 // A room's name for door descriptions ("comedor", "exterior").
+Str CompassWord(int compass) { return DirectionName(compass & 7); }
+
 std::string RoomNameOf(int room) {
     std::string name = rooms::NameOf(rooms::NameRooms(game::LotObjects()), room);
     if (!name.empty()) return name;

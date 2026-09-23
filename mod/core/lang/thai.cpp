@@ -735,6 +735,12 @@ const Translation kEntries[] = {
     {Str::PizzaGreetHint,
      "ทักทายเขาเพื่อรับพิซซ่า: ในหมวดชาวซิม กด Page Down ไปที่เขา กด Enter เลือกต้อนรับ ถ้าไม่มีใครทักทาย "
      "เขาจะเอาพิซซ่ากลับไป"},
+    // Placing: free cursor
+    {Str::FreeFits, "วางได้"},
+    {Str::FreeNoFit, "วางไม่ได้: %s"},
+    {Str::KeysPlacingFree,
+     "ลูกศรเลื่อนทีละช่อง กด Shift ด้วยเลื่อนทีละห้าช่อง และบอกว่าวางได้หรือไม่; Shift+Page Up และ Shift+Page "
+     "Down หมุน, Enter วางตรงนั้น, Page Down กลับไปที่รายการตำแหน่ง"},
 };
 
 }  // namespace

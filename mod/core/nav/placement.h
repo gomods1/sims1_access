@@ -82,6 +82,8 @@ struct WallCheck {
     std::vector<std::string> trappedSims;  // Sims who could no longer get out to the lot's entrance
 };
 WallCheck CheckNewWalls(int level, const std::vector<WallEdgeAdd>& edges);
+std::string RoomNameOf(int room);  // "baño", "exterior", "habitación vacía, 20 casillas"
+Str CompassWord(int compass);      // 0 north ... 7 north-west
 // What Sims cannot reach from the lot's entrance on a floor now: the objects they could not use
 // (names, each once) and the rooms with floor they could not get into.
 struct ReachReport {

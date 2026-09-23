@@ -57,7 +57,8 @@ inventory: `SCREENS.md`. Verified targets: `PATCH_TARGETS.md`; layouts: `STRUCTS
   then waits for the user to confirm "launch with these arguments" (2026-09-23: `launch.py` and
   `game.py launch` both hung there; every later launch queues behind it). Ask the user to accept
   it, or launch with no arguments (`steam://run/3314060`). `launch.py` writes the user's
-  foreground window to `SimsAccesseturn_focus.txt`; a dev core hands the foreground back to it
+  foreground window to `SimsAccess
+eturn_focus.txt`; a dev core hands the foreground back to it
   when the game window takes it at startup.
 - `python tools/nav_to.py <key> <text>` presses a key until the mod speaks a line containing the
   text (stops at a group's end); never chain an `enter` after it with `;`, only with `&&`.
@@ -218,7 +219,7 @@ inventory: `SCREENS.md`. Verified targets: `PATCH_TARGETS.md`; layouts: `STRUCTS
     pages). The catalog's buttons by arrows; a product reads name, price, ratings and its
     description (the details buffer: all ratings, rooms it is meant for). Enter on a product starts placing
     it: PageDown/PageUp the spots (best first), Ctrl+PageDown/PageUp rooms, Shift+PageDown/PageUp
-    other directions on the tile, Enter buys, Escape cancels, R repeats; the details buffer has
+    other directions on the tile, arrows move it tile by tile instead (saying whether it fits), Enter buys, Escape cancels, R repeats; the details buffer has
     the spot's tile and the area's refused spots with the game's reason. Enter on an object of the lot browser picks it up to move it (same spot list;
     Escape puts it back, Delete sells it and says the refund). Moving past a page's last product
     (or back from its first) turns the catalog's page by itself ("página siguiente").

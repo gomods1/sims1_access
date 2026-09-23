@@ -760,6 +760,12 @@ const Translation kEntries[] = {
     {Str::PizzaGreetHint,
      "Begroet hem om de pizza te krijgen: in de categorie Sims met Page Down naar hem, Enter, Begroet. Als "
      "niemand hem begroet, gaat hij met de pizza weg."},
+    // Placing: free cursor
+    {Str::FreeFits, "past"},
+    {Str::FreeNoFit, "past niet: %s"},
+    {Str::KeysPlacingFree,
+     "De pijltjes verplaatsen het vak voor vak, met Shift vijf tegelijk, en zeggen of het past; Shift+Page Up en "
+     "Shift+Page Down draaien het, Enter zet het daar, Page Down gaat terug naar de plekken."},
 };
 
 }  // namespace

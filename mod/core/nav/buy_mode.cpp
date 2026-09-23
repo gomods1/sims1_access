@@ -4,6 +4,8 @@
 
 #include "../game/buy.h"
 #include "../game/lot.h"
+#include "../game/lotgrid.h"
+#include "../game/rooms.h"
 #include "../game/ui.h"
 #include "../speech/speech.h"
 #include "../util/log.h"
@@ -26,6 +28,11 @@ struct State {
     std::vector<placement::Area> areas;
     int area = 0;
     int spot = 0;
+    // The arrows' free cursor: the held object goes wherever the player moves it, tile by tile
+    // (for places the spot list leaves out); the engine says whether it fits there.
+    bool free = false;
+    game::Tile freeTile;
+    int freeDirection = 0;
 };
 
 State g;
@@ -221,6 +228,7 @@ void Tick() {
 }
 
 void NextSpot(int delta) {
+    g.free = false;
     placement::Area* a = CurrentArea();
     if (!a) {
         speech::Say(S(Str::DoesNotFit));
@@ -236,6 +244,7 @@ void NextSpot(int delta) {
 }
 
 void NextArea(int delta) {
+    g.free = false;
     if (g.areas.empty()) {
         speech::Say(S(Str::DoesNotFit));
         return;
@@ -249,6 +258,7 @@ void NextArea(int delta) {
 
 // The other directions that work on the focused tile.
 void NextTurn(int delta) {
+    if (FreeTurn(delta)) return;
     placement::Area* a = CurrentArea();
     const placement::Spot* s = CurrentSpot();
     if (!a || !s) {
@@ -273,11 +283,12 @@ void NextTurn(int delta) {
 
 void Confirm() {
     const placement::Spot* s = CurrentSpot();
-    if (!s) {
+    if (!s && !g.free) {
         NextSpot(0);
         return;
     }
-    game::Tile tile = s->tile;
+    game::Tile tile = g.free ? g.freeTile : s->tile;
+    int direction = g.free ? g.freeDirection : s->direction;
     bool buying = game::IsBuying();
     std::string name = buying ? "" : HeldName();
     game::ProductInfo p;
@@ -285,14 +296,16 @@ void Confirm() {
     if (name.empty()) name = HeldName();  // build mode's items are not in the buy catalog
     game::Ptr placed = game::HeldObject();
     game::LiftHeld();
-    if (s->direction >= 0) game::TurnHeld(s->direction);
+    if (direction >= 0) game::TurnHeld(direction);
     int error = game::PlaceHeldAt(tile);
     if (error != 0) {
         std::string why = game::PlacementErrorText(error);
         buffers::Event(util::Format(S(Str::PlaceFailed), why.empty() ? S(Str::DoesNotFit) : why.c_str()));
-        ShowCurrent();
+        if (g.free) game::ShowHeldAt(tile);
+        else ShowCurrent();
         return;
     }
+    g.free = false;
     if (buying) world::MarkBought(placed);
     std::string line = util::Format(S(buying ? Str::Bought : Str::PutDown), name.c_str());
     int funds = 0;
@@ -351,7 +364,86 @@ void PickUpFocused() {
     // Tick notices the held object and says where it can go.
 }
 
+// ---- The free cursor (arrows while placing) ------------------------------------------------
+
+namespace {
+
+// "29, 31, cabe, baño, junto a Ducha Miniespás": the tile, the engine's verdict, the room and
+// what stands next to it.
+std::string FreeLine() {
+    int level = game::HeldLevel();
+    game::LiftHeld();
+    game::TurnHeld(g.freeDirection);
+    int error = game::CheckHeldAt(g.freeTile, level);
+    game::ShowHeldAt(g.freeTile);
+    camera::LookAt(game::HeldObject());
+    std::string line = util::Format(S(Str::TileAt), g.freeTile.x, g.freeTile.y) + ", ";
+    if (error == 0) line += S(Str::FreeFits);
+    else {
+        std::string why = game::PlacementErrorText(error);
+        line += util::Format(S(Str::FreeNoFit), why.empty() ? S(Str::DoesNotFit) : why.c_str());
+    }
+    std::string room = placement::RoomNameOf(game::RoomAt(level, g.freeTile.x, g.freeTile.y));
+    if (!room.empty()) line += ", " + room;
+    uint32_t walls = game::WallsAt(level, g.freeTile.x, g.freeTile.y);
+    std::string sides;
+    const std::pair<uint32_t, Str> kSides[] = {{game::kWallNorth, Str::BuildNorth}, {game::kWallEast, Str::BuildEast},
+                                              {game::kWallSouth, Str::BuildSouth}, {game::kWallWest, Str::BuildWest}};
+    for (const auto& side : kSides)
+        if (walls & side.first) sides += (sides.empty() ? "" : ", ") + std::string(S(side.second));
+    if (!sides.empty()) line += ", " + util::Format(S(Str::BuildWallsHere), sides.c_str());
+    line += ", " + util::Format(S(Str::FacingDirection), S(placement::CompassWord(game::CompassOf(g.freeDirection))));
+    return line;
+}
+
+}  // namespace
+
+void MoveFree(int dx, int dy) {
+    if (!Placing()) return;
+    if (!g.free) {
+        const placement::Spot* s = CurrentSpot();
+        game::LotObject sim;
+        if (s) {
+            g.freeTile = s->tile;
+            g.freeDirection = s->direction >= 0 ? s->direction : game::ObjectDirection(game::HeldObject());
+        } else if (game::GetObject(game::SelectedSim(), &sim)) {
+            g.freeTile = game::Tile{sim.x >> 4, sim.y >> 4};
+            g.freeDirection = game::ObjectDirection(game::HeldObject());
+        }
+        g.free = true;
+    }
+    game::Tile next{g.freeTile.x + dx, g.freeTile.y + dy};
+    if (!game::InGrid(next.x, next.y)) {
+        speech::Say(S(Str::BuildLotEdge));
+        return;
+    }
+    g.freeTile = next;
+    std::string line = FreeLine();
+    buffers::SetDetails({line});
+    speech::Say(line);
+}
+
+bool FreeTurn(int delta) {
+    if (!g.free) return false;
+    int step = game::HeldRotationStep();
+    if (step <= 0) {
+        speech::Say(S(Str::NoOtherTurn));
+        return true;
+    }
+    g.freeDirection = ((g.freeDirection + delta * std::max(step, 2)) % 8 + 8) % 8;
+    std::string line = FreeLine();
+    buffers::SetDetails({line});
+    speech::Say(line);
+    return true;
+}
+
 void Repeat() {
+    if (g.free) {
+        std::string line = FreeLine();
+        buffers::SetDetails({line});
+        speech::Say(line);
+        return;
+    }
     if (!CurrentSpot()) {
         SaySpot(AreaLine());
         return;

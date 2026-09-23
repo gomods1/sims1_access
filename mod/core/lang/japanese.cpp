@@ -671,6 +671,12 @@ const Translation kEntries[] = {
     {Str::ObjDigPile, "犬が掘り出した土の山"},
     // Narrator: visitors
     {Str::PizzaGreetHint, "ピザを受け取るには挨拶する: シムのカテゴリーでPage Downで彼まで進み、Enter、挨拶する。誰も挨拶しないとピザを持って帰る。"},
+    // Placing: free cursor
+    {Str::FreeFits, "置ける"},
+    {Str::FreeNoFit, "置けない: %s"},
+    {Str::KeysPlacingFree,
+     "矢印キーで1マスずつ動かし、Shiftと一緒なら5マスずつ動かして、置けるかどうかを伝えます。Shift+Page UpとShift+Page Downで回転、Enterでそこに置き、Page "
+     "Downで場所の一覧に戻ります。"},
 };
 
 }  // namespace

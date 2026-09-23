@@ -759,6 +759,13 @@ const Translation kEntries[] = {
     {Str::PizzaGreetHint,
      "Begrüße ihn, um die Pizza zu bekommen: in der Kategorie Sims mit Bild ab zu ihm, Eingabe, Begrüßen. "
      "Begrüßt ihn niemand, geht er mit ihr wieder."},
+    // Placing: free cursor
+    {Str::FreeFits, "passt"},
+    {Str::FreeNoFit, "passt nicht: %s"},
+    {Str::KeysPlacingFree,
+     "Die Pfeiltasten verschieben es Feld für Feld, mit Umschalt um fünf, und sagen, ob es dort passt; "
+     "Umschalt+Bild auf und Umschalt+Bild ab drehen es, Eingabe stellt es dort hin, Bild ab kehrt zu den Plätzen "
+     "zurück."},
 };
 
 }  // namespace

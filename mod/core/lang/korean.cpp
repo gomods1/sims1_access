@@ -674,6 +674,12 @@ const Translation kEntries[] = {
     {Str::ObjDigPile, "개가 파낸 흙더미"},
     // Narrator: visitors
     {Str::PizzaGreetHint, "피자를 받으려면 인사하세요: 심즈 분류에서 Page Down으로 그에게 가서 Enter, 인사함. 아무도 인사하지 않으면 피자를 가지고 떠납니다."},
+    // Placing: free cursor
+    {Str::FreeFits, "놓을 수 있음"},
+    {Str::FreeNoFit, "놓을 수 없음: %s"},
+    {Str::KeysPlacingFree,
+     "화살표로 한 칸씩, Shift와 함께 다섯 칸씩 움직이며 놓을 수 있는지 알려 줍니다. Shift+Page Up과 Shift+Page Down으로 돌리고, Enter로 그 자리에 놓고, "
+     "Page Down으로 자리 목록으로 돌아갑니다."},
 };
 
 }  // namespace

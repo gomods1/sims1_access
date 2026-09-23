@@ -754,6 +754,13 @@ const Translation kEntries[] = {
     {Str::PizzaGreetHint,
      "Salúdalo para recibir la pizza: en la categoría Sims, Avance de página hasta él, Intro, Saludar. Si nadie "
      "lo saluda, se va con ella."},
+    // Placing: free cursor
+    {Str::FreeFits, "cabe"},
+    {Str::FreeNoFit, "no cabe: %s"},
+    {Str::KeysPlacingFree,
+     "Las flechas lo mueven de casilla en casilla, con Mayúsculas de cinco en cinco, y dicen si cabe ahí; "
+     "Mayúsculas+Retroceso de página y Mayúsculas+Avance de página lo giran, Intro lo pone ahí, Avance de página "
+     "vuelve a los sitios."},
 };
 
 }  // namespace
