@@ -24,14 +24,34 @@ bool CurrentLook(Ptr screen, LookPart part, Look* out) {
     return true;
 }
 
+namespace {
+// The dialogs that browse a list of bodies on a preview: offsets of their preview and arrows.
+struct PreviewDialog {
+    const char* cls;
+    int preview, prev, next;
+};
+const PreviewDialog kPreviewDialogs[] = {
+    {"cWinClothingChoiceDlg", addr::clothing::kPreview, addr::clothing::kPrev, addr::clothing::kNext},
+    {"cWinPetSelectDlg", addr::clothing::kPetPreview, addr::clothing::kPetPrev, addr::clothing::kPetNext},
+};
+const PreviewDialog* PreviewDialogOf(Ptr dialog) {
+    for (const PreviewDialog& d : kPreviewDialogs)
+        if (IsKindOf(dialog, d.cls)) return &d;
+    return nullptr;
+}
+}  // namespace
+
 Ptr OutfitPreview(Ptr dialog) {
-    return IsKindOf(dialog, "cWinClothingChoiceDlg") ? Rd<Ptr>(dialog + addr::clothing::kPreview) : 0;
+    const PreviewDialog* d = PreviewDialogOf(dialog);
+    return d ? Rd<Ptr>(dialog + d->preview) : 0;
 }
 
 bool IsOutfitArrow(Ptr dialog, Ptr button) {
-    return button && IsKindOf(dialog, "cWinClothingChoiceDlg") &&
-           (button == Rd<Ptr>(dialog + addr::clothing::kPrev) || button == Rd<Ptr>(dialog + addr::clothing::kNext));
+    const PreviewDialog* d = PreviewDialogOf(dialog);
+    return button && d && (button == Rd<Ptr>(dialog + d->prev) || button == Rd<Ptr>(dialog + d->next));
 }
+
+bool IsPetDialog(Ptr dialog) { return IsKindOf(dialog, "cWinPetSelectDlg"); }
 
 bool CurrentOutfit(Ptr dialog, Look* out) {
     typedef int(__fastcall * IndexFn)(void* preview);

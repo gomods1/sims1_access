@@ -277,10 +277,43 @@ std::string DescribeLook(Ptr screen, game::LookPart part) {
     return util::Format(S(Str::BodyLook), look.index + 1, look.count, S(shape), word.c_str());
 }
 
-// The wardrobe: "traje 3 de 12: fit, beachguy" (the body words of create-a-Sim).
+// Pet bodies name their breed after the species: "b002dog_dalmation".
+struct Breed {
+    const char* mesh;
+    Str name;
+};
+const Breed kBreeds[] = {
+    {"dog_lab", Str::BreedLabrador}, {"dog_aussie", Str::BreedAussie}, {"dog_dalmation", Str::BreedDalmatian},
+    {"dog_cairn", Str::BreedCairn}, {"dog_poodle", Str::BreedPoodle}, {"dog_jack", Str::BreedJackRussell},
+    {"dog_springer", Str::BreedSpringer}, {"dog_setter", Str::BreedSetter}, {"dog_greyhound", Str::BreedGreyhound},
+    {"dog_beagle", Str::BreedBeagle}, {"dog_rott", Str::BreedRottweiler}, {"dog_bulldog", Str::BreedBulldog},
+    {"dog_scottish", Str::BreedScottie}, {"dog_shep", Str::BreedShepherd}, {"dog_chihuahua", Str::BreedChihuahua},
+    {"dog_pinkpoodle", Str::BreedPinkPoodle},
+    {"cat_tabby", Str::BreedTabby}, {"cat_silver", Str::BreedSilverTabby}, {"cat_calico", Str::BreedCalico},
+    {"cat_persian", Str::BreedPersian}, {"cat_bluemanx", Str::BreedBlueManx}, {"cat_ragdoll", Str::BreedRagdoll},
+    {"cat_siamese", Str::BreedSiamese}, {"cat_tortoise", Str::BreedTortoiseshell}, {"cat_bombay", Str::BreedBombay},
+    {"cat_spotted", Str::BreedSpotted}, {"cat_calicoblk", Str::BreedBlackCalico}, {"cat_calicored", Str::BreedRedCalico},
+    {"cat_sphinx", Str::BreedSphynx}, {"cat_albino", Str::BreedWhite}, {"cat_tabbybrown", Str::BreedBrownTabby},
+};
+
+std::string BreedName(const std::string& mesh) {
+    size_t underscore = mesh.find('_');
+    size_t start = underscore == std::string::npos ? 0 : mesh.find_last_of("0123456789", underscore) + 1;
+    std::string key = mesh.substr(start);
+    for (const Breed& b : kBreeds)
+        if (key == b.mesh) return S(b.name);
+    return LookWord(mesh);
+}
+
+// The wardrobe: "traje 3 de 12: fit, beachguy" (the body words of create-a-Sim); the pet picker:
+// "mascota 2 de 16: dálmata".
 std::string DescribeOutfit(Ptr dialog) {
     game::Look look;
     if (!game::CurrentOutfit(dialog, &look)) return "";
+    if (game::IsPetDialog(dialog)) {
+        if (look.index < 0) return "";
+        return util::Format(S(Str::PetLook), look.index + 1, look.count, BreedName(look.mesh).c_str());
+    }
     if (look.index < 0) return util::Format(S(Str::OutfitNotListed), look.count);
     std::string word = LookWord(look.mesh);
     Str shape;
@@ -388,7 +421,7 @@ std::string Describe(const Item& it) {
                S(game::CheckBoxChecked(it.widget) ? Str::Checked : Str::NotChecked);
     case Role::SimPreview: {  // "vista del Sim: cabeza 2 de 137: dave. cuerpo ..."
         Ptr screen = game::Parent(it.widget);
-        if (game::IsKindOf(screen, "cWinClothingChoiceDlg")) return S(Str::SimPreview) + std::string(": ") + DescribeOutfit(screen);
+        if (game::OutfitPreview(screen) == it.widget) return S(Str::SimPreview) + std::string(": ") + DescribeOutfit(screen);
         return S(Str::SimPreview) + std::string(": ") + DescribeLook(screen, game::LookPart::Head) + ". " +
                DescribeLook(screen, game::LookPart::Body);
     }

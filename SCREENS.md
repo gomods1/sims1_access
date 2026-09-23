@@ -24,7 +24,8 @@ everywhere (the game has no keyboard focus; the mod walks the widget tree).
 | Camera (F4) | `cWinCamPanel` | snapshot buttons | | out of scope (user decision: visual only) |
 | Buy mode (F2) | `cWinCatalog`, `cWinCatalogPopup`, tool `cMoveTool` | catalog pages; placing objects in the world; picking objects up | categories, subcategories, product icons with prices, a hover popup (name, price, ratings, description), the object following the mouse | navigable: products read name, price, affordability, ratings and the popup's description (details buffer: every rating, suggested rooms, the description by sentences); Enter starts placing with the mod's spots (floor and surfaces, rooms and the yard); buying, moving (Enter on an object of the lot browser), selling (Delete) and cancelling verified. Not checked: upper floors, the catalog's room sort (no room buttons seen in this build) |
 | Build mode (F3) | `cWinArch`, `cWinRoofPanel`, tools `cNewWallTool` etc. | drawing walls/floors in the world | tools, styles with prices, the lot | navigable for walls: the panel reads (tools as tabs, styles as products); walls and rooms built by the mod's corner cursor with checks, doors placed by the spot list, floors, wallpaper (whole rooms) and pools by the tile cursor, windows and pool ladders by the spot list (all verified). Roofs, terrain, stairs, fireplaces, plants and upper floors not checked |
-| Downtown / Vacation / Studio / Magic town views | `cWinDowntown`, `cWinVacation`, `cWinStudiotown`, `cWinMagicland` | | | not started |
+| Old Town map (Unleashed trolley) | `cWinNeighborhoodUL` | | | done: named "Ciudad Vieja, ¿a dónde vamos?"; lots that can be visited first, each with the filters that mark it; a filter says the lots it marks ("marcados en el mapa: El Paraíso de las Mascotas"); the bar's doubled buttons are listed once |
+| Downtown / Vacation / Studio / Magic town views | `cWinDowntown`, `cWinVacation`, `cWinStudiotown`, `cWinMagicland` | | | downtown used by keyboard (Hot Date trip); the others not checked |
 | Credits | `cWinCredits` | | | not started |
 | Help | `cWinHelp` | topic list with a scroll bar | topics and their text | verified: all 47 topics reachable (also those scrolled out of view); choosing one reads its text |
 | Budget | `cWinBudgetDlg`, `cWinBudgetRow` | | income/expense table, totals | navigable (rows read with column names) |
@@ -45,7 +46,8 @@ everywhere (the game has no keyboard focus; the mod walks the widget tree).
 | Radio dialog | `cWinRadioDialogBox` | not started |
 | Picture / splash / progress dialogs | `cWinPictureDialog`, `cWinPictureSplashDialog`, `cWinProgressPictureDialog` | picture dialogs read (friend count explanation) |
 | Clothing choice (wardrobe's "Cambiar de ropa") | `cWinClothingChoiceDlg` | done: the arrows and the preview say the outfit ("traje 108 de 121, atlético: hipy"; "el traje que lleva ahora" when the worn one is not in the list) |
-| Pet select, transform | `cWinPetSelectDlg`, `cWinTransformMeDlg` | not started |
+| Pet select (a pen's "Adoptar un perro") | `cWinPetSelectDlg` | done: the arrows and the preview say the breed ("mascota 6 de 16: beagle"); the sex question, the confirmation and the name field are ordinary dialogs |
+| Transform | `cWinTransformMeDlg` | not started |
 | Dispose (sell) popup | `cWinDisposePopup` | not needed so far: the mod sells a held object through the tool's Delete key and says the refund |
 | Live popups (need / event messages at the top) | `cWinLivePopup` | not started |
 | Lot card | `cWinLotPopup` | read as the house's label |

@@ -37,6 +37,8 @@ Ptr ZodiacButton(Ptr screen);
 bool CurrentOutfit(Ptr dialog, Look* out);
 Ptr OutfitPreview(Ptr dialog);
 bool IsOutfitArrow(Ptr dialog, Ptr button);
+// A pet pen's adoption picker (cWinPetSelectDlg): the same preview, over the pen's breeds.
+bool IsPetDialog(Ptr dialog);
 
 // Which arrow a button is: the part it changes, or false for any other widget.
 bool IsLookArrow(Ptr screen, Ptr button, LookPart* part);

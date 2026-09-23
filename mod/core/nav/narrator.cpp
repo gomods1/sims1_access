@@ -8,8 +8,10 @@
 
 #include "../game/lot.h"
 #include "../game/people.h"
+#include "../game/rtti.h"
 #include "../game/simantics.h"
 #include "../game/sounds.h"
+#include "../game/ui.h"
 #include "../game/view.h"
 #include "../speech/speech.h"
 #include "../util/log.h"
@@ -433,8 +435,17 @@ void SayStatus() {
     speech::Say(simwatch::Status());
 }
 
+// The lot module is one object for every lot: a trip shows a map (the neighborhood, Old Town,
+// downtown...) between two lots, and that is what tells the lots apart.
+bool OnMap() {
+    Ptr root = game::InputRoot();
+    for (const char* map : {"cWinNeighborhood", "cWinDowntown", "cWinVacation", "cWinStudiotown", "cWinMagicland"})
+        if (game::IsKindOf(root, map)) return true;
+    return false;
+}
+
 void Tick() {
-    Ptr lot = game::LotModule();
+    Ptr lot = OnMap() ? 0 : game::LotModule();
     if (lot != g.lot) {  // another lot, or none: nothing seen before applies
         Reset();
         g.lot = lot;

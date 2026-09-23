@@ -669,4 +669,37 @@
     X(ScreenOldTown, "Old Town, where to?")                                                                          \
     X(LotFilters, "in the filters: %s")                                                                              \
     X(LotsMarked, "marked on the map: %s")                                                                           \
-    X(LotsMarkedNone, "no place of this kind on the map")
+    X(LotsMarkedNone, "no place of this kind on the map")                                                            \
+    /* Pet adoption */                                                                                               \
+    X(PetLook, "pet %d of %d: %s")                                                                                   \
+    X(BreedLabrador, "Labrador retriever")                                                                           \
+    X(BreedAussie, "Australian shepherd")                                                                            \
+    X(BreedDalmatian, "Dalmatian")                                                                                   \
+    X(BreedCairn, "Cairn terrier")                                                                                   \
+    X(BreedPoodle, "poodle")                                                                                         \
+    X(BreedJackRussell, "Jack Russell terrier")                                                                      \
+    X(BreedSpringer, "springer spaniel")                                                                             \
+    X(BreedSetter, "setter")                                                                                         \
+    X(BreedGreyhound, "greyhound")                                                                                   \
+    X(BreedBeagle, "beagle")                                                                                         \
+    X(BreedRottweiler, "Rottweiler")                                                                                 \
+    X(BreedBulldog, "bulldog")                                                                                       \
+    X(BreedScottie, "Scottish terrier")                                                                              \
+    X(BreedShepherd, "German shepherd")                                                                              \
+    X(BreedChihuahua, "Chihuahua")                                                                                   \
+    X(BreedPinkPoodle, "pink poodle")                                                                                \
+    X(BreedTabby, "tabby")                                                                                           \
+    X(BreedSilverTabby, "silver tabby")                                                                              \
+    X(BreedCalico, "calico")                                                                                         \
+    X(BreedPersian, "Persian")                                                                                       \
+    X(BreedBlueManx, "blue Manx")                                                                                    \
+    X(BreedRagdoll, "Ragdoll")                                                                                       \
+    X(BreedSiamese, "Siamese")                                                                                       \
+    X(BreedTortoiseshell, "tortoiseshell")                                                                           \
+    X(BreedBombay, "Bombay")                                                                                         \
+    X(BreedSpotted, "spotted")                                                                                       \
+    X(BreedBlackCalico, "black calico")                                                                              \
+    X(BreedRedCalico, "red calico")                                                                                  \
+    X(BreedSphynx, "Sphynx")                                                                                         \
+    X(BreedWhite, "white")                                                                                           \
+    X(BreedBrownTabby, "brown tabby")

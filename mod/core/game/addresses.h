@@ -692,6 +692,11 @@ constexpr int kPreview = 0x1c4;
 constexpr int kSelector = 0x204;
 constexpr int kKind = 0x208;
 constexpr Va kCurrentIndex = 0x4fa630;
+// cWinPetSelectDlg (a pet pen's "Adoptar"): the same preview and lists (kind 0 holds the pen's
+// breeds, "b002dog_dalmation"), its buttons 4 bytes lower (0x4bfb40 handles them).
+constexpr int kPetPrev = 0x138;
+constexpr int kPetNext = 0x13c;
+constexpr int kPetPreview = 0x1c0;
 }  // namespace clothing
 
 // ---- cTSPieMenu ---------------------------------------------------------------------------
