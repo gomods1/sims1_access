@@ -766,6 +766,8 @@ const Translation kEntries[] = {
     {Str::KeysPlacingFree,
      "De pijltjes verplaatsen het vak voor vak, met Shift vijf tegelijk, en zeggen of het past; Shift+Page Up en "
      "Shift+Page Down draaien het, Enter zet het daar, Page Down gaat terug naar de plekken."},
+    // Sim card
+    {Str::BioFor, "Biografie van %s"},
 };
 
 }  // namespace

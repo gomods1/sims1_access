@@ -33,7 +33,8 @@ everywhere (the game has no keyboard focus; the mod walks the widget tree).
 | Scrapbook | `cWinScrapbook` | | | not started |
 | Magic book / spells | `CWinMagicBook`, `cPickSpellList`, `cPickSpellItem` | | | not started |
 | Gift | `cWinGift` | | | not started |
-| Edit bio / downtown lot description | `cWinEditBio`, `cWinEditDTLotDesc` | text entry | | not started |
+| Sim's card (Ctrl+Shift+1..9 in the lot view: the game's Ctrl+click on a portrait) | `cWinEditBio` | text entry | | done: "Bio de Cris: ..., campo de texto", OK, Cancelar (whose card: `+0x128`) |
+| Downtown lot description | `cWinEditDTLotDesc` | text entry | | not started |
 
 ## Dialogs and popups
 

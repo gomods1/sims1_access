@@ -748,4 +748,6 @@
     X(FreeNoFit, "does not fit: %s")                                                                                 \
     X(KeysPlacingFree,                                                                                               \
       "The arrows move it one tile at a time instead, Shift with them five, saying whether it fits there; "          \
-      "Shift+Page Up and Shift+Page Down turn it, Enter puts it there, Page Down goes back to the spots.")
+      "Shift+Page Up and Shift+Page Down turn it, Enter puts it there, Page Down goes back to the spots.")           \
+    /* Sim card */                                                                                                   \
+    X(BioFor, "Bio for %s")

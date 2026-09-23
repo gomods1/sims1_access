@@ -35,6 +35,7 @@ void KeepHeldShown(bool keep);
 
 // For a moment the game reads Ctrl as not held (a portrait click with Ctrl opens the Sim's card).
 void SuppressCtrlFor(unsigned ms);
+void ForceCtrlFor(unsigned ms);     // ...or as held (to open the card on purpose)
 short RealGetAsyncKeyState(int vk);  // the key state without that suppression
 
 // While set, the game's GetKeyState reports Shift and Ctrl as given (held or not), whatever the

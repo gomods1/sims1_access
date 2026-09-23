@@ -750,6 +750,8 @@ const Translation kEntries[] = {
     {Str::KeysPlacingFree,
      "Piletasterne flytter den et felt ad gangen, med Shift fem, og siger om den passer; Shift+Page Up og "
      "Shift+Page Down drejer den, Enter sætter den der, Page Down går tilbage til pladserne."},
+    // Sim card
+    {Str::BioFor, "Biografi for %s"},
 };
 
 }  // namespace

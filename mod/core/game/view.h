@@ -18,7 +18,9 @@ bool StopFollowing(Ptr lotView);
 
 // Live mode: selects the n-th (0-based) shown family portrait the way clicking it does, without
 // the mouse. Returns the Sim's neighbor id, -1 when there is no such portrait or no panel.
-int SelectFamilyMember(Ptr lotView, int index);
+// card: with Ctrl held, as the game reads it, the panel opens the Sim's card (cWinEditBio: name and
+// biography) instead of selecting.
+int SelectFamilyMember(Ptr lotView, int index, bool card = false);
 int SelectedNeighborId();  // -1 when none
 Ptr FamilyPanel(Ptr lotView);  // the cWinPeople panel of the lot view, shown or not; 0 if none
 

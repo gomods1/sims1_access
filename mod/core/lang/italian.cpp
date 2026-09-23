@@ -759,6 +759,8 @@ const Translation kEntries[] = {
     {Str::KeysPlacingFree,
      "Le frecce lo spostano di una casella alla volta, con Maiusc di cinque, e dicono se ci sta; Maiusc+Pagina "
      "su e Maiusc+Pagina giù lo ruotano, Invio lo mette lì, Pagina giù torna ai posti."},
+    // Sim card
+    {Str::BioFor, "Bio per %s"},
 };
 
 }  // namespace

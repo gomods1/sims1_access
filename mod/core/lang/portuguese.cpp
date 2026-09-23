@@ -759,6 +759,8 @@ const Translation kEntries[] = {
     {Str::KeysPlacingFree,
      "As setas o movem de quadrado em quadrado, com Shift de cinco em cinco, dizendo se cabe ali; Shift+Page Up "
      "e Shift+Page Down o giram, Enter o coloca ali, Page Down volta aos lugares."},
+    // Sim card
+    {Str::BioFor, "Biografia de %s"},
 };
 
 }  // namespace

@@ -758,6 +758,8 @@ const Translation kEntries[] = {
     {Str::KeysPlacingFree,
      "Nuolet siirtävät sitä ruutu kerrallaan, Vaihdon kanssa viisi, ja kertovat mahtuuko se; Vaihto+Page Up ja "
      "Vaihto+Page Down kääntävät sitä, Enter asettaa sen siihen, Page Down palaa paikkoihin."},
+    // Sim card
+    {Str::BioFor, "Tausta - %s"},
 };
 
 }  // namespace

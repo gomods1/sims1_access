@@ -741,6 +741,8 @@ const Translation kEntries[] = {
     {Str::KeysPlacingFree,
      "ลูกศรเลื่อนทีละช่อง กด Shift ด้วยเลื่อนทีละห้าช่อง และบอกว่าวางได้หรือไม่; Shift+Page Up และ Shift+Page "
      "Down หมุน, Enter วางตรงนั้น, Page Down กลับไปที่รายการตำแหน่ง"},
+    // Sim card
+    {Str::BioFor, "ประวัติของ %s"},
 };
 
 }  // namespace

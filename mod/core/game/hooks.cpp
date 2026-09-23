@@ -76,9 +76,12 @@ void __fastcall MouseLeftDetour(void* tool, void* /*edx*/) {
 typedef short(WINAPI* GetAsyncKeyStateFn)(int);
 GetAsyncKeyStateFn g_getAsyncKeyState = nullptr;
 ULONGLONG g_suppressCtrlUntil = 0;
+ULONGLONG g_forceCtrlUntil = 0;  // the other way round: Ctrl+Shift+1..9 open the card on purpose
 
 short WINAPI GetAsyncKeyStateDetour(int vk) {
-    if ((vk == VK_CONTROL || vk == VK_LCONTROL || vk == VK_RCONTROL) && GetTickCount64() < g_suppressCtrlUntil) return 0;
+    bool ctrlKey = vk == VK_CONTROL || vk == VK_LCONTROL || vk == VK_RCONTROL;
+    if (ctrlKey && GetTickCount64() < g_forceCtrlUntil) return (short)0x8000;
+    if (ctrlKey && GetTickCount64() < g_suppressCtrlUntil) return 0;
     return g_getAsyncKeyState(vk);
 }
 
@@ -255,7 +258,15 @@ bool ScreenPointToView(int gameX, int gameY, int* viewX, int* viewY) {
 
 void KeepHeldShown(bool keep) { g_keepHeldShown = keep && g_mouseLeftHooked; }
 
-void SuppressCtrlFor(unsigned ms) { g_suppressCtrlUntil = GetTickCount64() + ms; }
+void SuppressCtrlFor(unsigned ms) {
+    g_suppressCtrlUntil = GetTickCount64() + ms;
+    g_forceCtrlUntil = 0;
+}
+
+void ForceCtrlFor(unsigned ms) {
+    g_forceCtrlUntil = GetTickCount64() + ms;
+    g_suppressCtrlUntil = 0;
+}
 
 short RealGetAsyncKeyState(int vk) { return g_getAsyncKeyState ? g_getAsyncKeyState(vk) : GetAsyncKeyState(vk); }
 

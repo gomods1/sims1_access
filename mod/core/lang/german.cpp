@@ -766,6 +766,8 @@ const Translation kEntries[] = {
      "Die Pfeiltasten verschieben es Feld für Feld, mit Umschalt um fünf, und sagen, ob es dort passt; "
      "Umschalt+Bild auf und Umschalt+Bild ab drehen es, Eingabe stellt es dort hin, Bild ab kehrt zu den Plätzen "
      "zurück."},
+    // Sim card
+    {Str::BioFor, "Biografie für %s"},
 };
 
 }  // namespace

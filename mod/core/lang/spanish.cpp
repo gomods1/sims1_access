@@ -761,6 +761,8 @@ const Translation kEntries[] = {
      "Las flechas lo mueven de casilla en casilla, con Mayúsculas de cinco en cinco, y dicen si cabe ahí; "
      "Mayúsculas+Retroceso de página y Mayúsculas+Avance de página lo giran, Intro lo pone ahí, Avance de página "
      "vuelve a los sitios."},
+    // Sim card
+    {Str::BioFor, "Bio de %s"},
 };
 
 }  // namespace

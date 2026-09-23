@@ -14,6 +14,6 @@ void Reset();
 void Tick();                  // keeps the follow target in step with the selected Sim
 void LookAt(game::Ptr object); // browsing: point the camera at this object now
 void ToggleFollow();          // Ctrl+F
-void SelectSim(int index);    // Ctrl+1..9: index 0-based
+void SelectSim(int index, bool card = false);  // Ctrl+1..9: index 0-based; Ctrl+Shift: the Sim's card
 
 }  // namespace nav::camera

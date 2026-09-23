@@ -103,12 +103,12 @@ void ToggleFollow() {
     speech::Say(util::Format(S(Str::FollowOn), SimName(sim).c_str()));
 }
 
-void SelectSim(int index) {
+void SelectSim(int index, bool card) {
     if (!LotViewActive() || !game::LotModule()) {
         speech::Say(S(Str::NotOnLot));
         return;
     }
-    int id = game::SelectFamilyMember(game::InputRoot(), index);
+    int id = game::SelectFamilyMember(game::InputRoot(), index, card);
     if (id < 0) speech::Say(util::Format(S(Str::NoSuchSim), index + 1));
     // The change itself is announced by Tick ("Isabel, seleccionado, Comer"); pressing the
     // portrait of the Sim already selected centers the camera on it, as the game does.

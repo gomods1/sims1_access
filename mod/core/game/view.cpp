@@ -60,7 +60,7 @@ int SelectedNeighborId() {
     return id;
 }
 
-int SelectFamilyMember(Ptr lotView, int index) {
+int SelectFamilyMember(Ptr lotView, int index, bool card) {
     Ptr people = FamilyPanel(lotView);
     if (!people) return -1;
     // The n-th shown portrait, pressed like a click: the panel selects the Sim, centers the view
@@ -73,7 +73,8 @@ int SelectFamilyMember(Ptr lotView, int index) {
     typedef int(__cdecl * MemberIdFn)(int index);
     int id = -1;
     if (!Guarded([&] { id = ((MemberIdFn)Va(addr::camera::kFamilyMemberId))(slot); })) return -1;
-    SuppressCtrlFor(400);  // the click is handled on a later frame
+    if (card) ForceCtrlFor(400);  // Ctrl held: the panel opens the Sim's card (name and biography)
+    else SuppressCtrlFor(400);  // the click is handled on a later frame
     Press(buttons[slot]);
     Unhover(buttons[slot]);
     Log("select family member %d (slot %d): neighbor %d, portrait pressed", index, slot, id);

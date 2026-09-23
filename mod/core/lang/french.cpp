@@ -771,6 +771,8 @@ const Translation kEntries[] = {
     {Str::KeysPlacingFree,
      "Les flèches le déplacent case par case, avec Maj de cinq en cinq, et disent s'il tient ; Maj+Page "
      "précédente et Maj+Page suivante le tournent, Entrée le pose là, Page suivante revient aux emplacements."},
+    // Sim card
+    {Str::BioFor, "Biographie de %s"},
 };
 
 }  // namespace

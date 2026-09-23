@@ -180,9 +180,9 @@ bool Dispatch(WPARAM vk, bool shift, bool ctrl) {
         else nav::world::NextObject(vk == VK_NEXT ? +1 : -1);
         return true;
     case '1': case '2': case '3': case '4': case '5': case '6': case '7': case '8': case '9':
-        if (!ctrl || shift) return false;
+        if (!ctrl) return false;
         g_swallowChar = vk;  // a posted digit still makes its character (a game speed key)
-        nav::camera::SelectSim((int)vk - '1');
+        nav::camera::SelectSim((int)vk - '1', shift);  // Ctrl+Shift: the Sim's card
         return true;
     case 'H':  // Ctrl+H: the help system's waiting tip
         if (!ctrl || shift) return false;

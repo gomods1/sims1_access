@@ -454,6 +454,11 @@ constexpr int kEnabled = 0x1b8;    // u8
 }  // namespace btn
 
 // ---- cWinLotBtn (a house on the neighborhood map) -----------------------------------------
+// ---- cWinEditBio (a Sim's card: Ctrl+click on a family portrait, 0x4ba8d0) --------------------
+namespace editbio {
+constexpr int kNeighborId = 0x128;  // int: whose biography (+0x12c the field, then OK and Cancel)
+}  // namespace editbio
+
 namespace lot {
 constexpr int kRecord = 0x1e0;     // lot record passed to the popup fill
 constexpr int kFamily = 0x1f8;     // std::string, empty when vacant

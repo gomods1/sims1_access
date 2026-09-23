@@ -4,6 +4,7 @@
 #include <map>
 #include <set>
 
+#include "../game/addresses.h"
 #include "../game/buy.h"
 #include "../game/cheats.h"
 #include "../game/design.h"
@@ -191,7 +192,11 @@ struct Walker {
         }
         if (IsKindOf(w, "cTSWinTextEdit2")) {
             screen.textEntryVisible = true;
-            Add(w, Role::TextField);
+            // A Sim's card (Ctrl+Shift+1..9) is just its biography: "Bio de Cris".
+            Ptr parent = game::Parent(w);
+            std::string name = IsKindOf(parent, "cWinEditBio") ? game::NeighborName(game::Rd<int>(parent + game::addr::editbio::kNeighborId, -1)) : "";
+            if (!name.empty()) Add(w, Role::TextField, util::Format(S(Str::BioFor), name.c_str()) + ":");
+            else Add(w, Role::TextField);
             return true;
         }
         if (IsKindOf(w, "cTSWinText") || IsKindOf(w, "cWinTextWrap")) {

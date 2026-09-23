@@ -754,6 +754,8 @@ const Translation kEntries[] = {
     {Str::KeysPlacingFree,
      "Strzałki przesuwają go o jedno pole, z Shiftem o pięć, i mówią, czy się mieści; Shift+Page Up i Shift+Page "
      "Down go obracają, Enter stawia go tam, Page Down wraca do miejsc."},
+    // Sim card
+    {Str::BioFor, "%s - charakterystyka"},
 };
 
 }  // namespace

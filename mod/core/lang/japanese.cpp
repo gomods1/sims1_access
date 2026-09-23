@@ -677,6 +677,8 @@ const Translation kEntries[] = {
     {Str::KeysPlacingFree,
      "矢印キーで1マスずつ動かし、Shiftと一緒なら5マスずつ動かして、置けるかどうかを伝えます。Shift+Page UpとShift+Page Downで回転、Enterでそこに置き、Page "
      "Downで場所の一覧に戻ります。"},
+    // Sim card
+    {Str::BioFor, "%s　のバイオグラフィー"},
 };
 
 }  // namespace

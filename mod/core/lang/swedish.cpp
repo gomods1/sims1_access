@@ -753,6 +753,8 @@ const Translation kEntries[] = {
     {Str::KeysPlacingFree,
      "Piltangenterna flyttar den en ruta i taget, med Skift fem, och säger om den får plats; Skift+Page Up och "
      "Skift+Page Down vrider den, Enter ställer den där, Page Down går tillbaka till platserna."},
+    // Sim card
+    {Str::BioFor, "Bakgrund för %s"},
 };
 
 }  // namespace

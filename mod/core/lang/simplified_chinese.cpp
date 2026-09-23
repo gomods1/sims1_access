@@ -657,6 +657,8 @@ const Translation kEntries[] = {
     {Str::FreeNoFit, "放不下：%s"},
     {Str::KeysPlacingFree,
      "方向键一次移动一格，按住 Shift 一次五格，并说明能否放下；Shift+Page Up 和 Shift+Page Down 旋转，回车放在这里，Page Down 回到位置列表。"},
+    // Sim card
+    {Str::BioFor, "%s 的个人简历"},
 };
 
 }  // namespace

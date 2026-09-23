@@ -145,6 +145,7 @@ eturn_focus.txt`; a dev core hands the foreground back to it
     off ("cámara libre") and on ("siguiendo a Isabel"). Ctrl+n presses the portrait as a click
     does (the click is what the tutorial detects); the game opens the Sim's card instead when it
     sees Ctrl held at that moment, so `GetAsyncKeyState` is hooked to report Ctrl up for 400 ms.
+    Ctrl+Shift+1..9 do the opposite on purpose (Ctrl reported held): the Sim's card, its biography.
   - The tutorial (house 7, "Para aprender a jugar", `nav/tutorial.cpp`): its steps are non-modal
     `cTSObjectDialog` panels inside the lot view plus a red arrow (`cTSWinTutorialHighlight`)
     on the control to use. The watcher speaks every new step as a **keyboard version of the
