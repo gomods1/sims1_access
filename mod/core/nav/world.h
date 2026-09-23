@@ -21,7 +21,9 @@ void Reset();
 void NextObject(int delta);
 void NextCategory(int delta);
 void NextRoom(int delta);
-void Interact();     // opens the focused object's interaction menu (runs modally)
+void Interact();
+// Why the object's menu is empty for the selected Sim ("sin interacciones. solo para niños: Jugar").
+std::string WhyNoInteractions(const game::LotObject& o);     // opens the focused object's interaction menu (runs modally)
 void WalkToFocus();  // sends the selected Sim to the focused object's spot
 void Repeat();       // says the focused object again
 game::Ptr FocusedObject();  // the object PageUp/PageDown last spoke, 0 if gone

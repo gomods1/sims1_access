@@ -139,6 +139,10 @@
     X(SelectedSimSuffix, "selected")                                                                                   \
     X(PieMenu, "interactions")                                                                                         \
     X(NoInteractions, "no interactions")                                                                               \
+    X(NoInteractionsAtAll, "no interactions: nothing can be done with this object")                                    \
+    X(OnlyForChildren, "only for children: %s")                                                                        \
+    X(OnlyForAdults, "only for adults: %s")                                                                            \
+    X(NotAvailableNow, "not available right now: %s")                                                                  \
     X(Cancelled, "cancelled")                                                                                          \
     X(WalkingThere, "walking there")                                                                                   \
     X(CannotWalk, "cannot walk there")                                                                                 \
@@ -468,6 +472,7 @@
     X(SimNowIn, "%1$s, now in %2$s")                                                                                 \
     X(ActionStarted, "%1$s: %2$s")                                                                                   \
     X(ActionStartedOwn, "%1$s, on their own: %2$s")                                                                  \
+    X(RelationChanged, "%1$s with %2$s: %3$s, now %4$d")                                                             \
     X(ActionFinished, "%1$s finished %2$s")                                                                          \
     X(NeedLow, "%1$s, low need: %2$s")                                                                               \
     X(NeedsLow, "%1$s, low needs: %2$s")                                                                             \

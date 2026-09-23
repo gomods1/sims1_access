@@ -330,6 +330,7 @@ wrong.
 | 39 | room flags (suggested rooms) | 0x1 kitchen, 0x2 bedroom, 0x4 bathroom, 0x8 living, 0x10 outside, 0x20 dining |
 | 40 | function flags = buy mode categories | 0x01 seating, 0x02 surfaces, 0x04 appliances, 0x08 electronics, 0x10 plumbing, 0x20 decorative, 0x40 misc, 0x80 lighting (checked against the catalog's category pages) |
 | 41 | CatalogStringsID: the object's `CTSS` resource (string 1 = localized name) | |
+| 13 | TreeTableID: the `TTAB` (interactions) and the `TTAs` holding their names | 129 on both train set parts (read live) |
 
 ### Localized object names
 
@@ -444,6 +445,18 @@ nor at 7 AM (day 18): the spawn needs more than that (**hypothesis**: the Schedu
 thief's portal" and a random roll in "process burglar"). The only theft texts are the
 capture dialogs (NPCController STR# 301) and the officer's "haven't been able to catch the Sim
 who robbed you" (Officer.iff).
+
+### Interactions (tree table) and why a menu is empty
+
+The object type's `TreeTable` (`0x596730`, thiscall on the type record, cached at type `+0x64`):
+`+4` count, `+0x10` entry pointers; entry `+0x00` u16 action tree, `+0x02` u16 test tree, `+0x14`
+flags, `+0x18` index of its name in the `TTAs` (same id as the TTAB, OBJD field 13). The picker
+builds a menu (`0x61fa70` -> `0x60ad10`) by testing each entry for the selected Sim in `0x60b110`:
+a child (person `+0x604` age 1..17) loses entries flagged 0x10, an adult those flagged 0x40, a
+cat (person `+0x612` bit 2) keeps only 0x200, a dog (bit 1) only 0x400; object flag `+0x5a` bit
+9 drops all; then the test tree runs (a refusal gives no reason). 0x80 = debug. These match
+FreeSO's TTABFlags. Verified: the cheap train set's Play (0x62) and Join (0x41) are not for adults,
+and the menu was empty for adults (2026-09-23).
 
 ## Live mode tool and pie menus
 

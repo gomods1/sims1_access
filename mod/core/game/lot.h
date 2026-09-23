@@ -90,6 +90,19 @@ std::vector<Ptr> LotPeople();
 int SimNeighborId(Ptr person);    // the Sim's neighbor ID (for game/people.h), -1 if none
 bool GetObject(Ptr object, LotObject* out);
 
+// An object's interactions as its tree table lists them (debug ones left out), with who they are
+// for; what explains an empty menu. Names in the game's language.
+struct InteractionEntry {
+    std::string name;
+    bool notForChildren = false, notForAdults = false;
+    bool forCats = false, forDogs = false;
+};
+bool ObjectInteractions(const LotObject& o, std::vector<InteractionEntry>* out);  // false: no table read
+enum class SimKind { Adult, Child, Cat, Dog };
+SimKind KindOfSim(Ptr person);
+// Whether the Sim's kind lets it see the interaction (the menu's own first test).
+bool KindAllows(SimKind kind, const InteractionEntry& e);
+
 // Opens the object's interaction menu for the selected Sim, the way clicking it does. The game
 // runs the menu modally inside this call (the mod keeps receiving messages and ticks while it is
 // open); choosing an entry (game::PieChoose) queues the interaction. The menu appears at

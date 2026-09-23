@@ -223,6 +223,59 @@ std::vector<std::string> ObjectStringTable(Ptr object, int strId) {
     return texts;
 }
 
+bool ObjectInteractions(const LotObject& o, std::vector<InteractionEntry>* out) {
+    typedef Ptr(__thiscall * TableFn)(void* type);
+    out->clear();
+    if (!o.object || !FunctionOk(addr::kTreeTable)) return false;
+    Ptr type = Rd<Ptr>(o.object + addr::obj::kType);
+    Ptr objd = Rd<Ptr>(o.object + addr::obj::kObjd);
+    if (!type || !objd) return false;
+    Ptr table = 0;
+    if (!Guarded([&] { table = ((TableFn)Va(addr::kTreeTable))((void*)type); })) return false;
+    if (!table) return true;  // no interactions at all
+    int count = Rd<int>(table + addr::kTreeTableCount);
+    Ptr entries = Rd<Ptr>(table + addr::kTreeTableEntries);
+    if (count < 0 || count > 200 || (count && !entries)) return false;
+    int ttas = ObjdField(o.object, addr::objd::kTreeTableId);
+    std::vector<std::string> names = ObjectStrings(type, ttas, addr::kResourceTTAs);
+    LogVerbose("interactions of #%d: table %p, %d entries, TTAs %d with %d names", o.id, (void*)table, count, ttas,
+               (int)names.size());
+    for (int i = 0; i < count; i++) {
+        Ptr e = Rd<Ptr>(entries + i * 4);
+        if (!e) continue;
+        uint32_t flags = Rd<uint32_t>(e + addr::kTreeEntryFlags);
+        if (flags & addr::kTreeFlagDebug) continue;
+        int index = Rd<int>(e + addr::kTreeEntryName);
+        InteractionEntry ie;
+        if (index >= 0 && index < (int)names.size()) ie.name = util::GameTextToUtf8(names[index]);
+        if (ie.name.empty()) continue;  // unnamed entries never show in a menu
+        ie.notForChildren = (flags & addr::kTreeFlagNoChild) != 0;
+        ie.notForAdults = (flags & addr::kTreeFlagNoAdult) != 0;
+        ie.forCats = (flags & addr::kTreeFlagCats) != 0;
+        ie.forDogs = (flags & addr::kTreeFlagDogs) != 0;
+        out->push_back(ie);
+    }
+    return true;
+}
+
+SimKind KindOfSim(Ptr person) {
+    short pets = Rd<short>(person + addr::kPersonPetFlags);
+    if (pets & 0x2) return SimKind::Dog;
+    if (pets & 0x4) return SimKind::Cat;
+    short age = Rd<short>(person + addr::kPersonAge);
+    return age > 0 && age <= 0x11 ? SimKind::Child : SimKind::Adult;
+}
+
+bool KindAllows(SimKind kind, const InteractionEntry& e) {
+    switch (kind) {
+    case SimKind::Adult: return !e.notForAdults;
+    case SimKind::Child: return !e.notForChildren;
+    case SimKind::Cat: return e.forCats;
+    case SimKind::Dog: return e.forDogs;
+    }
+    return true;
+}
+
 std::string BurglarShout(Ptr person) {
     if (!IsKindOf(person, "cXPerson") || InternalName(Rd<Ptr>(person + addr::obj::kType)) != addr::kThiefName)
         return "";

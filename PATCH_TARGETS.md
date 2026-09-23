@@ -76,6 +76,9 @@ module base + (VA - 0x400000)). Build: `Sims.exe` 1.10.7, SHA-256 `b7c8765e...` 
 
 | `0x527250` | sound manager (`[[0xa67044] + 0x10]`) | thiscall `bool (const char* eventName, int sourceObjectId)`, `ret 8` | plays a named sound event (FWAV name) for an object; the UI passes -4 (`"UI_queued"`); Play Sound Event (primitive 0x17, `0x61ab20`) resolves the name and calls it | **Hooked by the mod** (`game/sounds.cpp`): which car is honking (carpool, school bus, police); every name is logged once in dev builds | live: footsteps, trash, cat sounds with their object ids (2026-09-23) |
 
+| `0x596730` | object type record | thiscall `TreeTable* ()` | the type's interactions (`STRUCTS.md` "Interactions") | `game::ObjectInteractions`: why a menu is empty ("solo para niños: Jugar, Participar") | train set, live |
+| `0x43b9c0` | Sims' data | cdecl `void (int from, int to, RelOut*)` | how one Sim feels about another (daily `+0xc`, lifetime `+8`) | `game::SimRelationship`: "Marisa, con Cris: +8, ahora 28" | after a tickle, live |
+
 ## Hypotheses (not verified)
 
 - `0x6ddf30` (`cTSWin` slot 46): "show tooltip for this widget"; calls `0x6da4d0` (get/create the

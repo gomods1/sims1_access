@@ -1,5 +1,7 @@
 #include "people.h"
 
+#include <cstring>
+
 #include <cmath>
 #include <unordered_map>
 
@@ -219,6 +221,17 @@ Relationship ReadRelationship(Ptr card) {
     r.daily = Rd<int>(card + addr::relcard::kDaily);
     r.lifetime = Rd<int>(card + addr::relcard::kLifetime);
     return r;
+}
+
+bool SimRelationship(int fromId, int toId, Relationship* out) {
+    typedef void(__cdecl * RelFn)(int from, int to, void* out);
+    if (fromId < 0 || toId < 0 || fromId == toId || !FunctionOk(addr::kSimRelationship)) return false;
+    alignas(4) unsigned char buf[addr::kRelOutSize] = {};
+    auto fn = (RelFn)Va(addr::kSimRelationship);
+    if (!Guarded([&] { fn(fromId, toId, buf); })) return false;
+    memcpy(&out->daily, buf + addr::kRelOutDaily, 4);
+    memcpy(&out->lifetime, buf + addr::kRelOutLifetime, 4);
+    return true;
 }
 
 std::vector<Ptr> FamilyMemberButtons(Ptr peoplePanel) {

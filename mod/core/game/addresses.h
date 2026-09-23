@@ -73,6 +73,14 @@ constexpr int kPlayerPriority = 50;
 constexpr Va kSimPersonData = 0x43a480;
 // cdecl int (int neighborId, int personDataIndex): a Sim's skill points, 0..1000 (one bar per 100)
 constexpr Va kSimSkill = 0x43bc30;
+// cdecl void (int fromNeighborId, int toNeighborId, RelOut* out): how the first Sim feels about
+// the second, what a relationships card shows (0x4cd079 passes the selected Sim, then the
+// card's). RelOut: +0 int raw daily, +4 u8 (relationship variable 1 set), +5 u8 (both ways
+// above [0xa515ec]), +6 u8 (variable 3 set), +8 int lifetime, +0xc int daily, both -100..100.
+constexpr Va kSimRelationship = 0x43b9c0;
+constexpr int kRelOutSize = 0x10;
+constexpr int kRelOutLifetime = 0x08;
+constexpr int kRelOutDaily = 0x0c;
 constexpr Va kJobPanelSkillIds = 0x98aca0;  // int[6]: person data indices of the job panel's skills
 constexpr int kJobPanelSkillCount = 6;
 
@@ -85,6 +93,24 @@ constexpr Va kStringSetDtor = 0x58c4b0;       // void ()
 constexpr size_t kStringSetSize = 0x100;      // fields used up to +0x6c
 constexpr uint32_t kResourceCTSS = 0x43545353;  // 'CTSS'
 constexpr uint32_t kResourceSTR = 0x53545223;   // 'STR#'
+constexpr uint32_t kResourceTTAs = 0x54544173;  // 'TTAs': the interactions' names
+// thiscall TreeTable* (): an object type's interactions (cached at type + 0x64). TreeTable: +4
+// int count, +0x10 entry pointer array; entry +0x00 u16 action tree, +0x02 u16 test tree, +0x14
+// u32 flags, +0x18 int index of its name in the TTAs. The pie menu's test 0x60b110 drops an
+// entry for a child Sim (person + 0x604 age 1..17) when flag 0x10 is set, for an adult when 0x40
+// is set, for a cat (person + 0x612 bit 2) without 0x200, a dog (bit 1) without 0x400; then runs
+// the test tree (FreeSO's TTABFlags agree: 0x80 debug). Seen: the cheap train set's Play 0x62,
+// Join 0x41 (no adults), so adults get no menu.
+constexpr Va kTreeTable = 0x596730;
+constexpr int kTreeTableCount = 0x04;
+constexpr int kTreeTableEntries = 0x10;
+constexpr int kTreeEntryFlags = 0x14;
+constexpr int kTreeEntryName = 0x18;
+constexpr uint32_t kTreeFlagNoChild = 0x10, kTreeFlagNoAdult = 0x40, kTreeFlagDebug = 0x80;
+constexpr uint32_t kTreeFlagCats = 0x200, kTreeFlagDogs = 0x400;
+constexpr int kPersonAge = 0x604;       // short: years; 1..17 = a child
+constexpr int kPersonPetFlags = 0x612;  // short: bit 1 dog, bit 2 cat
+
 constexpr int kThiefStrings = 305;              // STR# of the burglar (thief.iff): entry 0 "Burglar!"
 constexpr const char* kThiefName = "NPC Thief";   // the burglar's internal name (OBJD label)
 constexpr int kTutorialTexts = 301;             // STR# of the tutorial object (Tutorial.iff): its step texts
@@ -537,6 +563,7 @@ constexpr int kSubIndex = 11;      // the part's tile offset in the group, (y <<
 constexpr int kRoomFlags = 39;     // suggested rooms
 constexpr int kFunctionFlags = 40; // buy mode categories
 constexpr int kCatalogStringsId = 41;  // CTSS resource id (name = string 1)
+constexpr int kTreeTableId = 13;   // TTAB (interactions) resource id; its names are the TTAs of the same id
 constexpr int kFieldCount = 42;
 }  // namespace objd
 

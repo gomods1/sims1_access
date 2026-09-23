@@ -74,6 +74,8 @@ struct Relationship {
     int lifetime = 0;  // -100..100
 };
 Relationship ReadRelationship(Ptr card);
+// How one Sim feels about another, by neighbor ids (the card's values, without the panel).
+bool SimRelationship(int fromId, int toId, Relationship* out);
 
 // Need meters (cWinMotive); the caption is the need's name.
 int MotiveValue(Ptr motive);          // -100 (empty) .. 100 (full)

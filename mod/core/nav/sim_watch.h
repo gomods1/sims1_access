@@ -5,6 +5,8 @@
 //   Actions: the selected Sim's running interaction starting ("Isabel: Comer"; "Isabel, por su
 //     cuenta: Comer" when free will chose it) and one the player chose finishing with nothing
 //     after it ("Isabel terminó: Comer").
+//   Relationships: how the selected Sim's daily relationship with a Sim on the lot changed
+//     ("Cris, con Marisa: +3, ahora 23").
 //   Needs: a need falling low (the selected Sim) or to urgent (anyone in the family), once per
 //     crossing; the mood meter turning red. Recoveries only go to the events buffer.
 // Switching the selected Sim or the lot starts from what is there, so nothing stale is said.

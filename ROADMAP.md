@@ -96,8 +96,11 @@ What to announce (the selected Sim; the others only when it needs the player):
     the topic. Once confirmed (compare with the Sims' interests), say it in words.
   - Refusals (the Sim shakes their head when their mood is too low for an action): check
     whether they come with a balloon (crossed out) now that every balloon is logged.
-  - Relationship changes after an interaction as numbers: compare the relationship values
-    before and after, "+3 con Marisa" (the `+`/`-` icons are spoken already).
+  - Relationship changes as numbers (done, verified): the selected Sim's daily relationship with
+    each Sim on the lot, "Marisa, con Cris: +8, ahora 28".
+  - Empty interaction menus explained (done): "sin interacciones. solo para niños: Jugar,
+    Participar" from the object's tree table flags; "ahora no disponible: ..." when the game's
+    own test refused (it gives no reason); "con este objeto no se puede hacer nada".
   - Skill gains: the game announces each point itself ("Mortimer received 1 Creativity Skill
     Point", read as a dialog); the progress bars in between are in the object browser's line.
   - Arrivals and departures (done for Sims): anyone placed on the lot from outside the family,

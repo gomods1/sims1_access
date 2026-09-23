@@ -399,6 +399,42 @@ game::Ptr FocusedObject() {
     return 0;
 }
 
+namespace {
+
+std::string JoinWithCommas(const std::vector<std::string>& items) {
+    std::string out;
+    for (const std::string& s : items) {
+        if (!out.empty()) out += ", ";
+        out += s;
+    }
+    return out;
+}
+
+}  // namespace
+
+// The menu came up empty: the game gives no reason, so the mod reads the object's interaction
+// table and says who its interactions are for, or that the game's own test refused them now.
+std::string WhyNoInteractions(const LotObject& o) {
+    std::vector<game::InteractionEntry> entries;
+    game::Ptr sim = game::SelectedSim();
+    if (!sim || !game::ObjectInteractions(o, &entries)) return S(Str::NoInteractions);
+    if (entries.empty()) return S(Str::NoInteractionsAtAll);
+    game::SimKind kind = game::KindOfSim(sim);
+    std::vector<std::string> excluded, refused;
+    for (const game::InteractionEntry& e : entries) {
+        std::vector<std::string>& list = game::KindAllows(kind, e) ? refused : excluded;
+        if (std::find(list.begin(), list.end(), e.name) == list.end()) list.push_back(e.name);
+    }
+    std::string line = S(Str::NoInteractions);
+    if (!excluded.empty())
+        line += ". " + util::Format(S(kind == game::SimKind::Child ? Str::OnlyForAdults : Str::OnlyForChildren),
+                                    JoinWithCommas(excluded).c_str());
+    if (!refused.empty())
+        line += ". " + util::Format(S(Str::NotAvailableNow), JoinWithCommas(refused).c_str());
+    Log("no interactions for #%d: %s", o.id, line.c_str());
+    return line;
+}
+
 void Interact() {
     if (!OnLot()) return;
     for (const LotObject& o : game::LotObjects()) {
@@ -407,7 +443,7 @@ void Interact() {
         // An object with nothing to offer right now makes no menu at all (the bed of a Sim who is
         // not tired): the call returns as if one had been closed.
         ULONGLONG before = GetTickCount64();
-        if (!game::OpenInteractionMenu(o, 512, 384) || !PieMenuSeenSince(before)) speech::Say(S(Str::NoInteractions));
+        if (!game::OpenInteractionMenu(o, 512, 384) || !PieMenuSeenSince(before)) speech::Say(WhyNoInteractions(o));
         return;
     }
     NextObject(0);  // the focused object is gone: say what is focused now

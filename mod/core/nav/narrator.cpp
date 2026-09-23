@@ -245,6 +245,12 @@ void Report(const Balloon& b, const std::vector<int>& family) {
     bool withFamily = b.otherId != b.ownerId && game::GetObject(game::ObjectById(b.otherId), &other) &&
                       other.person && Contains(family, game::SimNeighborId(other.object));
     bool speak = Speak(b, o.person, inFamily, withFamily);
+    // The + or - after a social with the selected Sim: the family watch says it with the number.
+    Ptr selected = game::SelectedSim();
+    game::LotObject sel;
+    if (speak && b.group == grp::kSocial && b.index >= 15 && b.index <= 18 && selected &&
+        game::GetObject(selected, &sel) && (sel.id == b.ownerId || sel.id == b.otherId))
+        speak = false;
     ULONGLONG now = GetTickCount64();
     const char* quiet = speak ? "" : ", not spoken";
     if (speak && o.person && !RouteTrouble(b) && b.kind != BalloonKind::Scream) {

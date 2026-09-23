@@ -34,6 +34,7 @@ constexpr ULONGLONG kActionPollMs = 300;
 constexpr ULONGLONG kActionStartMs = 700;
 constexpr ULONGLONG kActionEndMs = 1500;
 constexpr ULONGLONG kNeedPollMs = 1000;
+constexpr ULONGLONG kRelationPollMs = 1000;
 
 // Need thresholds (-100 empty .. 100 full) with a margin, so a value hovering at a threshold
 // does not say the line again and again.
@@ -89,6 +90,10 @@ struct State {
     bool endSaid = true;          // its end was said (or there was nothing to end)
     ULONGLONG idleSince = 0;      // nothing running and nothing queued since
 
+    // How the selected Sim feels about each Sim on the lot (daily value), by neighbor id.
+    ULONGLONG relationsPolled = 0;
+    std::map<int, int> daily;
+
     // Needs of every family member.
     ULONGLONG needsPolled = 0;
     std::map<int, SimNeeds> needs;  // by neighbor id
@@ -116,6 +121,8 @@ void ResetSelected(int id) {
     g.idleSince = 0;
     g.runningSince = 0;
     g.roomPolled = g.actionPolled = 0;
+    g.daily.clear();
+    g.relationsPolled = 0;
 }
 
 // ---- Rooms ---------------------------------------------------------------------------------
@@ -195,6 +202,34 @@ void PollAction(ULONGLONG now) {
     if (g.saidByPlayer) narrator::Announce(line, false);
     else narrator::Record(line);
     g.actionSaid.clear();
+}
+
+// ---- Relationships -------------------------------------------------------------------------
+
+// A social changes the daily relationship (the game shows + or - over the Sim, which the balloon
+// narration speaks for pairs without the selected Sim); the number says how much.
+void PollRelationships(ULONGLONG now) {
+    if (now - g.relationsPolled < kRelationPollMs) return;
+    bool seeding = g.relationsPolled == 0;
+    g.relationsPolled = now;
+    for (Ptr person : game::LotPeople()) {
+        int other = game::SimNeighborId(person);
+        if (other < 0 || other == g.selected) continue;
+        game::Relationship r;
+        if (!game::SimRelationship(g.selected, other, &r)) continue;
+        auto it = g.daily.find(other);
+        if (it == g.daily.end() || seeding) {
+            g.daily[other] = r.daily;
+            continue;
+        }
+        int delta = r.daily - it->second;
+        it->second = r.daily;
+        if (!delta) continue;
+        std::string amount = (delta > 0 ? "+" : "") + std::to_string(delta);
+        narrator::Announce(util::Format(S(Str::RelationChanged), SimName(g.selected).c_str(), SimName(other).c_str(),
+                                        amount.c_str(), r.daily),
+                           false);
+    }
 }
 
 // ---- Needs and mood ------------------------------------------------------------------------
@@ -287,6 +322,7 @@ void Tick() {
     if (selected < 0 || !sim) return;
     PollRoom(sim, now);
     PollAction(now);
+    PollRelationships(now);
 }
 
 std::string Status() {
