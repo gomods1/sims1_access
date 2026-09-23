@@ -781,6 +781,9 @@ const Translation kEntries[] = {
     {Str::SoundVacationVan, "het vakantiebusje toetert"},
     // House overview
     {Str::HouseToCheckOne, "1 ding om na te kijken: Control+pijl omhoog leest het"},
+    // Credits
+    {Str::CreditsScreen,
+     "Aftiteling. Control+pijl omhoog leest regel voor regel, Control+pijl omlaag gaat terug; Enter op OK sluit."},
 };
 
 }  // namespace

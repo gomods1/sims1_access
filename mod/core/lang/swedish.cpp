@@ -768,6 +768,9 @@ const Translation kEntries[] = {
     {Str::SoundVacationVan, "semesterbussen tutar"},
     // House overview
     {Str::HouseToCheckOne, "1 sak att kolla: Kontroll+Pil upp läser den"},
+    // Credits
+    {Str::CreditsScreen,
+     "Medverkande. Ctrl+Pil upp läser rad för rad, Ctrl+Pil ned går tillbaka; Enter på OK stänger."},
 };
 
 }  // namespace

@@ -756,6 +756,9 @@ const Translation kEntries[] = {
     {Str::SoundVacationVan, "รถตู้ท่องเที่ยวบีบแตร"},
     // House overview
     {Str::HouseToCheckOne, "มี 1 เรื่องให้ตรวจ: Control+ลูกศรขึ้นอ่าน"},
+    // Credits
+    {Str::CreditsScreen,
+     "รายชื่อผู้สร้าง Ctrl+ลูกศรขึ้นอ่านทีละบรรทัด Ctrl+ลูกศรลงย้อนกลับ กด Enter ที่ OK เพื่อปิด"},
 };
 
 }  // namespace

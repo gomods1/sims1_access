@@ -672,6 +672,8 @@ const Translation kEntries[] = {
     {Str::SoundVacationVan, "度假面包车在按喇叭"},
     // House overview
     {Str::HouseToCheckOne, "有1件事要检查：Ctrl+上方向键朗读"},
+    // Credits
+    {Str::CreditsScreen, "制作人员。Ctrl+上方向键逐行朗读，Ctrl+下方向键返回；在确定上按回车关闭。"},
 };
 
 }  // namespace

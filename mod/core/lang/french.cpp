@@ -786,6 +786,10 @@ const Translation kEntries[] = {
     {Str::SoundVacationVan, "le minibus des vacances klaxonne"},
     // House overview
     {Str::HouseToCheckOne, "1 point à vérifier : Contrôle+flèche haut le lit"},
+    // Credits
+    {Str::CreditsScreen,
+     "Crédits. Contrôle+flèche haut les lit ligne par ligne, Contrôle+flèche bas revient en arrière ; Entrée sur "
+     "OK ferme."},
 };
 
 }  // namespace

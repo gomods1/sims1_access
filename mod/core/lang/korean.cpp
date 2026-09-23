@@ -695,6 +695,8 @@ const Translation kEntries[] = {
     {Str::SoundVacationVan, "휴가 승합차가 경적을 울림"},
     // House overview
     {Str::HouseToCheckOne, "확인할 것 1개: 컨트롤+위쪽 화살표로 읽습니다"},
+    // Credits
+    {Str::CreditsScreen, "제작진. Ctrl+위쪽 화살표로 한 줄씩 읽고 Ctrl+아래쪽 화살표로 돌아갑니다. 확인에서 Enter를 누르면 닫힙니다."},
 };
 
 }  // namespace

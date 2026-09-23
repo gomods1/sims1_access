@@ -773,6 +773,9 @@ const Translation kEntries[] = {
     {Str::SoundVacationVan, "lomapakettiauto tööttää"},
     // House overview
     {Str::HouseToCheckOne, "1 tarkistettava asia: Control+nuoli ylös lukee sen"},
+    // Credits
+    {Str::CreditsScreen,
+     "Tekijät. Ctrl+nuoli ylös lukee rivi riviltä, Ctrl+nuoli alas palaa; Enter OK-painikkeessa sulkee."},
 };
 
 }  // namespace

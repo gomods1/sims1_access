@@ -763,4 +763,6 @@
     /* Sounds */                                                                                                     \
     X(SoundVacationVan, "the vacation van is honking")                                                               \
     /* House overview */                                                                                             \
-    X(HouseToCheckOne, "1 thing to check: Control+Up reads it")
+    X(HouseToCheckOne, "1 thing to check: Control+Up reads it")                                                      \
+    /* Credits */                                                                                                    \
+    X(CreditsScreen, "Credits. Control+Up reads them line by line, Control+Down goes back; Enter on OK closes.")

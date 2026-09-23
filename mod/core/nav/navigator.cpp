@@ -22,6 +22,7 @@
 #include "camera.h"
 #include "cheat_console.h"
 #include "collect.h"
+#include "credits.h"
 #include "describe.h"
 #include "arrange.h"
 #include "buffers.h"
@@ -185,6 +186,10 @@ void AnnounceScreen() {
     if (game::IsPieMenu(g.root)) {
         if (Groups().empty()) speech::Say(S(Str::NoInteractions));
         else speech::Say(GroupSummary(Groups()[0]) + ". " + Describe(*Focused()));
+        return;
+    }
+    if (credits::OnScreen(g.root)) {  // the details buffer holds the credits: focus must not replace them
+        speech::Say(S(Str::CreditsScreen));
         return;
     }
     std::string name = ScreenName(g.root);

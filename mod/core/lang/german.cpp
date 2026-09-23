@@ -782,6 +782,10 @@ const Translation kEntries[] = {
     {Str::SoundVacationVan, "der Urlaubsbus hupt"},
     // House overview
     {Str::HouseToCheckOne, "1 Punkt zu prüfen: Strg+Pfeil nach oben liest ihn"},
+    // Credits
+    {Str::CreditsScreen,
+     "Mitwirkende. Strg+Pfeil nach oben liest sie Zeile für Zeile, Strg+Pfeil nach unten geht zurück; Eingabe "
+     "auf OK schließt."},
 };
 
 }  // namespace

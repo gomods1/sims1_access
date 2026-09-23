@@ -27,7 +27,7 @@ everywhere (the game has no keyboard focus; the mod walks the widget tree).
 | Old Town map (Unleashed trolley) | `cWinNeighborhoodUL` | | | done: named "Ciudad Vieja, ¿a dónde vamos?"; lots that can be visited first, each with the filters that mark it; a filter says the lots it marks ("marcados en el mapa: El Paraíso de las Mascotas"); the bar's doubled buttons are listed once |
 | Studio Town and Magic Town maps | `cWinStudiotown`, `cWinMagicland` | | | done (verified 2026-09-23): named, visitable lots first with their filter kinds, a filter says the lots it marks; filter arrays at +0x144 / +0x15c, chosen filter +0x16c / +0x17c |
 | Downtown / Vacation maps | `cWinDowntown`, `cWinVacation` | | | downtown used by keyboard (Hot Date trip); vacation not checked |
-| Credits | `cWinCredits` | | | not started |
+| Credits | `cWinCredits` | | | done: the credits (GameData\Credits.iff STR# 163-172, the game's language) are in the details buffer, Ctrl+Up reads them line by line |
 | Help | `cWinHelp` | topic list with a scroll bar | topics and their text | verified: all 47 topics reachable (also those scrolled out of view); choosing one reads its text |
 | Budget | `cWinBudgetDlg`, `cWinBudgetRow` | | income/expense table, totals | navigable (rows read with column names) |
 | Phone book | `CWinPhoneBook` | | whom to call | dialog reads ("Gunther no conoce a nadie.", Llamar, Cancelar); a filled contact list not seen yet |

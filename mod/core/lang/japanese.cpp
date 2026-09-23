@@ -692,6 +692,8 @@ const Translation kEntries[] = {
     {Str::SoundVacationVan, "バケーションのバンがクラクションを鳴らしている"},
     // House overview
     {Str::HouseToCheckOne, "確認すること1件：コントロール+上矢印で読みます"},
+    // Credits
+    {Str::CreditsScreen, "クレジット。Ctrl+上矢印で1行ずつ読み、Ctrl+下矢印で戻ります。OKでEnterを押すと閉じます。"},
 };
 
 }  // namespace
