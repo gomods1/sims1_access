@@ -10,6 +10,7 @@
 #include "../game/house.h"
 #include "../game/iff_strings.h"
 #include "../game/lot.h"
+#include "../game/magic.h"
 #include "../game/neighborhood.h"
 #include "../game/people.h"
 #include "../game/rtti.h"
@@ -351,6 +352,11 @@ std::string DescribeMarkedLots(Ptr map) {
 }
 
 std::string AfterPress(Ptr root, Ptr pressed) {
+    if (game::IsBookEntry(pressed)) {  // the right-hand page now shows this entry: name, then what it does
+        Ptr book = game::MagicBookOf(pressed);
+        std::string title = game::ChosenEntryTitle(book), text = game::ChosenEntryText(book);
+        return title.empty() ? text : text.empty() ? title : title + ". " + text;
+    }
     if (game::IsOutfitArrow(root, pressed)) return DescribeOutfit(root);
     int look = game::TransformChoice(root, pressed);
     if (look >= 0) return util::Format(S(Str::TransformLook), look + 1, 8);

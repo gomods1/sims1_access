@@ -809,6 +809,10 @@ const Translation kEntries[] = {
     {Str::LookFloral, "꽃무늬"},
     {Str::LookStriped, "줄무늬"},
     {Str::LookPatterned, "무늬"},
+    // Makin' Magic book
+    {Str::BookIngredients, "재료: %s"},
+    {Str::GroupSpells, "주문"},
+    {Str::GroupRecipes, "요리법"},
 };
 
 }  // namespace

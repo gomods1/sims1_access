@@ -880,6 +880,10 @@ const Translation kEntries[] = {
     {Str::LookFloral, "blomstret"},
     {Str::LookStriped, "stribet"},
     {Str::LookPatterned, "mønstret"},
+    // Makin' Magic book
+    {Str::BookIngredients, "ingredienser: %s"},
+    {Str::GroupSpells, "trylleformularer"},
+    {Str::GroupRecipes, "opskrifter"},
 };
 
 }  // namespace

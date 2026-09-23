@@ -253,7 +253,12 @@ for a second Enter. A new room without a door is said, not asked about. Still to
 - **Makin' Magic**: travelling to Magic Town, spells and charms, magic recipes and ingredients
   (the spell book `CWinMagicBook`, `cPickSpellList`), magic duels and the other magic places.
   (Trip verified 2026-09-23: the balloon's dialogs, the Magic Town map with filters, a magic
-  lot; its shop was closed at night, so buying ingredients and the spell book are untested.)
+  lot; its shop was closed at night, so buying ingredients is untested.) The spell book reads
+  (verified): a newly moved-in family finds "Un paquete misterioso" on its lot (other objects);
+  "Abrir" gives MagiCo's starter kit (a table with the wand charger, the book "Libro de conjuros
+  Empiece aquí"); the charger's "Adquirir... > Varita mágica" gives the wand the book needs
+  ("Buscar conjuros" says the book wants one otherwise); the Sim refuses both in a bad mood. Not
+  tried: casting (the charm case, ingredients), the cookbook, magic duels.
 - **Vacation**: trip verified 2026-09-23 (the tour dialogs, the van, the Vacation Island map with
   filters, a camping lot); lodging, activities and souvenirs not tried.
 

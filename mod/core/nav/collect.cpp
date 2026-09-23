@@ -14,6 +14,7 @@
 #include "../game/people.h"
 #include "../game/pie.h"
 #include "../game/rtti.h"
+#include "../game/magic.h"
 #include "../game/ui.h"
 #include "../game/view_control.h"
 #include "../util/strings.h"
@@ -196,6 +197,17 @@ struct Walker {
             game::ProductInfo p;
             Add(w, Role::Product, game::ReadProductOfButton(w, &p) ? p.name : game::Tooltip(w));
             return false;
+        }
+        if (game::IsBookEntry(w)) {  // one item per spell: its ingredients (the name shows once chosen)
+            std::string names;
+            for (const std::string& n : game::EntryIngredients(w)) names += (names.empty() ? "" : ", ") + n;
+            Add(w, Role::Button, util::Format(S(Str::BookIngredients), names.c_str()), 0, kBookEntriesGroup);
+            return false;
+        }
+        if (IsKindOf(w, "cTSWinTextEdit2") && game::IsMagicBook(game::Parent(w))) {  // read-only description
+            std::string text = game::ChosenEntryText(game::Parent(w));
+            if (!text.empty()) Add(w, Role::Text, text);
+            return true;
         }
         if (IsKindOf(w, "cTSWinTextEdit2")) {
             screen.textEntryVisible = true;

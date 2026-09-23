@@ -4,6 +4,7 @@
 #include "../game/pie.h"
 #include "../game/view_control.h"
 #include "../game/neighborhood.h"
+#include "../game/magic.h"
 #include "../game/rtti.h"
 #include "../game/ui.h"
 #include "../util/game_settings.h"
@@ -110,6 +111,9 @@ std::string GroupName(const Group& g) {
     if (g.key == kLooksGroup) return S(Str::GroupLooks);
     if (g.key == kMembersGroup) return S(Str::GroupMembers);
     if (g.key == kTipGroup) return S(Str::GroupTip);
+    if (g.key == kBookEntriesGroup)
+        return S(!g.items.empty() && game::IsCookbook(game::MagicBookOf(g.items[0].widget)) ? Str::GroupRecipes
+                                                                                             : Str::GroupSpells);
     if (game::IsPieMenu(g.key)) return S(Str::PieMenu);
     if (tutorial::IsStepGroup(g)) return S(Str::GroupTutorial);
     for (const Item& it : g.items)

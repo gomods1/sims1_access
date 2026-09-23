@@ -878,4 +878,8 @@
     X(LookChecked, "checked")                                                                                        \
     X(LookFloral, "floral")                                                                                          \
     X(LookStriped, "striped")                                                                                        \
-    X(LookPatterned, "patterned")
+    X(LookPatterned, "patterned")                                                                                    \
+    /* Makin' Magic book */                                                                                          \
+    X(BookIngredients, "ingredients: %s")                                                                            \
+    X(GroupSpells, "spells")                                                                                         \
+    X(GroupRecipes, "recipes")

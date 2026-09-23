@@ -786,6 +786,10 @@ const Translation kEntries[] = {
     {Str::LookFloral, "碎花"},
     {Str::LookStriped, "条纹"},
     {Str::LookPatterned, "印花"},
+    // Makin' Magic book
+    {Str::BookIngredients, "材料：%s"},
+    {Str::GroupSpells, "咒语"},
+    {Str::GroupRecipes, "食谱"},
 };
 
 }  // namespace
