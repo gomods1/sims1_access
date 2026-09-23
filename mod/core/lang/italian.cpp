@@ -568,6 +568,26 @@ const Translation kEntries[] = {
     // Doors and windows
     {Str::DoorInWall, "nel muro %1$s di %2$s, dà su %3$s"},
     {Str::DoorFirst, "la prima porta di quella stanza"},
+    // Floor cursor
+    {Str::FloorHere, "pavimento"},
+    {Str::FloorNone, "senza pavimento"},
+    {Str::FloorPlan, "Invio mette il pavimento su %1$d per %2$d, %3$d caselle, %4$s"},
+    {Str::FloorCursorStart, "Cursore pavimento, %s. Control+F1 dice i tasti."},
+    {Str::FloorNothing, "lì non è cambiato niente"},
+    {Str::FloorRoomCleared, "pavimento tolto da tutta la stanza"},
+    {Str::FloorRoomLaid, "pavimento messo in tutta la stanza"},
+    {Str::FloorRemoved, "pavimento tolto, %d caselle"},
+    {Str::FloorLaid, "pavimento messo, %d caselle"},
+    {Str::FloorNoPresets, "le stanze già pronte sono per lo strumento muro"},
+    {Str::KeysFloorCursor,
+     "Le frecce spostano il cursore di una casella, con Maiusc di cinque; ogni casella dice se ha il pavimento e "
+     "cosa c'è, R dice tutto. Invio mette il pavimento sulla casella del cursore; con un inizio segnato con "
+     "Spazio, su tutto il rettangolo dall'inizio al cursore, di cui il cursore dice misura e prezzo mentre si "
+     "muove. Maiusc+Invio mette il pavimento in tutta la stanza del cursore. Control+Invio toglie il pavimento, "
+     "Control+Maiusc+Invio da tutta la stanza. Home torna al Sim selezionato, Esc esce dal cursore."},
+    // Floor cursor (price)
+    {Str::FloorStyle, "%1$s, %2$s a casella"},
+    {Str::FloorTiles, "%d caselle"},
 };
 
 }  // namespace

@@ -567,6 +567,26 @@ const Translation kEntries[] = {
     // Doors and windows
     {Str::DoorInWall, "na parede %1$s de %2$s, dá para %3$s"},
     {Str::DoorFirst, "a primeira porta desse cômodo"},
+    // Floor cursor
+    {Str::FloorHere, "com piso"},
+    {Str::FloorNone, "sem piso"},
+    {Str::FloorPlan, "Enter põe piso em %1$d por %2$d, %3$d quadrados, %4$s"},
+    {Str::FloorCursorStart, "Cursor de piso, %s. Control+F1 diz as teclas."},
+    {Str::FloorNothing, "nada mudou ali"},
+    {Str::FloorRoomCleared, "piso tirado do cômodo inteiro"},
+    {Str::FloorRoomLaid, "piso posto no cômodo inteiro"},
+    {Str::FloorRemoved, "piso tirado, %d quadrados"},
+    {Str::FloorLaid, "piso posto, %d quadrados"},
+    {Str::FloorNoPresets, "os cômodos prontos são para a ferramenta de parede"},
+    {Str::KeysFloorCursor,
+     "As setas movem o cursor um quadrado, com Shift cinco; cada quadrado diz se tem piso e o que há ali, R diz "
+     "tudo. Enter põe piso no quadrado do cursor; com um início marcado com Espaço, em todo o retângulo do "
+     "início ao cursor, cujo tamanho e preço o cursor diz ao se mover. Shift+Enter põe piso no cômodo inteiro do "
+     "cursor. Control+Enter tira o piso, Control+Shift+Enter do cômodo inteiro. Home volta ao Sim selecionado, "
+     "Escape sai do cursor."},
+    // Floor cursor (price)
+    {Str::FloorStyle, "%1$s, %2$s por quadrado"},
+    {Str::FloorTiles, "%d quadrados"},
 };
 
 }  // namespace

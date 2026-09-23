@@ -573,6 +573,26 @@ const Translation kEntries[] = {
     // Doors and windows
     {Str::DoorInWall, "in de muur in het %1$s van %2$s, komt uit op %3$s"},
     {Str::DoorFirst, "de eerste deur van die kamer"},
+    // Floor cursor
+    {Str::FloorHere, "vloer"},
+    {Str::FloorNone, "geen vloer"},
+    {Str::FloorPlan, "Enter legt vloer op %1$d bij %2$d, %3$d vakjes, %4$s"},
+    {Str::FloorCursorStart, "Vloercursor, %s. Control+F1 noemt de toetsen."},
+    {Str::FloorNothing, "daar is niets veranderd"},
+    {Str::FloorRoomCleared, "vloer uit de hele kamer gehaald"},
+    {Str::FloorRoomLaid, "vloer in de hele kamer gelegd"},
+    {Str::FloorRemoved, "vloer weggehaald, %d vakjes"},
+    {Str::FloorLaid, "vloer gelegd, %d vakjes"},
+    {Str::FloorNoPresets, "kant-en-klare kamers zijn voor het muurgereedschap"},
+    {Str::KeysFloorCursor,
+     "De pijltjes verplaatsen de cursor één vakje, met Shift vijf; elk vakje zegt of het vloer heeft en wat er "
+     "staat, R zegt alles. Enter legt vloer op het vakje bij de cursor; met een begin gemarkeerd met Spatie op "
+     "de hele rechthoek van het begin tot de cursor, waarvan de cursor bij het bewegen grootte en prijs zegt. "
+     "Shift+Enter legt vloer in de hele kamer bij de cursor. Control+Enter haalt vloer weg, Control+Shift+Enter "
+     "uit de hele kamer. Home gaat terug naar de geselecteerde Sim, Escape verlaat de cursor."},
+    // Floor cursor (price)
+    {Str::FloorStyle, "%1$s, %2$s per vakje"},
+    {Str::FloorTiles, "%d vakjes"},
 };
 
 }  // namespace

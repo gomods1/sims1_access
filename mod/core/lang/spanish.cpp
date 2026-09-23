@@ -566,6 +566,26 @@ const Translation kEntries[] = {
     // Doors and windows
     {Str::DoorInWall, "en la pared %1$s de %2$s, da a %3$s"},
     {Str::DoorFirst, "la primera puerta de esa habitación"},
+    // Floor cursor
+    {Str::FloorHere, "con suelo"},
+    {Str::FloorNone, "sin suelo"},
+    {Str::FloorPlan, "Intro pone suelo en %1$d por %2$d, %3$d casillas, %4$s"},
+    {Str::FloorCursorStart, "Cursor de suelo, %s. Control+F1 dice las teclas."},
+    {Str::FloorNothing, "no ha cambiado nada ahí"},
+    {Str::FloorRoomCleared, "suelo quitado de toda la habitación"},
+    {Str::FloorRoomLaid, "suelo puesto en toda la habitación"},
+    {Str::FloorRemoved, "suelo quitado, %d casillas"},
+    {Str::FloorLaid, "suelo puesto, %d casillas"},
+    {Str::FloorNoPresets, "las habitaciones ya hechas son para la herramienta de pared"},
+    {Str::KeysFloorCursor,
+     "Las flechas mueven el cursor una casilla, con Mayúsculas cinco; cada casilla dice si tiene suelo y qué "
+     "hay, R lo dice todo. Intro pone suelo en la casilla del cursor; con un inicio marcado con Espacio, en todo "
+     "el rectángulo del inicio al cursor, cuyo tamaño y precio dice el cursor al moverse. Mayúsculas+Intro pone "
+     "suelo en toda la habitación del cursor. Control+Intro quita suelo, Control+Mayúsculas+Intro de toda la "
+     "habitación. Inicio vuelve al Sim seleccionado, Escape sale del cursor."},
+    // Floor cursor (price)
+    {Str::FloorStyle, "%1$s, %2$s por casilla"},
+    {Str::FloorTiles, "%d casillas"},
 };
 
 }  // namespace

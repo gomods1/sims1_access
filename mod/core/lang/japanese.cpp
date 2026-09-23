@@ -503,6 +503,24 @@ const Translation kEntries[] = {
     // Doors and windows
     {Str::DoorInWall, "%2$sの%1$sの壁、%3$sへ通じる"},
     {Str::DoorFirst, "その部屋の最初のドア"},
+    // Floor cursor
+    {Str::FloorHere, "床あり"},
+    {Str::FloorNone, "床なし"},
+    {Str::FloorPlan, "Enterで%1$d×%2$d、%3$dマスに床を張ります、%4$s"},
+    {Str::FloorCursorStart, "床カーソル、%s。コントロール+F1でキーを読みます。"},
+    {Str::FloorNothing, "そこは何も変わりませんでした"},
+    {Str::FloorRoomCleared, "部屋全体の床を撤去しました"},
+    {Str::FloorRoomLaid, "部屋全体に床を張りました"},
+    {Str::FloorRemoved, "床を撤去しました、%dマス"},
+    {Str::FloorLaid, "床を張りました、%dマス"},
+    {Str::FloorNoPresets, "既製の部屋は壁ツール用です"},
+    {Str::KeysFloorCursor,
+     "矢印キーでカーソルを1マス、Shiftと一緒なら5マス動かします。各マスは床の有無と置いてある物を読み、Rはすべて読みます。Enterでカーソルのマスに床を張ります。スペースで開始点を決めると、開始点からカーソルま"
+     "での四角形全体に張り、動かすたびに大きさと値段を読みます。Shift+Enterでカーソルの部屋全体に床を張ります。コントロール+Enterで床を撤去、コントロール+Shift+Enterで部屋全体から撤去します。"
+     "Homeで選択中のシムに戻り、Escapeでカーソルを終わります。"},
+    // Floor cursor (price)
+    {Str::FloorStyle, "%1$s、1マス%2$s"},
+    {Str::FloorTiles, "%dマス"},
 };
 
 }  // namespace

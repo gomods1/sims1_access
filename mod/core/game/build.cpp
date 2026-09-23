@@ -69,7 +69,52 @@ bool ViewCornerFor(Corner grid, int* vx, int* vy) {
     return false;
 }
 
+Ptr FloorTool() {
+    Ptr tool = Rd<Ptr>(Va(addr::kCurrentTool));
+    return IsKindOf(tool, "cNewFloorTool") ? tool : 0;
+}
+
+// Tile centers go to the view the way the picker's rotation (0x586ae0) expects them back.
+void TileToView(Corner t, int* vx, int* vy) {
+    int gx = t.x * 16 + 8, gy = t.y * 16 + 8;
+    int r = -Rd<int>(Rd<Ptr>(Va(addr::kWorld)) + addr::kWorldRotation) & 3;
+    int n = addr::kWorldSpan - 1;
+    switch (r) {
+    case 1: *vx = n - gy; *vy = gx; break;
+    case 2: *vx = n - gx; *vy = n - gy; break;
+    case 3: *vx = gy; *vy = n - gx; break;
+    default: *vx = gx; *vy = gy; break;
+    }
+}
+
 }  // namespace
+
+bool FloorToolActive() { return FloorTool() != 0; }
+
+int DrawFloor(Corner fromTile, Corner toTile, FloorMode mode, int* tilesChanged) {
+    Ptr tool = FloorTool();
+    if (!tool) return -1;
+    int ax, ay, bx, by;
+    TileToView(fromTile, &ax, &ay);
+    TileToView(toTile, &bx, &by);
+    g_lastError = 0;
+    g_lastCost = 0;
+    bool shift = mode == FloorMode::FillRoom || mode == FloorMode::ClearRoom;
+    bool ctrl = mode == FloorMode::Remove || mode == FloorMode::ClearRoom;
+    ForceModifiers(shift, ctrl);
+    bool ok = CallMouse(tool, addr::floortool::kDownSlot, addr::floortool::kDown, "cNewFloorTool::MouseDown", ax, ay) &&
+              CallMouse(tool, addr::floortool::kDragSlot, addr::floortool::kDrag, "cNewFloorTool::MouseDrag", bx, by, 60);
+    Ptr session = Rd<Ptr>(tool + addr::floortool::kSession);
+    int tiles = session ? (Rd<Ptr>(session + addr::floortool::kSessionLast) - Rd<Ptr>(session + addr::floortool::kSessionFirst)) / 0x3c : 0;
+    if (tilesChanged) *tilesChanged = tiles;
+    ok = ok && CallMouse(tool, addr::floortool::kUpSlot, addr::floortool::kUp, "cNewFloorTool::MouseUp", bx, by, 60);
+    ClearForcedModifiers();
+    Log("build: floor %d,%d -> %d,%d mode %d: %s, %d tiles, error %d, cost %d", fromTile.x, fromTile.y, toTile.x,
+        toTile.y, (int)mode, ok ? "done" : "failed", tiles, g_lastError, g_lastCost);
+    if (!ok) return -1;
+    if (g_lastError) return g_lastError;
+    return tiles > 0 ? 0 : kNothingBuilt;
+}
 
 bool WallToolActive() { return WallTool() != 0; }
 

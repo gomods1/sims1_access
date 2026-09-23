@@ -553,6 +553,26 @@ const Translation kEntries[] = {
     // Doors and windows
     {Str::DoorInWall, "ในผนังด้านทิศ%1$sของ%2$s เปิดสู่%3$s"},
     {Str::DoorFirst, "ประตูแรกของห้องนั้น"},
+    // Floor cursor
+    {Str::FloorHere, "มีพื้น"},
+    {Str::FloorNone, "ไม่มีพื้น"},
+    {Str::FloorPlan, "Enter ปูพื้น %1$d คูณ %2$d, %3$d ช่อง, %4$s"},
+    {Str::FloorCursorStart, "เคอร์เซอร์พื้น, %s Control+F1 บอกปุ่ม"},
+    {Str::FloorNothing, "ตรงนั้นไม่มีอะไรเปลี่ยน"},
+    {Str::FloorRoomCleared, "รื้อพื้นทั้งห้องแล้ว"},
+    {Str::FloorRoomLaid, "ปูพื้นทั้งห้องแล้ว"},
+    {Str::FloorRemoved, "รื้อพื้นแล้ว %d ช่อง"},
+    {Str::FloorLaid, "ปูพื้นแล้ว %d ช่อง"},
+    {Str::FloorNoPresets, "ห้องสำเร็จรูปใช้กับเครื่องมือกำแพง"},
+    {Str::KeysFloorCursor,
+     "ปุ่มลูกศรเลื่อนเคอร์เซอร์ทีละช่อง กด Shift ด้วยทีละห้า แต่ละช่องบอกว่ามีพื้นไหมและมีอะไรวางอยู่ R "
+     "บอกทั้งหมด Enter ปูพื้นช่องที่เคอร์เซอร์อยู่ ถ้าตั้งจุดเริ่มด้วย Space "
+     "จะปูทั้งสี่เหลี่ยมจากจุดเริ่มถึงเคอร์เซอร์ และบอกขนาดกับราคาขณะเลื่อน Shift+Enter "
+     "ปูพื้นทั้งห้องที่เคอร์เซอร์อยู่ Control+Enter รื้อพื้น Control+Shift+Enter รื้อทั้งห้อง Home "
+     "กลับไปที่ซิมที่เลือก Escape ออกจากเคอร์เซอร์"},
+    // Floor cursor (price)
+    {Str::FloorStyle, "%1$s, ช่องละ %2$s"},
+    {Str::FloorTiles, "%d ช่อง"},
 };
 
 }  // namespace

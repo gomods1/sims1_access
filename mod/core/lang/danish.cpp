@@ -559,6 +559,26 @@ const Translation kEntries[] = {
     // Doors and windows
     {Str::DoorInWall, "i væggen mod %1$s i %2$s, fører ud til %3$s"},
     {Str::DoorFirst, "rummets første dør"},
+    // Floor cursor
+    {Str::FloorHere, "gulv"},
+    {Str::FloorNone, "intet gulv"},
+    {Str::FloorPlan, "Enter lægger gulv på %1$d gange %2$d, %3$d felter, %4$s"},
+    {Str::FloorCursorStart, "Gulvmarkør, %s. Kontrol+F1 siger tasterne."},
+    {Str::FloorNothing, "intet blev ændret der"},
+    {Str::FloorRoomCleared, "gulv fjernet fra hele rummet"},
+    {Str::FloorRoomLaid, "gulv lagt i hele rummet"},
+    {Str::FloorRemoved, "gulv fjernet, %d felter"},
+    {Str::FloorLaid, "gulv lagt, %d felter"},
+    {Str::FloorNoPresets, "færdige rum hører til murværktøjet"},
+    {Str::KeysFloorCursor,
+     "Piletasterne flytter markøren ét felt, med Skift fem; hvert felt siger, om det har gulv, og hvad der står "
+     "der, R siger det hele. Enter lægger gulv på feltet ved markøren; med en start markeret med Mellemrum på "
+     "hele rektanglet fra starten til markøren, hvis størrelse og pris markøren siger undervejs. Skift+Enter "
+     "lægger gulv i hele rummet ved markøren. Kontrol+Enter fjerner gulv, Kontrol+Skift+Enter fra hele rummet. "
+     "Home går tilbage til den valgte Sim, Escape forlader markøren."},
+    // Floor cursor (price)
+    {Str::FloorStyle, "%1$s, %2$s pr. felt"},
+    {Str::FloorTiles, "%d felter"},
 };
 
 }  // namespace

@@ -566,6 +566,26 @@ const Translation kEntries[] = {
     // Doors and windows
     {Str::DoorInWall, "w ścianie od %1$s: %2$s, prowadzi do: %3$s"},
     {Str::DoorFirst, "pierwsze drzwi tego pokoju"},
+    // Floor cursor
+    {Str::FloorHere, "podłoga"},
+    {Str::FloorNone, "bez podłogi"},
+    {Str::FloorPlan, "Enter kładzie podłogę na %1$d na %2$d, pól: %3$d, %4$s"},
+    {Str::FloorCursorStart, "Kursor podłogi, %s. Control+F1 podaje klawisze."},
+    {Str::FloorNothing, "nic się tam nie zmieniło"},
+    {Str::FloorRoomCleared, "podłoga zdjęta z całego pokoju"},
+    {Str::FloorRoomLaid, "podłoga położona w całym pokoju"},
+    {Str::FloorRemoved, "podłoga zdjęta, pól: %d"},
+    {Str::FloorLaid, "podłoga położona, pól: %d"},
+    {Str::FloorNoPresets, "gotowe pokoje są dla narzędzia ścian"},
+    {Str::KeysFloorCursor,
+     "Strzałki przesuwają kursor o jedno pole, z Shiftem o pięć; każde pole mówi, czy ma podłogę i co na nim "
+     "stoi, R mówi wszystko. Enter kładzie podłogę na polu kursora; z początkiem zaznaczonym Spacją na całym "
+     "prostokącie od początku do kursora, którego rozmiar i cenę kursor podaje przy ruchu. Shift+Enter kładzie "
+     "podłogę w całym pokoju kursora. Control+Enter zdejmuje podłogę, Control+Shift+Enter z całego pokoju. Home "
+     "wraca do wybranego Sima, Escape opuszcza kursor."},
+    // Floor cursor (price)
+    {Str::FloorStyle, "%1$s, %2$s za pole"},
+    {Str::FloorTiles, "pól: %d"},
 };
 
 }  // namespace

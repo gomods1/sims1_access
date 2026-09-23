@@ -221,7 +221,8 @@ eturn_focus.txt`; a dev core hands the foreground back to it
   object off, close a door or isolate tiles. Some expansion "fences" are objects: their press
   brings the buy tool and no cursor. Doors and windows (build items, move tool mode 3) go through
   buy mode's spot list: "en la pared oeste de habitación vacía, 34 casillas, da a exterior, la
-  primera puerta de esa habitación, casilla 29, 31".
+  primera puerta de esa habitación, casilla 29, 31". The floor tool (`cNewFloorTool`, same slots)
+  puts the cursor on tiles: Enter a rectangle, Shift+Enter the room, Ctrl removes.
 - Buy mode placement internals: the mod hooks `ScreenToWorld` (0x5e00e0) and drives the buy tool's
   own mouse handlers on the tile it chose. The view calls the tool's "mouse left" (0x56ea50) every
   frame the real mouse is not over the lot, which takes the held object out of the world: the mod

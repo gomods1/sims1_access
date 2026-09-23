@@ -210,6 +210,21 @@ constexpr int kSession = 0x5c;       // the drag session
 constexpr int kSessionValid = 0xe024;  // u8: it holds segments
 constexpr int kMode = 0x6c;          // int: 0 draw, 1 delete, 2 room
 }  // namespace walltool
+// cNewFloorTool: the same mouse handlers, on tiles (1/16 tile view coordinates, tile = v >> 4).
+// Slot 8 reads GetKeyState: Ctrl = remove (1), Shift = fill the room (2), both = clear the room
+// (3). The session at +0x30 lists changed tiles (0x3c-byte entries at +0x24..+0x28); slot 11
+// commits it. The drag slot works while +0x3d is 0 (the down clears it).
+namespace floortool {
+constexpr int kDownSlot = 8;
+constexpr Va kDown = 0x5896e0;
+constexpr int kDragSlot = 10;
+constexpr Va kDrag = 0x58a1b0;
+constexpr int kUpSlot = 11;
+constexpr Va kUp = 0x58a7d0;
+constexpr int kSession = 0x30;
+constexpr int kSessionFirst = 0x24;
+constexpr int kSessionLast = 0x28;
+}  // namespace floortool
 // cdecl void (int code, int arg): the build tools' "Can't place here!" message; code = 1-based
 // index into STR# 137 (as buy mode's placement errors), 0 hides it. Hooked: the mod speaks it.
 constexpr Va kBuildError = 0x56f7f0;

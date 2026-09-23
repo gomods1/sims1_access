@@ -567,6 +567,26 @@ const Translation kEntries[] = {
     // Doors and windows
     {Str::DoorInWall, "%2$s: %1$sseinässä, johtaa tilaan %3$s"},
     {Str::DoorFirst, "huoneen ensimmäinen ovi"},
+    // Floor cursor
+    {Str::FloorHere, "lattia"},
+    {Str::FloorNone, "ei lattiaa"},
+    {Str::FloorPlan, "Enter lattioi %1$d kertaa %2$d, %3$d ruutua, %4$s"},
+    {Str::FloorCursorStart, "Lattiakohdistin, %s. Control+F1 kertoo näppäimet."},
+    {Str::FloorNothing, "siinä ei muuttunut mitään"},
+    {Str::FloorRoomCleared, "lattia poistettu koko huoneesta"},
+    {Str::FloorRoomLaid, "lattia laitettu koko huoneeseen"},
+    {Str::FloorRemoved, "lattiaa poistettu, %d ruutua"},
+    {Str::FloorLaid, "lattiaa laitettu, %d ruutua"},
+    {Str::FloorNoPresets, "valmiit huoneet ovat seinätyökalua varten"},
+    {Str::KeysFloorCursor,
+     "Nuolet siirtävät kohdistinta yhden ruudun, Vaihdon kanssa viisi; jokainen ruutu kertoo, onko siinä lattia "
+     "ja mitä siinä on, R kertoo kaiken. Enter laittaa lattian kohdistimen ruutuun; välilyönnillä merkityn alun "
+     "kanssa koko suorakaiteeseen alusta kohdistimeen, jonka koon ja hinnan kohdistin kertoo liikkuessaan. "
+     "Vaihto+Enter laittaa lattian koko kohdistimen huoneeseen. Control+Enter poistaa lattian, "
+     "Control+Vaihto+Enter koko huoneesta. Home palaa valittuun simiin, Escape poistuu kohdistimesta."},
+    // Floor cursor (price)
+    {Str::FloorStyle, "%1$s, %2$s ruudulta"},
+    {Str::FloorTiles, "%d ruutua"},
 };
 
 }  // namespace

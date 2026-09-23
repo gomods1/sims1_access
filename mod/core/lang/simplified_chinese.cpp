@@ -486,6 +486,23 @@ const Translation kEntries[] = {
     // Doors and windows
     {Str::DoorInWall, "在%2$s的%1$s墙上，通向%3$s"},
     {Str::DoorFirst, "这个房间的第一扇门"},
+    // Floor cursor
+    {Str::FloorHere, "有地板"},
+    {Str::FloorNone, "没有地板"},
+    {Str::FloorPlan, "Enter铺%1$d乘%2$d地板，%3$d格，%4$s"},
+    {Str::FloorCursorStart, "地板光标，%s。Ctrl+F1朗读按键。"},
+    {Str::FloorNothing, "那里没有变化"},
+    {Str::FloorRoomCleared, "已拆除整个房间的地板"},
+    {Str::FloorRoomLaid, "已为整个房间铺地板"},
+    {Str::FloorRemoved, "已拆除地板，%d格"},
+    {Str::FloorLaid, "已铺地板，%d格"},
+    {Str::FloorNoPresets, "现成房间用于墙工具"},
+    {Str::KeysFloorCursor,
+     "方向键把光标移动一格，按住Shift移动五格；每格会说出有没有地板和上面的物品，R说出全部。Enter在光标所在格铺地板；用空格设起点后，铺满从起点到光标的整个矩形，移动时光标会说出大小和价格。Shift+Ente"
+     "r为光标所在的整个房间铺地板。Ctrl+Enter拆除地板，Ctrl+Shift+Enter拆除整个房间的地板。Home回到选中的模拟市民，Escape退出光标。"},
+    // Floor cursor (price)
+    {Str::FloorStyle, "%1$s，每格%2$s"},
+    {Str::FloorTiles, "%d格"},
 };
 
 }  // namespace

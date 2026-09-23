@@ -39,6 +39,7 @@ constexpr int kFreeLookTiles = 64;       // free space is counted to the wall or
 
 struct State {
     bool active = false;
+    bool floors = false;     // the floor tool: the cursor is on tiles, not corners
     Corner cursor;
     bool hasStart = false;
     Corner start;
@@ -65,8 +66,9 @@ int Size() { return game::GridSize(); }
 Corner Clamp(Corner c) {
     int n = Size();
     // Walls stay off the lot's outer border (the tool refuses the first and last tiles).
-    c.x = std::clamp(c.x, 1, n - 1);
-    c.y = std::clamp(c.y, 1, n - 1);
+    int last = g.floors ? n - 2 : n - 1;  // tiles stop one before the last corner
+    c.x = std::clamp(c.x, 1, last);
+    c.y = std::clamp(c.y, 1, last);
     return c;
 }
 
@@ -113,7 +115,8 @@ std::string RoomName(Tile t) {
     int room = game::RoomAt(g.level, t.x, t.y);
     std::string name = rooms::NameOf(g.rooms, room);
     game::Room info;
-    if (name.empty() || !game::GetRoom(room, &info)) return name;
+    if (!game::GetRoom(room, &info)) return name;
+    if (name.empty()) return info.outside ? S(Str::RoomOutside) : util::Format(S(Str::RoomEmpty), info.tiles);
     return util::Format(S(Str::BuildRoomSize), name.c_str(), info.tiles);
 }
 
@@ -152,7 +155,19 @@ std::string Offset(Corner from, Corner to) {
 }
 
 // What Enter would build from the start, in words, with its cost.
+int Width(Corner a, Corner b) { return std::abs(b.x - a.x) + 1; }
+int Depth(Corner a, Corner b) { return std::abs(b.y - a.y) + 1; }
+
+std::string FloorPlanLine() {
+    if (!g.hasStart) return "";
+    int w = Width(g.start, g.cursor), h = Depth(g.start, g.cursor);
+    std::string from = g.start == g.cursor ? std::string(S(Str::BuildAtStart))
+                                           : util::Format(S(Str::BuildFromStart), Offset(g.start, g.cursor).c_str());
+    return from + ". " + util::Format(S(Str::FloorPlan), w, h, w * h, Money(w * h * g.price).c_str());
+}
+
 std::string PlanLine() {
+    if (g.floors) return FloorPlanLine();
     if (!g.hasStart) return "";
     Shape shape = ShapeOf(g.start, g.cursor);
     int w = std::abs(g.cursor.x - g.start.x), h = std::abs(g.cursor.y - g.start.y);
@@ -175,8 +190,12 @@ Tile TileSE(Corner c) { return Tile{c.x, c.y}; }
 std::string ShortLine() {
     std::string line = util::Format(S(Str::BuildCorner), g.cursor.x, g.cursor.y);
     if (!game::CornerBuildable(g.cursor)) line += ", " + std::string(S(Str::BuildNotBuildableHere));
-    std::vector<Str> walls = WallsAtCorner(g.cursor);
-    if (!walls.empty()) line += ", " + util::Format(S(Str::BuildWallsHere), JoinDirections(walls).c_str());
+    if (g.floors) {
+        line += ", " + std::string(S(game::HasFloor(g.level, g.cursor.x, g.cursor.y) ? Str::FloorHere : Str::FloorNone));
+    } else {
+        std::vector<Str> walls = WallsAtCorner(g.cursor);
+        if (!walls.empty()) line += ", " + util::Format(S(Str::BuildWallsHere), JoinDirections(walls).c_str());
+    }
     std::string object = ObjectOn(TileSE(g.cursor));
     if (!object.empty()) line += ", " + object;
     std::string plan = PlanLine();
@@ -192,7 +211,8 @@ std::vector<std::string> FullLines() {
     if (!room.empty()) lines.push_back(room);
     lines.push_back(util::Format(S(Str::BuildFreeSpace), FreeTiles(t, 6), FreeTiles(t, 4), FreeTiles(t, 2), FreeTiles(t, 0)));
     if (g.hasStart) lines.push_back(util::Format(S(Str::BuildStartAt), g.start.x, g.start.y));
-    if (!g.style.empty()) lines.push_back(util::Format(S(Str::BuildStyle), g.style.c_str(), Money(g.price).c_str()));
+    if (!g.style.empty())
+        lines.push_back(util::Format(S(g.floors ? Str::FloorStyle : Str::BuildStyle), g.style.c_str(), Money(g.price).c_str()));
     return lines;
 }
 
@@ -316,6 +336,8 @@ void Reset() { g = State{}; }
 
 bool Active() { return g.active; }
 
+bool FloorCursor() { return g.active && g.floors; }
+
 bool Begin(uintptr_t productButton) {
     if (!LotViewActive()) return false;
     g.pressed = productButton;
@@ -327,8 +349,13 @@ namespace {
 
 constexpr ULONGLONG kSettleMs = 250, kGiveUpMs = 1500;
 
+bool ToolActive() { return g.floors ? game::FloorToolActive() : game::WallToolActive(); }
+
 bool Start(uintptr_t productButton) {
-    if (!LotViewActive() || !game::WallToolActive()) return false;
+    if (!LotViewActive() || (!game::WallToolActive() && !game::FloorToolActive())) return false;
+    bool floors = game::FloorToolActive();
+    if (g.active && floors != g.floors) g.active = false;  // another tool: start afresh
+    g.floors = floors;
     game::ProductInfo p;
     if (productButton && game::ReadProductOfButton(productButton, &p)) {
         g.price = p.price;
@@ -346,7 +373,7 @@ bool Start(uintptr_t productButton) {
     }
     std::vector<std::string> lines = FullLines();
     buffers::SetDetails(lines);
-    speech::Say(util::Format(S(Str::BuildCursorStart), g.style.c_str()) + " " + ShortLine());
+    speech::Say(util::Format(S(g.floors ? Str::FloorCursorStart : Str::BuildCursorStart), g.style.c_str()) + " " + ShortLine());
     return true;
 }
 
@@ -358,7 +385,7 @@ void Tick() {
         if (waited >= kSettleMs && (Start(g.pressed) || waited > kGiveUpMs)) g.pressed = 0;
     }
     if (!g.active) return;
-    if (!LotViewActive() || !game::WallToolActive()) {
+    if (!LotViewActive() || !ToolActive()) {
         Log("build: cursor ended (tool or view changed)");
         g.active = false;
         g.hasStart = false;
@@ -388,7 +415,55 @@ void MarkStart() {
     speech::Say(util::Format(S(Str::BuildStartMarked), g.start.x, g.start.y));
 }
 
+namespace {
+
+void DrawFloorAndSay(Corner a, Corner b, game::FloorMode mode, const std::string& what) {
+    g.pending = false;
+    int tiles = 0;
+    int error = game::DrawFloor(a, b, mode, &tiles);
+    if (error == game::kNothingBuilt) {
+        bool outside = !game::CornerBuildable(a) || !game::CornerBuildable(b);
+        speech::Say(S(outside ? Str::BuildOutsideArea : Str::FloorNothing));
+        return;
+    }
+    if (error < 0) {
+        speech::Say(S(Str::BuildFailed));
+        return;
+    }
+    if (error > 0) {
+        std::string reason = game::PlacementErrorText(error);
+        speech::Say(reason.empty() ? std::string(S(Str::BuildFailed)) : reason);
+        return;
+    }
+    // Floors show no price tooltip: their cost is the tiles laid at the style's price.
+    int cost = game::LastDrawCost();
+    bool laying = mode == game::FloorMode::Area || mode == game::FloorMode::FillRoom;
+    if (cost <= 0 && laying) cost = tiles * g.price;
+    std::string line = what;
+    if (mode == game::FloorMode::FillRoom || mode == game::FloorMode::ClearRoom)
+        line += ", " + util::Format(S(Str::FloorTiles), tiles);
+    buffers::Event(cost > 0 ? line + ". " + util::Format(S(Str::BuildCostWas), Money(cost).c_str()) : line);
+}
+
+void BuildFloor(bool room, bool remove) {
+    if (room) {  // the room under the cursor: no start needed
+        DrawFloorAndSay(g.cursor, g.cursor, remove ? game::FloorMode::ClearRoom : game::FloorMode::FillRoom,
+                        S(remove ? Str::FloorRoomCleared : Str::FloorRoomLaid));
+        return;
+    }
+    Corner a = g.hasStart ? g.start : g.cursor, b = g.cursor;
+    int tiles = Width(a, b) * Depth(a, b);
+    DrawFloorAndSay(a, b, remove ? game::FloorMode::Remove : game::FloorMode::Area,
+                    util::Format(S(remove ? Str::FloorRemoved : Str::FloorLaid), tiles));
+}
+
+}  // namespace
+
 void Build(bool room, bool remove) {
+    if (g.floors) {
+        BuildFloor(room, remove);
+        return;
+    }
     if (!g.hasStart) {
         speech::Say(S(Str::BuildNoStart));
         return;
@@ -425,12 +500,20 @@ void Build(bool room, bool remove) {
 }
 
 void NextPreset(int delta) {
+    if (g.floors) {
+        speech::Say(S(Str::FloorNoPresets));
+        return;
+    }
     g.preset = std::clamp(g.preset + delta, 0, kPresetCount - 1);
     const Preset& p = kPresets[g.preset];
     speech::Say(util::Format(S(Str::BuildPreset), p.w, p.h, p.w * p.h, Money(2 * (p.w + p.h) * g.price).c_str()));
 }
 
 void BuildPreset() {
+    if (g.floors) {
+        speech::Say(S(Str::FloorNoPresets));
+        return;
+    }
     const Preset& p = kPresets[g.preset];
     Corner b = Clamp({g.cursor.x + p.w, g.cursor.y + p.h});
     if (b.x - g.cursor.x != p.w || b.y - g.cursor.y != p.h) {

@@ -562,6 +562,26 @@ const Translation kEntries[] = {
     // Doors and windows
     {Str::DoorInWall, "i väggen i %1$s i %2$s, leder till %3$s"},
     {Str::DoorFirst, "rummets första dörr"},
+    // Floor cursor
+    {Str::FloorHere, "golv"},
+    {Str::FloorNone, "inget golv"},
+    {Str::FloorPlan, "Enter lägger golv på %1$d gånger %2$d, %3$d rutor, %4$s"},
+    {Str::FloorCursorStart, "Golvmarkör, %s. Kontroll+F1 säger tangenterna."},
+    {Str::FloorNothing, "inget ändrades där"},
+    {Str::FloorRoomCleared, "golv borttaget från hela rummet"},
+    {Str::FloorRoomLaid, "golv lagt i hela rummet"},
+    {Str::FloorRemoved, "golv borttaget, %d rutor"},
+    {Str::FloorLaid, "golv lagt, %d rutor"},
+    {Str::FloorNoPresets, "färdiga rum hör till väggverktyget"},
+    {Str::KeysFloorCursor,
+     "Piltangenterna flyttar markören en ruta, med Skift fem; varje ruta säger om den har golv och vad som står "
+     "där, R säger allt. Enter lägger golv på rutan vid markören; med en start markerad med Mellanslag på hela "
+     "rektangeln från starten till markören, vars storlek och pris markören säger medan den flyttas. Skift+Enter "
+     "lägger golv i hela rummet vid markören. Kontroll+Enter tar bort golv, Kontroll+Skift+Enter från hela "
+     "rummet. Home går tillbaka till den valda simmen, Escape lämnar markören."},
+    // Floor cursor (price)
+    {Str::FloorStyle, "%1$s, %2$s per ruta"},
+    {Str::FloorTiles, "%d rutor"},
 };
 
 }  // namespace

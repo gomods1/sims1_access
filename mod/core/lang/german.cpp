@@ -572,6 +572,26 @@ const Translation kEntries[] = {
     // Doors and windows
     {Str::DoorInWall, "in der Wand im %1$s von %2$s, führt zu %3$s"},
     {Str::DoorFirst, "die erste Tür dieses Raums"},
+    // Floor cursor
+    {Str::FloorHere, "Boden"},
+    {Str::FloorNone, "kein Boden"},
+    {Str::FloorPlan, "Eingabe legt Boden auf %1$d mal %2$d, %3$d Felder, %4$s"},
+    {Str::FloorCursorStart, "Bodencursor, %s. Strg+F1 nennt die Tasten."},
+    {Str::FloorNothing, "dort hat sich nichts geändert"},
+    {Str::FloorRoomCleared, "Boden aus dem ganzen Raum entfernt"},
+    {Str::FloorRoomLaid, "Boden im ganzen Raum verlegt"},
+    {Str::FloorRemoved, "Boden entfernt, %d Felder"},
+    {Str::FloorLaid, "Boden verlegt, %d Felder"},
+    {Str::FloorNoPresets, "fertige Räume gibt es beim Wandwerkzeug"},
+    {Str::KeysFloorCursor,
+     "Die Pfeiltasten bewegen den Cursor um ein Feld, mit Umschalt um fünf; jedes Feld sagt, ob es Boden hat und "
+     "was dort steht, R sagt alles. Eingabe legt Boden auf das Feld am Cursor; mit einem mit Leertaste "
+     "markierten Start auf das ganze Rechteck vom Start zum Cursor, dessen Größe und Preis der Cursor beim "
+     "Bewegen sagt. Umschalt+Eingabe legt Boden im ganzen Raum am Cursor. Strg+Eingabe entfernt Boden, "
+     "Strg+Umschalt+Eingabe aus dem ganzen Raum. Pos1 springt zum ausgewählten Sim, Escape verlässt den Cursor."},
+    // Floor cursor (price)
+    {Str::FloorStyle, "%1$s, %2$s pro Feld"},
+    {Str::FloorTiles, "%d Felder"},
 };
 
 }  // namespace

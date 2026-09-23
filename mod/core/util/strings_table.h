@@ -555,4 +555,25 @@
     X(BuildTrapsSims, "it would shut in: %s")                                                                        \
     /* Doors and windows */                                                                                          \
     X(DoorInWall, "in the %1$s wall of %2$s, opening onto %3$s")                                                     \
-    X(DoorFirst, "the first door of that room")
+    X(DoorFirst, "the first door of that room")                                                                      \
+    /* Floor cursor */                                                                                               \
+    X(FloorHere, "floor")                                                                                            \
+    X(FloorNone, "no floor")                                                                                         \
+    X(FloorPlan, "Enter floors %1$d by %2$d, %3$d tiles, %4$s")                                                      \
+    X(FloorCursorStart, "Floor cursor, %s. Control+F1 says the keys.")                                               \
+    X(FloorNothing, "nothing changed there")                                                                         \
+    X(FloorRoomCleared, "floor taken off the whole room")                                                            \
+    X(FloorRoomLaid, "floor laid in the whole room")                                                                 \
+    X(FloorRemoved, "floor removed, %d tiles")                                                                       \
+    X(FloorLaid, "floor laid, %d tiles")                                                                             \
+    X(FloorNoPresets, "ready-made rooms are for the wall tool")                                                      \
+    X(KeysFloorCursor,                                                                                               \
+      "Arrows move the cursor one tile, with Shift five; each tile says whether it has floor and what "              \
+      "stands there, R says everything. Enter floors the tile under the cursor; with a start marked by "             \
+      "Space, the whole rectangle from the start to the cursor, whose size and price the cursor says as it "         \
+      "moves. Shift+Enter floors the whole room under the cursor. Control+Enter removes floor, "                     \
+      "Control+Shift+Enter from the whole room. Home goes back to the selected Sim, Escape leaves the "              \
+      "cursor.")                                                                                                     \
+    /* Floor cursor (price) */                                                                                       \
+    X(FloorStyle, "%1$s, %2$s per tile")                                                                             \
+    X(FloorTiles, "%d tiles")

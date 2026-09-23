@@ -16,6 +16,7 @@ struct Corner {
 };
 
 bool WallToolActive();  // the current tool is the wall and fence tool
+bool FloorToolActive(); // the current tool is the floor tool
 
 enum class WallMode {
     Line,    // a wall from one corner to the other (straight or diagonal), as a plain drag
@@ -28,6 +29,16 @@ enum class WallMode {
 // kNothingBuilt: the tool took the drag but made nothing of it, without a message.
 constexpr int kNothingBuilt = -2;
 int DrawWalls(Corner from, Corner to, WallMode mode);
+
+enum class FloorMode {
+    Area,        // the rectangle of tiles between the two
+    Remove,      // take the floor off that rectangle (Ctrl)
+    FillRoom,    // the whole room of the first tile (Shift)
+    ClearRoom,   // take the floor off the whole room (Shift+Ctrl)
+};
+// Floors tiles (x, y = tile coordinates) on the current floor; results as DrawWalls.
+// tilesChanged: how many tiles the game's session held (0 when it made nothing).
+int DrawFloor(Corner fromTile, Corner toTile, FloorMode mode, int* tilesChanged = nullptr);
 
 // The lot's buildable area: the engine's tile flag 0x20 marks tiles outside it (0x58a660).
 bool CornerBuildable(Corner c);

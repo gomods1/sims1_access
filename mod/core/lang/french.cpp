@@ -577,6 +577,26 @@ const Translation kEntries[] = {
     // Doors and windows
     {Str::DoorInWall, "dans le mur %1$s de %2$s, donne sur %3$s"},
     {Str::DoorFirst, "la première porte de cette pièce"},
+    // Floor cursor
+    {Str::FloorHere, "sol"},
+    {Str::FloorNone, "pas de sol"},
+    {Str::FloorPlan, "Entrée pose le sol sur %1$d sur %2$d, %3$d cases, %4$s"},
+    {Str::FloorCursorStart, "Curseur de sol, %s. Contrôle+F1 donne les touches."},
+    {Str::FloorNothing, "rien n'a changé ici"},
+    {Str::FloorRoomCleared, "sol retiré de toute la pièce"},
+    {Str::FloorRoomLaid, "sol posé dans toute la pièce"},
+    {Str::FloorRemoved, "sol retiré, %d cases"},
+    {Str::FloorLaid, "sol posé, %d cases"},
+    {Str::FloorNoPresets, "les pièces toutes faites sont pour l'outil mur"},
+    {Str::KeysFloorCursor,
+     "Les flèches déplacent le curseur d'une case, avec Maj de cinq ; chaque case dit si elle a un sol et ce qui "
+     "s'y trouve, R dit tout. Entrée pose le sol sous le curseur ; avec un départ marqué par Espace, sur tout le "
+     "rectangle du départ au curseur, dont le curseur dit la taille et le prix en bougeant. Maj+Entrée pose le "
+     "sol dans toute la pièce du curseur. Contrôle+Entrée retire le sol, Contrôle+Maj+Entrée de toute la pièce. "
+     "Début revient au Sim sélectionné, Échap quitte le curseur."},
+    // Floor cursor (price)
+    {Str::FloorStyle, "%1$s, %2$s par case"},
+    {Str::FloorTiles, "%d cases"},
 };
 
 }  // namespace

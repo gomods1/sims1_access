@@ -505,6 +505,24 @@ const Translation kEntries[] = {
     // Doors and windows
     {Str::DoorInWall, "%2$s의 %1$s 벽, %3$s(으)로 통함"},
     {Str::DoorFirst, "그 방의 첫 번째 문"},
+    // Floor cursor
+    {Str::FloorHere, "바닥 있음"},
+    {Str::FloorNone, "바닥 없음"},
+    {Str::FloorPlan, "Enter로 %1$d×%2$d, %3$d칸에 바닥을 깝니다, %4$s"},
+    {Str::FloorCursorStart, "바닥 커서, %s. 컨트롤+F1로 키를 읽습니다."},
+    {Str::FloorNothing, "거기는 바뀐 것이 없습니다"},
+    {Str::FloorRoomCleared, "방 전체의 바닥을 걷어냈습니다"},
+    {Str::FloorRoomLaid, "방 전체에 바닥을 깔았습니다"},
+    {Str::FloorRemoved, "바닥을 걷어냈습니다, %d칸"},
+    {Str::FloorLaid, "바닥을 깔았습니다, %d칸"},
+    {Str::FloorNoPresets, "준비된 방은 벽 도구용입니다"},
+    {Str::KeysFloorCursor,
+     "화살표로 커서를 한 칸, Shift와 함께 다섯 칸 옮깁니다. 각 칸은 바닥이 있는지와 놓인 물건을 읽고, R은 모두 읽습니다. Enter는 커서 칸에 바닥을 깝니다. 스페이스로 시작점을 "
+     "표시하면 시작점에서 커서까지 사각형 전체에 깔고, 움직일 때 크기와 가격을 읽습니다. Shift+Enter는 커서가 있는 방 전체에 바닥을 깝니다. 컨트롤+Enter는 바닥을 걷어내고, "
+     "컨트롤+Shift+Enter는 방 전체에서 걷어냅니다. Home은 선택한 심으로 돌아가고 Escape는 커서를 끝냅니다."},
+    // Floor cursor (price)
+    {Str::FloorStyle, "%1$s, 칸당 %2$s"},
+    {Str::FloorTiles, "%d칸"},
 };
 
 }  // namespace
