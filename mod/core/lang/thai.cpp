@@ -750,6 +750,8 @@ const Translation kEntries[] = {
     {Str::ScreenMagicTown, "เมจิคทาวน์ ไปไหนดี?"},
     // Sounds
     {Str::SoundTaxi, "แท็กซี่บีบแตร"},
+    // Travel maps
+    {Str::ScreenVacation, "เกาะวันหยุดพักผ่อน ไปไหนดี?"},
 };
 
 }  // namespace

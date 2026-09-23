@@ -495,6 +495,11 @@ constexpr int kMagicFilters = 0x15c;
 constexpr int kMagicFilterCount = 7;
 constexpr int kMagicFilter = 0x17c;
 constexpr int kMagicBits[] = {0x1000, 0x20, 8, 4, 2, 0x40, 0x800};
+// cWinVacation (Vacation Island's map): seven filter buttons at +0x140, the chosen filter at
+// +0x160 (0x4f3f20 -> 0x4f2e00), Old Town's bits.
+constexpr int kVacationFilters = 0x140;
+constexpr int kVacationFilterCount = 7;
+constexpr int kVacationFilter = 0x160;
 }  // namespace travelmap
 
 // ---- cPickFamilyItem (family picker row) / cPickFamilyItemMember (portrait) ---------------

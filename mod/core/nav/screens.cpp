@@ -48,7 +48,8 @@ constexpr size_t kMaxTitleLength = 40;  // longer text is a message, not a title
 std::string ScreenName(Ptr root) {
     if (game::TravelMap(root) == root && root)
         return S(game::IsStudioTown(root) ? Str::ScreenStudioTown
-                 : game::IsKindOf(root, "cWinMagicland") ? Str::ScreenMagicTown : Str::ScreenOldTown);
+                 : game::IsKindOf(root, "cWinMagicland") ? Str::ScreenMagicTown
+                 : game::IsKindOf(root, "cWinVacation") ? Str::ScreenVacation : Str::ScreenOldTown);
     if (game::IsKindOf(root, "cWinNeighborhood")) {
         std::string number = util::ReadGameSetting("SIMS_CURRENT_NEIGHBORHOOD_NUM");
         if (!number.empty()) return util::Format(S(Str::ScreenNeighborhoodNumber), number.c_str());

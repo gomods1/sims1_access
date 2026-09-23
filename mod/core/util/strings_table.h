@@ -757,4 +757,6 @@
     X(ScreenStudioTown, "Studio Town, where to?")                                                                    \
     X(ScreenMagicTown, "Magic Town, where to?")                                                                      \
     /* Sounds */                                                                                                     \
-    X(SoundTaxi, "the taxi is honking")
+    X(SoundTaxi, "the taxi is honking")                                                                              \
+    /* Travel maps */                                                                                                \
+    X(ScreenVacation, "Vacation Island, where to?")

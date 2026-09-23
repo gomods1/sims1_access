@@ -776,6 +776,8 @@ const Translation kEntries[] = {
     {Str::ScreenMagicTown, "Stadt der Magie, wohin?"},
     // Sounds
     {Str::SoundTaxi, "das Taxi hupt"},
+    // Travel maps
+    {Str::ScreenVacation, "Vacation Island, wohin?"},
 };
 
 }  // namespace
