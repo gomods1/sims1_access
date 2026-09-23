@@ -110,13 +110,13 @@ bool BuildCursorKey(WPARAM vk, bool shift, bool ctrl) {
     case VK_SPACE: g_swallowChar = ' '; b::MarkStart(); return true;
     case VK_RETURN: g_swallowChar = ctrl ? 0x0a : 0x0d; b::Build(shift, ctrl); return true;
     case VK_DELETE: b::Build(false, true); return true;
-    case VK_NEXT: b::NextPreset(+1); return true;
-    case VK_PRIOR: b::NextPreset(-1); return true;
+    case VK_NEXT: if (shift) b::ChangeFloor(-1); else if (ctrl) b::NextRoom(+1); else b::NextPreset(+1); return true;
+    case VK_PRIOR: if (shift) b::ChangeFloor(+1); else if (ctrl) b::NextRoom(-1); else b::NextPreset(-1); return true;
     case VK_INSERT: b::BuildPreset(); return true;
     case VK_HOME: b::Home(); return true;
     case 'R': if (ctrl) return false; g_swallowChar = 'r'; b::Repeat(); return true;
     case VK_ESCAPE: g_swallowChar = 0x1b; b::End(); return true;
-    case VK_F1: if (!ctrl) return false; speech::Say(std::string(S(b::TerrainCursor() ? Str::KeysTerrainCursor : b::PoolCursor() ? Str::KeysPoolCursor : b::PaperCursor() ? Str::KeysPaperCursor : b::FloorCursor() ? Str::KeysFloorCursor : Str::KeysBuildCursor)) + " " + S(Str::KeysLayoutHint)); return true;
+    case VK_F1: if (!ctrl) return false; speech::Say(std::string(S(b::TerrainCursor() ? Str::KeysTerrainCursor : b::PoolCursor() ? Str::KeysPoolCursor : b::PaperCursor() ? Str::KeysPaperCursor : b::FloorCursor() ? Str::KeysFloorCursor : Str::KeysBuildCursor)) + " " + S(Str::KeysRoomJump) + " " + S(Str::KeysFloorChange) + " " + S(Str::KeysLayoutHint)); return true;
     case VK_TAB: b::End(); return false;  // back to the panel: Tab moves there as usual
     }
     return false;
@@ -229,7 +229,10 @@ bool Dispatch(WPARAM vk, bool shift, bool ctrl) {
             uintptr_t pressed = nav::FocusedWidget();
             bool product = pressed && game::IsProductButton(pressed);
             nav::Activate();
-            if (product) nav::build::Begin(pressed);  // a wall or fence style: the build cursor
+            if (product) {
+                nav::buy::Renew();
+                nav::build::Begin(pressed);  // a wall or fence style: the build cursor
+            }
         }
         return true;
     case VK_DELETE:  // the game sells a held object too, but says nothing

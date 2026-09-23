@@ -203,8 +203,14 @@ for a second Enter. A new room without a door is said, not asked about. Still to
   Terrain (done, verified: the level tool flattens the rectangle from the start to the cursor,
   raise/lower press once at the cursor; every tile cursor says "inclinado" on sloped tiles and
   the terrain cursor the height, from the terrain map, world + 0x14). Roofs are visual only: left out unless they turn
-  out to matter (e.g. for the house's ratings). Stairs, fireplaces and plants are objects of the
-  spot list (not checked), upper floors untested.
+  out to matter (e.g. for the house's ratings). Stairs (verified 2026-09-23): the spot list says
+  which way they climb, the bottom tile and the upper floor tile they reach; they need a floor on
+  the story above first (without one every tile is refused). Upper floors (verified): the cursor
+  starts with its floor ("piso 2"; choosing a tool puts the view back on floor 1),
+  Shift+PageUp/PageDown change floor through the game's floor buttons, every tile upstairs says
+  what is below ("encima de cocina", "debajo no hay nada construido"), Ctrl+PageDown/PageUp jump
+  to the rooms (upstairs: the rooms below); walls across a staircase warn "cierra la escalera".
+  Fireplaces and plants are objects of the spot list (not checked).
   (the same cursor, rectangles of tiles), wallpaper (by room and wall), stairs, terrain, water,
   pools, roofs, second floors; fences that are objects (some expansion fences use the buy tool);
   diagonal walls are drawn but not checked. Earlier plan:

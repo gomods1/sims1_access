@@ -710,6 +710,23 @@ const Translation kEntries[] = {
     {Str::GroupPetSkills, "Kæledyrsfærdigheder"},
     // Transformation (Makin Magic)
     {Str::TransformLook, "udseende %d af %d"},
+    // Build cursor: floors and rooms
+    {Str::BuildAbove, "over %s"},
+    {Str::BuildAboveNothing, "intet bygget nedenunder"},
+    {Str::BuildNoRooms, "endnu ingen rum på denne etage eller nedenunder"},
+    {Str::BuildRoomJump, "%s, %d gange %d, i det nordvestlige hjørne"},
+    {Str::KeysRoomJump,
+     "Ctrl+Page Down og Ctrl+Page Up springer til næste eller forrige rum, i det nordvestlige hjørne; på en øvre "
+     "etage til rummene nedenunder."},
+    // Stairs
+    {Str::StairsClimb, "går op mod %s"},
+    {Str::StairsTop, "når etagen ovenover ved felt %d, %d"},
+    // Build warnings
+    {Str::BuildBlocksStairs, "spærrer trappen"},
+    // Build cursor: floors and rooms
+    {Str::KeysFloorChange,
+     "Shift+Page Up og Shift+Page Down går til etagen over eller under; når du vælger et værktøj, kommer du "
+     "tilbage til stueetagen."},
 };
 
 }  // namespace

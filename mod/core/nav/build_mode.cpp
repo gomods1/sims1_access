@@ -3,6 +3,7 @@
 #include <windows.h>
 
 #include <algorithm>
+#include <map>
 #include <cstdlib>
 #include <string>
 #include <vector>
@@ -12,6 +13,8 @@
 #include "../game/lot.h"
 #include "../game/lotgrid.h"
 #include "../game/rooms.h"
+#include "../game/ui.h"
+#include "../game/view_control.h"
 #include "../speech/speech.h"
 #include "../util/log.h"
 #include "../util/strings.h"
@@ -50,6 +53,8 @@ struct State {
     int price = 0;           // of the chosen style, per wall segment
     std::string style;       // its name
     int preset = 2;
+    int roomIndex = -1;      // Ctrl+PageDown / Ctrl+PageUp: the room the cursor last jumped to
+    ULONGLONG levelSetAt = 0;  // Shift+PageUp/Down pressed a floor button: the game follows later
     // A build that was warned about: the same one again within kConfirmMs goes ahead.
     bool pending = false;
     Corner pendingFrom, pendingTo;
@@ -114,13 +119,25 @@ int FreeTiles(Tile t, int direction) {
     return n + 1;  // the tile itself counts
 }
 
-std::string RoomName(Tile t) {
-    int room = game::RoomAt(g.level, t.x, t.y);
+std::string RoomNameAt(int level, Tile t) {
+    int room = game::RoomAt(level, t.x, t.y);
     std::string name = rooms::NameOf(g.rooms, room);
     game::Room info;
     if (!game::GetRoom(room, &info)) return name;
     if (name.empty()) return info.outside ? S(Str::RoomOutside) : util::Format(S(Str::RoomEmpty), game::RoomTileCount(room));
     return util::Format(S(Str::BuildRoomSize), name.c_str(), info.tiles);
+}
+
+std::string RoomName(Tile t) { return RoomNameAt(g.level, t); }
+
+// On an upper floor: what the tile stands over ("encima de cocina, 20 casillas"), since walls and
+// floors up there need walls below to hold them.
+std::string BelowLine(Tile t) {
+    if (g.level <= 1) return "";
+    int room = game::RoomAt(g.level - 1, t.x, t.y);
+    game::Room info;
+    if (room == game::kNoRoom || (game::GetRoom(room, &info) && info.outside)) return S(Str::BuildAboveNothing);
+    return util::Format(S(Str::BuildAbove), RoomNameAt(g.level - 1, t).c_str());
 }
 
 std::string ObjectOn(Tile t) {
@@ -224,6 +241,8 @@ std::string ShortLine() {
     }
     std::string object = ObjectOn(TileSE(g.cursor));
     if (!object.empty()) line += ", " + object;
+    std::string below = BelowLine(TileSE(g.cursor));
+    if (!below.empty()) line += ", " + below;
     std::string plan = PlanLine();
     if (!plan.empty()) line += ". " + plan;
     return line;
@@ -284,7 +303,8 @@ std::string Warning(const std::vector<placement::WallEdgeAdd>& edges, bool room)
         parts.push_back(util::Format(S(Str::BuildTrapsSims), names.c_str()));
     }
     if (c.doorsBlocked) parts.push_back(S(Str::BuildBlocksDoor));
-    if (c.cutOffTiles && c.blockedObjects.empty() && !c.doorsBlocked && c.trappedSims.empty())
+    if (c.stairsBlocked) parts.push_back(S(Str::BuildBlocksStairs));
+    if (c.cutOffTiles && c.blockedObjects.empty() && !c.doorsBlocked && !c.stairsBlocked && c.trappedSims.empty())
         parts.push_back(util::Format(S(room ? Str::BuildRoomNeedsDoor : Str::BuildCutsOff), c.cutOffTiles));
     else if (c.cutOffTiles)
         parts.push_back(util::Format(S(Str::BuildCutsOff), c.cutOffTiles));
@@ -344,7 +364,7 @@ void BuildRoom(Corner a, Corner b) {
     bool onlyNoDoor = false;
     {
         placement::WallCheck c = placement::CheckNewWalls(g.level, RoomEdges(a, b));
-        onlyNoDoor = c.blockedObjects.empty() && !c.doorsBlocked && c.trappedSims.empty();
+        onlyNoDoor = c.blockedObjects.empty() && !c.doorsBlocked && !c.stairsBlocked && c.trappedSims.empty();
     }
     // An empty new room without a door is expected: said after building, not asked about.
     if (!warning.empty() && !onlyNoDoor && !Confirmed(a, b, 1)) {
@@ -426,7 +446,9 @@ bool Start(uintptr_t productButton) {
     buffers::SetDetails(lines);
     Str start = g.terrain ? Str::TerrainCursorStart : g.pool ? Str::PoolCursorStart : g.paper ? Str::PaperCursorStart
               : g.floors ? Str::FloorCursorStart : Str::BuildCursorStart;
-    speech::Say(util::Format(S(start), g.style.c_str()) + " " + ShortLine());
+    // The floor it works on: choosing a tool puts the view back on the first floor.
+    speech::Say(util::Format(S(start), g.style.c_str()) + " " + util::Format(S(Str::FloorNumber), g.level) + ". " +
+                ShortLine());
     return true;
 }
 
@@ -438,6 +460,8 @@ void Tick() {
         if (waited >= kSettleMs && (Start(g.pressed) || waited > kGiveUpMs)) g.pressed = 0;
     }
     if (!g.active) return;
+    // The floor buttons (the player's, or Shift+PageUp) change the floor the tool works on.
+    if (GetTickCount64() - g.levelSetAt > 1000) g.level = game::HeldLevel();
     if (!LotViewActive() || !ToolActive()) {
         Log("build: cursor ended (tool or view changed)");
         g.active = false;
@@ -572,6 +596,7 @@ void BuildPool(bool remove) {
         if (!c.blockedObjects.empty()) parts.push_back(util::Format(S(Str::BuildBlocksObjects), names(c.blockedObjects).c_str()));
         if (!c.trappedSims.empty()) parts.push_back(util::Format(S(Str::BuildTrapsSims), names(c.trappedSims).c_str()));
         if (c.doorsBlocked) parts.push_back(S(Str::BuildBlocksDoor));
+        if (c.stairsBlocked) parts.push_back(S(Str::BuildBlocksStairs));
         if (c.cutOffTiles) parts.push_back(util::Format(S(Str::BuildCutsOff), c.cutOffTiles));
         std::string warning;
         for (const std::string& p : parts) warning += (warning.empty() ? "" : ". ") + p;
@@ -704,6 +729,73 @@ void BuildPreset() {
         return;
     }
     BuildRoom(g.cursor, b);
+}
+
+// Shift+PageUp / Shift+PageDown: the floor above or below, through the game's own floor buttons
+// (choosing a tool puts the view back on the first floor).
+void ChangeFloor(int delta) {
+    int want = g.level + delta;
+    game::Ptr vc = game::FindViewControl(game::InputRoot());
+    game::Ptr button = vc ? game::FloorButton(vc, want) : 0;
+    if (!button) {
+        speech::Say(util::Format(S(Str::FloorNumber), g.level));
+        return;
+    }
+    game::Press(button);
+    game::Unhover(button);
+    g.level = want;  // the game applies the press a moment later (Tick keeps g.level in step)
+    g.levelSetAt = GetTickCount64();
+    g.hasStart = false;
+    g.rooms = rooms::NameRooms(game::LotObjects());
+    std::vector<std::string> lines = FullLines();
+    buffers::SetDetails(lines);
+    speech::Say(util::Format(S(Str::FloorNumber), g.level) + ". " + ShortLine());
+}
+
+// Ctrl+PageDown / Ctrl+PageUp: the rooms of this floor (on an upper floor, of the floor below,
+// where its walls and floors go), by the engine's room order; the cursor goes to the room's
+// north-west corner.
+void NextRoom(int delta) {
+    int level = g.level;
+    int n = Size();
+    struct Box {
+        int room, x0, y0, x1, y1;
+    };
+    std::vector<Box> boxes;
+    for (int pass = 0; pass < 2 && boxes.empty(); pass++) {
+        level = pass == 0 && g.level > 1 ? g.level - 1 : g.level;
+        if (pass == 1 && level == (g.level > 1 ? g.level - 1 : g.level)) break;
+        std::map<int, Box> byRoom;
+        for (int y = 0; y < n; y++)
+            for (int x = 0; x < n; x++) {
+                int room = game::RoomAt(level, x, y);
+                game::Room info;
+                if (room == game::kNoRoom || !game::GetRoom(room, &info) || info.outside) continue;
+                auto it = byRoom.find(room);
+                if (it == byRoom.end()) byRoom[room] = Box{room, x, y, x, y};
+                else {
+                    Box& b = it->second;
+                    b.x0 = std::min(b.x0, x);
+                    b.y0 = std::min(b.y0, y);
+                    b.x1 = std::max(b.x1, x);
+                    b.y1 = std::max(b.y1, y);
+                }
+            }
+        for (auto& e : byRoom) boxes.push_back(e.second);
+    }
+    if (boxes.empty()) {
+        speech::Say(S(Str::BuildNoRooms));
+        return;
+    }
+    int count = (int)boxes.size();
+    g.roomIndex = g.roomIndex < 0 ? (delta > 0 ? 0 : count - 1) : ((g.roomIndex + delta) % count + count) % count;
+    const Box& b = boxes[g.roomIndex];
+    g.cursor = Clamp({b.x0, b.y0});
+    std::string line = util::Format(S(Str::BuildRoomJump), RoomNameAt(level, Tile{b.x0, b.y0}).c_str(),
+                                    b.x1 - b.x0 + 1, b.y1 - b.y0 + 1);
+    std::vector<std::string> lines = FullLines();
+    buffers::SetDetails(lines);
+    speech::Say(line + ". " + ShortLine());
 }
 
 void Home() {

@@ -179,6 +179,8 @@ void Reset() {
     g = State{};
 }
 
+void Renew() { g.session = 0; }
+
 bool Placing() { return game::IsPlacing() && game::HeldObject() != 0; }
 
 // The game makes a new held object whenever the real mouse enters the lot; the same product

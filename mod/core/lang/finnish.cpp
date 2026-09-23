@@ -718,6 +718,23 @@ const Translation kEntries[] = {
     {Str::GroupPetSkills, "Lemmikin taidot"},
     // Transformation (Makin Magic)
     {Str::TransformLook, "ulkonäkö %d, yhteensä %d"},
+    // Build cursor: floors and rooms
+    {Str::BuildAbove, "%s yläpuolella"},
+    {Str::BuildAboveNothing, "alla ei ole rakennettu mitään"},
+    {Str::BuildNoRooms, "tässä kerroksessa tai alla ei vielä ole huoneita"},
+    {Str::BuildRoomJump, "%s, %d kertaa %d, sen luoteiskulmassa"},
+    {Str::KeysRoomJump,
+     "Ctrl+Page Down ja Ctrl+Page Up hyppäävät seuraavaan tai edelliseen huoneeseen, sen luoteiskulmaan; "
+     "yläkerrassa alla oleviin huoneisiin."},
+    // Stairs
+    {Str::StairsClimb, "nousee %ssuuntaan"},
+    {Str::StairsTop, "päättyy yläkertaan ruutuun %d, %d"},
+    // Build warnings
+    {Str::BuildBlocksStairs, "katkaisee portaat"},
+    // Build cursor: floors and rooms
+    {Str::KeysFloorChange,
+     "Vaihto+Page Up ja Vaihto+Page Down siirtyvät ylempään tai alempaan kerrokseen; työkalun valinta palauttaa "
+     "ensimmäiseen kerrokseen."},
 };
 
 }  // namespace

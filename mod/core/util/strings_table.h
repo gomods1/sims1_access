@@ -2,7 +2,7 @@
 // X(Id, "English"), grouped by feature. A translation keeps the printf placeholders (it may
 // reorder them as %1$s, %2$d); tools/mod_strings.py checks that and lists missing translations.
 // The direction words (Dir*) are only ever inserted into TilesAway, OneTileAway, FacingDirection,
-// InCorner, AgainstWall, BesideWall and DoorInWall; a translation may store them in the form those need
+// InCorner, AgainstWall, BesideWall, DoorInWall and StairsClimb; a translation may store them in the form those need
 // (Finnish keeps compound stems), so never speak one on its own.
 #pragma once
 
@@ -708,4 +708,21 @@
     /* Pet skills */                                                                                                 \
     X(GroupPetSkills, "pet skills")                                                                                  \
     /* Transformation (Makin Magic) */                                                                               \
-    X(TransformLook, "look %d of %d")
+    X(TransformLook, "look %d of %d")                                                                                \
+    /* Build cursor: floors and rooms */                                                                             \
+    X(BuildAbove, "above %s")                                                                                        \
+    X(BuildAboveNothing, "nothing built below")                                                                      \
+    X(BuildNoRooms, "no rooms on this floor or below yet")                                                           \
+    X(BuildRoomJump, "%s, %d by %d, at its north-west corner")                                                       \
+    X(KeysRoomJump,                                                                                                  \
+      "Control+Page Down and Control+Page Up jump to the next or previous room, at its north-west corner; "          \
+      "on an upper floor, to the rooms below.")                                                                      \
+    /* Stairs */                                                                                                     \
+    X(StairsClimb, "climbs %s")                                                                                      \
+    X(StairsTop, "reaches the upper floor at tile %d, %d")                                                           \
+    /* Build warnings */                                                                                             \
+    X(BuildBlocksStairs, "cuts off the stairs")                                                                      \
+    /* Build cursor: floors and rooms */                                                                             \
+    X(KeysFloorChange,                                                                                               \
+      "Shift+Page Up and Shift+Page Down go to the floor above or below; choosing a tool puts you back on "          \
+      "the first floor.")

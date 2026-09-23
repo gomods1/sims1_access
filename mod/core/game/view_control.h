@@ -30,6 +30,7 @@ struct GameSpeed {
 };
 GameSpeed ReadGameSpeed(Ptr vc);
 Ptr PauseButton(Ptr vc);
+Ptr FloorButton(Ptr vc, int level);  // the build and buy view's floor buttons, level 1 or 2
 Ptr SpeedButton(Ptr vc, int level);
 bool IsSpeedButton(Ptr w);  // pause or a speed level
 

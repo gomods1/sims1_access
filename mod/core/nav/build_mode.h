@@ -41,6 +41,8 @@ void Build(bool room, bool remove);
 void NextPreset(int delta);
 void BuildPreset();
 void Home();
+void NextRoom(int delta);
+void ChangeFloor(int delta);  // Shift+PageUp / Shift+PageDown: the floor above or below  // Ctrl+PageDown / Ctrl+PageUp: the next room's north-west corner
 void Repeat();
 void End();             // Escape
 

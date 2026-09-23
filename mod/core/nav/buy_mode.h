@@ -21,6 +21,9 @@
 namespace nav::buy {
 
 void Reset();
+// A product was pressed: the next held object gets new spots even when it is the same product
+// (the lot may have changed since: a new upper floor makes room for stairs).
+void Renew();
 void Tick();        // follows the buy tool: placing starts and ends, the next one of a kind
 bool Placing();     // an object is being placed: the spot keys work
 

@@ -719,6 +719,23 @@ const Translation kEntries[] = {
     {Str::GroupPetSkills, "Habilidades dos Bichos"},
     // Transformation (Makin Magic)
     {Str::TransformLook, "aparência %d de %d"},
+    // Build cursor: floors and rooms
+    {Str::BuildAbove, "acima de %s"},
+    {Str::BuildAboveNothing, "nada construído embaixo"},
+    {Str::BuildNoRooms, "ainda não há cômodos neste andar nem abaixo"},
+    {Str::BuildRoomJump, "%s, %d por %d, no canto noroeste"},
+    {Str::KeysRoomJump,
+     "Control+Page Down e Control+Page Up pulam para o cômodo seguinte ou anterior, no canto noroeste; num andar "
+     "de cima, para os cômodos de baixo."},
+    // Stairs
+    {Str::StairsClimb, "sobe para o %s"},
+    {Str::StairsTop, "chega ao andar de cima no quadrado %d, %d"},
+    // Build warnings
+    {Str::BuildBlocksStairs, "bloqueia a escada"},
+    // Build cursor: floors and rooms
+    {Str::KeysFloorChange,
+     "Shift+Page Up e Shift+Page Down vão para o andar de cima ou de baixo; escolher uma ferramenta volta ao "
+     "primeiro andar."},
 };
 
 }  // namespace

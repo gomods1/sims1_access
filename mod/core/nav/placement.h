@@ -32,6 +32,10 @@ struct Spot {
     int roomHere = game::kNoRoom;    // the room of the tile it stands on
     int roomBehind = game::kNoRoom;  // the room on the other side of that wall
     bool firstDoor = false;          // one of the rooms has no door yet
+    // Stairs: the engine direction they climb (-1 unknown) and the upper floor tile they reach.
+    bool stairs = false;
+    int climb = -1;
+    game::Tile bottom, top;
 };
 
 struct Area {
@@ -74,6 +78,7 @@ struct WallCheck {
     std::vector<std::string> blockedObjects;
     int cutOffTiles = 0;
     int doorsBlocked = 0;  // walls across the tile in front of or behind a door
+    int stairsBlocked = 0; // the same across the way onto or off a staircase
     std::vector<std::string> trappedSims;  // Sims who could no longer get out to the lot's entrance
 };
 WallCheck CheckNewWalls(int level, const std::vector<WallEdgeAdd>& edges);

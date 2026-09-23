@@ -511,6 +511,8 @@ constexpr int kSpeedButtons = 0x17c;   // cTSWinBtn*[3]: normal, high, ultra; th
 constexpr int kSpeedLevels = 3;
 constexpr int kClock = 0x1cc;          // std::string: the time as drawn ("11:46")
 constexpr int kFriendsButton = 0x25c;  // cTSWinBtn*: caption = the family's friend count
+constexpr int kFloorButtons = 0x16c;   // cTSWinBtn*[2]: "Primer piso", "Segundo piso" (then "Tejado")
+constexpr int kFloors = 2;
 }  // namespace viewctl
 
 // ---- cWinPeople (the live mode family panel) ----------------------------------------------

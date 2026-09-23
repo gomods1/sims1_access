@@ -625,6 +625,19 @@ const Translation kEntries[] = {
     {Str::GroupPetSkills, "寵物技能"},
     // Transformation (Makin Magic)
     {Str::TransformLook, "外貌，第%d個，共%d個"},
+    // Build cursor: floors and rooms
+    {Str::BuildAbove, "在%s上方"},
+    {Str::BuildAboveNothing, "下面沒有建造任何東西"},
+    {Str::BuildNoRooms, "這一層和下面還沒有房間"},
+    {Str::BuildRoomJump, "%s，%d×%d，在它的西北角"},
+    {Str::KeysRoomJump, "Ctrl+Page Down 和 Ctrl+Page Up 跳到下一個或上一個房間的西北角；在樓上時，跳到下面的房間。"},
+    // Stairs
+    {Str::StairsClimb, "向%s上"},
+    {Str::StairsTop, "在格子%d, %d到達樓上"},
+    // Build warnings
+    {Str::BuildBlocksStairs, "擋住樓梯"},
+    // Build cursor: floors and rooms
+    {Str::KeysFloorChange, "Shift+Page Up 和 Shift+Page Down 去上一層或下一層；選擇工具會回到一樓。"},
 };
 
 }  // namespace

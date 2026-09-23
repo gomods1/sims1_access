@@ -62,6 +62,11 @@ Ptr FriendsButton(Ptr vc) { return ButtonAt(vc, addr::viewctl::kFriendsButton); 
 
 Ptr PauseButton(Ptr vc) { return ButtonAt(vc, addr::viewctl::kPauseButton); }
 
+Ptr FloorButton(Ptr vc, int level) {
+    if (level < 1 || level > addr::viewctl::kFloors) return 0;
+    return ButtonAt(vc, addr::viewctl::kFloorButtons + (level - 1) * 4);
+}
+
 Ptr SpeedButton(Ptr vc, int level) {
     if (level < 1 || level > addr::viewctl::kSpeedLevels) return 0;
     return ButtonAt(vc, addr::viewctl::kSpeedButtons + (level - 1) * 4);

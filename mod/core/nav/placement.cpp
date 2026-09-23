@@ -36,6 +36,7 @@ struct Floor {
     std::vector<uint8_t> blocked;     // something Sims cannot walk through
     std::vector<uint8_t> portal;      // a door or stairs: Sims cross its walls
     std::vector<uint8_t> keepClear;   // in front of and behind doors
+    std::vector<uint8_t> stairs;      // a portal in no wall: stairs (or their landing)
     std::vector<int> room;
     std::vector<Tile> starts;         // where Sims come from: the Sims, the lot's entrance
     std::vector<Tile> entrance;       // the lot's entrance alone (or the stairs, upstairs)
@@ -120,6 +121,7 @@ Floor ReadFloor(int level) {
     f.blocked.assign(n, 0);
     f.portal.assign(n, 0);
     f.keepClear.assign(n, 0);
+    f.stairs.assign(n, 0);
     f.room.assign(n, game::kNoRoom);
     for (int y = 0; y < f.size; y++)
         for (int x = 0; x < f.size; x++) {
@@ -157,6 +159,7 @@ Floor ReadFloor(int level) {
         Tile t{i % f.size, i / f.size};
         int dir = game::ObjectDirection(game::ObjectById(f.objectId[i]));
         f.keepClear[i] = 1;
+        f.stairs[i] = !(f.walls[i] & (WallBit(dir & 7) | WallBit((dir + 4) & 7)));
         for (int d : {dir, dir + 4}) {
             Tile s = game::Step(t, d);
             if (f.Inside(s)) f.keepClear[f.Index(s)] = 1;
@@ -351,6 +354,36 @@ void TrySurface(const Floor& f, Area& area, Tile t, int level, Ptr held) {
 
 }  // namespace
 
+// Stairs run along their direction's axis; the end next to a floor tile of the story above is
+// the top, the other end the bottom.
+void StairsEnds(Spot& spot, int level) {
+    spot.stairs = true;
+    spot.bottom = spot.tile;
+    if (spot.footprint.empty()) return;
+    for (int d : {spot.direction & 7, (spot.direction + 4) & 7}) {
+        Tile end = spot.footprint.front();
+        for (Tile p : spot.footprint) {
+            bool further = (d == 0 && p.x < end.x) || (d == 4 && p.x > end.x) || (d == 2 && p.y > end.y) ||
+                           (d == 6 && p.y < end.y);
+            if (further) end = p;
+        }
+        // The footprint can take in the landing on the story above already.
+        Tile landing = game::HasFloor(level + 1, end.x, end.y) ? end : game::Step(end, d);
+        if (!game::InGrid(landing.x, landing.y) || !game::HasFloor(level + 1, landing.x, landing.y)) continue;
+        spot.climb = d;
+        spot.top = landing;
+        Tile start = spot.footprint.front();
+        int back = (d + 4) & 7;
+        for (Tile p : spot.footprint) {
+            bool further = (back == 0 && p.x < start.x) || (back == 4 && p.x > start.x) ||
+                           (back == 2 && p.y > start.y) || (back == 6 && p.y < start.y);
+            if (further) start = p;
+        }
+        spot.bottom = start;
+        return;
+    }
+}
+
 std::vector<Area> FindSpots() {
     std::vector<Area> areas;
     Ptr held = game::HeldObject();
@@ -461,7 +494,11 @@ std::vector<Area> FindSpots() {
                 }
                 std::vector<uint8_t> reach = blocksFloor ? Reach(f, extra) : reachBefore;
                 spot.useTiles = UsableTiles(f, game::UseTilesAt(held, t, direction), spot.footprint, extra, reach);
-                if (spot.useTiles.empty()) {
+                // Stairs (a portal in no wall) have no routing slot to stand on: Sims walk
+                // onto their ends.
+                bool freePortal = heldPortal && !(f.walls[f.Index(t)] & WallBit((direction + 4) & 7));
+                if (freePortal) StairsEnds(spot, level);
+                if (spot.useTiles.empty() && !freePortal) {
                     area.unusable++;
                     continue;
                 }
@@ -562,6 +599,14 @@ std::vector<Area> FindSpots() {
     for (const Area& a : areas) total += (int)a.spots.size();
     Log("placement: %d areas, %d spots on level %d in %llu ms", (int)areas.size(), total, level,
         GetTickCount64() - started);
+    if (!total && util::VerboseLogging()) {  // why nothing fits: the engine's reasons by count
+        std::string why;
+        for (const auto& e : errors) why += util::Format(" room %d reason %d x%d;", e.first / 64, e.first % 64, e.second);
+        for (const Area& a : areas)
+            why += util::Format(" [room %d: refused %d, blocks door %d, unusable %d, blocks others %d]", a.room,
+                                a.engineRefused, a.blocksDoor, a.unusable, a.blocksOthers);
+        LogVerbose("placement: nothing fits:%s", why.c_str());
+    }
     return areas;
 }
 
@@ -605,6 +650,21 @@ std::string RoomNameOf(int room) {
 
 std::vector<std::string> DescribeParts(const Spot& spot) {
     std::vector<std::string> parts;
+    if (spot.stairs) {  // "sube hacia el norte, casilla 29, 37, llega arriba a la casilla 29, 33"
+        if (spot.climb >= 0) parts.push_back(util::Format(S(Str::StairsClimb), S(DirectionName(game::CompassOf(spot.climb)))));
+        parts.push_back(util::Format(S(Str::TileAt), spot.bottom.x, spot.bottom.y));
+        if (spot.climb >= 0) parts.push_back(util::Format(S(Str::StairsTop), spot.top.x, spot.top.y));
+        game::LotObject sim;
+        if (game::GetObject(game::SelectedSim(), &sim)) {
+            Tile at = TileOf(sim);
+            int tiles = (int)std::lround(Distance(at, spot.bottom));
+            const char* dir = S(DirectionName(Bearing(at, spot.bottom)));
+            if (tiles < 1) parts.push_back(S(Str::HereNow));
+            else if (tiles == 1) parts.push_back(util::Format(S(Str::OneTileAway), dir));
+            else parts.push_back(util::Format(S(Str::TilesAway), tiles, dir));
+        }
+        return parts;
+    }
     if (spot.portal) {  // "en la pared oeste de comedor, da a exterior; la primera puerta de comedor"
         std::string here = RoomNameOf(spot.roomHere), behind = RoomNameOf(spot.roomBehind);
         const char* wall = S(DirectionName(game::CompassOf((spot.direction + 4) & 7)));
@@ -743,8 +803,10 @@ WallCheck CheckNewWalls(int level, const std::vector<WallEdgeAdd>& edges) {
         int j = after.Index(n);
         after.walls[j] |= e.edge == game::kWallNorth ? game::kWallSouth : game::kWallEast;
         // A new wall between a door and the tile in front of (or behind) it closes the door.
-        if (!had && ((before.portal[i] && before.keepClear[j]) || (before.portal[j] && before.keepClear[i])))
-            check.doorsBlocked++;
+        if (!had && ((before.portal[i] && before.keepClear[j]) || (before.portal[j] && before.keepClear[i]))) {
+            if ((before.portal[i] && before.stairs[i]) || (before.portal[j] && before.stairs[j])) check.stairsBlocked++;
+            else check.doorsBlocked++;
+        }
     }
     return CompareFloors(level, before, after, check);
 }
