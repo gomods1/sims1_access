@@ -75,7 +75,7 @@ struct SimNeeds {
 };
 
 struct State {
-    Ptr lot = 0;
+    uintptr_t lot = 0;  // game::LotIdentity
     int selected = -2;  // neighbor id the room and action baselines belong to (-2: none yet)
 
     // Room of the selected Sim.
@@ -353,7 +353,7 @@ void PollNeeds(int selected, ULONGLONG now) {
 void Reset() { g = State{}; }
 
 void Tick() {
-    Ptr lot = game::LotModule();
+    uintptr_t lot = game::LotIdentity();
     if (lot != g.lot) {
         g = State{};
         g.lot = lot;

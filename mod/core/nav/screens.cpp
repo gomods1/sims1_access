@@ -55,7 +55,7 @@ std::string ScreenName(Ptr root) {
 
 bool IsScreen(Ptr root) { return !ScreenName(root).empty(); }
 
-uintptr_t ScreenInstance(Ptr root) { return game::IsKindOf(root, "cDDDSimsView") ? game::LotModule() : 0; }
+uintptr_t ScreenInstance(Ptr root) { return game::IsKindOf(root, "cDDDSimsView") ? game::LotIdentity() : 0; }
 
 bool PrepareScreen(Ptr root) {
     if (!game::IsKindOf(root, "cDDDSimsView") || game::ModePanelShown(root)) return false;
