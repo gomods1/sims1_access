@@ -41,6 +41,8 @@ constexpr ULONGLONG kVisitorPollMs = 100;
 // A Sim is announced once it has stayed this long: the Unleashed raccoon ("El Bandito") is
 // created and removes itself within half a second when nothing tempts it.
 constexpr ULONGLONG kVisitorStayMs = 1000;
+constexpr ULONGLONG kLotSettleMs = 8000;
+constexpr ULONGLONG kSameLineMs = 5000;  // identical words from different objects
 
 struct Shown {
     game::ShownBalloon record;  // what the game drew when the balloon was reported
@@ -69,6 +71,7 @@ struct State {
     std::map<int, ULONGLONG> alertSaid;           // by game::SoundAlert: when it was last spoken
     std::map<int, Visitor> visitors;              // by object id: Sims from outside the family
     bool visitorsSeeded = false;
+    ULONGLONG lotSince = 0;                       // when this lot was first seen
     ULONGLONG visitorsPolled = 0;
 };
 
@@ -273,8 +276,15 @@ void Report(const Balloon& b, const std::vector<int>& family) {
     }
     Log("balloon (tree 0x%x, group %d icon %d, over #%d, stack object #%d%s): %s", b.tree, b.group, b.index,
         b.ownerId, b.otherId, quiet, line.c_str());
+    // The same words from another object (two food piles, both with flies) within a moment.
+    auto sameWords = g.spokenAt.find("*|" + line);
+    if (speak && sameWords != g.spokenAt.end() && now - sameWords->second < kSameLineMs) {
+        speak = false;
+        Log("balloon line said just now by another object: %s", line.c_str());
+    }
     if (!speak) return;
     g.spokenAt[key] = now;
+    g.spokenAt["*|" + line] = now;
     if (relationSign) {
         g.relationSigns.push_back({line, game::SimNeighborId(owner), now});
         return;
@@ -323,7 +333,9 @@ void PollVisitors(const std::vector<int>& family) {
         v.ghost = game::IsGhost(person);
         v.burglarShout = Trimmed(game::BurglarShout(person));  // the game's own "¡Ladrón!"
         v.since = now;
-        v.announced = !g.visitorsSeeded;
+        // Those present when the lot was first seen, or placed while it loads (a downtown lot
+        // brings its crowd in over its first seconds), count as already there.
+        v.announced = !g.visitorsSeeded || now - g.lotSince < kLotSettleMs;
         present[o.id] = v;
     }
     for (auto& [id, v] : present) {
@@ -426,6 +438,7 @@ void Tick() {
     if (lot != g.lot) {  // another lot, or none: nothing seen before applies
         Reset();
         g.lot = lot;
+        g.lotSince = GetTickCount64();
     }
     std::vector<Balloon> balloons = game::TakeBalloons();
     std::vector<game::TakenObject> taken = game::TakeTakenObjects();
