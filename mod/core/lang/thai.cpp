@@ -725,6 +725,9 @@ const Translation kEntries[] = {
     {Str::KeysRoomFilter,
      "Ctrl+R จำกัดแคตตาล็อกให้เหลือเฉพาะสินค้าสำหรับห้องประเภทเดียว: ห้องครัว ห้องน้ำ ห้องนอน ห้องนั่งเล่น "
      "ห้องอาหาร ห้องทำงาน ภายนอก หรือกลับไปทั้งหมด"},
+    // Family watch: refusals
+    {Str::ActionDropped, "%s จะไม่ทำ: %s"},
+    {Str::ActionDroppedMood, "%s ปฏิเสธ อารมณ์ไม่ดี: %s"},
 };
 
 }  // namespace

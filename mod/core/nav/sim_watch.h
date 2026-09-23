@@ -26,5 +26,7 @@ std::string Status();
 
 // A relationship number involving this Sim (neighbor id) was spoken at or after this time.
 bool RelationSaidSince(int neighborId, unsigned long long since);
+// The player cancelled a queued action (Enter on it): its leaving the queue is not a refusal.
+void NoteCancelled(const std::string& action);
 
 }  // namespace nav::simwatch

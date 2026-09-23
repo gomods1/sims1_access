@@ -737,6 +737,9 @@ const Translation kEntries[] = {
     {Str::KeysRoomFilter,
      "Ctrl+R begränsar katalogen till produkter för en sorts rum: kök, badrum, sovrum, vardagsrum, matsal, "
      "arbetsrum, utomhus, eller alla igen."},
+    // Family watch: refusals
+    {Str::ActionDropped, "%s gör det inte: %s"},
+    {Str::ActionDroppedMood, "%s vägrar, på dåligt humör: %s"},
 };
 
 }  // namespace

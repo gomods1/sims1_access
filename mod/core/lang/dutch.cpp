@@ -750,6 +750,9 @@ const Translation kEntries[] = {
     {Str::KeysRoomFilter,
      "Control+R beperkt de catalogus tot producten voor één soort kamer: keuken, badkamer, slaapkamer, "
      "woonkamer, eetkamer, studeerkamer, buiten, of weer alles."},
+    // Family watch: refusals
+    {Str::ActionDropped, "%s doet het niet: %s"},
+    {Str::ActionDroppedMood, "%s weigert, in een slecht humeur: %s"},
 };
 
 }  // namespace

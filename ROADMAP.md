@@ -94,8 +94,10 @@ What to announce (the selected Sim; the others only when it needs the player):
     answers a topic with the same topic, crossed out or not ("Bella dice: Alimentos", then
     "Mortimer dice: Alimentos, tachado"); **hypothesis**: crossed out = the listener dislikes
     the topic. Once confirmed (compare with the Sims' interests), say it in words.
-  - Refusals (the Sim shakes their head when their mood is too low for an action): check
-    whether they come with a balloon (crossed out) now that every balloon is logged.
+  - Refusals (done, verified 2026-09-23): an action the player queued that leaves the queue
+    without running is said: "Cris se niega, está de mal humor: Llamar taxi.../Ir de
+    Vacaciones" (the Sim stomps, "¡Pisar fuerte!"; the mood is named when it is red), "X no lo va
+    a hacer: ..." otherwise; the player's own cancel (Enter on the queue) is not reported.
   - Relationship changes as numbers (done, verified): the selected Sim's daily relationship with
     each Sim on the lot, "Marisa, con Cris: +8, ahora 28"; the game's own drift of a point or two with no
     social behind it (no + / - balloon in the last 4 s) only goes to the events buffer.

@@ -666,6 +666,9 @@ const Translation kEntries[] = {
     {Str::RoomFilterOn, "%s용 상품만"},
     {Str::RoomFilterNoMore, "이 방향으로는 %s용 상품이 더 없음"},
     {Str::KeysRoomFilter, "Ctrl+R로 카탈로그를 한 종류의 방에 맞는 상품으로 좁힙니다: 부엌, 욕실, 침실, 거실, 식당, 서재, 야외, 또는 다시 전체."},
+    // Family watch: refusals
+    {Str::ActionDropped, "%s 안 함: %s"},
+    {Str::ActionDroppedMood, "%s 기분이 나빠서 거절함: %s"},
 };
 
 }  // namespace

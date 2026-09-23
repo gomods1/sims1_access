@@ -643,6 +643,9 @@ const Translation kEntries[] = {
     {Str::RoomFilterOn, "只看適合%s的商品"},
     {Str::RoomFilterNoMore, "這個方向沒有更多適合%s的商品"},
     {Str::KeysRoomFilter, "Ctrl+R 讓目錄只顯示適合某類房間的商品：廚房、浴室、臥室、客廳、餐廳、書房、戶外，或者恢復全部。"},
+    // Family watch: refusals
+    {Str::ActionDropped, "%s不會做：%s"},
+    {Str::ActionDroppedMood, "%s心情不好，拒絕了：%s"},
 };
 
 }  // namespace

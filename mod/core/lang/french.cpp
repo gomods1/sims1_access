@@ -755,6 +755,9 @@ const Translation kEntries[] = {
     {Str::KeysRoomFilter,
      "Contrôle+R limite le catalogue aux produits prévus pour un type de pièce : cuisine, salle de bains, "
      "chambre, salon, salle à manger, bureau, extérieur, ou de nouveau tous."},
+    // Family watch: refusals
+    {Str::ActionDropped, "%s ne le fera pas : %s"},
+    {Str::ActionDroppedMood, "%s refuse, de mauvaise humeur : %s"},
 };
 
 }  // namespace

@@ -734,6 +734,9 @@ const Translation kEntries[] = {
     {Str::KeysRoomFilter,
      "Ctrl+R begrænser kataloget til produkter beregnet til én slags rum: køkken, badeværelse, soveværelse, "
      "stue, spisestue, arbejdsværelse, udendørs, eller alle igen."},
+    // Family watch: refusals
+    {Str::ActionDropped, "%s gør det ikke: %s"},
+    {Str::ActionDroppedMood, "%s nægter, i dårligt humør: %s"},
 };
 
 }  // namespace

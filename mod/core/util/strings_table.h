@@ -732,4 +732,7 @@
     X(RoomFilterNoMore, "no more products for %s this way")                                                          \
     X(KeysRoomFilter,                                                                                                \
       "Control+R keeps the catalog to the products meant for one kind of room: kitchen, bathroom, bedroom, "         \
-      "living room, dining room, study, outside, or all again.")
+      "living room, dining room, study, outside, or all again.")                                                     \
+    /* Family watch: refusals */                                                                                     \
+    X(ActionDropped, "%s will not do: %s")                                                                           \
+    X(ActionDroppedMood, "%s refuses, in a bad mood: %s")

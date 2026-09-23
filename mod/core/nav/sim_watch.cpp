@@ -3,6 +3,7 @@
 #include <windows.h>
 
 #include <cstdlib>
+#include <algorithm>
 #include <map>
 #include <vector>
 
@@ -97,6 +98,8 @@ struct State {
     bool saidByPlayer = false;    // ... was queued by the player
     bool endSaid = true;          // its end was said (or there was nothing to end)
     ULONGLONG idleSince = 0;      // nothing running and nothing queued since
+    std::vector<std::string> waiting;  // the player's queued actions not running yet
+    std::string runningByPlayer;       // the running action when the player queued it
 
     // How the selected Sim feels about each Sim on the lot (daily value), by neighbor id.
     ULONGLONG relationsPolled = 0;
@@ -175,6 +178,10 @@ void PollRoom(Ptr sim, ULONGLONG now) {
     narrator::Announce(util::Format(S(Str::SimNowIn), SimName(g.selected).c_str(), room.c_str()), false);
 }
 
+std::string g_cancelled;  // the queued action the player last cancelled (NoteCancelled)
+ULONGLONG g_cancelledAt = 0;
+constexpr ULONGLONG kCancelMs = 5000;
+
 // ---- Actions -------------------------------------------------------------------------------
 
 void PollAction(ULONGLONG now) {
@@ -189,6 +196,33 @@ void PollAction(ULONGLONG now) {
             byPlayer = a.byPlayer;
             break;
         }
+    // The player's queued actions that left the queue without starting: the Sim refused (a
+    // stomp when the mood is too low) or something took them away. A queued action that starts
+    // becomes the running one (its name can change then: "Llamar taxi.../Ir al Centro" runs as
+    // "Llamar taxi"), so a player's action running now that was not before counts as started.
+    std::vector<std::string> waiting;
+    for (const game::SimAction& a : actions)
+        if (a.byPlayer && !a.running) waiting.push_back(a.name);
+    std::string nowByPlayer = byPlayer ? running : "";
+    if (g.actionSeeded) {
+        std::vector<std::string> gone = g.waiting;
+        for (const std::string& w : waiting) {
+            auto it = std::find(gone.begin(), gone.end(), w);
+            if (it != gone.end()) gone.erase(it);
+        }
+        bool started = !nowByPlayer.empty() && nowByPlayer != g.runningByPlayer;
+        if (started && !gone.empty()) gone.erase(gone.begin());
+        for (const std::string& name : gone) {
+            if (name == g_cancelled && now - g_cancelledAt < kCancelMs) continue;
+            int mood = 0;
+            bool bad = game::SimMood(g.selected, &mood) && game::MoodBars(mood) < 0;
+            narrator::Announce(util::Format(S(bad ? Str::ActionDroppedMood : Str::ActionDropped),
+                                            SimName(g.selected).c_str(), name.c_str()),
+                               true);
+        }
+    }
+    g.waiting = waiting;
+    g.runningByPlayer = nowByPlayer;
     if (!g.actionSeeded) {  // what the Sim was doing when the watch started: not news
         g.actionSeeded = true;
         g.running = g.actionSaid = running;
@@ -379,6 +413,11 @@ void Tick() {
     PollRoom(sim, now);
     PollAction(now);
     PollRelationships(now);
+}
+
+void NoteCancelled(const std::string& action) {
+    g_cancelled = action;
+    g_cancelledAt = GetTickCount64();
 }
 
 bool RelationSaidSince(int neighborId, unsigned long long since) {

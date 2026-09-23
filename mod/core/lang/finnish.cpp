@@ -742,6 +742,9 @@ const Translation kEntries[] = {
     {Str::KeysRoomFilter,
      "Ctrl+R rajaa luettelon tuotteisiin, jotka on tarkoitettu yhdenlaiseen huoneeseen: keittiö, kylpyhuone, "
      "makuuhuone, olohuone, ruokailuhuone, työhuone, ulkona, tai taas kaikki."},
+    // Family watch: refusals
+    {Str::ActionDropped, "%s ei tee sitä: %s"},
+    {Str::ActionDroppedMood, "%s kieltäytyy huonolla tuulella: %s"},
 };
 
 }  // namespace

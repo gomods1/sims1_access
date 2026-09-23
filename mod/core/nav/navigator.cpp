@@ -28,6 +28,7 @@
 #include "game_speed.h"
 #include "narrator.h"
 #include "screens.h"
+#include "sim_watch.h"
 #include "tutorial.h"
 
 namespace nav {
@@ -720,6 +721,7 @@ void Activate() {
         speech::Say(S(Str::Unavailable));
         return;
     }
+    if (it->role == Role::QueuedAction) simwatch::NoteCancelled(it->label);  // not a refusal
     g.press = PendingPress{IdOf(*it), CheckedState(*it), GetTickCount64(), TextSnapshot(), reshow};
     Log("press %s %p (%s)", game::ClassName(w).c_str(), (void*)w, it->label.c_str());
     game::Press(w);  // may open a dialog or change screens; the tick picks that up
