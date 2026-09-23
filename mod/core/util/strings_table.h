@@ -735,4 +735,7 @@
       "living room, dining room, study, outside, or all again.")                                                     \
     /* Family watch: refusals */                                                                                     \
     X(ActionDropped, "%s will not do: %s")                                                                           \
-    X(ActionDroppedMood, "%s refuses, in a bad mood: %s")
+    X(ActionDroppedMood, "%s refuses, in a bad mood: %s")                                                            \
+    /* Lot objects */                                                                                                \
+    X(ObjDigHole, "hole a dog dug")                                                                                  \
+    X(ObjDigPile, "pile of dirt a dog dug up")

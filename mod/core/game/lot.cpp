@@ -388,12 +388,16 @@ Family FamilyOf(Ptr object) {
             ObjdField(object, addr::objd::kMasterId)};
 }
 
-bool Represents(Ptr object, const std::map<Family, bool>& familyHasStrings) {
+// The part that stands for a multi-tile object: the one with the catalog strings, else the one
+// with the lowest tile offset (a cheap single bed has parts at offsets 1, 0x101 and 0x201 and no
+// strings in any: none is at 0).
+bool Represents(Ptr object, const std::map<Family, bool>& familyHasStrings, const std::map<Family, uint16_t>& familyFirstSub) {
     if (ObjdField(object, addr::objd::kMasterId) == 0) return true;  // single tile
     bool hasStrings = ObjdField(object, addr::objd::kCatalogStringsId) != 0;
     auto family = familyHasStrings.find(FamilyOf(object));
     if (family != familyHasStrings.end() && family->second) return hasStrings;
-    return ObjdField(object, addr::objd::kSubIndex) == 0;
+    auto first = familyFirstSub.find(FamilyOf(object));
+    return first != familyFirstSub.end() && ObjdField(object, addr::objd::kSubIndex) == first->second;
 }
 
 std::vector<LotObject> LotObjects() {
@@ -406,6 +410,7 @@ std::vector<LotObject> LotObjects() {
     if (count > 20000) return out;
     std::vector<Ptr> candidates;
     std::map<Family, bool> familyHasStrings;
+    std::map<Family, uint16_t> familyFirstSub;
     for (size_t i = 0; i < count; i++) {
         Ptr object = Rd<Ptr>(begin + i * 4);
         if (!object || !IsPlaced(object)) continue;
@@ -413,11 +418,16 @@ std::vector<LotObject> LotObjects() {
         if (kind != 2 && kind != 4 && kind != 34) continue;  // people, normal objects, food (a pizza box on a counter)
         if (IsInvisibleHelper(object)) continue;
         candidates.push_back(object);
-        if (ObjdField(object, addr::objd::kMasterId) != 0)
-            familyHasStrings[FamilyOf(object)] |= ObjdField(object, addr::objd::kCatalogStringsId) != 0;
+        if (ObjdField(object, addr::objd::kMasterId) != 0) {
+            Family family = FamilyOf(object);
+            familyHasStrings[family] |= ObjdField(object, addr::objd::kCatalogStringsId) != 0;
+            uint16_t sub = ObjdField(object, addr::objd::kSubIndex);
+            auto first = familyFirstSub.find(family);
+            if (first == familyFirstSub.end() || sub < first->second) familyFirstSub[family] = sub;
+        }
     }
     for (Ptr object : candidates) {
-        if (!Represents(object, familyHasStrings)) continue;
+        if (!Represents(object, familyHasStrings, familyFirstSub)) continue;
         LotObject o;
         if (GetObject(object, &o)) out.push_back(o);
     }

@@ -547,6 +547,9 @@ std::vector<Area> FindSpots() {
                 if (usedFromFront && (spot.wallSides & 4)) spot.score += 30;
                 else if (usedFromFront && (spot.wallSides & 0xa)) spot.score += 5;
                 if (!usedFromFront) spot.score += 2 * (int)spot.useTiles.size();
+                // Anything standing on the floor is best out of the way: its back to a wall, or
+                // in a corner (a shower in the middle of a small bathroom is in everyone's way).
+                if (!usedFromFront && blocksFloor && (spot.wallSides & 4)) spot.score += (spot.wallSides & 0xa) ? 15 : 10;
                 Ptr faced = spot.facing ? LeadOf(game::ObjectById(spot.facing)) : 0;
                 if (faced && (traits.function & game::kFnSeating) && (FunctionOf(faced) & game::kFnSurfaces)) spot.score += 40;
                 int related = 0;
@@ -593,6 +596,10 @@ std::vector<Area> FindSpots() {
         bool fa = !a.spots.empty(), fb = !b.spots.empty();
         if (fa != fb) return fa;
         if (a.suggested != b.suggested) return a.suggested;
+        // Indoor furniture goes indoors: a new, empty room suits nothing yet, but beats the yard
+        // for a toilet (objects meant for outside, room flag 0x10, keep the plain order).
+        bool ia = a.kind != Str::RoomOutside, ib = b.kind != Str::RoomOutside;
+        if (!(traits.rooms & 0x10) && !moving && ia != ib) return ia;
         return nearest(a) < nearest(b);
     });
     int total = 0;

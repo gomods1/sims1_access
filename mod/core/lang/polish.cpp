@@ -741,6 +741,9 @@ const Translation kEntries[] = {
     // Family watch: refusals
     {Str::ActionDropped, "%s tego nie zrobi: %s"},
     {Str::ActionDroppedMood, "%s odmawia, jest w złym humorze: %s"},
+    // Lot objects
+    {Str::ObjDigHole, "dół wykopany przez psa"},
+    {Str::ObjDigPile, "kopiec ziemi wykopany przez psa"},
 };
 
 }  // namespace

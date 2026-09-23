@@ -179,7 +179,17 @@ void Reset() {
     g = State{};
 }
 
-void Renew() { g.session = 0; }
+// The press reaches the tool a moment later: until then the old product is still the session,
+// which would be searched (and spoken) once for nothing.
+game::Ptr g_renewedFrom = 0;
+ULONGLONG g_renewedAt = 0;
+constexpr ULONGLONG kRenewWaitMs = 400;
+
+void Renew() {
+    g_renewedFrom = g.session;
+    g_renewedAt = GetTickCount64();
+    g.session = 0;
+}
 
 bool Placing() { return game::IsPlacing() && game::HeldObject() != 0; }
 
@@ -202,6 +212,7 @@ void Tick() {
     game::Ptr held = game::HeldObject();
     if (!held) return;
     if (Session() != g.session) {
+        if (!g.session && Session() == g_renewedFrom && GetTickCount64() - g_renewedAt < kRenewWaitMs) return;
         Start(held);
     } else if (held != g.held) {
         g.held = held;
