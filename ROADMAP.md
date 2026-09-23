@@ -269,7 +269,9 @@ for a second Enter. A new room without a door is said, not asked about. Still to
   chosen on any travel map is said on arrival ("llegada: Playa Atardecer"). Souvenirs verified:
   a shop display's "Comprar..." lists them with prices, the money is said, and the souvenir sits in
   the inventory ("Cascanueces Landgrave, botón"; "Vales, 10 unidades", the vouchers won at games).
-  Activities (volleyball, fishing, games for vouchers) not tried one by one.
+  Fishing verified (the pier's "Alquilar Caña de pescar", -$45, "Pescar", its end; catches are
+  caught and released, heard through the game's own sounds). Volleyball and the voucher games are
+  ordinary interaction menus, not tried one by one.
 
 ## Travel
 
