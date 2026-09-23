@@ -588,6 +588,17 @@ const Translation kEntries[] = {
     // Floor cursor (price)
     {Str::FloorStyle, "%1$s, %2$s a casella"},
     {Str::FloorTiles, "%d caselle"},
+    // Wallpaper cursor
+    {Str::PaperPlan, "Invio tappezza tutti i muri di %s"},
+    {Str::PaperCursorStart, "Cursore carta da parati, %s. Control+F1 dice i tasti."},
+    {Str::PaperNoWalls, "questa stanza non ha muri da tappezzare"},
+    {Str::PaperDone, "stanza tappezzata, %d lati di muro"},
+    {Str::PaperStripped, "carta da parati tolta, %d lati di muro"},
+    {Str::PaperNoStart, "la carta da parati va su stanze intere: non serve un inizio"},
+    {Str::KeysPaperCursor,
+     "Le frecce spostano il cursore di una casella, con Maiusc di cinque; ogni casella dice la sua stanza. Invio "
+     "tappezza tutti i muri della stanza del cursore, dall'interno; all'esterno, i muri esterni. Control+Invio "
+     "toglie la carta dai muri della stanza. R dice tutto, Home torna al Sim selezionato, Esc esce dal cursore."},
 };
 
 }  // namespace

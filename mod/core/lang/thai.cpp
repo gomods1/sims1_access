@@ -573,6 +573,17 @@ const Translation kEntries[] = {
     // Floor cursor (price)
     {Str::FloorStyle, "%1$s, ช่องละ %2$s"},
     {Str::FloorTiles, "%d ช่อง"},
+    // Wallpaper cursor
+    {Str::PaperPlan, "Enter ติดวอลเปเปอร์ทุกผนังของ %s"},
+    {Str::PaperCursorStart, "เคอร์เซอร์วอลเปเปอร์, %s Control+F1 บอกปุ่ม"},
+    {Str::PaperNoWalls, "ห้องนี้ไม่มีผนังให้ติดวอลเปเปอร์"},
+    {Str::PaperDone, "ติดวอลเปเปอร์ห้องแล้ว %d ด้านผนัง"},
+    {Str::PaperStripped, "ลอกวอลเปเปอร์แล้ว %d ด้านผนัง"},
+    {Str::PaperNoStart, "วอลเปเปอร์ติดทั้งห้อง ไม่ต้องตั้งจุดเริ่ม"},
+    {Str::KeysPaperCursor,
+     "ปุ่มลูกศรเลื่อนเคอร์เซอร์ทีละช่อง กด Shift ด้วยทีละห้า แต่ละช่องบอกห้องของมัน Enter "
+     "ติดวอลเปเปอร์ทุกผนังด้านในของห้องที่เคอร์เซอร์อยู่ ถ้าอยู่ข้างนอกจะเป็นผนังด้านนอก Control+Enter "
+     "ลอกวอลเปเปอร์ออกจากผนังของห้อง R บอกทั้งหมด Home กลับไปที่ซิมที่เลือก Escape ออกจากเคอร์เซอร์"},
 };
 
 }  // namespace

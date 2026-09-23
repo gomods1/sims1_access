@@ -710,6 +710,13 @@ corner (`0x659590`), converted to the grid with `0x586ae0` on `(corner << 4) | 1
 `0x56f7f0(code, arg)`: STR# 137 errors ("Can't intersect other objects" = 11), and code 26 = the
 drag's price tooltip (arg = the amount).
 
+The floor tool (`cNewFloorTool`, slots 8 `0x5896e0`, 10 `0x58a1b0`, 11 `0x58a7d0`) works the same on
+tiles; its session (`+0x30`) lists changed tiles (0x3c bytes each); Ctrl removes, Shift fills the
+room, both clear it. The wallpaper tool (`cNewWallpaperTool`, slots 8 `0x659d30`, 11 `0x65aac0`)
+papers the wall on the view top or left edge of the tile under the mouse (`0x65a720`; with both,
+the screen position decides; none: error 6); Shift fills the room behind that side, Ctrl strips.
+Its session (`+0x30`) lists wall sides (0x34 bytes each). Verified: 20 floor tiles, 14 wall sides.
+
 The lot's entrance: invisible `cXObject`s named "Portal - Pedestrian" and "Portal - Car" at the
 lot's edge (not `cXPortal`).
 

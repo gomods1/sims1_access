@@ -586,6 +586,17 @@ const Translation kEntries[] = {
     // Floor cursor (price)
     {Str::FloorStyle, "%1$s, %2$s za pole"},
     {Str::FloorTiles, "pól: %d"},
+    // Wallpaper cursor
+    {Str::PaperPlan, "Enter tapetuje wszystkie ściany: %s"},
+    {Str::PaperCursorStart, "Kursor tapet, %s. Control+F1 podaje klawisze."},
+    {Str::PaperNoWalls, "ten pokój nie ma ścian do wytapetowania"},
+    {Str::PaperDone, "pokój wytapetowany, boki ścian: %d"},
+    {Str::PaperStripped, "tapeta zdjęta, boki ścian: %d"},
+    {Str::PaperNoStart, "tapety kładzie się na całe pokoje: początek nie jest potrzebny"},
+    {Str::KeysPaperCursor,
+     "Strzałki przesuwają kursor o jedno pole, z Shiftem o pięć; każde pole podaje swój pokój. Enter tapetuje "
+     "wszystkie ściany pokoju kursora od środka; na zewnątrz ściany zewnętrzne. Control+Enter zdejmuje tapetę ze "
+     "ścian pokoju. R mówi wszystko, Home wraca do wybranego Sima, Escape opuszcza kursor."},
 };
 
 }  // namespace

@@ -17,6 +17,8 @@
 //   Escape                             leave the cursor (back to the build panel)
 // With the floor tool the cursor is on tiles: Enter floors the rectangle from the start (or the
 // tile alone), Shift+Enter the whole room under the cursor, Ctrl removes (Ctrl+Shift: the room).
+// With the wallpaper tool Enter papers every wall of the room under the cursor, Ctrl+Enter strips
+// them (a single wall's side cannot be told apart by ear, so whole rooms only).
 #pragma once
 
 #include <cstdint>
@@ -27,6 +29,7 @@ void Reset();
 void Tick();            // ends the cursor when the tool changes or the lot view goes away
 bool Active();          // the cursor owns its keys
 bool FloorCursor();     // it works on tiles for the floor tool
+bool PaperCursor();     // the wallpaper tool: Enter papers the room under the cursor
 bool Begin(uintptr_t productButton);  // Enter on a style: start when the wall tool is active
 
 void Move(int dx, int dy);

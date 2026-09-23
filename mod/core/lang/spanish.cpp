@@ -586,6 +586,18 @@ const Translation kEntries[] = {
     // Floor cursor (price)
     {Str::FloorStyle, "%1$s, %2$s por casilla"},
     {Str::FloorTiles, "%d casillas"},
+    // Wallpaper cursor
+    {Str::PaperPlan, "Intro empapela todas las paredes de %s"},
+    {Str::PaperCursorStart, "Cursor de papel pintado, %s. Control+F1 dice las teclas."},
+    {Str::PaperNoWalls, "esta habitación no tiene paredes que empapelar"},
+    {Str::PaperDone, "habitación empapelada, %d lados de pared"},
+    {Str::PaperStripped, "papel pintado quitado, %d lados de pared"},
+    {Str::PaperNoStart, "el papel pintado va en habitaciones enteras: no hace falta inicio"},
+    {Str::KeysPaperCursor,
+     "Las flechas mueven el cursor una casilla, con Mayúsculas cinco; cada casilla dice su habitación. Intro "
+     "empapela todas las paredes de la habitación del cursor, por dentro; en el exterior, las paredes de fuera. "
+     "Control+Intro quita el papel de las paredes de la habitación. R lo dice todo, Inicio vuelve al Sim "
+     "seleccionado, Escape sale del cursor."},
 };
 
 }  // namespace

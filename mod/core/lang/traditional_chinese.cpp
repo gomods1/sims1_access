@@ -502,6 +502,16 @@ const Translation kEntries[] = {
     // Floor cursor (price)
     {Str::FloorStyle, "%1$s，每格%2$s"},
     {Str::FloorTiles, "%d格"},
+    // Wallpaper cursor
+    {Str::PaperPlan, "Enter為%s的所有牆貼壁紙"},
+    {Str::PaperCursorStart, "壁紙游標，%s。Ctrl+F1朗讀按鍵。"},
+    {Str::PaperNoWalls, "這個房間沒有可貼壁紙的牆"},
+    {Str::PaperDone, "房間已貼壁紙，%d面牆"},
+    {Str::PaperStripped, "已撕掉壁紙，%d面牆"},
+    {Str::PaperNoStart, "壁紙按整個房間貼：不需要起點"},
+    {Str::KeysPaperCursor,
+     "方向鍵把游標移動一格，按住Shift移動五格；每格會說出所在房間。Enter為游標所在房間的所有牆內側貼壁紙；在室外則為外牆。Ctrl+Enter撕掉房間牆上的壁紙。R說出全部，Home回到選取的模擬人物，Esca"
+     "pe退出游標。"},
 };
 
 }  // namespace

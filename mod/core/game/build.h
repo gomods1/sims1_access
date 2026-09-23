@@ -5,6 +5,7 @@
 #pragma once
 
 #include <string>
+#include <vector>
 
 #include "memory.h"
 
@@ -39,6 +40,11 @@ enum class FloorMode {
 // Floors tiles (x, y = tile coordinates) on the current floor; results as DrawWalls.
 // tilesChanged: how many tiles the game's session held (0 when it made nothing).
 int DrawFloor(Corner fromTile, Corner toTile, FloorMode mode, int* tilesChanged = nullptr);
+
+bool PaperToolActive(); // the current tool is the wallpaper tool
+// Papers (or strips) every wall of a room from inside: the tool is pressed with Shift on the
+// room's tiles in turn until one has a wall it takes. wallSides = the wall sides changed.
+int PaperRoom(const std::vector<Corner>& roomTiles, bool strip, int* wallSides);
 
 // The lot's buildable area: the engine's tile flag 0x20 marks tiles outside it (0x58a660).
 bool CornerBuildable(Corner c);

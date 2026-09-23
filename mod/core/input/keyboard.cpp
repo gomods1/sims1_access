@@ -111,7 +111,7 @@ bool BuildCursorKey(WPARAM vk, bool shift, bool ctrl) {
     case VK_HOME: b::Home(); return true;
     case 'R': if (ctrl) return false; g_swallowChar = 'r'; b::Repeat(); return true;
     case VK_ESCAPE: g_swallowChar = 0x1b; b::End(); return true;
-    case VK_F1: if (!ctrl) return false; speech::Say(S(b::FloorCursor() ? Str::KeysFloorCursor : Str::KeysBuildCursor)); return true;
+    case VK_F1: if (!ctrl) return false; speech::Say(S(b::PaperCursor() ? Str::KeysPaperCursor : b::FloorCursor() ? Str::KeysFloorCursor : Str::KeysBuildCursor)); return true;
     case VK_TAB: b::End(); return false;  // back to the panel: Tab moves there as usual
     }
     return false;

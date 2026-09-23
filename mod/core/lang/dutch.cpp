@@ -593,6 +593,18 @@ const Translation kEntries[] = {
     // Floor cursor (price)
     {Str::FloorStyle, "%1$s, %2$s per vakje"},
     {Str::FloorTiles, "%d vakjes"},
+    // Wallpaper cursor
+    {Str::PaperPlan, "Enter behangt alle muren van %s"},
+    {Str::PaperCursorStart, "Behangcursor, %s. Control+F1 noemt de toetsen."},
+    {Str::PaperNoWalls, "deze kamer heeft geen muren om te behangen"},
+    {Str::PaperDone, "kamer behangen, %d muurkanten"},
+    {Str::PaperStripped, "behang weggehaald, %d muurkanten"},
+    {Str::PaperNoStart, "behang gaat per hele kamer: geen begin nodig"},
+    {Str::KeysPaperCursor,
+     "De pijltjes verplaatsen de cursor één vakje, met Shift vijf; elk vakje noemt zijn kamer. Enter behangt "
+     "alle muren van de kamer bij de cursor, aan de binnenkant; buiten de buitenmuren. Control+Enter haalt het "
+     "behang van de muren van de kamer. R zegt alles, Home gaat terug naar de geselecteerde Sim, Escape verlaat "
+     "de cursor."},
 };
 
 }  // namespace

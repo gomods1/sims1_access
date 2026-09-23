@@ -225,6 +225,20 @@ constexpr int kSession = 0x30;
 constexpr int kSessionFirst = 0x24;
 constexpr int kSessionLast = 0x28;
 }  // namespace floortool
+// cNewWallpaperTool: mouse down papers the wall on the top or left edge (view) of the tile under
+// the mouse (0x65a720 picks it; both walled: the screen position decides; none: error 6). Shift =
+// the whole room behind that wall side (2), Ctrl = remove (1), both = strip the room (3). The
+// session at +0x30 lists changed wall sides (0x34-byte entries at +0x24..+0x28); slot 11 commits.
+namespace papertool {
+constexpr int kDownSlot = 8;
+constexpr Va kDown = 0x659d30;
+constexpr int kUpSlot = 11;
+constexpr Va kUp = 0x65aac0;
+constexpr int kSession = 0x30;
+constexpr int kSessionFirst = 0x24;
+constexpr int kSessionLast = 0x28;
+constexpr int kEntrySize = 0x34;
+}  // namespace papertool
 // cdecl void (int code, int arg): the build tools' "Can't place here!" message; code = 1-based
 // index into STR# 137 (as buy mode's placement errors), 0 hides it. Hooked: the mod speaks it.
 constexpr Va kBuildError = 0x56f7f0;

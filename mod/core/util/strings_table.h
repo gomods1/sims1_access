@@ -576,4 +576,16 @@
       "cursor.")                                                                                                     \
     /* Floor cursor (price) */                                                                                       \
     X(FloorStyle, "%1$s, %2$s per tile")                                                                             \
-    X(FloorTiles, "%d tiles")
+    X(FloorTiles, "%d tiles")                                                                                        \
+    /* Wallpaper cursor */                                                                                           \
+    X(PaperPlan, "Enter papers every wall of %s")                                                                    \
+    X(PaperCursorStart, "Wallpaper cursor, %s. Control+F1 says the keys.")                                           \
+    X(PaperNoWalls, "this room has no walls to paper")                                                               \
+    X(PaperDone, "room papered, %d wall sides")                                                                      \
+    X(PaperStripped, "wallpaper taken off, %d wall sides")                                                           \
+    X(PaperNoStart, "wallpaper goes on whole rooms: no start is needed")                                             \
+    X(KeysPaperCursor,                                                                                               \
+      "Arrows move the cursor one tile, with Shift five; each tile says its room. Enter papers every wall "          \
+      "of the room under the cursor, inside that room; on the outdoors, the outside walls. Control+Enter "           \
+      "takes the wallpaper off the room's walls. R says everything, Home goes back to the selected Sim, "            \
+      "Escape leaves the cursor.")

@@ -193,6 +193,8 @@ for a second Enter. A new room without a door is said, not asked about. Still to
   wall, the two rooms it joins and whether it is the room's first door, rooms without a door come
   first; windows use the same words, not checked yet). Floors (done, verified: the same cursor
   on tiles; Enter a rectangle, Shift+Enter the whole room, Ctrl removes; size and price spoken).
+  Wallpaper (done, verified: whole rooms only, Enter papers the room under the cursor, Ctrl+Enter
+  strips it; a single wall's side cannot be chosen by ear).
   (the same cursor, rectangles of tiles), wallpaper (by room and wall), stairs, terrain, water,
   pools, roofs, second floors; fences that are objects (some expansion fences use the buy tool);
   diagonal walls are drawn but not checked. Earlier plan:

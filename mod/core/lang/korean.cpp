@@ -523,6 +523,16 @@ const Translation kEntries[] = {
     // Floor cursor (price)
     {Str::FloorStyle, "%1$s, 칸당 %2$s"},
     {Str::FloorTiles, "%d칸"},
+    // Wallpaper cursor
+    {Str::PaperPlan, "Enter로 %s의 모든 벽에 벽지를 바릅니다"},
+    {Str::PaperCursorStart, "벽지 커서, %s. 컨트롤+F1로 키를 읽습니다."},
+    {Str::PaperNoWalls, "이 방에는 벽지를 바를 벽이 없습니다"},
+    {Str::PaperDone, "방에 벽지를 발랐습니다, 벽면 %d"},
+    {Str::PaperStripped, "벽지를 뜯었습니다, 벽면 %d"},
+    {Str::PaperNoStart, "벽지는 방 단위로 바릅니다: 시작점이 필요 없습니다"},
+    {Str::KeysPaperCursor,
+     "화살표로 커서를 한 칸, Shift와 함께 다섯 칸 옮깁니다. 각 칸은 방 이름을 읽습니다. Enter는 커서가 있는 방의 모든 벽 안쪽에 벽지를 바르고, 바깥이면 외벽에 바릅니다. "
+     "컨트롤+Enter는 방 벽의 벽지를 뜯습니다. R은 모두 읽고, Home은 선택한 심으로 돌아가고 Escape는 커서를 끝냅니다."},
 };
 
 }  // namespace

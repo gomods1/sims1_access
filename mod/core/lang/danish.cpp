@@ -579,6 +579,17 @@ const Translation kEntries[] = {
     // Floor cursor (price)
     {Str::FloorStyle, "%1$s, %2$s pr. felt"},
     {Str::FloorTiles, "%d felter"},
+    // Wallpaper cursor
+    {Str::PaperPlan, "Enter tapetserer alle vægge i %s"},
+    {Str::PaperCursorStart, "Tapetmarkør, %s. Kontrol+F1 siger tasterne."},
+    {Str::PaperNoWalls, "dette rum har ingen vægge at tapetsere"},
+    {Str::PaperDone, "rum tapetseret, %d vægsider"},
+    {Str::PaperStripped, "tapet fjernet, %d vægsider"},
+    {Str::PaperNoStart, "tapet sættes på hele rum: ingen start er nødvendig"},
+    {Str::KeysPaperCursor,
+     "Piletasterne flytter markøren ét felt, med Skift fem; hvert felt siger sit rum. Enter tapetserer alle "
+     "vægge i rummet ved markøren, indefra; udenfor ydervæggene. Kontrol+Enter fjerner tapetet fra rummets "
+     "vægge. R siger det hele, Home går tilbage til den valgte Sim, Escape forlader markøren."},
 };
 
 }  // namespace

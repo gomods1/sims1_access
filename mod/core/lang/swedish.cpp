@@ -582,6 +582,17 @@ const Translation kEntries[] = {
     // Floor cursor (price)
     {Str::FloorStyle, "%1$s, %2$s per ruta"},
     {Str::FloorTiles, "%d rutor"},
+    // Wallpaper cursor
+    {Str::PaperPlan, "Enter tapetserar alla väggar i %s"},
+    {Str::PaperCursorStart, "Tapetmarkör, %s. Kontroll+F1 säger tangenterna."},
+    {Str::PaperNoWalls, "det här rummet har inga väggar att tapetsera"},
+    {Str::PaperDone, "rum tapetserat, %d väggsidor"},
+    {Str::PaperStripped, "tapet borttagen, %d väggsidor"},
+    {Str::PaperNoStart, "tapet sätts på hela rum: ingen start behövs"},
+    {Str::KeysPaperCursor,
+     "Piltangenterna flyttar markören en ruta, med Skift fem; varje ruta säger sitt rum. Enter tapetserar alla "
+     "väggar i rummet vid markören, inifrån; utomhus ytterväggarna. Kontroll+Enter tar bort tapeten från rummets "
+     "väggar. R säger allt, Home går tillbaka till den valda simmen, Escape lämnar markören."},
 };
 
 }  // namespace

@@ -587,6 +587,17 @@ const Translation kEntries[] = {
     // Floor cursor (price)
     {Str::FloorStyle, "%1$s, %2$s ruudulta"},
     {Str::FloorTiles, "%d ruutua"},
+    // Wallpaper cursor
+    {Str::PaperPlan, "Enter tapetoi kaikki seinät: %s"},
+    {Str::PaperCursorStart, "Tapettikohdistin, %s. Control+F1 kertoo näppäimet."},
+    {Str::PaperNoWalls, "tässä huoneessa ei ole tapetoitavia seiniä"},
+    {Str::PaperDone, "huone tapetoitu, %d seinän puolta"},
+    {Str::PaperStripped, "tapetti poistettu, %d seinän puolta"},
+    {Str::PaperNoStart, "tapetti laitetaan kokonaisiin huoneisiin: alkua ei tarvita"},
+    {Str::KeysPaperCursor,
+     "Nuolet siirtävät kohdistinta yhden ruudun, Vaihdon kanssa viisi; jokainen ruutu kertoo huoneensa. Enter "
+     "tapetoi kohdistimen huoneen kaikki seinät sisältä; ulkona ulkoseinät. Control+Enter poistaa tapetin "
+     "huoneen seiniltä. R kertoo kaiken, Home palaa valittuun simiin, Escape poistuu kohdistimesta."},
 };
 
 }  // namespace

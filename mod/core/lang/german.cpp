@@ -592,6 +592,18 @@ const Translation kEntries[] = {
     // Floor cursor (price)
     {Str::FloorStyle, "%1$s, %2$s pro Feld"},
     {Str::FloorTiles, "%d Felder"},
+    // Wallpaper cursor
+    {Str::PaperPlan, "Eingabe tapeziert alle Wände von %s"},
+    {Str::PaperCursorStart, "Tapetencursor, %s. Strg+F1 nennt die Tasten."},
+    {Str::PaperNoWalls, "dieser Raum hat keine Wände zum Tapezieren"},
+    {Str::PaperDone, "Raum tapeziert, %d Wandseiten"},
+    {Str::PaperStripped, "Tapete entfernt, %d Wandseiten"},
+    {Str::PaperNoStart, "Tapete gibt es nur für ganze Räume: kein Start nötig"},
+    {Str::KeysPaperCursor,
+     "Die Pfeiltasten bewegen den Cursor um ein Feld, mit Umschalt um fünf; jedes Feld nennt seinen Raum. "
+     "Eingabe tapeziert alle Wände des Raums am Cursor von innen; draußen die Außenwände. Strg+Eingabe entfernt "
+     "die Tapete von den Wänden des Raums. R sagt alles, Pos1 springt zum ausgewählten Sim, Escape verlässt den "
+     "Cursor."},
 };
 
 }  // namespace

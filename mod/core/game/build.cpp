@@ -91,6 +91,54 @@ void TileToView(Corner t, int* vx, int* vy) {
 
 bool FloorToolActive() { return FloorTool() != 0; }
 
+namespace {
+Ptr PaperTool() {
+    Ptr tool = Rd<Ptr>(Va(addr::kCurrentTool));
+    return IsKindOf(tool, "cNewWallpaperTool") ? tool : 0;
+}
+int PaperSessionCount(Ptr tool) {
+    Ptr session = Rd<Ptr>(tool + addr::papertool::kSession);
+    if (!session) return 0;
+    return (int)((Rd<Ptr>(session + addr::papertool::kSessionLast) - Rd<Ptr>(session + addr::papertool::kSessionFirst)) /
+                 addr::papertool::kEntrySize);
+}
+}  // namespace
+
+bool PaperToolActive() { return PaperTool() != 0; }
+
+int PaperRoom(const std::vector<Corner>& roomTiles, bool strip, int* wallSides) {
+    Ptr tool = PaperTool();
+    if (wallSides) *wallSides = 0;
+    if (!tool) return -1;
+    g_lastError = 0;
+    g_lastCost = 0;
+    ForceModifiers(true, strip);
+    int sides = 0, tried = 0;
+    Corner hit{};
+    for (Corner t : roomTiles) {
+        int vx, vy;
+        TileToView(t, &vx, &vy);
+        tried++;
+        if (!CallMouse(tool, addr::papertool::kDownSlot, addr::papertool::kDown, "cNewWallpaperTool::MouseDown", vx, vy))
+            break;
+        sides = PaperSessionCount(tool);
+        if (sides > 0) {
+            hit = t;
+            CallMouse(tool, addr::papertool::kUpSlot, addr::papertool::kUp, "cNewWallpaperTool::MouseUp", vx, vy);
+            break;
+        }
+    }
+    ClearForcedModifiers();
+    Log("build: paper room (%s): %d wall sides after %d tiles (at %d,%d), cost %d", strip ? "strip" : "paper", sides,
+        tried, hit.x, hit.y, g_lastCost);
+    if (wallSides) *wallSides = sides;
+    if (sides > 0) {
+        g_lastError = 0;  // the tiles without a wall on their edge reported "no wall here"
+        return 0;
+    }
+    return kNothingBuilt;
+}
+
 int DrawFloor(Corner fromTile, Corner toTile, FloorMode mode, int* tilesChanged) {
     Ptr tool = FloorTool();
     if (!tool) return -1;

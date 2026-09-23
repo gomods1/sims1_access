@@ -587,6 +587,18 @@ const Translation kEntries[] = {
     // Floor cursor (price)
     {Str::FloorStyle, "%1$s, %2$s por quadrado"},
     {Str::FloorTiles, "%d quadrados"},
+    // Wallpaper cursor
+    {Str::PaperPlan, "Enter coloca papel de parede em todas as paredes de %s"},
+    {Str::PaperCursorStart, "Cursor de papel de parede, %s. Control+F1 diz as teclas."},
+    {Str::PaperNoWalls, "este cômodo não tem paredes para cobrir"},
+    {Str::PaperDone, "cômodo coberto, %d lados de parede"},
+    {Str::PaperStripped, "papel de parede tirado, %d lados de parede"},
+    {Str::PaperNoStart, "o papel de parede vai em cômodos inteiros: não precisa de início"},
+    {Str::KeysPaperCursor,
+     "As setas movem o cursor um quadrado, com Shift cinco; cada quadrado diz seu cômodo. Enter coloca papel de "
+     "parede em todas as paredes do cômodo do cursor, por dentro; do lado de fora, nas paredes externas. "
+     "Control+Enter tira o papel das paredes do cômodo. R diz tudo, Home volta ao Sim selecionado, Escape sai do "
+     "cursor."},
 };
 
 }  // namespace

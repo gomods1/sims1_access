@@ -521,6 +521,16 @@ const Translation kEntries[] = {
     // Floor cursor (price)
     {Str::FloorStyle, "%1$s、1マス%2$s"},
     {Str::FloorTiles, "%dマス"},
+    // Wallpaper cursor
+    {Str::PaperPlan, "Enterで%sのすべての壁に壁紙を貼ります"},
+    {Str::PaperCursorStart, "壁紙カーソル、%s。コントロール+F1でキーを読みます。"},
+    {Str::PaperNoWalls, "この部屋には壁紙を貼る壁がありません"},
+    {Str::PaperDone, "部屋に壁紙を貼りました、壁面%d"},
+    {Str::PaperStripped, "壁紙をはがしました、壁面%d"},
+    {Str::PaperNoStart, "壁紙は部屋単位で貼ります：開始点は不要です"},
+    {Str::KeysPaperCursor,
+     "矢印キーでカーソルを1マス、Shiftと一緒なら5マス動かします。各マスは部屋を読みます。Enterでカーソルの部屋のすべての壁の内側に壁紙を貼ります。屋外なら外壁です。コントロール+Enterで部屋の壁紙をはがし"
+     "ます。Rはすべて読み、Homeで選択中のシムに戻り、Escapeでカーソルを終わります。"},
 };
 
 }  // namespace
