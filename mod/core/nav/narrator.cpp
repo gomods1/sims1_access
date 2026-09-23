@@ -50,6 +50,7 @@ constexpr ULONGLONG kVisitorStayMs = 1000;
 constexpr ULONGLONG kBurglarStayMs = 5000;
 constexpr ULONGLONG kLotSettleMs = 8000;
 constexpr ULONGLONG kBillsPollMs = 1000;
+constexpr ULONGLONG kBillsQuietMs = 3000;
 constexpr ULONGLONG kSameLineMs = 5000;  // identical words from different objects
 
 struct Shown {
@@ -86,6 +87,7 @@ struct State {
     std::set<int> bills;                          // ids of the unpaid bills by the mailbox
     bool billsSeeded = false;
     ULONGLONG billsPolled = 0;
+    ULONGLONG billsArrivedAt = 0;                 // the last new bill, while its line waits
 };
 
 std::map<int, ULONGLONG> g_relationSignAt;  // by neighbor ID: the last + / - balloon over the Sim
@@ -399,8 +401,12 @@ void PollBills() {
         if (game::ObjectInternalName(o) == "Bills") bills.insert(o.id);
     bool arrived = false;
     for (int id : bills) arrived |= !g.bills.count(id);
-    if (arrived && g.billsSeeded && now - g.lotSince >= kLotSettleMs)
-        Announce(util::Format(S(Str::BillsArrived), (int)bills.size()), false);
+    // They come one by one within seconds: one line once no new one has come for a moment.
+    if (arrived && g.billsSeeded && now - g.lotSince >= kLotSettleMs) g.billsArrivedAt = now;
+    if (g.billsArrivedAt && !arrived && now - g.billsArrivedAt >= kBillsQuietMs) {
+        g.billsArrivedAt = 0;
+        if (!bills.empty()) Announce(util::Format(S(Str::BillsArrived), (int)bills.size()), false);
+    }
     g.bills = std::move(bills);
     g.billsSeeded = true;
 }
