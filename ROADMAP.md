@@ -202,7 +202,8 @@ for a second Enter. A new room without a door is said, not asked about. Still to
 
 - Doors and windows (done for doors, verified: they use buy mode's spot list; a spot says the
   wall, the two rooms it joins and whether it is the room's first door, rooms without a door come
-  first; windows use the same words, not checked yet). Floors (done, verified: the same cursor
+  first; windows use the same words, verified 2026-09-23: "en la pared norte de sala de estar, da a
+  exterior", and the room stops counting as dark). Floors (done, verified: the same cursor
   on tiles; Enter a rectangle, Shift+Enter the whole room, Ctrl removes; size and price spoken).
   Wallpaper (done, verified: whole rooms only, Enter papers the room under the cursor, Ctrl+Enter
   strips it; a single wall's side cannot be chosen by ear). Pools (done, verified: the tile cursor

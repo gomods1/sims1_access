@@ -53,7 +53,7 @@ Essentials FindEssentials(const std::vector<game::LotObject>& objects) {
         std::string n = game::ObjectInternalName(o);
         if (Has(n, "Toilet")) e.toilet = true;
         if (Has(n, "Shower") || Has(n, "Bathtub") || (Has(n, "Tub") && !Has(n, "Hot Tub"))) e.wash = true;
-        if (Has(n, "Fridge") && !Has(n, "Barbecue")) e.fridge = true;
+        if ((Has(n, "Fridge") && !Has(n, "Barbecue")) || Has(n, "Pantry")) e.fridge = true;  // a pantry feeds as well
         if (Has(n, "Stove")) e.stove = true;
         if ((Has(n, "Phone - Table") || Has(n, "Phone - Wall") || Has(n, "Payphone") || Has(n, "Phone - Pay")))
             e.phone = true;
