@@ -725,4 +725,11 @@
     /* Build cursor: floors and rooms */                                                                             \
     X(KeysFloorChange,                                                                                               \
       "Shift+Page Up and Shift+Page Down go to the floor above or below; choosing a tool puts you back on "          \
-      "the first floor.")
+      "the first floor.")                                                                                            \
+    /* Catalog room filter */                                                                                        \
+    X(RoomFilterAll, "products for every room")                                                                      \
+    X(RoomFilterOn, "only products for: %s")                                                                         \
+    X(RoomFilterNoMore, "no more products for %s this way")                                                          \
+    X(KeysRoomFilter,                                                                                                \
+      "Control+R keeps the catalog to the products meant for one kind of room: kitchen, bathroom, bedroom, "         \
+      "living room, dining room, study, outside, or all again.")

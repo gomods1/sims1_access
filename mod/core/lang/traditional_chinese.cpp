@@ -638,6 +638,11 @@ const Translation kEntries[] = {
     {Str::BuildBlocksStairs, "擋住樓梯"},
     // Build cursor: floors and rooms
     {Str::KeysFloorChange, "Shift+Page Up 和 Shift+Page Down 去上一層或下一層；選擇工具會回到一樓。"},
+    // Catalog room filter
+    {Str::RoomFilterAll, "適合所有房間的商品"},
+    {Str::RoomFilterOn, "只看適合%s的商品"},
+    {Str::RoomFilterNoMore, "這個方向沒有更多適合%s的商品"},
+    {Str::KeysRoomFilter, "Ctrl+R 讓目錄只顯示適合某類房間的商品：廚房、浴室、臥室、客廳、餐廳、書房、戶外，或者恢復全部。"},
 };
 
 }  // namespace

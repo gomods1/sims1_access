@@ -736,6 +736,13 @@ const Translation kEntries[] = {
     {Str::KeysFloorChange,
      "Shift+Page Up e Shift+Page Down vão para o andar de cima ou de baixo; escolher uma ferramenta volta ao "
      "primeiro andar."},
+    // Catalog room filter
+    {Str::RoomFilterAll, "produtos para todos os cômodos"},
+    {Str::RoomFilterOn, "só produtos para: %s"},
+    {Str::RoomFilterNoMore, "não há mais produtos para %s nessa direção"},
+    {Str::KeysRoomFilter,
+     "Control+R deixa no catálogo só os produtos feitos para um tipo de cômodo: cozinha, banheiro, quarto, sala "
+     "de estar, sala de jantar, escritório, área externa, ou todos de novo."},
 };
 
 }  // namespace

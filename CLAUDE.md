@@ -215,7 +215,8 @@ eturn_focus.txt`; a dev core hands the foreground back to it
     last purchase reads "recién comprado".
   - Interaction menu: Up/Down/Home/End (items; the game highlights them too), Enter (choose;
     entries ending in "..." open a sub-level), Escape (back one level / close).
-  - Buy mode (F2): the catalog's buttons by arrows; a product reads name, price, ratings and its
+  - Buy mode (F2): Ctrl+R keeps the catalog to one kind of room (arrows skip the rest and turn
+    pages). The catalog's buttons by arrows; a product reads name, price, ratings and its
     description (the details buffer: all ratings, rooms it is meant for). Enter on a product starts placing
     it: PageDown/PageUp the spots (best first), Ctrl+PageDown/PageUp rooms, Shift+PageDown/PageUp
     other directions on the tile, Enter buys, Escape cancels, R repeats; the details buffer has

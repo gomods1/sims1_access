@@ -17,6 +17,8 @@ bool TextEntryActive();
 
 // The lot view owns input, so the object browser (nav/world.h) is available.
 bool LotViewActive();
+// Ctrl+R in the catalog: keep products to those meant for a kind of room (all, kitchen, ...).
+void CycleRoomFilter();
 
 // Which focus Enter and R act on: the object browser after PageUp/PageDown, the UI item after
 // arrows or Tab. Only meaningful while the lot view is active.

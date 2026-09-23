@@ -658,6 +658,11 @@ const Translation kEntries[] = {
     {Str::BuildBlocksStairs, "階段をふさぐ"},
     // Build cursor: floors and rooms
     {Str::KeysFloorChange, "Shift+Page UpとShift+Page Downで上の階または下の階へ移動します。ツールを選ぶと1階に戻ります。"},
+    // Catalog room filter
+    {Str::RoomFilterAll, "すべての部屋の商品"},
+    {Str::RoomFilterOn, "%s用の商品だけ"},
+    {Str::RoomFilterNoMore, "この方向には%s用の商品はもうない"},
+    {Str::KeysRoomFilter, "Ctrl+Rでカタログを部屋の種類ごとの商品に絞ります: キッチン、バスルーム、寝室、リビング、ダイニング、書斎、屋外、またはすべてに戻す。"},
 };
 
 }  // namespace

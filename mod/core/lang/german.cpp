@@ -742,6 +742,13 @@ const Translation kEntries[] = {
     {Str::KeysFloorChange,
      "Umschalt+Bild auf und Umschalt+Bild ab wechseln in das Stockwerk darüber oder darunter; die Wahl eines "
      "Werkzeugs führt zurück ins Erdgeschoss."},
+    // Catalog room filter
+    {Str::RoomFilterAll, "Produkte für alle Räume"},
+    {Str::RoomFilterOn, "nur Produkte für: %s"},
+    {Str::RoomFilterNoMore, "keine weiteren Produkte für %s in dieser Richtung"},
+    {Str::KeysRoomFilter,
+     "Strg+R beschränkt den Katalog auf die Produkte für eine Raumart: Küche, Bad, Schlafzimmer, Wohnzimmer, "
+     "Esszimmer, Arbeitszimmer, draußen, oder wieder alle."},
 };
 
 }  // namespace

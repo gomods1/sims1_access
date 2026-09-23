@@ -84,7 +84,7 @@ void SayKeyHelp() {
     if (game::IsPieMenu(game::InputRoot())) speech::Say(S(Str::KeysMenu));
     else if (nav::cheats::Entering()) speech::Say(S(Str::CheatHint));
     else if (nav::buy::Placing()) speech::Say(S(Str::KeysPlacing));
-    else if (nav::LotViewActive() && game::InBuyTool()) speech::Say(std::string(S(Str::KeysBuy)) + " " + S(Str::KeysLayoutHint));
+    else if (nav::LotViewActive() && game::InBuyTool()) speech::Say(std::string(S(Str::KeysBuy)) + " " + S(Str::KeysRoomFilter) + " " + S(Str::KeysLayoutHint));
     else if (nav::LotViewActive()) speech::Say(std::string(S(Str::KeysLot)) + " " + S(Str::KeysLayoutHint));
     else speech::Say(S(Str::KeysScreen));
 }
@@ -251,6 +251,10 @@ bool Dispatch(WPARAM vk, bool shift, bool ctrl) {
     case 'R':
         if (typing || shift) return false;
         g_swallowChar = 'r';
+        if (ctrl && nav::LotViewActive() && game::InBuyTool()) {
+            nav::CycleRoomFilter();
+            return true;
+        }
         if (WorldTarget() && nav::buy::Placing()) nav::buy::Repeat();
         else if (WorldTarget()) nav::world::Repeat();
         else nav::RepeatFocus();
@@ -276,7 +280,7 @@ bool OnKeyDown(WPARAM vk, LPARAM lp) {
     }
     bool ctrl = Held(VK_CONTROL);
     bool ctrlKey = vk == VK_PRIOR || vk == VK_NEXT || vk == VK_RETURN || vk == VK_F1 || vk == VK_UP ||
-                   vk == VK_DOWN || vk == VK_LEFT || vk == VK_RIGHT || (vk >= '1' && vk <= '9') || vk == 'F' || vk == 'H' || vk == 'E' || vk == 'N' || vk == 'L' || vk == VK_DELETE ||
+                   vk == VK_DOWN || vk == VK_LEFT || vk == VK_RIGHT || (vk >= '1' && vk <= '9') || vk == 'F' || vk == 'H' || vk == 'E' || vk == 'N' || vk == 'L' || vk == 'R' || vk == VK_DELETE ||
                    (vk == 'C' && Held(VK_SHIFT));  // the mod's Ctrl combinations
     if (Held(VK_MENU) || (ctrl && !ctrlKey)) {
         LogVerbose("key 0x%02x left to the game: %s held", (unsigned)vk, ctrl ? "Ctrl" : "Alt");

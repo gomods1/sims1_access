@@ -736,6 +736,13 @@ const Translation kEntries[] = {
     {Str::KeysFloorChange,
      "Maiusc+Pagina su e Maiusc+Pagina giù vanno al piano di sopra o di sotto; scegliere uno strumento riporta "
      "al primo piano."},
+    // Catalog room filter
+    {Str::RoomFilterAll, "prodotti per tutte le stanze"},
+    {Str::RoomFilterOn, "solo prodotti per: %s"},
+    {Str::RoomFilterNoMore, "nessun altro prodotto per %s in questa direzione"},
+    {Str::KeysRoomFilter,
+     "Control+R limita il catalogo ai prodotti pensati per un tipo di stanza: cucina, bagno, camera da letto, "
+     "soggiorno, sala da pranzo, studio, esterno, o di nuovo tutti."},
 };
 
 }  // namespace

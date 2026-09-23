@@ -168,9 +168,11 @@ How it works (done, `nav/buy_mode.cpp`, `nav/placement.cpp`, `game/buy.cpp`, `ga
 
 Still to do:
 
-- The catalog by room: this build's buy panel shows only the function categories (the room
-  tooltips exist in STR# 150 but no room buttons were seen). A mod-side filter by the products'
-  room flags would do.
+- The catalog by room (done, verified 2026-09-23): this build's buy panel shows only the
+  function categories, so Ctrl+R cycles a mod-side filter (kitchen, bathroom, bedroom, living
+  room, dining room, study, outside, all) by the products' OBJD room flags; moving through a list
+  skips other products and turns pages until one fits ("no hay más productos para ... en esa
+  dirección" at the end).
 - A tile-by-tile cursor for fine control (each tile spoken: walls, doors, objects), for placements
   the spot list leaves out.
 - Upper floors (spots are searched on the floor buy mode shows; the level buttons and stairs

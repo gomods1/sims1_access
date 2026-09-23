@@ -727,6 +727,13 @@ const Translation kEntries[] = {
     {Str::KeysFloorChange,
      "Shift+Page Up og Shift+Page Down går til etasjen over eller under; når du velger et verktøy, kommer du "
      "tilbake til første etasje."},
+    // Catalog room filter
+    {Str::RoomFilterAll, "produkter til alle rom"},
+    {Str::RoomFilterOn, "bare produkter til: %s"},
+    {Str::RoomFilterNoMore, "ingen flere produkter til %s i den retningen"},
+    {Str::KeysRoomFilter,
+     "Ctrl+R begrenser katalogen til produkter ment for én type rom: kjøkken, bad, soverom, stue, spisestue, "
+     "arbeidsrom, utendørs, eller alle igjen."},
 };
 
 }  // namespace

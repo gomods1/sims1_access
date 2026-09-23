@@ -6,6 +6,7 @@
 #include <map>
 #include <set>
 
+#include "../game/buy.h"
 #include "../game/design.h"
 #include "../game/pie.h"
 #include "../game/rtti.h"
@@ -80,6 +81,8 @@ struct State {
     int pageDirection = 0;     // ...toward the next (+1) or previous (-1) page...
     Role pageRole = Role::Button;  // ...from an item of this kind (a product)...
     ULONGLONG pageAt = 0;      // ...at this time
+    bool pageFiltered = false; // ...looking for a product of the room filter
+    int pageTurns = 0;         // pages turned in a row looking for one
     bool leftPie = false;      // the root before this one was an interaction menu
     ULONGLONG pieSeenAt = 0;   // when an interaction menu was last the root
     bool choseInPie = false;   // ...and the player chose an entry in it (not cancelled)
@@ -365,6 +368,41 @@ Ptr PageArrow(const Group& gr, int direction) {
     return 0;
 }
 
+// ---- The catalog's room filter (Ctrl+R) ------------------------------------------------------
+// This build's catalog only has the function categories: products can be kept to those meant for
+// one kind of room (the OBJD room flags the catalog popup lists).
+
+struct RoomChoice {
+    uint16_t flag;
+    Str name;
+};
+const RoomChoice kRoomChoices[] = {{0, Str::RoomFilterAll},   {0x01, Str::RoomKitchen}, {0x04, Str::RoomBathroom},
+                                   {0x02, Str::RoomBedroom},  {0x08, Str::RoomLiving},  {0x20, Str::RoomDining},
+                                   {0x80, Str::RoomStudy},    {0x10, Str::RoomOutside}};
+constexpr int kRoomChoiceCount = (int)(sizeof kRoomChoices / sizeof kRoomChoices[0]);
+constexpr int kMaxFilterPages = 40;
+int g_roomChoice = 0;
+
+bool IsProduct(const Item& it) { return game::IsProductButton(it.widget); }
+
+bool MatchesFilter(const Item& it) {
+    if (!g_roomChoice || !IsProduct(it)) return true;
+    game::ProductInfo p;
+    return game::ReadProductOfButton(it.widget, &p) && (p.roomFlags & kRoomChoices[g_roomChoice].flag);
+}
+
+void TurnPage(const Group& gr, Ptr arrow, int direction, bool filtered) {
+    Log("page turn %s%s", direction > 0 ? "next" : "previous", filtered ? " (room filter)" : "");
+    g.pageGroup = gr.key;
+    g.pageDirection = direction > 0 ? 1 : -1;
+    g.pageRole = Focused()->role;
+    g.pageAt = GetTickCount64();
+    g.pageFiltered = filtered;
+    g.quietUntil = g.pageAt + kPageTurnMs + kPrepareQuietMs;  // the panel redraws itself
+    game::Press(arrow);
+    game::Unhover(arrow);
+}
+
 // After a page turn: focus the new page's first item (or last, going back) and say it.
 void FinishPageTurn() {
     if (!g.pageAt || GetTickCount64() - g.pageAt < kPageTurnMs) return;
@@ -384,6 +422,31 @@ void FinishPageTurn() {
                     last = i;
                 }
         if (first < 0) return;
+        if (g.pageFiltered) {  // the first product of the filter's room, in the direction of travel
+            int found = -1;
+            for (int i = direction > 0 ? first : last; i >= first && i <= last; i += direction)
+                if (IsProduct(gr.items[i]) && MatchesFilter(gr.items[i])) {
+                    found = i;
+                    break;
+                }
+            if (found < 0) {
+                Ptr arrow = PageArrow(gr, direction);
+                if (arrow && ++g.pageTurns < kMaxFilterPages) {
+                    SetFocus(gi, first);
+                    TurnPage(gr, arrow, direction, true);
+                    return;
+                }
+                g.pageTurns = 0;
+                SetFocus(gi, direction > 0 ? last : first);
+                speech::Say(util::Format(S(Str::RoomFilterNoMore), S(kRoomChoices[g_roomChoice].name)));
+                return;
+            }
+            g.pageTurns = 0;
+            SetFocus(gi, found);
+            buffers::SetDetails(DetailLines(*Focused(), gr, g.index));
+            speech::Say(std::string(S(direction > 0 ? Str::NextPage : Str::PreviousPage)) + ". " + Describe(*Focused()));
+            return;
+        }
         SetFocus(gi, direction > 0 ? first : last);
         buffers::SetDetails(DetailLines(*Focused(), gr, g.index));
         speech::Say(std::string(S(direction > 0 ? Str::NextPage : Str::PreviousPage)) + ". " + Describe(*Focused()));
@@ -542,17 +605,29 @@ void Move(int delta) {
     // since the group's first items can be something else (the catalog's subcategories).
     bool firstOfKind = true;
     for (int i = 0; i < g.index; i++) firstOfKind &= gr.items[i].role != gr.items[g.index].role;
+    // With a room filter, products of other rooms are skipped (and pages turned) on the way.
+    if (delta != 0 && g_roomChoice && IsProduct(*Focused())) {
+        int step = delta > 0 ? 1 : -1;
+        // The page's products can sit on both sides of other buttons (the catalog's "Atrás",
+        // "Otro", "Todos" come between two rows of them in reading order).
+        for (int i = g.index + step; i >= 0 && i < contentEnd; i += step)
+            if (IsProduct(gr.items[i]) && MatchesFilter(gr.items[i])) {
+                SetFocus(g.group, i);
+                AnnounceFocus(false);
+                return;
+            }
+        if (Ptr arrow = PageArrow(gr, step)) {
+            g.pageTurns = 0;
+            TurnPage(gr, arrow, step, true);
+            return;
+        }
+        speech::Say(util::Format(S(Str::RoomFilterNoMore), S(kRoomChoices[g_roomChoice].name)));
+        return;
+    }
     bool pastEnd = delta > 0 ? g.index + delta >= contentEnd : (g.index + delta < 0 || firstOfKind);
     if (delta != 0 && onContent && pastEnd) {
         if (Ptr arrow = PageArrow(gr, delta)) {
-            Log("page turn %s", delta > 0 ? "next" : "previous");
-            g.pageGroup = gr.key;
-            g.pageDirection = delta > 0 ? 1 : -1;
-            g.pageRole = Focused()->role;
-            g.pageAt = GetTickCount64();
-            g.quietUntil = g.pageAt + kPageTurnMs + kPrepareQuietMs;  // the panel redraws itself
-            game::Press(arrow);
-            game::Unhover(arrow);
+            TurnPage(gr, arrow, delta, false);
             return;
         }
         if (delta > 0) delta = contentEnd - 1 - g.index;  // the last item repeats; arrows stay for End
@@ -560,6 +635,12 @@ void Move(int delta) {
     int last = (int)gr.items.size() - 1;
     SetFocus(g.group, std::clamp(g.index + delta, 0, last));  // at either end the item repeats
     AnnounceFocus(false);
+}
+
+void CycleRoomFilter() {
+    g_roomChoice = (g_roomChoice + 1) % kRoomChoiceCount;
+    std::string name = S(kRoomChoices[g_roomChoice].name);
+    speech::Say(g_roomChoice ? util::Format(S(Str::RoomFilterOn), name.c_str()) : name);
 }
 
 void MoveToEdge(bool last) {

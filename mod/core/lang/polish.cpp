@@ -731,6 +731,13 @@ const Translation kEntries[] = {
     // Build cursor: floors and rooms
     {Str::KeysFloorChange,
      "Shift+Page Up i Shift+Page Down przechodzą na piętro wyżej lub niżej; wybranie narzędzia wraca na parter."},
+    // Catalog room filter
+    {Str::RoomFilterAll, "produkty do wszystkich pomieszczeń"},
+    {Str::RoomFilterOn, "tylko produkty do: %s"},
+    {Str::RoomFilterNoMore, "brak kolejnych produktów do: %s w tym kierunku"},
+    {Str::KeysRoomFilter,
+     "Control+R ogranicza katalog do produktów przeznaczonych do jednego rodzaju pomieszczenia: kuchnia, "
+     "łazienka, sypialnia, salon, jadalnia, gabinet, na zewnątrz, lub znowu wszystkie."},
 };
 
 }  // namespace

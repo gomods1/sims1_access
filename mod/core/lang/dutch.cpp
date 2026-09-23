@@ -743,6 +743,13 @@ const Translation kEntries[] = {
     {Str::KeysFloorChange,
      "Shift+Page Up en Shift+Page Down gaan naar de verdieping erboven of eronder; een gereedschap kiezen brengt "
      "je terug naar de begane grond."},
+    // Catalog room filter
+    {Str::RoomFilterAll, "producten voor alle kamers"},
+    {Str::RoomFilterOn, "alleen producten voor: %s"},
+    {Str::RoomFilterNoMore, "geen producten meer voor %s in deze richting"},
+    {Str::KeysRoomFilter,
+     "Control+R beperkt de catalogus tot producten voor één soort kamer: keuken, badkamer, slaapkamer, "
+     "woonkamer, eetkamer, studeerkamer, buiten, of weer alles."},
 };
 
 }  // namespace

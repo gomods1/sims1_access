@@ -735,6 +735,13 @@ const Translation kEntries[] = {
     {Str::KeysFloorChange,
      "Vaihto+Page Up ja Vaihto+Page Down siirtyvät ylempään tai alempaan kerrokseen; työkalun valinta palauttaa "
      "ensimmäiseen kerrokseen."},
+    // Catalog room filter
+    {Str::RoomFilterAll, "tuotteet kaikkiin huoneisiin"},
+    {Str::RoomFilterOn, "vain tuotteet kohteeseen: %s"},
+    {Str::RoomFilterNoMore, "tähän suuntaan ei ole enempää tuotteita kohteeseen %s"},
+    {Str::KeysRoomFilter,
+     "Ctrl+R rajaa luettelon tuotteisiin, jotka on tarkoitettu yhdenlaiseen huoneeseen: keittiö, kylpyhuone, "
+     "makuuhuone, olohuone, ruokailuhuone, työhuone, ulkona, tai taas kaikki."},
 };
 
 }  // namespace
