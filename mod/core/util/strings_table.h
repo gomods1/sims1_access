@@ -706,4 +706,6 @@
     /* Room kinds (community lots) */                                                                                \
     X(RoomShop, "shop")                                                                                              \
     /* Pet skills */                                                                                                 \
-    X(GroupPetSkills, "pet skills")
+    X(GroupPetSkills, "pet skills")                                                                                  \
+    /* Transformation (Makin Magic) */                                                                               \
+    X(TransformLook, "look %d of %d")

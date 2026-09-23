@@ -53,6 +53,14 @@ bool IsOutfitArrow(Ptr dialog, Ptr button) {
 
 bool IsPetDialog(Ptr dialog) { return IsKindOf(dialog, "cWinPetSelectDlg"); }
 
+int TransformChoice(Ptr dialog, Ptr pressed) {
+    if (!pressed || !IsKindOf(dialog, "cWinTransformMeDlg")) return -1;
+    if (pressed != Rd<Ptr>(dialog + addr::clothing::kTransformPrev) && pressed != Rd<Ptr>(dialog + addr::clothing::kTransformNext))
+        return -1;
+    int choice = Rd<int>(dialog + addr::clothing::kTransformChoice, -1);
+    return choice >= 0 && choice < addr::clothing::kTransformChoices ? choice : -1;
+}
+
 bool CurrentOutfit(Ptr dialog, Look* out) {
     typedef int(__fastcall * IndexFn)(void* preview);
     Ptr preview = OutfitPreview(dialog);

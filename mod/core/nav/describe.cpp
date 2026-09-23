@@ -347,6 +347,8 @@ std::string DescribeMarkedLots(Ptr map) {
 
 std::string AfterPress(Ptr root, Ptr pressed) {
     if (game::IsOutfitArrow(root, pressed)) return DescribeOutfit(root);
+    int look = game::TransformChoice(root, pressed);
+    if (look >= 0) return util::Format(S(Str::TransformLook), look + 1, 8);
     if (Ptr map = game::TravelMap(root))
         for (const game::MapFilter& f : game::MapFilters(map))
             if (f.button == pressed) return DescribeMarkedLots(map);

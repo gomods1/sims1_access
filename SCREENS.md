@@ -43,11 +43,11 @@ everywhere (the game has no keyboard focus; the mod walks the widget tree).
 | Yes/No and message boxes ("¿Comprar casa?", "¿Quieres guardar la partida?") | `cTSWinMsgBox` | verified |
 | Help system prompt ("Sistema de ayuda") | `cTSObjectDialog` | verified |
 | Pie menu (interactions) | `cTSPieMenu` | verified: opened from the object browser, items and sub-levels by arrows, Enter queues, Escape backs out |
-| Radio dialog | `cWinRadioDialogBox` | not started |
+| Radio dialog | `cWinRadioDialogBox` | out of scope: only a debug cheat opens it (`0x459ad0`, in the cheat table at `0x980248`) |
 | Picture / splash / progress dialogs | `cWinPictureDialog`, `cWinPictureSplashDialog`, `cWinProgressPictureDialog` | picture dialogs read (friend count explanation) |
 | Clothing choice (wardrobe's "Cambiar de ropa") | `cWinClothingChoiceDlg` | done: the arrows and the preview say the outfit ("traje 108 de 121, atlético: hipy"; "el traje que lleva ahora" when the worn one is not in the list) |
 | Pet select (a pen's "Adoptar un perro") | `cWinPetSelectDlg` | done: the arrows and the preview say the breed ("mascota 6 de 16: beagle"); the sex question, the confirmation and the name field are ordinary dialogs |
-| Transform | `cWinTransformMeDlg` | not started |
+| Transform (Makin' Magic, "¿Bella o bestia?") | `cWinTransformMeDlg` | arrows say "aspecto 3 de 8" (from its click handler; not seen live) |
 | Dispose (sell) popup | `cWinDisposePopup` | not needed so far: the mod sells a held object through the tool's Delete key and says the refund |
 | Live popups (need / event messages at the top) | `cWinLivePopup` | not started |
 | Lot card | `cWinLotPopup` | read as the house's label |

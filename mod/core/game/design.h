@@ -39,6 +39,9 @@ Ptr OutfitPreview(Ptr dialog);
 bool IsOutfitArrow(Ptr dialog, Ptr button);
 // A pet pen's adoption picker (cWinPetSelectDlg): the same preview, over the pen's breeds.
 bool IsPetDialog(Ptr dialog);
+// Makin' Magic's transformation (cWinTransformMeDlg): the look its arrows show, 0-based; -1 when
+// the button is not one of its arrows.
+int TransformChoice(Ptr dialog, Ptr pressed);
 
 // Which arrow a button is: the part it changes, or false for any other widget.
 bool IsLookArrow(Ptr screen, Ptr button, LookPart* part);

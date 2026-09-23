@@ -718,6 +718,8 @@ const Translation kEntries[] = {
     {Str::RoomShop, "tienda"},
     // Pet skills
     {Str::GroupPetSkills, "Cualidades de las mascotas"},
+    // Transformation (Makin Magic)
+    {Str::TransformLook, "aspecto %d de %d"},
 };
 
 }  // namespace

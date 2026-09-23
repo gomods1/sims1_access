@@ -704,6 +704,13 @@ constexpr Va kCurrentIndex = 0x4fa630;
 constexpr int kPetPrev = 0x138;
 constexpr int kPetNext = 0x13c;
 constexpr int kPetPreview = 0x1c0;
+// cWinTransformMeDlg (Makin' Magic, "¿Bella o bestia?"): its click handler 0x4ecf50 cycles the
+// look shown at +0x1cc through 0..7 with the buttons at +0x13c (previous) and +0x140 (next).
+// Not seen live yet.
+constexpr int kTransformPrev = 0x13c;
+constexpr int kTransformNext = 0x140;
+constexpr int kTransformChoice = 0x1cc;
+constexpr int kTransformChoices = 8;
 }  // namespace clothing
 
 // ---- cTSPieMenu ---------------------------------------------------------------------------
