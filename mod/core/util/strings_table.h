@@ -611,4 +611,7 @@
       "Arrows move the cursor one tile, with Shift five. With the level tool, Space marks the tile whose "           \
       "height is kept, and Enter levels everything from there to the cursor: walls, floors and most objects "        \
       "need level ground, and the game says when it is not. With raise or lower, Enter raises or lowers the "        \
-      "ground once at the cursor. Home goes back to the selected Sim, Escape leaves the cursor.")
+      "ground once at the cursor. Home goes back to the selected Sim, Escape leaves the cursor.")                    \
+    /* Terrain (heights) */                                                                                          \
+    X(TerrainHeight, "height %d")                                                                                    \
+    X(TerrainSloped, "sloped")

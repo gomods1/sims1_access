@@ -197,9 +197,9 @@ for a second Enter. A new room without a door is said, not asked about. Still to
   strips it; a single wall's side cannot be chosen by ear). Pools (done, verified: the tile cursor
   digs a rectangle, checked like walls for blocked objects, doors, Sims shut in and tiles cut off;
   Ctrl+Enter fills in; ladders, diving boards and slides from the spot list; ponds untested).
-  Terrain (done, effect not verified yet: the level tool flattens the rectangle from the start to
-  the cursor, raise/lower press once at the cursor; the cursor does not say slopes yet: find the
-  terrain heights so a tile can say "inclinado"). Roofs are visual only: left out unless they turn
+  Terrain (done, verified: the level tool flattens the rectangle from the start to the cursor,
+  raise/lower press once at the cursor; every tile cursor says "inclinado" on sloped tiles and
+  the terrain cursor the height, from the terrain map, world + 0x14). Roofs are visual only: left out unless they turn
   out to matter (e.g. for the house's ratings). Stairs, fireplaces and plants are objects of the
   spot list (not checked), upper floors untested.
   (the same cursor, rectangles of tiles), wallpaper (by room and wall), stairs, terrain, water,

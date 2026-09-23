@@ -629,6 +629,9 @@ const Translation kEntries[] = {
      "die meisten Objekte brauchen ebenen Boden, und das Spiel sagt, wenn er es nicht ist. Mit Anheben oder "
      "Absenken hebt oder senkt Eingabe den Boden einmal am Cursor. Pos1 springt zum ausgewählten Sim, Escape "
      "verlässt den Cursor."},
+    // Terrain (heights)
+    {Str::TerrainHeight, "Höhe %d"},
+    {Str::TerrainSloped, "abschüssig"},
 };
 
 }  // namespace

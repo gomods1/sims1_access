@@ -552,6 +552,9 @@ const Translation kEntries[] = {
      "화살표로 커서를 한 칸, Shift와 함께 다섯 칸 옮깁니다. 평탄화 도구에서는 스페이스로 높이를 유지할 칸을 표시하고, Enter로 거기서 커서까지 평평하게 합니다. 벽, 바닥, 대부분의 "
      "물건은 평평한 땅이 필요하며, 그렇지 않으면 게임이 알려 줍니다. 올리기나 내리기 도구에서는 Enter로 커서의 땅을 한 번 올리거나 내립니다. Home은 선택한 심으로 돌아가고 "
      "Escape는 커서를 끝냅니다."},
+    // Terrain (heights)
+    {Str::TerrainHeight, "높이 %d"},
+    {Str::TerrainSloped, "경사짐"},
 };
 
 }  // namespace

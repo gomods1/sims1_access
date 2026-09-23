@@ -614,6 +614,9 @@ const Translation kEntries[] = {
      "højde bevares, og Enter jævner alt derfra til markøren: vægge, gulve og de fleste genstande kræver jævnt "
      "terræn, og spillet siger det, når det ikke er. Med hæv eller sænk hæver eller sænker Enter terrænet én "
      "gang ved markøren. Home går tilbage til den valgte Sim, Escape forlader markøren."},
+    // Terrain (heights)
+    {Str::TerrainHeight, "højde %d"},
+    {Str::TerrainSloped, "skrånende"},
 };
 
 }  // namespace

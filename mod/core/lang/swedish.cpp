@@ -616,6 +616,9 @@ const Translation kEntries[] = {
      "vars höjd behålls, och Enter jämnar ut allt därifrån till markören: väggar, golv och de flesta föremål "
      "behöver plan mark, och spelet säger till när den inte är det. Med höj eller sänk höjer eller sänker Enter "
      "marken en gång vid markören. Home går tillbaka till den valda simmen, Escape lämnar markören."},
+    // Terrain (heights)
+    {Str::TerrainHeight, "höjd %d"},
+    {Str::TerrainSloped, "sluttande"},
 };
 
 }  // namespace

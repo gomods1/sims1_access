@@ -634,6 +634,9 @@ const Translation kEntries[] = {
      "plupart des objets demandent un terrain plat, et le jeu le dit quand il ne l'est pas. Avec élever ou "
      "abaisser, Entrée élève ou abaisse le terrain une fois au curseur. Début revient au Sim sélectionné, Échap "
      "quitte le curseur."},
+    // Terrain (heights)
+    {Str::TerrainHeight, "hauteur %d"},
+    {Str::TerrainSloped, "en pente"},
 };
 
 }  // namespace

@@ -210,6 +210,12 @@ Tile TileSE(Corner c) { return Tile{c.x, c.y}; }
 std::string ShortLine() {
     std::string line = util::Format(S(Str::BuildCorner), g.cursor.x, g.cursor.y);
     if (!game::CornerBuildable(g.cursor)) line += ", " + std::string(S(Str::BuildNotBuildableHere));
+    uint8_t h[4];
+    if (game::TileHeights(g.cursor.x, g.cursor.y, h)) {
+        bool sloped = h[0] != h[1] || h[0] != h[2] || h[0] != h[3];
+        if (g.terrain) line += ", " + util::Format(S(Str::TerrainHeight), (int)std::min({h[0], h[1], h[2], h[3]}));
+        if (sloped) line += ", " + std::string(S(Str::TerrainSloped));
+    }
     if (g.floors && !g.paper && !g.pool && !g.terrain) {
         line += ", " + std::string(S(game::HasFloor(g.level, g.cursor.x, g.cursor.y) ? Str::FloorHere : Str::FloorNone));
     } else {

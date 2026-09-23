@@ -722,6 +722,11 @@ The pool tool (`cPoolTool`, slots 8 `0x63b200` (runs the drag slot itself), 10 `
 (its slot 22 does) for the up to commit, `+0x2c` = 1 fills in (slot 22 sets it from Ctrl with
 GetAsyncKeyState). Build items are placed by the move tool in modes above 2: 3 doors, 4 windows.
 
+Terrain heights: the world's `+0x14` map (rows at `+0x0c`, by tile y) holds 4 bytes per tile, the
+ground height at its corners in grid order (`0x585940` reorders them for the camera). On the
+Compañeras lot the buildable interior is 0 and the border 10; a raise made neighbours differ, a
+level made them equal again (read live).
+
 The lot's entrance: invisible `cXObject`s named "Portal - Pedestrian" and "Portal - Car" at the
 lot's edge (not `cXPortal`).
 

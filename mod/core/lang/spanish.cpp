@@ -623,6 +623,9 @@ const Translation kEntries[] = {
      "suelos y casi todos los objetos necesitan terreno llano, y el juego avisa cuando no lo es. Con elevar o "
      "rebajar, Intro eleva o rebaja el terreno una vez en el cursor. Inicio vuelve al Sim seleccionado, Escape "
      "sale del cursor."},
+    // Terrain (heights)
+    {Str::TerrainHeight, "altura %d"},
+    {Str::TerrainSloped, "inclinado"},
 };
 
 }  // namespace

@@ -613,6 +613,9 @@ const Translation kEntries[] = {
      "beholdes, og Enter jevner alt derfra til markøren: vegger, gulv og de fleste gjenstander trenger jevnt "
      "terreng, og spillet sier fra når det ikke er det. Med hev eller senk hever eller senker Enter terrenget én "
      "gang ved markøren. Home går tilbake til den valgte simmen, Escape forlater markøren."},
+    // Terrain (heights)
+    {Str::TerrainHeight, "høyde %d"},
+    {Str::TerrainSloped, "skrånende"},
 };
 
 }  // namespace

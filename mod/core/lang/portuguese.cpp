@@ -623,6 +623,9 @@ const Translation kEntries[] = {
      "cuja altura é mantida, e Enter nivela tudo dali até o cursor: paredes, pisos e a maioria dos objetos "
      "precisam de terreno plano, e o jogo avisa quando não é. Com elevar ou rebaixar, Enter eleva ou rebaixa o "
      "terreno uma vez no cursor. Home volta ao Sim selecionado, Escape sai do cursor."},
+    // Terrain (heights)
+    {Str::TerrainHeight, "altura %d"},
+    {Str::TerrainSloped, "inclinado"},
 };
 
 }  // namespace

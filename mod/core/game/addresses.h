@@ -129,6 +129,8 @@ constexpr Va kRatings[5] = {0x56b7e0, 0x56b400, 0x56b940, 0x56b850, 0x56b620};  
 // root keeps the room records in a std::map (id -> Room*).
 constexpr Va kWorld = 0xa675b4;
 constexpr int kWorldRotation = 0x84;  // world: int camera rotation 0..3
+constexpr int kWorldTerrain = 0x14;   // world: the terrain map (4 corner heights per tile)
+constexpr int kMapRows = 0x0c;        // a map: its rows (one pointer per tile y)
 constexpr int kWorldSpan = 0x400;     // the grid in 1/16 tile units (64 tiles)
 namespace rooms {
 constexpr int kLevelMaps = 0x28;      // world: RoomMap* per level (index = level, 1 = ground)

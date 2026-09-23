@@ -619,6 +619,9 @@ const Translation kEntries[] = {
      "którego wysokość zostaje, a Enter wyrównuje wszystko stamtąd do kursora: ściany, podłogi i większość "
      "przedmiotów wymagają płaskiego terenu, a gra mówi, gdy taki nie jest. Z podnoszeniem lub obniżaniem Enter "
      "raz podnosi lub obniża teren przy kursorze. Home wraca do wybranego Sima, Escape opuszcza kursor."},
+    // Terrain (heights)
+    {Str::TerrainHeight, "wysokość %d"},
+    {Str::TerrainSloped, "pochyły"},
 };
 
 }  // namespace

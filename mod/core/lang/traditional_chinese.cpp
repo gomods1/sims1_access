@@ -529,6 +529,9 @@ const Translation kEntries[] = {
     {Str::KeysTerrainCursor,
      "方向鍵把游標移動一格，按住Shift移動五格。使用整平工具時，空白鍵設定保持高度的格子，Enter把從那裡到游標的範圍整平：牆、地板和大多數物品都需要平地，不平時遊戲會提示。使用升高或降低工具時，Enter在游標處"
      "升高或降低地面一次。Home回到選取的模擬人物，Escape退出游標。"},
+    // Terrain (heights)
+    {Str::TerrainHeight, "高度%d"},
+    {Str::TerrainSloped, "傾斜"},
 };
 
 }  // namespace

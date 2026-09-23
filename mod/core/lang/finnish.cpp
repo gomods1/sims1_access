@@ -622,6 +622,9 @@ const Translation kEntries[] = {
      "ruudun, jonka korkeus säilyy, ja Enter tasoittaa kaiken siitä kohdistimeen: seinät, lattiat ja useimmat "
      "esineet tarvitsevat tasaisen maan, ja peli kertoo, kun se ei ole. Nosto- tai laskutyökalulla Enter nostaa "
      "tai laskee maata kerran kohdistimessa. Home palaa valittuun simiin, Escape poistuu kohdistimesta."},
+    // Terrain (heights)
+    {Str::TerrainHeight, "korkeus %d"},
+    {Str::TerrainSloped, "kalteva"},
 };
 
 }  // namespace

@@ -623,6 +623,9 @@ const Translation kEntries[] = {
      "la casella di cui si tiene l'altezza e Invio livella tutto da lì al cursore: muri, pavimenti e quasi tutti "
      "gli oggetti vogliono terreno piano, e il gioco lo dice quando non lo è. Con alza o abbassa, Invio alza o "
      "abbassa il terreno una volta sul cursore. Home torna al Sim selezionato, Esc esce dal cursore."},
+    // Terrain (heights)
+    {Str::TerrainHeight, "altezza %d"},
+    {Str::TerrainSloped, "in pendenza"},
 };
 
 }  // namespace

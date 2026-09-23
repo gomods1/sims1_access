@@ -630,6 +630,9 @@ const Translation kEntries[] = {
      "meeste voorwerpen hebben vlakke grond nodig, en het spel zegt het als die niet vlak is. Met ophogen of "
      "verlagen hoogt Enter de grond één keer op of verlaagt hem bij de cursor. Home gaat terug naar de "
      "geselecteerde Sim, Escape verlaat de cursor."},
+    // Terrain (heights)
+    {Str::TerrainHeight, "hoogte %d"},
+    {Str::TerrainSloped, "hellend"},
 };
 
 }  // namespace

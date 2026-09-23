@@ -19,6 +19,9 @@ uint8_t TileFlags(int level, int x, int y);
 constexpr uint8_t kTileOutside = 0x04;
 constexpr uint8_t kTileNotBuildable = 0x20;  // outside the lot's buildable area (walls refused)
 bool HasFloor(int level, int x, int y);    // a floor pattern (upper levels need one to stand on)
+// The ground height at a tile's four corners (the terrain map, world + 0x14: 4 bytes per tile,
+// grid order; what 0x585940 reads). false outside the grid.
+bool TileHeights(int x, int y, uint8_t out[4]);
 
 // Wall edges of a tile: north is toward y - 1, west toward x - 1.
 enum WallEdge : uint32_t {

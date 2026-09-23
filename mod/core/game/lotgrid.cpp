@@ -56,6 +56,15 @@ uint8_t TileFlags(int level, int x, int y) {
     return row ? Rd<uint8_t>(row + x) : 0;
 }
 
+bool TileHeights(int x, int y, uint8_t out[4]) {
+    int n = GridSize();
+    if (x < 0 || y < 0 || x >= n || y >= n) return false;
+    Ptr map = Rd<Ptr>(Rd<Ptr>(Va(addr::kWorld)) + addr::kWorldTerrain);
+    Ptr rows = map ? Rd<Ptr>(map + addr::kMapRows) : 0;
+    Ptr row = rows ? Rd<Ptr>(rows + y * 4) : 0;
+    return row && Read(row + x * 4, out, 4);
+}
+
 bool HasFloor(int level, int x, int y) {
     Ptr row = x >= 0 && x < GridSize() ? MapRow(addr::grid::kFloors, level, y) : 0;
     return row && Rd<uint16_t>(row + x * 2) != 0;

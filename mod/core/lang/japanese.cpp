@@ -549,6 +549,9 @@ const Translation kEntries[] = {
     {Str::KeysTerrainCursor,
      "矢印キーでカーソルを1マス、Shiftと一緒なら5マス動かします。平らにするツールでは、スペースで高さを保つマスを決め、Enterでそこからカーソルまでを平らにします。壁、床、ほとんどの物は平らな地面が必要で、そう"
      "でない場合はゲームが知らせます。上げる、下げるツールでは、Enterでカーソルの地面を1回上げ下げします。Homeで選択中のシムに戻り、Escapeでカーソルを終わります。"},
+    // Terrain (heights)
+    {Str::TerrainHeight, "高さ%d"},
+    {Str::TerrainSloped, "傾斜あり"},
 };
 
 }  // namespace
