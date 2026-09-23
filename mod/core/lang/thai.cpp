@@ -745,6 +745,9 @@ const Translation kEntries[] = {
     {Str::BioFor, "ประวัติของ %s"},
     // Key help
     {Str::KeysSimCard, "Ctrl+Shift+1 ถึง 9 เปิดการ์ดของซิม ซึ่งแก้ไขประวัติได้"},
+    // Travel maps
+    {Str::ScreenStudioTown, "สตูดิโอทาวน์ ไปไหนดี?"},
+    {Str::ScreenMagicTown, "เมจิคทาวน์ ไปไหนดี?"},
 };
 
 }  // namespace

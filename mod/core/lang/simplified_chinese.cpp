@@ -661,6 +661,9 @@ const Translation kEntries[] = {
     {Str::BioFor, "%s 的个人简历"},
     // Key help
     {Str::KeysSimCard, "Ctrl+Shift+1 到 9 打开模拟市民的卡片，可以编辑个人简历。"},
+    // Travel maps
+    {Str::ScreenStudioTown, "影城，去哪里？"},
+    {Str::ScreenMagicTown, "魔法镇，去哪里？"},
 };
 
 }  // namespace

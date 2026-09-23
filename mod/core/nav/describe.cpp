@@ -48,7 +48,7 @@ std::string LotText(const Item& it) {
     size_t lineEnd = text.find_first_of("\r\n");
     text = lineEnd == std::string::npos ? text + role : text.insert(lineEnd, role);
     Ptr map = game::TravelMap(it.widget);
-    if (!map || !game::IsCommunityLot(it.number)) return text;
+    if (!map || !game::MapLotVisitable(map, it.number)) return text;
     std::string filters;
     int bits = game::LotFilterBits(it.widget);
     for (const game::MapFilter& f : game::MapFilters(map))
@@ -333,7 +333,7 @@ std::string DescribeMarkedLots(Ptr map) {
             Item it;
             it.widget = w;
             it.number = game::LotNumber(w);
-            if (game::IsCommunityLot(it.number) && (game::LotFilterBits(w) & bit))
+            if (game::MapLotVisitable(map, it.number) && (game::LotFilterBits(w) & bit))
                 names.push_back(LotPlaceName(it));
             continue;
         }

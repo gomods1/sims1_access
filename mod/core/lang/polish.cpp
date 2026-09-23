@@ -758,6 +758,9 @@ const Translation kEntries[] = {
     {Str::BioFor, "%s - charakterystyka"},
     // Key help
     {Str::KeysSimCard, "Control+Shift+1 do 9 otwierają kartę Sima, gdzie można edytować jego charakterystykę."},
+    // Travel maps
+    {Str::ScreenStudioTown, "Dzielnica showbiznesu, dokąd?"},
+    {Str::ScreenMagicTown, "Abrakadabrowo, dokąd?"},
 };
 
 }  // namespace

@@ -771,6 +771,9 @@ const Translation kEntries[] = {
     // Key help
     {Str::KeysSimCard,
      "Strg+Umschalt+1 bis 9 öffnen die Karte eines Sims, auf der seine Biografie bearbeitet werden kann."},
+    // Travel maps
+    {Str::ScreenStudioTown, "Studiopark, wohin?"},
+    {Str::ScreenMagicTown, "Stadt der Magie, wohin?"},
 };
 
 }  // namespace

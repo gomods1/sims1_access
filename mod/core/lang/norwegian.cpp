@@ -754,6 +754,9 @@ const Translation kEntries[] = {
     {Str::BioFor, "Bio for %s"},
     // Key help
     {Str::KeysSimCard, "Ctrl+Shift+1 til 9 åpner kortet til en simmer, der biografien kan redigeres."},
+    // Travel maps
+    {Str::ScreenStudioTown, "Filmbyen, hvor skal vi?"},
+    {Str::ScreenMagicTown, "Magibyen, hvor skal vi?"},
 };
 
 }  // namespace

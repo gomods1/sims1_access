@@ -660,6 +660,9 @@ const Translation kEntries[] = {
     {Str::BioFor, "%s的小傳"},
     // Key help
     {Str::KeysSimCard, "Ctrl+Shift+1 到 9 打開模擬人物的卡片，可以編輯小傳。"},
+    // Travel maps
+    {Str::ScreenStudioTown, "影城區，去哪裡？"},
+    {Str::ScreenMagicTown, "魔法城，去哪裡？"},
 };
 
 }  // namespace

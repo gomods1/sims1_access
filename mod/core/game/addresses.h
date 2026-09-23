@@ -481,6 +481,13 @@ constexpr int kNeighborhood = 0x24;
 constexpr int kLotKinds = 0x180;
 constexpr int kKindCommunity = 2;
 constexpr int kOldTownBits[] = {0x10, 0x20, 8, 4, 2, 0x40, 1};
+// cWinStudiotown (Superstar's map; not a cWinNeighborhood): nine filter buttons at +0x144, the
+// chosen filter at +0x16c; its click handler 0x4d7650 sets them through 0x4d6540: caged pets,
+// shops, garden, restaurants, recreation, spas 0x80, acting 0x100, fashion 0x200, music 0x400.
+constexpr int kStudioFilters = 0x144;
+constexpr int kStudioFilterCount = 9;
+constexpr int kStudioFilter = 0x16c;
+constexpr int kStudioBits[] = {0x20, 8, 4, 2, 0x40, 0x80, 0x100, 0x200, 0x400};
 }  // namespace travelmap
 
 // ---- cPickFamilyItem (family picker row) / cPickFamilyItemMember (portrait) ---------------

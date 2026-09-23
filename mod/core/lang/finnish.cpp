@@ -762,6 +762,9 @@ const Translation kEntries[] = {
     {Str::BioFor, "Tausta - %s"},
     // Key help
     {Str::KeysSimCard, "Ctrl+Vaihto+1–9 avaavat simin kortin, jossa taustaa voi muokata."},
+    // Travel maps
+    {Str::ScreenStudioTown, "Studiokaupunki, minne mennään?"},
+    {Str::ScreenMagicTown, "Taikakaupunki, minne mennään?"},
 };
 
 }  // namespace

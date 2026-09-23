@@ -752,4 +752,7 @@
     /* Sim card */                                                                                                   \
     X(BioFor, "Bio for %s")                                                                                          \
     /* Key help */                                                                                                   \
-    X(KeysSimCard, "Control+Shift+1 to 9 open a Sim's card, where its biography can be edited.")
+    X(KeysSimCard, "Control+Shift+1 to 9 open a Sim's card, where its biography can be edited.")                     \
+    /* Travel maps */                                                                                                \
+    X(ScreenStudioTown, "Studio Town, where to?")                                                                    \
+    X(ScreenMagicTown, "Magic Town, where to?")

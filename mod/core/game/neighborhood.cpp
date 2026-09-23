@@ -44,13 +44,21 @@ Ptr TravelMap(Ptr widget) {
         // The home neighborhood is the same class: its filter bar is off (the filter keys 1..7
         // work only while +0x185 is 0, 0x4a9c80).
         if (IsKindOf(widget, "cWinNeighborhoodUL")) return Rd<uint8_t>(widget + addr::travelmap::kFiltersOff) ? 0 : widget;
+        else if (IsKindOf(widget, "cWinStudiotown")) return widget;
     return 0;
 }
+
+bool IsStudioTown(Ptr map) { return IsKindOf(map, "cWinStudiotown"); }
 
 // The bar is a button holding one row of tooltip buttons (seven in Old Town, each twice).
 std::vector<MapFilter> MapFilters(Ptr map) {
     std::vector<MapFilter> out;
     if (!map) return out;
+    if (IsStudioTown(map)) {  // its own array of nine, with the bits 0x4d6540 gives them
+        for (int i = 0; i < addr::travelmap::kStudioFilterCount; i++)
+            if (Ptr b = Rd<Ptr>(map + addr::travelmap::kStudioFilters + i * 4)) out.push_back({b, addr::travelmap::kStudioBits[i]});
+        return out;
+    }
     std::vector<Ptr> stack = {map};
     Ptr bar = 0;
     for (int n = 0; !stack.empty() && n < 500 && !bar; n++) {
@@ -79,7 +87,12 @@ std::vector<MapFilter> MapFilters(Ptr map) {
 
 bool IsCommunityLot(int number) { return LotKind(number) == addr::travelmap::kKindCommunity; }
 
-int MapFilterChosen(Ptr map) { return map ? Rd<int>(map + addr::travelmap::kFilter) : 0; }
+bool MapLotVisitable(Ptr map, int number) { return IsStudioTown(map) || IsCommunityLot(number); }
+
+int MapFilterChosen(Ptr map) {
+    if (!map) return 0;
+    return Rd<int>(map + (IsStudioTown(map) ? addr::travelmap::kStudioFilter : addr::travelmap::kFilter));
+}
 
 int LotFilterBits(Ptr lot) { return Rd<int>(lot + addr::lot::kFilterBits); }
 

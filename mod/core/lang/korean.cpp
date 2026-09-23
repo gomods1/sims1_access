@@ -684,6 +684,9 @@ const Translation kEntries[] = {
     {Str::BioFor, "%s의 인적 사항"},
     // Key help
     {Str::KeysSimCard, "Ctrl+Shift+1~9로 심의 카드를 열어 인적 사항을 편집할 수 있습니다."},
+    // Travel maps
+    {Str::ScreenStudioTown, "스튜디오 타운, 어디로 갈까요?"},
+    {Str::ScreenMagicTown, "매직 타운, 어디로 갈까요?"},
 };
 
 }  // namespace

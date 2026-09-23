@@ -765,6 +765,9 @@ const Translation kEntries[] = {
     {Str::BioFor, "Bio de %s"},
     // Key help
     {Str::KeysSimCard, "Control+Mayúsculas+1 a 9 abren la ficha de un Sim, donde se puede editar su biografía."},
+    // Travel maps
+    {Str::ScreenStudioTown, "Ciudad Estudio, ¿a dónde vamos?"},
+    {Str::ScreenMagicTown, "Ciudad Mágica, ¿a dónde vamos?"},
 };
 
 }  // namespace

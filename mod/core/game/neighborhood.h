@@ -28,7 +28,9 @@ struct MapFilter {
     int bit;
 };
 std::vector<MapFilter> MapFilters(Ptr map);
-int MapFilterChosen(Ptr map);  // the bit the bar marks lots by now, 0 none
+int MapFilterChosen(Ptr map);
+bool IsStudioTown(Ptr map);
+bool MapLotVisitable(Ptr map, int number);  // a lot the trip can go to (Old Town: its community lots)  // the bit the bar marks lots by now, 0 none
 int LotFilterBits(Ptr lot);
 
 }  // namespace game

@@ -757,6 +757,9 @@ const Translation kEntries[] = {
     {Str::BioFor, "Bakgrund för %s"},
     // Key help
     {Str::KeysSimCard, "Ctrl+Skift+1 till 9 öppnar en simmes kort, där bakgrunden kan redigeras."},
+    // Travel maps
+    {Str::ScreenStudioTown, "Studiostaden, vart ska vi?"},
+    {Str::ScreenMagicTown, "Magistaden, vart ska vi?"},
 };
 
 }  // namespace
