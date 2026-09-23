@@ -2,7 +2,7 @@
 // X(Id, "English"), grouped by feature. A translation keeps the printf placeholders (it may
 // reorder them as %1$s, %2$d); tools/mod_strings.py checks that and lists missing translations.
 // The direction words (Dir*) are only ever inserted into TilesAway, OneTileAway, FacingDirection,
-// InCorner, AgainstWall and BesideWall; a translation may store them in the form those need
+// InCorner, AgainstWall, BesideWall and DoorInWall; a translation may store them in the form those need
 // (Finnish keeps compound stems), so never speak one on its own.
 #pragma once
 
@@ -552,4 +552,7 @@
     /* Build cursor (cost) */                                                                                        \
     X(BuildCostWas, "cost %s")                                                                                       \
     /* Build cursor (trapped) */                                                                                     \
-    X(BuildTrapsSims, "it would shut in: %s")
+    X(BuildTrapsSims, "it would shut in: %s")                                                                        \
+    /* Doors and windows */                                                                                          \
+    X(DoorInWall, "in the %1$s wall of %2$s, opening onto %3$s")                                                     \
+    X(DoorFirst, "the first door of that room")

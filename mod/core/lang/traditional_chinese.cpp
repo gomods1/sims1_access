@@ -482,6 +482,9 @@ const Translation kEntries[] = {
     {Str::BuildCostWas, "花費%s"},
     // Build cursor (trapped)
     {Str::BuildTrapsSims, "會把這些人困住：%s"},
+    // Doors and windows
+    {Str::DoorInWall, "在%2$s的%1$s牆上，通往%3$s"},
+    {Str::DoorFirst, "這個房間的第一扇門"},
 };
 
 }  // namespace

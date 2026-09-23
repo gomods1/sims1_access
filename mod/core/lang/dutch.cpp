@@ -570,6 +570,9 @@ const Translation kEntries[] = {
     {Str::BuildCostWas, "kosten %s"},
     // Build cursor (trapped)
     {Str::BuildTrapsSims, "het zou insluiten: %s"},
+    // Doors and windows
+    {Str::DoorInWall, "in de muur in het %1$s van %2$s, komt uit op %3$s"},
+    {Str::DoorFirst, "de eerste deur van die kamer"},
 };
 
 }  // namespace

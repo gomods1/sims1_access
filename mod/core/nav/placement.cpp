@@ -379,6 +379,19 @@ std::vector<Area> FindSpots() {
         if (!use.empty()) existing.push_back({o.id, use});
     }
 
+    // Doors and windows are placed by wall; rooms that have no door yet come first.
+    bool heldPortal = game::IsPortal(held);
+    bool heldDoor = heldPortal && game::PeoplePass(held);
+    std::map<int, int> doorsIn;  // room -> doors on its walls
+    for (int i = 0; i < f.size * f.size; i++) {
+        if (!f.portal[i]) continue;
+        Tile t{i % f.size, i / f.size};
+        Ptr door = game::ObjectById(f.objectId[i]);
+        doorsIn[f.room[i]]++;
+        Tile b = game::Step(t, (game::ObjectDirection(door) + 4) & 7);
+        if (f.Inside(b) && f.room[f.Index(b)] != f.room[i]) doorsIn[f.room[f.Index(b)]]++;
+    }
+
     // The reference point for distances and the outdoors: the selected Sim.
     game::LotObject sim;
     bool hasSim = game::GetObject(game::SelectedSim(), &sim) && sim.level == level;
@@ -469,6 +482,22 @@ std::vector<Area> FindSpots() {
                     area.unusable++;
                     continue;
                 }
+                if (heldPortal) {  // a door or window: which wall, which rooms, a room's first door
+                    spot.portal = true;
+                    spot.roomHere = f.room[f.Index(t)];
+                    Tile behind = game::Step(t, (direction + 4) & 7);
+                    spot.roomBehind = f.Inside(behind) ? f.room[f.Index(behind)] : game::kNoRoom;
+                    bool joins = spot.roomHere != spot.roomBehind;
+                    // The same place in the wall seen from outside: said from the room's side.
+                    game::Room hereInfo, behindInfo;
+                    if (joins && game::GetRoom(spot.roomHere, &hereInfo) && hereInfo.outside &&
+                        game::GetRoom(spot.roomBehind, &behindInfo) && !behindInfo.outside)
+                        continue;
+                    spot.firstDoor = heldDoor && joins && (!doorsIn[spot.roomHere] || !doorsIn[spot.roomBehind]);
+                    spot.score = (spot.firstDoor ? 100 : 0) + (joins ? 20 : 0);
+                    area.spots.push_back(spot);
+                    continue;
+                }
                 // Score: what makes a spot look deliberate to a sighted player.
                 spot.wallSides = WallSides(f, spot.footprint, direction);
                 spot.facing = FacedObject(f, spot.footprint, direction);
@@ -509,6 +538,7 @@ std::vector<Area> FindSpots() {
             return Distance(a.tile, center) < Distance(b.tile, center);
         });
         area.suggested = moving ? area.room == fromRoom : rooms::Suits(area.kind, traits.rooms);
+        if (heldDoor) area.suggested = !area.spots.empty() && area.spots.front().firstDoor;
     }
     // Suggested rooms with spots first, then any with spots by nearest spot, then the rest.
     auto nearest = [&](const Area& a) {
@@ -558,8 +588,34 @@ std::string Describe(const Spot& spot) {
     return s;
 }
 
+// A room's name for door descriptions ("comedor", "exterior").
+std::string RoomNameOf(int room) {
+    std::string name = rooms::NameOf(rooms::NameRooms(game::LotObjects()), room);
+    if (!name.empty()) return name;
+    game::Room info;  // a room with nothing in it yet has no name: its size says which
+    if (game::GetRoom(room, &info) && !info.outside) return util::Format(S(Str::RoomEmpty), info.tiles);
+    return S(Str::RoomOutside);
+}
+
 std::vector<std::string> DescribeParts(const Spot& spot) {
     std::vector<std::string> parts;
+    if (spot.portal) {  // "en la pared oeste de comedor, da a exterior; la primera puerta de comedor"
+        std::string here = RoomNameOf(spot.roomHere), behind = RoomNameOf(spot.roomBehind);
+        const char* wall = S(DirectionName(game::CompassOf((spot.direction + 4) & 7)));
+        parts.push_back(util::Format(S(Str::DoorInWall), wall, here.c_str(), behind.c_str()));
+        if (spot.firstDoor) parts.push_back(S(Str::DoorFirst));
+        parts.push_back(util::Format(S(Str::TileAt), spot.tile.x, spot.tile.y));
+        game::LotObject sim;
+        if (game::GetObject(game::SelectedSim(), &sim)) {
+            Tile at = TileOf(sim);
+            int tiles = (int)std::lround(Distance(at, spot.tile));
+            const char* dir = S(DirectionName(Bearing(at, spot.tile)));
+            if (tiles < 1) parts.push_back(S(Str::HereNow));
+            else if (tiles == 1) parts.push_back(util::Format(S(Str::OneTileAway), dir));
+            else parts.push_back(util::Format(S(Str::TilesAway), tiles, dir));
+        }
+        return parts;
+    }
     if (spot.surface) {  // "sobre Mesa de comedor Mission, a 3 casillas al este"
         std::string name = NameOfId(spot.surface);
         parts.push_back(util::Format(S(Str::OnTopOf), name.c_str()));

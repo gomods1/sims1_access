@@ -189,7 +189,14 @@ void Tick() {
         if (g.session) Reset();
         return;
     }
-    if (!game::HeldObject() && !game::BeginPlacing()) return;
+    if (!game::HeldObject() && !game::BeginPlacing()) {
+        static ULONGLONG logged = 0;
+        if (GetTickCount64() - logged > 5000) {
+            logged = GetTickCount64();
+            LogVerbose("buy: placing, but no held object");
+        }
+        return;
+    }
     game::Ptr held = game::HeldObject();
     if (!held) return;
     if (Session() != g.session) {
@@ -262,6 +269,7 @@ void Confirm() {
     std::string name = buying ? "" : HeldName();
     game::ProductInfo p;
     if (buying && game::HeldProduct(&p)) name = p.name;
+    if (name.empty()) name = HeldName();  // build mode's items are not in the buy catalog
     game::Ptr placed = game::HeldObject();
     game::LiftHeld();
     if (s->direction >= 0) game::TurnHeld(s->direction);

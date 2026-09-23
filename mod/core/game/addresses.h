@@ -238,6 +238,7 @@ constexpr int kActive = 0x97;         // u8: the held object follows the mouse; 
                                       // entered the lot) sets it, slot 23 (left) clears it and
                                       // takes the held object out of the world
 constexpr int kBuyMode = 2;
+constexpr int kBuildItemMode = 3;     // build mode's objects (doors, windows): the same placing
 }  // namespace movetool
 constexpr Va kScreenToWorld = 0x5e00e0;  // cdecl int* (int* out, u32* packedScreen, int flag):
                                          // view coordinates (1/16 tile) under a screen point

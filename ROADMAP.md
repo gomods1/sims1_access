@@ -189,7 +189,9 @@ and price), Insert builds one. Before building, the walls are checked from the l
 objects Sims could no longer reach, Sims shut in, doors closed, tiles cut off; any of these asks
 for a second Enter. A new room without a door is said, not asked about. Still to do below.
 
-- Doors and windows (the door tool: pick a wall of the new room and say which side opens), floors
+- Doors and windows (done for doors, verified: they use buy mode's spot list; a spot says the
+  wall, the two rooms it joins and whether it is the room's first door, rooms without a door come
+  first; windows use the same words, not checked yet). Floors
   (the same cursor, rectangles of tiles), wallpaper (by room and wall), stairs, terrain, water,
   pools, roofs, second floors; fences that are objects (some expansion fences use the buy tool);
   diagonal walls are drawn but not checked. Earlier plan:

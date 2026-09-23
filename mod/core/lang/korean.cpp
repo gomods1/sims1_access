@@ -502,6 +502,9 @@ const Translation kEntries[] = {
     {Str::BuildCostWas, "비용 %s"},
     // Build cursor (trapped)
     {Str::BuildTrapsSims, "가둬 버립니다: %s"},
+    // Doors and windows
+    {Str::DoorInWall, "%2$s의 %1$s 벽, %3$s(으)로 통함"},
+    {Str::DoorFirst, "그 방의 첫 번째 문"},
 };
 
 }  // namespace

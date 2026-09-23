@@ -27,6 +27,11 @@ struct Spot {
     int nextTo = 0;         // object id of the nearest neighbor (0 none)
     int facing = 0;         // object id of what the front faces (a table for a chair), 0 none
     int cutOff = 0;         // floor tiles of the area it would cut off from the rest
+    // Doors and windows: they stand in the wall on their back side, between two rooms.
+    bool portal = false;
+    int roomHere = game::kNoRoom;    // the room of the tile it stands on
+    int roomBehind = game::kNoRoom;  // the room on the other side of that wall
+    bool firstDoor = false;          // one of the rooms has no door yet
 };
 
 struct Area {
