@@ -778,6 +778,8 @@ const Translation kEntries[] = {
     {Str::ViewVacation, "Widok Wyspy Wakacyjnej"},
     {Str::ViewStudioTown, "Widok dzielnicy showbiznesu"},
     {Str::ViewMagicTown, "Widok Abrakadabrowa"},
+    // Sim panels
+    {Str::GroupReportCard, "Świadectwo"},
 };
 
 }  // namespace

@@ -680,6 +680,8 @@ const Translation kEntries[] = {
     {Str::ViewVacation, "渡假岛视野"},
     {Str::ViewStudioTown, "影城视野"},
     {Str::ViewMagicTown, "魔法镇视野"},
+    // Sim panels
+    {Str::GroupReportCard, "成绩单"},
 };
 
 }  // namespace

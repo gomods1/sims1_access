@@ -777,6 +777,8 @@ const Translation kEntries[] = {
     {Str::ViewVacation, "Semesterön"},
     {Str::ViewStudioTown, "Studiostaden"},
     {Str::ViewMagicTown, "Magistaden"},
+    // Sim panels
+    {Str::GroupReportCard, "Betyg"},
 };
 
 }  // namespace

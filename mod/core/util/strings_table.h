@@ -772,4 +772,6 @@
     X(ViewDowntown, "Downtown view")                                                                                 \
     X(ViewVacation, "Vacation Island view")                                                                          \
     X(ViewStudioTown, "Studio Town view")                                                                            \
-    X(ViewMagicTown, "Magic Town view")
+    X(ViewMagicTown, "Magic Town view")                                                                              \
+    /* Sim panels */                                                                                                 \
+    X(GroupReportCard, "Report Card")

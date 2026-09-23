@@ -703,6 +703,8 @@ const Translation kEntries[] = {
     {Str::ViewVacation, "휴가의 섬 보기"},
     {Str::ViewStudioTown, "스튜디오 타운 보기"},
     {Str::ViewMagicTown, "매직 타운 보기"},
+    // Sim panels
+    {Str::GroupReportCard, "성적표"},
 };
 
 }  // namespace

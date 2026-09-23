@@ -121,6 +121,13 @@ struct Walker {
             Register(game::PetSkillButtons(w), Role::Skill, 0, game::kPetSkillSlot);
             return true;
         }
+        if (IsKindOf(w, "cWinSubpanelReportCard")) {  // a child's grade, the caption of its one button ("B")
+            std::vector<Ptr> grade;
+            for (Ptr c : game::Children(w))
+                if (game::Visible(c) && !game::Caption(c).empty()) grade.push_back(c);
+            Register(grade, Role::Info, 0);
+            return true;
+        }
         if (IsKindOf(w, "cWinSubpanelHouse")) {
             std::vector<Ptr> buttons = game::HousePanelButtons(w);
             size_t ratings = std::min(buttons.size(), (size_t)game::kHouseRatingCount);

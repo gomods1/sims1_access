@@ -406,7 +406,9 @@ std::string Describe(const Item& it) {
         if (!game::HouseRatings(ratings) || it.number < 0 || it.number >= game::kHouseRatingCount) return it.label;
         return util::Format(S(Str::SkillValue), it.label.c_str(), ratings[it.number]);
     }
-    case Role::Info:
+    case Role::Info:  // a child's grade: "Informes: B" (a group of one says no title)
+        if (game::IsKindOf(game::Parent(it.widget), "cWinSubpanelReportCard"))
+            return std::string(S(Str::GroupReportCard)) + ": " + game::Caption(it.widget);
         return game::Caption(it.widget);
     case Role::PickerMember:
         return PickerMemberText(it);
