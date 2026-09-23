@@ -55,6 +55,7 @@ BODY = {
     "leather": ("LookLeather", "leather"), "dress": ("LookDress", "dress"), "longdress": ("LookLongDress", "long dress"),
     "skirt": ("LookSkirt", "skirt"), "blouse": ("LookBlouse", "blouse"), "swimsuit": ("LookSwimsuit", "swimsuit"),
     "bikini": ("LookBikini", "bikini"), "top": ("LookTop", "top"), "leggings": ("LookLeggings", "leggings"),
+    "underwear": ("LookUnderwear", "underwear"),
     "black": ("LookColorBlack", "black"), "white": ("LookColorWhite", "white"), "gray": ("LookColorGray", "gray"),
     "red": ("LookColorRed", "red"), "blue": ("LookColorBlue", "blue"), "green": ("LookColorGreen", "green"),
     "yellow": ("LookColorYellow", "yellow"), "orange": ("LookColorOrange", "orange"), "purple": ("LookColorPurple", "purple"),

@@ -766,6 +766,7 @@ const Translation kEntries[] = {
     {Str::LookBikini, "比基尼"},
     {Str::LookTop, "上衣"},
     {Str::LookLeggings, "內搭褲"},
+    {Str::LookUnderwear, "內衣"},
     {Str::LookColorBlack, "黑色"},
     {Str::LookColorWhite, "白色"},
     {Str::LookColorGray, "灰色"},

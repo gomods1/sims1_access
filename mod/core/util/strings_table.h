@@ -860,6 +860,7 @@
     X(LookBikini, "bikini")                                                                                          \
     X(LookTop, "top")                                                                                                \
     X(LookLeggings, "leggings")                                                                                      \
+    X(LookUnderwear, "underwear")                                                                                    \
     X(LookColorBlack, "black")                                                                                       \
     X(LookColorWhite, "white")                                                                                       \
     X(LookColorGray, "gray")                                                                                         \
