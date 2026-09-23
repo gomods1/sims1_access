@@ -765,4 +765,11 @@
     /* House overview */                                                                                             \
     X(HouseToCheckOne, "1 thing to check: Control+Up reads it")                                                      \
     /* Credits */                                                                                                    \
-    X(CreditsScreen, "Credits. Control+Up reads them line by line, Control+Down goes back; Enter on OK closes.")
+    X(CreditsScreen, "Credits. Control+Up reads them line by line, Control+Down goes back; Enter on OK closes.")     \
+    /* Travel maps */                                                                                                \
+    X(ScreenDowntown, "Downtown, where to?")                                                                         \
+    /* Travel maps */                                                                                                \
+    X(ViewDowntown, "Downtown view")                                                                                 \
+    X(ViewVacation, "Vacation Island view")                                                                          \
+    X(ViewStudioTown, "Studio Town view")                                                                            \
+    X(ViewMagicTown, "Magic Town view")

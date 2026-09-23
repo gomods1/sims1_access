@@ -674,6 +674,12 @@ const Translation kEntries[] = {
     {Str::HouseToCheckOne, "有1件事要检查：Ctrl+上方向键朗读"},
     // Credits
     {Str::CreditsScreen, "制作人员。Ctrl+上方向键逐行朗读，Ctrl+下方向键返回；在确定上按回车关闭。"},
+    // Travel maps
+    {Str::ScreenDowntown, "市区，去哪里？"},
+    {Str::ViewDowntown, "市区视野"},
+    {Str::ViewVacation, "渡假岛视野"},
+    {Str::ViewStudioTown, "影城视野"},
+    {Str::ViewMagicTown, "魔法镇视野"},
 };
 
 }  // namespace

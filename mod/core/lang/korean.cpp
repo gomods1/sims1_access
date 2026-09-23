@@ -697,6 +697,12 @@ const Translation kEntries[] = {
     {Str::HouseToCheckOne, "확인할 것 1개: 컨트롤+위쪽 화살표로 읽습니다"},
     // Credits
     {Str::CreditsScreen, "제작진. Ctrl+위쪽 화살표로 한 줄씩 읽고 Ctrl+아래쪽 화살표로 돌아갑니다. 확인에서 Enter를 누르면 닫힙니다."},
+    // Travel maps
+    {Str::ScreenDowntown, "시내, 어디로 갈까요?"},
+    {Str::ViewDowntown, "시내 보기"},
+    {Str::ViewVacation, "휴가의 섬 보기"},
+    {Str::ViewStudioTown, "스튜디오 타운 보기"},
+    {Str::ViewMagicTown, "매직 타운 보기"},
 };
 
 }  // namespace

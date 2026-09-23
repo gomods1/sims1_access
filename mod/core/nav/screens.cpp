@@ -46,10 +46,21 @@ constexpr size_t kMaxTitleLength = 40;  // longer text is a message, not a title
 
 // The neighborhood says its number ("Barrio 1"), as the game shows it between its arrows.
 std::string ScreenName(Ptr root) {
-    if (game::TravelMap(root) == root && root)
+    if (game::TravelMap(root) == root && root) {
+        // Opened from the neighborhood's own buttons (to build on its lots) the map has no
+        // filter bar: it is a view, not a trip's "where to?".
+        bool trip = false;
+        for (const game::MapFilter& f : game::MapFilters(root)) trip |= game::Visible(f.button);
+        if (!trip)
+            return S(game::IsStudioTown(root) ? Str::ViewStudioTown
+                     : game::IsKindOf(root, "cWinMagicland") ? Str::ViewMagicTown
+                     : game::IsKindOf(root, "cWinVacation") ? Str::ViewVacation
+                     : game::IsKindOf(root, "cWinDowntown") ? Str::ViewDowntown : Str::ScreenOldTown);
         return S(game::IsStudioTown(root) ? Str::ScreenStudioTown
                  : game::IsKindOf(root, "cWinMagicland") ? Str::ScreenMagicTown
-                 : game::IsKindOf(root, "cWinVacation") ? Str::ScreenVacation : Str::ScreenOldTown);
+                 : game::IsKindOf(root, "cWinVacation") ? Str::ScreenVacation
+                 : game::IsKindOf(root, "cWinDowntown") ? Str::ScreenDowntown : Str::ScreenOldTown);
+    }
     if (game::IsKindOf(root, "cWinNeighborhood")) {
         std::string number = util::ReadGameSetting("SIMS_CURRENT_NEIGHBORHOOD_NUM");
         if (!number.empty()) return util::Format(S(Str::ScreenNeighborhoodNumber), number.c_str());

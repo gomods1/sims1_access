@@ -55,6 +55,9 @@ const MapKind kMapKinds[] = {
      addr::travelmap::kMagicBits, false},
     {"cWinVacation", addr::travelmap::kVacationFilters, addr::travelmap::kVacationFilterCount,
      addr::travelmap::kVacationFilter, addr::travelmap::kOldTownBits, true},
+    // Downtown (Hot Date): the same layout as Vacation's (0x489790 -> 0x488790).
+    {"cWinDowntown", addr::travelmap::kVacationFilters, addr::travelmap::kVacationFilterCount,
+     addr::travelmap::kVacationFilter, addr::travelmap::kOldTownBits, true},
 };
 
 const MapKind* KindOfMap(Ptr map) {

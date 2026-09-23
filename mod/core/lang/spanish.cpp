@@ -779,6 +779,12 @@ const Translation kEntries[] = {
     // Credits
     {Str::CreditsScreen,
      "Créditos. Control+Arriba los lee línea a línea, Control+Abajo vuelve atrás; Intro en OK cierra."},
+    // Travel maps
+    {Str::ScreenDowntown, "El Centro, ¿a dónde vamos?"},
+    {Str::ViewDowntown, "Vista del Centro"},
+    {Str::ViewVacation, "Vista Isla Vacaciones"},
+    {Str::ViewStudioTown, "Vista de Ciudad Estudio"},
+    {Str::ViewMagicTown, "Vista de Ciudad Mágica"},
 };
 
 }  // namespace

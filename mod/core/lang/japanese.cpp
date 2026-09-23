@@ -694,6 +694,12 @@ const Translation kEntries[] = {
     {Str::HouseToCheckOne, "確認すること1件：コントロール+上矢印で読みます"},
     // Credits
     {Str::CreditsScreen, "クレジット。Ctrl+上矢印で1行ずつ読み、Ctrl+下矢印で戻ります。OKでEnterを押すと閉じます。"},
+    // Travel maps
+    {Str::ScreenDowntown, "ダウンタウン、どこへ行く？"},
+    {Str::ViewDowntown, "ダウンタウン画面"},
+    {Str::ViewVacation, "バケーション・アイランド画面"},
+    {Str::ViewStudioTown, "スタジオタウン画面"},
+    {Str::ViewMagicTown, "マジックタウン画面"},
 };
 
 }  // namespace

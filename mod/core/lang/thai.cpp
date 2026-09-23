@@ -759,6 +759,12 @@ const Translation kEntries[] = {
     // Credits
     {Str::CreditsScreen,
      "รายชื่อผู้สร้าง Ctrl+ลูกศรขึ้นอ่านทีละบรรทัด Ctrl+ลูกศรลงย้อนกลับ กด Enter ที่ OK เพื่อปิด"},
+    // Travel maps
+    {Str::ScreenDowntown, "ดาวน์ทาวน์ ไปไหนดี?"},
+    {Str::ViewDowntown, "ดาวน์ทาวน์"},
+    {Str::ViewVacation, "เกาะวันหยุดพักผ่อน"},
+    {Str::ViewStudioTown, "สตูดิโอทาวน์"},
+    {Str::ViewMagicTown, "เมจิคทาวน์"},
 };
 
 }  // namespace

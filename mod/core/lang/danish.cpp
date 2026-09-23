@@ -768,6 +768,12 @@ const Translation kEntries[] = {
     // Credits
     {Str::CreditsScreen,
      "Rulletekster. Ctrl+Pil op læser dem linje for linje, Ctrl+Pil ned går tilbage; Enter på OK lukker."},
+    // Travel maps
+    {Str::ScreenDowntown, "Bymidten, hvor skal vi hen?"},
+    {Str::ViewDowntown, "Bymidten"},
+    {Str::ViewVacation, "Ferieøen"},
+    {Str::ViewStudioTown, "Studiebyen"},
+    {Str::ViewMagicTown, "Magibyen"},
 };
 
 }  // namespace
