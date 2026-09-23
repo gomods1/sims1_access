@@ -572,6 +572,12 @@ constexpr int kPetTexts = 0x2f4;
 constexpr int kTextStride = 0x18;
 }  // namespace trait
 
+// ---- cWinGift (an item on the inventory subpanel: magic objects, ingredients, other) ------
+namespace gift {
+constexpr int kName = 0x1e8;         // std::string ("Tu varita mágica"; also the tooltip)
+constexpr int kDescription = 0x200;  // std::string: what its hover popup says
+}  // namespace gift
+
 // ---- cWinInterest (an interest on the interests subpanel; tooltip = its name) -------------
 namespace interest {
 constexpr int kIndex = 0x1e0;      // int interest number

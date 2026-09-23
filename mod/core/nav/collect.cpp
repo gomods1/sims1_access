@@ -198,6 +198,10 @@ struct Walker {
             Add(w, Role::Product, game::ReadProductOfButton(w, &p) ? p.name : game::Tooltip(w));
             return false;
         }
+        if (IsKindOf(w, "cWinGift")) {  // an inventory item (a toggle button, but no tab)
+            Add(w, Role::Button, game::InventoryItemName(w));
+            return false;
+        }
         if (game::IsBookEntry(w)) {  // one item per spell: its ingredients (the name shows once chosen)
             std::string names;
             for (const std::string& n : game::EntryIngredients(w)) names += (names.empty() ? "" : ", ") + n;

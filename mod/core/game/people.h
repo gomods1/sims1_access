@@ -66,6 +66,10 @@ bool TraitHelp(Ptr trait, std::string* title, std::string* text);
 int InterestPoints(Ptr interest);
 int InterestNumber(Ptr interest);  // 0 travel .. 18 romance (Live.iff STR# 142 entry + 1)
 
+// An inventory item (cWinGift): its name and what its hover popup says (UTF-8).
+std::string InventoryItemName(Ptr gift);
+std::string InventoryItemDescription(Ptr gift);
+
 // Live mode family panel (cWinPeople): the portrait buttons, visible or not.
 std::vector<Ptr> FamilyMemberButtons(Ptr peoplePanel);
 Ptr NeedsBox(Ptr peoplePanel);

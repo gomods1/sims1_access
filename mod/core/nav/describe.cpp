@@ -512,6 +512,9 @@ std::vector<std::string> PanelHelp(const Item& it) {
     case Role::Relationship:
         pair(132, 1, 2);
         break;
+    case Role::Button:
+        text = game::InventoryItemDescription(it.widget);  // empty for anything but inventory items
+        break;
     default:
         break;
     }

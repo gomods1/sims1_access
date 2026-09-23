@@ -200,6 +200,14 @@ bool TraitHelp(Ptr trait, std::string* title, std::string* text) {
 }
 
 int InterestPoints(Ptr interest) { return Rd<int>(interest + addr::interest::kPoints); }
+std::string InventoryItemName(Ptr gift) {
+    if (!IsKindOf(gift, "cWinGift")) return "";
+    std::string name = ReadStdStringUtf8(gift + addr::gift::kName);
+    return name.empty() ? Tooltip(gift) : name;
+}
+std::string InventoryItemDescription(Ptr gift) {
+    return IsKindOf(gift, "cWinGift") ? ReadStdStringUtf8(gift + addr::gift::kDescription) : "";
+}
 int InterestNumber(Ptr interest) { return Rd<int>(interest + addr::interest::kIndex, -1); }
 
 std::vector<Ptr> JobPanelSkillButtons(Ptr jobPanel) {
