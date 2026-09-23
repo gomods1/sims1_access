@@ -240,3 +240,50 @@ c015fa_belle black short bob bangs
 c015fa_asian black medium bangs
 c016fa_asian black short slick
 c016fa_close blond short
+c501fc_winter brown short
+c203fc_creepymindy brown short pigtails
+c009fc_wizd brown short hat
+c819fc_unleashed brown short headband
+c202fc_funtina red short curly flower
+c502fc_summer blond pigtails
+c506fc_swim1 black short
+c007fc_alt blond medium
+c007fc_round black medium
+c508fc_swim3 black short curly headband
+c504fc_winter2 brown medium bangs
+c012fc_poofy black short curly
+c503fc_winter3 brown short bob glasses
+c505fc_winter1 blond short
+c507fc_swim2 brown short
+c509fc_pj1 red ponytail bangs
+c001fc_alt blond medium headband
+c001fc_amanda01 brown medium headband
+c001fc_asian black medium headband
+c002fc_lisa01 blond short
+c004fc_asian black bun
+c004fc_fan brown ponytail
+c005fc_tomboy brown short
+c006fc_nerd brown updo glasses
+c008fc_pony blond ponytail
+c009mc_wizd brown short curly hat
+c007mc_long blond short
+c202mc_funjake cap
+c504mc_winter2 blond short curly
+c806mc_jr cap
+c012mc_buzz black veryshort
+c509mc_pj1 blond short
+c502mc_sumer brown short
+c501mc_winter brown short
+c503mc_winter3 red short curly
+c505mc_winter1 blond short
+c506mc_swim1 black veryshort curly
+c006mc_round black short bangs
+c001mc_asian black short
+c001mc_ave red short
+c001mc_altblond blond short
+c002mc_shtalt blond short
+c002mc_asian black short
+c002mc_sht black short
+c003mc_poofy blond short
+c004mc_nerd black short bangs glasses
+c005mc_pom red short curly

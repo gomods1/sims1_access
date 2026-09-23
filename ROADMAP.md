@@ -17,12 +17,13 @@ screens and dialogs lives in `SCREENS.md`; this file is the list of flows still 
 
 - Neighborhood: choose, buy, move into and evict houses (done: choose, buy, move in).
 - Create a family and create Sims (`cWinDesignFamily`, `cWinDesignCharacter`): names by typing,
-  gender, age, skin, personality points, zodiac, biography. Heads, bodies, hair and outfits need
-  spoken **descriptions of what each one looks like**; the game has no text for them, so the mod
-  needs its own descriptions (written by us, never game assets), keyed by the skin/mesh names.
-  The mod reads the mesh names already (`game::CurrentLook`: "c036malgt_dave"); a description
-  table per mesh (hair, face, clothing, style) is the next step, e.g. written from rendered
-  previews. Until then the mod says the list position, body shape and the mesh's word.
+  gender, age, skin, personality points, zodiac, biography (done). Heads and bodies are spoken
+  with **descriptions of what each one looks like** (done for every head and body the game ships:
+  adult and child, male and female, all builds): the game has no text for them, so the mod keeps
+  its own (`nav/appearance.cpp`), written from rendered previews as feature words ("pelo rubio,
+  media melena"; "camisa, vaqueros, azul") in `tools/appearance/*.txt`, keyed by mesh name without
+  the skin tone; `tools/appearance_table.py` generates the table. Custom content (meshes not in the
+  table) still says the list position, body shape and the mesh's word.
 - Live mode: browse objects by category (done), rooms, walk to a spot, what each Sim is doing,
   relationships, mood, job, skills, personality, interests, inventory, phone, calls and visitors.
 - Options, saving, quitting, the help system (done). Out of scope: photo/camera mode and the

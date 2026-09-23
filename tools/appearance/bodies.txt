@@ -255,3 +255,36 @@ b006fafat_tt1 blouse trousers purple green
 b011faskn_tom tshirt shorts sneakers white
 b011faskn_prg tshirt skirt leggings boots gray green
 b012fafat_mm shirt trousers white black
+b013fcchd_wizd shirt skirt sneakers yellow blue
+b011ucchd_soc01 sportswear shorts sneakers green white
+b009fcchd_alice dress blouse green blue checked
+b009fcchd_alt sweater dress pink green
+b009fcchd_nerd shirt skirt white blue
+b724fcchd_ct tshirt trousers sneakers pink black
+b203fcchd_creepymindy uniform sweater skirt green
+b202fcchd_funtina longdress pink
+b819fcchd_unleashedbetsy dress boots blue
+b001fcchd_summer top shorts sandals yellow purple
+b001fcchd_girl02 tanktop shorts sneakers green purple
+b001fcchd_girl01 tshirt shorts sneakers purple pink
+b002fcchd_spacecamp overalls blue
+b002fcchd_suit jacket trousers green striped
+b502fcchd_summer tshirt shorts blue
+b723fcchd_ct dress white
+b011fcchd_tom tshirt shorts green blue
+b203mcchd_creepyben uniform jacket shorts green
+b013mcchd_wizd sweater jeans sneakers green
+b002mcchd_sporty tshirt trousers sneakers blue beige striped
+b002mcchd_formal shirt vest trousers white black
+b002mcchd_overalls overalls blue red
+b002mcchd_spacecamp overalls blue
+b002mcchd_nerd shirt trousers white blue
+b002mcchd_slob tshirt jeans sneakers gray
+b721mcchd_ct tuxedo shorts green
+b202mcchd_funjake shirt lederhosen white green
+b806mcchd_junior overalls boots blue red
+b001mcchd_boy03 tanktop shorts sandals orange
+b001mcchd_boy01 tshirt shorts sneakers white blue
+b001mcchd_boy02 shirt shorts blue green
+b502mcchd_summer tshirt shorts blue
+b722mcchd_ct tshirt trousers white red striped
