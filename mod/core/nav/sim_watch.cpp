@@ -38,6 +38,7 @@ constexpr ULONGLONG kActionStartMs = 700;
 constexpr ULONGLONG kActionEndMs = 1500;
 constexpr ULONGLONG kNeedPollMs = 1000;
 constexpr ULONGLONG kRelationPollMs = 1000;
+constexpr ULONGLONG kNeedRepeatMs = 60000;  // the same need of the same Sim is spoken once a minute at most
 constexpr ULONGLONG kRelationSocialMs = 4000;  // a + / - balloon this recent: a social made the change
 constexpr int kRelationDrift = 2;              // the game's own drift, a point or two
 // Money: polled often, spoken once it has not moved for this long, so a bill paid in parts or
@@ -73,6 +74,7 @@ enum Level { kOk = 0, kLow = 1, kUrgent = 2 };
 
 struct SimNeeds {
     std::map<int, Level> level;  // by Need
+    std::map<int, ULONGLONG> spokenAt;  // by Need: when its urgent or low line was last spoken
     bool moodRed = false;
     bool seeded = false;
 };
@@ -354,6 +356,18 @@ void PollNeeds(int selected, ULONGLONG now) {
             Level now_ = NextLevel(was, value);
             sn.level[(int)n] = now_;
             if (!sn.seeded || now_ == was) continue;
+            // The room need swings as a Sim walks between rooms: a need spoken lately is only
+            // recorded when it comes back.
+            if (now_ == kUrgent || (now_ == kLow && was == kOk)) {
+                ULONGLONG& said = sn.spokenAt[(int)n];
+                bool recent = said && now - said < kNeedRepeatMs;
+                if (!recent) said = now;
+                if (recent) {
+                    narrator::Record(util::Format(S(now_ == kUrgent ? Str::NeedUrgent : Str::NeedLow), SimName(id).c_str(),
+                                                  JoinNames({n}).c_str()));
+                    continue;
+                }
+            }
             if (now_ == kUrgent) urgent.push_back(n);
             else if (now_ == kLow && was == kOk) low.push_back(n);
             else if (now_ == kOk) recovered.push_back(n);
