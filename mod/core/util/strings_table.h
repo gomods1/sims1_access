@@ -702,4 +702,6 @@
     X(BreedRedCalico, "red calico")                                                                                  \
     X(BreedSphynx, "Sphynx")                                                                                         \
     X(BreedWhite, "white")                                                                                           \
-    X(BreedBrownTabby, "brown tabby")
+    X(BreedBrownTabby, "brown tabby")                                                                                \
+    /* Room kinds (community lots) */                                                                                \
+    X(RoomShop, "shop")

@@ -230,7 +230,7 @@ for a second Enter. A new room without a door is said, not asked about. Still to
 - **Unleashed**: pets (adopting done, verified 2026-09-23: phone > Llamar taxi > Explorar la
   Ciudad Vieja, the trolley's dialogs, the Old Town map, a pet shop's pen > Adoptar, the breed
   picker, the name; training and the pet skills subpanels not checked), community lots (room
-  names are guessed for homes: a public toilet room was called "dormitorio").
+  rooms: toilets by name, "tienda" for rooms with a cash register or display cases).
 - **Superstar**: Studio Town, fame and the career, performing.
 - **Makin' Magic**: travelling to Magic Town, spells and charms, magic recipes and ingredients
   (the spell book `CWinMagicBook`, `cPickSpellList`), magic duels and the other magic places.

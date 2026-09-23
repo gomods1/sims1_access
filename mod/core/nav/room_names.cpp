@@ -27,6 +27,19 @@ bool IsCookingFixture(const LotObject& o) {
     return false;
 }
 
+bool NameHas(const LotObject& o, std::initializer_list<const char*> words) {
+    std::string name = game::ObjectInternalName(o);
+    for (const char* w : words)
+        if (name.find(w) != std::string::npos) return true;
+    return false;
+}
+
+// Community lots: the engine counts no bath objects in their toilet rooms, and a shop's pet beds
+// and display cases carry bedroom and living room flags.
+bool IsBathFixture(const LotObject& o) { return NameHas(o, {"Toilet", "Shower", "Bathtub"}); }
+bool IsShopFixture(const LotObject& o) { return NameHas(o, {"Cash Register", "Display"}); }
+bool IsPetThing(const LotObject& o) { return NameHas(o, {"Pet - "}); }
+
 // The engine's counters decide bathrooms and bedrooms (as the house panel counts them), cooking
 // gear makes a kitchen, and the
 // rest goes by what its objects are meant for. Objects meant for more than two kinds of room
@@ -36,7 +49,11 @@ Str Kind(const game::Room& room, const std::vector<const LotObject*>& contents) 
     if (room.bathObjects > 0) return Str::RoomBathroom;
     if (room.beds > 0) return Str::RoomBedroom;
     for (const LotObject* o : contents)
+        if (!o->person && IsBathFixture(*o)) return Str::RoomBathroom;
+    for (const LotObject* o : contents)
         if (!o->person && IsCookingFixture(*o)) return Str::RoomKitchen;
+    for (const LotObject* o : contents)
+        if (!o->person && IsShopFixture(*o)) return Str::RoomShop;
     struct Vote {
         uint16_t flag;
         Str kind;
@@ -46,7 +63,7 @@ Str Kind(const game::Room& room, const std::vector<const LotObject*>& contents) 
                  {kRoomStudy, Str::RoomStudy, 0},
                  {kRoomBedroom, Str::RoomBedroom, 0}};
     for (const LotObject* o : contents) {
-        if (o->person) continue;
+        if (o->person || IsPetThing(*o)) continue;
         int n = 0;
         for (const Vote& v : votes) n += (o->roomFlags & v.flag) != 0;
         if (n == 0 || n > 2) continue;

@@ -642,6 +642,8 @@ const Translation kEntries[] = {
     {Str::BreedSphynx, "스핑크스"},
     {Str::BreedWhite, "흰색"},
     {Str::BreedBrownTabby, "갈색 태비"},
+    // Room kinds (community lots)
+    {Str::RoomShop, "가게"},
 };
 
 }  // namespace

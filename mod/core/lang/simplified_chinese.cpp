@@ -620,6 +620,8 @@ const Translation kEntries[] = {
     {Str::BreedSphynx, "斯芬克斯猫"},
     {Str::BreedWhite, "白猫"},
     {Str::BreedBrownTabby, "棕虎斑"},
+    // Room kinds (community lots)
+    {Str::RoomShop, "商店"},
 };
 
 }  // namespace
