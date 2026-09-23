@@ -8,6 +8,7 @@
 #include "addresses.h"
 #include "memory.h"
 #include "simantics.h"
+#include "sounds.h"
 
 namespace game {
 namespace {
@@ -94,6 +95,15 @@ int __fastcall DispatchDetour(void* object, void* /*edx*/, void* frame, const ui
     return result;
 }
 
+// ---- Sound events (sounds.h) -----------------------------------------------------------------
+typedef int(__thiscall* PlaySoundEventFn)(void* manager, const char* name, int source);
+PlaySoundEventFn g_playSoundEvent = nullptr;
+
+int __fastcall PlaySoundEventDetour(void* manager, void* /*edx*/, const char* name, int source) {
+    OnSoundEvent(name, (short)source);
+    return g_playSoundEvent(manager, name, source);
+}
+
 // ---- SetCursorPos (development only) ---------------------------------------------------------
 typedef BOOL(WINAPI* SetCursorPosFn)(int, int);
 SetCursorPosFn g_setCursorPos = nullptr;
@@ -131,6 +141,7 @@ void InitHooks(bool blockCursorWarp) {
     g_mouseLeftHooked = Install(addr::movetool::kLeft, (void*)&MouseLeftDetour, (void**)&g_mouseLeft, "cMoveTool::MouseLeft");
     Install(addr::simantics::kSetBalloon, (void*)&SetBalloonDetour, (void**)&g_setBalloon, "SetBalloonPrimitive");
     Install(addr::simantics::kDispatch, (void*)&DispatchDetour, (void**)&g_dispatch, "cXObject::DoPrimitive");
+    Install(addr::kPlaySoundEvent, (void*)&PlaySoundEventDetour, (void**)&g_playSoundEvent, "SoundManager::PlayEvent");
     MH_STATUS ks = MH_CreateHookApi(L"user32", "GetAsyncKeyState", (void*)&GetAsyncKeyStateDetour, (void**)&g_getAsyncKeyState);
     if (ks == MH_OK) ks = MH_EnableHook(MH_ALL_HOOKS);
     Log("hook GetAsyncKeyState: %s", MH_StatusToString(ks));

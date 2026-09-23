@@ -45,6 +45,11 @@ constexpr Va kPersonNeighborId = 0x43aac0;
 // family panel's mood meter draws (0x4bb980). Returns a shared default record for unknown IDs.
 constexpr Va kSimState = 0x43aec0;
 constexpr int kSimStateMood = 0x0c;
+// The record holds every motive as a float -100..100 at + index * 4, in the order of
+// Behavior.iff STR# 134 (3 mood, 5 energy, 6 comfort, 7 hunger, 8 hygiene, 9 bladder, 13 room,
+// 14 social, 15 fun): cWinMotive's value getter 0x49f590 reads [state + motive index * 4].
+constexpr int kSimStateMotives = 0x00;
+constexpr int kMotiveCount = 16;
 // A Sim's action queue, as the queue icons get it (0x40f6c0): cdecl void (int neighborId,
 // std::vector<Entry>* out) appends 0x28-byte entries, the current action first, the action's
 // name in a std::string at +0x10. The icon builder keeps a static vector for it at kQueueScratch
@@ -54,6 +59,16 @@ constexpr Va kQueueEntryDtor = 0x438700;
 constexpr Va kQueueScratch = 0xa61ec0;
 constexpr int kQueueEntrySize = 0x28;
 constexpr int kQueueEntryName = 0x10;
+// u8: 1 on the entry made from the Sim's running interaction (cXPerson + 0xaac, filled by
+// 0x438f80 with its last argument 1), 0 on the queued ones (the ring at cXPerson + 0x824).
+constexpr int kQueueEntryRunning = 0x09;
+// The 0x28-byte entry's +0x0c points at the Sim's own 0x50-byte queue record (0x438f80 stores its
+// argument there): +0x08 target object, +0x10 entry index, +0x1c priority (the "Action Queues"
+// debug dump 0x52da90 prints them). Seen live: 50 for an interaction the player chose from a
+// menu, 2 for one the Sim chose by free will.
+constexpr int kQueueEntryRecord = 0x0c;
+constexpr int kQueueRecordPriority = 0x1c;
+constexpr int kPlayerPriority = 50;
 // cdecl short* (int neighborId): a Sim's person data (personality traits at their index, 0..1000)
 constexpr Va kSimPersonData = 0x43a480;
 // cdecl int (int neighborId, int personDataIndex): a Sim's skill points, 0..1000 (one bar per 100)
@@ -448,6 +463,11 @@ constexpr int kPeople = 0x80;      // std::vector<cXPerson*>
 // Primitives run through the object's vtable slot 0 (cXPerson's 0x5f6880 handles person-only
 // opcodes and passes the rest here): thiscall int (Frame*, Instruction*), ret 8. An instruction
 // is u16 opcode (low 15 bits), u8 true target, u8 false target, 8 operand bytes.
+// thiscall bool (const char* eventName, int sourceObjectId), ret 8, on the sound manager
+// ([[kSimRoot] + 0x10]): plays a named sound event (FWAV name) for an object; the UI passes -4
+// ("UI_queued" from 0x40df10). Play Sound Event (primitive 0x17, 0x61ab20) looks the name up in
+// the object's resources and calls it; so does every other sound of the game.
+constexpr Va kPlaySoundEvent = 0x527250;
 namespace simantics {
 constexpr Va kDispatch = 0x615cb0;
 constexpr int kOpcodeMask = 0x7fff;

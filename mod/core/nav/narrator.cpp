@@ -9,10 +9,15 @@
 #include "../game/lot.h"
 #include "../game/people.h"
 #include "../game/simantics.h"
+#include "../game/sounds.h"
+#include "../speech/speech.h"
 #include "../util/log.h"
+#include "../util/settings.h"
 #include "../util/strings.h"
 #include "../util/text.h"
 #include "buffers.h"
+#include "navigator.h"
+#include "sim_watch.h"
 #include "world.h"
 
 namespace nav::narrator {
@@ -54,12 +59,25 @@ struct State {
     std::map<int, Shown> shown;                   // by owner id
     std::map<std::string, ULONGLONG> spokenAt;    // "<owner id>|<line>" -> when
     std::map<std::pair<int, int>, ULONGLONG> treeSeen;  // (owner id, tree) -> its last balloon
+    std::map<int, ULONGLONG> alertSaid;           // by game::SoundAlert: when it was last spoken
     std::map<int, Visitor> visitors;              // by object id: Sims from outside the family
     bool visitorsSeeded = false;
     ULONGLONG visitorsPolled = 0;
 };
 
 State g;
+
+// Verbosity levels as saved in SimsAccess.ini ("narrator").
+enum Verbosity { kOff = 0, kWarnings = 1, kEverything = 2 };
+int g_verbosity = -1;  // read from the settings on first use
+
+int CurrentVerbosity() {
+    if (g_verbosity < 0) {
+        g_verbosity = util::GetSetting("narrator", kEverything);
+        if (g_verbosity < kOff || g_verbosity > kEverything) g_verbosity = kEverything;
+    }
+    return g_verbosity;
+}
 
 bool Contains(const std::vector<int>& ids, int id) { return std::find(ids.begin(), ids.end(), id) != ids.end(); }
 
@@ -247,7 +265,7 @@ void Report(const Balloon& b, const std::vector<int>& family) {
         b.ownerId, b.otherId, quiet, line.c_str());
     if (!speak) return;
     g.spokenAt[key] = now;
-    buffers::Event(line);
+    Announce(line, RouteTrouble(b) || b.kind == BalloonKind::Scream);
 }
 
 // ---- Visitors ------------------------------------------------------------------------------
@@ -280,15 +298,16 @@ void PollVisitors(const std::vector<int>& family) {
         v.announced = true;
         if (v.name.empty()) continue;
         if (v.ghost) {
-            buffers::Event(util::Format(S(Str::GhostAppeared), v.name.c_str()));
+            Announce(util::Format(S(Str::GhostAppeared), v.name.c_str()), false);
             continue;
         }
         std::string line = util::Format(S(Str::VisitorArrived), v.name.c_str());
-        buffers::Event(v.burglarShout.empty() ? line : v.burglarShout + " " + line);
+        if (v.burglarShout.empty()) Announce(line, false);
+        else Announce(v.burglarShout + " " + line, true);
     }
     for (const auto& [id, v] : g.visitors)
         if (!present.count(id) && v.announced && !v.name.empty())
-            buffers::Event(util::Format(S(v.ghost ? Str::GhostLeft : Str::VisitorLeft), v.name.c_str()));
+            Announce(util::Format(S(v.ghost ? Str::GhostLeft : Str::VisitorLeft), v.name.c_str()), false);
     g.visitors = std::move(present);
     g.visitorsSeeded = true;
 }
@@ -303,7 +322,32 @@ void ReportTaken(const game::TakenObject& t) {
     else
         line = t.value > 0 ? util::Format(S(Str::ObjectGone), object.c_str(), value.c_str())
                            : util::Format(S(Str::ObjectGoneNoValue), object.c_str());
-    buffers::Event(line);
+    Announce(line, true);
+}
+
+// ---- Sounds whose meaning the sound does not give ---------------------------------------------
+
+// A car honks again and again while it waits: once per this long.
+constexpr ULONGLONG kAlertRepeatMs = 20000;
+
+Str AlertText(game::SoundAlert a) {
+    using game::SoundAlert;
+    switch (a) {
+    case SoundAlert::Carpool: return Str::SoundCarpool;
+    case SoundAlert::SchoolBus: return Str::SoundSchoolBus;
+    case SoundAlert::PoliceCar: return Str::SoundPoliceCar;
+    }
+    return Str::SoundCarpool;
+}
+
+void ReportSound(const game::SoundEvent& e) {
+    ULONGLONG now = GetTickCount64();
+    auto last = g.alertSaid.find((int)e.alert);
+    if (last != g.alertSaid.end() && now - last->second < kAlertRepeatMs) return;
+    g.alertSaid[(int)e.alert] = now;
+    std::string line = S(AlertText(e.alert));
+    Log("sound '%s' from #%d: %s", e.name.c_str(), e.source, line.c_str());
+    Announce(line, true);
 }
 
 }  // namespace
@@ -312,6 +356,36 @@ void Reset() {
     g = State{};
     game::TakeBalloons();
     game::TakeTakenObjects();
+    game::TakeSoundEvents();
+    simwatch::Reset();
+}
+
+void Announce(const std::string& line, bool important) {
+    int v = CurrentVerbosity();
+    if (v == kEverything || (important && v == kWarnings)) buffers::Event(line);
+    else Record(line);
+}
+
+void Record(const std::string& line) {
+    Log("narrator (not spoken): %s", line.c_str());
+    buffers::Record(line);
+}
+
+void CycleVerbosity() {
+    int v = CurrentVerbosity();
+    g_verbosity = v == kEverything ? kWarnings : v == kWarnings ? kOff : kEverything;
+    util::SetSetting("narrator", g_verbosity);
+    speech::Say(S(g_verbosity == kEverything ? Str::NarratorEverything
+                  : g_verbosity == kWarnings ? Str::NarratorWarnings
+                                             : Str::NarratorOff));
+}
+
+void SayStatus() {
+    if (!LotViewActive() || !game::LotModule()) {
+        speech::Say(S(Str::NotOnLot));
+        return;
+    }
+    speech::Say(simwatch::Status());
 }
 
 void Tick() {
@@ -322,6 +396,7 @@ void Tick() {
     }
     std::vector<Balloon> balloons = game::TakeBalloons();
     std::vector<game::TakenObject> taken = game::TakeTakenObjects();
+    std::vector<game::SoundEvent> sounds = game::TakeSoundEvents();
     if (!lot) return;
     if (g.spokenAt.size() + g.treeSeen.size() > 500) {  // forget what is long past its quiet time
         ULONGLONG now = GetTickCount64();
@@ -333,7 +408,9 @@ void Tick() {
     std::vector<int> family = game::FamilyNeighborIds();
     for (const Balloon& b : balloons) Report(b, family);
     for (const game::TakenObject& t : taken) ReportTaken(t);
+    for (const game::SoundEvent& e : sounds) ReportSound(e);
     PollVisitors(family);
+    simwatch::Tick();
 }
 
 std::string ShownBalloon(Ptr object) {

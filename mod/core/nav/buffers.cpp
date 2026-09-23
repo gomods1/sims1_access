@@ -77,6 +77,10 @@ void ClearDetails() {
 
 void Event(const std::string& text) {
     speech::Say(text);
+    Record(text);
+}
+
+void Record(const std::string& text) {
     std::string line = util::CleanForSpeech(text);
     if (line.empty()) return;
     Buffer& b = Events();

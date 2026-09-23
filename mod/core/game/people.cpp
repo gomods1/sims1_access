@@ -59,14 +59,14 @@ std::vector<int> FamilyRowMemberIds(Ptr row) {
 
 // Borrows the queue icons' scratch vector: emptied with the game's entry destructor, filled for
 // this Sim, read, emptied again (the icons refill it for the selected Sim on their next update).
-std::vector<std::string> SimActions(int neighborId) {
+std::vector<SimAction> SimActionList(int neighborId) {
     typedef void(__cdecl * QueueFn)(int id, void* out);
     typedef void(__thiscall * DtorFn)(void* entry);
-    std::vector<std::string> names;
-    if (neighborId < 0 || !FunctionOk(addr::kSimQueue) || !FunctionOk(addr::kQueueEntryDtor)) return names;
+    std::vector<SimAction> actions;
+    if (neighborId < 0 || !FunctionOk(addr::kSimQueue) || !FunctionOk(addr::kQueueEntryDtor)) return actions;
     Ptr vec = Va(addr::kQueueScratch);
     Ptr first = Rd<Ptr>(vec), last = Rd<Ptr>(vec + 4), end = Rd<Ptr>(vec + 8);
-    if (!first || !end || last < first || end < last || (last - first) % addr::kQueueEntrySize) return names;
+    if (!first || !end || last < first || end < last || (last - first) % addr::kQueueEntrySize) return actions;
     auto empty = [&] {
         Ptr begin = Rd<Ptr>(vec), stop = Rd<Ptr>(vec + 4);
         for (Ptr e = begin; e < stop; e += addr::kQueueEntrySize) ((DtorFn)Va(addr::kQueueEntryDtor))((void*)e);
@@ -76,12 +76,45 @@ std::vector<std::string> SimActions(int neighborId) {
         empty();
         ((QueueFn)Va(addr::kSimQueue))(neighborId, (void*)vec);
         for (Ptr e = Rd<Ptr>(vec); e < Rd<Ptr>(vec + 4); e += addr::kQueueEntrySize) {
-            std::string name = ReadStdStringUtf8(e + addr::kQueueEntryName);
-            if (!name.empty()) names.push_back(name);
+            SimAction a;
+            a.name = ReadStdStringUtf8(e + addr::kQueueEntryName);
+            a.running = Rd<uint8_t>(e + addr::kQueueEntryRunning) != 0;
+            Ptr record = Rd<Ptr>(e + addr::kQueueEntryRecord);
+            a.byPlayer = record && Rd<int>(record + addr::kQueueRecordPriority) >= addr::kPlayerPriority;
+            if (!a.name.empty()) actions.push_back(a);
         }
         empty();
     });
+    return actions;
+}
+
+std::vector<std::string> SimActions(int neighborId) {
+    std::vector<std::string> names;
+    for (const SimAction& a : SimActionList(neighborId)) names.push_back(a.name);
     return names;
+}
+
+namespace {
+
+Ptr SimStateOf(int neighborId) {
+    typedef void*(__cdecl * StateFn)(int id);
+    if (neighborId < 0 || !FunctionOk(addr::kSimState)) return 0;
+    Ptr state = 0;
+    auto fn = (StateFn)Va(addr::kSimState);
+    if (!Guarded([&] { state = (Ptr)fn(neighborId); })) return 0;
+    return state;
+}
+
+}  // namespace
+
+bool SimNeed(int neighborId, Need need, int* value) {
+    Ptr state = SimStateOf(neighborId);
+    int index = (int)need;
+    if (!state || index < 0 || index >= addr::kMotiveCount) return false;
+    float v = 0;
+    if (!Read(state + addr::kSimStateMotives + index * 4, &v, sizeof v) || !std::isfinite(v)) return false;
+    *value = (int)std::lround(v);
+    return true;
 }
 
 bool SimMood(int neighborId, int* mood) {

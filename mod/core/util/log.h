@@ -12,6 +12,7 @@ void Log(const char* fmt, ...);
 
 // Only written in development (SimsAccess\dev.txt present): key traces and similar noise.
 void LogVerbose(const char* fmt, ...);
+bool VerboseLogging();
 
 }  // namespace util
 

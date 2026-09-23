@@ -24,6 +24,8 @@ void ClearDetails();  // the screen changed: old details would describe the wron
 
 // Says an event and keeps it in the events buffer.
 void Event(const std::string& text);
+// Keeps an event in the buffer without saying it (the narrator's lines below its verbosity).
+void Record(const std::string& text);
 
 void Deeper();       // Ctrl+Up
 void TowardTop();    // Ctrl+Down

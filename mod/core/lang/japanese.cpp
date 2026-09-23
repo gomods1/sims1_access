@@ -17,8 +17,8 @@ const Translation kEntries[] = {
     {Str::KeysLot,
      "上下の矢印でグループを切り替え、左右の矢印でグループ内を移動します。設定ページでは、上下の矢印で設定を順に移動し、左右の矢印でスライダーやセレクターを変えます。ページダウンとページアップでオブジェクトを順に移動し、"
      "シフトと一緒ならカテゴリー、コントロールと一緒なら部屋を切り替えます。エンターでオブジェクトのアクションを開き、コントロール+エンターでそこまで歩き、Rで繰り返します。スペースで次のシムを選択、コントロール+1から"
-     "9で家族のシムを選択、コントロール+Fで、カメラが選択中のシムを追うかどうかを切り替えます。Pでポーズし、時刻とお金を読みます。コントロール+上矢印とコントロール+下矢印で詳細を読み、コントロール+左矢印とコントロ"
-     "ール+右矢印で、詳細とイベントを切り替えます。"},
+     "9で家族のシムを選択、コントロール+Fで、カメラが選択中のシムを追うかどうかを切り替えます。コントロール+Eで、選択中のシムがしていることと欲求を読みます。コントロール+Nで、ナレーターが話す量を変えます。Pでポー"
+     "ズし、時刻とお金を読みます。コントロール+上矢印とコントロール+下矢印で詳細を読み、コントロール+左矢印とコントロール+右矢印で、詳細とイベントを切り替えます。"},
     {Str::KeysPlacing,
      "ページダウンとページアップで、置けて使える場所を良い順に移動します。コントロールと一緒なら部屋を切り替え、シフトと一緒なら同じ場所で向きを変えます。エンターでそこに購入、エスケープで取り消し、Rで繰り返します。コン"
      "トロール+上矢印とコントロール+下矢印で、場所の詳細と、ほかに調べた結果を読みます。"},
@@ -416,6 +416,35 @@ const Translation kEntries[] = {
     {Str::ObjectTakenByNoValue, "%1$sが%2$sを持ち去りました"},
     {Str::ObjectGone, "%1$sがなくなりました、価値%2$s"},
     {Str::ObjectGoneNoValue, "%sがなくなりました"},
+    // The family, by ear
+    {Str::SimNowIn, "%1$s、今は%2$s"},
+    {Str::ActionStarted, "%1$s：%2$s"},
+    {Str::ActionStartedOwn, "%1$s、自分から：%2$s"},
+    {Str::ActionFinished, "%1$s、%2$sを終了"},
+    {Str::NeedLow, "%1$s、低い欲求：%2$s"},
+    {Str::NeedsLow, "%1$s、低い欲求：%2$s"},
+    {Str::NeedUrgent, "%1$s、緊急の欲求：%2$s"},
+    {Str::NeedsUrgent, "%1$s、緊急の欲求：%2$s"},
+    {Str::NeedRecovered, "%1$s、欲求が回復：%2$s"},
+    {Str::MoodTurnedBad, "%sは機嫌が悪い"},
+    {Str::MoodGoodAgain, "%sの機嫌が直った"},
+    {Str::NarratorEverything, "ナレーター：すべて"},
+    {Str::NarratorWarnings, "ナレーター：警告のみ"},
+    {Str::NarratorOff, "ナレーターオフ。イベントは記録されます"},
+    {Str::NoSimSelected, "シムが選択されていません"},
+    {Str::StatusInRoom, "場所：%s"},
+    {Str::StatusIdle, "何もしていない"},
+    {Str::StatusThen, "次に%s"},
+    {Str::StatusNeedLow, "低い欲求：%s"},
+    {Str::StatusNeedsLow, "低い欲求：%s"},
+    {Str::StatusNeedUrgent, "緊急の欲求：%s"},
+    {Str::StatusNeedsUrgent, "緊急の欲求：%s"},
+    {Str::StatusNeedsFine, "欲求は良好"},
+    {Str::StatusMood, "機嫌"},
+    // Sounds
+    {Str::SoundCarpool, "送迎の車がクラクションを鳴らしています"},
+    {Str::SoundSchoolBus, "スクールバスがクラクションを鳴らしています"},
+    {Str::SoundPoliceCar, "パトカーがクラクションを鳴らしています"},
 };
 
 }  // namespace

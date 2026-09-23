@@ -17,8 +17,9 @@ const Translation kEntries[] = {
     {Str::KeysLot,
      "위아래 화살표로 그룹을 바꾸고, 좌우 화살표로 그룹 안을 이동합니다. 설정 페이지에서는 위아래 화살표로 설정을 차례로 이동하고, 좌우 화살표로 슬라이더나 선택기를 바꿉니다. 페이지 다운과 "
      "페이지 업으로 물건을 차례로 이동하고, 시프트와 함께 누르면 카테고리를, 컨트롤과 함께 누르면 방을 바꿉니다. 엔터로 물건의 상호작용을 열고, 컨트롤+엔터로 그곳까지 걸어가고, R로 다시 "
-     "읽습니다. 스페이스로 다음 심을 선택하고, 컨트롤+1부터 9까지로 가족의 심을 선택하고, 컨트롤+F로 카메라가 선택된 심을 따라갈지 정합니다. P로 일시 정지하고 시간과 돈을 읽습니다. "
-     "컨트롤+위쪽 화살표와 컨트롤+아래쪽 화살표로 세부 정보를 읽고, 컨트롤+왼쪽 화살표와 컨트롤+오른쪽 화살표로 세부 정보와 이벤트를 전환합니다."},
+     "읽습니다. 스페이스로 다음 심을 선택하고, 컨트롤+1부터 9까지로 가족의 심을 선택하고, 컨트롤+F로 카메라가 선택된 심을 따라갈지 정합니다. 컨트롤+E로 선택된 심이 하는 일과 필요한 것을 "
+     "읽고, 컨트롤+N으로 내레이터가 말하는 양을 바꿉니다. P로 일시 정지하고 시간과 돈을 읽습니다. 컨트롤+위쪽 화살표와 컨트롤+아래쪽 화살표로 세부 정보를 읽고, 컨트롤+왼쪽 화살표와 "
+     "컨트롤+오른쪽 화살표로 세부 정보와 이벤트를 전환합니다."},
     {Str::KeysPlacing,
      "페이지 다운과 페이지 업으로 들어가고 사용할 수 있는 자리를 좋은 순서대로 이동합니다. 컨트롤과 함께 누르면 방을 바꾸고, 시프트와 함께 누르면 같은 자리에서 방향을 돌립니다. 엔터로 그 "
      "자리에 구입하고, 이스케이프로 취소하고, R로 다시 읽습니다. 컨트롤+위쪽 화살표와 컨트롤+아래쪽 화살표로 자리의 세부 정보와 그 밖에 확인한 내용을 읽습니다."},
@@ -417,6 +418,35 @@ const Translation kEntries[] = {
     {Str::ObjectTakenByNoValue, "%1$s이(가) %2$s을(를) 가져감"},
     {Str::ObjectGone, "%1$s 사라짐, 가치 %2$s"},
     {Str::ObjectGoneNoValue, "%s 사라짐"},
+    // The family, by ear
+    {Str::SimNowIn, "%1$s, 지금 %2$s"},
+    {Str::ActionStarted, "%1$s: %2$s"},
+    {Str::ActionStartedOwn, "%1$s, 스스로: %2$s"},
+    {Str::ActionFinished, "%1$s, 끝냄: %2$s"},
+    {Str::NeedLow, "%1$s, 낮은 욕구: %2$s"},
+    {Str::NeedsLow, "%1$s, 낮은 욕구: %2$s"},
+    {Str::NeedUrgent, "%1$s, 급한 욕구: %2$s"},
+    {Str::NeedsUrgent, "%1$s, 급한 욕구: %2$s"},
+    {Str::NeedRecovered, "%1$s, 욕구 회복: %2$s"},
+    {Str::MoodTurnedBad, "%s, 기분 나쁨"},
+    {Str::MoodGoodAgain, "%s, 다시 기분 좋음"},
+    {Str::NarratorEverything, "내레이터: 전부"},
+    {Str::NarratorWarnings, "내레이터: 경고만"},
+    {Str::NarratorOff, "내레이터 끔. 이벤트는 계속 기록됩니다"},
+    {Str::NoSimSelected, "선택된 심 없음"},
+    {Str::StatusInRoom, "위치: %s"},
+    {Str::StatusIdle, "아무것도 안 함"},
+    {Str::StatusThen, "다음: %s"},
+    {Str::StatusNeedLow, "낮은 욕구: %s"},
+    {Str::StatusNeedsLow, "낮은 욕구: %s"},
+    {Str::StatusNeedUrgent, "급한 욕구: %s"},
+    {Str::StatusNeedsUrgent, "급한 욕구: %s"},
+    {Str::StatusNeedsFine, "욕구 양호"},
+    {Str::StatusMood, "기분"},
+    // Sounds
+    {Str::SoundCarpool, "통근 차가 경적을 울립니다"},
+    {Str::SoundSchoolBus, "스쿨버스가 경적을 울립니다"},
+    {Str::SoundPoliceCar, "경찰차가 경적을 울립니다"},
 };
 
 }  // namespace

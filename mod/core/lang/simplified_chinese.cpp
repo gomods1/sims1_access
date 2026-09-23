@@ -17,7 +17,8 @@ const Translation kEntries[] = {
     {Str::KeysLot,
      "上下方向键切换组，左右方向键在组内移动；在设置页上，上下方向键逐项浏览设置，左右方向键调整滑块或选择器。Page Down和Page "
      "Up浏览物品，加Shift切换类别，加Ctrl切换房间。回车打开物品的互动，Ctrl+回车让模拟市民走过去，R重复朗读。空格键选择下一个模拟市民，Ctrl+1到9选择家庭中的某个模拟市民，Ctrl+F切换镜头是否跟"
-     "随选中的模拟市民。P暂停并朗读时间和资金。Ctrl+上方向键和Ctrl+下方向键朗读详情，Ctrl+左方向键和Ctrl+右方向键在详情和事件之间切换。"},
+     "随选中的模拟市民。Ctrl+E朗读选中的模拟市民正在做什么和需要什么，Ctrl+N改变旁白说话的多少。P暂停并朗读时间和资金。Ctrl+上方向键和Ctrl+下方向键朗读详情，Ctrl+左方向键和Ctrl+右方向键在"
+     "详情和事件之间切换。"},
     {Str::KeysPlacing,
      "Page Down和Page Up浏览放得下又能使用的位置，最好的排在前面；加Ctrl切换房间，加Shift在同一位置转向。回车在该处购买，Esc取消，R重复朗读。Ctrl+上方向键和Ctrl+下方向键朗读该位置的"
      "详情以及其他检查结果。"},
@@ -399,6 +400,35 @@ const Translation kEntries[] = {
     {Str::ObjectTakenByNoValue, "%1$s拿走了%2$s"},
     {Str::ObjectGone, "%1$s不见了，价值%2$s"},
     {Str::ObjectGoneNoValue, "%s不见了"},
+    // The family, by ear
+    {Str::SimNowIn, "%1$s，现在在%2$s"},
+    {Str::ActionStarted, "%1$s：%2$s"},
+    {Str::ActionStartedOwn, "%1$s，自己决定：%2$s"},
+    {Str::ActionFinished, "%1$s完成了：%2$s"},
+    {Str::NeedLow, "%1$s，需求偏低：%2$s"},
+    {Str::NeedsLow, "%1$s，需求偏低：%2$s"},
+    {Str::NeedUrgent, "%1$s，需求紧急：%2$s"},
+    {Str::NeedsUrgent, "%1$s，需求紧急：%2$s"},
+    {Str::NeedRecovered, "%1$s，需求已恢复：%2$s"},
+    {Str::MoodTurnedBad, "%s心情不好"},
+    {Str::MoodGoodAgain, "%s心情又好了"},
+    {Str::NarratorEverything, "旁白：全部"},
+    {Str::NarratorWarnings, "旁白：仅警告"},
+    {Str::NarratorOff, "旁白关闭；事件仍会记录"},
+    {Str::NoSimSelected, "未选中模拟市民"},
+    {Str::StatusInRoom, "在%s"},
+    {Str::StatusIdle, "无所事事"},
+    {Str::StatusThen, "然后%s"},
+    {Str::StatusNeedLow, "需求偏低：%s"},
+    {Str::StatusNeedsLow, "需求偏低：%s"},
+    {Str::StatusNeedUrgent, "需求紧急：%s"},
+    {Str::StatusNeedsUrgent, "需求紧急：%s"},
+    {Str::StatusNeedsFine, "需求良好"},
+    {Str::StatusMood, "心情"},
+    // Sounds
+    {Str::SoundCarpool, "接送的车在按喇叭"},
+    {Str::SoundSchoolBus, "校车在按喇叭"},
+    {Str::SoundPoliceCar, "警车在按喇叭"},
 };
 
 }  // namespace

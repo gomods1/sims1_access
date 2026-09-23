@@ -20,7 +20,8 @@
       "settings and left and right change a slider or value picker. Page Down and Page Up go through objects, "        \
       "Shift with them changes category, Control with them changes room. Enter opens the object's interactions, "      \
       "Control+Enter walks there, R repeats. Space selects the next Sim, Control+1 to 9 select a Sim of the "          \
-      "family, Control+F makes the camera follow the selected Sim or not. P pauses and reads the time and money. "     \
+      "family, Control+F makes the camera follow the selected Sim or not. Control+E says what the selected Sim "      \
+      "is doing and needs, Control+N changes how much the narrator says. P pauses and reads the time and money. "    \
       "Control+Up and Control+Down read the details, Control+Left and Control+Right switch between details and "       \
       "events.")                                                                                                       \
     X(KeysPlacing,                                                                                                     \
@@ -462,4 +463,33 @@
     X(ObjectTakenBy, "%1$s took %2$s, worth %3$s")                                                                     \
     X(ObjectTakenByNoValue, "%1$s took %2$s")                                                                          \
     X(ObjectGone, "%1$s is gone, worth %2$s")                                                                          \
-    X(ObjectGoneNoValue, "%s is gone")
+    X(ObjectGoneNoValue, "%s is gone")                                                                               \
+    /* The family, by ear */                                                                                         \
+    X(SimNowIn, "%1$s, now in %2$s")                                                                                 \
+    X(ActionStarted, "%1$s: %2$s")                                                                                   \
+    X(ActionStartedOwn, "%1$s, on their own: %2$s")                                                                  \
+    X(ActionFinished, "%1$s finished %2$s")                                                                          \
+    X(NeedLow, "%1$s, low need: %2$s")                                                                               \
+    X(NeedsLow, "%1$s, low needs: %2$s")                                                                             \
+    X(NeedUrgent, "%1$s, urgent need: %2$s")                                                                         \
+    X(NeedsUrgent, "%1$s, urgent needs: %2$s")                                                                       \
+    X(NeedRecovered, "%1$s, need met again: %2$s")                                                                   \
+    X(MoodTurnedBad, "%s is in a bad mood")                                                                          \
+    X(MoodGoodAgain, "%s is in a good mood again")                                                                   \
+    X(NarratorEverything, "narrator: everything")                                                                    \
+    X(NarratorWarnings, "narrator: warnings only")                                                                   \
+    X(NarratorOff, "narrator off; events are still kept")                                                            \
+    X(NoSimSelected, "no Sim selected")                                                                              \
+    X(StatusInRoom, "in %s")                                                                                         \
+    X(StatusIdle, "doing nothing")                                                                                   \
+    X(StatusThen, "then %s")                                                                                         \
+    X(StatusNeedLow, "low need: %s")                                                                                 \
+    X(StatusNeedsLow, "low needs: %s")                                                                               \
+    X(StatusNeedUrgent, "urgent need: %s")                                                                           \
+    X(StatusNeedsUrgent, "urgent needs: %s")                                                                         \
+    X(StatusNeedsFine, "needs fine")                                                                                 \
+    X(StatusMood, "mood")                                                                                            \
+    /* Sounds */                                                                                                     \
+    X(SoundCarpool, "the carpool is honking")                                                                        \
+    X(SoundSchoolBus, "the school bus is honking")                                                                   \
+    X(SoundPoliceCar, "a police car is honking")

@@ -74,6 +74,8 @@ module base + (VA - 0x400000)). Build: `Sims.exe` 1.10.7, SHA-256 `b7c8765e...` 
 | `0x615cb0` | `cXObject` vtable slot 0 | thiscall `int (Frame*, Instruction*)`, `ret 8` | runs one SimAntics primitive (every object, every tick; persons pass their generic opcodes here from `0x5f6880`). SimAntics errors are C++ exceptions thrown through it | **Hooked by the mod**: opcode 0x12 (Remove Object Instance) by someone outside the family names the removed furniture before it goes (`game::BeforePrimitive`). The detour keeps no state across the call. A Frida Interceptor on it crashed the game when it detached (fail-fast 0xC0000409 in frida-agent, 2026-09-22) | not seen live yet (no burglar came during the tests) |
 | `0x43b3b0` | family | cdecl `int (int index)` | neighbor id of the lot family's n-th member, -1 past the last | `game::FamilyNeighborIds` (who is family, for the narrator) | the Lápida family's three ids |
 
+| `0x527250` | sound manager (`[[0xa67044] + 0x10]`) | thiscall `bool (const char* eventName, int sourceObjectId)`, `ret 8` | plays a named sound event (FWAV name) for an object; the UI passes -4 (`"UI_queued"`); Play Sound Event (primitive 0x17, `0x61ab20`) resolves the name and calls it | **Hooked by the mod** (`game/sounds.cpp`): which car is honking (carpool, school bus, police); every name is logged once in dev builds | live: footsteps, trash, cat sounds with their object ids (2026-09-23) |
+
 ## Hypotheses (not verified)
 
 - `0x6ddf30` (`cTSWin` slot 46): "show tooltip for this widget"; calls `0x6da4d0` (get/create the

@@ -30,6 +30,8 @@ void Log(const char* fmt, ...) {
     va_end(ap);
 }
 
+bool VerboseLogging() { return g_verbose; }
+
 void LogVerbose(const char* fmt, ...) {
     if (!g_verbose) return;
     va_list ap;

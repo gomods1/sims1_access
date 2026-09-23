@@ -87,6 +87,7 @@ Signature g_signatures[] = {
     {addr::kCurrentLevel, "CurrentLevel", {0xe8, 0x7b, 0xfe, 0x04, 0x00, 0x85, 0xc0, 0xb9}, 8, false},
     {addr::simantics::kDispatch, "cXObject::DoPrimitive", {0x55, 0x8b, 0xec, 0x6a, 0xff}, 5, false},
     {addr::simantics::kSetBalloon, "SetBalloonPrimitive", {0x55, 0x8b, 0xec, 0x6a, 0xff}, 5, false},
+    {addr::kPlaySoundEvent, "SoundManager::PlayEvent", {0x55, 0x8b, 0xec, 0x6a, 0xff}, 5, false},
 };
 
 bool RawRead(Ptr addr, void* out, size_t n) {

@@ -22,6 +22,7 @@
 #include "speech/speech.h"
 #include "util/language.h"
 #include "util/log.h"
+#include "util/settings.h"
 #include "util/strings.h"
 
 namespace {
@@ -34,6 +35,39 @@ bool ModFileExists(const SaLoaderApi* api, const wchar_t* name) {
     return GetFileAttributesW(path.c_str()) != INVALID_FILE_ATTRIBUTES;
 }
 
+// Development: tools/launch.py writes the user's foreground window to return_focus.txt before
+// starting the game. When the game's window takes the foreground at startup, the core hands it
+// back (the foreground process may pass it on; an outside process is refused).
+HWND g_gameWindow = nullptr;
+HWND g_returnFocus = nullptr;
+ULONGLONG g_returnFocusUntil = 0;
+
+void ReadReturnFocus(const SaLoaderApi* api) {
+    std::wstring path = std::wstring(api->mod_dir) + L"\\return_focus.txt";
+    HANDLE f = CreateFileW(path.c_str(), GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING, 0, nullptr);
+    if (f == INVALID_HANDLE_VALUE) return;
+    char text[32] = {};
+    DWORD got = 0;
+    ReadFile(f, text, sizeof text - 1, &got, nullptr);
+    CloseHandle(f);
+    DeleteFileW(path.c_str());
+    g_returnFocus = (HWND)(uintptr_t)strtoul(text, nullptr, 0);
+    g_returnFocusUntil = GetTickCount64() + 60000;
+    Log("development: will hand the foreground back to window %p", (void*)g_returnFocus);
+}
+
+void ReturnFocus() {
+    if (!g_returnFocus) return;
+    if (GetTickCount64() > g_returnFocusUntil || !IsWindow(g_returnFocus)) {
+        g_returnFocus = nullptr;
+        return;
+    }
+    if (GetForegroundWindow() != g_gameWindow) return;
+    BOOL ok = SetForegroundWindow(g_returnFocus);
+    Log("development: handed the foreground back to %p (%d)", (void*)g_returnFocus, ok);
+    g_returnFocus = nullptr;
+}
+
 }  // namespace
 
 extern "C" __declspec(dllexport) int __cdecl SA_Init(const SaLoaderApi* api) {
@@ -41,6 +75,9 @@ extern "C" __declspec(dllexport) int __cdecl SA_Init(const SaLoaderApi* api) {
     bool dev = ModFileExists(api, L"dev.txt");
     util::InitLog(api, dev);
     Log("SimsAccess core init (built %s %s)", __DATE__, __TIME__);
+    util::InitSettings(api->mod_dir);
+    g_gameWindow = api->hwnd;
+    if (dev) ReadReturnFocus(api);
     util::InitLanguage();  // from the registry: even an unsupported build speaks the player's language
     speech::Start(api->mod_dir);
     if (!api->build_ok) {
@@ -84,6 +121,7 @@ extern "C" __declspec(dllexport) int __cdecl SA_OnMessage(HWND, UINT msg, WPARAM
 }
 
 extern "C" __declspec(dllexport) void __cdecl SA_OnTick() {
+    ReturnFocus();
     if (!g_active) return;
     if (g_forceActive) game::ForceAppActive();
     nav::Tick();

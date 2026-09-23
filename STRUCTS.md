@@ -209,10 +209,24 @@ Values the panel only draws are read through the game: see "Sims' data" and "Hou
 | Function | Returns | Evidence |
 |---|---|---|
 | `0x43aec0(id)` | Sim state; `+0xc` float mood -100..100. The meter shows `round((mood + 100) * 11 / 201 - 5)` bars (-5 red .. +5 green) | family panel draw `0x4bb980` |
+| `0x43aec0(id)` (same record) | every motive as a float -100..100 at `+ index * 4`, indices as `Behavior.iff` STR# 134: 3 mood, 5 energy, 6 comfort, 7 hunger, 8 hygiene, 9 bladder, 13 room, 14 social, 15 fun | `cWinMotive`'s getter `0x49f590` reads `[state + [motive + 0x1e8] * 4]`; the narrator's "necesidad baja" lines matched the bars and the Sims' behavior (2026-09-23) |
 | `0x43a480(id)` | `short*` person data; personality traits at their index, 0..1000 (widget shows / 100) | personality draw `0x4bdd80`; the five traits of a Sim summed to 25 |
 | `0x43bc30(id, index)` | skill points 0..1000 for person data indices 10..18 (one bar per 100) | job panel draw |
 | `0x43bba0()` | neighbor ID of the selected Sim (-1 none) | used by the panel draws |
 | `0x43b230(id, vector* out)` | appends the Sim's action queue to a `std::vector` of 0x28-byte entries (current action first; `+0x0c` interaction record, `+0x10` `std::string` action name). The queue icon builder `0x40f6c0` keeps a static vector at `0xa61ec0` ({first, last, end}), empties it with the entry destructor `0x438700` (thiscall) and refills it for the selected Sim; between updates it is empty, so the mod borrows it for any Sim | "Hecuba, Comprobar jaula", "Menelaus, Perseguir el rabo"; the selected Sim's icons unaffected |
+
+### Action queue (on the `cXPerson`)
+
+| Off | Type | Meaning | Evidence |
+|---|---|---|---|
+| 0x824 | 8 x 0x50-byte records | queued interactions, a ring: entry i is `+0x824 + ((head + i) & 7) * 0x50` (`0x5f2350`) | `0x43b230`, the "Action Queues" debug dump `0x52da90` |
+| 0xaa4 / 0xaa8 | int | ring head / tail counters (count = tail - head) | same |
+| 0xaac | 0x50-byte record | the running interaction (object at `+0x0c` is 0 when none) | `0x43b230` puts it first, flagged "running" |
+
+Record: `+0x04` the Sim, `+0x08` target object, `+0x0c` icon object, `+0x10` entry index, `+0x1c`
+priority, `+0x20` u16 action tree. Priority seen live (2026-09-23): **50** for an interaction the
+player chose from a menu, **2** for free will. The 0x28-byte entries `0x43b230` produces point at
+the record from `+0x0c` and carry `+0x09` = 1 for the running one.
 
 ## Camera
 

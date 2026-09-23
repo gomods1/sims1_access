@@ -22,7 +22,8 @@ const Translation kEntries[] = {
      "Retroceder página recorren los objetos, con Mayúsculas cambian de categoría, con Control cambian de "
      "habitación. Intro abre las interacciones del objeto, Control+Intro camina hasta allí, R repite. Espacio "
      "selecciona al siguiente Sim, Control+1 a 9 seleccionan un Sim de la familia, Control+F hace que la cámara "
-     "siga al Sim o no. P pausa y lee la hora y el dinero. Control+Arriba y Control+Abajo leen los detalles, "
+     "siga al Sim o no. Control+E dice qué hace y qué necesita el Sim seleccionado, Control+N cambia cuánto "
+     "habla el narrador. P pausa y lee la hora y el dinero. Control+Arriba y Control+Abajo leen los detalles, "
      "Control+Izquierda y Control+Derecha cambian entre detalles y eventos."},
     {Str::KeysPlacing,
      "Avanzar y Retroceder página recorren los sitios donde cabe y se puede usar, los mejores primero; con "
@@ -471,6 +472,35 @@ const Translation kEntries[] = {
     {Str::ObjectTakenByNoValue, "%1$s se ha llevado %2$s"},
     {Str::ObjectGone, "%1$s ha desaparecido, valor %2$s"},
     {Str::ObjectGoneNoValue, "%s ha desaparecido"},
+    // The family, by ear
+    {Str::SimNowIn, "%1$s, ahora en %2$s"},
+    {Str::ActionStarted, "%1$s: %2$s"},
+    {Str::ActionStartedOwn, "%1$s, por su cuenta: %2$s"},
+    {Str::ActionFinished, "%1$s terminó: %2$s"},
+    {Str::NeedLow, "%1$s, necesidad baja: %2$s"},
+    {Str::NeedsLow, "%1$s, necesidades bajas: %2$s"},
+    {Str::NeedUrgent, "%1$s, necesidad urgente: %2$s"},
+    {Str::NeedsUrgent, "%1$s, necesidades urgentes: %2$s"},
+    {Str::NeedRecovered, "%1$s, necesidad cubierta otra vez: %2$s"},
+    {Str::MoodTurnedBad, "%s está de mal humor"},
+    {Str::MoodGoodAgain, "%s vuelve a estar de buen humor"},
+    {Str::NarratorEverything, "narrador: todo"},
+    {Str::NarratorWarnings, "narrador: solo avisos"},
+    {Str::NarratorOff, "narrador apagado; los eventos se siguen guardando"},
+    {Str::NoSimSelected, "ningún Sim seleccionado"},
+    {Str::StatusInRoom, "en %s"},
+    {Str::StatusIdle, "sin hacer nada"},
+    {Str::StatusThen, "luego %s"},
+    {Str::StatusNeedLow, "necesidad baja: %s"},
+    {Str::StatusNeedsLow, "necesidades bajas: %s"},
+    {Str::StatusNeedUrgent, "necesidad urgente: %s"},
+    {Str::StatusNeedsUrgent, "necesidades urgentes: %s"},
+    {Str::StatusNeedsFine, "necesidades bien"},
+    {Str::StatusMood, "humor"},
+    // Sounds
+    {Str::SoundCarpool, "el coche compartido toca el claxon"},
+    {Str::SoundSchoolBus, "el autobús escolar toca el claxon"},
+    {Str::SoundPoliceCar, "un coche de policía toca el claxon"},
 };
 
 }  // namespace

@@ -10,6 +10,7 @@
 #include "../nav/buy_mode.h"
 #include "../nav/camera.h"
 #include "../nav/cheat_console.h"
+#include "../nav/narrator.h"
 #include "../nav/navigator.h"
 #include "../nav/text_entry.h"
 #include "../nav/tutorial.h"
@@ -50,6 +51,8 @@ namespace {
 //   Ctrl+1 .. Ctrl+9               lot view: select the n-th Sim of the family (its portrait)
 //   Ctrl+F                         lot view: follow the selected Sim with the camera on/off
 //   Ctrl+H                         lot view: open the help system's waiting tip
+//   Ctrl+E                         lot view: the selected Sim's state (room, actions, needs, mood)
+//   Ctrl+N                         the narrator's verbosity: everything, warnings only, off
 //   Ctrl+Shift+C                   the game's cheat console (nav/cheat_console.h): Up/Down/Home/End pick
 //                                  a cheat, typing edits the line, Enter runs it (again: repeats)
 
@@ -143,6 +146,16 @@ bool Dispatch(WPARAM vk, bool shift, bool ctrl) {
         g_swallowChar = 'h';
         nav::tutorial::OpenTip();
         return true;
+    case 'E':
+        if (!ctrl || shift) return false;
+        g_swallowChar = 'e';
+        nav::narrator::SayStatus();
+        return true;
+    case 'N':
+        if (!ctrl || shift) return false;
+        g_swallowChar = 'n';
+        nav::narrator::CycleVerbosity();
+        return true;
     case 'F':
         if (!ctrl || shift) return false;
         g_swallowChar = 'f';
@@ -220,7 +233,7 @@ bool OnKeyDown(WPARAM vk, LPARAM lp) {
     }
     bool ctrl = Held(VK_CONTROL);
     bool ctrlKey = vk == VK_PRIOR || vk == VK_NEXT || vk == VK_RETURN || vk == VK_F1 || vk == VK_UP ||
-                   vk == VK_DOWN || vk == VK_LEFT || vk == VK_RIGHT || (vk >= '1' && vk <= '9') || vk == 'F' || vk == 'H' ||
+                   vk == VK_DOWN || vk == VK_LEFT || vk == VK_RIGHT || (vk >= '1' && vk <= '9') || vk == 'F' || vk == 'H' || vk == 'E' || vk == 'N' ||
                    (vk == 'C' && Held(VK_SHIFT));  // the mod's Ctrl combinations
     if (Held(VK_MENU) || (ctrl && !ctrlKey)) {
         LogVerbose("key 0x%02x left to the game: %s held", (unsigned)vk, ctrl ? "Ctrl" : "Alt");

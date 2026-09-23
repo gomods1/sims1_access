@@ -22,6 +22,19 @@ int FamilyMemberId(Ptr portrait);              // neighbor ID, -1 if none
 // Sim has none or the game's queue storage is not set up yet (before the first lot view).
 std::vector<std::string> SimActions(int neighborId);
 
+// The same queue with each entry's state: running = the interaction the Sim is doing now (the
+// others wait their turn).
+struct SimAction {
+    std::string name;
+    bool running = false;
+    bool byPlayer = false;  // queued by the player (not the Sim's free will)
+};
+std::vector<SimAction> SimActionList(int neighborId);
+
+// A Sim's needs, -100 (empty) .. 100 (full), by motive number (Behavior.iff STR# 134).
+enum class Need { Energy = 5, Comfort = 6, Hunger = 7, Hygiene = 8, Bladder = 9, Room = 13, Social = 14, Fun = 15 };
+bool SimNeed(int neighborId, Need need, int* value);
+
 // A Sim's mood, -100 (miserable) .. 100 (elated); false when unknown.
 bool SimMood(int neighborId, int* mood);
 // The family panel's mood meter: -5 (five red bars) .. 5 (five green bars).

@@ -8,6 +8,10 @@
 //     pizza delivery, the burglar, the police).
 //   Taken objects: furniture someone outside the family takes off the lot (the burglar, the repo
 //     man), with what it was worth.
+//   The family (nav/sim_watch.h): the selected Sim's room and actions, need and mood warnings.
+// Verbosity (Ctrl+N cycles it, kept in SimsAccess.ini): everything; warnings only (needs, mood,
+// route failures, shouts, the burglar, thefts); off. What is not spoken still goes to the events
+// buffer. Ctrl+E says the selected Sim's state.
 // Nothing here changes game state.
 #pragma once
 
@@ -19,6 +23,14 @@ namespace nav::narrator {
 
 void Reset();
 void Tick();
+
+// A line of the narrator: spoken when the verbosity lets it through, always kept in the events
+// buffer. important = a warning (spoken unless the narrator is off).
+void Announce(const std::string& line, bool important);
+void Record(const std::string& line);  // only kept in the buffer
+
+void CycleVerbosity();  // Ctrl+N: everything -> warnings only -> off -> everything
+void SayStatus();       // Ctrl+E: the selected Sim's room, actions, low needs and mood
 
 // The balloon shown over a Sim or object right now, in a few words ("piensa: hambre"); empty
 // when none (or one the mod has not seen appear).

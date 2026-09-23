@@ -11,6 +11,7 @@ Starting the exe directly avoids the confirmation Steam shows for launch options
 running. -skip_intro is added.
 """
 
+import ctypes
 import os
 import subprocess
 import sys
@@ -55,6 +56,11 @@ def main(argv: list[str]) -> int:
     if pid:
         subprocess.run(["taskkill", "/PID", str(pid), "/F"], capture_output=True)
         print(f"closed the running game (pid {pid})")
+    # The mod (dev builds) hands the foreground back to this window once the game takes it.
+    foreground = ctypes.windll.user32.GetForegroundWindow()
+    if foreground and os.path.exists(os.path.join(GAME_DIR, "SimsAccess", "dev.txt")):
+        with open(os.path.join(GAME_DIR, "SimsAccess", "return_focus.txt"), "w") as f:
+            f.write(hex(foreground))
     subprocess.Popen([os.path.join(GAME_DIR, EXE_NAME), f"-l{name}", "-skip_intro", *extra], cwd=GAME_DIR)
     print(f"starting The Sims in {name}")
     return 0

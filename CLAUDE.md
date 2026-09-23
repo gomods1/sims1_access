@@ -48,6 +48,12 @@ inventory: `SCREENS.md`. Verified targets: `PATCH_TARGETS.md`; layouts: `STRUCTS
   `SimsAccess\force_active.txt` the core keeps the game's app-active flag set, so the game takes
   input while other windows are in front (development only). `version.dll` and `SpeechHost.exe`
   only update after the game exits.
+- **Launching**: the game restarts itself through Steam (SteamStub) with its arguments, and Steam
+  then waits for the user to confirm "launch with these arguments" (2026-09-23: `launch.py` and
+  `game.py launch` both hung there; every later launch queues behind it). Ask the user to accept
+  it, or launch with no arguments (`steam://run/3314060`). `launch.py` writes the user's
+  foreground window to `SimsAccesseturn_focus.txt`; a dev core hands the foreground back to it
+  when the game window takes it at startup.
 - `python tools/nav_to.py <key> <text>` presses a key until the mod speaks a line containing the
   text (stops at a group's end); never chain an `enter` after it with `;`, only with `&&`.
 - Drive the game by keyboard without focusing it: `python tools/keys.py tab down enter` (posts key
@@ -60,6 +66,10 @@ inventory: `SCREENS.md`. Verified targets: `PATCH_TARGETS.md`; layouts: `STRUCTS
   `<game>\SimsAccess\SimsAccess.log` (every spoken line is logged as `Spoke:`).
 - Mod keys (none is a game hotkey; Ctrl/Alt combinations are free for later features):
   - Ctrl+F1 anywhere: the mod's keys for the current screen, spoken.
+  - Ctrl+E (lot view): the selected Sim's state in one line ("Cris, en exterior, Tomar un
+    tentempié; necesidades urgentes: comodidad, higiene; humor, 3 de 5 barras en rojo").
+  - Ctrl+N: the narrator's verbosity, everything / warnings only / off (saved in
+    `SimsAccess\SimsAccess.ini`, `[mod] narrator=2/1/0`); unspoken lines still go to eventos.
   - Review buffers (`nav/buffers.cpp`, playbook section 11): Ctrl+Up reads the next line deeper,
     Ctrl+Down goes back toward the top (no wrap); Ctrl+Left/Right switch buffers, skipping empty
     ones ("detalles, 5 elementos"). **detalles**: the details of what focus last spoke (a
@@ -179,6 +189,13 @@ inventory: `SCREENS.md`. Verified targets: `PATCH_TARGETS.md`; layouts: `STRUCTS
     the game's own cry from his file ("¡Ladrón! ...", `thief.iff` STR# 305; not seen live yet). Taken objects: Remove Object Instance (opcode 0x12) of furniture (OBJD function
     flags) by anyone outside the family: "X se ha llevado Y, valor $Z" (not yet seen live: no
     burglar came during the tests; the only game texts about thefts are the capture dialogs).
+  - The family watch (`nav/sim_watch.cpp`, part of the narrator): the selected Sim's running
+    action ("Cris: Sentarte" when the player chose it, "Cris, por su cuenta: ..." for free will,
+    by the queue record's priority 50 / 2), the end of what the player chose ("Cris terminó:
+    Sentarte"), room changes once the Sim stays ("Cris, ahora en cocina"), needs falling low
+    (selected Sim) or urgent (anyone), the mood turning red. Sounds are **not** narrated (the
+    player hears them), except which car honks (carpool, school bus, police) through the sound
+    event hook `0x527250`.
   - In buy mode identical objects are listed one by one (one of them is to be moved) and the
     last purchase reads "recién comprado".
   - Interaction menu: Up/Down/Home/End (items; the game highlights them too), Enter (choose;
