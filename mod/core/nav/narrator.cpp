@@ -101,6 +101,10 @@ std::string g_destination;
 // Some objects of the lot being watched (object, id): the identity is a furniture fingerprint,
 // which moving or selling furniture also changes; a lot really changed only when these are gone.
 std::vector<std::pair<Ptr, int>> g_lotSample;
+// The last lot seen, and whether a map (the neighborhood or a travel map) came since: kept
+// through resets, so a lot that follows another with no map between is the ride home.
+uintptr_t g_previousLot = 0;
+bool g_mapSince = true;
 
 std::vector<std::pair<Ptr, int>> SampleLot() {
     std::vector<std::pair<Ptr, int>> out;
@@ -557,21 +561,28 @@ void NoteDestination(const std::string& name) {
 }
 
 void Tick() {
-    uintptr_t lot = OnMap() ? 0 : game::LotIdentity();
+    bool onMap = OnMap();
+    if (onMap) g_mapSince = true;
+    uintptr_t lot = onMap ? 0 : game::LotIdentity();
+    // Just after a travel map the lot left behind still reads for a moment: still travelling.
+    if (lot && g_mapSince && lot == g_previousLot && !g_destination.empty()) lot = 0;
     if (lot && g.lot && lot != g.lot && SampleStillHere()) {  // furniture moved or sold, same lot
         LogVerbose("narrator: lot identity %p -> %p, same objects: same lot", (void*)g.lot, (void*)lot);
         g.lot = lot;
     }
     if (lot != g.lot) {  // another lot, or none: nothing seen before applies
-        bool wasOnLot = g.lot != 0 && lot != 0;
         if (lot && g.lot) g_onTrip = false;  // lot to lot: the ride home
         Reset();
         g.lot = lot;
         g.lotSince = GetTickCount64();
         if (lot && !g_destination.empty() && g.lotSince - g_destinationAt < kDestinationMs)
             Announce(util::Format(S(Str::ArrivedAt), g_destination.c_str()), true);
-        else if (lot && g.lot == 0 && wasOnLot)  // lot to lot with no map: the ride home
+        else if (lot && !g_mapSince && g_previousLot && g_previousLot != lot)  // no map between: the ride home
             Announce(S(Str::ArrivedHome), true);
+        if (lot) {
+            g_previousLot = lot;
+            g_mapSince = false;
+        }
         if (lot) g_destination.clear();
         g_lotSample = lot ? SampleLot() : std::vector<std::pair<Ptr, int>>{};
         LogVerbose("narrator: lot %p", (void*)lot);

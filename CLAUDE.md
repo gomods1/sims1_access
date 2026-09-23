@@ -206,6 +206,9 @@ eturn_focus.txt`; a dev core hands the foreground back to it
     anyone outside the family: "Bud el hombre Repo se ha llevado Televisión ..., valor $330"
     (verified live with the repo man, 2026-09-23). Bills ("Bills" objects by the mailbox) are
     announced as they come: "han llegado facturas: 3 sin pagar"; unpaid ones bring the repo man.
+    Trips: the lot chosen on a travel map is said on arrival ("llegada: Casa Cory"), a lot that
+    follows another with no map between is the ride home ("de vuelta en casa"); the Grim Reaper
+    names the dying Sim ("La Parca ha venido a por Isabel").
   - The family watch (`nav/sim_watch.cpp`, part of the narrator): the selected Sim's running
     action ("Cris: Sentarte" when the player chose it, "Cris, por su cuenta: ..." for free will,
     by the queue record's priority 50 / 2), the end of what the player chose ("Cris terminó:
