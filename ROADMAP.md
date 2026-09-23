@@ -243,7 +243,10 @@ for a second Enter. A new room without a door is said, not asked about. Still to
   meter showed on screen (`cWinSweepMeter` stayed hidden), so there is nothing more to read yet.
   Costume trunk, buffet, DJ booth and celebrity visitors not tried.
 - **Hot Date**: travelling downtown, dates, downtown lots and shopping, gifts, the relationship
-  changes they bring.
+  changes they bring. Gifts verified 2026-09-23: at the Centro comercial Landgraab a display's
+  "Comprar..." lists its gifts with prices ("Rosa amarilla $50"); the gift waits in the
+  inventory; after a greeting, a Sim's "Regalar..." lists the inventory's gifts, and the
+  relationship change is said ("Homero, con Pierre Urbino: -1, ahora 0").
 - **Vacation**: travelling to Vacation Island, lodging, activities, souvenirs, coming home.
 - **Unleashed**: pets (adopting done, verified 2026-09-23: phone > Llamar taxi > Explorar la
   Ciudad Vieja, the trolley's dialogs, the Old Town map, a pet shop's pen > Adoptar, the breed
