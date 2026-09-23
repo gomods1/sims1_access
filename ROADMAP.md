@@ -91,10 +91,9 @@ What to announce (the selected Sim; the others only when it needs the player):
     failures ("Bella no puede pasar: Silla ... bloquea el camino") come from the balloon
     primitive, hooked. Open: dreams are recognised only by repetition (a tree that keeps
     showing balloons is spoken once); knowing the tree's name ("Dream Topic") would let them be
-    left out entirely, but no path from a frame to its tree's name was found yet. The listener
-    answers a topic with the same topic, crossed out or not ("Bella dice: Alimentos", then
-    "Mortimer dice: Alimentos, tachado"); **hypothesis**: crossed out = the listener dislikes
-    the topic. Once confirmed (compare with the Sims' interests), say it in words.
+    left out entirely, but no path from a frame to its tree's name was found yet. A topic crossed out
+    in conversation is said as "no le interesa" (verified 2026-09-23 on two Sims: every crossed
+    topic had the speaker's interest at 6 or less, every plain one 7 or more).
   - Refusals (done, verified 2026-09-23): an action the player queued that leaves the queue
     without running is said: "Cris se niega, está de mal humor: Llamar taxi.../Ir de
     Vacaciones" (the Sim stomps, "¡Pisar fuerte!"; the mood is named when it is red), "X no lo va

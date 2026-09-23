@@ -253,7 +253,11 @@ void Report(const Balloon& b, const std::vector<int>& family) {
             (int)b.kind, b.tree);
         return;
     }
-    if (b.crossed) content = util::Format(S(Str::BalloonCrossedOut), content.c_str());
+    // A topic crossed out in conversation: the speaker is not interested in it (verified on two
+    // Sims: crossed topics had interest 6 or less, plain ones 7 or more).
+    if (b.crossed)
+        content = util::Format(S(b.kind == BalloonKind::Speak ? Str::BalloonNotInterested : Str::BalloonCrossedOut),
+                               content.c_str());
     Shown shown;
     game::BalloonShownOver(owner, &shown.record);
     shown.text = Line(b, content, "");

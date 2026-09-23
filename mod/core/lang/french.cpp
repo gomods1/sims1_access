@@ -906,6 +906,8 @@ const Translation kEntries[] = {
     {Str::BookIngredients, "ingrédients : %s"},
     {Str::GroupSpells, "sorts"},
     {Str::GroupRecipes, "recettes"},
+    // Narrator: conversation topics
+    {Str::BalloonNotInterested, "%s, ça ne l'intéresse pas"},
 };
 
 }  // namespace

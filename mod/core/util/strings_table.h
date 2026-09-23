@@ -882,4 +882,6 @@
     /* Makin' Magic book */                                                                                          \
     X(BookIngredients, "ingredients: %s")                                                                            \
     X(GroupSpells, "spells")                                                                                         \
-    X(GroupRecipes, "recipes")
+    X(GroupRecipes, "recipes")                                                                                       \
+    /* Narrator: conversation topics */                                                                              \
+    X(BalloonNotInterested, "%s, not interested")

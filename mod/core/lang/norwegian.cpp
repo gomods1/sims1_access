@@ -884,6 +884,8 @@ const Translation kEntries[] = {
     {Str::BookIngredients, "ingredienser: %s"},
     {Str::GroupSpells, "trylleformler"},
     {Str::GroupRecipes, "oppskrifter"},
+    // Narrator: conversation topics
+    {Str::BalloonNotInterested, "%s, ikke interessert"},
 };
 
 }  // namespace
