@@ -393,6 +393,23 @@ std::vector<Area> FindSpots() {
     bool moving = !game::IsBuying();
     Tile from = TileOf(held);  // a moved object is still where it was
     int fromRoom = moving && game::InGrid(from.x, from.y) ? game::RoomAt(level, from.x, from.y) : game::kNoRoom;
+    // What stands on the held object (the wand charger on its table) moves with it and must stay
+    // usable too: its direction relative to the held one's, taken on the held one's tile (a contained
+    // object has no tile of its own; on a two-tile table this is off by the part).
+    struct Carried {
+        Ptr object;
+        int turn;
+    };
+    std::vector<Carried> carried;
+    game::LotObject heldObject;
+    if (moving && game::GetObject(held, &heldObject))
+        for (const game::LotObject& o : game::LotObjects())  // before the lift takes them out
+            if (!o.person && game::ContainerOf(o.object) == heldObject.id)
+                carried.push_back({o.object, (game::ObjectDirection(o.object) - game::ObjectDirection(held)) & 7});
+    for (const Carried& c : carried)
+        LogVerbose("placement: an object on the held one moves with it (turn %d, %d use tiles here)", c.turn,
+                   (int)game::UseTilesAt(c.object, from, (game::ObjectDirection(held) + c.turn) & 7).size());
+
     game::LiftHeld();
     Floor f = ReadFloor(level);
     std::vector<uint8_t> none(f.size * f.size, 0);
@@ -405,6 +422,9 @@ std::vector<Area> FindSpots() {
     std::vector<game::LotObject> objects = game::LotObjects();
     for (const game::LotObject& o : objects) {
         if (o.person || o.level != level || game::IsPortal(o.object) || o.object == held) continue;
+        bool onHeld = false;
+        for (const Carried& c : carried) onHeld |= c.object == o.object;
+        if (onHeld) continue;
         Tile at = TileOf(o);
         std::vector<Tile> fp = game::FootprintAt(o.object, at);
         std::vector<Tile> use =
@@ -499,6 +519,15 @@ std::vector<Area> FindSpots() {
                 bool freePortal = heldPortal && !(f.walls[f.Index(t)] & WallBit((direction + 4) & 7));
                 if (freePortal) StairsEnds(spot, level);
                 if (spot.useTiles.empty() && !freePortal) {
+                    area.unusable++;
+                    continue;
+                }
+                bool carriedUsable = true;
+                for (const Carried& c : carried)
+                    carriedUsable &= !UsableTiles(f, game::UseTilesAt(c.object, t, (direction + c.turn) & 7), spot.footprint,
+                                                  extra, reach)
+                                          .empty();
+                if (!carriedUsable) {
                     area.unusable++;
                     continue;
                 }

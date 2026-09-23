@@ -184,7 +184,7 @@ eturn_focus.txt`; a dev core hands the foreground back to it
   - The narrator (`nav/narrator.cpp`, `game/simantics.cpp`; layouts in `STRUCTS.md` "SimAntics and
     balloons"): every balloon the game shows is heard as it appears and kept in the eventos
     buffer: "Bella piensa: hambre", "Mortimer grita: vejiga", "Bella dice: Alienígenas" (topics
-    by the game's interest names), "Cassandra: la relación empeora" (the `-` after a social),
+    by the game's interest names; a crossed-out topic reads "..., no le interesa"), "Cassandra: la relación empeora" (the `-` after a social),
     "Cubo de basura: moscas", and route failures as "Bella no puede pasar: Silla ... bloquea el
     camino" (the global tree 0x18e, what the help tip about blocked Sims refers to). The hook is
     on the primitive itself (`0x61bc40`), so nothing is missed. Spoken: the family's and objects'
