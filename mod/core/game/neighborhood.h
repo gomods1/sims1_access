@@ -2,6 +2,7 @@
 #pragma once
 
 #include <string>
+#include <vector>
 
 #include "memory.h"
 
@@ -14,5 +15,20 @@ std::string LotFamily(Ptr lot);    // resident family, UTF-8; empty when vacant
 // "La Autovía Gunther Goth,76\n\nLa familia Flores\r\nValor neto: $14.931\r\nAmigos: 0".
 // UTF-8; empty when it cannot be produced.
 std::string LotCardText(Ptr lot);
+
+// A lot's kind in the neighborhood's list: 1 a home, 2 a community lot, 0 unknown.
+int LotKind(int number);
+bool IsCommunityLot(int number);
+// The travel map (Old Town's "where to?") the lot button is on, 0 on any other screen.
+Ptr TravelMap(Ptr widget);
+// The travel map's filter bar: its buttons left to right with the bit each one marks lots by
+// (the bar draws every button twice; one of each is kept). Empty on other screens.
+struct MapFilter {
+    Ptr button;
+    int bit;
+};
+std::vector<MapFilter> MapFilters(Ptr map);
+int MapFilterChosen(Ptr map);  // the bit the bar marks lots by now, 0 none
+int LotFilterBits(Ptr lot);
 
 }  // namespace game

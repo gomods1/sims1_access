@@ -601,6 +601,11 @@ const Translation kEntries[] = {
     {Str::OutfitLook, "服 %2$d個中%1$d番目、%3$s: %4$s"},
     {Str::OutfitLookNoShape, "服 %2$d個中%1$d番目: %3$s"},
     {Str::OutfitNotListed, "今着ている服、選べる服は%d個"},
+    // Travel maps
+    {Str::ScreenOldTown, "オールドタウン、どこへ行く？"},
+    {Str::LotFilters, "フィルター: %s"},
+    {Str::LotsMarked, "地図の印: %s"},
+    {Str::LotsMarkedNone, "この種類の場所は地図にありません"},
 };
 
 }  // namespace

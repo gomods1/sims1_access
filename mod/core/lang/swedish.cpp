@@ -669,6 +669,11 @@ const Translation kEntries[] = {
     {Str::OutfitLook, "klädsel %d av %d, %s: %s"},
     {Str::OutfitLookNoShape, "klädsel %d av %d: %s"},
     {Str::OutfitNotListed, "klädseln som bärs nu, %d att välja mellan"},
+    // Travel maps
+    {Str::ScreenOldTown, "Gamla stan, vart ska vi?"},
+    {Str::LotFilters, "i filtren: %s"},
+    {Str::LotsMarked, "markerade på kartan: %s"},
+    {Str::LotsMarkedNone, "ingen plats av det här slaget på kartan"},
 };
 
 }  // namespace

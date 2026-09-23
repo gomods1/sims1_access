@@ -658,6 +658,11 @@ const Translation kEntries[] = {
     {Str::OutfitLook, "ชุด %d จาก %d, %s: %s"},
     {Str::OutfitLookNoShape, "ชุด %d จาก %d: %s"},
     {Str::OutfitNotListed, "ชุดที่ใส่อยู่ตอนนี้ มีให้เลือก %d ชุด"},
+    // Travel maps
+    {Str::ScreenOldTown, "ย่านเมืองเก่า ไปไหนดี?"},
+    {Str::LotFilters, "ในตัวกรอง: %s"},
+    {Str::LotsMarked, "ทำเครื่องหมายบนแผนที่: %s"},
+    {Str::LotsMarkedNone, "ไม่มีสถานที่แบบนี้บนแผนที่"},
 };
 
 }  // namespace

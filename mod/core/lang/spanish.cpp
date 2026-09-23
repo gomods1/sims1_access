@@ -676,6 +676,11 @@ const Translation kEntries[] = {
     {Str::OutfitLook, "traje %d de %d, %s: %s"},
     {Str::OutfitLookNoShape, "traje %d de %d: %s"},
     {Str::OutfitNotListed, "el traje que lleva ahora, %d para elegir"},
+    // Travel maps
+    {Str::ScreenOldTown, "Ciudad Vieja, ¿a dónde vamos?"},
+    {Str::LotFilters, "en los filtros: %s"},
+    {Str::LotsMarked, "marcados en el mapa: %s"},
+    {Str::LotsMarkedNone, "no hay ningún lugar de este tipo en el mapa"},
 };
 
 }  // namespace

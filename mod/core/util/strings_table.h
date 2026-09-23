@@ -664,4 +664,9 @@
     X(OutfitLook, "outfit %d of %d, %s: %s")                                                                         \
     X(OutfitLookNoShape, "outfit %d of %d: %s")                                                                      \
     /* Wardrobe */                                                                                                   \
-    X(OutfitNotListed, "the outfit worn now, %d to choose from")
+    X(OutfitNotListed, "the outfit worn now, %d to choose from")                                                     \
+    /* Travel maps */                                                                                                \
+    X(ScreenOldTown, "Old Town, where to?")                                                                          \
+    X(LotFilters, "in the filters: %s")                                                                              \
+    X(LotsMarked, "marked on the map: %s")                                                                           \
+    X(LotsMarkedNone, "no place of this kind on the map")

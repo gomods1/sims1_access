@@ -674,6 +674,11 @@ const Translation kEntries[] = {
     {Str::OutfitLook, "asu %d, yhteensä %d, %s: %s"},
     {Str::OutfitLookNoShape, "asu %d, yhteensä %d: %s"},
     {Str::OutfitNotListed, "nyt päällä oleva asu, %d vaihtoehtoa"},
+    // Travel maps
+    {Str::ScreenOldTown, "Vanha kaupunki, minne mennään?"},
+    {Str::LotFilters, "suodattimissa: %s"},
+    {Str::LotsMarked, "merkitty karttaan: %s"},
+    {Str::LotsMarkedNone, "kartalla ei ole tällaista paikkaa"},
 };
 
 }  // namespace

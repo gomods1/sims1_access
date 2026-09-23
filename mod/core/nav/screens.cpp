@@ -43,6 +43,7 @@ constexpr size_t kMaxTitleLength = 40;  // longer text is a message, not a title
 
 // The neighborhood says its number ("Barrio 1"), as the game shows it between its arrows.
 std::string ScreenName(Ptr root) {
+    if (game::IsKindOf(root, "cWinNeighborhoodUL")) return S(Str::ScreenOldTown);
     if (game::IsKindOf(root, "cWinNeighborhood")) {
         std::string number = util::ReadGameSetting("SIMS_CURRENT_NEIGHBORHOOD_NUM");
         if (!number.empty()) return util::Format(S(Str::ScreenNeighborhoodNumber), number.c_str());

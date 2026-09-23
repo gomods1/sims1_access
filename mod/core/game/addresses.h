@@ -452,7 +452,23 @@ constexpr int kRecord = 0x1e0;     // lot record passed to the popup fill
 constexpr int kFamily = 0x1f8;     // std::string, empty when vacant
 constexpr int kNumber = 0x220;     // int house number
 constexpr int kExtra = 0x274;      // second popup fill argument
+constexpr int kFilterBits = 0x1f0; // what the travel map's filter bar marks the lot for (bits below)
 }  // namespace lot
+
+// ---- The travel maps (cWinNeighborhoodUL: Old Town) ------------------------------------------
+// The screen keeps the filter bar's choice at +0x1ec (one bit, 0 none); its draw code
+// (0x4a4530) puts a marker on every community lot whose kFilterBits share it. The lot kinds are
+// a vector of {house number, kind} at [[kSimRoot] + 0x24] + 0x180 (0x54bf70 looks one up): 1 a
+// home, 2 a community lot. Old Town's bar, left to right (pressed and read live): adoption
+// centers 0x10, caged pets 0x20, shops 8, garden shops 4, restaurants 2, recreation 0x40,
+// lodging 1 (the homes carry 1 too).
+namespace travelmap {
+constexpr int kFilter = 0x1ec;
+constexpr int kNeighborhood = 0x24;
+constexpr int kLotKinds = 0x180;
+constexpr int kKindCommunity = 2;
+constexpr int kOldTownBits[] = {0x10, 0x20, 8, 4, 2, 0x40, 1};
+}  // namespace travelmap
 
 // ---- cPickFamilyItem (family picker row) / cPickFamilyItemMember (portrait) ---------------
 namespace famrow {

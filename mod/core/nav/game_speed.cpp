@@ -65,9 +65,10 @@ void Tick(Ptr root) {
     }
     if (!now.paused) {
         if (!g.pendingSince || !(now == g.pending)) {
+            // The game's own flicker brings the same level back every second: logged once.
+            if (!(now == g.pending)) LogVerbose("game speed: running level %d (settling)", now.level);
             g.pending = now;
             g.pendingSince = t;
-            LogVerbose("game speed: running level %d (settling)", now.level);
             return;
         }
         if (t - g.pendingSince < kSpeedSettleMs) return;

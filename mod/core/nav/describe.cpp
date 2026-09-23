@@ -5,6 +5,7 @@
 #include <utility>
 #include <vector>
 
+#include "../game/addresses.h"
 #include "../game/design.h"
 #include "../game/house.h"
 #include "../game/lot.h"
@@ -39,11 +40,38 @@ std::string HouseText(const Item& it) {
 
 // "Calle Sim,1, botón. La familia Compañeras. Valor neto: $20.000": the role follows the card's
 // first line, the house's address.
+// On a travel map a community lot adds what the filter bar marks it for: "... Haz clic aquí
+// para visitarla. En los filtros: Mostrar Tiendas de Jardinería".
 std::string LotText(const Item& it) {
     std::string text = HouseText(it);
     std::string role = std::string(", ") + S(Str::RoleButton);
     size_t lineEnd = text.find_first_of("\r\n");
-    return lineEnd == std::string::npos ? text + role : text.insert(lineEnd, role);
+    text = lineEnd == std::string::npos ? text + role : text.insert(lineEnd, role);
+    Ptr map = game::TravelMap(it.widget);
+    if (!map || !game::IsCommunityLot(it.number)) return text;
+    std::string filters;
+    int bits = game::LotFilterBits(it.widget);
+    for (const game::MapFilter& f : game::MapFilters(map))
+        if (bits & f.bit) filters += (filters.empty() ? "" : ", ") + game::Tooltip(f.button);
+    if (filters.empty()) return text;
+    while (!text.empty() && (text.back() == ' ' || text.back() == '\n' || text.back() == '\r')) text.pop_back();
+    text += text.empty() || text.back() == '.' ? " " : ". ";
+    text += util::Format(S(Str::LotFilters), filters.c_str());
+    return text;
+}
+
+// A lot's own name from its card: the line after the address, up to its first sentence's end
+// ("El Paraíso de las Mascotas"); the address when the card has no name.
+std::string LotPlaceName(const Item& it) {
+    std::string text = HouseText(it);
+    size_t lineEnd = text.find_first_of("\r\n");
+    if (lineEnd == std::string::npos) return text;
+    std::string address = text.substr(0, lineEnd);
+    size_t start = text.find_first_not_of("\r\n", lineEnd);
+    if (start == std::string::npos) return address;
+    size_t end = text.find_first_of(".\r\n", start);
+    std::string name = text.substr(start, end == std::string::npos ? std::string::npos : end - start);
+    return name.empty() ? address : name;
 }
 
 // "Gentil, botón, seleccionado. 4 miembros: Federico, Diana, Daniel, Virginia. valor neto:
@@ -260,8 +288,35 @@ std::string DescribeOutfit(Ptr dialog) {
     return util::Format(S(Str::OutfitLook), look.index + 1, look.count, S(shape), word.c_str());
 }
 
+// A travel map's filter puts markers on the lots of its kind: they are said by name.
+std::string DescribeMarkedLots(Ptr map) {
+    int bit = game::MapFilterChosen(map);
+    std::vector<std::string> names;
+    std::vector<Ptr> stack = {map};
+    for (int n = 0; !stack.empty() && n < 1000; n++) {
+        Ptr w = stack.back();
+        stack.pop_back();
+        if (game::IsKindOf(w, "cWinLotBtn")) {
+            Item it;
+            it.widget = w;
+            it.number = game::LotNumber(w);
+            if (game::IsCommunityLot(it.number) && (game::LotFilterBits(w) & bit))
+                names.push_back(LotPlaceName(it));
+            continue;
+        }
+        for (Ptr c : game::Children(w)) stack.push_back(c);
+    }
+    if (!bit || names.empty()) return S(Str::LotsMarkedNone);
+    std::string list;
+    for (const std::string& name : names) list += (list.empty() ? "" : ", ") + name;
+    return util::Format(S(Str::LotsMarked), list.c_str());
+}
+
 std::string AfterPress(Ptr root, Ptr pressed) {
     if (game::IsOutfitArrow(root, pressed)) return DescribeOutfit(root);
+    if (Ptr map = game::TravelMap(root))
+        for (const game::MapFilter& f : game::MapFilters(map))
+            if (f.button == pressed) return DescribeMarkedLots(map);
     game::LookPart part;
     if (game::IsLookArrow(root, pressed, &part)) return DescribeLook(root, part);
     for (Ptr choice : game::LookControls(root))

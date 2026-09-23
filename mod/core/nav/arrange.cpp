@@ -2,6 +2,8 @@
 
 #include <algorithm>
 
+#include "../game/neighborhood.h"
+
 namespace nav {
 namespace {
 
@@ -109,6 +111,11 @@ void SortItems(Group& g) {
         std::stable_sort(g.items.begin(), g.items.end(), byNumber);
     else
         SortReadingOrder(g.items);
+    // On a travel map the lots that can be visited come first; the homes follow.
+    if (g.key == kHousesGroup && !g.items.empty() && game::TravelMap(g.items[0].widget))
+        std::stable_partition(g.items.begin(), g.items.end(), [](const Item& it) {
+            return game::IsCommunityLot(it.number);
+        });
     // The mood leads the group it joins (the needs): it sums up the rest.
     std::stable_partition(g.items.begin(), g.items.end(), [](const Item& it) { return it.role == Role::Mood; });
     std::stable_partition(g.items.begin(), g.items.end(), [](const Item& it) { return !IsPageArrow(it); });
@@ -121,7 +128,21 @@ bool IsPageArrow(const Item& it) {
     return it.role == Role::Button && it.rect.right - it.rect.left <= 12 && it.rect.bottom - it.rect.top >= 40;
 }
 
+// Old Town's filter bar draws every button twice, one on top of the other.
+void DropTwins(Group& g) {
+    std::vector<Item> kept;
+    for (Item& it : g.items) {
+        bool twin = false;
+        for (const Item& k : kept)
+            twin = twin || (it.role == Role::Button && k.role == Role::Button && !it.label.empty() && it.label == k.label &&
+                            EqualRect(&it.rect, &k.rect));
+        if (!twin) kept.push_back(std::move(it));
+    }
+    g.items.swap(kept);
+}
+
 void ArrangeGroup(Group& g) {
+    DropTwins(g);
     LabelTextFields(g);
     LabelCheckBoxes(g);
     MakeSpinners(g);

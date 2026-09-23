@@ -582,6 +582,11 @@ const Translation kEntries[] = {
     {Str::OutfitLook, "服装，第%d套，共%d套，%s：%s"},
     {Str::OutfitLookNoShape, "服装，第%d套，共%d套：%s"},
     {Str::OutfitNotListed, "现在穿的服装，可选%d套"},
+    // Travel maps
+    {Str::ScreenOldTown, "老城区，去哪里？"},
+    {Str::LotFilters, "筛选：%s"},
+    {Str::LotsMarked, "地图上标出：%s"},
+    {Str::LotsMarkedNone, "地图上没有这类地方"},
 };
 
 }  // namespace
