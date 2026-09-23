@@ -211,6 +211,15 @@ eturn_focus.txt`; a dev core hands the foreground back to it
     the spot's tile and the area's refused spots with the game's reason. Enter on an object of the lot browser picks it up to move it (same spot list;
     Escape puts it back, Delete sells it and says the refund). Moving past a page's last product
     (or back from its first) turns the catalog's page by itself ("página siguiente").
+- Build mode (F3): the panel's tools are tabs, their styles products. Enter on a wall or fence
+  style starts the build cursor (`nav/build_mode.cpp`, keys in its header and Ctrl+F1): arrows
+  move a corner (Shift five), Space marks the start, Enter builds a wall, Shift+Enter a room,
+  Ctrl+Enter/Delete removes, PageDown/PageUp + Insert ready-made rooms, Home back to the Sim, R
+  everything (free space, room), Escape leaves. The mod drags the wall tool itself (down, drag,
+  up; `STRUCTS.md` "Build mode"), checks the walls first from the lot's entrance
+  (`placement::CheckNewWalls`) and asks for a second Enter when they would shut in a Sim, cut an
+  object off, close a door or isolate tiles. Some expansion "fences" are objects: their press
+  brings the buy tool and no cursor.
 - Buy mode placement internals: the mod hooks `ScreenToWorld` (0x5e00e0) and drives the buy tool's
   own mouse handlers on the tile it chose. The view calls the tool's "mouse left" (0x56ea50) every
   frame the real mouse is not over the lot, which takes the held object out of the world: the mod

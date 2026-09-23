@@ -38,6 +38,7 @@ struct Floor {
     std::vector<uint8_t> keepClear;   // in front of and behind doors
     std::vector<int> room;
     std::vector<Tile> starts;         // where Sims come from: the Sims, the lot's entrance
+    std::vector<Tile> entrance;       // the lot's entrance alone (or the stairs, upstairs)
 
     bool Inside(Tile t) const { return t.x >= 0 && t.y >= 0 && t.x < size && t.y < size; }
     int Index(Tile t) const { return t.y * size + t.x; }
@@ -165,11 +166,19 @@ Floor ReadFloor(int level) {
     // the ground floor), the stairs on upper floors.
     for (const game::LotObject& o : game::LotObjects())
         if (o.person && o.level == level) f.starts.push_back(TileOf(o));
-    for (int i = 0; i < n; i++) {
-        Ptr object = f.objectId[i] ? game::ObjectById(f.objectId[i]) : 0;
-        if (object && (level == 1 ? game::IsInvisibleHelper(object) : f.portal[i] != 0))
-            f.starts.push_back({i % f.size, i / f.size});
+    // The ground floor's entrance: the lot's invisible edge portals (where visitors walk on). The
+    // per-tile ids above leave helpers out, so they are taken from the parts themselves.
+    if (level == 1) {
+        for (const game::PlacedPart& part : game::PlacedParts()) {
+            Tile t{part.tileX, part.tileY};
+            if (part.level == level && f.Inside(t) && game::IsLotEntrance(part.object))
+                f.entrance.push_back(t);
+        }
+    } else {
+        for (int i = 0; i < n; i++)
+            if (f.portal[i]) f.entrance.push_back({i % f.size, i / f.size});
     }
+    f.starts.insert(f.starts.end(), f.entrance.begin(), f.entrance.end());
     return f;
 }
 
@@ -612,6 +621,64 @@ std::string WhyNone(const Area& area) {
     if (area.blocksDoor > 0) return S(Str::WouldBlockDoor);
     std::string reason = game::PlacementErrorText(area.commonError);
     return reason.empty() ? S(Str::DoesNotFit) : reason;
+}
+
+WallCheck CheckNewWalls(int level, const std::vector<WallEdgeAdd>& edges) {
+    WallCheck check;
+    Floor before = ReadFloor(level);
+    Floor after = before;
+    for (const WallEdgeAdd& e : edges) {
+        if (!after.Inside(e.tile)) continue;
+        int i = after.Index(e.tile);
+        bool had = (before.walls[i] & e.edge) != 0;
+        after.walls[i] |= e.edge;
+        Tile n = e.edge == game::kWallNorth ? Tile{e.tile.x, e.tile.y - 1} : Tile{e.tile.x - 1, e.tile.y};
+        if (!after.Inside(n)) continue;
+        int j = after.Index(n);
+        after.walls[j] |= e.edge == game::kWallNorth ? game::kWallSouth : game::kWallEast;
+        // A new wall between a door and the tile in front of (or behind) it closes the door.
+        if (!had && ((before.portal[i] && before.keepClear[j]) || (before.portal[j] && before.keepClear[i])))
+            check.doorsBlocked++;
+    }
+    // Reach is measured from the lot's entrance: a Sim standing inside a new room must not make
+    // the room look reachable.
+    LogVerbose("placement: wall check from %d entrance tiles", (int)before.entrance.size());
+    if (!before.entrance.empty()) before.starts = after.starts = before.entrance;
+    int cells = before.size * before.size;
+    std::vector<uint8_t> none(cells, 0);
+    std::vector<uint8_t> reachBefore = Reach(before, none), reachAfter = Reach(after, none);
+    for (const game::LotObject& o : game::LotObjects()) {
+        Tile t = TileOf(o);
+        if (!o.person || o.level != level || !before.Inside(t)) continue;
+        int i = before.Index(t);
+        // A Sim on a chair or in bed stands on a blocked tile: the tiles around count.
+        auto reachableNear = [&](const Floor& f, const std::vector<uint8_t>& reach) {
+            if (reach[i]) return true;
+            for (int d = 0; d < 8; d += 2) {
+                Tile n = game::Step(t, d);
+                if (f.Inside(n) && reach[f.Index(n)] && CanCross(f, n, t)) return true;
+            }
+            return false;
+        };
+        if (reachableNear(before, reachBefore) && !reachableNear(after, reachAfter)) check.trappedSims.push_back(game::ObjectName(o));
+    }
+    for (int i = 0; i < cells; i++) check.cutOffTiles += reachBefore[i] && !reachAfter[i];
+    for (const game::LotObject& o : game::LotObjects()) {
+        if (o.person || o.level != level || game::IsPortal(o.object)) continue;
+        Tile at = TileOf(o);
+        std::vector<Tile> fp = game::FootprintAt(o.object, at);
+        std::vector<Tile> use = game::UseTilesAt(o.object, at, game::ObjectDirection(o.object));
+        if (UsableTiles(before, use, fp, none, reachBefore).empty()) {
+            LogVerbose("placement: wall check skips %s (not usable now, %d use tiles)", world::DisplayName(o).c_str(),
+                       (int)use.size());
+            continue;
+        }
+        if (!UsableTiles(after, use, fp, none, reachAfter).empty()) continue;
+        std::string name = world::DisplayName(o);
+        if (std::find(check.blockedObjects.begin(), check.blockedObjects.end(), name) == check.blockedObjects.end())
+            check.blockedObjects.push_back(name);
+    }
+    return check;
 }
 
 }  // namespace nav::placement

@@ -451,6 +451,55 @@ const Translation kEntries[] = {
     {Str::SoundCarpool, "送迎の車がクラクションを鳴らしています"},
     {Str::SoundSchoolBus, "スクールバスがクラクションを鳴らしています"},
     {Str::SoundPoliceCar, "パトカーがクラクションを鳴らしています"},
+    // Build cursor (walls)
+    {Str::BuildNorth, "北"},
+    {Str::BuildEast, "東"},
+    {Str::BuildSouth, "南"},
+    {Str::BuildWest, "西"},
+    {Str::BuildRoomSize, "%1$s、%2$dマス"},
+    {Str::BuildSteps, "%2$sに%1$d"},
+    {Str::BuildFromStart, "開始点から：%s"},
+    {Str::BuildAtStart, "開始点"},
+    {Str::BuildWallPlan, "Enterで長さ%1$dの壁を建てます、%2$s"},
+    {Str::BuildDiagonalPlan, "Enterで長さ%1$dの斜めの壁を建てます、%2$s"},
+    {Str::BuildRoomPlan, "Shift+Enterで%1$d×%2$dの部屋を建てます、%3$s"},
+    {Str::BuildCorner, "%1$d、%2$d"},
+    {Str::BuildWallsHere, "壁：%s"},
+    {Str::BuildFreeSpace, "空き：北%1$d、東%2$d、南%3$d、西%4$d"},
+    {Str::BuildStartAt, "開始点 %1$d、%2$d"},
+    {Str::BuildStyle, "%1$s、1区画%2$s"},
+    {Str::BuildBlocksObjects, "シムが届かなくなるもの：%s"},
+    {Str::BuildBlocksDoor, "ドアをふさぎます"},
+    {Str::BuildRoomNeedsDoor, "新しい部屋は%dマスでまだドアがありません：ドアツールで付けてください"},
+    {Str::BuildCutsOff, "区画の残りから%dマスを切り離します"},
+    {Str::BuildWarning, "警告：%s。もう一度Enterでそのまま建てます。"},
+    {Str::BuildFailed, "建てられませんでした"},
+    {Str::BuildNeedsArea, "部屋には幅と奥行きが必要です：開始点から両方向に離れてください"},
+    {Str::BuiltRoom, "部屋を建てました、%1$d×%2$d"},
+    {Str::BuildCursorStart, "建築カーソル、%s。コントロール+F1でキーを読みます。"},
+    {Str::BuildLotEdge, "区画の端"},
+    {Str::BuildStartCleared, "開始点を解除"},
+    {Str::BuildStartMarked, "開始点を %1$d、%2$d に設定"},
+    {Str::BuildNoStart, "先にスペースで開始点を決めてください"},
+    {Str::BuildRemoved, "壁を撤去しました、%d区画"},
+    {Str::BuildNotStraight, "壁はまっすぐか斜めです。部屋はShift+Enterで建てます"},
+    {Str::BuiltWall, "壁を建てました、%d区画"},
+    {Str::BuiltDiagonal, "斜めの壁を建てました、%d区画"},
+    {Str::BuildPreset, "%1$d×%2$dの部屋、%3$dマス、%4$s。Insertで北西の角をここにして建てます"},
+    {Str::BuildPresetTooBig, "その部屋はここに入りません：カーソルを北か西へ動かしてください"},
+    {Str::BuildCursorEnd, "建築カーソルを終了"},
+    {Str::KeysBuildCursor,
+     "矢印キーでカーソルを角1つ分、Shiftと一緒なら5つ分動かします。カーソルは位置、そこで交わる壁、置いてある物を読みます。Rはすべて、各方向の空きと部屋も読みます。スペースで開始点を決めると、カーソルは開始点から"
+     "の距離と、Enterで建つものと費用を読みます。Enterで開始点からカーソルまで壁を、Shift+Enterでその間の部屋の4つの壁を建て、コントロール+EnterかDeleteで壁を撤去します。建てる前に、壁が"
+     "シムを物から遮る、ドアをふさぐ、区画の一部を切り離す場合は警告し、もう一度Enterでそのまま建てます。Page DownとPage "
+     "Upで既製の部屋の大きさを選び、Insertで北西の角をカーソルにして建てます。Homeで選択中のシムに戻り、Escapeでカーソルを終わります。"},
+    // Build cursor (area)
+    {Str::BuildOutsideArea, "何も建てていません：区画の建築可能な範囲の外です"},
+    {Str::BuildNotBuildableHere, "建築可能な範囲の外"},
+    // Build cursor (cost)
+    {Str::BuildCostWas, "費用%s"},
+    // Build cursor (trapped)
+    {Str::BuildTrapsSims, "閉じ込めてしまいます：%s"},
 };
 
 }  // namespace

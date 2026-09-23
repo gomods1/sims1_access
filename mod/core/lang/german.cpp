@@ -516,6 +516,59 @@ const Translation kEntries[] = {
     {Str::SoundCarpool, "die Fahrgemeinschaft hupt"},
     {Str::SoundSchoolBus, "der Schulbus hupt"},
     {Str::SoundPoliceCar, "ein Polizeiauto hupt"},
+    // Build cursor (walls)
+    {Str::BuildNorth, "Norden"},
+    {Str::BuildEast, "Osten"},
+    {Str::BuildSouth, "Süden"},
+    {Str::BuildWest, "Westen"},
+    {Str::BuildRoomSize, "%1$s, %2$d Felder"},
+    {Str::BuildSteps, "%1$d nach %2$s"},
+    {Str::BuildFromStart, "vom Start: %s"},
+    {Str::BuildAtStart, "am Start"},
+    {Str::BuildWallPlan, "Eingabe baut eine Wand von %1$d, %2$s"},
+    {Str::BuildDiagonalPlan, "Eingabe baut eine diagonale Wand von %1$d, %2$s"},
+    {Str::BuildRoomPlan, "Umschalt+Eingabe baut einen Raum %1$d mal %2$d, %3$s"},
+    {Str::BuildCorner, "%1$d, %2$d"},
+    {Str::BuildWallsHere, "Wände nach %s"},
+    {Str::BuildFreeSpace, "freier Platz: %1$d nach Norden, %2$d nach Osten, %3$d nach Süden, %4$d nach Westen"},
+    {Str::BuildStartAt, "Start bei %1$d, %2$d"},
+    {Str::BuildStyle, "%1$s, %2$s pro Abschnitt"},
+    {Str::BuildBlocksObjects, "Sims kämen nicht mehr an: %s"},
+    {Str::BuildBlocksDoor, "es schließt eine Tür"},
+    {Str::BuildRoomNeedsDoor, "der neue Raum hat %d Felder und noch keine Tür: setze eine mit dem Türwerkzeug"},
+    {Str::BuildCutsOff, "es schneidet %d Felder vom Rest des Grundstücks ab"},
+    {Str::BuildWarning, "Achtung: %s. Noch einmal Eingabe baut trotzdem."},
+    {Str::BuildFailed, "konnte nicht bauen"},
+    {Str::BuildNeedsArea, "ein Raum braucht Breite und Tiefe: entferne dich in beide Richtungen vom Start"},
+    {Str::BuiltRoom, "Raum gebaut, %1$d mal %2$d"},
+    {Str::BuildCursorStart, "Baucursor, %s. Strg+F1 nennt die Tasten."},
+    {Str::BuildLotEdge, "Rand des Grundstücks"},
+    {Str::BuildStartCleared, "Start entfernt"},
+    {Str::BuildStartMarked, "Start markiert bei %1$d, %2$d"},
+    {Str::BuildNoStart, "markiere zuerst mit Leertaste einen Start"},
+    {Str::BuildRemoved, "Wände entfernt, %d Abschnitte"},
+    {Str::BuildNotStraight, "eine Wand verläuft gerade oder diagonal; Umschalt+Eingabe baut einen Raum"},
+    {Str::BuiltWall, "Wand gebaut, %d Abschnitte"},
+    {Str::BuiltDiagonal, "diagonale Wand gebaut, %d Abschnitte"},
+    {Str::BuildPreset, "Raum %1$d mal %2$d, %3$d Felder, %4$s; Einfügen baut ihn mit seiner Nordwestecke hier"},
+    {Str::BuildPresetTooBig, "dieser Raum passt hier nicht: bewege den Cursor nach Norden oder Westen"},
+    {Str::BuildCursorEnd, "Baucursor aus"},
+    {Str::KeysBuildCursor,
+     "Die Pfeiltasten bewegen den Cursor um eine Ecke, mit Umschalt um fünf. Der Cursor sagt, wo er ist, welche "
+     "Wände dort zusammentreffen und was dort steht; R sagt alles, auch den freien Platz in jede Richtung und "
+     "den Raum. Leertaste markiert den Start; danach sagt der Cursor, wie weit er vom Start ist und was Eingabe "
+     "bauen würde und was es kostet. Eingabe baut eine Wand vom Start zum Cursor, Umschalt+Eingabe die vier "
+     "Wände eines Raums dazwischen, Strg+Eingabe oder Entf entfernt Wände. Vor dem Bauen warnt der Mod, wenn die "
+     "Wände Sims von einem Objekt abschneiden, eine Tür schließen oder einen Teil des Grundstücks abtrennen "
+     "würden; noch einmal Eingabe baut trotzdem. Bild ab und Bild auf wählen eine fertige Raumgröße, Einfügen "
+     "baut sie mit ihrer Nordwestecke am Cursor. Pos1 springt zum ausgewählten Sim, Escape verlässt den Cursor."},
+    // Build cursor (area)
+    {Str::BuildOutsideArea, "nichts gebaut: das liegt außerhalb der bebaubaren Fläche des Grundstücks"},
+    {Str::BuildNotBuildableHere, "außerhalb der bebaubaren Fläche"},
+    // Build cursor (cost)
+    {Str::BuildCostWas, "Kosten %s"},
+    // Build cursor (trapped)
+    {Str::BuildTrapsSims, "es würde einsperren: %s"},
 };
 
 }  // namespace

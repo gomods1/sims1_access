@@ -509,6 +509,61 @@ const Translation kEntries[] = {
     {Str::SoundCarpool, "a carona está buzinando"},
     {Str::SoundSchoolBus, "o ônibus escolar está buzinando"},
     {Str::SoundPoliceCar, "um carro de polícia está buzinando"},
+    // Build cursor (walls)
+    {Str::BuildNorth, "norte"},
+    {Str::BuildEast, "leste"},
+    {Str::BuildSouth, "sul"},
+    {Str::BuildWest, "oeste"},
+    {Str::BuildRoomSize, "%1$s, %2$d quadrados"},
+    {Str::BuildSteps, "%1$d ao %2$s"},
+    {Str::BuildFromStart, "desde o início: %s"},
+    {Str::BuildAtStart, "no início"},
+    {Str::BuildWallPlan, "Enter constrói uma parede de %1$d, %2$s"},
+    {Str::BuildDiagonalPlan, "Enter constrói uma parede diagonal de %1$d, %2$s"},
+    {Str::BuildRoomPlan, "Shift+Enter constrói um cômodo de %1$d por %2$d, %3$s"},
+    {Str::BuildCorner, "%1$d, %2$d"},
+    {Str::BuildWallsHere, "paredes ao %s"},
+    {Str::BuildFreeSpace, "espaço livre: %1$d ao norte, %2$d a leste, %3$d ao sul, %4$d a oeste"},
+    {Str::BuildStartAt, "início em %1$d, %2$d"},
+    {Str::BuildStyle, "%1$s, %2$s por trecho"},
+    {Str::BuildBlocksObjects, "os Sims não chegariam mais a: %s"},
+    {Str::BuildBlocksDoor, "fecha uma porta"},
+    {Str::BuildRoomNeedsDoor,
+     "o cômodo novo tem %d quadrados e ainda não tem porta: coloque uma com a ferramenta de porta"},
+    {Str::BuildCutsOff, "isola %d quadrados do resto do lote"},
+    {Str::BuildWarning, "Aviso: %s. Enter de novo constrói mesmo assim."},
+    {Str::BuildFailed, "não foi possível construir"},
+    {Str::BuildNeedsArea, "um cômodo precisa de largura e profundidade: afaste-se do início nas duas direções"},
+    {Str::BuiltRoom, "cômodo construído, %1$d por %2$d"},
+    {Str::BuildCursorStart, "Cursor de construção, %s. Control+F1 diz as teclas."},
+    {Str::BuildLotEdge, "borda do lote"},
+    {Str::BuildStartCleared, "início removido"},
+    {Str::BuildStartMarked, "início marcado em %1$d, %2$d"},
+    {Str::BuildNoStart, "marque antes um início com Espaço"},
+    {Str::BuildRemoved, "paredes removidas, %d trechos"},
+    {Str::BuildNotStraight, "uma parede vai reta ou na diagonal; Shift+Enter constrói um cômodo"},
+    {Str::BuiltWall, "parede construída, %d trechos"},
+    {Str::BuiltDiagonal, "parede diagonal construída, %d trechos"},
+    {Str::BuildPreset,
+     "cômodo de %1$d por %2$d, %3$d quadrados, %4$s; Insert o constrói com o canto noroeste aqui"},
+    {Str::BuildPresetTooBig, "esse cômodo não cabe aqui: mova o cursor para o norte ou oeste"},
+    {Str::BuildCursorEnd, "cursor de construção desligado"},
+    {Str::KeysBuildCursor,
+     "As setas movem o cursor um canto, com Shift cinco. O cursor diz onde está, as paredes que se encontram ali "
+     "e o que há ali; R diz tudo, inclusive o espaço livre em cada direção e o cômodo. Espaço marca o início; a "
+     "partir daí o cursor diz a que distância está do início e o que Enter construiria e quanto custa. Enter "
+     "constrói uma parede do início ao cursor, Shift+Enter as quatro paredes de um cômodo entre eles, "
+     "Control+Enter ou Delete removem paredes. Antes de construir, o mod avisa se as paredes impediriam os Sims "
+     "de chegar a um objeto, fechariam uma porta ou isolariam parte do lote, e Enter de novo constrói mesmo "
+     "assim. Page Down e Page Up escolhem um tamanho de cômodo pronto, Insert o constrói com o canto noroeste no "
+     "cursor. Home volta ao Sim selecionado, Escape sai do cursor."},
+    // Build cursor (area)
+    {Str::BuildOutsideArea, "nada construído: isso fica fora da área construível do lote"},
+    {Str::BuildNotBuildableHere, "fora da área construível"},
+    // Build cursor (cost)
+    {Str::BuildCostWas, "custo %s"},
+    // Build cursor (trapped)
+    {Str::BuildTrapsSims, "deixaria preso: %s"},
 };
 
 }  // namespace

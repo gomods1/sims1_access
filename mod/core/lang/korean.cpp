@@ -453,6 +453,55 @@ const Translation kEntries[] = {
     {Str::SoundCarpool, "통근 차가 경적을 울립니다"},
     {Str::SoundSchoolBus, "스쿨버스가 경적을 울립니다"},
     {Str::SoundPoliceCar, "경찰차가 경적을 울립니다"},
+    // Build cursor (walls)
+    {Str::BuildNorth, "북쪽"},
+    {Str::BuildEast, "동쪽"},
+    {Str::BuildSouth, "남쪽"},
+    {Str::BuildWest, "서쪽"},
+    {Str::BuildRoomSize, "%1$s, %2$d칸"},
+    {Str::BuildSteps, "%2$s %1$d"},
+    {Str::BuildFromStart, "시작점에서: %s"},
+    {Str::BuildAtStart, "시작점"},
+    {Str::BuildWallPlan, "Enter로 길이 %1$d의 벽을 짓습니다, %2$s"},
+    {Str::BuildDiagonalPlan, "Enter로 길이 %1$d의 대각선 벽을 짓습니다, %2$s"},
+    {Str::BuildRoomPlan, "Shift+Enter로 %1$d×%2$d 방을 짓습니다, %3$s"},
+    {Str::BuildCorner, "%1$d, %2$d"},
+    {Str::BuildWallsHere, "벽: %s"},
+    {Str::BuildFreeSpace, "빈 공간: 북쪽 %1$d, 동쪽 %2$d, 남쪽 %3$d, 서쪽 %4$d"},
+    {Str::BuildStartAt, "시작점 %1$d, %2$d"},
+    {Str::BuildStyle, "%1$s, 구간당 %2$s"},
+    {Str::BuildBlocksObjects, "심이 더 이상 닿지 못함: %s"},
+    {Str::BuildBlocksDoor, "문을 막습니다"},
+    {Str::BuildRoomNeedsDoor, "새 방은 %d칸이고 아직 문이 없습니다: 문 도구로 문을 다세요"},
+    {Str::BuildCutsOff, "부지의 나머지에서 %d칸을 떼어 놓습니다"},
+    {Str::BuildWarning, "경고: %s. Enter를 다시 누르면 그래도 짓습니다."},
+    {Str::BuildFailed, "지을 수 없습니다"},
+    {Str::BuildNeedsArea, "방에는 너비와 깊이가 필요합니다: 시작점에서 양쪽 방향으로 떨어지세요"},
+    {Str::BuiltRoom, "방을 지었습니다, %1$d×%2$d"},
+    {Str::BuildCursorStart, "건축 커서, %s. 컨트롤+F1로 키를 읽습니다."},
+    {Str::BuildLotEdge, "부지 가장자리"},
+    {Str::BuildStartCleared, "시작점 지움"},
+    {Str::BuildStartMarked, "시작점을 %1$d, %2$d에 표시"},
+    {Str::BuildNoStart, "먼저 스페이스로 시작점을 표시하세요"},
+    {Str::BuildRemoved, "벽을 철거했습니다, %d구간"},
+    {Str::BuildNotStraight, "벽은 직선이나 대각선입니다. 방은 Shift+Enter로 짓습니다"},
+    {Str::BuiltWall, "벽을 지었습니다, %d구간"},
+    {Str::BuiltDiagonal, "대각선 벽을 지었습니다, %d구간"},
+    {Str::BuildPreset, "%1$d×%2$d 방, %3$d칸, %4$s. Insert로 북서쪽 모서리를 여기 두고 짓습니다"},
+    {Str::BuildPresetTooBig, "그 방은 여기 들어가지 않습니다: 커서를 북쪽이나 서쪽으로 옮기세요"},
+    {Str::BuildCursorEnd, "건축 커서 끔"},
+    {Str::KeysBuildCursor,
+     "화살표로 커서를 모서리 하나, Shift와 함께 다섯 개 옮깁니다. 커서는 위치, 거기서 만나는 벽, 놓인 물건을 읽습니다. R은 각 방향의 빈 공간과 방까지 모두 읽습니다. 스페이스로 "
+     "시작점을 표시하면 커서가 시작점에서의 거리와 Enter로 지을 것과 비용을 읽습니다. Enter는 시작점에서 커서까지 벽을, Shift+Enter는 그 사이 방의 네 벽을 짓고, "
+     "컨트롤+Enter나 Delete는 벽을 철거합니다. 짓기 전에 벽이 심을 물건에서 막거나 문을 막거나 부지 일부를 떼어 놓으면 경고하고, Enter를 다시 누르면 그래도 짓습니다. Page "
+     "Down과 Page Up으로 준비된 방 크기를 고르고, Insert로 북서쪽 모서리를 커서에 두고 짓습니다. Home은 선택한 심으로 돌아가고 Escape는 커서를 끝냅니다."},
+    // Build cursor (area)
+    {Str::BuildOutsideArea, "아무것도 짓지 않았습니다: 부지의 건축 가능 구역 밖입니다"},
+    {Str::BuildNotBuildableHere, "건축 가능 구역 밖"},
+    // Build cursor (cost)
+    {Str::BuildCostWas, "비용 %s"},
+    // Build cursor (trapped)
+    {Str::BuildTrapsSims, "가둬 버립니다: %s"},
 };
 
 }  // namespace

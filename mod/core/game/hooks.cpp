@@ -9,6 +9,7 @@
 #include "memory.h"
 #include "simantics.h"
 #include "sounds.h"
+#include "build.h"
 
 namespace game {
 namespace {
@@ -95,6 +96,28 @@ int __fastcall DispatchDetour(void* object, void* /*edx*/, void* frame, const ui
     return result;
 }
 
+// ---- GetKeyState (modifiers for the mod's build drags) ---------------------------------------
+typedef short(WINAPI* GetKeyStateFn)(int);
+GetKeyStateFn g_getKeyState = nullptr;
+bool g_forceModifiers = false, g_forceShift = false, g_forceCtrl = false;
+
+short WINAPI GetKeyStateDetour(int vk) {
+    if (g_forceModifiers) {
+        if (vk == VK_SHIFT || vk == VK_LSHIFT || vk == VK_RSHIFT) return g_forceShift ? (short)0x8000 : 0;
+        if (vk == VK_CONTROL || vk == VK_LCONTROL || vk == VK_RCONTROL) return g_forceCtrl ? (short)0x8000 : 0;
+    }
+    return g_getKeyState(vk);
+}
+
+// ---- Build tools' error message ------------------------------------------------------------
+typedef void(__cdecl* BuildErrorFn)(int code, int arg);
+BuildErrorFn g_buildError = nullptr;
+
+void __cdecl BuildErrorDetour(int code, int arg) {
+    OnBuildError(code, arg);
+    g_buildError(code, arg);
+}
+
 // ---- Sound events (sounds.h) -----------------------------------------------------------------
 typedef int(__thiscall* PlaySoundEventFn)(void* manager, const char* name, int source);
 PlaySoundEventFn g_playSoundEvent = nullptr;
@@ -141,7 +164,10 @@ void InitHooks(bool blockCursorWarp) {
     g_mouseLeftHooked = Install(addr::movetool::kLeft, (void*)&MouseLeftDetour, (void**)&g_mouseLeft, "cMoveTool::MouseLeft");
     Install(addr::simantics::kSetBalloon, (void*)&SetBalloonDetour, (void**)&g_setBalloon, "SetBalloonPrimitive");
     Install(addr::simantics::kDispatch, (void*)&DispatchDetour, (void**)&g_dispatch, "cXObject::DoPrimitive");
+    Install(addr::kBuildError, (void*)&BuildErrorDetour, (void**)&g_buildError, "ShowBuildError");
     Install(addr::kPlaySoundEvent, (void*)&PlaySoundEventDetour, (void**)&g_playSoundEvent, "SoundManager::PlayEvent");
+    MH_STATUS gs = MH_CreateHookApi(L"user32", "GetKeyState", (void*)&GetKeyStateDetour, (void**)&g_getKeyState);
+    Log("hook GetKeyState: %s", MH_StatusToString(gs));
     MH_STATUS ks = MH_CreateHookApi(L"user32", "GetAsyncKeyState", (void*)&GetAsyncKeyStateDetour, (void**)&g_getAsyncKeyState);
     if (ks == MH_OK) ks = MH_EnableHook(MH_ALL_HOOKS);
     Log("hook GetAsyncKeyState: %s", MH_StatusToString(ks));
@@ -162,7 +188,16 @@ void ShutdownHooks() {
     g_worldOverride = false;
     g_mouseLeftHooked = false;
     g_keepHeldShown = false;
+    g_forceModifiers = false;
 }
+
+void ForceModifiers(bool shift, bool ctrl) {
+    g_forceShift = shift;
+    g_forceCtrl = ctrl;
+    g_forceModifiers = g_getKeyState != nullptr;
+}
+
+void ClearForcedModifiers() { g_forceModifiers = false; }
 
 bool TextCaptureAvailable() { return g_captureHooked; }
 

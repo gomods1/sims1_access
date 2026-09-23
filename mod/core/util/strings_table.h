@@ -498,4 +498,58 @@
     /* Sounds */                                                                                                     \
     X(SoundCarpool, "the carpool is honking")                                                                        \
     X(SoundSchoolBus, "the school bus is honking")                                                                   \
-    X(SoundPoliceCar, "a police car is honking")
+    X(SoundPoliceCar, "a police car is honking")                                                                     \
+    /* Build cursor (walls) */                                                                                       \
+    X(BuildNorth, "north")                                                                                           \
+    X(BuildEast, "east")                                                                                             \
+    X(BuildSouth, "south")                                                                                           \
+    X(BuildWest, "west")                                                                                             \
+    X(BuildRoomSize, "%1$s, %2$d tiles")                                                                             \
+    X(BuildSteps, "%1$d %2$s")                                                                                       \
+    X(BuildFromStart, "from the start: %s")                                                                          \
+    X(BuildAtStart, "at the start")                                                                                  \
+    X(BuildWallPlan, "Enter builds a wall of %1$d, %2$s")                                                            \
+    X(BuildDiagonalPlan, "Enter builds a diagonal wall of %1$d, %2$s")                                               \
+    X(BuildRoomPlan, "Shift+Enter builds a room %1$d by %2$d, %3$s")                                                 \
+    X(BuildCorner, "%1$d, %2$d")                                                                                     \
+    X(BuildWallsHere, "walls to the %s")                                                                             \
+    X(BuildFreeSpace, "free space: %1$d north, %2$d east, %3$d south, %4$d west")                                    \
+    X(BuildStartAt, "start at %1$d, %2$d")                                                                           \
+    X(BuildStyle, "%1$s, %2$s per section")                                                                          \
+    X(BuildBlocksObjects, "Sims could no longer reach: %s")                                                          \
+    X(BuildBlocksDoor, "it closes a door")                                                                           \
+    X(BuildRoomNeedsDoor, "the new room has %d tiles and no door yet: add one with the door tool")                   \
+    X(BuildCutsOff, "it cuts off %d tiles from the rest of the lot")                                                 \
+    X(BuildWarning, "Warning: %s. Enter again to build anyway.")                                                     \
+    X(BuildFailed, "could not build")                                                                                \
+    X(BuildNeedsArea, "a room needs width and depth: move away from the start both across and down")                 \
+    X(BuiltRoom, "room built, %1$d by %2$d")                                                                         \
+    X(BuildCursorStart, "Build cursor, %s. Control+F1 says the keys.")                                               \
+    X(BuildLotEdge, "edge of the lot")                                                                               \
+    X(BuildStartCleared, "start cleared")                                                                            \
+    X(BuildStartMarked, "start marked at %1$d, %2$d")                                                                \
+    X(BuildNoStart, "mark a start first with Space")                                                                 \
+    X(BuildRemoved, "walls removed, %d sections")                                                                    \
+    X(BuildNotStraight, "a wall goes straight or diagonal; Shift+Enter builds a room instead")                       \
+    X(BuiltWall, "wall built, %d sections")                                                                          \
+    X(BuiltDiagonal, "diagonal wall built, %d sections")                                                             \
+    X(BuildPreset, "room %1$d by %2$d, %3$d tiles, %4$s; Insert builds it with its north-west corner here")          \
+    X(BuildPresetTooBig, "that room does not fit here: move the cursor north or west")                               \
+    X(BuildCursorEnd, "build cursor off")                                                                            \
+    X(KeysBuildCursor,                                                                                               \
+      "Arrows move the cursor one corner, with Shift five. The cursor says where it is, the walls that meet "        \
+      "there and what stands there; R says everything, including the free space each way and the room. "             \
+      "Space marks the start; from then on the cursor says how far it is from the start and what Enter "             \
+      "would build and cost. Enter builds a wall from the start to the cursor, Shift+Enter builds the four "         \
+      "walls of a room between them, Control+Enter or Delete removes walls. Before building, the mod warns "         \
+      "when the walls would cut Sims off from an object, close a door or shut off part of the lot, and "             \
+      "Enter again builds anyway. Page Down and Page Up choose a ready-made room size, Insert builds it "            \
+      "with its north-west corner at the cursor. Home goes back to the selected Sim, Escape leaves the "             \
+      "cursor.")                                                                                                     \
+    /* Build cursor (area) */                                                                                        \
+    X(BuildOutsideArea, "nothing built: that is outside the lot's buildable area")                                   \
+    X(BuildNotBuildableHere, "outside the buildable area")                                                           \
+    /* Build cursor (cost) */                                                                                        \
+    X(BuildCostWas, "cost %s")                                                                                       \
+    /* Build cursor (trapped) */                                                                                     \
+    X(BuildTrapsSims, "it would shut in: %s")

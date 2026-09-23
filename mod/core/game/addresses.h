@@ -186,6 +186,33 @@ constexpr int kCatalogProducts = 0x474;       // cWinCatalog: std::vector<Produc
 // The buy/move tool (cMoveTool, [kCurrentTool] in buy mode). Mouse handlers take (int worldX,
 // int worldY, int objectUnderMouse, PickInfo*) with PickInfo {int 12, view, 0, short y, short x}
 // (screen position in game coordinates). Every one of them calls slot 7 first.
+// cNewWallTool (the wall and fence tool, [kCurrentTool] in build mode). Mouse handlers are
+// thiscall (int viewX, int viewY, int objectId, PickInfo*), ret 0x10, in view coordinates (1/16
+// tile). They round to the nearest corner (0x659590: +16 when the fraction is >= 0.5, then the
+// corner index = v >> 4) and convert corners to the grid through 0x586ae0 ((c << 4) | 1, the
+// camera rotation). Slot 8 sets the start and reads GetKeyState: Shift = a room (the rectangle's
+// four walls, mode 2), Ctrl = delete (mode 1); slot 7 moves the end; slot 11 builds. +0x71 must
+// be 1 (slot 22, "mouse over the lot"); slot 23 clears it. Errors go to 0x56f7f0.
+namespace walltool {
+constexpr int kMoveSlot = 7;
+constexpr Va kMove = 0x659610;
+constexpr int kDownSlot = 8;
+constexpr Va kDown = 0x658eb0;
+constexpr int kUpSlot = 11;
+constexpr Va kUp = 0x6597b0;
+// Slot 10: the mouse moved with the button down. Extends the drag session (+0x5c, 0xe068 bytes;
+// segments through 0x636310, their cost summed at +0xe028, +0xe024 set once there is one); only
+// while +0x70 is 0 (the down clears it). Slot 7 is a hover: it only moves the preview.
+constexpr int kDragSlot = 10;
+constexpr Va kDrag = 0x659240;
+constexpr int kOverLot = 0x71;       // u8
+constexpr int kSession = 0x5c;       // the drag session
+constexpr int kSessionValid = 0xe024;  // u8: it holds segments
+constexpr int kMode = 0x6c;          // int: 0 draw, 1 delete, 2 room
+}  // namespace walltool
+// cdecl void (int code, int arg): the build tools' "Can't place here!" message; code = 1-based
+// index into STR# 137 (as buy mode's placement errors), 0 hides it. Hooked: the mod speaks it.
+constexpr Va kBuildError = 0x56f7f0;
 namespace movetool {
 constexpr int kMoveSlot = 7;          // 0x56dc90: re-places the held object at the tile under the
 constexpr Va kMove = 0x56dc90;        //   mouse (ScreenToWorld 0x5e00e0), rotates while dragging

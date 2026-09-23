@@ -502,6 +502,59 @@ const Translation kEntries[] = {
     {Str::SoundCarpool, "samkjøringsbilen tuter"},
     {Str::SoundSchoolBus, "skolebussen tuter"},
     {Str::SoundPoliceCar, "en politibil tuter"},
+    // Build cursor (walls)
+    {Str::BuildNorth, "nord"},
+    {Str::BuildEast, "øst"},
+    {Str::BuildSouth, "sør"},
+    {Str::BuildWest, "vest"},
+    {Str::BuildRoomSize, "%1$s, %2$d ruter"},
+    {Str::BuildSteps, "%1$d mot %2$s"},
+    {Str::BuildFromStart, "fra starten: %s"},
+    {Str::BuildAtStart, "ved starten"},
+    {Str::BuildWallPlan, "Enter bygger en vegg på %1$d, %2$s"},
+    {Str::BuildDiagonalPlan, "Enter bygger en diagonal vegg på %1$d, %2$s"},
+    {Str::BuildRoomPlan, "Skift+Enter bygger et rom på %1$d ganger %2$d, %3$s"},
+    {Str::BuildCorner, "%1$d, %2$d"},
+    {Str::BuildWallsHere, "vegger mot %s"},
+    {Str::BuildFreeSpace, "fri plass: %1$d mot nord, %2$d mot øst, %3$d mot sør, %4$d mot vest"},
+    {Str::BuildStartAt, "start ved %1$d, %2$d"},
+    {Str::BuildStyle, "%1$s, %2$s per del"},
+    {Str::BuildBlocksObjects, "simmene ville ikke lenger nå: %s"},
+    {Str::BuildBlocksDoor, "den stenger en dør"},
+    {Str::BuildRoomNeedsDoor, "det nye rommet har %d ruter og ennå ingen dør: sett inn en med dørverktøyet"},
+    {Str::BuildCutsOff, "den skjærer av %d ruter fra resten av tomten"},
+    {Str::BuildWarning, "Advarsel: %s. Enter igjen bygger likevel."},
+    {Str::BuildFailed, "kunne ikke bygge"},
+    {Str::BuildNeedsArea, "et rom trenger bredde og dybde: gå bort fra starten i begge retninger"},
+    {Str::BuiltRoom, "rom bygget, %1$d ganger %2$d"},
+    {Str::BuildCursorStart, "Byggemarkør, %s. Kontroll+F1 sier tastene."},
+    {Str::BuildLotEdge, "tomtens kant"},
+    {Str::BuildStartCleared, "start fjernet"},
+    {Str::BuildStartMarked, "start merket ved %1$d, %2$d"},
+    {Str::BuildNoStart, "merk først en start med Mellomrom"},
+    {Str::BuildRemoved, "vegger fjernet, %d deler"},
+    {Str::BuildNotStraight, "en vegg går rett eller diagonalt; Skift+Enter bygger et rom"},
+    {Str::BuiltWall, "vegg bygget, %d deler"},
+    {Str::BuiltDiagonal, "diagonal vegg bygget, %d deler"},
+    {Str::BuildPreset, "rom på %1$d ganger %2$d, %3$d ruter, %4$s; Insert bygger det med nordvesthjørnet her"},
+    {Str::BuildPresetTooBig, "det rommet får ikke plass her: flytt markøren mot nord eller vest"},
+    {Str::BuildCursorEnd, "byggemarkør av"},
+    {Str::KeysBuildCursor,
+     "Piltastene flytter markøren ett hjørne, med Skift fem. Markøren sier hvor den er, hvilke vegger som møtes "
+     "der og hva som står der; R sier alt, også den frie plassen i hver retning og rommet. Mellomrom merker "
+     "starten; deretter sier markøren hvor langt den er fra starten og hva Enter ville bygge og koste. Enter "
+     "bygger en vegg fra starten til markøren, Skift+Enter de fire veggene i et rom mellom dem, Kontroll+Enter "
+     "eller Delete fjerner vegger. Før noe bygges, advarer modden hvis veggene ville stenge simmene ute fra en "
+     "gjenstand, stenge en dør eller skjære av en del av tomten, og Enter igjen bygger likevel. Page Down og "
+     "Page Up velger en ferdig romstørrelse, Insert bygger den med nordvesthjørnet ved markøren. Home går "
+     "tilbake til den valgte simmen, Escape forlater markøren."},
+    // Build cursor (area)
+    {Str::BuildOutsideArea, "ingenting bygget: det ligger utenfor tomtens byggeområde"},
+    {Str::BuildNotBuildableHere, "utenfor byggeområdet"},
+    // Build cursor (cost)
+    {Str::BuildCostWas, "kostnad %s"},
+    // Build cursor (trapped)
+    {Str::BuildTrapsSims, "det ville stenge inne: %s"},
 };
 
 }  // namespace

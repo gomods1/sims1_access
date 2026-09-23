@@ -179,7 +179,21 @@ Still to do:
 
 ## Build mode
 
-- Walls, doors, windows, floors, wallpaper, stairs, terrain, water, pools, fences, roofs, second
+Done for walls (`nav/build_mode.cpp`, `game/build.cpp`, verified 2026-09-23): the build panel's
+tools and styles read like products; Enter on a wall style starts a corner cursor that says the
+corner, the walls meeting there, what stands there, the free space each way and the room (R);
+Space marks a start, and from then on the plan and its price are spoken ("desde el inicio: 3 al
+este. Intro construye una pared de 3, $225"); Enter builds a wall, Shift+Enter a room,
+Ctrl+Enter/Delete removes; PageDown/PageUp choose ready-made rooms (3x3 .. 10x8, said with area
+and price), Insert builds one. Before building, the walls are checked from the lot's entrance:
+objects Sims could no longer reach, Sims shut in, doors closed, tiles cut off; any of these asks
+for a second Enter. A new room without a door is said, not asked about. Still to do below.
+
+- Doors and windows (the door tool: pick a wall of the new room and say which side opens), floors
+  (the same cursor, rectangles of tiles), wallpaper (by room and wall), stairs, terrain, water,
+  pools, roofs, second floors; fences that are objects (some expansion fences use the buy tool);
+  diagonal walls are drawn but not checked. Earlier plan:
+  Walls, doors, windows, floors, wallpaper, stairs, terrain, water, pools, fences, roofs, second
   floors (`cWinArch`, `cWinRoofPanel`, tools such as `cNewWallTool`, `cNewFloorTool`,
   `cPoolTool`): a keyboard cursor on the lot grid, drawing by start and end points, costs and
   errors spoken.

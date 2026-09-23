@@ -510,6 +510,61 @@ const Translation kEntries[] = {
     {Str::SoundCarpool, "l'auto di servizio suona il clacson"},
     {Str::SoundSchoolBus, "lo scuolabus suona il clacson"},
     {Str::SoundPoliceCar, "un'auto della polizia suona il clacson"},
+    // Build cursor (walls)
+    {Str::BuildNorth, "nord"},
+    {Str::BuildEast, "est"},
+    {Str::BuildSouth, "sud"},
+    {Str::BuildWest, "ovest"},
+    {Str::BuildRoomSize, "%1$s, %2$d caselle"},
+    {Str::BuildSteps, "%1$d a %2$s"},
+    {Str::BuildFromStart, "dall'inizio: %s"},
+    {Str::BuildAtStart, "all'inizio"},
+    {Str::BuildWallPlan, "Invio costruisce un muro di %1$d, %2$s"},
+    {Str::BuildDiagonalPlan, "Invio costruisce un muro diagonale di %1$d, %2$s"},
+    {Str::BuildRoomPlan, "Maiusc+Invio costruisce una stanza %1$d per %2$d, %3$s"},
+    {Str::BuildCorner, "%1$d, %2$d"},
+    {Str::BuildWallsHere, "muri a %s"},
+    {Str::BuildFreeSpace, "spazio libero: %1$d a nord, %2$d a est, %3$d a sud, %4$d a ovest"},
+    {Str::BuildStartAt, "inizio a %1$d, %2$d"},
+    {Str::BuildStyle, "%1$s, %2$s a tratto"},
+    {Str::BuildBlocksObjects, "i Sim non arriverebbero più a: %s"},
+    {Str::BuildBlocksDoor, "chiude una porta"},
+    {Str::BuildRoomNeedsDoor,
+     "la nuova stanza ha %d caselle e ancora nessuna porta: aggiungine una con lo strumento porta"},
+    {Str::BuildCutsOff, "isola %d caselle dal resto del lotto"},
+    {Str::BuildWarning, "Attenzione: %s. Invio di nuovo per costruire comunque."},
+    {Str::BuildFailed, "impossibile costruire"},
+    {Str::BuildNeedsArea,
+     "una stanza ha bisogno di larghezza e profondità: allontanati dall'inizio in entrambe le direzioni"},
+    {Str::BuiltRoom, "stanza costruita, %1$d per %2$d"},
+    {Str::BuildCursorStart, "Cursore di costruzione, %s. Control+F1 dice i tasti."},
+    {Str::BuildLotEdge, "bordo del lotto"},
+    {Str::BuildStartCleared, "inizio tolto"},
+    {Str::BuildStartMarked, "inizio segnato a %1$d, %2$d"},
+    {Str::BuildNoStart, "segna prima un inizio con Spazio"},
+    {Str::BuildRemoved, "muri tolti, %d tratti"},
+    {Str::BuildNotStraight, "un muro va dritto o in diagonale; Maiusc+Invio costruisce una stanza"},
+    {Str::BuiltWall, "muro costruito, %d tratti"},
+    {Str::BuiltDiagonal, "muro diagonale costruito, %d tratti"},
+    {Str::BuildPreset, "stanza %1$d per %2$d, %3$d caselle, %4$s; Ins la costruisce con l'angolo nord-ovest qui"},
+    {Str::BuildPresetTooBig, "quella stanza qui non ci sta: sposta il cursore a nord o a ovest"},
+    {Str::BuildCursorEnd, "cursore di costruzione spento"},
+    {Str::KeysBuildCursor,
+     "Le frecce spostano il cursore di un angolo, con Maiusc di cinque. Il cursore dice dove si trova, i muri "
+     "che vi si incontrano e cosa c'è; R dice tutto, anche lo spazio libero in ogni direzione e la stanza. "
+     "Spazio segna l'inizio; da lì il cursore dice quanto dista dall'inizio e cosa costruirebbe Invio e quanto "
+     "costa. Invio costruisce un muro dall'inizio al cursore, Maiusc+Invio i quattro muri di una stanza tra i "
+     "due, Control+Invio o Canc toglie muri. Prima di costruire, la mod avvisa se i muri impedirebbero ai Sim di "
+     "raggiungere un oggetto, chiuderebbero una porta o isolerebbero parte del lotto, e Invio di nuovo "
+     "costruisce comunque. Pagina giù e Pagina su scelgono una misura di stanza già pronta, Ins la costruisce "
+     "con l'angolo nord-ovest sul cursore. Home torna al Sim selezionato, Esc esce dal cursore."},
+    // Build cursor (area)
+    {Str::BuildOutsideArea, "niente costruito: è fuori dall'area edificabile del lotto"},
+    {Str::BuildNotBuildableHere, "fuori dall'area edificabile"},
+    // Build cursor (cost)
+    {Str::BuildCostWas, "costo %s"},
+    // Build cursor (trapped)
+    {Str::BuildTrapsSims, "chiuderebbe dentro: %s"},
 };
 
 }  // namespace

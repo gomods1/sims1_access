@@ -16,6 +16,7 @@
 #include "../util/strings.h"
 #include "../util/text.h"
 #include "buy_mode.h"
+#include "build_mode.h"
 #include "camera.h"
 #include "cheat_console.h"
 #include "collect.h"
@@ -402,6 +403,7 @@ void Reset() {
     g = State{};
     speed::Reset();
     buy::Reset();
+    build::Reset();
     camera::Reset();
     tutorial::Reset();
     narrator::Reset();
@@ -448,11 +450,17 @@ void Tick() {
     CheckPressFeedback();
     speed::Tick(g.root);
     buy::Tick();
+    build::Tick();
     camera::Tick();
     tutorial::Tick();
 }
 
 bool TextEntryActive() { return g.screen.textEntryVisible; }
+
+uintptr_t FocusedWidget() {
+    const Item* it = Focused();
+    return it ? (uintptr_t)it->widget : 0;
+}
 
 bool LotViewActive() { return game::IsKindOf(game::InputRoot(), "cDDDSimsView"); }
 

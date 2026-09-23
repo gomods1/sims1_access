@@ -19,7 +19,7 @@ user32.PostMessageW.argtypes = [ctypes.c_void_p, ctypes.c_uint, ctypes.c_size_t,
 WM_KEYDOWN, WM_KEYUP, WM_CHAR = 0x100, 0x101, 0x102
 VK = {"up": 0x26, "down": 0x28, "left": 0x25, "right": 0x27, "tab": 0x09, "enter": 0x0D,
       "space": 0x20, "esc": 0x1B, "home": 0x24, "end": 0x23, "shift": 0x10, "ctrl": 0x11, "back": 0x08,
-      "pgup": 0x21, "pgdn": 0x22, "delete": 0x2e}
+      "pgup": 0x21, "pgdn": 0x22, "delete": 0x2e, "insert": 0x2d}
 CHARS = {0x09: "\t", 0x0D: "\r", 0x20: " ", 0x1B: "\x1b", 0x08: "\b"}
 SYNTHETIC = 1 << 25  # a reserved lParam bit: tells the mod these keys come from this tool
 

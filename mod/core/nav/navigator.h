@@ -48,6 +48,7 @@ void Activate();             // press the focused item
 bool Adjust(int delta);      // change the focused value (a slider, a value picker, a personality
                              // bar); false if the focus holds none
 void RepeatFocus();          // say the focused item again, with its group
+uintptr_t FocusedWidget();   // the focused UI item's widget (cTSWin*), 0 when none
 
 // The description of the item nearest to a rectangle on screen (within a few pixels), and the
 // name of its group; empty when nothing is near. For the tutorial arrow.

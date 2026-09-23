@@ -56,4 +56,21 @@ std::vector<std::string> DescribeParts(const Spot& spot);
 // Why an area has no spot: the engine's reason, or what the mod's checks found.
 std::string WhyNone(const Area& area);
 
+// What new walls would do to the floor, measured from the lot's entrance: the objects a Sim could
+// use before and could not after
+// (their names, each once), and the floor tiles Sims could reach before and could not after
+// (an enclosed new room with no door counts here). An edge is a tile and kWallNorth or
+// kWallWest of it (the neighbor's opposite edge is set too).
+struct WallEdgeAdd {
+    game::Tile tile;
+    uint32_t edge = 0;
+};
+struct WallCheck {
+    std::vector<std::string> blockedObjects;
+    int cutOffTiles = 0;
+    int doorsBlocked = 0;  // walls across the tile in front of or behind a door
+    std::vector<std::string> trappedSims;  // Sims who could no longer get out to the lot's entrance
+};
+WallCheck CheckNewWalls(int level, const std::vector<WallEdgeAdd>& edges);
+
 }  // namespace nav::placement

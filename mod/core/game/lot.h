@@ -81,7 +81,8 @@ struct PlacedPart {
     int level = 0;
 };
 std::vector<PlacedPart> PlacedParts();
-bool IsInvisibleHelper(Ptr object);  // portals of the lot edge, phone line, plumb-bob, markers
+bool IsInvisibleHelper(Ptr object);
+bool IsLotEntrance(Ptr object);   // the invisible edge portals Sims walk on and off the lot by  // portals of the lot edge, phone line, plumb-bob, markers
 
 Ptr SelectedSim();                // cXPerson* of the Sim the player controls, 0 if none
 // Every Sim placed on the lot (the family, visitors, pets), cXPerson*. The game also keeps

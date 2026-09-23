@@ -685,6 +685,34 @@ on the adjacent tile.
 strings are a StringSet at `[0xa6713c]` (created by `0x56e6c0`), read with `0x58cd10` (thiscall
 `(int index, char lang)`). 21 = "Insufficient funds", 11 = "Can't intersect other objects".
 
+### Build mode: the wall tool (`cNewWallTool`)
+
+Evidence: decompiled slots (`re/decomp/00658eb0`, `00659240`, `006597b0`, `00659610`), walls and a
+room drawn by the mod on the Compañeras lot (screenshot `shots/room_test.png`, 2026-09-23).
+
+| Off | Type | Meaning |
+|---|---|---|
+| 0x2c | object | the preview cursor (slots 0x54 check, 0x58 place, 0x50 hide) |
+| 0x30 / 0x33 | u8[3] | drag start / end corner: y, x, level (view corners) |
+| 0x38 / 0x3c | int | last mouse view x / y |
+| 0x54 / 0x58 | int | screen position of the mouse down (a drag needs movement) |
+| 0x5c | session* | the drag session (0xe068 bytes; a new one after each mouse up): `+0xe024` u8 holds segments, `+0xe028` their cost, `+0xe040` mode, `+0xe064` error code |
+| 0x60 / 0x64 | int | style (slot 12 sets it) / its pattern |
+| 0x6c | int | mode from the keys at mouse down: 0 draw, 1 delete (Ctrl), 2 room (Shift) |
+| 0x70 | u8 | set after a mouse up; the drag slot does nothing until the next down clears it |
+| 0x71 | u8 | mouse over the lot (slot 22 sets, 23 clears); the preview needs it |
+
+Slots (thiscall `(int viewX, int viewY, int objectId, PickInfo*)`, `ret 0x10`): 7 hover (preview
+only), 8 down (start; silently nothing when the corner is outside the buildable area, tile flag
+0x20, `0x58a660`), 10 drag (extends the session through `0x636310`), 11 up (commits; the game
+charges the cost later, on a following action). Corners: view coordinates rounded to the nearest
+corner (`0x659590`), converted to the grid with `0x586ae0` on `(corner << 4) | 1`. Messages go to
+`0x56f7f0(code, arg)`: STR# 137 errors ("Can't intersect other objects" = 11), and code 26 = the
+drag's price tooltip (arg = the amount).
+
+The lot's entrance: invisible `cXObject`s named "Portal - Pedestrian" and "Portal - Car" at the
+lot's edge (not `cXPortal`).
+
 ### The cheat console
 
 `cTSMainWindowW95 + 0x140` is the console's `cTSWinTextEdit2` (slot 105 `0x6f0b30` sets it).

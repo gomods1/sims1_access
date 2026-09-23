@@ -498,6 +498,58 @@ const Translation kEntries[] = {
     {Str::SoundCarpool, "รถรับส่งบีบแตร"},
     {Str::SoundSchoolBus, "รถโรงเรียนบีบแตร"},
     {Str::SoundPoliceCar, "รถตำรวจบีบแตร"},
+    // Build cursor (walls)
+    {Str::BuildNorth, "เหนือ"},
+    {Str::BuildEast, "ตะวันออก"},
+    {Str::BuildSouth, "ใต้"},
+    {Str::BuildWest, "ตะวันตก"},
+    {Str::BuildRoomSize, "%1$s, %2$d ช่อง"},
+    {Str::BuildSteps, "%2$s %1$d"},
+    {Str::BuildFromStart, "จากจุดเริ่ม: %s"},
+    {Str::BuildAtStart, "ที่จุดเริ่ม"},
+    {Str::BuildWallPlan, "Enter สร้างกำแพงยาว %1$d, %2$s"},
+    {Str::BuildDiagonalPlan, "Enter สร้างกำแพงทแยงยาว %1$d, %2$s"},
+    {Str::BuildRoomPlan, "Shift+Enter สร้างห้อง %1$d คูณ %2$d, %3$s"},
+    {Str::BuildCorner, "%1$d, %2$d"},
+    {Str::BuildWallsHere, "กำแพงทาง %s"},
+    {Str::BuildFreeSpace, "ที่ว่าง: เหนือ %1$d ตะวันออก %2$d ใต้ %3$d ตะวันตก %4$d"},
+    {Str::BuildStartAt, "จุดเริ่มที่ %1$d, %2$d"},
+    {Str::BuildStyle, "%1$s, ช่วงละ %2$s"},
+    {Str::BuildBlocksObjects, "ซิมจะเข้าไม่ถึง: %s"},
+    {Str::BuildBlocksDoor, "ปิดประตู"},
+    {Str::BuildRoomNeedsDoor, "ห้องใหม่มี %d ช่องและยังไม่มีประตู: ใส่ประตูด้วยเครื่องมือประตู"},
+    {Str::BuildCutsOff, "ตัด %d ช่องออกจากส่วนอื่นของที่ดิน"},
+    {Str::BuildWarning, "คำเตือน: %s กด Enter อีกครั้งเพื่อสร้างต่อ"},
+    {Str::BuildFailed, "สร้างไม่ได้"},
+    {Str::BuildNeedsArea, "ห้องต้องมีความกว้างและความลึก: เลื่อนออกจากจุดเริ่มทั้งสองทิศ"},
+    {Str::BuiltRoom, "สร้างห้องแล้ว %1$d คูณ %2$d"},
+    {Str::BuildCursorStart, "เคอร์เซอร์ก่อสร้าง, %s Control+F1 บอกปุ่ม"},
+    {Str::BuildLotEdge, "ขอบที่ดิน"},
+    {Str::BuildStartCleared, "ลบจุดเริ่มแล้ว"},
+    {Str::BuildStartMarked, "ตั้งจุดเริ่มที่ %1$d, %2$d"},
+    {Str::BuildNoStart, "ตั้งจุดเริ่มด้วย Space ก่อน"},
+    {Str::BuildRemoved, "รื้อกำแพงแล้ว %d ช่วง"},
+    {Str::BuildNotStraight, "กำแพงต้องตรงหรือทแยง; Shift+Enter สร้างห้อง"},
+    {Str::BuiltWall, "สร้างกำแพงแล้ว %d ช่วง"},
+    {Str::BuiltDiagonal, "สร้างกำแพงทแยงแล้ว %d ช่วง"},
+    {Str::BuildPreset, "ห้อง %1$d คูณ %2$d, %3$d ช่อง, %4$s; Insert สร้างโดยมีมุมตะวันตกเฉียงเหนืออยู่ที่นี่"},
+    {Str::BuildPresetTooBig, "ห้องนั้นวางที่นี่ไม่ได้: เลื่อนเคอร์เซอร์ไปทางเหนือหรือตะวันตก"},
+    {Str::BuildCursorEnd, "ปิดเคอร์เซอร์ก่อสร้าง"},
+    {Str::KeysBuildCursor,
+     "ปุ่มลูกศรเลื่อนเคอร์เซอร์ทีละมุม กด Shift ด้วยทีละห้า เคอร์เซอร์บอกตำแหน่ง กำแพงที่มาบรรจบ "
+     "และสิ่งที่วางอยู่; R บอกทั้งหมด รวมถึงที่ว่างแต่ละทิศและห้อง Space ตั้งจุดเริ่ม "
+     "จากนั้นเคอร์เซอร์บอกระยะจากจุดเริ่มและสิ่งที่ Enter จะสร้างพร้อมราคา Enter "
+     "สร้างกำแพงจากจุดเริ่มถึงเคอร์เซอร์ Shift+Enter สร้างกำแพงสี่ด้านของห้องระหว่างสองจุด Control+Enter หรือ "
+     "Delete รื้อกำแพง ก่อนสร้าง ม็อดจะเตือนถ้ากำแพงจะทำให้ซิมเข้าไม่ถึงวัตถุ ปิดประตู หรือตัดส่วนหนึ่งของที่ดิน "
+     "และกด Enter อีกครั้งเพื่อสร้างต่อ Page Down และ Page Up เลือกขนาดห้องสำเร็จรูป Insert "
+     "สร้างโดยมีมุมตะวันตกเฉียงเหนือที่เคอร์เซอร์ Home กลับไปที่ซิมที่เลือก Escape ออกจากเคอร์เซอร์"},
+    // Build cursor (area)
+    {Str::BuildOutsideArea, "ไม่ได้สร้างอะไร: ตรงนั้นอยู่นอกพื้นที่ก่อสร้างของที่ดิน"},
+    {Str::BuildNotBuildableHere, "นอกพื้นที่ก่อสร้าง"},
+    // Build cursor (cost)
+    {Str::BuildCostWas, "ราคา %s"},
+    // Build cursor (trapped)
+    {Str::BuildTrapsSims, "จะขังไว้ข้างใน: %s"},
 };
 
 }  // namespace

@@ -516,6 +516,60 @@ const Translation kEntries[] = {
     {Str::SoundCarpool, "de carpool toetert"},
     {Str::SoundSchoolBus, "de schoolbus toetert"},
     {Str::SoundPoliceCar, "een politieauto toetert"},
+    // Build cursor (walls)
+    {Str::BuildNorth, "noorden"},
+    {Str::BuildEast, "oosten"},
+    {Str::BuildSouth, "zuiden"},
+    {Str::BuildWest, "westen"},
+    {Str::BuildRoomSize, "%1$s, %2$d vakjes"},
+    {Str::BuildSteps, "%1$d naar het %2$s"},
+    {Str::BuildFromStart, "vanaf het begin: %s"},
+    {Str::BuildAtStart, "bij het begin"},
+    {Str::BuildWallPlan, "Enter bouwt een muur van %1$d, %2$s"},
+    {Str::BuildDiagonalPlan, "Enter bouwt een diagonale muur van %1$d, %2$s"},
+    {Str::BuildRoomPlan, "Shift+Enter bouwt een kamer van %1$d bij %2$d, %3$s"},
+    {Str::BuildCorner, "%1$d, %2$d"},
+    {Str::BuildWallsHere, "muren naar het %s"},
+    {Str::BuildFreeSpace, "vrije ruimte: %1$d noord, %2$d oost, %3$d zuid, %4$d west"},
+    {Str::BuildStartAt, "begin op %1$d, %2$d"},
+    {Str::BuildStyle, "%1$s, %2$s per stuk"},
+    {Str::BuildBlocksObjects, "Sims kunnen niet meer bij: %s"},
+    {Str::BuildBlocksDoor, "het sluit een deur af"},
+    {Str::BuildRoomNeedsDoor,
+     "de nieuwe kamer heeft %d vakjes en nog geen deur: plaats er een met het deurgereedschap"},
+    {Str::BuildCutsOff, "het sluit %d vakjes af van de rest van het terrein"},
+    {Str::BuildWarning, "Let op: %s. Nog een keer Enter bouwt toch."},
+    {Str::BuildFailed, "bouwen lukte niet"},
+    {Str::BuildNeedsArea, "een kamer heeft breedte en diepte nodig: ga in beide richtingen van het begin af"},
+    {Str::BuiltRoom, "kamer gebouwd, %1$d bij %2$d"},
+    {Str::BuildCursorStart, "Bouwcursor, %s. Control+F1 noemt de toetsen."},
+    {Str::BuildLotEdge, "rand van het terrein"},
+    {Str::BuildStartCleared, "begin gewist"},
+    {Str::BuildStartMarked, "begin gemarkeerd op %1$d, %2$d"},
+    {Str::BuildNoStart, "markeer eerst een begin met Spatie"},
+    {Str::BuildRemoved, "muren weggehaald, %d stukken"},
+    {Str::BuildNotStraight, "een muur loopt recht of diagonaal; Shift+Enter bouwt een kamer"},
+    {Str::BuiltWall, "muur gebouwd, %d stukken"},
+    {Str::BuiltDiagonal, "diagonale muur gebouwd, %d stukken"},
+    {Str::BuildPreset, "kamer van %1$d bij %2$d, %3$d vakjes, %4$s; Insert bouwt hem met de noordwesthoek hier"},
+    {Str::BuildPresetTooBig, "die kamer past hier niet: zet de cursor naar het noorden of westen"},
+    {Str::BuildCursorEnd, "bouwcursor uit"},
+    {Str::KeysBuildCursor,
+     "De pijltjes verplaatsen de cursor één hoek, met Shift vijf. De cursor zegt waar hij is, welke muren daar "
+     "samenkomen en wat er staat; R zegt alles, ook de vrije ruimte in elke richting en de kamer. Spatie "
+     "markeert het begin; daarna zegt de cursor hoe ver hij van het begin is en wat Enter zou bouwen en kosten. "
+     "Enter bouwt een muur van het begin tot de cursor, Shift+Enter de vier muren van een kamer ertussen, "
+     "Control+Enter of Delete haalt muren weg. Voor het bouwen waarschuwt de mod als de muren Sims van een "
+     "voorwerp zouden afsluiten, een deur zouden afsluiten of een deel van het terrein zouden afsluiten; nog een "
+     "keer Enter bouwt toch. Page Down en Page Up kiezen een kant-en-klare kamergrootte, Insert bouwt die met de "
+     "noordwesthoek bij de cursor. Home gaat terug naar de geselecteerde Sim, Escape verlaat de cursor."},
+    // Build cursor (area)
+    {Str::BuildOutsideArea, "niets gebouwd: dat ligt buiten het bebouwbare deel van het terrein"},
+    {Str::BuildNotBuildableHere, "buiten het bebouwbare deel"},
+    // Build cursor (cost)
+    {Str::BuildCostWas, "kosten %s"},
+    // Build cursor (trapped)
+    {Str::BuildTrapsSims, "het zou insluiten: %s"},
 };
 
 }  // namespace

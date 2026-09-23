@@ -144,6 +144,13 @@ bool IsInvisibleHelper(Ptr object) {
     return false;
 }
 
+// Where Sims walk onto the lot: its invisible "Portal - Pedestrian" and "Portal - Car" objects
+// (plain cXObjects at the lot's edge, read live on the Compañeras lot).
+bool IsLotEntrance(Ptr object) {
+    std::string name = InternalName(Rd<Ptr>(object + addr::obj::kType));
+    return name.rfind("Portal - Pedestrian", 0) == 0 || name.rfind("Portal - Car", 0) == 0;
+}
+
 Ptr ObjectById(int id) {
     Ptr module = LotModule();
     if (!module || id <= 0) return 0;

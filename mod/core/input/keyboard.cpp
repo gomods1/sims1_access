@@ -7,6 +7,7 @@
 #include "../game/pie.h"
 #include "../game/ui.h"
 #include "../nav/buffers.h"
+#include "../nav/build_mode.h"
 #include "../nav/buy_mode.h"
 #include "../nav/camera.h"
 #include "../nav/cheat_console.h"
@@ -92,11 +93,36 @@ void Arrow(bool vertical, int delta) {
     else nav::Move(delta);
 }
 
+// The build cursor (nav/build_mode.h) owns these keys while it is on; the rest leave it.
+bool BuildCursorKey(WPARAM vk, bool shift, bool ctrl) {
+    namespace b = nav::build;
+    int step = shift ? 5 : 1;
+    switch (vk) {
+    case VK_UP: if (ctrl) return false; b::Move(0, -step); return true;
+    case VK_DOWN: if (ctrl) return false; b::Move(0, step); return true;
+    case VK_LEFT: if (ctrl) return false; b::Move(-step, 0); return true;
+    case VK_RIGHT: if (ctrl) return false; b::Move(step, 0); return true;
+    case VK_SPACE: g_swallowChar = ' '; b::MarkStart(); return true;
+    case VK_RETURN: g_swallowChar = ctrl ? 0x0a : 0x0d; b::Build(shift, ctrl); return true;
+    case VK_DELETE: b::Build(false, true); return true;
+    case VK_NEXT: b::NextPreset(+1); return true;
+    case VK_PRIOR: b::NextPreset(-1); return true;
+    case VK_INSERT: b::BuildPreset(); return true;
+    case VK_HOME: b::Home(); return true;
+    case 'R': if (ctrl) return false; g_swallowChar = 'r'; b::Repeat(); return true;
+    case VK_ESCAPE: g_swallowChar = 0x1b; b::End(); return true;
+    case VK_F1: if (!ctrl) return false; speech::Say(S(Str::KeysBuildCursor)); return true;
+    case VK_TAB: b::End(); return false;  // back to the panel: Tab moves there as usual
+    }
+    return false;
+}
+
 // Runs the action for a key; false when the key is not the mod's in this situation. The
 // character to swallow is set before the action runs: an action can open a menu that runs
 // modally (and processes that character) before returning.
 bool Dispatch(WPARAM vk, bool shift, bool ctrl) {
     bool typing = nav::TextEntryActive();
+    if (nav::build::Active() && !typing && BuildCursorKey(vk, shift, ctrl)) return true;
     switch (vk) {
     case VK_UP:
         if (ctrl) nav::buffers::Deeper();
@@ -189,7 +215,10 @@ bool Dispatch(WPARAM vk, bool shift, bool ctrl) {
         } else if (WorldTarget()) {
             nav::world::Interact();
         } else {
+            uintptr_t pressed = nav::FocusedWidget();
+            bool product = pressed && game::IsProductButton(pressed);
             nav::Activate();
+            if (product) nav::build::Begin(pressed);  // a wall or fence style: the build cursor
         }
         return true;
     case VK_DELETE:  // the game sells a held object too, but says nothing
@@ -233,7 +262,7 @@ bool OnKeyDown(WPARAM vk, LPARAM lp) {
     }
     bool ctrl = Held(VK_CONTROL);
     bool ctrlKey = vk == VK_PRIOR || vk == VK_NEXT || vk == VK_RETURN || vk == VK_F1 || vk == VK_UP ||
-                   vk == VK_DOWN || vk == VK_LEFT || vk == VK_RIGHT || (vk >= '1' && vk <= '9') || vk == 'F' || vk == 'H' || vk == 'E' || vk == 'N' ||
+                   vk == VK_DOWN || vk == VK_LEFT || vk == VK_RIGHT || (vk >= '1' && vk <= '9') || vk == 'F' || vk == 'H' || vk == 'E' || vk == 'N' || vk == VK_DELETE ||
                    (vk == 'C' && Held(VK_SHIFT));  // the mod's Ctrl combinations
     if (Held(VK_MENU) || (ctrl && !ctrlKey)) {
         LogVerbose("key 0x%02x left to the game: %s held", (unsigned)vk, ctrl ? "Ctrl" : "Alt");

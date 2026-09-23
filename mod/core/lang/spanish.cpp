@@ -507,6 +507,62 @@ const Translation kEntries[] = {
     {Str::SoundCarpool, "el coche compartido toca el claxon"},
     {Str::SoundSchoolBus, "el autobús escolar toca el claxon"},
     {Str::SoundPoliceCar, "un coche de policía toca el claxon"},
+    // Build cursor (walls)
+    {Str::BuildNorth, "norte"},
+    {Str::BuildEast, "este"},
+    {Str::BuildSouth, "sur"},
+    {Str::BuildWest, "oeste"},
+    {Str::BuildRoomSize, "%1$s, %2$d casillas"},
+    {Str::BuildSteps, "%1$d al %2$s"},
+    {Str::BuildFromStart, "desde el inicio: %s"},
+    {Str::BuildAtStart, "en el inicio"},
+    {Str::BuildWallPlan, "Intro construye una pared de %1$d, %2$s"},
+    {Str::BuildDiagonalPlan, "Intro construye una pared diagonal de %1$d, %2$s"},
+    {Str::BuildRoomPlan, "Mayúsculas+Intro construye una habitación de %1$d por %2$d, %3$s"},
+    {Str::BuildCorner, "%1$d, %2$d"},
+    {Str::BuildWallsHere, "paredes al %s"},
+    {Str::BuildFreeSpace, "espacio libre: %1$d al norte, %2$d al este, %3$d al sur, %4$d al oeste"},
+    {Str::BuildStartAt, "inicio en %1$d, %2$d"},
+    {Str::BuildStyle, "%1$s, %2$s por tramo"},
+    {Str::BuildBlocksObjects, "los Sims ya no llegarían a: %s"},
+    {Str::BuildBlocksDoor, "cierra una puerta"},
+    {Str::BuildRoomNeedsDoor,
+     "la habitación nueva tiene %d casillas y aún no tiene puerta: pon una con la herramienta de puerta"},
+    {Str::BuildCutsOff, "deja %d casillas aisladas del resto del solar"},
+    {Str::BuildWarning, "Aviso: %s. Intro otra vez para construir de todos modos."},
+    {Str::BuildFailed, "no se ha podido construir"},
+    {Str::BuildNeedsArea, "una habitación necesita ancho y fondo: aléjate del inicio en las dos direcciones"},
+    {Str::BuiltRoom, "habitación construida, %1$d por %2$d"},
+    {Str::BuildCursorStart, "Cursor de construcción, %s. Control+F1 dice las teclas."},
+    {Str::BuildLotEdge, "borde del solar"},
+    {Str::BuildStartCleared, "inicio quitado"},
+    {Str::BuildStartMarked, "inicio marcado en %1$d, %2$d"},
+    {Str::BuildNoStart, "marca antes un inicio con Espacio"},
+    {Str::BuildRemoved, "paredes quitadas, %d tramos"},
+    {Str::BuildNotStraight, "una pared va recta o en diagonal; Mayúsculas+Intro construye una habitación"},
+    {Str::BuiltWall, "pared construida, %d tramos"},
+    {Str::BuiltDiagonal, "pared diagonal construida, %d tramos"},
+    {Str::BuildPreset,
+     "habitación de %1$d por %2$d, %3$d casillas, %4$s; Insertar la construye con su esquina noroeste aquí"},
+    {Str::BuildPresetTooBig, "esa habitación no cabe aquí: mueve el cursor al norte o al oeste"},
+    {Str::BuildCursorEnd, "cursor de construcción desactivado"},
+    {Str::KeysBuildCursor,
+     "Las flechas mueven el cursor una esquina, con Mayúsculas cinco. El cursor dice dónde está, las paredes que "
+     "se juntan allí y lo que hay; R lo dice todo, también el espacio libre en cada dirección y la habitación. "
+     "Espacio marca el inicio; desde entonces el cursor dice a qué distancia está del inicio y qué construiría "
+     "Intro y cuánto cuesta. Intro construye una pared del inicio al cursor, Mayúsculas+Intro construye las "
+     "cuatro paredes de una habitación entre ambos, Control+Intro o Suprimir quitan paredes. Antes de construir, "
+     "el mod avisa si las paredes dejarían a los Sims sin llegar a un objeto, cerrarían una puerta o aislarían "
+     "parte del solar, e Intro otra vez construye de todos modos. Avanzar y Retroceder página eligen un tamaño "
+     "de habitación ya hecho, Insertar la construye con su esquina noroeste en el cursor. Inicio vuelve al Sim "
+     "seleccionado, Escape sale del cursor."},
+    // Build cursor (area)
+    {Str::BuildOutsideArea, "no se ha construido nada: eso queda fuera de la zona edificable del solar"},
+    {Str::BuildNotBuildableHere, "fuera de la zona edificable"},
+    // Build cursor (cost)
+    {Str::BuildCostWas, "coste %s"},
+    // Build cursor (trapped)
+    {Str::BuildTrapsSims, "dejaría encerrados a: %s"},
 };
 
 }  // namespace

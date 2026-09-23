@@ -511,6 +511,59 @@ const Translation kEntries[] = {
     {Str::SoundCarpool, "kimppakyyti tööttää"},
     {Str::SoundSchoolBus, "koulubussi tööttää"},
     {Str::SoundPoliceCar, "poliisiauto tööttää"},
+    // Build cursor (walls)
+    {Str::BuildNorth, "pohjoinen"},
+    {Str::BuildEast, "itä"},
+    {Str::BuildSouth, "etelä"},
+    {Str::BuildWest, "länsi"},
+    {Str::BuildRoomSize, "%1$s, %2$d ruutua"},
+    {Str::BuildSteps, "%2$s: %1$d"},
+    {Str::BuildFromStart, "alusta: %s"},
+    {Str::BuildAtStart, "alussa"},
+    {Str::BuildWallPlan, "Enter rakentaa %1$d pituisen seinän, %2$s"},
+    {Str::BuildDiagonalPlan, "Enter rakentaa %1$d pituisen vinoseinän, %2$s"},
+    {Str::BuildRoomPlan, "Vaihto+Enter rakentaa huoneen %1$d kertaa %2$d, %3$s"},
+    {Str::BuildCorner, "%1$d, %2$d"},
+    {Str::BuildWallsHere, "seinät: %s"},
+    {Str::BuildFreeSpace, "vapaata tilaa: pohjoiseen %1$d, itään %2$d, etelään %3$d, länteen %4$d"},
+    {Str::BuildStartAt, "alku kohdassa %1$d, %2$d"},
+    {Str::BuildStyle, "%1$s, %2$s osalta"},
+    {Str::BuildBlocksObjects, "simit eivät enää pääsisi: %s"},
+    {Str::BuildBlocksDoor, "se sulkee oven"},
+    {Str::BuildRoomNeedsDoor, "uudessa huoneessa on %d ruutua eikä vielä ovea: lisää ovi ovityökalulla"},
+    {Str::BuildCutsOff, "se erottaa %d ruutua muusta tontista"},
+    {Str::BuildWarning, "Varoitus: %s. Enter uudelleen rakentaa silti."},
+    {Str::BuildFailed, "rakentaminen ei onnistunut"},
+    {Str::BuildNeedsArea, "huone tarvitsee leveyttä ja syvyyttä: siirry alusta kumpaankin suuntaan"},
+    {Str::BuiltRoom, "huone rakennettu, %1$d kertaa %2$d"},
+    {Str::BuildCursorStart, "Rakennuskohdistin, %s. Control+F1 kertoo näppäimet."},
+    {Str::BuildLotEdge, "tontin reuna"},
+    {Str::BuildStartCleared, "alku poistettu"},
+    {Str::BuildStartMarked, "alku merkitty kohtaan %1$d, %2$d"},
+    {Str::BuildNoStart, "merkitse ensin alku välilyönnillä"},
+    {Str::BuildRemoved, "seiniä poistettu, %d osaa"},
+    {Str::BuildNotStraight, "seinä kulkee suoraan tai vinoon; Vaihto+Enter rakentaa huoneen"},
+    {Str::BuiltWall, "seinä rakennettu, %d osaa"},
+    {Str::BuiltDiagonal, "vinoseinä rakennettu, %d osaa"},
+    {Str::BuildPreset, "huone %1$d kertaa %2$d, %3$d ruutua, %4$s; Insert rakentaa sen luoteiskulma tässä"},
+    {Str::BuildPresetTooBig, "huone ei mahdu tähän: siirrä kohdistinta pohjoiseen tai länteen"},
+    {Str::BuildCursorEnd, "rakennuskohdistin pois"},
+    {Str::KeysBuildCursor,
+     "Nuolet siirtävät kohdistinta yhden kulman, Vaihdon kanssa viisi. Kohdistin kertoo, missä se on, mitkä "
+     "seinät kohtaavat siinä ja mitä siinä on; R kertoo kaiken, myös vapaan tilan joka suuntaan ja huoneen. "
+     "Välilyönti merkitsee alun; sen jälkeen kohdistin kertoo etäisyyden alusta ja mitä Enter rakentaisi ja mitä "
+     "se maksaa. Enter rakentaa seinän alusta kohdistimeen, Vaihto+Enter huoneen neljä seinää niiden väliin, "
+     "Control+Enter tai Delete poistaa seiniä. Ennen rakentamista modi varoittaa, jos seinät estäisivät simejä "
+     "pääsemästä esineen luo, sulkisivat oven tai erottaisivat osan tontista, ja Enter uudelleen rakentaa silti. "
+     "Page Down ja Page Up valitsevat valmiin huonekoon, Insert rakentaa sen luoteiskulma kohdistimessa. Home "
+     "palaa valittuun simiin, Escape poistuu kohdistimesta."},
+    // Build cursor (area)
+    {Str::BuildOutsideArea, "mitään ei rakennettu: se on tontin rakennettavan alueen ulkopuolella"},
+    {Str::BuildNotBuildableHere, "rakennettavan alueen ulkopuolella"},
+    // Build cursor (cost)
+    {Str::BuildCostWas, "hinta %s"},
+    // Build cursor (trapped)
+    {Str::BuildTrapsSims, "se sulkisi sisään: %s"},
 };
 
 }  // namespace

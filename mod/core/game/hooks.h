@@ -36,4 +36,9 @@ void KeepHeldShown(bool keep);
 void SuppressCtrlFor(unsigned ms);
 short RealGetAsyncKeyState(int vk);  // the key state without that suppression
 
+// While set, the game's GetKeyState reports Shift and Ctrl as given (held or not), whatever the
+// keyboard says: the wall tool reads them for "room" and "delete" drags the mod makes.
+void ForceModifiers(bool shift, bool ctrl);
+void ClearForcedModifiers();
+
 }  // namespace game

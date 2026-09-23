@@ -79,6 +79,10 @@ module base + (VA - 0x400000)). Build: `Sims.exe` 1.10.7, SHA-256 `b7c8765e...` 
 | `0x596730` | object type record | thiscall `TreeTable* ()` | the type's interactions (`STRUCTS.md` "Interactions") | `game::ObjectInteractions`: why a menu is empty ("solo para niños: Jugar, Participar") | train set, live |
 | `0x43b9c0` | Sims' data | cdecl `void (int from, int to, RelOut*)` | how one Sim feels about another (daily `+0xc`, lifetime `+8`) | `game::SimRelationship`: "Marisa, con Cris: +8, ahora 28" | after a tickle, live |
 
+| `0x658eb0` / `0x659240` / `0x6597b0` | `cNewWallTool` slots 8 / 10 / 11 | thiscall `(int vx, int vy, int obj, PickInfo*)`, `ret 0x10` | mouse down / drag / up | `game::DrawWalls`: walls, rooms (Shift forced through the `GetKeyState` hook) and deletions (Ctrl) drawn by keyboard | a 3-section wall and a 5x4 room built, $1,350 as announced |
+| `0x56f7f0` | build tools | cdecl `(int code, int arg)` | shows an error (STR# 137) or, code 26, the price | **Hooked**: errors and cost spoken | "¡No puede ocupar el mismo lugar que otro objeto!" |
+| `user32!GetKeyState` | | | | **Hooked**: while the mod drags, Shift/Ctrl read as it says | room and delete drags |
+
 ## Hypotheses (not verified)
 
 - `0x6ddf30` (`cTSWin` slot 46): "show tooltip for this widget"; calls `0x6da4d0` (get/create the

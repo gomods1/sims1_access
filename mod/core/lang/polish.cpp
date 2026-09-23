@@ -509,6 +509,60 @@ const Translation kEntries[] = {
     {Str::SoundCarpool, "trąbi samochód, który wozi do pracy"},
     {Str::SoundSchoolBus, "autobus szkolny trąbi"},
     {Str::SoundPoliceCar, "radiowóz trąbi"},
+    // Build cursor (walls)
+    {Str::BuildNorth, "północ"},
+    {Str::BuildEast, "wschód"},
+    {Str::BuildSouth, "południe"},
+    {Str::BuildWest, "zachód"},
+    {Str::BuildRoomSize, "%1$s, pól: %2$d"},
+    {Str::BuildSteps, "%2$s: %1$d"},
+    {Str::BuildFromStart, "od początku: %s"},
+    {Str::BuildAtStart, "na początku"},
+    {Str::BuildWallPlan, "Enter buduje ścianę długości %1$d, %2$s"},
+    {Str::BuildDiagonalPlan, "Enter buduje ukośną ścianę długości %1$d, %2$s"},
+    {Str::BuildRoomPlan, "Shift+Enter buduje pokój %1$d na %2$d, %3$s"},
+    {Str::BuildCorner, "%1$d, %2$d"},
+    {Str::BuildWallsHere, "ściany: %s"},
+    {Str::BuildFreeSpace, "wolne miejsce: północ %1$d, wschód %2$d, południe %3$d, zachód %4$d"},
+    {Str::BuildStartAt, "początek w %1$d, %2$d"},
+    {Str::BuildStyle, "%1$s, %2$s za odcinek"},
+    {Str::BuildBlocksObjects, "Simowie nie dotarliby już do: %s"},
+    {Str::BuildBlocksDoor, "zamyka drzwi"},
+    {Str::BuildRoomNeedsDoor, "nowy pokój ma %d pól i jeszcze nie ma drzwi: dodaj je narzędziem drzwi"},
+    {Str::BuildCutsOff, "odcina %d pól od reszty działki"},
+    {Str::BuildWarning, "Uwaga: %s. Enter jeszcze raz buduje mimo to."},
+    {Str::BuildFailed, "nie udało się zbudować"},
+    {Str::BuildNeedsArea, "pokój potrzebuje szerokości i głębokości: oddal się od początku w obu kierunkach"},
+    {Str::BuiltRoom, "pokój zbudowany, %1$d na %2$d"},
+    {Str::BuildCursorStart, "Kursor budowy, %s. Control+F1 podaje klawisze."},
+    {Str::BuildLotEdge, "krawędź działki"},
+    {Str::BuildStartCleared, "początek usunięty"},
+    {Str::BuildStartMarked, "początek zaznaczony w %1$d, %2$d"},
+    {Str::BuildNoStart, "najpierw zaznacz początek Spacją"},
+    {Str::BuildRemoved, "ściany usunięte, odcinki: %d"},
+    {Str::BuildNotStraight, "ściana biegnie prosto lub ukośnie; Shift+Enter buduje pokój"},
+    {Str::BuiltWall, "ściana zbudowana, odcinki: %d"},
+    {Str::BuiltDiagonal, "ukośna ściana zbudowana, odcinki: %d"},
+    {Str::BuildPreset,
+     "pokój %1$d na %2$d, pól: %3$d, %4$s; Insert buduje go z północno-zachodnim narożnikiem tutaj"},
+    {Str::BuildPresetTooBig, "ten pokój się tu nie zmieści: przesuń kursor na północ lub zachód"},
+    {Str::BuildCursorEnd, "kursor budowy wyłączony"},
+    {Str::KeysBuildCursor,
+     "Strzałki przesuwają kursor o jeden narożnik, z Shiftem o pięć. Kursor mówi, gdzie jest, jakie ściany się "
+     "tam spotykają i co tam stoi; R mówi wszystko, także wolne miejsce w każdą stronę i pokój. Spacja zaznacza "
+     "początek; potem kursor mówi, jak daleko jest od początku i co zbudowałby Enter i ile to kosztuje. Enter "
+     "buduje ścianę od początku do kursora, Shift+Enter cztery ściany pokoju między nimi, Control+Enter lub "
+     "Delete usuwa ściany. Przed budową mod ostrzega, jeśli ściany odcięłyby Simów od przedmiotu, zamknęłyby "
+     "drzwi lub odcięły część działki, a Enter jeszcze raz buduje mimo to. Page Down i Page Up wybierają gotowy "
+     "rozmiar pokoju, Insert buduje go z północno-zachodnim narożnikiem przy kursorze. Home wraca do wybranego "
+     "Sima, Escape opuszcza kursor."},
+    // Build cursor (area)
+    {Str::BuildOutsideArea, "nic nie zbudowano: to poza obszarem zabudowy działki"},
+    {Str::BuildNotBuildableHere, "poza obszarem zabudowy"},
+    // Build cursor (cost)
+    {Str::BuildCostWas, "koszt %s"},
+    // Build cursor (trapped)
+    {Str::BuildTrapsSims, "zamknęłoby w środku: %s"},
 };
 
 }  // namespace
