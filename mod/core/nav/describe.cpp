@@ -249,7 +249,19 @@ std::string DescribeLook(Ptr screen, game::LookPart part) {
     return util::Format(S(Str::BodyLook), look.index + 1, look.count, S(shape), word.c_str());
 }
 
+// The wardrobe: "traje 3 de 12: fit, beachguy" (the body words of create-a-Sim).
+std::string DescribeOutfit(Ptr dialog) {
+    game::Look look;
+    if (!game::CurrentOutfit(dialog, &look)) return "";
+    if (look.index < 0) return util::Format(S(Str::OutfitNotListed), look.count);
+    std::string word = LookWord(look.mesh);
+    Str shape;
+    if (!BodyShape(look.mesh, &shape)) return util::Format(S(Str::OutfitLookNoShape), look.index + 1, look.count, word.c_str());
+    return util::Format(S(Str::OutfitLook), look.index + 1, look.count, S(shape), word.c_str());
+}
+
 std::string AfterPress(Ptr root, Ptr pressed) {
+    if (game::IsOutfitArrow(root, pressed)) return DescribeOutfit(root);
     game::LookPart part;
     if (game::IsLookArrow(root, pressed, &part)) return DescribeLook(root, part);
     for (Ptr choice : game::LookControls(root))
@@ -321,6 +333,7 @@ std::string Describe(const Item& it) {
                S(game::CheckBoxChecked(it.widget) ? Str::Checked : Str::NotChecked);
     case Role::SimPreview: {  // "vista del Sim: cabeza 2 de 137: dave. cuerpo ..."
         Ptr screen = game::Parent(it.widget);
+        if (game::IsKindOf(screen, "cWinClothingChoiceDlg")) return S(Str::SimPreview) + std::string(": ") + DescribeOutfit(screen);
         return S(Str::SimPreview) + std::string(": ") + DescribeLook(screen, game::LookPart::Head) + ". " +
                DescribeLook(screen, game::LookPart::Body);
     }

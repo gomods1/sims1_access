@@ -600,6 +600,10 @@ const Translation kEntries[] = {
     // House overview (one floor)
     {Str::HouseSummaryOneFloor, "집: 1층, 방 %1$d개, 실내 %2$d칸, 실외 %3$d칸"},
     {Str::HouseSummaryOneRoom, "집: 방 1개, %1$d칸, 실외 %2$d칸"},
+    // Wardrobe
+    {Str::OutfitLook, "옷 %2$d개 중 %1$d번째, %3$s: %4$s"},
+    {Str::OutfitLookNoShape, "옷 %2$d개 중 %1$d번째: %3$s"},
+    {Str::OutfitNotListed, "지금 입은 옷, 고를 수 있는 옷 %d개"},
 };
 
 }  // namespace

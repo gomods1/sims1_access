@@ -24,6 +24,50 @@ bool CurrentLook(Ptr screen, LookPart part, Look* out) {
     return true;
 }
 
+Ptr OutfitPreview(Ptr dialog) {
+    return IsKindOf(dialog, "cWinClothingChoiceDlg") ? Rd<Ptr>(dialog + addr::clothing::kPreview) : 0;
+}
+
+bool IsOutfitArrow(Ptr dialog, Ptr button) {
+    return button && IsKindOf(dialog, "cWinClothingChoiceDlg") &&
+           (button == Rd<Ptr>(dialog + addr::clothing::kPrev) || button == Rd<Ptr>(dialog + addr::clothing::kNext));
+}
+
+bool CurrentOutfit(Ptr dialog, Look* out) {
+    typedef int(__fastcall * IndexFn)(void* preview);
+    Ptr preview = OutfitPreview(dialog);
+    if (!preview || !FunctionOk(addr::clothing::kCurrentIndex)) return false;
+    Ptr selector = Rd<Ptr>(preview + addr::clothing::kSelector);
+    if (!selector) return false;
+    int listOffset;
+    switch (Rd<int>(preview + addr::clothing::kKind)) {
+    case 0: listOffset = 0x7c; break;
+    case 2: listOffset = 0x84; break;
+    case 4: listOffset = 0x80; break;
+    case 5: listOffset = 0x88; break;
+    case 0x11: listOffset = 0x8c; break;
+    case 0x12: listOffset = 0x90; break;
+    default: return false;
+    }
+    // The game's lookup builds the kind's list on first use, so it runs first.
+    int index = -1;
+    if (!Guarded([&] { index = ((IndexFn)Va(addr::clothing::kCurrentIndex))((void*)preview); })) return false;
+    Ptr list = Rd<Ptr>(selector + listOffset);
+    if (!list) return false;
+    Ptr begin = Rd<Ptr>(list), end = Rd<Ptr>(list + 4);
+    if (!begin || end < begin || (end - begin) % addr::designer::kEntrySize) return false;
+    out->count = (int)((end - begin) / addr::designer::kEntrySize);
+    out->index = index;  // -1: the Sim wears an outfit the list does not hold (before the first arrow)
+    out->mesh.clear();
+    if (index < 0 || index >= out->count) return index == -1;
+    char name[addr::designer::kMeshNameSize + 1] = {};
+    Read(begin + index * addr::designer::kEntrySize + addr::designer::kMeshName, name, addr::designer::kMeshNameSize);
+    out->mesh = name;
+    size_t eq = out->mesh.rfind('=');
+    if (eq != std::string::npos) out->mesh.erase(0, eq + 1);
+    return true;
+}
+
 bool IsLookArrow(Ptr screen, Ptr button, LookPart* part) {
     if (!button || !IsKindOf(screen, "cWinDesignCharacter")) return false;
     if (button == Rd<Ptr>(screen + addr::designsim::kPrevHead) || button == Rd<Ptr>(screen + addr::designsim::kNextHead)) {

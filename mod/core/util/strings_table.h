@@ -659,4 +659,9 @@
     X(HouseToCheck, "%d things to check: Control+Up reads them")                                                     \
     /* House overview (one floor) */                                                                                 \
     X(HouseSummaryOneFloor, "The house: one floor, %1$d rooms, %2$d tiles indoors; %3$d tiles outdoors")             \
-    X(HouseSummaryOneRoom, "The house: one room, %1$d tiles; %2$d tiles outdoors")
+    X(HouseSummaryOneRoom, "The house: one room, %1$d tiles; %2$d tiles outdoors")                                   \
+    /* Wardrobe */                                                                                                   \
+    X(OutfitLook, "outfit %d of %d, %s: %s")                                                                         \
+    X(OutfitLookNoShape, "outfit %d of %d: %s")                                                                      \
+    /* Wardrobe */                                                                                                   \
+    X(OutfitNotListed, "the outfit worn now, %d to choose from")

@@ -97,6 +97,8 @@ struct Walker {
     // Screens (input roots) whose buttons mean more than their labels say.
     void RegisterScreen(Ptr root) {
         if (game::IsKindOf(root, "cWinDesignCharacter")) RegisterDesignScreen(root);
+        // The wardrobe's clothing choice: its unlabeled preview says the outfit shown.
+        if (Ptr preview = game::OutfitPreview(root)) registered[preview] = Registered{Role::SimPreview, 0, 0};
     }
 
     // The live mode family panel and its subpanels. true when w was handled here.

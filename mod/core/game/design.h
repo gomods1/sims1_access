@@ -33,6 +33,11 @@ bool CurrentLook(Ptr screen, LookPart part, Look* out);
 std::vector<Ptr> LookControls(Ptr screen);
 Ptr ZodiacButton(Ptr screen);
 
+// The wardrobe's clothing choice (cWinClothingChoiceDlg): the outfit shown, as a body look.
+bool CurrentOutfit(Ptr dialog, Look* out);
+Ptr OutfitPreview(Ptr dialog);
+bool IsOutfitArrow(Ptr dialog, Ptr button);
+
 // Which arrow a button is: the part it changes, or false for any other widget.
 bool IsLookArrow(Ptr screen, Ptr button, LookPart* part);
 

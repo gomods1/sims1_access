@@ -678,6 +678,10 @@ const Translation kEntries[] = {
     // House overview (one floor)
     {Str::HouseSummaryOneFloor, "Het huis: één verdieping, %1$d kamers, %2$d vakjes binnen; %3$d vakjes buiten"},
     {Str::HouseSummaryOneRoom, "Het huis: één kamer, %1$d vakjes; %2$d vakjes buiten"},
+    // Wardrobe
+    {Str::OutfitLook, "outfit %d van %d, %s: %s"},
+    {Str::OutfitLookNoShape, "outfit %d van %d: %s"},
+    {Str::OutfitNotListed, "de huidige outfit, %d om uit te kiezen"},
 };
 
 }  // namespace

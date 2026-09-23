@@ -551,7 +551,7 @@ constexpr Va kDesigner = 0xa6347c;
 namespace designer {
 constexpr int kHeads = 0x78;          // vector*: {begin, end}
 constexpr int kBodies = 0x7c;
-constexpr int kEntrySize = 0x98;
+constexpr int kEntrySize = 0x98;  // also the outfit lists of cWinClothingChoiceDlg (below)
 constexpr int kMeshName = 0x4c + 0x0c;
 constexpr int kMeshNameSize = 64;
 }  // namespace designer
@@ -661,6 +661,22 @@ constexpr int kCatalogStringsId = 41;  // CTSS resource id (name = string 1)
 constexpr int kTreeTableId = 13;   // TTAB (interactions) resource id; its names are the TTAs of the same id
 constexpr int kFieldCount = 42;
 }  // namespace objd
+
+// ---- cWinClothingChoiceDlg (the wardrobe's "Cambiar de ropa") -------------------------------
+// +0x13c / +0x140 previous / next outfit buttons, +0x1c4 the preview (cWinVitaBtnSolo). The preview
+// keeps the outfit selector at +0x204 and the outfit kind at +0x208; the selector keeps one
+// pointer to a vector of 0x98-byte entries per kind (mesh name as in the designer's lists):
+// kind 0 everyday +0x7c, 2 formal +0x84, 4 swimwear +0x80, 5 pajamas +0x88, 0x11 winter +0x8c,
+// 0x12 high fashion +0x90 (0x5e4a10 and its siblings). 0x4fa630 (fastcall on the preview)
+// returns the shown outfit's index, -1 none.
+namespace clothing {
+constexpr int kPrev = 0x13c;
+constexpr int kNext = 0x140;
+constexpr int kPreview = 0x1c4;
+constexpr int kSelector = 0x204;
+constexpr int kKind = 0x208;
+constexpr Va kCurrentIndex = 0x4fa630;
+}  // namespace clothing
 
 // ---- cTSPieMenu ---------------------------------------------------------------------------
 namespace pie {
