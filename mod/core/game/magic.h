@@ -15,8 +15,8 @@ bool IsMagicBook(Ptr w);
 bool IsBookEntry(Ptr w);  // a cPickSpellItem
 // The book w belongs to (w itself or an ancestor), 0 when none.
 Ptr MagicBookOf(Ptr w);
-// Hypothesis: the byte the window's setup (0x494c90) tests before the child-age check is set for
-// the cookbook.
+// The cookbook: the constructor (0x494390) keeps its second argument at +0x46a; the cheat handler
+// passes 0 for "magic_book" and 1 for "cook_book", and magic.iff STR# 1 titles them in that order.
 bool IsCookbook(Ptr book);
 // The entry's ingredients, left to right, as their tooltips name them.
 std::vector<std::string> EntryIngredients(Ptr entry);
