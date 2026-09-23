@@ -184,6 +184,11 @@ void PollRoom(Ptr sim, ULONGLONG now) {
 std::string g_cancelled;  // the queued action the player last cancelled (NoteCancelled)
 ULONGLONG g_cancelledAt = 0;
 constexpr ULONGLONG kCancelMs = 5000;
+// A running action the player cancels winds down before it ends: its end is not news then.
+constexpr ULONGLONG kCancelledEndMs = 60000;
+bool CancelledByPlayer(const std::string& action, ULONGLONG now) {
+    return action == g_cancelled && now - g_cancelledAt < kCancelledEndMs;
+}
 constexpr ULONGLONG kArrivalQuietMs = 15000;
 
 // ---- Actions -------------------------------------------------------------------------------
@@ -245,7 +250,7 @@ void PollAction(ULONGLONG now) {
         if (running == g.actionSaid || now - g.runningSince < kActionStartMs) return;
         // The player's action gave way to another with no idle moment between (free will picks
         // the next thing at once): its end is still news.
-        if (!g.endSaid && g.saidByPlayer && !g.actionSaid.empty())
+        if (!g.endSaid && g.saidByPlayer && !g.actionSaid.empty() && !CancelledByPlayer(g.actionSaid, now))
             narrator::Announce(util::Format(S(Str::ActionFinished), SimName(g.selected).c_str(), g.actionSaid.c_str()),
                                false);
         g.actionSaid = running;
@@ -260,7 +265,7 @@ void PollAction(ULONGLONG now) {
     g.endSaid = true;
     // Only what the player asked for is worth an end: free will goes from one thing to the next.
     std::string line = util::Format(S(Str::ActionFinished), SimName(g.selected).c_str(), g.actionSaid.c_str());
-    if (g.saidByPlayer) narrator::Announce(line, false);
+    if (g.saidByPlayer && !CancelledByPlayer(g.actionSaid, now)) narrator::Announce(line, false);
     else narrator::Record(line);
     g.actionSaid.clear();
 }

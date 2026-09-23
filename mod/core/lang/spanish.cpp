@@ -899,6 +899,8 @@ const Translation kEntries[] = {
     {Str::BalloonNotInterested, "%s, no le interesa"},
     // Narrator: bills
     {Str::BillsArrived, "han llegado facturas: %d sin pagar"},
+    // Narrator: the Grim Reaper
+    {Str::ReaperCame, "%s ha venido a por %s"},
 };
 
 }  // namespace

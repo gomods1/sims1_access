@@ -62,6 +62,7 @@ struct Visitor {
     std::string burglarShout;  // the game's cry when it is the burglar, else empty
     bool waitsForGreeting = false;  // the pizza man: he leaves with the pizza unless greeted
     bool ghost = false;        // a grave brought it out
+    std::string reaperFor;     // the Grim Reaper: the dying Sim who brought him
     ULONGLONG since = 0;       // first seen
     bool announced = false;    // its arrival was said (or it was already there)
 };
@@ -353,6 +354,7 @@ void PollVisitors(const std::vector<int>& family) {
         Visitor v;  // new here; those present when the lot was first seen count as announced
         v.name = Trimmed(game::ObjectName(o));
         v.ghost = game::IsGhost(person);
+        v.reaperFor = Trimmed(game::ReaperFor(person));
         v.burglarShout = Trimmed(game::BurglarShout(person));  // the game's own "¡Ladrón!"
         v.waitsForGreeting = game::ObjectInternalName(o).rfind("NPC Pizza Dude", 0) == 0;
         v.since = now;
@@ -367,6 +369,10 @@ void PollVisitors(const std::vector<int>& family) {
         if (v.name.empty()) continue;
         if (v.ghost) {
             Announce(util::Format(S(Str::GhostAppeared), v.name.c_str()), false);
+            continue;
+        }
+        if (!v.reaperFor.empty()) {  // a Sim of the lot is dying
+            Announce(util::Format(S(Str::ReaperCame), v.name.c_str(), v.reaperFor.c_str()), true);
             continue;
         }
         std::string line = util::Format(S(Str::VisitorArrived), v.name.c_str());

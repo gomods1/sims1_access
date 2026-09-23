@@ -690,6 +690,7 @@ constexpr uint16_t kRouteFailureTree = 0x18e;
 // 0x1004); the graves' internal names ("Urn/Tombstone" seen live; UrnStone.iff, UrnStonePet.iff,
 // UrnStoneCelebrity.iff) contain this.
 constexpr const char* kGraveNamePart = "Urn";
+constexpr const char* kReaperName = "NPC Grim Reaper";  // internal name; the dying Sim creates him
 // The balloon over an object: the first entry of a std::vector of 0x3c-byte records
 constexpr int kHeadlines = 0x14c;
 constexpr int kHeadlineSize = 0x3c;

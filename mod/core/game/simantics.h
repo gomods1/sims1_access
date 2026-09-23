@@ -72,6 +72,8 @@ std::vector<int> FamilyNeighborIds();
 // A Sim a grave (urn or tombstone) brought out: a ghost. Known from the moment the grave's
 // script creates it, so a ghost already out when the mod (re)loaded is not recognised.
 bool IsGhost(Ptr person);
+// The Grim Reaper's errand: the name of the Sim who is dying (who brought him), "" otherwise.
+std::string ReaperFor(Ptr person);
 
 // ---- For hooks.cpp (main thread, inside the game's primitive) ----------------------------
 // Plain data only: the game's SimAntics throws C++ exceptions through the hook.

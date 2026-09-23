@@ -888,6 +888,8 @@ const Translation kEntries[] = {
     {Str::BalloonNotInterested, "%s, ikke interesseret"},
     // Narrator: bills
     {Str::BillsArrived, "der er kommet regninger: %d ubetalte"},
+    // Narrator: the Grim Reaper
+    {Str::ReaperCame, "%s er kommet for at hente %s"},
 };
 
 }  // namespace

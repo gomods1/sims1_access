@@ -1,5 +1,6 @@
 #include "simantics.h"
 
+#include <map>
 #include <set>
 
 #include "../util/log.h"
@@ -18,6 +19,8 @@ std::vector<TakenObject> g_taken;
 // Sims a grave brought out (ghosts), by object id, on the lot g_ghostLot.
 std::set<int> g_ghosts;
 Ptr g_ghostLot = 0;
+// The Grim Reaper, by object id: whom he came for (the dying Sim creates him), on g_ghostLot.
+std::map<int, std::string> g_reaperFor;
 constexpr size_t kMaxQueued = 64;  // nobody took them (not in the lot view): keep the newest
 
 template <class T>
@@ -163,7 +166,10 @@ void BeforePrimitive(Ptr runner, Ptr frame, const uint8_t* instruction) {
     Ptr target = ObjectOnLot(runner, id);
     if (!target) return;
     if (IsKindOf(target, "cXPerson")) {  // a visitor taken off the lot (diagnostics: the burglar)
-        if (Rd<Ptr>(runner + sa::kModule) == g_ghostLot) g_ghosts.erase(id);  // the id may be reused
+        if (Rd<Ptr>(runner + sa::kModule) == g_ghostLot) {  // the id may be reused
+            g_ghosts.erase(id);
+            g_reaperFor.erase(id);
+        }
         if (!IsFamily(SimNeighborId(target)))
             Log("Sim removed: %s (id %d) by %s (tree 0x%x)", NameOf(target).c_str(), id, NameOf(runner).c_str(),
                 Rd<uint16_t>(frame + sa::kFrameTree));
@@ -195,17 +201,28 @@ void AfterCreateObject(Ptr runner, Ptr frame) {
     LotObject o;
     if (!GetObject(created, &o)) return;
     LotObject creator;
-    if (GetObject(runner, &creator) && ObjectInternalName(creator).find(sa::kGraveNamePart) != std::string::npos) {
+    bool byGrave = GetObject(runner, &creator) && ObjectInternalName(creator).find(sa::kGraveNamePart) != std::string::npos;
+    bool reaper = IsKindOf(runner, "cXPerson") && ObjectInternalName(o).rfind(sa::kReaperName, 0) == 0;
+    if (byGrave || reaper) {
         Ptr lot = Rd<Ptr>(runner + sa::kModule);
         if (lot != g_ghostLot) {
             g_ghosts.clear();
+            g_reaperFor.clear();
             g_ghostLot = lot;
         }
-        g_ghosts.insert(o.id);
+        if (byGrave) g_ghosts.insert(o.id);
+        else g_reaperFor[o.id] = NameOf(runner);
     }
     Log("Sim created: %s [%s] (id %d, placement %08x) by %s (tree 0x%x)", NameOf(created).c_str(),
         ObjectInternalName(o).c_str(), o.id, Rd<uint32_t>(created + addr::obj::kPlacement), NameOf(runner).c_str(),
         Rd<uint16_t>(frame + sa::kFrameTree));
+}
+
+std::string ReaperFor(Ptr person) {
+    LotObject o;
+    if (!GetObject(person, &o) || Rd<Ptr>(person + sa::kModule) != g_ghostLot) return "";
+    auto it = g_reaperFor.find(o.id);
+    return it == g_reaperFor.end() ? "" : it->second;
 }
 
 bool IsGhost(Ptr person) {

@@ -814,6 +814,8 @@ const Translation kEntries[] = {
     {Str::BalloonNotInterested, "%s、興味なし"},
     // Narrator: bills
     {Str::BillsArrived, "請求書が届きました: 未払い %d 件"},
+    // Narrator: the Grim Reaper
+    {Str::ReaperCame, "%sが%sを迎えに来ました"},
 };
 
 }  // namespace

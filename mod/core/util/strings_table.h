@@ -886,4 +886,6 @@
     /* Narrator: conversation topics */                                                                              \
     X(BalloonNotInterested, "%s, not interested")                                                                    \
     /* Narrator: bills */                                                                                            \
-    X(BillsArrived, "bills have come: %d unpaid")
+    X(BillsArrived, "bills have come: %d unpaid")                                                                    \
+    /* Narrator: the Grim Reaper */                                                                                  \
+    X(ReaperCame, "%s has come for %s")
