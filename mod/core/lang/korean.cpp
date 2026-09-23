@@ -555,6 +555,20 @@ const Translation kEntries[] = {
     // Terrain (heights)
     {Str::TerrainHeight, "높이 %d"},
     {Str::TerrainSloped, "경사짐"},
+    // Room layout (Ctrl+L)
+    {Str::LayoutUnknown, "여기에는 방이 없습니다"},
+    {Str::LayoutOutside, "%1$s, %2$d칸"},
+    {Str::LayoutSize, "%1$s, %2$d×%3$d, %4$d칸, %5$d, %6$d부터 %7$d, %8$d까지"},
+    {Str::LayoutOpening, "%1$s 벽, %2$s(으)로"},
+    {Str::LayoutDoors, "문: %s"},
+    {Str::LayoutNoDoors, "문 없음"},
+    {Str::LayoutWindows, "창문: %s"},
+    {Str::LayoutNoWindows, "창문 없음"},
+    {Str::LayoutAlongWall, "%1$s 벽 쪽: %2$s"},
+    {Str::LayoutMiddle, "가운데: %s"},
+    {Str::LayoutNothing, "아직 아무것도 없음"},
+    {Str::LayoutMore, "컨트롤+위쪽 화살표로 안에 있는 것을 읽습니다"},
+    {Str::KeysLayoutHint, "컨트롤+L은 방의 크기, 문, 창문, 벽마다 놓인 것을 설명합니다."},
 };
 
 }  // namespace

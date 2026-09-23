@@ -1,6 +1,7 @@
 #include "keyboard.h"
 
 #include <cstring>
+#include <string>
 
 #include "../game/buy.h"
 #include "../game/hooks.h"
@@ -12,6 +13,7 @@
 #include "../nav/camera.h"
 #include "../nav/cheat_console.h"
 #include "../nav/narrator.h"
+#include "../nav/room_layout.h"
 #include "../nav/navigator.h"
 #include "../nav/text_entry.h"
 #include "../nav/tutorial.h"
@@ -54,6 +56,7 @@ namespace {
 //   Ctrl+H                         lot view: open the help system's waiting tip
 //   Ctrl+E                         lot view: the selected Sim's state (room, actions, needs, mood)
 //   Ctrl+N                         the narrator's verbosity: everything, warnings only, off
+//   Ctrl+L                         lot view: the room's layout (the build cursor's, else the Sim's)
 //   Ctrl+Shift+C                   the game's cheat console (nav/cheat_console.h): Up/Down/Home/End pick
 //                                  a cheat, typing edits the line, Enter runs it (again: repeats)
 
@@ -79,8 +82,8 @@ void SayKeyHelp() {
     if (game::IsPieMenu(game::InputRoot())) speech::Say(S(Str::KeysMenu));
     else if (nav::cheats::Entering()) speech::Say(S(Str::CheatHint));
     else if (nav::buy::Placing()) speech::Say(S(Str::KeysPlacing));
-    else if (nav::LotViewActive() && game::InBuyTool()) speech::Say(S(Str::KeysBuy));
-    else if (nav::LotViewActive()) speech::Say(S(Str::KeysLot));
+    else if (nav::LotViewActive() && game::InBuyTool()) speech::Say(std::string(S(Str::KeysBuy)) + " " + S(Str::KeysLayoutHint));
+    else if (nav::LotViewActive()) speech::Say(std::string(S(Str::KeysLot)) + " " + S(Str::KeysLayoutHint));
     else speech::Say(S(Str::KeysScreen));
 }
 
@@ -111,7 +114,7 @@ bool BuildCursorKey(WPARAM vk, bool shift, bool ctrl) {
     case VK_HOME: b::Home(); return true;
     case 'R': if (ctrl) return false; g_swallowChar = 'r'; b::Repeat(); return true;
     case VK_ESCAPE: g_swallowChar = 0x1b; b::End(); return true;
-    case VK_F1: if (!ctrl) return false; speech::Say(S(b::TerrainCursor() ? Str::KeysTerrainCursor : b::PoolCursor() ? Str::KeysPoolCursor : b::PaperCursor() ? Str::KeysPaperCursor : b::FloorCursor() ? Str::KeysFloorCursor : Str::KeysBuildCursor)); return true;
+    case VK_F1: if (!ctrl) return false; speech::Say(std::string(S(b::TerrainCursor() ? Str::KeysTerrainCursor : b::PoolCursor() ? Str::KeysPoolCursor : b::PaperCursor() ? Str::KeysPaperCursor : b::FloorCursor() ? Str::KeysFloorCursor : Str::KeysBuildCursor)) + " " + S(Str::KeysLayoutHint)); return true;
     case VK_TAB: b::End(); return false;  // back to the panel: Tab moves there as usual
     }
     return false;
@@ -176,6 +179,11 @@ bool Dispatch(WPARAM vk, bool shift, bool ctrl) {
         if (!ctrl || shift) return false;
         g_swallowChar = 'e';
         nav::narrator::SayStatus();
+        return true;
+    case 'L':
+        if (!ctrl || shift) return false;
+        g_swallowChar = 'l';
+        nav::layout::SayRoomLayout();
         return true;
     case 'N':
         if (!ctrl || shift) return false;
@@ -262,7 +270,7 @@ bool OnKeyDown(WPARAM vk, LPARAM lp) {
     }
     bool ctrl = Held(VK_CONTROL);
     bool ctrlKey = vk == VK_PRIOR || vk == VK_NEXT || vk == VK_RETURN || vk == VK_F1 || vk == VK_UP ||
-                   vk == VK_DOWN || vk == VK_LEFT || vk == VK_RIGHT || (vk >= '1' && vk <= '9') || vk == 'F' || vk == 'H' || vk == 'E' || vk == 'N' || vk == VK_DELETE ||
+                   vk == VK_DOWN || vk == VK_LEFT || vk == VK_RIGHT || (vk >= '1' && vk <= '9') || vk == 'F' || vk == 'H' || vk == 'E' || vk == 'N' || vk == 'L' || vk == VK_DELETE ||
                    (vk == 'C' && Held(VK_SHIFT));  // the mod's Ctrl combinations
     if (Held(VK_MENU) || (ctrl && !ctrlKey)) {
         LogVerbose("key 0x%02x left to the game: %s held", (unsigned)vk, ctrl ? "Ctrl" : "Alt");

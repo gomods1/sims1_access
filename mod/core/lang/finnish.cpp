@@ -625,6 +625,20 @@ const Translation kEntries[] = {
     // Terrain (heights)
     {Str::TerrainHeight, "korkeus %d"},
     {Str::TerrainSloped, "kalteva"},
+    // Room layout (Ctrl+L)
+    {Str::LayoutUnknown, "tässä ei ole huonetta"},
+    {Str::LayoutOutside, "%1$s, %2$d ruutua"},
+    {Str::LayoutSize, "%1$s, %2$d kertaa %3$d, %4$d ruutua, kohdasta %5$d, %6$d kohtaan %7$d, %8$d"},
+    {Str::LayoutOpening, "seinä %1$s, tilaan %2$s"},
+    {Str::LayoutDoors, "ovet: %s"},
+    {Str::LayoutNoDoors, "ei ovia"},
+    {Str::LayoutWindows, "ikkunat: %s"},
+    {Str::LayoutNoWindows, "ei ikkunoita"},
+    {Str::LayoutAlongWall, "seinän %1$s vieressä: %2$s"},
+    {Str::LayoutMiddle, "keskellä: %s"},
+    {Str::LayoutNothing, "ei vielä mitään"},
+    {Str::LayoutMore, "Control+nuoli ylös kertoo, mitä siinä on"},
+    {Str::KeysLayoutHint, "Control+L kuvailee huoneen: koon, ovet, ikkunat ja mitä kunkin seinän vieressä on."},
 };
 
 }  // namespace

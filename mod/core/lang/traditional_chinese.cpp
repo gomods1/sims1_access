@@ -532,6 +532,20 @@ const Translation kEntries[] = {
     // Terrain (heights)
     {Str::TerrainHeight, "高度%d"},
     {Str::TerrainSloped, "傾斜"},
+    // Room layout (Ctrl+L)
+    {Str::LayoutUnknown, "這裡沒有房間"},
+    {Str::LayoutOutside, "%1$s，%2$d格"},
+    {Str::LayoutSize, "%1$s，%2$d乘%3$d，%4$d格，從%5$d，%6$d到%7$d，%8$d"},
+    {Str::LayoutOpening, "%1$s牆，通往%2$s"},
+    {Str::LayoutDoors, "門：%s"},
+    {Str::LayoutNoDoors, "沒有門"},
+    {Str::LayoutWindows, "窗：%s"},
+    {Str::LayoutNoWindows, "沒有窗"},
+    {Str::LayoutAlongWall, "靠%1$s牆：%2$s"},
+    {Str::LayoutMiddle, "中間：%s"},
+    {Str::LayoutNothing, "還什麼都沒有"},
+    {Str::LayoutMore, "Ctrl+上方向鍵朗讀裡面的物品"},
+    {Str::KeysLayoutHint, "Ctrl+L描述房間：大小、門、窗和每面牆邊的物品。"},
 };
 
 }  // namespace

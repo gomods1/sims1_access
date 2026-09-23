@@ -1,5 +1,7 @@
 #include "rooms.h"
 
+#include "lotgrid.h"
+
 #include "addresses.h"
 #include "rtti.h"
 
@@ -41,6 +43,14 @@ bool GetRoom(int id, Room* out) {
     out->beds = Rd<int>(room + addr::rooms::kBeds);
     out->bathObjects = Rd<int>(room + addr::rooms::kBathObjects);
     return true;
+}
+
+int RoomTileCount(int id) {
+    if (id < 0) return 0;
+    int level = (id >> 10) + 1, n = GridSize(), count = 0;
+    for (int y = 0; y < n; y++)
+        for (int x = 0; x < n; x++) count += RoomAt(level, x, y) == id;
+    return count;
 }
 
 }  // namespace game

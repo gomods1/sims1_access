@@ -419,7 +419,7 @@ std::vector<Area> FindSpots() {
             if (r.id == area.room) area.kind = r.kind;
         if (area.name.empty()) {
             area.kind = outside ? Str::RoomOutside : Str::RoomOther;
-            area.name = outside ? S(Str::RoomOutside) : util::Format(S(Str::RoomEmpty), info.tiles);
+            area.name = outside ? S(Str::RoomOutside) : util::Format(S(Str::RoomEmpty), game::RoomTileCount(area.room));
         }
         areas.push_back(area);
     }
@@ -599,7 +599,7 @@ std::string RoomNameOf(int room) {
     std::string name = rooms::NameOf(rooms::NameRooms(game::LotObjects()), room);
     if (!name.empty()) return name;
     game::Room info;  // a room with nothing in it yet has no name: its size says which
-    if (game::GetRoom(room, &info) && !info.outside) return util::Format(S(Str::RoomEmpty), info.tiles);
+    if (game::GetRoom(room, &info) && !info.outside) return util::Format(S(Str::RoomEmpty), game::RoomTileCount(room));
     return S(Str::RoomOutside);
 }
 

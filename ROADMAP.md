@@ -175,7 +175,9 @@ Still to do:
 - Upper floors (spots are searched on the floor buy mode shows; the level buttons and stairs
   reachability are untested) and multi-tile objects on surfaces. (Wall hangings work: "contra
   la pared norte, mirando al sur"; having no floor footprint they block nothing.)
-- Hear a room's layout on demand (its size, doors, what is along each wall).
+- Hear a room's layout on demand (done, Ctrl+L, `nav/room_layout.cpp`): the build cursor's room or
+  the selected Sim's: size and bounds, doors and windows by wall and where they lead, what stands
+  along each wall and in the middle (details buffer).
 
 ## Build mode
 
@@ -209,7 +211,8 @@ for a second Enter. A new room without a door is said, not asked about. Still to
   floors (`cWinArch`, `cWinRoofPanel`, tools such as `cNewWallTool`, `cNewFloorTool`,
   `cPoolTool`): a keyboard cursor on the lot grid, drawing by start and end points, costs and
   errors spoken.
-- Hear the lot layout: rooms, their sizes, doors between them.
+- Hear the lot layout: rooms, their sizes, doors between them (per room: Ctrl+L; a whole-lot
+  summary is still to do).
 
 ## Expansions (each flow end to end)
 

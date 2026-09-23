@@ -119,7 +119,7 @@ std::string RoomName(Tile t) {
     std::string name = rooms::NameOf(g.rooms, room);
     game::Room info;
     if (!game::GetRoom(room, &info)) return name;
-    if (name.empty()) return info.outside ? S(Str::RoomOutside) : util::Format(S(Str::RoomEmpty), info.tiles);
+    if (name.empty()) return info.outside ? S(Str::RoomOutside) : util::Format(S(Str::RoomEmpty), game::RoomTileCount(room));
     return util::Format(S(Str::BuildRoomSize), name.c_str(), info.tiles);
 }
 
@@ -361,6 +361,14 @@ void BuildRoom(Corner a, Corner b) {
 void Reset() { g = State{}; }
 
 bool Active() { return g.active; }
+
+bool CursorTile(int* x, int* y, int* level) {
+    if (!g.active) return false;
+    *x = g.cursor.x;
+    *y = g.cursor.y;
+    *level = g.level;
+    return true;
+}
 
 bool FloorCursor() { return g.active && g.floors && !g.paper && !g.pool && !g.terrain; }
 

@@ -28,6 +28,7 @@ namespace nav::build {
 void Reset();
 void Tick();            // ends the cursor when the tool changes or the lot view goes away
 bool Active();          // the cursor owns its keys
+bool CursorTile(int* x, int* y, int* level);  // where the cursor is (the tile south-east of a corner)
 bool FloorCursor();     // it works on tiles for the floor tool
 bool PaperCursor();     // the wallpaper tool: Enter papers the room under the cursor
 bool PoolCursor();      // the water tool: Enter digs a pool on the rectangle, Ctrl+Enter fills it in

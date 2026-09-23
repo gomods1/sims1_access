@@ -609,6 +609,20 @@ const Translation kEntries[] = {
     // Terrain (heights)
     {Str::TerrainHeight, "ความสูง %d"},
     {Str::TerrainSloped, "ลาดเอียง"},
+    // Room layout (Ctrl+L)
+    {Str::LayoutUnknown, "ตรงนี้ไม่มีห้อง"},
+    {Str::LayoutOutside, "%1$s, %2$d ช่อง"},
+    {Str::LayoutSize, "%1$s, %2$d คูณ %3$d, %4$d ช่อง, จาก %5$d, %6$d ถึง %7$d, %8$d"},
+    {Str::LayoutOpening, "ผนังทิศ%1$s ไปยัง %2$s"},
+    {Str::LayoutDoors, "ประตู: %s"},
+    {Str::LayoutNoDoors, "ไม่มีประตู"},
+    {Str::LayoutWindows, "หน้าต่าง: %s"},
+    {Str::LayoutNoWindows, "ไม่มีหน้าต่าง"},
+    {Str::LayoutAlongWall, "ชิดผนังทิศ%1$s: %2$s"},
+    {Str::LayoutMiddle, "ตรงกลาง: %s"},
+    {Str::LayoutNothing, "ยังไม่มีอะไร"},
+    {Str::LayoutMore, "Control+ลูกศรขึ้นบอกว่ามีอะไรบ้าง"},
+    {Str::KeysLayoutHint, "Control+L บรรยายห้อง: ขนาด ประตู หน้าต่าง และสิ่งที่อยู่ชิดผนังแต่ละด้าน"},
 };
 
 }  // namespace

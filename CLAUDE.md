@@ -69,6 +69,9 @@ eturn_focus.txt`; a dev core hands the foreground back to it
   - Ctrl+F1 anywhere: the mod's keys for the current screen, spoken.
   - Ctrl+E (lot view): the selected Sim's state in one line ("Cris, en exterior, Tomar un
     tentempié; necesidades urgentes: comodidad, higiene; humor, 3 de 5 barras en rojo").
+  - Ctrl+L (lot view): the room's layout (the build cursor's, else the selected Sim's): size,
+    bounds, doors and windows by wall and where they lead; what stands along each wall in the
+    details buffer. Every build tool has a cursor now (walls, floors, wallpaper, pools, terrain).
   - Ctrl+N: the narrator's verbosity, everything / warnings only / off (saved in
     `SimsAccess\SimsAccess.ini`, `[mod] narrator=2/1/0`); unspoken lines still go to eventos.
   - Review buffers (`nav/buffers.cpp`, playbook section 11): Ctrl+Up reads the next line deeper,

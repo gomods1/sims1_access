@@ -19,5 +19,8 @@ struct Room {
     int bathObjects = 0;  // bathrooms with them)
 };
 bool GetRoom(int id, Room* out);
+// The room's tiles counted on the room map (its floor is id >> 10, plus 1). The record's own
+// area can be far off for a room just built (34 for a new 5 by 4 room, read live).
+int RoomTileCount(int id);
 
 }  // namespace game

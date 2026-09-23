@@ -626,6 +626,20 @@ const Translation kEntries[] = {
     // Terrain (heights)
     {Str::TerrainHeight, "altezza %d"},
     {Str::TerrainSloped, "in pendenza"},
+    // Room layout (Ctrl+L)
+    {Str::LayoutUnknown, "qui non c'è una stanza"},
+    {Str::LayoutOutside, "%1$s, %2$d caselle"},
+    {Str::LayoutSize, "%1$s, %2$d per %3$d, %4$d caselle, da %5$d, %6$d a %7$d, %8$d"},
+    {Str::LayoutOpening, "muro %1$s, verso %2$s"},
+    {Str::LayoutDoors, "porte: %s"},
+    {Str::LayoutNoDoors, "nessuna porta"},
+    {Str::LayoutWindows, "finestre: %s"},
+    {Str::LayoutNoWindows, "nessuna finestra"},
+    {Str::LayoutAlongWall, "lungo il muro %1$s: %2$s"},
+    {Str::LayoutMiddle, "in mezzo: %s"},
+    {Str::LayoutNothing, "ancora niente"},
+    {Str::LayoutMore, "Control+freccia su dice cosa c'è"},
+    {Str::KeysLayoutHint, "Control+L descrive la stanza: misura, porte, finestre e cosa c'è lungo ogni muro."},
 };
 
 }  // namespace

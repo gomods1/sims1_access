@@ -614,4 +614,18 @@
       "ground once at the cursor. Home goes back to the selected Sim, Escape leaves the cursor.")                    \
     /* Terrain (heights) */                                                                                          \
     X(TerrainHeight, "height %d")                                                                                    \
-    X(TerrainSloped, "sloped")
+    X(TerrainSloped, "sloped")                                                                                       \
+    /* Room layout (Ctrl+L) */                                                                                       \
+    X(LayoutUnknown, "no room here")                                                                                 \
+    X(LayoutOutside, "%1$s, %2$d tiles")                                                                             \
+    X(LayoutSize, "%1$s, %2$d by %3$d, %4$d tiles, from %5$d, %6$d to %7$d, %8$d")                                   \
+    X(LayoutOpening, "%1$s wall, to %2$s")                                                                           \
+    X(LayoutDoors, "doors: %s")                                                                                      \
+    X(LayoutNoDoors, "no doors")                                                                                     \
+    X(LayoutWindows, "windows: %s")                                                                                  \
+    X(LayoutNoWindows, "no windows")                                                                                 \
+    X(LayoutAlongWall, "along the %1$s wall: %2$s")                                                                  \
+    X(LayoutMiddle, "in the middle: %s")                                                                             \
+    X(LayoutNothing, "nothing in it yet")                                                                            \
+    X(LayoutMore, "Control+Up says what is in it")                                                                   \
+    X(KeysLayoutHint, "Control+L describes the room: its size, doors, windows and what stands along each wall.")
