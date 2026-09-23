@@ -198,7 +198,7 @@ std::string Describe(const Entry& e, const Lot& lot) {
         if (!actions.empty()) s += ", " + actions.front();
     }
     std::string balloon = narrator::ShownBalloon(o.object);  // "piensa: hambre", flies over the trash
-    if (!balloon.empty()) s += ", " + balloon;
+    if (!balloon.empty() && balloon != e.name) s += ", " + balloon;  // the flies' own "moscas" once
     if (g_mode == Mode::Category) {
         std::string room = rooms::NameOf(lot.rooms, o.room);
         if (!room.empty()) s += ", " + room;
@@ -282,11 +282,13 @@ bool OnLot() {
 }  // namespace
 
 std::string DisplayName(const game::LotObject& o) {
-    std::string name = game::ObjectName(o);
-    if (!name.empty()) return name;
+    // Known objects first: some have catalog strings that are not theirs (the flies' file also
+    // holds the VR headset, and their OBJD points at its name).
     std::string internal = game::ObjectInternalName(o);
     for (const KnownObject& k : kKnownObjects)
         if (internal.rfind(k.word, 0) == 0) return S(k.name);
+    std::string name = game::ObjectName(o);
+    if (!name.empty()) return name;
     if (internal.rfind("Trees", 0) == 0) {
         for (const KnownObject& k : kTreeSpecies)
             if (internal.find(k.word) != std::string::npos) return S(k.name);
