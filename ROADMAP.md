@@ -238,7 +238,10 @@ for a second Enter. A new room without a door is said, not asked about. Still to
 - **Livin' Large**: its new objects and events (genie lamp, chemistry set, servo, visitors such as
   the tragic clown and the vampire state).
 - **House Party**: throwing parties (party meter, guests arriving, costume trunk, buffet, DJ booth,
-  campfire, dancing, celebrity visitors).
+  campfire, dancing, celebrity visitors). Verified 2026-09-23: the phone's "Invitar a fiesta"
+  brings the guests (each announced as arriving; the mime's entrance dialog is read); no party
+  meter showed on screen (`cWinSweepMeter` stayed hidden), so there is nothing more to read yet.
+  Costume trunk, buffet, DJ booth and celebrity visitors not tried.
 - **Hot Date**: travelling downtown, dates, downtown lots and shopping, gifts, the relationship
   changes they bring.
 - **Vacation**: travelling to Vacation Island, lodging, activities, souvenirs, coming home.

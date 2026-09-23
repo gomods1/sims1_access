@@ -894,6 +894,8 @@ const Translation kEntries[] = {
     {Str::GroupRecipes, "reseptit"},
     // Narrator: conversation topics
     {Str::BalloonNotInterested, "%s, ei kiinnosta"},
+    // Narrator: bills
+    {Str::BillsArrived, "laskuja on tullut: %d maksamatta"},
 };
 
 }  // namespace

@@ -200,9 +200,12 @@ eturn_focus.txt`; a dev core hands the foreground back to it
     "El Bandito" is created and removes itself within half a second). Ghosts, recognised by the
     grave that creates them: "ha aparecido el fantasma de Bratty" / "el fantasma de Bratty se ha
     ido" (the night music the user took for the burglar's). The burglar's arrival starts with
-    the game's own cry from his file ("¡Ladrón! ...", `thief.iff` STR# 305; not seen live yet). Taken objects: Remove Object Instance (opcode 0x12) of furniture (OBJD function
-    flags) by anyone outside the family: "X se ha llevado Y, valor $Z" (not yet seen live: no
-    burglar came during the tests; the only game texts about thefts are the capture dialogs).
+    the game's own cry from his file ("¡Ladrón! ...", `thief.iff` STR# 305); he is announced
+    after 5 s, since one came in by the pedestrian portal at dawn and removed himself 2.5 s later.
+    Taken objects: Remove Object Instance (opcode 0x12) of furniture (OBJD function flags) by
+    anyone outside the family: "Bud el hombre Repo se ha llevado Televisión ..., valor $330"
+    (verified live with the repo man, 2026-09-23). Bills ("Bills" objects by the mailbox) are
+    announced as they come: "han llegado facturas: 3 sin pagar"; unpaid ones bring the repo man.
   - The family watch (`nav/sim_watch.cpp`, part of the narrator): the selected Sim's running
     action ("Cris: Sentarte" when the player chose it, "Cris, por su cuenta: ..." for free will,
     by the queue record's priority 50 / 2), the end of what the player chose ("Cris terminó:

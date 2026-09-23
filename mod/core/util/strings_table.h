@@ -884,4 +884,6 @@
     X(GroupSpells, "spells")                                                                                         \
     X(GroupRecipes, "recipes")                                                                                       \
     /* Narrator: conversation topics */                                                                              \
-    X(BalloonNotInterested, "%s, not interested")
+    X(BalloonNotInterested, "%s, not interested")                                                                    \
+    /* Narrator: bills */                                                                                            \
+    X(BillsArrived, "bills have come: %d unpaid")

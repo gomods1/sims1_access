@@ -4,6 +4,7 @@
 
 #include <algorithm>
 #include <map>
+#include <set>
 #include <vector>
 
 #include "../game/lot.h"
@@ -48,6 +49,7 @@ constexpr ULONGLONG kVisitorStayMs = 1000;
 // 5:48 on an almost empty lot), removes himself 2.5 s later: no alarm for that.
 constexpr ULONGLONG kBurglarStayMs = 5000;
 constexpr ULONGLONG kLotSettleMs = 8000;
+constexpr ULONGLONG kBillsPollMs = 1000;
 constexpr ULONGLONG kSameLineMs = 5000;  // identical words from different objects
 
 struct Shown {
@@ -80,6 +82,9 @@ struct State {
     bool visitorsSeeded = false;
     ULONGLONG lotSince = 0;                       // when this lot was first seen
     ULONGLONG visitorsPolled = 0;
+    std::set<int> bills;                          // ids of the unpaid bills by the mailbox
+    bool billsSeeded = false;
+    ULONGLONG billsPolled = 0;
 };
 
 std::map<int, ULONGLONG> g_relationSignAt;  // by neighbor ID: the last + / - balloon over the Sim
@@ -377,6 +382,23 @@ void PollVisitors(const std::vector<int>& family) {
     g.visitorsSeeded = true;
 }
 
+// The bills come to the mailbox as objects ("Bills"); a sighted player sees the envelopes, and
+// the repo man comes for furniture when they stay unpaid.
+void PollBills() {
+    ULONGLONG now = GetTickCount64();
+    if (now - g.billsPolled < kBillsPollMs) return;
+    g.billsPolled = now;
+    std::set<int> bills;
+    for (const game::LotObject& o : game::LotObjects())
+        if (game::ObjectInternalName(o) == "Bills") bills.insert(o.id);
+    bool arrived = false;
+    for (int id : bills) arrived |= !g.bills.count(id);
+    if (arrived && g.billsSeeded && now - g.lotSince >= kLotSettleMs)
+        Announce(util::Format(S(Str::BillsArrived), (int)bills.size()), false);
+    g.bills = std::move(bills);
+    g.billsSeeded = true;
+}
+
 void ReportTaken(const game::TakenObject& t) {
     std::string value = util::Money(t.value);
     std::string taker = Trimmed(t.taker), object = Trimmed(t.object);
@@ -514,6 +536,7 @@ void Tick() {
     for (const game::TakenObject& t : taken) ReportTaken(t);
     for (const game::SoundEvent& e : sounds) ReportSound(e);
     PollVisitors(family);
+    PollBills();
     simwatch::Tick();
     FlushRelationSigns();
 }

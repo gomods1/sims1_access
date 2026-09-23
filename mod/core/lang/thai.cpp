@@ -877,6 +877,8 @@ const Translation kEntries[] = {
     {Str::GroupRecipes, "สูตรอาหาร"},
     // Narrator: conversation topics
     {Str::BalloonNotInterested, "%s, ไม่สนใจ"},
+    // Narrator: bills
+    {Str::BillsArrived, "บิลมาถึงแล้ว: ยังไม่จ่าย %d ใบ"},
 };
 
 }  // namespace
