@@ -44,6 +44,9 @@ constexpr ULONGLONG kVisitorPollMs = 100;
 // A Sim is announced once it has stayed this long: the Unleashed raccoon ("El Bandito") is
 // created and removes itself within half a second when nothing tempts it.
 constexpr ULONGLONG kVisitorStayMs = 1000;
+// The burglar comes in by the pedestrian portal and, when the house does not tempt him (seen at
+// 5:48 on an almost empty lot), removes himself 2.5 s later: no alarm for that.
+constexpr ULONGLONG kBurglarStayMs = 5000;
 constexpr ULONGLONG kLotSettleMs = 8000;
 constexpr ULONGLONG kSameLineMs = 5000;  // identical words from different objects
 
@@ -257,6 +260,7 @@ void Report(const Balloon& b, const std::vector<int>& family) {
     g.shown[b.ownerId] = shown;
 
     std::string name = Trimmed(o.person ? game::ObjectName(o) : world::DisplayName(o));
+    if (name == content) name.clear();  // the flies' own balloon: "moscas", not "moscas: moscas"
     std::string line = Line(b, content, name);
     bool inFamily = o.person && Contains(family, game::SimNeighborId(owner));
     game::LotObject other;
@@ -349,7 +353,7 @@ void PollVisitors(const std::vector<int>& family) {
         present[o.id] = v;
     }
     for (auto& [id, v] : present) {
-        if (v.announced || now - v.since < kVisitorStayMs) continue;
+        if (v.announced || now - v.since < (v.burglarShout.empty() ? kVisitorStayMs : kBurglarStayMs)) continue;
         v.announced = true;
         if (v.name.empty()) continue;
         if (v.ghost) {

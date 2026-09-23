@@ -649,6 +649,7 @@ const Translation kEntries[] = {
     // Lot objects
     {Str::ObjDigHole, "狗挖的洞"},
     {Str::ObjDigPile, "狗挖出的土堆"},
+    {Str::ObjRoaches, "蟑螂"},
     // Narrator: visitors
     {Str::PizzaGreetHint, "和他打招呼才能拿到披薩：在模擬人物類別裡用 Page Down 找到他，按 Enter，選擇問候。沒人打招呼他就帶著披薩走了。"},
     // Placing: free cursor

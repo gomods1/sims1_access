@@ -731,6 +731,7 @@ const Translation kEntries[] = {
     // Lot objects
     {Str::ObjDigHole, "หลุมที่สุนัขขุด"},
     {Str::ObjDigPile, "กองดินที่สุนัขขุดขึ้นมา"},
+    {Str::ObjRoaches, "แมลงสาบ"},
     // Narrator: visitors
     {Str::PizzaGreetHint,
      "ทักทายเขาเพื่อรับพิซซ่า: ในหมวดชาวซิม กด Page Down ไปที่เขา กด Enter เลือกต้อนรับ ถ้าไม่มีใครทักทาย "

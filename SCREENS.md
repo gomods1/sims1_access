@@ -67,4 +67,4 @@ everywhere (the game has no keyboard focus; the mod walks the widget tree).
   Balloons (thoughts, shouts, conversation topics, the icons over heads and objects, route
   failures) are spoken as they appear and read in the object browser (`nav/narrator.cpp`);
   visitors arriving and leaving too.
-- The event log (`cEventLog`).
+- The event log (`cEventLog`): a debug window toggled only by a cheat command (0x44ee10 calls 0x40d3a0); out of scope.

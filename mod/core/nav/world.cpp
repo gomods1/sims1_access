@@ -64,6 +64,8 @@ const KnownObject kKnownObjects[] = {
     {"Trash Pile", Str::ObjTrashPile},
     {"Dog - Dig - Hole", Str::ObjDigHole},  // a dog's digging (Unleashed)
     {"Dog - Dig - Pile", Str::ObjDigPile},
+    {"Flies", Str::HeadlineFlies},  // over dirty dishes and rubbish, with their own balloon
+    {"Roaches", Str::ObjRoaches},
 };
 const KnownObject kTreeSpecies[] = {
     {"Pine", Str::ObjPineTree},     {"Birch", Str::ObjBirchTree},   {"Sycamore", Str::ObjSycamoreTree},

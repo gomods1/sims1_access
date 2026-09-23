@@ -672,6 +672,7 @@ const Translation kEntries[] = {
     // Lot objects
     {Str::ObjDigHole, "개가 판 구멍"},
     {Str::ObjDigPile, "개가 파낸 흙더미"},
+    {Str::ObjRoaches, "바퀴벌레"},
     // Narrator: visitors
     {Str::PizzaGreetHint, "피자를 받으려면 인사하세요: 심즈 분류에서 Page Down으로 그에게 가서 Enter, 인사함. 아무도 인사하지 않으면 피자를 가지고 떠납니다."},
     // Placing: free cursor

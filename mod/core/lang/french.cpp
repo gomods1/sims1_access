@@ -761,6 +761,7 @@ const Translation kEntries[] = {
     // Lot objects
     {Str::ObjDigHole, "trou creusé par un chien"},
     {Str::ObjDigPile, "tas de terre creusé par un chien"},
+    {Str::ObjRoaches, "cafards"},
     // Narrator: visitors
     {Str::PizzaGreetHint,
      "Salue-le pour recevoir la pizza : dans la catégorie Sims, Page suivante jusqu'à lui, Entrée, Salue. Si "

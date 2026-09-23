@@ -82,11 +82,13 @@ const CatalogEntry* CatalogEntryFor(Ptr resFile, uint16_t masterId) {
     static Ptr cachedCatalog = 0;
     static std::map<std::pair<Ptr, uint16_t>, CatalogEntry> byGroup;
     static std::unordered_map<Ptr, CatalogEntry> byFile;
+    static std::unordered_map<Ptr, int> productsInFile;
     Ptr catalog = Rd<Ptr>(Rd<Ptr>(Rd<Ptr>(Va(addr::kSimsApp)) + addr::catalog::kState) + addr::catalog::kCatalog);
     if (!IsKindOf(catalog, "Catalog") || !resFile) return nullptr;
     if (catalog != cachedCatalog) {
         byGroup.clear();
         byFile.clear();
+        productsInFile.clear();
         cachedCatalog = catalog;
         Ptr begin = Rd<Ptr>(catalog + addr::catalog::kProducts);
         Ptr end = Rd<Ptr>(catalog + addr::catalog::kProducts + 4);
@@ -100,12 +102,17 @@ const CatalogEntry* CatalogEntryFor(Ptr resFile, uint16_t masterId) {
             uint16_t master = objd ? Rd<uint16_t>(objd + 2 * addr::objd::kMasterId) : 0;
             byGroup.emplace(std::make_pair(file, master), CatalogEntry{name, objd});
             byFile.emplace(file, CatalogEntry{name, objd});
+            productsInFile[file]++;
         }
     }
     if (masterId != 0) {
         auto hit = byGroup.find({resFile, masterId});
         if (hit != byGroup.end()) return &hit->second;
     }
+    // A file with several products says nothing about an object that matches none of them: the
+    // flies over dirty dishes share a file with the VR headset and were named after it.
+    auto count = productsInFile.find(resFile);
+    if (count == productsInFile.end() || count->second != 1) return nullptr;
     auto hit = byFile.find(resFile);
     return hit == byFile.end() ? nullptr : &hit->second;
 }
@@ -131,7 +138,8 @@ int NeighborIdOf(Ptr person) {
 
 // Invisible helper objects, by internal name prefix (constant English resource names, the same
 // in every language). No OBJD field tells them apart from visible objects.
-const char* const kInvisibleHelpers[] = {"Portal - ", "Phone Line", "PlumbBob", "Location - ", "Ped Marker"};
+const char* const kInvisibleHelpers[] = {"Portal - ", "Phone Line", "PlumbBob", "Location - ", "Ped Marker",
+                                          "ReserveTile"};  // a tile kept free while a Sim uses something
 
 // Names by object type, valid for one lot.
 Ptr g_nameCacheLot = 0;

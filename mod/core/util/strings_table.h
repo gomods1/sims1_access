@@ -739,6 +739,7 @@
     /* Lot objects */                                                                                                \
     X(ObjDigHole, "hole a dog dug")                                                                                  \
     X(ObjDigPile, "pile of dirt a dog dug up")                                                                       \
+    X(ObjRoaches, "cockroaches")                                                                                     \
     /* Narrator: visitors */                                                                                         \
     X(PizzaGreetHint,                                                                                                \
       "Greet him to get the pizza: in the Sims category, Page Down to him, Enter, Greet. Unless someone "            \
