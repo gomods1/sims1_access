@@ -539,6 +539,9 @@ std::vector<Area> FindSpots() {
         });
         area.suggested = moving ? area.room == fromRoom : rooms::Suits(area.kind, traits.rooms);
         if (heldDoor) area.suggested = !area.spots.empty() && area.spots.front().firstDoor;
+        game::Room areaInfo;
+        if (heldPortal && !heldDoor)  // windows: in a room's walls first
+            area.suggested = game::GetRoom(area.room, &areaInfo) && !areaInfo.outside;
     }
     // Suggested rooms with spots first, then any with spots by nearest spot, then the rest.
     auto nearest = [&](const Area& a) {

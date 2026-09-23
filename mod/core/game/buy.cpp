@@ -155,7 +155,7 @@ bool InBuyTool() { return Tool() != 0; }
 bool IsBuying() {
     Ptr tool = Tool();
     int mode = tool ? Rd<int>(tool + addr::movetool::kMode) : 0;
-    return (mode == addr::movetool::kBuyMode || mode == addr::movetool::kBuildItemMode) &&
+    return mode >= addr::movetool::kBuyMode &&
            Rd<Ptr>(tool + addr::movetool::kProductType) != 0;
 }
 
