@@ -71,6 +71,8 @@ constexpr int kQueueRecordPriority = 0x1c;
 constexpr int kPlayerPriority = 50;
 // cdecl short* (int neighborId): a Sim's person data (personality traits at their index, 0..1000)
 constexpr Va kSimPersonData = 0x43a480;
+// cdecl Ptr (int neighborId): the Sim's person object on the lot, 0 when not on it
+constexpr Va kPersonByNeighbor = 0x43abd0;
 // cdecl int (int neighborId, int personDataIndex): a Sim's skill points, 0..1000 (one bar per 100)
 constexpr Va kSimSkill = 0x43bc30;
 // cdecl void (int fromNeighborId, int toNeighborId, RelOut* out): how the first Sim feels about
@@ -561,6 +563,13 @@ constexpr int kInfoButtons = 0x13c;   // cFlashyBtn** [4]: job, pay, performance
 namespace trait {
 constexpr int kIndex = 0x1e0;      // int person data index of the trait
 constexpr int kNeighborId = 0x1e4; // int whose trait it is (-1 = none)
+// The hover popup's texts (0x4be260 picks them): std::string[3] titles and [3] descriptions for
+// low (points below 3), middle and high (8 or more); a Sim's first, then a pet's.
+constexpr int kTitles = 0x21c;
+constexpr int kTexts = 0x264;
+constexpr int kPetTitles = 0x2ac;
+constexpr int kPetTexts = 0x2f4;
+constexpr int kTextStride = 0x18;
 }  // namespace trait
 
 // ---- cWinInterest (an interest on the interests subpanel; tooltip = its name) -------------

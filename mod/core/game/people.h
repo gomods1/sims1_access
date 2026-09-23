@@ -59,8 +59,12 @@ bool Personality(int neighborId, int out[kTraitCount]);
 // A personality trait widget (cWinPersonality): the trait's points 0..10 for the Sim it shows.
 bool TraitPoints(Ptr trait, int* points);
 
+// The trait's hover popup for its current points: "Ordenado" and what that means (UTF-8).
+bool TraitHelp(Ptr trait, std::string* title, std::string* text);
+
 // An interest widget (cWinInterest): points 0..10.
 int InterestPoints(Ptr interest);
+int InterestNumber(Ptr interest);  // 0 travel .. 18 romance (Live.iff STR# 142 entry + 1)
 
 // Live mode family panel (cWinPeople): the portrait buttons, visible or not.
 std::vector<Ptr> FamilyMemberButtons(Ptr peoplePanel);

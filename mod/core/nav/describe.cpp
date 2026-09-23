@@ -8,6 +8,7 @@
 #include "../game/addresses.h"
 #include "../game/design.h"
 #include "../game/house.h"
+#include "../game/iff_strings.h"
 #include "../game/lot.h"
 #include "../game/neighborhood.h"
 #include "../game/people.h"
@@ -17,6 +18,7 @@
 #include "../util/strings.h"
 #include "../util/text.h"
 #include "appearance.h"
+#include "buffers.h"
 #include "buy_mode.h"
 #include "screens.h"
 #include "tutorial.h"
@@ -449,12 +451,79 @@ std::string Describe(const Item& it) {
     return it.label;
 }
 
+// What the game's hover popup over a live panel item says (cWinLivePopup: a title and a
+// description), for the details buffer. The panels keep these in Live.iff: needs (the widget holds
+// its own), personality (the widget, by points), interests 140/142, job 137, house 135, pet skills
+// 172, report card 139, relationships 132.
+std::vector<std::string> PanelHelp(const Item& it) {
+    const char* kLive = "Live.iff";
+    std::string title, text;
+    auto pair = [&](int table, int titleAt, int textAt) {
+        title = game::GameDataString(kLive, table, titleAt);
+        text = game::GameDataString(kLive, table, textAt);
+    };
+    switch (it.role) {
+    case Role::Motive:
+        text = game::MotiveHelp(it.widget);
+        break;
+    case Role::Trait:
+        game::TraitHelp(it.widget, &title, &text);
+        break;
+    case Role::Interest: {
+        int n = game::InterestNumber(it.widget);
+        if (n >= 0) text = game::GameDataString(kLive, 142, n + 1);
+        break;
+    }
+    case Role::Skill:
+        if (it.number >= game::kPetSkillSlot) pair(172, (it.number - game::kPetSkillSlot) * 2, (it.number - game::kPetSkillSlot) * 2 + 1);
+        else pair(137, it.number * 2, it.number * 2 + 1);
+        break;
+    case Role::JobInfo: {
+        // Unemployed, the job and pay buttons say so (STR# 136 entries 7 and 8) and the texts change.
+        std::string caption = game::Caption(it.widget);
+        switch ((JobField)it.number) {
+        case JobField::Job:
+            if (caption == game::GameDataString(kLive, 136, 7)) pair(137, 12, 13);
+            break;
+        case JobField::Pay:
+            pair(137, 14, caption == game::GameDataString(kLive, 136, 8) ? 24 : 15);
+            break;
+        case JobField::Performance:  // depends on the mood; the value says it
+            break;
+        default:
+            pair(137, 18, 19);
+            break;
+        }
+        break;
+    }
+    case Role::HouseRating:
+        pair(135, it.number * 2, it.number * 2 + 1);
+        break;
+    case Role::Info:
+        if (game::IsKindOf(game::Parent(it.widget), "cWinSubpanelReportCard")) pair(139, 1, 2);
+        else if (game::IsKindOf(game::Parent(it.widget), "cWinSubpanelHouse")) pair(135, it.number * 2, it.number * 2 + 1);
+        break;
+    case Role::Relationship:
+        pair(132, 1, 2);
+        break;
+    default:
+        break;
+    }
+    std::vector<std::string> lines;
+    title = util::CleanForSpeech(title);
+    if (!title.empty()) lines.push_back(title);
+    for (const std::string& s : buffers::Sentences(util::CleanForSpeech(text))) lines.push_back(s);
+    return lines;
+}
+
 std::vector<std::string> DetailLines(const Item& it, const Group& g, int index) {
     std::vector<std::string> lines;
     if (it.role == Role::Product) lines = buy::ProductDetails(it.widget);
     else lines.push_back(Describe(it));
     std::string tip = util::CleanForSpeech(game::Tooltip(it.widget));
     if (!tip.empty() && lines.front().find(tip) == std::string::npos) lines.push_back(tip);
+    for (const std::string& h : PanelHelp(it))
+        if (std::find(lines.begin(), lines.end(), h) == lines.end()) lines.push_back(h);
     lines.push_back(util::Format(S(Str::PositionInGroup), index + 1, (int)g.items.size(), GroupName(g).c_str()));
     return lines;
 }

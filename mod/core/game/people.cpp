@@ -182,7 +182,25 @@ bool TraitPoints(Ptr trait, int* points) {
     return true;
 }
 
+// As the game picks the popup (0x4be260): a Sim on the lot that is not a pet reads the Sims'
+// texts, anyone else the pets'.
+bool TraitHelp(Ptr trait, std::string* title, std::string* text) {
+    typedef Ptr(__cdecl * PersonFn)(int id);
+    int points = 0;
+    if (!IsKindOf(trait, "cWinPersonality") || !TraitPoints(trait, &points)) return false;
+    int level = points < 3 ? 0 : points >= 8 ? 2 : 1;
+    Ptr person = 0;
+    int id = Rd<int>(trait + addr::trait::kNeighborId, -1);
+    if (FunctionOk(addr::kPersonByNeighbor)) Guarded([&] { person = ((PersonFn)Va(addr::kPersonByNeighbor))(id); });
+    bool sim = person && Rd<short>(person + addr::kPersonPetFlags) <= 1;
+    int at = level * addr::trait::kTextStride;
+    *title = ReadStdStringUtf8(trait + (sim ? addr::trait::kTitles : addr::trait::kPetTitles) + at);
+    *text = ReadStdStringUtf8(trait + (sim ? addr::trait::kTexts : addr::trait::kPetTexts) + at);
+    return !title->empty() || !text->empty();
+}
+
 int InterestPoints(Ptr interest) { return Rd<int>(interest + addr::interest::kPoints); }
+int InterestNumber(Ptr interest) { return Rd<int>(interest + addr::interest::kIndex, -1); }
 
 std::vector<Ptr> JobPanelSkillButtons(Ptr jobPanel) {
     std::vector<Ptr> buttons;

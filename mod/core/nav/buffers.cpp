@@ -1,5 +1,7 @@
 #include "buffers.h"
 
+#include <cctype>
+
 #include "../speech/speech.h"
 #include "../util/strings.h"
 #include "../util/text.h"
@@ -115,6 +117,10 @@ std::vector<std::string> Sentences(const std::string& text) {
     for (size_t i = 0; i < clean.size(); i++) {
         char c = clean[i];
         bool end = (c == '.' || c == '!' || c == '?') && (i + 1 == clean.size() || clean[i + 1] == ' ');
+        // "El paro... una situación": an ellipsis before a lower-case word goes on.
+        if (end && c == '.' && i >= 2 && clean[i - 1] == '.' && i + 2 < clean.size() &&
+            islower((unsigned char)clean[i + 2]))
+            end = false;
         if (!end) continue;
         std::string sentence = clean.substr(start, i + 1 - start);
         size_t first = sentence.find_first_not_of(' ');

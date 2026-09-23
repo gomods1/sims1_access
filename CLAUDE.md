@@ -86,7 +86,8 @@ eturn_focus.txt`; a dev core hands the foreground back to it
     Ctrl+Down goes back toward the top (no wrap); Ctrl+Left/Right switch buffers, skipping empty
     ones ("detalles, 5 elementos"). **detalles**: the details of what focus last spoke (a
     product's ratings, rooms and description by sentences; a placement spot's parts, tile and the
-    area's refusals; a lot object's actions, room, distance, categories and sale value; any
+    area's refusals; a lot object's actions, room, distance, categories and sale value; the
+    live panels' hover help (what a need, trait, interest, skill or house rating means); any
     control's tooltip and place in its group), replaced on each focus change, the position kept
     when the same thing is spoken again. **eventos**: purchases, sales, speed changes, dialog
     texts, queued actions, cheat results, newest first (200 kept).
