@@ -77,5 +77,7 @@ struct WallCheck {
     std::vector<std::string> trappedSims;  // Sims who could no longer get out to the lot's entrance
 };
 WallCheck CheckNewWalls(int level, const std::vector<WallEdgeAdd>& edges);
+// The same for tiles that would become impassable (a pool dug there).
+WallCheck CheckBlockedTiles(int level, const std::vector<game::Tile>& tiles);
 
 }  // namespace nav::placement

@@ -30,6 +30,7 @@ void Tick();            // ends the cursor when the tool changes or the lot view
 bool Active();          // the cursor owns its keys
 bool FloorCursor();     // it works on tiles for the floor tool
 bool PaperCursor();     // the wallpaper tool: Enter papers the room under the cursor
+bool PoolCursor();      // the water tool: Enter digs a pool on the rectangle, Ctrl+Enter fills it in
 bool Begin(uintptr_t productButton);  // Enter on a style: start when the wall tool is active
 
 void Move(int dx, int dy);

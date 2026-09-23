@@ -593,6 +593,19 @@ const Translation kEntries[] = {
      "Piltangenterna flyttar markören en ruta, med Skift fem; varje ruta säger sitt rum. Enter tapetserar alla "
      "väggar i rummet vid markören, inifrån; utomhus ytterväggarna. Kontroll+Enter tar bort tapeten från rummets "
      "väggar. R säger allt, Home går tillbaka till den valda simmen, Escape lämnar markören."},
+    // Pool cursor
+    {Str::PoolPlan, "Enter gräver en pool på %1$d gånger %2$d, %3$d rutor, %4$s"},
+    {Str::PoolCursorStart, "Poolmarkör, %s. Kontroll+F1 säger tangenterna."},
+    {Str::PoolBuilt, "pool grävd, %d rutor"},
+    {Str::PoolRemoved, "pool igenfylld, %d rutor"},
+    {Str::PoolNeedsLadder, "simmarna behöver en poolstege för att komma i och upp: den finns i verktygets lista"},
+    {Str::KeysPoolCursor,
+     "Piltangenterna flyttar markören en ruta, med Skift fem. Mellanslag markerar ett hörn av poolen; markören "
+     "säger då storlek och pris. Enter gräver poolen från starten till markören, eller bara på rutan; innan "
+     "grävningen varnar modden om vattnet skulle stänga ute simmarna från ett föremål, blockera en dörr, stänga "
+     "in någon eller skära av en del av tomten, och Enter igen gräver ändå. Kontroll+Enter fyller igen "
+     "poolrutor. Stegar, trampoliner och rutschkanor placeras från listan som föremål. Home går tillbaka till "
+     "den valda simmen, Escape lämnar markören."},
 };
 
 }  // namespace

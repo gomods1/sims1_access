@@ -46,6 +46,10 @@ bool PaperToolActive(); // the current tool is the wallpaper tool
 // room's tiles in turn until one has a wall it takes. wallSides = the wall sides changed.
 int PaperRoom(const std::vector<Corner>& roomTiles, bool strip, int* wallSides);
 
+bool PoolToolActive();  // the water tool (pools and ponds)
+// Digs (or fills in) the rectangle of tiles; tiles = the drag's tile count.
+int DrawPool(Corner fromTile, Corner toTile, bool remove, int* tiles);
+
 // The lot's buildable area: the engine's tile flag 0x20 marks tiles outside it (0x58a660).
 bool CornerBuildable(Corner c);
 

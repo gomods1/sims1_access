@@ -598,6 +598,20 @@ const Translation kEntries[] = {
      "empapela todas las paredes de la habitación del cursor, por dentro; en el exterior, las paredes de fuera. "
      "Control+Intro quita el papel de las paredes de la habitación. R lo dice todo, Inicio vuelve al Sim "
      "seleccionado, Escape sale del cursor."},
+    // Pool cursor
+    {Str::PoolPlan, "Intro cava una piscina de %1$d por %2$d, %3$d casillas, %4$s"},
+    {Str::PoolCursorStart, "Cursor de piscina, %s. Control+F1 dice las teclas."},
+    {Str::PoolBuilt, "piscina hecha, %d casillas"},
+    {Str::PoolRemoved, "piscina rellenada, %d casillas"},
+    {Str::PoolNeedsLadder,
+     "los Sims necesitan una escalerilla para entrar y salir: está en la lista de esta herramienta"},
+    {Str::KeysPoolCursor,
+     "Las flechas mueven el cursor una casilla, con Mayúsculas cinco. Espacio marca una esquina de la piscina; "
+     "el cursor dice entonces su tamaño y su precio. Intro cava la piscina del inicio al cursor, o solo en la "
+     "casilla; antes de cavar, el mod avisa si el agua dejaría a los Sims sin llegar a un objeto, bloquearía una "
+     "puerta, encerraría a alguien o aislaría parte del solar, e Intro otra vez cava de todos modos. "
+     "Control+Intro rellena casillas de piscina. Las escalerillas, trampolines y toboganes se colocan desde la "
+     "lista como objetos. Inicio vuelve al Sim seleccionado, Escape sale del cursor."},
 };
 
 }  // namespace

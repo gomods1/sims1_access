@@ -513,6 +513,15 @@ const Translation kEntries[] = {
     {Str::KeysPaperCursor,
      "方向键把光标移动一格，按住Shift移动五格；每格会说出所在房间。Enter为光标所在房间的所有墙内侧贴壁纸；在室外则为外墙。Ctrl+Enter撕掉房间墙上的壁纸。R说出全部，Home回到选中的模拟市民，Esca"
      "pe退出光标。"},
+    // Pool cursor
+    {Str::PoolPlan, "Enter挖一个%1$d乘%2$d的泳池，%3$d格，%4$s"},
+    {Str::PoolCursorStart, "泳池光标，%s。Ctrl+F1朗读按键。"},
+    {Str::PoolBuilt, "泳池已挖好，%d格"},
+    {Str::PoolRemoved, "泳池已填平，%d格"},
+    {Str::PoolNeedsLadder, "模拟市民需要泳池梯才能进出：它在这个工具的列表里"},
+    {Str::KeysPoolCursor,
+     "方向键把光标移动一格，按住Shift移动五格。空格设泳池的一个角，光标随后会说出大小和价格。Enter从起点到光标挖泳池，或只挖所在格；挖之前，如果水会让模拟市民到不了某个物品、挡住门、困住某人或隔开地块的一部分，"
+     "模组会警告，再按Enter仍然挖。Ctrl+Enter填平泳池格。泳池梯、跳板和滑梯像物品一样从列表放置。Home回到选中的模拟市民，Escape退出光标。"},
 };
 
 }  // namespace

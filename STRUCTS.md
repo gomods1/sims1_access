@@ -717,6 +717,11 @@ papers the wall on the view top or left edge of the tile under the mouse (`0x65a
 the screen position decides; none: error 6); Shift fills the room behind that side, Ctrl strips.
 Its session (`+0x30`) lists wall sides (0x34 bytes each). Verified: 20 floor tiles, 14 wall sides.
 
+The pool tool (`cPoolTool`, slots 8 `0x63b200` (runs the drag slot itself), 10 `0x63b560`, 11
+`0x63bd60`) digs on the ground floor only; `+0x48` counts the drag's tiles, `+0x58` must be set
+(its slot 22 does) for the up to commit, `+0x2c` = 1 fills in (slot 22 sets it from Ctrl with
+GetAsyncKeyState). Build items are placed by the move tool in modes above 2: 3 doors, 4 windows.
+
 The lot's entrance: invisible `cXObject`s named "Portal - Pedestrian" and "Portal - Car" at the
 lot's edge (not `cXPortal`).
 

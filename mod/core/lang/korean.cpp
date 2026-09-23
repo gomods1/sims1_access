@@ -533,6 +533,16 @@ const Translation kEntries[] = {
     {Str::KeysPaperCursor,
      "화살표로 커서를 한 칸, Shift와 함께 다섯 칸 옮깁니다. 각 칸은 방 이름을 읽습니다. Enter는 커서가 있는 방의 모든 벽 안쪽에 벽지를 바르고, 바깥이면 외벽에 바릅니다. "
      "컨트롤+Enter는 방 벽의 벽지를 뜯습니다. R은 모두 읽고, Home은 선택한 심으로 돌아가고 Escape는 커서를 끝냅니다."},
+    // Pool cursor
+    {Str::PoolPlan, "Enter로 %1$d×%2$d, %3$d칸 수영장을 팝니다, %4$s"},
+    {Str::PoolCursorStart, "수영장 커서, %s. 컨트롤+F1로 키를 읽습니다."},
+    {Str::PoolBuilt, "수영장을 팠습니다, %d칸"},
+    {Str::PoolRemoved, "수영장을 메웠습니다, %d칸"},
+    {Str::PoolNeedsLadder, "심이 들어가고 나오려면 수영장 사다리가 필요합니다: 이 도구 목록에 있습니다"},
+    {Str::KeysPoolCursor,
+     "화살표로 커서를 한 칸, Shift와 함께 다섯 칸 옮깁니다. 스페이스로 수영장의 한 모서리를 표시하면 커서가 크기와 가격을 읽습니다. Enter는 시작점에서 커서까지, 또는 그 칸에만 "
+     "수영장을 팝니다. 파기 전에 물 때문에 심이 물건에 닿지 못하거나 문을 막거나 누군가를 가두거나 부지 일부를 떼어 놓으면 경고하고, Enter를 다시 누르면 그래도 팝니다. "
+     "컨트롤+Enter는 수영장 칸을 메웁니다. 사다리, 다이빙대, 미끄럼틀은 목록에서 물건처럼 놓습니다. Home은 선택한 심으로 돌아가고 Escape는 커서를 끝냅니다."},
 };
 
 }  // namespace

@@ -609,6 +609,20 @@ const Translation kEntries[] = {
      "tous les murs de la pièce du curseur, à l'intérieur ; dehors, les murs extérieurs. Contrôle+Entrée retire "
      "le papier peint des murs de la pièce. R dit tout, Début revient au Sim sélectionné, Échap quitte le "
      "curseur."},
+    // Pool cursor
+    {Str::PoolPlan, "Entrée creuse une piscine de %1$d sur %2$d, %3$d cases, %4$s"},
+    {Str::PoolCursorStart, "Curseur de piscine, %s. Contrôle+F1 donne les touches."},
+    {Str::PoolBuilt, "piscine creusée, %d cases"},
+    {Str::PoolRemoved, "piscine comblée, %d cases"},
+    {Str::PoolNeedsLadder,
+     "les Sims ont besoin d'une échelle pour entrer et sortir : elle est dans la liste de cet outil"},
+    {Str::KeysPoolCursor,
+     "Les flèches déplacent le curseur d'une case, avec Maj de cinq. Espace marque un coin de la piscine ; le "
+     "curseur en dit alors la taille et le prix. Entrée creuse la piscine du départ au curseur, ou sur la seule "
+     "case ; avant de creuser, le mod prévient si l'eau empêcherait les Sims d'atteindre un objet, bloquerait "
+     "une porte, enfermerait quelqu'un ou isolerait une partie du terrain, et Entrée encore une fois creuse "
+     "quand même. Contrôle+Entrée comble des cases de piscine. Échelles, plongeoirs et toboggans se placent "
+     "depuis la liste comme des objets. Début revient au Sim sélectionné, Échap quitte le curseur."},
 };
 
 }  // namespace

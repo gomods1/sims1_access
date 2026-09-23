@@ -106,6 +106,39 @@ int PaperSessionCount(Ptr tool) {
 
 bool PaperToolActive() { return PaperTool() != 0; }
 
+namespace {
+Ptr PoolTool() {
+    Ptr tool = Rd<Ptr>(Va(addr::kCurrentTool));
+    return IsKindOf(tool, "cPoolTool") ? tool : 0;
+}
+}  // namespace
+
+bool PoolToolActive() { return PoolTool() != 0; }
+
+int DrawPool(Corner fromTile, Corner toTile, bool remove, int* tilesOut) {
+    Ptr tool = PoolTool();
+    if (tilesOut) *tilesOut = 0;
+    if (!tool) return -1;
+    int ax, ay, bx, by;
+    TileToView(fromTile, &ax, &ay);
+    TileToView(toTile, &bx, &by);
+    g_lastError = 0;
+    g_lastCost = 0;
+    WriteU8(tool + addr::pooltool::kOverLot, 1);
+    WriteU32(tool + addr::pooltool::kRemoveMode, remove ? 1 : 0);
+    bool ok = CallMouse(tool, addr::pooltool::kDownSlot, addr::pooltool::kDown, "cPoolTool::MouseDown", ax, ay) &&
+              CallMouse(tool, addr::pooltool::kDragSlot, addr::pooltool::kDrag, "cPoolTool::MouseDrag", bx, by, 60);
+    int tiles = Rd<int>(tool + addr::pooltool::kTiles);
+    ok = ok && CallMouse(tool, addr::pooltool::kUpSlot, addr::pooltool::kUp, "cPoolTool::MouseUp", bx, by, 60);
+    WriteU32(tool + addr::pooltool::kRemoveMode, 0);
+    Log("build: pool %d,%d -> %d,%d%s: %s, %d tiles, error %d, cost %d", fromTile.x, fromTile.y, toTile.x, toTile.y,
+        remove ? " (remove)" : "", ok ? "done" : "failed", tiles, g_lastError, g_lastCost);
+    if (tilesOut) *tilesOut = tiles;
+    if (!ok) return -1;
+    if (g_lastError) return g_lastError;
+    return tiles > 0 ? 0 : kNothingBuilt;
+}
+
 int PaperRoom(const std::vector<Corner>& roomTiles, bool strip, int* wallSides) {
     Ptr tool = PaperTool();
     if (wallSides) *wallSides = 0;

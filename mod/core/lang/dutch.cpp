@@ -605,6 +605,20 @@ const Translation kEntries[] = {
      "alle muren van de kamer bij de cursor, aan de binnenkant; buiten de buitenmuren. Control+Enter haalt het "
      "behang van de muren van de kamer. R zegt alles, Home gaat terug naar de geselecteerde Sim, Escape verlaat "
      "de cursor."},
+    // Pool cursor
+    {Str::PoolPlan, "Enter graaft een zwembad van %1$d bij %2$d, %3$d vakjes, %4$s"},
+    {Str::PoolCursorStart, "Zwembadcursor, %s. Control+F1 noemt de toetsen."},
+    {Str::PoolBuilt, "zwembad gegraven, %d vakjes"},
+    {Str::PoolRemoved, "zwembad gedempt, %d vakjes"},
+    {Str::PoolNeedsLadder,
+     "Sims hebben een zwembadtrapje nodig om erin en eruit te gaan: het staat in de lijst van dit gereedschap"},
+    {Str::KeysPoolCursor,
+     "De pijltjes verplaatsen de cursor één vakje, met Shift vijf. Spatie markeert een hoek van het zwembad; de "
+     "cursor zegt dan grootte en prijs. Enter graaft het zwembad van het begin tot de cursor, of alleen op het "
+     "vakje; voor het graven waarschuwt de mod als het water Sims van een voorwerp zou afsluiten, een deur zou "
+     "blokkeren, iemand zou insluiten of een deel van het terrein zou afsluiten; nog een keer Enter graaft toch. "
+     "Control+Enter dempt zwembadvakjes. Trapjes, duikplanken en glijbanen plaats je vanuit de lijst als "
+     "voorwerpen. Home gaat terug naar de geselecteerde Sim, Escape verlaat de cursor."},
 };
 
 }  // namespace

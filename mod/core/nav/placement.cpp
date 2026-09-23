@@ -482,7 +482,10 @@ std::vector<Area> FindSpots() {
                     area.unusable++;
                     continue;
                 }
-                if (heldPortal) {  // a door or window: which wall, which rooms, a room's first door
+                // A door or window: which wall, which rooms, a room's first door. Portals with no
+                // wall behind them (pool ladders, diving boards, stairs) read like other objects.
+                bool inWall = heldPortal && (f.walls[f.Index(t)] & WallBit((direction + 4) & 7)) != 0;
+                if (inWall) {
                     spot.portal = true;
                     spot.roomHere = f.room[f.Index(t)];
                     Tile behind = game::Step(t, (direction + 4) & 7);
@@ -682,6 +685,22 @@ std::string WhyNone(const Area& area) {
     return reason.empty() ? S(Str::DoesNotFit) : reason;
 }
 
+namespace {
+WallCheck CompareFloors(int level, Floor& before, Floor& after, WallCheck check);
+}  // namespace
+
+WallCheck CheckBlockedTiles(int level, const std::vector<Tile>& tiles) {
+    Floor before = ReadFloor(level);
+    Floor after = before;
+    WallCheck check;
+    for (Tile t : tiles) {
+        if (!after.Inside(t)) continue;
+        after.blocked[after.Index(t)] = 1;
+        check.doorsBlocked += before.keepClear[after.Index(t)] != 0;
+    }
+    return CompareFloors(level, before, after, check);
+}
+
 WallCheck CheckNewWalls(int level, const std::vector<WallEdgeAdd>& edges) {
     WallCheck check;
     Floor before = ReadFloor(level);
@@ -699,6 +718,12 @@ WallCheck CheckNewWalls(int level, const std::vector<WallEdgeAdd>& edges) {
         if (!had && ((before.portal[i] && before.keepClear[j]) || (before.portal[j] && before.keepClear[i])))
             check.doorsBlocked++;
     }
+    return CompareFloors(level, before, after, check);
+}
+
+namespace {
+
+WallCheck CompareFloors(int level, Floor& before, Floor& after, WallCheck check) {
     // Reach is measured from the lot's entrance: a Sim standing inside a new room must not make
     // the room look reachable.
     LogVerbose("placement: wall check from %d entrance tiles", (int)before.entrance.size());
@@ -721,7 +746,7 @@ WallCheck CheckNewWalls(int level, const std::vector<WallEdgeAdd>& edges) {
         };
         if (reachableNear(before, reachBefore) && !reachableNear(after, reachAfter)) check.trappedSims.push_back(game::ObjectName(o));
     }
-    for (int i = 0; i < cells; i++) check.cutOffTiles += reachBefore[i] && !reachAfter[i];
+    for (int i = 0; i < cells; i++) check.cutOffTiles += reachBefore[i] && !reachAfter[i] && !after.blocked[i];
     for (const game::LotObject& o : game::LotObjects()) {
         if (o.person || o.level != level || game::IsPortal(o.object)) continue;
         Tile at = TileOf(o);
@@ -739,5 +764,7 @@ WallCheck CheckNewWalls(int level, const std::vector<WallEdgeAdd>& edges) {
     }
     return check;
 }
+
+}  // namespace
 
 }  // namespace nav::placement

@@ -597,6 +597,18 @@ const Translation kEntries[] = {
      "Strzałki przesuwają kursor o jedno pole, z Shiftem o pięć; każde pole podaje swój pokój. Enter tapetuje "
      "wszystkie ściany pokoju kursora od środka; na zewnątrz ściany zewnętrzne. Control+Enter zdejmuje tapetę ze "
      "ścian pokoju. R mówi wszystko, Home wraca do wybranego Sima, Escape opuszcza kursor."},
+    // Pool cursor
+    {Str::PoolPlan, "Enter kopie basen %1$d na %2$d, pól: %3$d, %4$s"},
+    {Str::PoolCursorStart, "Kursor basenu, %s. Control+F1 podaje klawisze."},
+    {Str::PoolBuilt, "basen wykopany, pól: %d"},
+    {Str::PoolRemoved, "basen zasypany, pól: %d"},
+    {Str::PoolNeedsLadder, "Simowie potrzebują drabinki, żeby wejść i wyjść: jest na liście tego narzędzia"},
+    {Str::KeysPoolCursor,
+     "Strzałki przesuwają kursor o jedno pole, z Shiftem o pięć. Spacja zaznacza róg basenu; kursor podaje wtedy "
+     "rozmiar i cenę. Enter kopie basen od początku do kursora lub tylko na polu; przed kopaniem mod ostrzega, "
+     "jeśli woda odcięłaby Simów od przedmiotu, zablokowała drzwi, kogoś zamknęła lub odcięła część działki, a "
+     "Enter jeszcze raz kopie mimo to. Control+Enter zasypuje pola basenu. Drabinki, trampoliny i zjeżdżalnie "
+     "stawia się z listy jak przedmioty. Home wraca do wybranego Sima, Escape opuszcza kursor."},
 };
 
 }  // namespace

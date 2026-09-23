@@ -599,6 +599,20 @@ const Translation kEntries[] = {
      "Le frecce spostano il cursore di una casella, con Maiusc di cinque; ogni casella dice la sua stanza. Invio "
      "tappezza tutti i muri della stanza del cursore, dall'interno; all'esterno, i muri esterni. Control+Invio "
      "toglie la carta dai muri della stanza. R dice tutto, Home torna al Sim selezionato, Esc esce dal cursore."},
+    // Pool cursor
+    {Str::PoolPlan, "Invio scava una piscina %1$d per %2$d, %3$d caselle, %4$s"},
+    {Str::PoolCursorStart, "Cursore piscina, %s. Control+F1 dice i tasti."},
+    {Str::PoolBuilt, "piscina scavata, %d caselle"},
+    {Str::PoolRemoved, "piscina riempita, %d caselle"},
+    {Str::PoolNeedsLadder,
+     "i Sim hanno bisogno di una scaletta per entrare e uscire: è nella lista di questo strumento"},
+    {Str::KeysPoolCursor,
+     "Le frecce spostano il cursore di una casella, con Maiusc di cinque. Spazio segna un angolo della piscina; "
+     "il cursore dice poi misura e prezzo. Invio scava la piscina dall'inizio al cursore, o sulla sola casella; "
+     "prima di scavare, la mod avvisa se l'acqua impedirebbe ai Sim di raggiungere un oggetto, bloccherebbe una "
+     "porta, chiuderebbe dentro qualcuno o isolerebbe parte del lotto, e Invio di nuovo scava comunque. "
+     "Control+Invio riempie caselle di piscina. Scalette, trampolini e scivoli si mettono dalla lista come "
+     "oggetti. Home torna al Sim selezionato, Esc esce dal cursore."},
 };
 
 }  // namespace

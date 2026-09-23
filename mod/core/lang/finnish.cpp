@@ -598,6 +598,20 @@ const Translation kEntries[] = {
      "Nuolet siirtävät kohdistinta yhden ruudun, Vaihdon kanssa viisi; jokainen ruutu kertoo huoneensa. Enter "
      "tapetoi kohdistimen huoneen kaikki seinät sisältä; ulkona ulkoseinät. Control+Enter poistaa tapetin "
      "huoneen seiniltä. R kertoo kaiken, Home palaa valittuun simiin, Escape poistuu kohdistimesta."},
+    // Pool cursor
+    {Str::PoolPlan, "Enter kaivaa uima-altaan %1$d kertaa %2$d, %3$d ruutua, %4$s"},
+    {Str::PoolCursorStart, "Allaskohdistin, %s. Control+F1 kertoo näppäimet."},
+    {Str::PoolBuilt, "allas kaivettu, %d ruutua"},
+    {Str::PoolRemoved, "allas täytetty, %d ruutua"},
+    {Str::PoolNeedsLadder,
+     "simit tarvitsevat altaan tikkaat päästäkseen sisään ja ylös: ne ovat tämän työkalun listassa"},
+    {Str::KeysPoolCursor,
+     "Nuolet siirtävät kohdistinta yhden ruudun, Vaihdon kanssa viisi. Välilyönti merkitsee altaan yhden kulman; "
+     "kohdistin kertoo sitten koon ja hinnan. Enter kaivaa altaan alusta kohdistimeen tai vain ruutuun; ennen "
+     "kaivamista modi varoittaa, jos vesi estäisi simejä pääsemästä esineen luo, tukkisi oven, sulkisi jonkun "
+     "sisään tai erottaisi osan tontista, ja Enter uudelleen kaivaa silti. Control+Enter täyttää allasruutuja. "
+     "Tikkaat, ponnahduslaudat ja liukumäet sijoitetaan listasta kuten esineet. Home palaa valittuun simiin, "
+     "Escape poistuu kohdistimesta."},
 };
 
 }  // namespace

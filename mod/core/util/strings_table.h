@@ -588,4 +588,17 @@
       "Arrows move the cursor one tile, with Shift five; each tile says its room. Enter papers every wall "          \
       "of the room under the cursor, inside that room; on the outdoors, the outside walls. Control+Enter "           \
       "takes the wallpaper off the room's walls. R says everything, Home goes back to the selected Sim, "            \
-      "Escape leaves the cursor.")
+      "Escape leaves the cursor.")                                                                                   \
+    /* Pool cursor */                                                                                                \
+    X(PoolPlan, "Enter digs a pool %1$d by %2$d, %3$d tiles, %4$s")                                                  \
+    X(PoolCursorStart, "Pool cursor, %s. Control+F1 says the keys.")                                                 \
+    X(PoolBuilt, "pool dug, %d tiles")                                                                               \
+    X(PoolRemoved, "pool filled in, %d tiles")                                                                       \
+    X(PoolNeedsLadder, "Sims need a pool ladder to get in and out: it is in this tool's list")                       \
+    X(KeysPoolCursor,                                                                                                \
+      "Arrows move the cursor one tile, with Shift five. Space marks one corner of the pool; the cursor "            \
+      "then says its size and price. Enter digs the pool from the start to the cursor, or on the tile "              \
+      "alone; before digging, the mod warns if the water would cut Sims off from an object, block a door, "          \
+      "shut someone in or isolate part of the lot, and Enter again digs anyway. Control+Enter fills pool "           \
+      "tiles back in. Ladders, diving boards and slides are placed from the list like objects. Home goes "           \
+      "back to the selected Sim, Escape leaves the cursor.")

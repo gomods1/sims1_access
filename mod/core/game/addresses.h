@@ -239,6 +239,21 @@ constexpr int kSessionFirst = 0x24;
 constexpr int kSessionLast = 0x28;
 constexpr int kEntrySize = 0x34;
 }  // namespace papertool
+// cPoolTool (the water tool's pools and ponds; ground floor only): down (slot 8) starts the drag
+// and runs the drag slot (10) itself, up (11) commits when +0x58 is set (slot 22, "over the lot",
+// sets it) and the drag holds tiles (+0x48 count). +0x2c = 1 removes (slot 22 sets it from Ctrl
+// through GetAsyncKeyState).
+namespace pooltool {
+constexpr int kDownSlot = 8;
+constexpr Va kDown = 0x63b200;
+constexpr int kDragSlot = 10;
+constexpr Va kDrag = 0x63b560;
+constexpr int kUpSlot = 11;
+constexpr Va kUp = 0x63bd60;
+constexpr int kRemoveMode = 0x2c;
+constexpr int kTiles = 0x48;
+constexpr int kOverLot = 0x58;
+}  // namespace pooltool
 // cdecl void (int code, int arg): the build tools' "Can't place here!" message; code = 1-based
 // index into STR# 137 (as buy mode's placement errors), 0 hides it. Hooked: the mod speaks it.
 constexpr Va kBuildError = 0x56f7f0;

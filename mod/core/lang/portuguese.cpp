@@ -599,6 +599,20 @@ const Translation kEntries[] = {
      "parede em todas as paredes do cômodo do cursor, por dentro; do lado de fora, nas paredes externas. "
      "Control+Enter tira o papel das paredes do cômodo. R diz tudo, Home volta ao Sim selecionado, Escape sai do "
      "cursor."},
+    // Pool cursor
+    {Str::PoolPlan, "Enter cava uma piscina de %1$d por %2$d, %3$d quadrados, %4$s"},
+    {Str::PoolCursorStart, "Cursor de piscina, %s. Control+F1 diz as teclas."},
+    {Str::PoolBuilt, "piscina cavada, %d quadrados"},
+    {Str::PoolRemoved, "piscina aterrada, %d quadrados"},
+    {Str::PoolNeedsLadder,
+     "os Sims precisam de uma escada de piscina para entrar e sair: ela está na lista desta ferramenta"},
+    {Str::KeysPoolCursor,
+     "As setas movem o cursor um quadrado, com Shift cinco. Espaço marca um canto da piscina; o cursor então diz "
+     "o tamanho e o preço. Enter cava a piscina do início ao cursor, ou só no quadrado; antes de cavar, o mod "
+     "avisa se a água impediria os Sims de chegar a um objeto, bloquearia uma porta, prenderia alguém ou "
+     "isolaria parte do lote, e Enter de novo cava mesmo assim. Control+Enter aterra quadrados de piscina. "
+     "Escadas, trampolins e escorregadores são colocados pela lista como objetos. Home volta ao Sim selecionado, "
+     "Escape sai do cursor."},
 };
 
 }  // namespace

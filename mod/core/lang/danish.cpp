@@ -590,6 +590,20 @@ const Translation kEntries[] = {
      "Piletasterne flytter markøren ét felt, med Skift fem; hvert felt siger sit rum. Enter tapetserer alle "
      "vægge i rummet ved markøren, indefra; udenfor ydervæggene. Kontrol+Enter fjerner tapetet fra rummets "
      "vægge. R siger det hele, Home går tilbage til den valgte Sim, Escape forlader markøren."},
+    // Pool cursor
+    {Str::PoolPlan, "Enter graver et bassin på %1$d gange %2$d, %3$d felter, %4$s"},
+    {Str::PoolCursorStart, "Bassinmarkør, %s. Kontrol+F1 siger tasterne."},
+    {Str::PoolBuilt, "bassin gravet, %d felter"},
+    {Str::PoolRemoved, "bassin fyldt op, %d felter"},
+    {Str::PoolNeedsLadder,
+     "Simmerne skal bruge en bassinstige for at komme i og op: den er i dette værktøjs liste"},
+    {Str::KeysPoolCursor,
+     "Piletasterne flytter markøren ét felt, med Skift fem. Mellemrum markerer et hjørne af bassinet; markøren "
+     "siger så størrelse og pris. Enter graver bassinet fra starten til markøren eller kun på feltet; før der "
+     "graves, advarer modden, hvis vandet ville afskære Simmerne fra en genstand, blokere en dør, lukke nogen "
+     "inde eller afskære en del af grunden, og Enter igen graver alligevel. Kontrol+Enter fylder bassinfelter "
+     "op. Stiger, vipper og rutsjebaner placeres fra listen som genstande. Home går tilbage til den valgte Sim, "
+     "Escape forlader markøren."},
 };
 
 }  // namespace

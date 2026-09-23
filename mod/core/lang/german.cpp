@@ -604,6 +604,20 @@ const Translation kEntries[] = {
      "Eingabe tapeziert alle Wände des Raums am Cursor von innen; draußen die Außenwände. Strg+Eingabe entfernt "
      "die Tapete von den Wänden des Raums. R sagt alles, Pos1 springt zum ausgewählten Sim, Escape verlässt den "
      "Cursor."},
+    // Pool cursor
+    {Str::PoolPlan, "Eingabe gräbt einen Pool %1$d mal %2$d, %3$d Felder, %4$s"},
+    {Str::PoolCursorStart, "Poolcursor, %s. Strg+F1 nennt die Tasten."},
+    {Str::PoolBuilt, "Pool gegraben, %d Felder"},
+    {Str::PoolRemoved, "Pool zugeschüttet, %d Felder"},
+    {Str::PoolNeedsLadder,
+     "Sims brauchen eine Poolleiter zum Hinein- und Hinausgehen: sie steht in der Liste dieses Werkzeugs"},
+    {Str::KeysPoolCursor,
+     "Die Pfeiltasten bewegen den Cursor um ein Feld, mit Umschalt um fünf. Leertaste markiert eine Ecke des "
+     "Pools; der Cursor nennt dann Größe und Preis. Eingabe gräbt den Pool vom Start bis zum Cursor oder nur auf "
+     "dem Feld; vor dem Graben warnt der Mod, wenn das Wasser Sims von einem Objekt abschneiden, eine Tür "
+     "blockieren, jemanden einsperren oder einen Teil des Grundstücks abtrennen würde; noch einmal Eingabe gräbt "
+     "trotzdem. Strg+Eingabe schüttet Poolfelder zu. Leitern, Sprungbretter und Rutschen werden aus der Liste "
+     "wie Objekte platziert. Pos1 springt zum ausgewählten Sim, Escape verlässt den Cursor."},
 };
 
 }  // namespace
