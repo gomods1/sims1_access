@@ -69,6 +69,7 @@ int InterestNumber(Ptr interest);  // 0 travel .. 18 romance (Live.iff STR# 142 
 // An inventory item (cWinGift): its name and what its hover popup says (UTF-8).
 std::string InventoryItemName(Ptr gift);
 std::string InventoryItemDescription(Ptr gift);
+int InventoryItemCount(Ptr gift);
 
 // Live mode family panel (cWinPeople): the portrait buttons, visible or not.
 std::vector<Ptr> FamilyMemberButtons(Ptr peoplePanel);

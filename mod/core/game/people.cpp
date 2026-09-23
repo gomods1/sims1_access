@@ -208,6 +208,7 @@ std::string InventoryItemName(Ptr gift) {
 std::string InventoryItemDescription(Ptr gift) {
     return IsKindOf(gift, "cWinGift") ? ReadStdStringUtf8(gift + addr::gift::kDescription) : "";
 }
+int InventoryItemCount(Ptr gift) { return IsKindOf(gift, "cWinGift") ? Rd<int>(gift + addr::gift::kCount) : 0; }
 int InterestNumber(Ptr interest) { return Rd<int>(interest + addr::interest::kIndex, -1); }
 
 std::vector<Ptr> JobPanelSkillButtons(Ptr jobPanel) {

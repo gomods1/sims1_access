@@ -199,7 +199,9 @@ struct Walker {
             return false;
         }
         if (IsKindOf(w, "cWinGift")) {  // an inventory item (a toggle button, but no tab)
-            Add(w, Role::Button, game::InventoryItemName(w));
+            std::string name = game::InventoryItemName(w);
+            int count = game::InventoryItemCount(w);
+            Add(w, Role::Button, count > 1 ? util::Format(S(Str::ItemCount), name.c_str(), count) : name);
             return false;
         }
         if (game::IsBookEntry(w)) {  // one item per spell: its ingredients (the name shows once chosen)

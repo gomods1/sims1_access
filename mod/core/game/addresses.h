@@ -574,6 +574,7 @@ constexpr int kTextStride = 0x18;
 
 // ---- cWinGift (an item on the inventory subpanel: magic objects, ingredients, other) ------
 namespace gift {
+constexpr int kCount = 0x1e4;        // int: how many (vouchers 10, a souvenir 1; the wand reads 0)
 constexpr int kName = 0x1e8;         // std::string ("Tu varita mágica"; also the tooltip)
 constexpr int kDescription = 0x200;  // std::string: what its hover popup says
 }  // namespace gift

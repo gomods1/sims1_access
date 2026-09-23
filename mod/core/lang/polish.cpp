@@ -896,6 +896,8 @@ const Translation kEntries[] = {
     {Str::ReaperCame, "%s przybywa po: %s"},
     // Trips: arrival
     {Str::ArrivedAt, "przyjazd: %s"},
+    // Inventory
+    {Str::ItemCount, "%s, sztuk: %d"},
 };
 
 }  // namespace

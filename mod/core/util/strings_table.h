@@ -890,4 +890,6 @@
     /* Narrator: the Grim Reaper */                                                                                  \
     X(ReaperCame, "%s has come for %s")                                                                              \
     /* Trips: arrival */                                                                                             \
-    X(ArrivedAt, "arrived: %s")
+    X(ArrivedAt, "arrived: %s")                                                                                      \
+    /* Inventory */                                                                                                  \
+    X(ItemCount, "%s, %d of them")

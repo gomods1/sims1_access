@@ -266,8 +266,10 @@ for a second Enter. A new room without a door is said, not asked about. Still to
   filters, a camping lot). Lodging verified the same day: the whole family must be home to leave;
   the hotel ("Hotel Palmeras Palazzo") is an ordinary lot to the mod (beds, bathrooms by floor, "en
   otro piso"); its phone's "Llamar taxi > Ir a otra parte" brings the map back, and the lot
-  chosen on any travel map is said on arrival ("llegada: Playa Atardecer"). Activities and
-  souvenirs not tried.
+  chosen on any travel map is said on arrival ("llegada: Playa Atardecer"). Souvenirs verified:
+  a shop display's "Comprar..." lists them with prices, the money is said, and the souvenir sits in
+  the inventory ("Cascanueces Landgrave, botón"; "Vales, 10 unidades", the vouchers won at games).
+  Activities (volleyball, fishing, games for vouchers) not tried one by one.
 
 ## Travel
 
