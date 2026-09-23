@@ -7,6 +7,7 @@
 #include <vector>
 
 #include "../game/lot.h"
+#include "../game/neighborhood.h"
 #include "../game/people.h"
 #include "../game/rtti.h"
 #include "../game/simantics.h"
@@ -80,6 +81,9 @@ struct State {
 
 std::map<int, ULONGLONG> g_relationSignAt;  // by neighbor ID: the last + / - balloon over the Sim
 State g;
+// A trip: a travel map (Old Town, Studio Town, downtown, vacation, Magic Town) leads to it; the
+// plain neighborhood, or going from lot to lot (the ride home), ends it. Not reset with the lot.
+bool g_onTrip = false;
 
 // Verbosity levels as saved in SimsAccess.ini ("narrator").
 enum Verbosity { kOff = 0, kWarnings = 1, kEverything = 2 };
@@ -402,14 +406,9 @@ void ReportSound(const game::SoundEvent& e) {
     game::LotObject car;
     std::string internal = game::GetObject(game::ObjectById(e.source), &car) ? game::ObjectInternalName(car) : "";
     bool taxi = internal.find("Taxi") != std::string::npos;
-    if (!taxi && e.alert != game::SoundAlert::PoliceCar) {
-        std::vector<int> onLot;
-        for (Ptr person : game::LotPeople()) onLot.push_back(game::SimNeighborId(person));
-        for (int id : game::FamilyNeighborIds())
-            if (!Contains(onLot, id)) {
-                Log("sound '%s' from #%d (%s): not at home, not said", e.name.c_str(), e.source, internal.c_str());
-                return;
-            }
+    if (!taxi && g_onTrip) {
+        Log("sound '%s' from #%d (%s): on a trip, traffic, not said", e.name.c_str(), e.source, internal.c_str());
+        return;
     }
     g.alertSaid[(int)e.alert] = now;
     std::string line = S(taxi ? Str::SoundTaxi : AlertText(e.alert));
@@ -464,14 +463,22 @@ void SayStatus() {
 // downtown...) between two lots, and that is what tells the lots apart.
 bool OnMap() {
     Ptr root = game::InputRoot();
-    for (const char* map : {"cWinNeighborhood", "cWinDowntown", "cWinVacation", "cWinStudiotown", "cWinMagicland"})
-        if (game::IsKindOf(root, map)) return true;
+    for (const char* map : {"cWinDowntown", "cWinVacation", "cWinStudiotown", "cWinMagicland"})
+        if (game::IsKindOf(root, map)) {
+            g_onTrip = true;
+            return true;
+        }
+    if (game::IsKindOf(root, "cWinNeighborhood")) {
+        g_onTrip = game::TravelMap(root) != 0;
+        return true;
+    }
     return false;
 }
 
 void Tick() {
     uintptr_t lot = OnMap() ? 0 : game::LotIdentity();
     if (lot != g.lot) {  // another lot, or none: nothing seen before applies
+        if (lot && g.lot) g_onTrip = false;  // lot to lot: the ride home
         Reset();
         g.lot = lot;
         g.lotSince = GetTickCount64();
