@@ -12,27 +12,31 @@ const Translation kEntries[] = {
     {Str::ModLoaded, "Sims-tilgjengelighet lastet inn"},
     // Key help (Ctrl+F1)
     {Str::KeysScreen,
-     "Piltastene flytter innenfor en gruppe, Tab og Skift+Tab bytter gruppe, Home og End går til endene, Enter "
-     "aktiverer, R gjentar. På en glidebryter eller en verdivelger endrer Venstre pil og Høyre pil verdien, og "
-     "Pil opp og Pil ned flytter. Kontroll+Pil opp og Kontroll+Pil ned leser detaljene om det som ble sagt, "
-     "Kontroll+Venstre pil og Kontroll+Høyre pil bytter mellom detaljer og hendelser."},
+     "Tab og Skift+Tab bytter gruppe, piltastene flytter innenfor en gruppe, Home og End går til endene av den; "
+     "Enter aktiverer, og på en type eller et rom blant tomtens objekter åpner det objektene; Backspace går "
+     "tilbake; R gjentar. På en glidebryter eller en verdivelger endrer Venstre pil og Høyre pil verdien. "
+     "Kontroll+Pil opp og Kontroll+Pil ned leser detaljene om det som ble sagt, Kontroll+Venstre pil og "
+     "Kontroll+Høyre pil bytter mellom detaljer og hendelser."},
     {Str::KeysLot,
-     "Pil opp og Pil ned bytter gruppe, Venstre pil og Høyre pil flytter innenfor den; på en innstillingsside "
-     "går Pil opp og Pil ned gjennom innstillingene, og Venstre pil og Høyre pil endrer en glidebryter eller en "
-     "verdivelger. Side ned og Side opp går gjennom objektene, med Skift bytter de kategori, med Kontroll bytter "
-     "de rom. Enter åpner objektets handlinger, Kontroll+Enter går dit, R gjentar. Mellomrom velger neste sim, "
-     "Kontroll+1 til 9 velger en sim i familien, Kontroll+F får kameraet til å følge den valgte simmen eller "
-     "ikke. P setter på pause og leser klokkeslett og midler. Kontroll+Pil opp og Kontroll+Pil ned leser "
-     "detaljene, Kontroll+Venstre pil og Kontroll+Høyre pil bytter mellom detaljer og hendelser."},
+     "Tab og Skift+Tab går gjennom gruppene: statuslinjen, behovene, familien, handlingskøen, objekter etter "
+     "type, objekter etter rom, deretter spillets paneler; piltastene flytter innenfor en gruppe, og på en "
+     "innstillingsside endrer Venstre pil og Høyre pil en glidebryter eller en verdivelger. I objekter etter "
+     "type eller etter rom åpner Enter en type eller et rom, objektene kommer nærmeste først og kameraet går til "
+     "hvert av dem, Backspace går tilbake; Enter på et objekt åpner handlingene, Kontroll+Enter går dit. R "
+     "gjentar. Mellomrom velger neste sim, Kontroll+1 til 9 velger en sim i familien, Kontroll+F får kameraet "
+     "til å følge den valgte simmen eller ikke. Kontroll+E sier hva den valgte simmen gjør og trenger, "
+     "Kontroll+N endrer hvor mye fortelleren sier. P setter på pause og leser klokkeslett og midler. "
+     "Kontroll+Pil opp og Kontroll+Pil ned leser detaljene, Kontroll+Venstre pil og Kontroll+Høyre pil bytter "
+     "mellom detaljer og hendelser."},
     {Str::KeysPlacing,
-     "Side ned og Side opp går gjennom stedene der det får plass og kan brukes, de beste først; med Kontroll "
-     "bytter de rom, med Skift snur de det på samme sted. Enter kjøper det der, Escape avbryter, R gjentar. "
+     "Tab og Skift+Tab går gjennom stedene der det får plass og kan brukes, de beste først; Side ned og Side opp "
+     "bytter rom; komma og punktum snur det på samme sted. Enter kjøper det der, Escape avbryter, R gjentar. "
      "Kontroll+Pil opp og Kontroll+Pil ned leser stedets detaljer og hva mer som ble sjekket."},
     {Str::KeysBuy,
      "Piltastene går gjennom katalogen; ved et produkt leses pris og beskrivelse, med Kontroll+Pil opp og "
      "Kontroll+Pil ned alt om det. Enter på et produkt begynner å plassere det der det får plass og kan brukes. "
-     "Side ned og Side opp går gjennom objektene på tomten, med Skift bytter de kategori, med Kontroll bytter de "
-     "rom; Enter plukker opp objektet for å flytte det, og Delete selger det deretter."},
+     "I objekter etter type eller etter rom (Tab) plukker Enter på et objekt på tomten det opp for å flytte det, "
+     "og Delete selger det deretter."},
     {Str::KeysMenu, "Pil opp og Pil ned velger en handling, Enter utfører den, Escape går tilbake."},
     {Str::UnsupportedBuild, "Sims-tilgjengelighet: spillversjonen støttes ikke, modden er deaktivert"},
     // Control state
@@ -98,7 +102,7 @@ const Translation kEntries[] = {
     {Str::FamilyMembers, "%d medlemmer"},
     {Str::NetWorth, "nettoverdi"},
     {Str::Friends, "familievenner"},
-    // Lot: object browser (PageUp/PageDown)
+    // Lot: the lot's things by kind and by room
     {Str::CategorySims, "simmer"},
     {Str::CategorySeating, "sitteplasser"},
     {Str::CategorySurfaces, "overflater"},
@@ -109,8 +113,10 @@ const Translation kEntries[] = {
     {Str::CategoryDecorative, "dekorasjon"},
     {Str::CategoryMiscellaneous, "diverse"},
     {Str::CategoryOther, "andre objekter"},
+    {Str::ThingsByKind, "objekter etter type"},
+    {Str::ThingsByRoom, "objekter etter rom"},
     {Str::NoObjects, "ingen objekter her"},
-    // Lot: rooms (Ctrl+PageUp/PageDown)
+    // Lot: rooms
     {Str::RoomOutside, "utenfor"},
     {Str::RoomBathroom, "baderom"},
     {Str::RoomBedroom, "soverom"},
@@ -166,8 +172,8 @@ const Translation kEntries[] = {
     {Str::TutorialPointsAtSpot, "pilen peker på et sted på tomten: %s"},
     {Str::SpotOnLot, "sted"},
     {Str::HintNewspaper,
-     "Med tastaturet: Skift+Side ned til diverse eller andre objekter, Side ned til Avis, Enter, velg Finn en "
-     "jobb."},
+     "Med tastaturet: Tab til objekter etter type, Enter på diverse eller andre objekter, Pil ned til Avis, "
+     "Enter, velg Finn en jobb."},
     {Str::TutorialEscapeAgain, "Escape igjen avslutter opplæringen"},
     {Str::TutorialOver, "opplæringen er over"},
     // The tutorial's steps told for the keyboard (nav/tutorial.cpp)
@@ -176,11 +182,11 @@ const Translation kEntries[] = {
      "til Zoom inn, Enter. Du kan når som helst trykke to ganger på Escape for å avbryte opplæringen."},
     {Str::StepZoomAgain, "Dette er midterste zoomnivå. Trykk nå Enter på Zoom inn igjen for å komme enda nærmere."},
     {Str::StepScroll,
-     "Det er flere måter å bevege skjermbildet på. Med tastaturet følger kameraet det du blar gjennom: trykk "
-     "Side ned for å gå til neste objekt."},
+     "Det er flere måter å bevege skjermbildet på. Med tastaturet følger kameraet det du blar gjennom: Tab til "
+     "objekter etter type, Enter på en type, så går Pil ned til neste objekt."},
     {Str::StepScrollAgain,
-     "Bra. Side ned og Side opp går gjennom objektene, med Skift bytter de kategori, og kameraet går til hvert "
-     "av dem. Trykk Side ned igjen."},
+     "Bra. Piltastene går gjennom objektene, Backspace går tilbake til typene, og kameraet går til hvert av dem. "
+     "Trykk Pil ned igjen."},
     {Str::StepRotate, "La oss nå rotere perspektivet: trykk på Roter mot høyre i kontroller."},
     {Str::StepLive,
      "Nå som du vet hvordan du kontrollerer perspektivet, er det på tide å gå over til Levende modus. Trykk F1, "
@@ -190,18 +196,18 @@ const Translation kEntries[] = {
      "Familiemedlemmene vises på kontrollpanelet nedenfor. Denne familien har bare ett medlem, Bob. Trykk "
      "Kontroll+1, portrettet hans, for å sentrere ham på skjermen."},
     {Str::StepGoHere,
-     "Nå skal du lære hvordan du kontrollerer Bob. Velg et objekt med Side ned, og trykk Kontroll+Enter: Bob går "
-     "til det stedet."},
+     "Nå skal du lære hvordan du kontrollerer Bob. Velg et objekt i objekter etter type eller etter rom, og "
+     "trykk Kontroll+Enter: Bob går til det stedet."},
     {Str::StepGoHereAgain, "Trykk Kontroll+Enter på et objekt slik at Bob går dit."},
     {Str::StepInteract,
-     "Simmene kan beordres til å foreta seg ting med de fleste objektene. Side ned går gjennom objektene; Enter "
-     "på ett av dem åpner handlingene, og Enter velger én for Bob."},
+     "Simmene kan beordres til å foreta seg ting med de fleste objektene. I objekter etter type går piltastene "
+     "gjennom objektene; Enter på ett av dem åpner handlingene, og Enter velger én for Bob."},
     {Str::StepMood,
      "Humør-fanen, i sim-paneler, er både en knapp og en indikator: grønn betyr at Bob er glad, rød at han ikke "
      "er det. Tab til sim-paneler, Enter på Humør for å se behovene hans."},
     {Str::StepShower,
-     "La oss gi Bob litt bedre hygiene. Skift+Side ned til sanitæranlegg, Side ned til dusjen, Enter, og velg Ta "
-     "en dusj."},
+     "La oss gi Bob litt bedre hygiene. Tab til objekter etter type, Enter på sanitæranlegg, Pil ned til dusjen, "
+     "Enter, og velg Ta en dusj."},
     {Str::StepNeeds,
      "Gå gjennom behovene: Tab til Behov, Venstre pil og Høyre pil, Enter på ett av dem leser forklaringen og "
      "hvilke objekter som tilfredsstiller det. Objektene tilfredsstiller behovene med forskjellig effektivitet."},
@@ -212,11 +218,11 @@ const Translation kEntries[] = {
      "Se gjennom katalogen: Tab til katalog, Enter på Sitteplasser, piltastene gjennom stolene; Enter på den "
      "stolen Bob vil like, begynner å plassere den."},
     {Str::StepPlace,
-     "Slik kjøper du den: Side ned og Side opp velger en ledig plass, Enter kjøper den der. Escape legger bort "
-     "den neste som blir igjen i hånden."},
+     "Slik kjøper du den: Tab og Skift+Tab velger en ledig plass, Enter kjøper den der. Escape legger bort den "
+     "neste som blir igjen i hånden."},
     {Str::StepTurn,
-     "Flott, la oss nå rotere den: Side ned til stolen du nettopp kjøpte, Enter plukker den opp, Skift+Side ned "
-     "snur den, Enter setter den ned."},
+     "Flott, la oss nå rotere den: i objekter etter type, Enter på sitteplasser, gå til stolen du nettopp "
+     "kjøpte, Enter plukker den opp, punktum-tasten snur den, Enter setter den ned."},
     {Str::StepBackToLive,
      "Husk at du alltid kan gå tilbake til Kjøpemodus for å kjøpe nye objekter eller omarrangere huset. Nå "
      "tilbake til Levende modus: F1, eller Levende modus i kontroller."},
@@ -228,14 +234,15 @@ const Translation kEntries[] = {
      "Nå skal vi gi denne familien en ny person: Betty. Trykk Kontroll+2 for å velge henne, og Kontroll+2 igjen "
      "for å sentrere henne på skjermen."},
     {Str::StepSecondObject,
-     "Velg et objekt med Side ned, og trykk Enter slik at Betty gjør noe; handlingene er nå hennes."},
+     "Velg et objekt i objekter etter type eller etter rom, og trykk Enter slik at Betty gjør noe; handlingene "
+     "er nå hennes."},
     {Str::StepSelectFirst, "Det er flere måter å skifte aktiv figur på. Trykk Kontroll+1 for å velge Bob."},
     {Str::StepSpace,
      "Bra! Nå er Bob valgt. En annen måte å velge figurer på er mellomromstasten. Trykk Mellomrom nå, så går du "
      "tilbake til Betty."},
     {Str::StepSocial,
-     "Bra. Simmer samhandler med hverandre på samme måte som med objekter. Med Betty valgt: Skift+Side opp til "
-     "simmer, Side ned til Bob, Enter, og velg en handling."},
+     "Bra. Simmer samhandler med hverandre på samme måte som med objekter. Med Betty valgt: Tab til objekter "
+     "etter type, Enter på simmer, Pil ned til Bob, Enter, og velg en handling."},
     {Str::StepSocialAgain,
      "Hva simmene føler for hverandre, står i Forhold-panelet, med daglige og livslange forholdspoeng. Prøv en "
      "annen samhandling med Bob, og se resultatet der."},
@@ -243,8 +250,8 @@ const Translation kEntries[] = {
      "Tab til sim-paneler, piltastene til Forhold, Enter: det viser hva den valgte figuren føler for denne "
      "personen."},
     {Str::StepNewspaper,
-     "Simmene tjener penger ved å arbeide. Finn avisen utenfor: Skift+Side ned til andre objekter, Side ned til "
-     "Avis, Enter, og velg Finn en jobb."},
+     "Simmene tjener penger ved å arbeide. Finn avisen utenfor: Tab til objekter etter type, Enter på andre "
+     "objekter, Pil ned til Avis, Enter, og velg Finn en jobb."},
     {Str::StepJobTab,
      "Gratulerer! Tab nå til sim-paneler, piltastene til Jobb, Enter for å finne ut mer om den nye jobben."},
     {Str::StepJobName,
@@ -258,6 +265,7 @@ const Translation kEntries[] = {
      "og spill. Trykk F5, eller Valgmodus i kontroller."},
     // Buy mode: catalog
     {Str::CannotAfford, "har ikke råd"},
+    {Str::NoFamilyFunds, "ingen familie, ubegrensede penger"},
     {Str::RatingHunger, "sult"},
     {Str::RatingComfort, "komfort"},
     {Str::RatingHygiene, "hygiene"},
@@ -546,9 +554,9 @@ const Translation kEntries[] = {
      "starten; deretter sier markøren hvor langt den er fra starten og hva Enter ville bygge og koste. Enter "
      "bygger en vegg fra starten til markøren, Skift+Enter de fire veggene i et rom mellom dem, Kontroll+Enter "
      "eller Delete fjerner vegger. Før noe bygges, advarer modden hvis veggene ville stenge simmene ute fra en "
-     "gjenstand, stenge en dør eller skjære av en del av tomten, og Enter igjen bygger likevel. Page Down og "
-     "Page Up velger en ferdig romstørrelse, Insert bygger den med nordvesthjørnet ved markøren. Home går "
-     "tilbake til den valgte simmen, Escape forlater markøren."},
+     "gjenstand, stenge en dør eller skjære av en del av tomten, og Enter igjen bygger likevel. Komma og punktum "
+     "velger en ferdig romstørrelse, Insert bygger den med nordvesthjørnet ved markøren. Home går tilbake til "
+     "den valgte simmen, Escape forlater markøren."},
     // Build cursor (area)
     {Str::BuildOutsideArea, "ingenting bygget: det ligger utenfor tomtens byggeområde"},
     {Str::BuildNotBuildableHere, "utenfor byggeområdet"},
@@ -716,8 +724,8 @@ const Translation kEntries[] = {
     {Str::BuildNoRooms, "ingen rom i denne etasjen eller under ennå"},
     {Str::BuildRoomJump, "%s, %d ganger %d, i det nordvestre hjørnet"},
     {Str::KeysRoomJump,
-     "Ctrl+Page Down og Ctrl+Page Up hopper til neste eller forrige rom, i det nordvestre hjørnet; i en øvre "
-     "etasje til rommene under."},
+     "Tab og Skift+Tab hopper til neste eller forrige rom, i det nordvestre hjørnet; i en øvre etasje til "
+     "rommene under."},
     // Stairs
     {Str::StairsClimb, "går opp mot %s"},
     {Str::StairsTop, "når etasjen over ved rute %d, %d"},
@@ -725,8 +733,8 @@ const Translation kEntries[] = {
     {Str::BuildBlocksStairs, "sperrer trappen"},
     // Build cursor: floors and rooms
     {Str::KeysFloorChange,
-     "Shift+Page Up og Shift+Page Down går til etasjen over eller under; når du velger et verktøy, kommer du "
-     "tilbake til første etasje."},
+     "Side opp og Side ned går til etasjen over eller under; når du velger et verktøy, kommer du tilbake til "
+     "første etasje."},
     // Catalog room filter
     {Str::RoomFilterAll, "produkter til alle rom"},
     {Str::RoomFilterOn, "bare produkter til: %s"},
@@ -743,18 +751,21 @@ const Translation kEntries[] = {
     {Str::ObjRoaches, "kakerlakker"},
     // Narrator: visitors
     {Str::PizzaGreetHint,
-     "Hils på ham for å få pizzaen: i kategorien simmer, Page Down til ham, Enter, Hils. Hvis ingen hilser, går "
-     "han med den."},
+     "Hils på ham for å få pizzaen: i objekter etter type, Enter på simmer, Pil ned til ham, Enter, Hils. Hvis "
+     "ingen hilser, går han med den."},
     // Placing: free cursor
     {Str::FreeFits, "passer"},
     {Str::FreeNoFit, "passer ikke: %s"},
     {Str::KeysPlacingFree,
-     "Piltastene flytter den én rute om gangen, med Shift fem, og sier om den passer; Shift+Page Up og "
-     "Shift+Page Down snur den, Enter setter den der, Page Down går tilbake til plassene."},
+     "Piltastene flytter den én rute om gangen, med Skift fem, og sier om den passer; komma og punktum snur den, "
+     "Enter setter den der, Tab går tilbake til plassene."},
     // Sim card
     {Str::BioFor, "Bio for %s"},
     // Key help
     {Str::KeysSimCard, "Ctrl+Shift+1 til 9 åpner kortet til en simmer, der biografien kan redigeres."},
+    {Str::KeysHouseFile,
+     "På et hus beskriver Ctrl+Shift+L det slik Byggmodus gjør, etter siste lagring: rom, hva som mangler, rom "
+     "uten inngang. Kontroll+Pil opp leser det linje for linje."},
     // Travel maps
     {Str::ScreenStudioTown, "Filmbyen, hvor skal vi?"},
     {Str::ScreenMagicTown, "Magibyen, hvor skal vi?"},

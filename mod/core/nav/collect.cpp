@@ -21,6 +21,7 @@
 #include "../util/text.h"
 #include "arrange.h"
 #include "screens.h"
+#include "world.h"
 
 namespace nav {
 namespace {
@@ -277,7 +278,8 @@ Ptr GroupKey(const Item& it) {
 
 // Items are grouped by their container, so a panel's title and a dialog's message sit with the
 // controls they belong to. Houses form one group sorted by house number. Groups come in the
-// screen's order of importance (GroupOrder), then top to bottom, left to right.
+// screen's order of importance (GroupOrder), then in the order the game built its windows (the
+// walk's order), never by where they are drawn (NAVIGATION.md).
 std::vector<Group> MakeGroups(std::vector<Item>& items) {
     std::vector<Group> groups;
     for (Item& it : items) {
@@ -293,12 +295,8 @@ std::vector<Group> MakeGroups(std::vector<Item>& items) {
         ArrangeGroup(g);
         g.bounds = Bounds(g.items);
     }
-    std::stable_sort(groups.begin(), groups.end(), [](const Group& a, const Group& b) {
-        int oa = GroupOrder(a), ob = GroupOrder(b);
-        if (oa != ob) return oa < ob;
-        if (a.bounds.top != b.bounds.top) return a.bounds.top < b.bounds.top;
-        return a.bounds.left < b.bounds.left;
-    });
+    std::stable_sort(groups.begin(), groups.end(),
+                     [](const Group& a, const Group& b) { return GroupOrder(a) < GroupOrder(b); });
     return groups;
 }
 
@@ -345,6 +343,17 @@ Screen Collect(Ptr root) {
     walker.RegisterScreen(root);  // the root itself is not an item, but may define its buttons
     for (Ptr c : game::Children(root)) walker.Walk(c, 0);
     screen.groups = MakeGroups(walker.items);
+    // The lot view: the lot's things by kind and by room, after the HUD's status, needs, family
+    // and action queue (nav/world.h).
+    if (game::IsKindOf(root, "cDDDSimsView")) {
+        size_t at = 0;
+        while (at < screen.groups.size() && GroupOrder(screen.groups[at]) < 4) at++;
+        for (Group g : {world::KindsGroup(), world::RoomsGroup()}) {
+            if (g.items.empty()) continue;
+            g.bounds = g.items.front().rect;
+            screen.groups.insert(screen.groups.begin() + at++, std::move(g));
+        }
+    }
     return screen;
 }
 

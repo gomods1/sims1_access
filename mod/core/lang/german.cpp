@@ -12,31 +12,34 @@ const Translation kEntries[] = {
     {Str::ModLoaded, "Barrierefreiheit für Die Sims geladen"},
     // Key help (Ctrl+F1)
     {Str::KeysScreen,
-     "Pfeiltasten bewegen innerhalb einer Gruppe, Tab und Umschalt+Tab wechseln die Gruppe, Pos1 und Ende "
-     "springen zum Anfang und zum Ende, Eingabe aktiviert, R wiederholt. Auf einem Schieberegler oder "
-     "Auswahlfeld ändern Pfeil nach links und rechts den Wert, Pfeil nach oben und unten bewegen weiter. "
-     "Strg+Pfeil nach oben und Strg+Pfeil nach unten lesen die Details des Gesagten, Strg+Pfeil nach links und "
-     "Strg+Pfeil nach rechts wechseln zwischen Details und Ereignissen."},
+     "Tab und Umschalt+Tab wechseln die Gruppe, Pfeiltasten bewegen innerhalb einer Gruppe, Pos1 und Ende "
+     "springen zu ihrem Anfang und Ende; Eingabe aktiviert und öffnet auf einer Art oder einem Raum der Objekte "
+     "des Grundstücks deren Objekte; Rücktaste geht zurück; R wiederholt. Auf einem Schieberegler oder "
+     "Auswahlfeld ändern Pfeil nach links und rechts den Wert. Strg+Pfeil nach oben und Strg+Pfeil nach unten "
+     "lesen die Details des Gesagten, Strg+Pfeil nach links und Strg+Pfeil nach rechts wechseln zwischen Details "
+     "und Ereignissen."},
     {Str::KeysLot,
-     "Pfeil nach oben und unten wechseln die Gruppe, Pfeil nach links und rechts bewegen innerhalb; auf einer "
-     "Einstellungsseite gehen Pfeil nach oben und unten die Einstellungen durch, und Pfeil nach links und rechts "
-     "ändern einen Schieberegler oder ein Auswahlfeld. Bild ab und Bild auf gehen die Objekte durch, mit "
-     "Umschalt wechseln sie die Kategorie, mit Strg den Raum. Eingabe öffnet die Interaktionen des Objekts, "
-     "Strg+Eingabe geht dorthin, R wiederholt. Die Leertaste wählt den nächsten Sim, Strg+1 bis 9 wählen einen "
-     "Sim der Familie, Strg+F lässt die Kamera dem ausgewählten Sim folgen oder nicht. P pausiert und liest "
-     "Uhrzeit und Geld. Strg+Pfeil nach oben und Strg+Pfeil nach unten lesen die Details, Strg+Pfeil nach links "
-     "und Strg+Pfeil nach rechts wechseln zwischen Details und Ereignissen."},
+     "Tab und Umschalt+Tab gehen die Gruppen durch: die Statuszeile, die Bedürfnisse, die Familie, die "
+     "Aktionswarteschlange, Objekte nach Art, Objekte nach Raum, dann die Fenster des Spiels; die Pfeiltasten "
+     "bewegen innerhalb einer Gruppe, und auf einer Einstellungsseite ändern Pfeil nach links und rechts einen "
+     "Schieberegler oder ein Auswahlfeld. In Objekte nach Art oder nach Raum öffnet Eingabe eine Art oder einen "
+     "Raum, seine Objekte kommen der Nähe nach und die Kamera fährt zu jedem, Rücktaste geht zurück; Eingabe auf "
+     "einem Objekt öffnet seine Interaktionen, Strg+Eingabe geht dorthin. R wiederholt. Die Leertaste wählt den "
+     "nächsten Sim, Strg+1 bis 9 wählen einen Sim der Familie, Strg+F lässt die Kamera dem ausgewählten Sim "
+     "folgen oder nicht. Strg+E sagt, was der ausgewählte Sim tut und braucht, Strg+N ändert, wie viel der "
+     "Erzähler spricht. P pausiert und liest Uhrzeit und Geld. Strg+Pfeil nach oben und Strg+Pfeil nach unten "
+     "lesen die Details, Strg+Pfeil nach links und Strg+Pfeil nach rechts wechseln zwischen Details und "
+     "Ereignissen."},
     {Str::KeysPlacing,
-     "Bild ab und Bild auf gehen die Plätze durch, an denen es passt und benutzt werden kann, die besten zuerst; "
-     "mit Strg wechseln sie den Raum, Umschalt dreht es auf demselben Platz. Eingabe kauft es dort, Esc bricht "
-     "ab, R wiederholt. Strg+Pfeil nach oben und Strg+Pfeil nach unten lesen die Details des Platzes und was "
-     "sonst noch geprüft wurde."},
+     "Tab und Umschalt+Tab gehen die Plätze durch, an denen es passt und benutzt werden kann, die besten zuerst; "
+     "Bild ab und Bild auf wechseln den Raum; Komma und Punkt drehen es auf demselben Platz. Eingabe kauft es "
+     "dort, Esc bricht ab, R wiederholt. Strg+Pfeil nach oben und Strg+Pfeil nach unten lesen die Details des "
+     "Platzes und was sonst noch geprüft wurde."},
     {Str::KeysBuy,
      "Pfeiltasten gehen durch den Katalog; ein Produkt nennt Preis und Beschreibung, Strg+Pfeil nach oben und "
      "Strg+Pfeil nach unten alles darüber. Eingabe auf einem Produkt beginnt, es dort zu platzieren, wo es passt "
-     "und benutzt werden kann. Bild ab und Bild auf gehen die Objekte des Grundstücks durch, mit Umschalt "
-     "wechseln sie die Kategorie, mit Strg den Raum; Eingabe hebt das Objekt zum Verschieben auf, Entf verkauft "
-     "es dann."},
+     "und benutzt werden kann. In Objekte nach Art oder nach Raum (Tab) hebt Eingabe auf einem Objekt des "
+     "Grundstücks es zum Verschieben auf, Entf verkauft es dann."},
     {Str::KeysMenu, "Pfeil nach oben und unten wählen eine Interaktion, Eingabe führt sie aus, Esc geht zurück."},
     {Str::UnsupportedBuild, "Barrierefreiheit für Die Sims: nicht unterstützte Spielversion, Mod deaktiviert"},
     // Control state
@@ -102,7 +105,7 @@ const Translation kEntries[] = {
     {Str::FamilyMembers, "%d Mitglieder"},
     {Str::NetWorth, "Nettowert"},
     {Str::Friends, "Freunde"},
-    // Lot: object browser (PageUp/PageDown)
+    // Lot: the lot's things by kind and by room
     {Str::CategorySims, "Sims"},
     {Str::CategorySeating, "Sitzgelegenheiten"},
     {Str::CategorySurfaces, "Oberflächen"},
@@ -113,8 +116,10 @@ const Translation kEntries[] = {
     {Str::CategoryDecorative, "Dekorationen"},
     {Str::CategoryMiscellaneous, "Verschiedenes"},
     {Str::CategoryOther, "Sonstige Objekte"},
+    {Str::ThingsByKind, "Objekte nach Art"},
+    {Str::ThingsByRoom, "Objekte nach Raum"},
     {Str::NoObjects, "hier gibt es keine Objekte"},
-    // Lot: rooms (Ctrl+PageUp/PageDown)
+    // Lot: rooms
     {Str::RoomOutside, "draußen"},
     {Str::RoomBathroom, "Badezimmer"},
     {Str::RoomBedroom, "Schlafzimmer"},
@@ -170,8 +175,8 @@ const Translation kEntries[] = {
     {Str::TutorialPointsAtSpot, "der Pfeil zeigt auf eine Stelle auf dem Grundstück: %s"},
     {Str::SpotOnLot, "Stelle"},
     {Str::HintNewspaper,
-     "Mit der Tastatur: Umschalt+Bild ab bis Verschiedenes oder Sonstige Objekte, Bild ab bis Bild Zeitung, "
-     "Eingabe, wähle Einen Job suchen."},
+     "Mit der Tastatur: Tab bis Objekte nach Art, Eingabe auf Verschiedenes oder Sonstige Objekte, Pfeil nach "
+     "unten bis Bild Zeitung, Eingabe, wähle Einen Job suchen."},
     {Str::TutorialEscapeAgain, "noch einmal Esc verlässt das Tutorial"},
     {Str::TutorialOver, "das Tutorial ist beendet"},
     // The tutorial's steps told for the keyboard (nav/tutorial.cpp)
@@ -182,10 +187,11 @@ const Translation kEntries[] = {
      "Dies ist der mittlere Zoomlevel. Drücke nun erneut Eingabe auf Heranzoomen, um noch näher heranzuzoomen."},
     {Str::StepScroll,
      "Es gibt verschiedene Möglichkeiten, den Bildschirm durchzuscrollen. Mit der Tastatur folgt die Kamera dem, "
-     "was Du durchgehst: Drücke Bild ab, um zum nächsten Objekt zu gehen."},
+     "was Du durchgehst: Tab bis Objekte nach Art, Eingabe auf einer Art, dann geht Pfeil nach unten zum "
+     "nächsten Objekt."},
     {Str::StepScrollAgain,
-     "Gut. Bild ab und Bild auf gehen die Objekte durch, mit Umschalt wechseln sie die Kategorie, und die Kamera "
-     "fährt zu jedem Objekt. Drücke noch einmal Bild ab."},
+     "Gut. Die Pfeiltasten gehen die Objekte durch, Rücktaste geht zurück zu den Arten, und die Kamera fährt zu "
+     "jedem Objekt. Drücke noch einmal Pfeil nach unten."},
     {Str::StepRotate,
      "Jetzt wollen wir uns das Ganze aus einer anderen Perspektive anschauen: Drücke in der Steuerung Nach "
      "rechts drehen."},
@@ -196,19 +202,19 @@ const Translation kEntries[] = {
      "Unten in der Steuerungsleiste erscheinen die Familienmitglieder. Diese Familie besteht nur aus einer "
      "Person, Willi. Drücke Strg+1, sein Porträt, um ihn auf dem Bildschirm zu zentrieren."},
     {Str::StepGoHere,
-     "Und jetzt lernst Du, Willi zu steuern. Wähle mit Bild ab ein Objekt und drücke Strg+Eingabe: Willi geht zu "
-     "dieser Stelle."},
+     "Und jetzt lernst Du, Willi zu steuern. Wähle in Objekte nach Art oder nach Raum ein Objekt und drücke "
+     "Strg+Eingabe: Willi geht zu dieser Stelle."},
     {Str::StepGoHereAgain, "Drücke Strg+Eingabe auf einem Objekt, damit Willi dorthin geht."},
     {Str::StepInteract,
-     "Die Sims können mit den meisten Objekten interagieren. Bild ab geht die Objekte durch; Eingabe auf einem "
-     "Objekt öffnet seine Interaktionen, und Eingabe wählt eine für Willi aus."},
+     "Die Sims können mit den meisten Objekten interagieren. In Objekte nach Art gehen die Pfeiltasten die "
+     "Objekte durch; Eingabe auf einem Objekt öffnet seine Interaktionen, und Eingabe wählt eine für Willi aus."},
     {Str::StepMood,
      "Die Registerkarte Stimmung in den Sim-Leisten ist zugleich Anzeige und Schalter: Grün bedeutet, dass Willi "
      "glücklich ist, Rot, dass er unglücklich ist. Tab bis Sim-Leisten, Eingabe auf Stimmung, um Willis "
      "Bedürfnisse anzuschauen."},
     {Str::StepShower,
-     "Willi sollte ein bisschen reinlicher sein. Umschalt+Bild ab bis Sanitäre Anlagen, Bild ab bis zur Dusche, "
-     "Eingabe, dann wähle Duschen."},
+     "Willi sollte ein bisschen reinlicher sein. Tab bis Objekte nach Art, Eingabe auf Sanitäre Anlagen, Pfeil "
+     "nach unten bis zur Dusche, Eingabe, dann wähle Duschen."},
     {Str::StepNeeds,
      "Geh die Bedürfnisse durch: Tab bis Bedürfnisse, Pfeil nach links und rechts, Eingabe auf einem liest seine "
      "Erklärung und welche Objekte es befriedigen. Verschiedene Dinge befriedigen ein Bedürfnis unterschiedlich "
@@ -220,11 +226,11 @@ const Translation kEntries[] = {
      "Schau Dir den Katalog an: Tab bis Katalog, Eingabe auf Sitzgelegenheiten, Pfeiltasten durch die Stühle; "
      "Eingabe auf dem Stuhl, der Willi gefallen könnte, beginnt das Platzieren."},
     {Str::StepPlace,
-     "Um ihn zu kaufen: Bild ab und Bild auf wählen einen freien Platz, Eingabe kauft ihn dort. Esc legt den "
+     "Um ihn zu kaufen: Tab und Umschalt+Tab wählen einen freien Platz, Eingabe kauft ihn dort. Esc legt den "
      "nächsten weg, der in der Hand bleibt."},
     {Str::StepTurn,
-     "Gut, und jetzt wollen wir ihn drehen: Bild ab bis zum gerade gekauften Stuhl, Eingabe hebt ihn auf, "
-     "Umschalt+Bild ab dreht ihn, Eingabe stellt ihn ab."},
+     "Gut, und jetzt wollen wir ihn drehen: in Objekte nach Art Eingabe auf Sitzgelegenheiten, geh zum gerade "
+     "gekauften Stuhl, Eingabe hebt ihn auf, die Punkt-Taste dreht ihn, Eingabe stellt ihn ab."},
     {Str::StepBackToLive,
      "Du kannst jederzeit in den Kaufmodus zurückkehren, um neue Objekte zu kaufen oder das Haus umzustellen. "
      "Jetzt zurück in den Live-Modus: F1 oder Live-Modus in der Steuerung."},
@@ -237,8 +243,8 @@ const Translation kEntries[] = {
      "Wir wollen jetzt eine weitere Person zu dieser Familie hinzufügen: Bettina. Drücke Strg+2, um sie "
      "auszuwählen, und erneut Strg+2, um den Bildschirm auf sie zu zentrieren."},
     {Str::StepSecondObject,
-     "Wähle mit Bild ab ein Objekt und drücke Eingabe, um Bettina handeln zu lassen; die Interaktionen sind "
-     "jetzt ihre."},
+     "Wähle in Objekte nach Art oder nach Raum ein Objekt und drücke Eingabe, um Bettina handeln zu lassen; die "
+     "Interaktionen sind jetzt ihre."},
     {Str::StepSelectFirst,
      "Es gibt verschiedene Möglichkeiten, einen anderen Charakter auszuwählen. Drücke Strg+1, um Willi "
      "auszuwählen."},
@@ -246,8 +252,8 @@ const Translation kEntries[] = {
      "Das hast Du gut gemacht. Jetzt ist Willi ausgewählt. Zum Auswählen kannst Du aber auch die Leertaste "
      "drücken. Drücke jetzt die Leertaste, um wieder Bettina zu steuern."},
     {Str::StepSocial,
-     "Toll! Sims interagieren untereinander genauso wie mit Objekten. Während Bettina ausgewählt ist: "
-     "Umschalt+Bild auf bis Sims, Bild ab bis Willi, Eingabe, und wähle eine Interaktion."},
+     "Toll! Sims interagieren untereinander genauso wie mit Objekten. Während Bettina ausgewählt ist: Tab bis "
+     "Objekte nach Art, Eingabe auf Sims, Pfeil nach unten bis Willi, Eingabe, und wähle eine Interaktion."},
     {Str::StepSocialAgain,
      "Wie die Sims zueinander stehen, zeigt die Leiste Beziehungen, mit täglichen und lebenslangen Werten. "
      "Probiere eine andere Interaktion mit Willi aus und schau Dir dort die Auswirkungen an."},
@@ -255,8 +261,8 @@ const Translation kEntries[] = {
      "Tab bis Sim-Leisten, Pfeiltasten bis Beziehungen, Eingabe: Dort siehst Du, wie der ausgewählte Charakter "
      "zu dieser Person steht."},
     {Str::StepNewspaper,
-     "Sims verdienen durch Arbeit ihren Lebensunterhalt. Suche draußen die Zeitung: Umschalt+Bild ab bis "
-     "Sonstige Objekte, Bild ab bis Bild Zeitung, Eingabe, und wähle Einen Job suchen."},
+     "Sims verdienen durch Arbeit ihren Lebensunterhalt. Suche draußen die Zeitung: Tab bis Objekte nach Art, "
+     "Eingabe auf Sonstige Objekte, Pfeil nach unten bis Bild Zeitung, Eingabe, und wähle Einen Job suchen."},
     {Str::StepJobTab,
      "Glückwunsch! Jetzt Tab bis Sim-Leisten, Pfeiltasten bis Job, Eingabe, dann erfährst Du mehr über den neuen "
      "Job."},
@@ -272,6 +278,7 @@ const Translation kEntries[] = {
      "Grafik-, Sound- und Spieloptionen ein. Drücke F5 oder Optionenmodus in der Steuerung."},
     // Buy mode: catalog
     {Str::CannotAfford, "zu teuer"},
+    {Str::NoFamilyFunds, "keine Familie, unbegrenztes Geld"},
     {Str::RatingHunger, "Hunger"},
     {Str::RatingComfort, "Komfort"},
     {Str::RatingHygiene, "Hygiene"},
@@ -561,8 +568,8 @@ const Translation kEntries[] = {
      "bauen würde und was es kostet. Eingabe baut eine Wand vom Start zum Cursor, Umschalt+Eingabe die vier "
      "Wände eines Raums dazwischen, Strg+Eingabe oder Entf entfernt Wände. Vor dem Bauen warnt der Mod, wenn die "
      "Wände Sims von einem Objekt abschneiden, eine Tür schließen oder einen Teil des Grundstücks abtrennen "
-     "würden; noch einmal Eingabe baut trotzdem. Bild ab und Bild auf wählen eine fertige Raumgröße, Einfügen "
-     "baut sie mit ihrer Nordwestecke am Cursor. Pos1 springt zum ausgewählten Sim, Escape verlässt den Cursor."},
+     "würden; noch einmal Eingabe baut trotzdem. Komma und Punkt wählen eine fertige Raumgröße, Einfügen baut "
+     "sie mit ihrer Nordwestecke am Cursor. Pos1 springt zum ausgewählten Sim, Escape verlässt den Cursor."},
     // Build cursor (area)
     {Str::BuildOutsideArea, "nichts gebaut: das liegt außerhalb der bebaubaren Fläche des Grundstücks"},
     {Str::BuildNotBuildableHere, "außerhalb der bebaubaren Fläche"},
@@ -731,8 +738,8 @@ const Translation kEntries[] = {
     {Str::BuildNoRooms, "noch keine Räume auf dieser Etage oder darunter"},
     {Str::BuildRoomJump, "%s, %d mal %d, an seiner Nordwestecke"},
     {Str::KeysRoomJump,
-     "Strg+Bild ab und Strg+Bild auf springen zum nächsten oder vorigen Raum, an seine Nordwestecke; in einem "
-     "oberen Stockwerk zu den Räumen darunter."},
+     "Tab und Umschalt+Tab springen zum nächsten oder vorigen Raum, an seine Nordwestecke; in einem oberen "
+     "Stockwerk zu den Räumen darunter."},
     // Stairs
     {Str::StairsClimb, "führt nach %s hinauf"},
     {Str::StairsTop, "endet oben auf Feld %d, %d"},
@@ -740,8 +747,8 @@ const Translation kEntries[] = {
     {Str::BuildBlocksStairs, "versperrt die Treppe"},
     // Build cursor: floors and rooms
     {Str::KeysFloorChange,
-     "Umschalt+Bild auf und Umschalt+Bild ab wechseln in das Stockwerk darüber oder darunter; die Wahl eines "
-     "Werkzeugs führt zurück ins Erdgeschoss."},
+     "Bild auf und Bild ab wechseln in das Stockwerk darüber oder darunter; die Wahl eines Werkzeugs führt "
+     "zurück ins Erdgeschoss."},
     // Catalog room filter
     {Str::RoomFilterAll, "Produkte für alle Räume"},
     {Str::RoomFilterOn, "nur Produkte für: %s"},
@@ -758,20 +765,22 @@ const Translation kEntries[] = {
     {Str::ObjRoaches, "Kakerlaken"},
     // Narrator: visitors
     {Str::PizzaGreetHint,
-     "Begrüße ihn, um die Pizza zu bekommen: in der Kategorie Sims mit Bild ab zu ihm, Eingabe, Begrüßen. "
-     "Begrüßt ihn niemand, geht er mit ihr wieder."},
+     "Begrüße ihn, um die Pizza zu bekommen: in Objekte nach Art Eingabe auf Sims, Pfeil nach unten zu ihm, "
+     "Eingabe, Begrüßen. Begrüßt ihn niemand, geht er mit ihr wieder."},
     // Placing: free cursor
     {Str::FreeFits, "passt"},
     {Str::FreeNoFit, "passt nicht: %s"},
     {Str::KeysPlacingFree,
-     "Die Pfeiltasten verschieben es Feld für Feld, mit Umschalt um fünf, und sagen, ob es dort passt; "
-     "Umschalt+Bild auf und Umschalt+Bild ab drehen es, Eingabe stellt es dort hin, Bild ab kehrt zu den Plätzen "
-     "zurück."},
+     "Die Pfeiltasten verschieben es Feld für Feld, mit Umschalt um fünf, und sagen, ob es dort passt; Komma und "
+     "Punkt drehen es, Eingabe stellt es dort hin, Tab kehrt zu den Plätzen zurück."},
     // Sim card
     {Str::BioFor, "Biografie für %s"},
     // Key help
     {Str::KeysSimCard,
      "Strg+Umschalt+1 bis 9 öffnen die Karte eines Sims, auf der seine Biografie bearbeitet werden kann."},
+    {Str::KeysHouseFile,
+     "Auf einem Haus beschreibt Strg+Umschalt+L es wie der Baumodus, nach dem letzten Speichern: Räume, was "
+     "fehlt, Räume ohne Zugang. Strg+Pfeil nach oben liest es Zeile für Zeile."},
     // Travel maps
     {Str::ScreenStudioTown, "Studiopark, wohin?"},
     {Str::ScreenMagicTown, "Stadt der Magie, wohin?"},

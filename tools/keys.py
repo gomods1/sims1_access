@@ -1,7 +1,7 @@
 """Send key presses to the game window without focusing it (PostMessage WM_KEYDOWN/WM_CHAR/WM_KEYUP).
 
   python keys.py <key> [key ...] [--delay 0.6]
-  keys: up down left right tab enter space esc home end pgup pgdn back, any single character,
+  keys: up down left right tab enter space esc home end pgup pgdn back comma period, any single character,
         or f1..f12, with optional shift+ / ctrl+ prefixes. Example: python keys.py tab down down enter
 
 The mod's window subclass sees these exactly like real key presses; the game's own message loop
@@ -18,7 +18,7 @@ user32.PostMessageW.argtypes = [ctypes.c_void_p, ctypes.c_uint, ctypes.c_size_t,
 
 WM_KEYDOWN, WM_KEYUP, WM_CHAR = 0x100, 0x101, 0x102
 VK = {"up": 0x26, "down": 0x28, "left": 0x25, "right": 0x27, "tab": 0x09, "enter": 0x0D,
-      "space": 0x20, "esc": 0x1B, "home": 0x24, "end": 0x23, "shift": 0x10, "ctrl": 0x11, "back": 0x08,
+      "space": 0x20, "esc": 0x1B, "home": 0x24, "end": 0x23, "shift": 0x10, "ctrl": 0x11, "back": 0x08, "comma": 0xBC, "period": 0xBE,
       "pgup": 0x21, "pgdn": 0x22, "delete": 0x2e, "insert": 0x2d}
 CHARS = {0x09: "\t", 0x0D: "\r", 0x20: " ", 0x1B: "\x1b", 0x08: "\b"}
 SYNTHETIC = 1 << 25  # a reserved lParam bit: tells the mod these keys come from this tool

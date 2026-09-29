@@ -764,3 +764,31 @@ so the mod lists objects from the object vector instead), `+0x40` 14-byte wall e
 `+0` mask 1 = edge toward y-1, 2 = toward x-1 (both owned by the tile), 4 = toward y+1, 8 = toward
 x+1 (from the neighbours), 0x10/0x20 diagonals; `+8` u16 style per segment (2, 0xc-0xe fences).
 Verified: the fridge the mod put "contra la pared oeste" had mask 2 and stood against that wall.
+
+## House files (`<neighborhood>\Houses\HouseNN.iff`)
+
+Read by the mod (`game/house_file.cpp`) for the neighborhood's house overview, without loading
+the lot. Where they are: the game saves under the user's Saved Games folder, `0x454a80`:
+`SHGetKnownFolderPath(FOLDERID_SavedGames)` + `\Electronic Arts\The Sims 25\` + the neighborhood
+(`SIMS_CURRENT_NEIGHBORHOOD_PATH`, "UserData"). The install folder's `UserData*` are only the first
+copy (nothing there changed after saving, 2026-09-25). Houses 0 and 11 are old IFF 2.0 templates
+(`IFF FILE 2.0`), not read. Verified on every house of the first neighborhood; the Goths' lot
+(House05) was compared with the engine's room map and object positions tile by tile.
+
+| Chunk | Layout |
+|---|---|
+| `Arry` 1 / 2 / 3 / 8 (upper floor 101 / 102 / 103 / 108; also 0 altitude, 4 ground, 6/7 grass, 9 pool, 10 water) | u32 0, u32 width (64), u32 height, u32 bytes per tile, u32 1, then runs over the bytes: u16 with bit 15 = that many copies of the next byte (padded to 2), else that many literal bytes (padded to even). 1: floor pattern per tile (0 none; 255 on half tiles of diagonal walls). 2: 8 bytes per tile, byte 0 the edge mask the lot grid's WallInfo has (1 toward y-1, 2 x-1, 4 y+1, 8 x+1; both tiles of an edge carry it; 0x10 the diagonal from the tile's (x+1, y) corner to its (x, y+1) corner, 0x20 the other one), bytes 2 / 3 the styles of the tile's y-1 / x-1 edges. 8: the lot grid's tile flags (1 floorable, 2 seeded, 4 outdoors, 0x20 not editable): the tiles with 4 are exactly the engine's outdoor room tiles (2613 on the Goths' lot); where 1, 2 and 4 stop is the lot's size (52 there). 3: one u16 object id per tile, the rest hidden (whether the window or the sofa under it shows changed between two saves of the same house): not used. |
+| `objt` 0 | u32 0, u32 version (2 or 3), "tjbo"; per type: u32 GUID (0 = empty slot), u16 x4, u16 type id (ObjM's), u16 OBJD object type (2 person, 4 normal, 7 system, 8 door / window / stair / pool ladder part, 11, 12 inventory item), NUL-terminated name (often empty) padded to even; version 3 adds a u32 (another GUID) after each entry |
+| `ObjM` 1 | u32 0, u32 version, "MjbO", u8 1, then a bit stream (FreeSO's `IffFieldEncode`: most significant bit first; a 0 bit is the value 0, else 2 bits choose the width, 5/8/13/16 for a short or 6/11/21/32 for an int, and the value follows, sign-extended): pairs (object id, objt type id) up to id 0; from the next whole byte, per object a plain u32 = offset of the next object (from just after "MjbO") and its own bit stream: footprint (4 ints), **y and x** (ints, 1/16 tile, tile * 16 + 8; -16 when not placed), level (int), a short, the attribute count and attributes, 8 temporaries, 68 object data shorts (the VMStackObjectVariable order the live object has at `+0x4a`: 1 direction, 2 container id, 11 object id), 5 more shorts, then the stack (FreeSO's `OBJM.cs`). Object ids are the ones the lot gets when loaded (227 of 245 matched by name; the rest were created or removed at load). |
+| `Neighborhood.iff` `FAMI` | u32 0, u32 version, "IMAF", i32 house number (0 = no house), i32 family number, i32 funds, i32 value, i32 x2, i32 member count, u32 GUID per member: the member's character type in ObjectFolder, `user000NN - Name`. Pets' types carry OBJD function flags 0x40 and room flags 0x10 (all 20 pets of the first neighborhood; no Sim does). |
+
+Rooms from these match the engine's room map: walls split a floor; on an upper floor the edge of
+the floor does too (the opening over a staircase is a room of its own, 3 tiles on the Goths'
+lot); tiles cut by a diagonal wall belong to no room. Doors (objt type 8, internal name
+"Door...") are two parts on the two tiles across their wall.
+
+**ObjectFolder** (`[[0xa67044]] + 0x28`): every object type the game can load, from startup, by
+GUID: a `std::unordered_map` whose node list sentinel is at `+0x1260` (count `+0x1264`, 5461 in
+the neighborhood); nodes are next, prev, GUID, type record (the record's `+0x60` is its OBJD,
+GUID in OBJD fields 14-15). `0x5738b0` (thiscall, GUID) is the game's lookup; Create New Object
+Instance (`0x614700`) calls it.

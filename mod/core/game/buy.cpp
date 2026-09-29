@@ -143,6 +143,11 @@ bool HeldProduct(ProductInfo* out) {
     return false;
 }
 
+bool UnlimitedFunds() {
+    Ptr simulator = Rd<Ptr>(Rd<Ptr>(Va(addr::kSimRoot)) + addr::sim::kSimulator);
+    return IsKindOf(simulator, "cSimulator") && Rd<int16_t>(simulator + addr::sim::kFundsMode) == 1;
+}
+
 bool GetFunds(int* funds) {
     Ptr simulator = Rd<Ptr>(Rd<Ptr>(Va(addr::kSimRoot)) + addr::sim::kSimulator);
     if (!IsKindOf(simulator, "cSimulator") || Rd<int16_t>(simulator + addr::sim::kFundsMode) == 1) return false;

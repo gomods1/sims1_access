@@ -12,18 +12,19 @@ const Translation kEntries[] = {
     {Str::ModLoaded, "模擬市民無障礙模組已載入"},
     // Key help (Ctrl+F1)
     {Str::KeysScreen,
-     "方向鍵在群組內移動，Tab和Shift+Tab切換群組，Home和End移到兩端，Enter執行，R重複朗讀。在滑桿或選擇器上，左右方向鍵調整數值，上下方向鍵移動。Ctrl+上方向鍵和Ctrl+下方向鍵朗讀剛才所說"
-     "內容的詳細資料，Ctrl+左方向鍵和Ctrl+右方向鍵在詳細資料和事件之間切換。"},
+     "Tab和Shift+Tab切換群組，方向鍵在群組內移動，Home和End移到群組的兩端，Enter執行；在地段物品的某個類型或房間上按Enter，會開啟其中的物品；退格鍵返回，R重複朗讀。在滑桿或選擇器上，左右方向"
+     "鍵調整數值。Ctrl+上方向鍵和Ctrl+下方向鍵朗讀剛才所說內容的詳細資料，Ctrl+左方向鍵和Ctrl+右方向鍵在詳細資料和事件之間切換。"},
     {Str::KeysLot,
-     "上下方向鍵切換群組，左右方向鍵在群組內移動；在設定頁面上，上下方向鍵逐項瀏覽設定，左右方向鍵調整滑桿或選擇器。Page Down和Page "
-     "Up瀏覽物品，加Shift切換類別，加Ctrl切換房間。Enter開啟物品的互動，Ctrl+Enter讓模擬人物走過去，R重複朗讀。空白鍵選擇下一個模擬人物，Ctrl+1到9選擇家庭中的某個模擬人物，Ctrl+F切"
-     "換畫面是否跟隨選取的模擬人物。P暫停並朗讀時間和資金。Ctrl+上方向鍵和Ctrl+下方向鍵朗讀詳細資料，Ctrl+左方向鍵和Ctrl+右方向鍵在詳細資料和事件之間切換。"},
+     "Tab和Shift+Tab依序瀏覽各群組：狀態列、需求、家庭、動作佇列、依類型的物品、依房間的物品，然後是遊戲的面板；方向鍵在群組內移動，在設定頁面上，左右方向鍵調整滑桿或選擇器。在依類型或依房間的物品中，Ente"
+     "r開啟一個類型或房間，其中的物品由近到遠排列，畫面會移到每個物品，退格鍵返回；在物品上按Enter開啟它的互動，Ctrl+Enter讓模擬人物走過去。R重複朗讀。空白鍵選擇下一個模擬人物，Ctrl+1到9選擇家庭中"
+     "的某個模擬人物，Ctrl+F切換畫面是否跟隨選取的模擬人物。Ctrl+E朗讀選取的模擬人物正在做什麼和需要什麼，Ctrl+N改變旁白說話的多寡。P暫停並朗讀時間和資金。Ctrl+上方向鍵和Ctrl+下方向鍵朗讀詳細"
+     "資料，Ctrl+左方向鍵和Ctrl+右方向鍵在詳細資料和事件之間切換。"},
     {Str::KeysPlacing,
-     "Page Down和Page Up瀏覽放得下又能使用的位置，最好的排在前面；加Ctrl切換房間，加Shift在同一位置轉向。Enter在該處購買，Esc取消，R重複朗讀。Ctrl+上方向鍵和Ctrl+下方向鍵朗讀該"
-     "位置的詳細資料，以及其他檢查結果。"},
+     "Tab和Shift+Tab瀏覽放得下又能使用的位置，最好的排在前面；Page Down和Page Up切換房間；逗號和句號在同一位置轉向。Enter在該處購買，Esc取消，R重複朗讀。Ctrl+上方向鍵和Ctrl+"
+     "下方向鍵朗讀該位置的詳細資料，以及其他檢查結果。"},
     {Str::KeysBuy,
-     "方向鍵瀏覽目錄；商品會讀出價格和說明，Ctrl+上方向鍵和Ctrl+下方向鍵讀出它的所有資訊。在商品上按Enter，開始把它擺在放得下又能使用的地方。Page Down和Page "
-     "Up瀏覽區塊上的物品，加Shift切換類別，加Ctrl切換房間；Enter拿起物品來移動，接著按Delete就能賣掉。"},
+     "方向鍵瀏覽目錄；商品會讀出價格和說明，Ctrl+上方向鍵和Ctrl+下方向鍵讀出它的所有資訊。在商品上按Enter，開始把它擺在放得下又能使用的地方。在依類型或依房間的物品中（Tab），在地段上的物品上按Enter"
+     "拿起它來移動，接著按Delete就能賣掉。"},
     {Str::KeysMenu, "上下方向鍵選擇互動，Enter執行，Esc返回。"},
     {Str::UnsupportedBuild, "模擬市民無障礙模組：不支援的遊戲版本，模組已停用"},
     // Control state
@@ -87,7 +88,7 @@ const Translation kEntries[] = {
     {Str::FamilyMembers, "%d名成員"},
     {Str::NetWorth, "總財產"},
     {Str::Friends, "朋友"},
-    // Lot: object browser (PageUp/PageDown)
+    // Lot: the lot's things by kind and by room
     {Str::CategorySims, "模擬人物"},
     {Str::CategorySeating, "座椅"},
     {Str::CategorySurfaces, "外觀"},
@@ -98,8 +99,10 @@ const Translation kEntries[] = {
     {Str::CategoryDecorative, "裝飾"},
     {Str::CategoryMiscellaneous, "雜項"},
     {Str::CategoryOther, "其他物品"},
+    {Str::ThingsByKind, "依類型的物品"},
+    {Str::ThingsByRoom, "依房間的物品"},
     {Str::NoObjects, "這裡沒有物品"},
-    // Lot: rooms (Ctrl+PageUp/PageDown)
+    // Lot: rooms
     {Str::RoomOutside, "屋外"},
     {Str::RoomBathroom, "浴室"},
     {Str::RoomBedroom, "臥室"},
@@ -154,44 +157,45 @@ const Translation kEntries[] = {
     {Str::NoTip, "目前沒有說明提示"},
     {Str::TutorialPointsAtSpot, "箭頭指向區塊上的一個位置：%s"},
     {Str::SpotOnLot, "位置"},
-    {Str::HintNewspaper, "鍵盤操作：Shift+Page Down移到雜項或其他物品，Page Down移到報紙，按Enter，選擇找工作。"},
+    {Str::HintNewspaper, "鍵盤操作：Tab移到依類型的物品，在雜項或其他物品上按Enter，下方向鍵移到報紙，按Enter，選擇找工作。"},
     {Str::TutorialEscapeAgain, "再按一次Esc離開教學"},
     {Str::TutorialOver, "教學已結束"},
     // The tutorial's steps told for the keyboard (nav/tutorial.cpp)
     {Str::StepZoom, "這裡是我們教學住宅的概觀。按畫面放大按鈕：Tab移到控制按鈕，方向鍵移到畫面放大，按Enter。任何時候皆可按兩次Esc取消教學。"},
     {Str::StepZoomAgain, "這是中距離拉近畫面。現在在畫面放大上再按一次Enter，可以看到最近的畫面。"},
-    {Str::StepScroll, "有幾個捲動畫面的方法。使用鍵盤時，畫面會跟著您瀏覽的物品移動：按Page Down移到下一個物品。"},
-    {Str::StepScrollAgain, "很好。Page Down和Page Up瀏覽物品，加Shift切換類別，畫面會移到每個物品。再按一次Page Down。"},
+    {Str::StepScroll, "有幾個捲動畫面的方法。使用鍵盤時，畫面會跟著您瀏覽的物品移動：Tab移到依類型的物品，在一個類型上按Enter，然後按下方向鍵移到下一個物品。"},
+    {Str::StepScrollAgain, "很好。方向鍵瀏覽物品，退格鍵回到類型，畫面會移到每個物品。再按一次下方向鍵。"},
     {Str::StepRotate, "現在我們來旋轉畫面吧：在控制按鈕中，按向右旋轉。"},
     {Str::StepLive, "既然您已經學會控制畫面，可以進入生活模式了。按F1，或在控制按鈕中按生活模式。如果它已經選取，先按採購模式（F2），再按生活模式。"},
     {Str::StepPortrait, "家庭成員會出現在下面的控制台中。目前家庭成員只有一個人，鮑伯。按Ctrl+1，也就是他的頭像，他就會出現在畫面中央。"},
-    {Str::StepGoHere, "接下來我們要學習如何控制鮑伯。用Page Down選擇一個物品，然後按Ctrl+Enter：鮑伯就會走到那裡。"},
+    {Str::StepGoHere, "接下來我們要學習如何控制鮑伯。在依類型或依房間的物品中選擇一個物品，然後按Ctrl+Enter：鮑伯就會走到那裡。"},
     {Str::StepGoHereAgain, "在物品上按Ctrl+Enter，讓鮑伯走到那裡。"},
-    {Str::StepInteract, "您可以命令模擬人物與大部分物品互動。Page Down瀏覽物品；在物品上按Enter會開啟它的互動，再按Enter為鮑伯選擇一項。"},
+    {Str::StepInteract, "您可以命令模擬人物與大部分物品互動。在依類型的物品中，方向鍵瀏覽物品；在物品上按Enter會開啟它的互動，再按Enter為鮑伯選擇一項。"},
     {Str::StepMood, "模擬人物面板中的情緒頁籤既是指示器，也是按鈕：綠色表示鮑伯心情很好，紅色表示他不高興。Tab移到模擬人物面板，在情緒上按Enter，顯示鮑伯目前的需要。"},
-    {Str::StepShower, "我們來試試讓鮑伯乾淨些吧。Shift+Page Down移到配管，Page Down移到淋浴間，按Enter，然後選擇淋浴。"},
+    {Str::StepShower, "我們來試試讓鮑伯乾淨些吧。Tab移到依類型的物品，在配管上按Enter，下方向鍵移到淋浴間，按Enter，然後選擇淋浴。"},
     {Str::StepNeeds, "瀏覽各項需求：Tab移到需求，用左右方向鍵，在其中一項上按Enter會讀出它的解釋，以及可以滿足它的物品。每個物品滿足需求的程度各不相同。"},
     {Str::StepBuy, "如果您能將大部分需求保持在綠色的狀態，您的模擬人物就會很滿足；通常您要先滿足最迫切的需求。接下來我們來看採購模式吧：按F2，或在控制按鈕中按採購模式。"},
     {Str::StepChooseChair, "看看目錄：Tab移到目錄，在座椅上按Enter，用方向鍵瀏覽椅子；在鮑伯會喜歡的椅子上按Enter，就會開始擺放。"},
-    {Str::StepPlace, "要買下它：用Page Down和Page Up選擇一個空位，按Enter就在那裡買下。買下後手上還會拿著下一張，按Esc收起來。"},
-    {Str::StepTurn, "很好，現在我們把它旋轉一下：Page Down移到剛買的椅子，按Enter拿起，Shift+Page Down轉向，按Enter放下。"},
+    {Str::StepPlace, "要買下它：用Tab和Shift+Tab選擇一個空位，按Enter就在那裡買下。買下後手上還會拿著下一張，按Esc收起來。"},
+    {Str::StepTurn, "很好，現在我們把它旋轉一下：在依類型的物品中，在座椅上按Enter，移到剛買的椅子，按Enter拿起，句號鍵轉向，按Enter放下。"},
     {Str::StepBackToLive, "記住，您隨時都能回到採購模式中，採購新物品，或者重新佈置屋裡的物品。現在回到生活模式吧：按F1，或在控制按鈕中按生活模式。"},
     {Str::StepPersonality, "不對模擬人物下指令的話，他們就會依照目前的需求和個性，自行決定要做些什麼。我們來看看鮑伯的個性吧：Tab移到模擬人物面板，方向鍵移到個性，按Enter。"},
     {Str::StepPersonalityTab, "在個性頁籤上按Enter，查看個性面板。"},
     {Str::StepSecondSim, "現在我們要在這個家庭裡增加一個新成員：她的名字是佩蒂。按Ctrl+2選擇佩蒂，再按一次Ctrl+2就能將她置於畫面中央。"},
-    {Str::StepSecondObject, "用Page Down選擇一個物品，按Enter命令佩蒂做點事；現在的互動都是她的了。"},
+    {Str::StepSecondObject, "在依類型或依房間的物品中選擇一個物品，按Enter命令佩蒂做點事；現在的互動都是她的了。"},
     {Str::StepSelectFirst, "有幾個更改操控角色的方法。按Ctrl+1選擇鮑伯。"},
     {Str::StepSpace, "這就對啦。現在選擇了鮑伯。另一個選擇角色的方法就是按下空白鍵。現在按下空白鍵，您就會重新控制佩蒂。"},
-    {Str::StepSocial, "很好。模擬人物與人互動的方式和他們與物品互動是一樣的。選擇佩蒂時：Shift+Page Up移到模擬人物，Page Down移到鮑伯，按Enter，然後選擇一項互動。"},
+    {Str::StepSocial, "很好。模擬人物與人互動的方式和他們與物品互動是一樣的。選擇佩蒂時：Tab移到依類型的物品，在模擬人物上按Enter，下方向鍵移到鮑伯，按Enter，然後選擇一項互動。"},
     {Str::StepSocialAgain, "模擬人物彼此的感覺顯示在人際關係面板中，分為每日和終生分數。試試與鮑伯進行別的互動，再到那裡觀察結果。"},
     {Str::StepRelationships, "Tab移到模擬人物面板，方向鍵移到人際關係，按Enter：就能看到選定角色對這個人的感覺。"},
-    {Str::StepNewspaper, "模擬人物得工作才能賺錢。到外面找份報紙：Shift+Page Down移到其他物品，Page Down移到報紙，按Enter，然後選擇找工作。"},
+    {Str::StepNewspaper, "模擬人物得工作才能賺錢。到外面找份報紙：Tab移到依類型的物品，在其他物品上按Enter，下方向鍵移到報紙，按Enter，然後選擇找工作。"},
     {Str::StepJobTab, "恭喜您了！現在Tab移到模擬人物面板，方向鍵移到職業，按Enter，就能得到更多關於新工作的情報。"},
     {Str::StepJobName, "這個面板顯示選定角色的工作和技能等級，對工作的升遷很重要。Tab移到職業，在工作名稱上按Enter，看一下公司交通車什麼時候會來。"},
     {Str::StepSkills, "技能（廚藝、技工等）會連同點數一起讀出；升遷需要增進的技能會特別說明。方向鍵移到一項技能，按Enter了解怎麼增進。"},
     {Str::StepOptions, "選單模式是您儲存、退出遊戲或回到社區畫面的地方。您也可以在此設定畫面、音效及遊戲選項。按F5，或在控制按鈕中按選單模式。"},
     // Buy mode: catalog
     {Str::CannotAfford, "付不起"},
+    {Str::NoFamilyFunds, "沒有家庭，資金無限"},
     {Str::RatingHunger, "飢餓度"},
     {Str::RatingComfort, "舒適度"},
     {Str::RatingHygiene, "衛生"},
@@ -474,8 +478,8 @@ const Translation kEntries[] = {
     {Str::BuildCursorEnd, "已關閉建造游標"},
     {Str::KeysBuildCursor,
      "方向鍵把游標移動一個角點，按住Shift移動五個。游標會說出位置、在此相交的牆和這裡的物品；R說出全部，包括各方向的空地和房間。空白鍵設起點；之後游標會說出與起點的距離，以及Enter會建造什麼、花多少錢。Ente"
-     "r從起點到游標建牆，Shift+Enter建造兩者之間房間的四面牆，Ctrl+Enter或Delete拆牆。建造前，如果牆會讓模擬人物到不了某個物品、擋住門或隔開地段的一部分，模組會警告，再按Enter仍然建造。P"
-     "age Down和Page Up選擇現成的房間大小，Insert以游標為西北角建造。Home回到選取的模擬人物，Escape退出游標。"},
+     "r從起點到游標建牆，Shift+Enter建造兩者之間房間的四面牆，Ctrl+Enter或Delete拆牆。建造前，如果牆會讓模擬人物到不了某個物品、擋住門或隔開地段的一部分，模組會警告，再按Enter仍然建造。逗"
+     "號和句號選擇現成的房間大小，Insert以游標為西北角建造。Home回到選取的模擬人物，Escape退出游標。"},
     // Build cursor (area)
     {Str::BuildOutsideArea, "沒有建造：那裡在地段可建造區域之外"},
     {Str::BuildNotBuildableHere, "在可建造區域之外"},
@@ -630,14 +634,14 @@ const Translation kEntries[] = {
     {Str::BuildAboveNothing, "下面沒有建造任何東西"},
     {Str::BuildNoRooms, "這一層和下面還沒有房間"},
     {Str::BuildRoomJump, "%s，%d×%d，在它的西北角"},
-    {Str::KeysRoomJump, "Ctrl+Page Down 和 Ctrl+Page Up 跳到下一個或上一個房間的西北角；在樓上時，跳到下面的房間。"},
+    {Str::KeysRoomJump, "Tab 和 Shift+Tab 跳到下一個或上一個房間的西北角；在樓上時，跳到下面的房間。"},
     // Stairs
     {Str::StairsClimb, "向%s上"},
     {Str::StairsTop, "在格子%d, %d到達樓上"},
     // Build warnings
     {Str::BuildBlocksStairs, "擋住樓梯"},
     // Build cursor: floors and rooms
-    {Str::KeysFloorChange, "Shift+Page Up 和 Shift+Page Down 去上一層或下一層；選擇工具會回到一樓。"},
+    {Str::KeysFloorChange, "Page Up 和 Page Down 去上一層或下一層；選擇工具會回到一樓。"},
     // Catalog room filter
     {Str::RoomFilterAll, "適合所有房間的商品"},
     {Str::RoomFilterOn, "只看適合%s的商品"},
@@ -651,16 +655,16 @@ const Translation kEntries[] = {
     {Str::ObjDigPile, "狗挖出的土堆"},
     {Str::ObjRoaches, "蟑螂"},
     // Narrator: visitors
-    {Str::PizzaGreetHint, "和他打招呼才能拿到披薩：在模擬人物類別裡用 Page Down 找到他，按 Enter，選擇問候。沒人打招呼他就帶著披薩走了。"},
+    {Str::PizzaGreetHint, "和他打招呼才能拿到披薩：在依類型的物品中，在模擬人物上按 Enter，用下方向鍵找到他，按 Enter，選擇問候。沒人打招呼他就帶著披薩走了。"},
     // Placing: free cursor
     {Str::FreeFits, "放得下"},
     {Str::FreeNoFit, "放不下：%s"},
-    {Str::KeysPlacingFree,
-     "方向鍵一次移動一格，按住 Shift 一次五格，並說明能否放下；Shift+Page Up 和 Shift+Page Down 旋轉，Enter 放在這裡，Page Down 回到位置清單。"},
+    {Str::KeysPlacingFree, "方向鍵一次移動一格，按住 Shift 一次五格，並說明能否放下；逗號和句號旋轉，Enter 放在這裡，Tab 回到位置清單。"},
     // Sim card
     {Str::BioFor, "%s的小傳"},
     // Key help
     {Str::KeysSimCard, "Ctrl+Shift+1 到 9 打開模擬人物的卡片，可以編輯小傳。"},
+    {Str::KeysHouseFile, "在房屋上，Ctrl+Shift+L 依最近一次存檔，像建造模式那樣描述它：房間、缺少的東西、無法進入的房間。Ctrl+上方向鍵逐行朗讀。"},
     // Travel maps
     {Str::ScreenStudioTown, "影城區，去哪裡？"},
     {Str::ScreenMagicTown, "魔法城，去哪裡？"},

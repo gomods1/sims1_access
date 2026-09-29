@@ -12,29 +12,32 @@ const Translation kEntries[] = {
     {Str::ModLoaded, "Accessibilità per The Sims caricata"},
     // Key help (Ctrl+F1)
     {Str::KeysScreen,
-     "Le frecce si spostano in un gruppo, Tab e Maiuscole+Tab cambiano gruppo, Inizio e Fine vanno agli estremi, "
-     "Invio attiva, R ripete. Su un cursore o un selettore, sinistra e destra lo cambiano e su e giù si "
-     "spostano. Control+freccia su e Control+freccia giù leggono i dettagli di quanto detto, Control+freccia "
-     "sinistra e Control+freccia destra passano tra dettagli ed eventi."},
+     "Tab e Maiuscole+Tab cambiano gruppo, le frecce si spostano in un gruppo, Inizio e Fine vanno ai suoi "
+     "estremi; Invio attiva, e su un tipo o una stanza degli oggetti del lotto ne apre gli oggetti; Backspace "
+     "torna indietro; R ripete. Su un cursore o un selettore, sinistra e destra lo cambiano. Control+freccia su "
+     "e Control+freccia giù leggono i dettagli di quanto detto, Control+freccia sinistra e Control+freccia "
+     "destra passano tra dettagli ed eventi."},
     {Str::KeysLot,
-     "Su e giù cambiano gruppo, sinistra e destra si spostano al suo interno; in una pagina di impostazioni su e "
-     "giù scorrono le impostazioni e sinistra e destra cambiano un cursore o un selettore. Pagina giù e Pagina "
-     "su scorrono gli oggetti, con Maiuscole cambiano categoria, con Control cambiano stanza. Invio apre le "
-     "interazioni dell'oggetto, Control+Invio ci manda il Sim, R ripete. Spazio seleziona il Sim successivo, da "
-     "Control+1 a Control+9 selezionano un Sim della famiglia, Control+F fa seguire o no il Sim selezionato "
-     "dalla telecamera. Control+E dice cosa fa e di cosa ha bisogno il Sim selezionato, Control+N cambia quanto "
-     "parla il narratore. P mette in pausa e legge l'ora e il denaro. Control+freccia su e Control+freccia giù "
-     "leggono i dettagli, Control+freccia sinistra e Control+freccia destra passano tra dettagli ed eventi."},
+     "Tab e Maiuscole+Tab scorrono i gruppi: la riga di stato, i bisogni, la famiglia, la coda delle azioni, "
+     "oggetti per tipo, oggetti per stanza, poi i pannelli del gioco; le frecce si spostano in un gruppo, e in "
+     "una pagina di impostazioni sinistra e destra cambiano un cursore o un selettore. In oggetti per tipo o per "
+     "stanza, Invio apre un tipo o una stanza, i suoi oggetti vengono dal più vicino e la telecamera va su "
+     "ognuno, Backspace torna indietro; Invio su un oggetto apre le sue interazioni, Control+Invio ci manda il "
+     "Sim. R ripete. Spazio seleziona il Sim successivo, da Control+1 a Control+9 selezionano un Sim della "
+     "famiglia, Control+F fa seguire o no il Sim selezionato dalla telecamera. Control+E dice cosa fa e di cosa "
+     "ha bisogno il Sim selezionato, Control+N cambia quanto parla il narratore. P mette in pausa e legge l'ora "
+     "e il denaro. Control+freccia su e Control+freccia giù leggono i dettagli, Control+freccia sinistra e "
+     "Control+freccia destra passano tra dettagli ed eventi."},
     {Str::KeysPlacing,
-     "Pagina giù e Pagina su scorrono le posizioni in cui l'oggetto ci sta e si può usare, prima le migliori; "
-     "con Control cambiano stanza, con Maiuscole lo ruotano nella stessa posizione. Invio lo compra lì, Esc "
-     "annulla, R ripete. Control+freccia su e Control+freccia giù leggono i dettagli della posizione e cos'altro "
-     "è stato controllato."},
+     "Tab e Maiuscole+Tab scorrono le posizioni in cui l'oggetto ci sta e si può usare, prima le migliori; "
+     "Pagina giù e Pagina su cambiano stanza; virgola e punto lo ruotano nella stessa posizione. Invio lo compra "
+     "lì, Esc annulla, R ripete. Control+freccia su e Control+freccia giù leggono i dettagli della posizione e "
+     "cos'altro è stato controllato."},
     {Str::KeysBuy,
      "Le frecce scorrono il catalogo; un prodotto dice il prezzo e la descrizione, Control+freccia su e "
      "Control+freccia giù tutto il resto. Invio su un prodotto inizia a posizionarlo dove ci sta e si può usare. "
-     "Pagina giù e Pagina su scorrono gli oggetti del lotto, con Maiuscole cambiano categoria, con Control "
-     "stanza; Invio prende l'oggetto per spostarlo, poi Canc lo vende."},
+     "In oggetti per tipo o per stanza (Tab), Invio su un oggetto del lotto lo prende per spostarlo, poi Canc lo "
+     "vende."},
     {Str::KeysMenu, "Su e giù scelgono un'interazione, Invio la esegue, Esc torna indietro."},
     {Str::UnsupportedBuild, "Accessibilità per The Sims: versione del gioco non supportata, mod disattivata"},
     // Control state
@@ -100,7 +103,7 @@ const Translation kEntries[] = {
     {Str::FamilyMembers, "%d membri"},
     {Str::NetWorth, "capitale netto"},
     {Str::Friends, "amici"},
-    // Lot: object browser (PageUp/PageDown)
+    // Lot: the lot's things by kind and by room
     {Str::CategorySims, "Sims"},
     {Str::CategorySeating, "sedie, divani e letti"},
     {Str::CategorySurfaces, "tavoli"},
@@ -111,8 +114,10 @@ const Translation kEntries[] = {
     {Str::CategoryDecorative, "ornamenti"},
     {Str::CategoryMiscellaneous, "varie"},
     {Str::CategoryOther, "altri oggetti"},
+    {Str::ThingsByKind, "oggetti per tipo"},
+    {Str::ThingsByRoom, "oggetti per stanza"},
     {Str::NoObjects, "nessun oggetto qui"},
-    // Lot: rooms (Ctrl+PageUp/PageDown)
+    // Lot: rooms
     {Str::RoomOutside, "esterno"},
     {Str::RoomBathroom, "bagno"},
     {Str::RoomBedroom, "camera da letto"},
@@ -168,7 +173,7 @@ const Translation kEntries[] = {
     {Str::TutorialPointsAtSpot, "la freccia indica un punto del lotto: %s"},
     {Str::SpotOnLot, "punto"},
     {Str::HintNewspaper,
-     "Con la tastiera: Maiuscole+Pagina giù fino a varie o altri oggetti, Pagina giù fino a Giornale, Invio, "
+     "Con la tastiera: Tab fino a oggetti per tipo, Invio su varie o altri oggetti, giù fino a Giornale, Invio, "
      "scegli Cerca un lavoro."},
     {Str::TutorialEscapeAgain, "premi di nuovo Esc per uscire dal tutorial"},
     {Str::TutorialOver, "il tutorial è finito"},
@@ -180,11 +185,11 @@ const Translation kEntries[] = {
      "Questo è il livello medio di zoom. Premi di nuovo Invio su Zoom + per ottenere una visuale ancora più "
      "vicina."},
     {Str::StepScroll,
-     "Ci sono diversi modi per muovere la schermata. Con la tastiera la telecamera segue quello che scorri: "
-     "premi Pagina giù per passare all'oggetto successivo."},
+     "Ci sono diversi modi per muovere la schermata. Con la tastiera la telecamera segue quello che scorri: Tab "
+     "fino a oggetti per tipo, Invio su un tipo, poi giù passa all'oggetto successivo."},
     {Str::StepScrollAgain,
-     "Bene. Pagina giù e Pagina su scorrono gli oggetti, con Maiuscole cambiano categoria, e la telecamera va su "
-     "ognuno. Premi di nuovo Pagina giù."},
+     "Bene. Le frecce scorrono gli oggetti, Backspace torna ai tipi, e la telecamera va su ognuno. Premi di "
+     "nuovo giù."},
     {Str::StepRotate, "Ora ruotiamo la visuale: nei controlli, premi Ruota a Destra."},
     {Str::StepLive,
      "Ora sai come controllare la visuale: è ora di passare alla modalità Vivi. Premi F1, oppure Vivi nei "
@@ -193,19 +198,19 @@ const Translation kEntries[] = {
      "I membri della famiglia compaiono nel pannello di controllo. Questa famiglia è composta da appena una "
      "persona, Roberto. Premi Control+1, il suo ritratto, per centrarlo sullo schermo."},
     {Str::StepGoHere,
-     "Ora imparerai come controllare Roberto. Scegli un oggetto con Pagina giù e premi Control+Invio: Roberto "
-     "andrà in quel punto."},
+     "Ora imparerai come controllare Roberto. Scegli un oggetto in oggetti per tipo o per stanza e premi "
+     "Control+Invio: Roberto andrà in quel punto."},
     {Str::StepGoHereAgain, "Premi Control+Invio su un oggetto perché Roberto ci vada."},
     {Str::StepInteract,
-     "I Sims possono essere comandati per interagire con la maggior parte degli oggetti. Pagina giù scorre gli "
-     "oggetti; Invio su uno apre le sue interazioni, e Invio ne sceglie una per Roberto."},
+     "I Sims possono essere comandati per interagire con la maggior parte degli oggetti. In oggetti per tipo, le "
+     "frecce scorrono gli oggetti; Invio su uno apre le sue interazioni, e Invio ne sceglie una per Roberto."},
     {Str::StepMood,
      "L'umore, la scheda Caratteristiche nei pannelli del Sim, è sia un indicatore sia un pulsante: verde "
      "significa che Roberto è felice, rosso che non lo è. Tab fino ai pannelli del Sim, Invio su Caratteristiche "
      "per vedere di cosa ha bisogno."},
     {Str::StepShower,
-     "Proviamo ad aumentare l'igiene di Roberto. Maiuscole+Pagina giù fino a servizi igienici, Pagina giù fino "
-     "alla doccia, Invio, poi scegli Fai la doccia."},
+     "Proviamo ad aumentare l'igiene di Roberto. Tab fino a oggetti per tipo, Invio su servizi igienici, giù "
+     "fino alla doccia, Invio, poi scegli Fai la doccia."},
     {Str::StepNeeds,
      "Scorri i bisogni: Tab fino al gruppo Ha Bisogno di, sinistra e destra, Invio su uno legge la sua "
      "spiegazione e quali oggetti lo soddisfano. Gli oggetti soddisfano i bisogni con efficacia diversa."},
@@ -216,11 +221,11 @@ const Translation kEntries[] = {
      "Dai un'occhiata al catalogo: Tab fino al catalogo, Invio sulla categoria Sedie, Divani e Letti, poi frecce "
      "tra le sedie; Invio su quella che piacerebbe a Roberto inizia a posizionarla."},
     {Str::StepPlace,
-     "Per comprarla: Pagina giù e Pagina su scelgono una posizione libera, Invio la compra lì. Se in mano ne "
-     "resta un'altra, Esc la mette via."},
+     "Per comprarla: Tab e Maiuscole+Tab scelgono una posizione libera, Invio la compra lì. Se in mano ne resta "
+     "un'altra, Esc la mette via."},
     {Str::StepTurn,
-     "Straordinario, ora prova a ruotarla: Pagina giù fino alla sedia appena comprata, Invio la prende, "
-     "Maiuscole+Pagina giù la ruota, Invio la rimette giù."},
+     "Straordinario, ora prova a ruotarla: in oggetti per tipo, Invio su sedie, divani e letti, vai alla sedia "
+     "appena comprata, Invio la prende, il tasto punto la ruota, Invio la rimette giù."},
     {Str::StepBackToLive,
      "Ricordati, puoi sempre tornare alla modalità Compra per comprare qualcosa di nuovo o risistemare la casa. "
      "Ora torniamo alla modalità Vivi: F1, oppure Vivi nei controlli."},
@@ -232,16 +237,16 @@ const Translation kEntries[] = {
      "Adesso aggiungiamo un'altra persona a questa famiglia: Silvia. Premi Control+2 per selezionarla, e di "
      "nuovo Control+2 per centrarla sullo schermo."},
     {Str::StepSecondObject,
-     "Scegli un oggetto con Pagina giù e premi Invio per far fare qualcosa a Silvia; ora le interazioni sono le "
-     "sue."},
+     "Scegli un oggetto in oggetti per tipo o per stanza e premi Invio per far fare qualcosa a Silvia; ora le "
+     "interazioni sono le sue."},
     {Str::StepSelectFirst,
      "Ci sono diversi modi per cambiare personaggio. Premi Control+1 per selezionare Roberto."},
     {Str::StepSpace,
      "Incredibile, vero? Ora controlli Roberto. Un altro modo per scegliere un personaggio è la barra "
      "spaziatrice. Premi Spazio adesso e tornerai a Silvia."},
     {Str::StepSocial,
-     "Bene. I Sims interagiscono tra di loro come con gli oggetti. Con Silvia selezionata: Maiuscole+Pagina su "
-     "fino a Sims, Pagina giù fino a Roberto, Invio, e scegli un'interazione."},
+     "Bene. I Sims interagiscono tra di loro come con gli oggetti. Con Silvia selezionata: Tab fino a oggetti "
+     "per tipo, Invio su Sims, giù fino a Roberto, Invio, e scegli un'interazione."},
     {Str::StepSocialAgain,
      "Quello che i Sims provano l'uno per l'altro è nel pannello Relazioni, con i punteggi giornaliero e a vita. "
      "Prova un'altra interazione con Roberto e guarda lì il risultato."},
@@ -249,8 +254,8 @@ const Translation kEntries[] = {
      "Tab fino ai pannelli del Sim, frecce fino a Relazioni, Invio: mostra come il personaggio selezionato si "
      "sente nei confronti di questa persona."},
     {Str::StepNewspaper,
-     "Tutti i Sims guadagnano soldi lavorando. Trova il giornale all'esterno: Maiuscole+Pagina giù fino ad altri "
-     "oggetti, Pagina giù fino a Giornale, Invio, e scegli Cerca un lavoro."},
+     "Tutti i Sims guadagnano soldi lavorando. Trova il giornale all'esterno: Tab fino a oggetti per tipo, Invio "
+     "su altri oggetti, giù fino a Giornale, Invio, e scegli Cerca un lavoro."},
     {Str::StepJobTab,
      "Congratulazioni! Ora Tab fino ai pannelli del Sim, frecce fino a Lavoro, Invio per scoprire di più sul "
      "nuovo lavoro."},
@@ -266,6 +271,7 @@ const Translation kEntries[] = {
      "grafica e sonoro. Premi F5, oppure Opzioni nei controlli."},
     // Buy mode: catalog
     {Str::CannotAfford, "denaro insufficiente"},
+    {Str::NoFamilyFunds, "nessuna famiglia, fondi illimitati"},
     {Str::RatingHunger, "mangiare"},
     {Str::RatingComfort, "comfort"},
     {Str::RatingHygiene, "lavarsi"},
@@ -557,8 +563,8 @@ const Translation kEntries[] = {
      "costa. Invio costruisce un muro dall'inizio al cursore, Maiusc+Invio i quattro muri di una stanza tra i "
      "due, Control+Invio o Canc toglie muri. Prima di costruire, la mod avvisa se i muri impedirebbero ai Sim di "
      "raggiungere un oggetto, chiuderebbero una porta o isolerebbero parte del lotto, e Invio di nuovo "
-     "costruisce comunque. Pagina giù e Pagina su scelgono una misura di stanza già pronta, Ins la costruisce "
-     "con l'angolo nord-ovest sul cursore. Home torna al Sim selezionato, Esc esce dal cursore."},
+     "costruisce comunque. Virgola e punto scelgono una misura di stanza già pronta, Ins la costruisce con "
+     "l'angolo nord-ovest sul cursore. Home torna al Sim selezionato, Esc esce dal cursore."},
     // Build cursor (area)
     {Str::BuildOutsideArea, "niente costruito: è fuori dall'area edificabile del lotto"},
     {Str::BuildNotBuildableHere, "fuori dall'area edificabile"},
@@ -725,8 +731,8 @@ const Translation kEntries[] = {
     {Str::BuildNoRooms, "ancora nessuna stanza a questo piano o sotto"},
     {Str::BuildRoomJump, "%s, %d per %d, al suo angolo nord-ovest"},
     {Str::KeysRoomJump,
-     "Control+Pagina giù e Control+Pagina su saltano alla stanza successiva o precedente, al suo angolo "
-     "nord-ovest; a un piano superiore, alle stanze sottostanti."},
+     "Tab e Maiuscole+Tab saltano alla stanza successiva o precedente, al suo angolo nord-ovest; a un piano "
+     "superiore, alle stanze sottostanti."},
     // Stairs
     {Str::StairsClimb, "sale verso %s"},
     {Str::StairsTop, "arriva al piano di sopra nella casella %d, %d"},
@@ -734,8 +740,7 @@ const Translation kEntries[] = {
     {Str::BuildBlocksStairs, "blocca la scala"},
     // Build cursor: floors and rooms
     {Str::KeysFloorChange,
-     "Maiusc+Pagina su e Maiusc+Pagina giù vanno al piano di sopra o di sotto; scegliere uno strumento riporta "
-     "al primo piano."},
+     "Pagina su e Pagina giù vanno al piano di sopra o di sotto; scegliere uno strumento riporta al primo piano."},
     // Catalog room filter
     {Str::RoomFilterAll, "prodotti per tutte le stanze"},
     {Str::RoomFilterOn, "solo prodotti per: %s"},
@@ -752,18 +757,21 @@ const Translation kEntries[] = {
     {Str::ObjRoaches, "scarafaggi"},
     // Narrator: visitors
     {Str::PizzaGreetHint,
-     "Salutalo per ricevere la pizza: nella categoria Sims, Pagina giù fino a lui, Invio, Incontra. Se nessuno "
-     "lo saluta, se ne va con la pizza."},
+     "Salutalo per ricevere la pizza: in oggetti per tipo, Invio su Sims, giù fino a lui, Invio, Incontra. Se "
+     "nessuno lo saluta, se ne va con la pizza."},
     // Placing: free cursor
     {Str::FreeFits, "ci sta"},
     {Str::FreeNoFit, "non ci sta: %s"},
     {Str::KeysPlacingFree,
-     "Le frecce lo spostano di una casella alla volta, con Maiusc di cinque, e dicono se ci sta; Maiusc+Pagina "
-     "su e Maiusc+Pagina giù lo ruotano, Invio lo mette lì, Pagina giù torna ai posti."},
+     "Le frecce lo spostano di una casella alla volta, con Maiusc di cinque, e dicono se ci sta; virgola e punto "
+     "lo ruotano, Invio lo mette lì, Tab torna ai posti."},
     // Sim card
     {Str::BioFor, "Bio per %s"},
     // Key help
     {Str::KeysSimCard, "Control+Maiusc+1 a 9 aprono la scheda di un Sim, dove se ne può modificare la biografia."},
+    {Str::KeysHouseFile,
+     "Su una casa, Control+Maiusc+L la descrive come Costruisci, in base all'ultimo salvataggio: stanze, cosa "
+     "manca, stanze senza accesso. Control+freccia su la legge riga per riga."},
     // Travel maps
     {Str::ScreenStudioTown, "Studio Town, dove andiamo?"},
     {Str::ScreenMagicTown, "Magic Town, dove andiamo?"},

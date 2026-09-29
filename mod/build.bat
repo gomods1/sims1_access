@@ -41,7 +41,7 @@ set CORE=%ROOT%core
 cl %CXXFLAGS% /Zi /EHa /LD /I"%MH%\include" /Fo"%OUT%\obj32\\" /Fd"%OUT%\obj32\core.pdb" ^
    "%CORE%\main.cpp" "%CORE%\util\*.cpp" "%CORE%\lang\*.cpp" "%CORE%\speech\*.cpp" "%CORE%\input\*.cpp" ^
    "%CORE%\game\*.cpp" "%CORE%\nav\*.cpp" /Fe"%OUT%\SimsAccess.dll" ^
-   /link /DEBUG /MAP:"%OUT%\SimsAccess.map" /PDB:"%OUT%\SimsAccess.pdb" "%OUT%\objmh\minhook.lib" user32.lib advapi32.lib || exit /b 1
+   /link /DEBUG /MAP:"%OUT%\SimsAccess.map" /PDB:"%OUT%\SimsAccess.pdb" "%OUT%\objmh\minhook.lib" user32.lib advapi32.lib shell32.lib ole32.lib || exit /b 1
 endlocal
 
 if /i not "%1"=="deploy" goto :eof

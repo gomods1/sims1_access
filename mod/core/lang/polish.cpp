@@ -12,30 +12,32 @@ const Translation kEntries[] = {
     {Str::ModLoaded, "Moduł dostępności The Sims wczytany"},
     // Key help (Ctrl+F1)
     {Str::KeysScreen,
-     "Strzałki poruszają się w obrębie grupy, Tab i Shift+Tab zmieniają grupę, Home i End przechodzą na początek "
-     "i na koniec, Enter aktywuje, R powtarza. Na suwaku lub selektorze strzałki w lewo i w prawo zmieniają "
-     "wartość, a strzałki w górę i w dół przechodzą dalej. Control+strzałka w górę i Control+strzałka w dół "
-     "czytają szczegóły tego, co zostało powiedziane, Control+strzałka w lewo i Control+strzałka w prawo "
-     "przełączają między szczegółami a zdarzeniami."},
+     "Tab i Shift+Tab zmieniają grupę, strzałki poruszają się w obrębie grupy, Home i End przechodzą na jej "
+     "początek i koniec; Enter aktywuje, a na rodzaju lub pokoju obiektów na parceli otwiera jego obiekty; "
+     "Backspace wraca; R powtarza. Na suwaku lub selektorze strzałki w lewo i w prawo zmieniają wartość. "
+     "Control+strzałka w górę i Control+strzałka w dół czytają szczegóły tego, co zostało powiedziane, "
+     "Control+strzałka w lewo i Control+strzałka w prawo przełączają między szczegółami a zdarzeniami."},
     {Str::KeysLot,
-     "Strzałki w górę i w dół zmieniają grupę, strzałki w lewo i w prawo poruszają się w jej obrębie; na stronie "
-     "ustawień strzałki w górę i w dół przechodzą przez ustawienia, a w lewo i w prawo zmieniają suwak lub "
-     "selektor. Page Down i Page Up przechodzą przez obiekty, z Shiftem zmieniają kategorię, z Controlem "
-     "zmieniają pokój. Enter otwiera działania obiektu, Control+Enter wysyła tam Sima, R powtarza. Spacja "
-     "wybiera następnego Sima, Control+1 do 9 wybierają Sima z rodziny, Control+F włącza lub wyłącza śledzenie "
-     "wybranego Sima przez kamerę. P wstrzymuje grę i odczytuje godzinę oraz pieniądze. Control+strzałka w górę "
-     "i Control+strzałka w dół czytają szczegóły, Control+strzałka w lewo i Control+strzałka w prawo przełączają "
-     "między szczegółami a zdarzeniami."},
+     "Tab i Shift+Tab przechodzą przez grupy: wiersz stanu, potrzeby, rodzinę, kolejkę działań, obiekty według "
+     "rodzaju, obiekty według pokoju, potem panele gry; strzałki poruszają się w obrębie grupy, a na stronie "
+     "ustawień strzałki w lewo i w prawo zmieniają suwak lub selektor. W obiektach według rodzaju lub według "
+     "pokoju Enter otwiera rodzaj lub pokój, jego obiekty idą od najbliższego, a kamera przesuwa się do każdego "
+     "z nich, Backspace wraca; Enter na obiekcie otwiera jego działania, Control+Enter wysyła tam Sima. R "
+     "powtarza. Spacja wybiera następnego Sima, Control+1 do 9 wybierają Sima z rodziny, Control+F włącza lub "
+     "wyłącza śledzenie wybranego Sima przez kamerę. Control+E mówi, co robi i czego potrzebuje wybrany Sim, "
+     "Control+N zmienia, ile mówi narrator. P wstrzymuje grę i odczytuje godzinę oraz pieniądze. "
+     "Control+strzałka w górę i Control+strzałka w dół czytają szczegóły, Control+strzałka w lewo i "
+     "Control+strzałka w prawo przełączają między szczegółami a zdarzeniami."},
     {Str::KeysPlacing,
-     "Page Down i Page Up przechodzą przez miejsca, w których obiekt się mieści i można go używać, najlepsze "
-     "najpierw; z Controlem zmieniają pokój, z Shiftem obracają obiekt w tym samym miejscu. Enter kupuje go tam, "
-     "Escape anuluje, R powtarza. Control+strzałka w górę i Control+strzałka w dół czytają szczegóły miejsca i "
-     "co jeszcze sprawdzono."},
+     "Tab i Shift+Tab przechodzą przez miejsca, w których obiekt się mieści i można go używać, najlepsze "
+     "najpierw; Page Down i Page Up zmieniają pokój; przecinek i kropka obracają obiekt w tym samym miejscu. "
+     "Enter kupuje go tam, Escape anuluje, R powtarza. Control+strzałka w górę i Control+strzałka w dół czytają "
+     "szczegóły miejsca i co jeszcze sprawdzono."},
     {Str::KeysBuy,
      "Strzałki przechodzą przez katalog; produkt podaje cenę i opis, a Control+strzałka w górę i "
      "Control+strzałka w dół wszystko o nim. Enter na produkcie zaczyna ustawianie go tam, gdzie się mieści i "
-     "można go używać. Page Down i Page Up przechodzą przez obiekty na parceli, z Shiftem zmieniają kategorię, z "
-     "Controlem zmieniają pokój; Enter podnosi obiekt, aby go przenieść, a Delete go wtedy sprzedaje."},
+     "można go używać. W obiektach według rodzaju lub według pokoju (Tab) Enter na obiekcie na parceli podnosi "
+     "go, aby go przenieść, a Delete go wtedy sprzedaje."},
     {Str::KeysMenu, "Strzałki w górę i w dół wybierają działanie, Enter je wykonuje, Escape wraca."},
     {Str::UnsupportedBuild, "Moduł dostępności The Sims: nieobsługiwana wersja gry, mod wyłączony"},
     // Control state
@@ -101,7 +103,7 @@ const Translation kEntries[] = {
     {Str::FamilyMembers, "członkowie rodziny, %d"},
     {Str::NetWorth, "wartość netto"},
     {Str::Friends, "przyjaciele"},
-    // Lot: object browser (PageUp/PageDown)
+    // Lot: the lot's things by kind and by room
     {Str::CategorySims, "Simowie"},
     {Str::CategorySeating, "krzesła i kanapy"},
     {Str::CategorySurfaces, "stoły i szafki"},
@@ -112,8 +114,10 @@ const Translation kEntries[] = {
     {Str::CategoryDecorative, "elementy dekoracyjne"},
     {Str::CategoryMiscellaneous, "różne"},
     {Str::CategoryOther, "inne obiekty"},
+    {Str::ThingsByKind, "obiekty według rodzaju"},
+    {Str::ThingsByRoom, "obiekty według pokoju"},
     {Str::NoObjects, "brak obiektów"},
-    // Lot: rooms (Ctrl+PageUp/PageDown)
+    // Lot: rooms
     {Str::RoomOutside, "na zewnątrz"},
     {Str::RoomBathroom, "łazienka"},
     {Str::RoomBedroom, "sypialnia"},
@@ -169,8 +173,8 @@ const Translation kEntries[] = {
     {Str::TutorialPointsAtSpot, "strzałka wskazuje miejsce na parceli: %s"},
     {Str::SpotOnLot, "miejsce"},
     {Str::HintNewspaper,
-     "Z klawiatury: Shift+Page Down do kategorii różne lub inne obiekty, Page Down do obiektu Gazeta, Enter, "
-     "wybierz Szukaj pracy."},
+     "Z klawiatury: Tab do obiektów według rodzaju, Enter na kategorii różne lub inne obiekty, strzałka w dół do "
+     "obiektu Gazeta, Enter, wybierz Szukaj pracy."},
     {Str::TutorialEscapeAgain, "Escape jeszcze raz zamyka samouczek"},
     {Str::TutorialOver, "samouczek zakończony"},
     // The tutorial's steps told for the keyboard (nav/tutorial.cpp)
@@ -181,11 +185,11 @@ const Translation kEntries[] = {
      "To średni poziom przybliżenia. Teraz ponownie naciśnij Enter na przycisku Zbliżenie, aby przyjrzeć się "
      "jeszcze bliżej."},
     {Str::StepScroll,
-     "Ekran można przewijać na różne sposoby. Gdy używasz klawiatury, kamera podąża za tym, co przeglądasz: "
-     "naciśnij Page Down, aby przejść do następnego obiektu."},
+     "Ekran można przewijać na różne sposoby. Gdy używasz klawiatury, kamera podąża za tym, co przeglądasz: Tab "
+     "do obiektów według rodzaju, Enter na rodzaju, potem strzałka w dół przechodzi do następnego obiektu."},
     {Str::StepScrollAgain,
-     "Dobrze. Page Down i Page Up przechodzą przez obiekty, z Shiftem zmieniają kategorię, a kamera przesuwa się "
-     "do każdego z nich. Naciśnij ponownie Page Down."},
+     "Dobrze. Strzałki przechodzą przez obiekty, Backspace wraca do rodzajów, a kamera przesuwa się do każdego z "
+     "nich. Naciśnij ponownie strzałkę w dół."},
     {Str::StepRotate, "A teraz obróćmy obraz: w grupie sterowanie naciśnij przycisk Obrót w prawo."},
     {Str::StepLive,
      "Teraz, gdy wiesz już, jak sterować widokiem, przyszła pora, by przełączyć się w tryb życia. Naciśnij F1 "
@@ -195,19 +199,19 @@ const Translation kEntries[] = {
      "Na panelu sterowania pojawiają się portrety członków rodziny. Ta rodzina składa się chwilowo tylko z "
      "jednej osoby, jest nią Jan. Naciśnij Control+1, jego portret, aby wycentrować na nim ekran."},
     {Str::StepGoHere,
-     "Teraz nauczysz się kontrolować Jana. Wybierz obiekt klawiszem Page Down i naciśnij Control+Enter: Jan "
-     "podejdzie w to miejsce."},
+     "Teraz nauczysz się kontrolować Jana. Wybierz obiekt w obiektach według rodzaju lub według pokoju i "
+     "naciśnij Control+Enter: Jan podejdzie w to miejsce."},
     {Str::StepGoHereAgain, "Naciśnij Control+Enter na obiekcie, aby Jan tam podszedł."},
     {Str::StepInteract,
-     "Simom można narzucić używanie większości obiektów. Page Down przechodzi przez obiekty; Enter na obiekcie "
-     "otwiera jego działania, a kolejny Enter wybiera jedno z nich dla Jana."},
+     "Simom można narzucić używanie większości obiektów. W obiektach według rodzaju strzałki przechodzą przez "
+     "obiekty; Enter na obiekcie otwiera jego działania, a kolejny Enter wybiera jedno z nich dla Jana."},
     {Str::StepMood,
      "Karta Nastrój w grupie panele Sima jest jednocześnie przyciskiem i wskaźnikiem: zielony oznacza, że Jan "
      "jest szczęśliwy, czerwony, że nie jest. Tab do grupy panele Sima, Enter na karcie Nastrój, aby poznać jego "
      "potrzeby."},
     {Str::StepShower,
-     "Zajmijmy się trochę higieną Jana. Shift+Page Down do kategorii urządzenia sanitarne, Page Down do "
-     "prysznica, Enter, a potem wybierz Weź prysznic."},
+     "Zajmijmy się trochę higieną Jana. Tab do obiektów według rodzaju, Enter na kategorii urządzenia sanitarne, "
+     "strzałka w dół do prysznica, Enter, a potem wybierz Weź prysznic."},
     {Str::StepNeeds,
      "Przejrzyj potrzeby: Tab do grupy Potrzeby, strzałki w lewo i w prawo, Enter na potrzebie odczytuje jej "
      "opis i przedmioty, które ją zaspokajają. Różne przedmioty w różnym stopniu zaspokajają potrzeby Simów."},
@@ -218,11 +222,11 @@ const Translation kEntries[] = {
      "Przejrzyj katalog: Tab do grupy katalog, Enter na kategorii Krzesła i kanapy, strzałki po krzesłach; Enter "
      "na tym, które spodoba się Janowi, zaczyna jego ustawianie."},
     {Str::StepPlace,
-     "Aby je kupić: Page Down i Page Up wybierają wolne miejsce, Enter kupuje je tam. Escape odkłada kolejne, "
-     "które zostanie w ręce."},
+     "Aby je kupić: Tab i Shift+Tab wybierają wolne miejsce, Enter kupuje je tam. Escape odkłada kolejne, które "
+     "zostanie w ręce."},
     {Str::StepTurn,
-     "Dobrze, teraz trzeba obrócić krzesło: Page Down do kupionego krzesła, Enter je podnosi, Shift+Page Down je "
-     "obraca, Enter je odstawia."},
+     "Dobrze, teraz trzeba obrócić krzesło: w obiektach według rodzaju Enter na kategorii krzesła i kanapy, "
+     "przejdź do kupionego krzesła, Enter je podnosi, klawisz kropki je obraca, Enter je odstawia."},
     {Str::StepBackToLive,
      "Pamiętaj, że zawsze możesz wrócić do trybu kupowania, aby kupować nowe sprzęty lub przestawiać dom. Teraz "
      "wróćmy do trybu życia: F1 lub przycisk Tryb życia w grupie sterowanie."},
@@ -234,14 +238,15 @@ const Translation kEntries[] = {
      "Teraz przyjmiemy do rodziny nowego członka, ma na imię Anna. Naciśnij Control+2, aby ją wybrać, i ponownie "
      "Control+2, aby wycentrować na niej ekran."},
     {Str::StepSecondObject,
-     "Wybierz obiekt klawiszem Page Down i naciśnij Enter, aby wydać Annie polecenie; teraz to jej działania."},
+     "Wybierz obiekt w obiektach według rodzaju lub według pokoju i naciśnij Enter, aby wydać Annie polecenie; "
+     "teraz to jej działania."},
     {Str::StepSelectFirst, "Istnieje kilka sposobów zmiany aktywnej postaci. Naciśnij Control+1, aby wybrać Jana."},
     {Str::StepSpace,
      "Właśnie, teraz Jan jest aktywną postacią. Innym sposobem wyboru postaci jest spacja. Naciśnij teraz "
      "Spację, a znów wybierzesz Annę."},
     {Str::StepSocial,
-     "Dobrze. Simowie kontaktują się ze sobą, podobnie jak używają przedmiotów. Gdy wybrana jest Anna: "
-     "Shift+Page Up do kategorii Simowie, Page Down do Jana, Enter i wybierz działanie."},
+     "Dobrze. Simowie kontaktują się ze sobą, podobnie jak używają przedmiotów. Gdy wybrana jest Anna: Tab do "
+     "obiektów według rodzaju, Enter na kategorii Simowie, strzałka w dół do Jana, Enter i wybierz działanie."},
     {Str::StepSocialAgain,
      "To, co Simowie czują do siebie nawzajem, pokazuje panel Kontakty, z wynikiem na dziś i ogółem. Spróbuj "
      "innego działania wobec Jana i obserwuj tam rezultat."},
@@ -249,8 +254,8 @@ const Translation kEntries[] = {
      "Tab do grupy panele Sima, strzałki do karty Kontakty, Enter: pokazuje, co aktywna postać czuje do tej "
      "osoby."},
     {Str::StepNewspaper,
-     "Pracując, Simowie zarabiają pieniądze. Znajdź gazetę przed domem: Shift+Page Down do kategorii inne "
-     "obiekty, Page Down do obiektu Gazeta, Enter i wybierz Szukaj pracy."},
+     "Pracując, Simowie zarabiają pieniądze. Znajdź gazetę przed domem: Tab do obiektów według rodzaju, Enter na "
+     "kategorii inne obiekty, strzałka w dół do obiektu Gazeta, Enter i wybierz Szukaj pracy."},
     {Str::StepJobTab,
      "Gratulacje! Teraz Tab do grupy panele Sima, strzałki do karty Praca, Enter, aby dowiedzieć się czegoś "
      "więcej o nowej pracy."},
@@ -265,6 +270,7 @@ const Translation kEntries[] = {
      "dźwięku i gry. Naciśnij F5 lub przycisk Tryb opcji w grupie sterowanie."},
     // Buy mode: catalog
     {Str::CannotAfford, "za mało pieniędzy"},
+    {Str::NoFamilyFunds, "brak rodziny, nieograniczone fundusze"},
     {Str::RatingHunger, "głód"},
     {Str::RatingComfort, "komfort"},
     {Str::RatingHygiene, "higiena"},
@@ -554,7 +560,7 @@ const Translation kEntries[] = {
      "początek; potem kursor mówi, jak daleko jest od początku i co zbudowałby Enter i ile to kosztuje. Enter "
      "buduje ścianę od początku do kursora, Shift+Enter cztery ściany pokoju między nimi, Control+Enter lub "
      "Delete usuwa ściany. Przed budową mod ostrzega, jeśli ściany odcięłyby Simów od przedmiotu, zamknęłyby "
-     "drzwi lub odcięły część działki, a Enter jeszcze raz buduje mimo to. Page Down i Page Up wybierają gotowy "
+     "drzwi lub odcięły część działki, a Enter jeszcze raz buduje mimo to. Przecinek i kropka wybierają gotowy "
      "rozmiar pokoju, Insert buduje go z północno-zachodnim narożnikiem przy kursorze. Home wraca do wybranego "
      "Sima, Escape opuszcza kursor."},
     // Build cursor (area)
@@ -721,8 +727,8 @@ const Translation kEntries[] = {
     {Str::BuildNoRooms, "na tym piętrze ani niżej nie ma jeszcze pokoi"},
     {Str::BuildRoomJump, "%s, %d na %d, w północno-zachodnim rogu"},
     {Str::KeysRoomJump,
-     "Control+Page Down i Control+Page Up przeskakują do następnego lub poprzedniego pokoju, do jego "
-     "północno-zachodniego rogu; na wyższym piętrze do pokoi poniżej."},
+     "Tab i Shift+Tab przeskakują do następnego lub poprzedniego pokoju, do jego północno-zachodniego rogu; na "
+     "wyższym piętrze do pokoi poniżej."},
     // Stairs
     {Str::StairsClimb, "w górę w kierunku %s"},
     {Str::StairsTop, "wychodzi na piętro na polu %d, %d"},
@@ -730,7 +736,7 @@ const Translation kEntries[] = {
     {Str::BuildBlocksStairs, "odcina schody"},
     // Build cursor: floors and rooms
     {Str::KeysFloorChange,
-     "Shift+Page Up i Shift+Page Down przechodzą na piętro wyżej lub niżej; wybranie narzędzia wraca na parter."},
+     "Page Up i Page Down przechodzą na piętro wyżej lub niżej; wybranie narzędzia wraca na parter."},
     // Catalog room filter
     {Str::RoomFilterAll, "produkty do wszystkich pomieszczeń"},
     {Str::RoomFilterOn, "tylko produkty do: %s"},
@@ -747,18 +753,21 @@ const Translation kEntries[] = {
     {Str::ObjRoaches, "karaluchy"},
     // Narrator: visitors
     {Str::PizzaGreetHint,
-     "Przywitaj go, żeby dostać pizzę: w kategorii Simowie Page Down do niego, Enter, Przywitaj. Jeśli nikt go "
-     "nie przywita, odejdzie z nią."},
+     "Przywitaj go, żeby dostać pizzę: w obiektach według rodzaju Enter na kategorii Simowie, strzałka w dół do "
+     "niego, Enter, Przywitaj. Jeśli nikt go nie przywita, odejdzie z nią."},
     // Placing: free cursor
     {Str::FreeFits, "mieści się"},
     {Str::FreeNoFit, "nie mieści się: %s"},
     {Str::KeysPlacingFree,
-     "Strzałki przesuwają go o jedno pole, z Shiftem o pięć, i mówią, czy się mieści; Shift+Page Up i Shift+Page "
-     "Down go obracają, Enter stawia go tam, Page Down wraca do miejsc."},
+     "Strzałki przesuwają go o jedno pole, z Shiftem o pięć, i mówią, czy się mieści; przecinek i kropka go "
+     "obracają, Enter stawia go tam, Tab wraca do miejsc."},
     // Sim card
     {Str::BioFor, "%s - charakterystyka"},
     // Key help
     {Str::KeysSimCard, "Control+Shift+1 do 9 otwierają kartę Sima, gdzie można edytować jego charakterystykę."},
+    {Str::KeysHouseFile,
+     "Na domu Control+Shift+L opisuje go tak jak Tryb budowania, według ostatniego zapisu: pokoje, czego "
+     "brakuje, pokoje bez wejścia. Control+strzałka w górę czyta to wiersz po wierszu."},
     // Travel maps
     {Str::ScreenStudioTown, "Dzielnica showbiznesu, dokąd?"},
     {Str::ScreenMagicTown, "Abrakadabrowo, dokąd?"},

@@ -7,6 +7,7 @@ Each step presses keys (tools/keys.py) and waits for a line the mod speaks or lo
 Prints what it waited for and stops at the first step that does not arrive within its timeout.
 """
 import os
+import re
 import subprocess
 import sys
 import time
@@ -16,8 +17,9 @@ LOG = r"S:\steam\steamapps\common\The Sims Legacy Collection\SimsAccess\SimsAcce
 
 
 def lines():
+    # "tutorial step 3: ..." (the watcher logs the step's index): matched as "tutorial step: ..."
     with open(LOG, encoding="utf-8", errors="replace") as f:
-        return f.read().splitlines()
+        return [re.sub(r"tutorial step \d+:", "tutorial step:", l) for l in f.read().splitlines()]
 
 
 def keys(*ks, delay=None):
@@ -39,20 +41,49 @@ def last_spoken():
 
 
 def nav(key, text, limit=30):
-    # The item focused now counts (a category jump lands on its first object).
-    spoken = last_spoken()
-    if key.endswith("pgdn") or key.endswith("pgup"):  # "categoria, N elementos. Objeto, sala, ..." -> Objeto
-        label = spoken.split(". ", 1)[-1].split(", ", 1)[0] if " elementos. " in spoken or " elemento. " in spoken else spoken.split(", ", 1)[0]
-    else:
-        label = ""  # groups: always search (their summary is only spoken on entry)
-    if text.lower() in label.lower():
-        print("  already on: " + last_spoken()[:100])
-        return True
     r = subprocess.run([sys.executable, os.path.join(HERE, "nav_to.py"), key, text, str(limit)],
                        capture_output=True, text=True, encoding="utf-8")
     ok = r.returncode == 0
     print(("  found: " if ok else "  NOT FOUND: ") + r.stdout.strip().splitlines()[-1] if r.stdout.strip() else "")
     return ok
+
+
+KINDS = "objetos por tipo"  # the lot's things by kind (NAVIGATION.md; lang/spanish.cpp ThingsByKind)
+
+
+def to_kinds():
+    """Tab to the "things by kind" group; if a kind is open there (the group reads by the kind's
+    name), Backspace goes back up to the kinds (elsewhere it only says the focus again)."""
+    for _ in range(16):
+        keys("tab")
+        time.sleep(0.9)
+        if last_spoken().lower().startswith(KINDS):
+            return True
+        keys("back")
+        time.sleep(0.9)
+        if last_spoken().lower().startswith(KINDS):
+            return True
+    print("  NOT FOUND: " + KINDS)
+    return False
+
+
+def find(text, limit=30):
+    """The item containing text in the focused group: from its first item, then Down."""
+    keys("home")
+    time.sleep(0.6)
+    if text.lower() in last_spoken().lower():
+        print("  already on: " + last_spoken()[:100])
+        return True
+    return nav("down", text, limit)
+
+
+def thing(kind, name, limit=30):
+    """A thing of the lot: "objetos por tipo", Enter on the kind, then the thing."""
+    to_kinds()
+    find(kind, 12)
+    keys("enter")
+    time.sleep(1.2)
+    return find(name, limit)
 
 
 def wait_any(texts, timeout=45, since=None):
@@ -95,7 +126,7 @@ def wait_for(text, timeout=45, since=None, answer_help=True):
 def step_reset():
     keys("f5")
     time.sleep(2)
-    nav("tab", "opciones", 8)
+    nav("tab", "opciones", 16)
     nav("right", "juego", 8)
     keys("enter")
     time.sleep(1.5)
@@ -115,8 +146,8 @@ def step_reset():
 
 def step_enter():
     time.sleep(2)
-    keys("tab")
-    nav("right", "Calle Sim,7", 45)
+    nav("tab", "casas", 16)  # the houses (the neighborhood's first group)
+    find("Calle Sim,7", 45)
     n = len(lines())
     keys("enter")
     wait_for("Bienvenido al tutorial", 90, since=n)
@@ -127,7 +158,7 @@ def step_enter():
 
 
 def step_zoom():
-    nav("tab", "controles", 8)
+    nav("tab", "controles", 16)
     nav("right", "Ver de cerca", 25)
     n = len(lines())
     keys("enter")
@@ -138,22 +169,24 @@ def step_zoom():
 
 
 def step_scroll():
+    # the camera goes to each thing browsed: the game counts it as scrolling
+    to_kinds()
     n = len(lines())
-    keys("pgdn")
+    keys("enter")
     wait_for("tutorial step: Bien. Otra buena manera", since=n)
     n = len(lines())
-    keys("pgdn")
+    keys("down")
     wait_for("tutorial step: Ahora vamos a rotar", since=n)
 
 
 def step_rotate():
-    nav("tab", "controles", 8)
+    nav("tab", "controles", 16)
     nav("right", "Girar a la derecha", 25)
     n = len(lines())
     keys("enter")
     got, n = wait_any(["VIVIR activa", "icono VIVIR"], since=n)
     if got == "icono VIVIR":  # live mode is on already: the step needs a mode change back to live
-        nav("tab", "controles", 8)
+        nav("tab", "controles", 16)
         nav("right", "Modo Comprar", 25)
         keys("enter")
         time.sleep(3)
@@ -166,7 +199,7 @@ def step_rotate():
 
 def step_live():
     # from buy mode: the Live tab is the first control
-    nav("tab", "controles", 8)
+    nav("tab", "controles", 16)
     keys("home")
     time.sleep(0.8)
     n = len(lines())
@@ -184,8 +217,10 @@ def step_portrait():
 
 
 def step_gohere():
+    to_kinds()
+    keys("down", "enter")
+    time.sleep(1.2)
     n = len(lines())
-    keys("shift+pgup", "shift+pgdn", "pgdn")
     keys("ctrl+enter")
     wait_for("Bien, mira a Roberto", since=n)
     n = len(lines())
@@ -194,8 +229,7 @@ def step_gohere():
 
 
 def step_interact():
-    nav("shift+pgdn", "electrodom", 8)
-    nav("pgdn", "Nevera", 10)
+    thing("electrodom", "Nevera")
     n = len(lines())
     keys("enter")
     wait_for("interacciones", since=n)
@@ -208,8 +242,7 @@ def step_interact():
 
 
 def step_shower():
-    nav("shift+pgdn", "fontaner", 8)
-    nav("pgdn", "Ducha", 12)
+    thing("fontaner", "Ducha")
     n = len(lines())
     keys("enter")
     wait_for("interacciones", since=n)
@@ -220,12 +253,12 @@ def step_shower():
 
 
 def step_needs():
-    if not nav("tab", "Necesidades", 8):  # the mood tab toggles the needs display
-        nav("tab", "paneles del Sim", 8)
+    if not nav("tab", "Necesidades", 16):  # the mood tab toggles the needs display
+        nav("tab", "paneles del Sim", 16)
         nav("right", "Estado de", 3)
         keys("enter")
         time.sleep(2)
-        nav("tab", "Necesidades", 8)
+        nav("tab", "Necesidades", 16)
     keys("right", "right")
     n = len(lines())
     keys("enter")
@@ -233,7 +266,7 @@ def step_needs():
 
 
 def step_buy():
-    nav("tab", "controles", 8)
+    nav("tab", "controles", 16)
     nav("right", "Modo Comprar", 25)
     n = len(lines())
     keys("enter")
@@ -244,7 +277,7 @@ def step_buy():
 
 
 def step_chair():
-    nav("tab", "catálogo", 8)
+    nav("tab", "catálogo", 16)
     keys("enter")
     time.sleep(1.5)
     for _ in range(14):  # right until a priced product (the sub-tabs come first)
@@ -268,18 +301,18 @@ def step_turn():
     if "otro en la mano" in " ".join(lines()[-6:]):  # another chair in hand: put it away
         keys("esc")
         time.sleep(1)
-    nav("shift+pgup", "asientos", 10)
-    for _ in range(30):  # the chair bought a moment ago
+    thing("asientos", "")  # the kind, then the chair bought a moment ago ("recién comprado"
+    for _ in range(20):    # comes after its name: the whole line is searched)
         if "comprado" in last_spoken():
             break
-        keys("pgdn")
-        time.sleep(0.7)
+        keys("down")
+        time.sleep(0.9)
     print("  chair: " + last_spoken()[:80])
     n = len(lines())
     keys("enter")
     wait_for("moviendo", since=n)
     time.sleep(1)
-    keys("shift+pgdn")
+    keys("period")  # turn it (the spatial tool's comma / period)
     time.sleep(1.5)
     n = len(lines())
     keys("enter")
@@ -289,7 +322,7 @@ def step_turn():
 
 def step_live2():
     # Dialog25: back to live mode (the tutorial waits for the Live button)
-    nav("tab", "controles", 8)
+    nav("tab", "controles", 16)
     keys("home")
     n = len(lines())
     keys("enter")
@@ -297,7 +330,7 @@ def step_live2():
 
 
 def step_personality():
-    nav("tab", "paneles del Sim", 8)
+    nav("tab", "paneles del Sim", 16)
     nav("right", "Personalidad", 8)
     n = len(lines())
     keys("enter")
@@ -320,8 +353,7 @@ def step_isabel():
 
 
 def step_isabel_object():
-    nav("shift+pgdn", "electrodom", 9)
-    nav("pgdn", "Nevera", 10)
+    thing("electrodom", "Nevera")
     n = len(lines())
     keys("enter")
     wait_for("interacciones", since=n)
@@ -340,8 +372,7 @@ def step_select_first():
 
 
 def step_social():
-    nav("shift+pgup", "Sims", 9)
-    nav("pgdn", "Roberto", 6)
+    thing("Sims", "Roberto")
     n = len(lines())
     keys("enter")
     wait_for("interacciones", since=n)
@@ -353,8 +384,7 @@ def step_social():
         keys("enter")
     wait_for("tutorial step: Para saber qué sienten", 90, since=n)
     n = len(lines())
-    nav("shift+pgup", "Sims", 9)
-    nav("pgdn", "Roberto", 6)
+    thing("Sims", "Roberto")
     keys("enter")
     wait_for("interacciones", since=n)
     n = len(lines())
@@ -367,12 +397,12 @@ def step_social():
 
 
 def step_relationship():
-    nav("tab", "paneles del Sim", 8)
+    nav("tab", "paneles del Sim", 16)
     nav("right", "Relaciones", 8)
     keys("enter")
     time.sleep(2)
     # then the other Sim's card on the relationships panel
-    nav("tab", "Relaciones", 8)
+    nav("tab", "Relaciones", 16)
     nav("right", "Roberto", 8)
     n = len(lines())
     keys("enter")
@@ -384,9 +414,7 @@ def step_relationship():
 
 def step_newspaper():
     # bring the paper in first, then find a job in it; the offer is accepted
-    if not nav("shift+pgdn", "otros objetos", 10):
-        nav("shift+pgup", "otros objetos", 10)
-    nav("pgdn", "Peri", 25) or nav("pgup", "Peri", 25)
+    thing("otros objetos", "Peri")
     n = len(lines())
     keys("enter")
     wait_for("interacciones", since=n)
@@ -394,7 +422,7 @@ def step_newspaper():
     keys("enter")
     for _ in range(10):  # until the paper is inside and offers the job search
         time.sleep(6)
-        nav("pgup", "Peri", 6) or nav("pgdn", "Peri", 6)
+        find("Peri")
         n = len(lines())
         keys("enter")
         time.sleep(2)
@@ -410,12 +438,12 @@ def step_newspaper():
 
 
 def step_job():
-    nav("tab", "paneles del Sim", 8)
+    nav("tab", "paneles del Sim", 16)
     nav("right", "Empleo", 8)
     n = len(lines())
     keys("enter")
     wait_for("tutorial step: Este panel muestra", since=n)
-    nav("tab", "empleo", 8)
+    nav("tab", "empleo", 16)
     n = len(lines())
     keys("enter")
     wait_for("tutorial step: Las habilidades", since=n)
@@ -426,7 +454,7 @@ def step_job():
 
 
 def step_options():
-    nav("tab", "controles", 8)
+    nav("tab", "controles", 16)
     nav("right", "Modo Opciones", 25)
     n = len(lines())
     keys("enter")

@@ -32,6 +32,7 @@
 #include "screens.h"
 #include "sim_watch.h"
 #include "tutorial.h"
+#include "world.h"
 
 namespace nav {
 namespace {
@@ -75,7 +76,6 @@ struct State {
     ULONGLONG lastCollect = 0;
     bool entering = false;  // root changed; announce once its content has settled
     bool returning = false; // entering a screen seen before: only say the restored focus
-    bool worldFocused = false;
     PendingPress press;
     ULONGLONG quietUntil = 0;  // panels appearing before this are the mod's own doing (PrepareScreen)
     int autoChoose = -1;       // ChooseInNextMenu: the entry to choose, until autoChooseUntil
@@ -120,6 +120,7 @@ void SetFocus(int group, int index) {
     const Item* it = Focused();
     g.focus = it ? IdOf(*it) : ItemId{};
     if (it && it->role == Role::PieItem) game::PieHighlight(it->widget, it->number);
+    if (it && it->role == Role::LotObject) world::Focus(it->number);  // the camera looks at it
     if (g.root && IsScreen(g.root)) g.focusByScreen[g.root] = Remembered{g.focus, ScreenInstance(g.root)};
 }
 
@@ -149,7 +150,8 @@ void AnnounceFocus(bool withGroup) {
         return;
     }
     const Group& group = Groups()[g.group];
-    std::string prefix = withGroup && group.items.size() > 1 ? GroupSummary(group) + ". " : "";
+    // entering a group says its name and size, even of one item (NAVIGATION.md)
+    std::string prefix = withGroup ? GroupSummary(group) + ". " : "";
     buffers::SetDetails(DetailLines(*it, group, g.index));
     speech::Say(prefix + Describe(*it));
 }
@@ -461,11 +463,50 @@ void FinishPageTurn() {
     }
 }
 
-// Before acting on a key: the model must describe what is on screen right now.
-void EnsureCurrent() {
+// A new root has settled (or a key cannot wait for it): collect it, restore or choose the
+// focus and announce it. With `mayWait`, a root that has no widgets yet is left for a later
+// tick. A dialog reused by the game for one message after another keeps its pointer, so this
+// is also what reads a help tip shown in a dialog seen before.
+void CompleteEntering(bool mayWait) {
+    ULONGLONG now = GetTickCount64();
     ItemId remembered = g.focus;
     Refresh();
-    if (g.entering) FinishEntering(remembered);
+    if (Groups().empty() && mayWait) {
+        g.focus = remembered;  // keep what to restore until the widgets exist
+        return;
+    }
+    FinishEntering(remembered);
+    if (g.leftPie && g.returning) {
+        g.leftPie = false;
+        LogScreen();
+        AnnounceAfterPie();
+        return;
+    }
+    if (game::IsPieMenu(g.root) && g.autoChoose >= 0 && now < g.autoChooseUntil) {
+        int index = g.autoChoose;
+        g.autoChoose = -1;
+        Log("pie menu: answered with entry %d", index);
+        game::PieChoose(g.root, index);
+        return;
+    }
+    if (!g.returning && PrepareScreen(g.root)) {
+        g.quietUntil = now + kPrepareQuietMs;
+        Refresh();
+        FocusDefault();
+    }
+    AnnounceScreen();
+}
+
+// Before acting on a key: the model must describe what is on screen right now. A key that
+// arrives while a new screen settles used to finish the entering silently, so a dialog opened
+// just before it (Ctrl+H, then Tab) was never read: the screen is announced first, then the
+// key acts on it.
+void EnsureCurrent() {
+    if (g.entering) {
+        CompleteEntering(false);
+        return;
+    }
+    Refresh();
 }
 
 }  // namespace
@@ -489,32 +530,7 @@ void Tick() {
     ULONGLONG now = GetTickCount64();
     if (g.entering) {
         if (now - g.rootSince < kSettleMs) return;
-        ItemId remembered = g.focus;
-        Refresh();
-        if (Groups().empty() && now - g.rootSince < kEmptyGraceMs) {
-            g.focus = remembered;  // keep what to restore until the widgets exist
-            return;
-        }
-        FinishEntering(remembered);
-        if (g.leftPie && g.returning) {
-            g.leftPie = false;
-            LogScreen();
-            AnnounceAfterPie();
-            return;
-        }
-        if (game::IsPieMenu(g.root) && g.autoChoose >= 0 && now < g.autoChooseUntil) {
-            int index = g.autoChoose;
-            g.autoChoose = -1;
-            Log("pie menu: answered with entry %d", index);
-            game::PieChoose(g.root, index);
-            return;
-        }
-        if (!g.returning && PrepareScreen(g.root)) {
-            g.quietUntil = now + kPrepareQuietMs;
-            Refresh();
-            FocusDefault();
-        }
-        AnnounceScreen();
+        CompleteEntering(now - g.rootSince < kEmptyGraceMs);
         return;
     }
     if (now - g.lastCollect > kRefreshMs) Refresh();
@@ -530,14 +546,18 @@ void Tick() {
 
 bool TextEntryActive() { return g.screen.textEntryVisible; }
 
+int FocusedLotNumber() {
+    const Item* it = Focused();
+    return it && it->role == Role::Lot ? it->number : -1;
+}
+
 uintptr_t FocusedWidget() {
     const Item* it = Focused();
-    return it ? (uintptr_t)it->widget : 0;
+    return it && !IsVirtual(*it) ? (uintptr_t)it->widget : 0;
 }
 
 bool LotViewActive() { return game::IsKindOf(game::InputRoot(), "cDDDSimsView"); }
 
-void FocusWorld(bool on) { g.worldFocused = on; }
 
 void ChooseInNextMenu(int index) {
     g.autoChoose = index;
@@ -549,12 +569,14 @@ void FocusStatus() {
     for (int gi = 0; gi < (int)Groups().size(); gi++)
         if (Groups()[gi].key == kStatusGroup) {
             SetFocus(gi, 0);
-            g.worldFocused = false;
             return;
         }
 }
 
-bool WorldFocused() { return g.worldFocused; }
+bool WorldFocused() {
+    const Item* it = Focused();
+    return it && it->role == Role::LotObject && LotViewActive();
+}
 
 bool PieMenuSeenSince(ULONGLONG time) { return g.pieSeenAt >= time; }
 
@@ -672,34 +694,6 @@ void NextGroup(int delta) {
     AnnounceFocus(true);
 }
 
-// A settings page's rows are stacked, and Left/Right change the focused slider there, so Up/Down
-// walk the rows; past the first or last row they go on to the neighbouring group. Coming up into
-// a settings page lands on its last row, as going up a list does.
-void NextRowOrGroup(int delta) {
-    EnsureCurrent();
-    if (!Focused()) {
-        NextGroup(delta);
-        return;
-    }
-    const Group& current = Groups()[g.group];
-    if (IsSettingsPage(current)) {
-        int next = g.index + delta;
-        if (next >= 0 && next < (int)current.items.size()) {
-            SetFocus(g.group, next);
-            AnnounceFocus(false);
-            return;
-        }
-    }
-    int n = (int)Groups().size();
-    int above = ((g.group - 1) % n + n) % n;
-    if (delta < 0 && IsSettingsPage(Groups()[above])) {
-        SetFocus(above, (int)Groups()[above].items.size() - 1);
-        AnnounceFocus(true);
-        return;
-    }
-    NextGroup(delta);
-}
-
 void Activate() {
     EnsureCurrent();
     const Item* it = Focused();
@@ -709,6 +703,23 @@ void Activate() {
     }
     if (IsReadOnly(*it) || IsValueControl(*it)) {
         AnnounceFocus(false);
+        return;
+    }
+    if (it->role == Role::Level) {
+        // a kind or a room of the lot's things: its things, from the first
+        Ptr key = Groups()[g.group].key;
+        world::Open(key, it->number);
+        g.focus = ItemId{};  // it goes away with its level: no "focus moved" line before the new one
+        Refresh();
+        for (int gi = 0; gi < (int)Groups().size(); gi++)
+            if (Groups()[gi].key == key && !Groups()[gi].items.empty()) SetFocus(gi, 0);
+        AnnounceFocus(true);
+        return;
+    }
+    if (it->role == Role::LotObject) {  // its interactions; in buy mode: pick it up to move it
+        world::Focus(it->number);
+        if (game::InBuyTool()) buy::PickUpFocused();
+        else world::Interact();
         return;
     }
     if (it->role == Role::PieItem) {
@@ -773,6 +784,25 @@ bool Adjust(int delta) {
 void RepeatFocus() {
     EnsureCurrent();
     AnnounceFocus(true);
+}
+
+bool Back() {
+    EnsureCurrent();
+    if (g.group < 0 || g.group >= (int)Groups().size()) return false;
+    Ptr key = Groups()[g.group].key;
+    int was = world::Close(key);
+    if (!was) return false;
+    g.focus = ItemId{};  // the thing goes away with its level: no "focus moved" line first
+    Refresh();  // back to the kinds or rooms, on the one that was open
+    for (int gi = 0; gi < (int)Groups().size(); gi++) {
+        if (Groups()[gi].key != key) continue;
+        int at = 0;
+        for (int ii = 0; ii < (int)Groups()[gi].items.size(); ii++)
+            if (Groups()[gi].items[ii].number == was) at = ii;
+        SetFocus(gi, at);
+    }
+    AnnounceFocus(true);
+    return true;
 }
 
 }  // namespace nav

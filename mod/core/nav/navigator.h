@@ -22,8 +22,7 @@ void CycleRoomFilter();
 
 // Which focus Enter and R act on: the object browser after PageUp/PageDown, the UI item after
 // arrows or Tab. Only meaningful while the lot view is active.
-void FocusWorld(bool on);
-bool WorldFocused();
+bool WorldFocused();  // the focus is on a thing of the lot ("things by kind / room"): the camera stays on it
 
 // Lot view: moves focus to the first item of the status line (time) without speaking. Used
 // when the game is paused, so the arrows review the HUD.
@@ -45,12 +44,14 @@ bool Cancel();
 void Move(int delta);        // previous/next item in the current group (no wrap)
 void MoveToEdge(bool last);  // first/last item in the current group
 void NextGroup(int delta);   // previous/next group (wraps)
-void NextRowOrGroup(int delta);  // lot view Up/Down: the next group, or the next row of a settings page
+bool Back();                 // Backspace: up a level (a kind's or room's things to the kinds or
+                             // rooms); false at a top level
 void Activate();             // press the focused item
 bool Adjust(int delta);      // change the focused value (a slider, a value picker, a personality
                              // bar); false if the focus holds none
 void RepeatFocus();          // say the focused item again, with its group
 uintptr_t FocusedWidget();   // the focused UI item's widget (cTSWin*), 0 when none
+int FocusedLotNumber();      // the focused house of a neighborhood or travel map, -1 when none
 
 // The description of the item nearest to a rectangle on screen (within a few pixels), and the
 // name of its group; empty when nothing is near. For the tutorial arrow.

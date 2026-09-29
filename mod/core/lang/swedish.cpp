@@ -12,27 +12,31 @@ const Translation kEntries[] = {
     {Str::ModLoaded, "Tillgänglighet för The Sims laddad"},
     // Key help (Ctrl+F1)
     {Str::KeysScreen,
-     "Piltangenterna flyttar inom en grupp, Tabb och Skift+Tabb byter grupp, Home och End går till början och "
-     "slutet, Enter aktiverar, R upprepar. På ett skjutreglage eller en väljare ändrar Pil vänster och Pil höger "
-     "värdet och Pil upp och Pil ned flyttar. Kontroll+Pil upp och Kontroll+Pil ned läser detaljerna om det som "
-     "sades, Kontroll+Pil vänster och Kontroll+Pil höger växlar mellan detaljer och händelser."},
+     "Tabb och Skift+Tabb byter grupp, piltangenterna flyttar inom en grupp, Home och End går till dess ändar; "
+     "Enter aktiverar, och på en sort eller ett rum bland tomtens föremål öppnar det dess föremål; Backspace går "
+     "tillbaka; R upprepar. På ett skjutreglage eller en väljare ändrar Pil vänster och Pil höger värdet. "
+     "Kontroll+Pil upp och Kontroll+Pil ned läser detaljerna om det som sades, Kontroll+Pil vänster och "
+     "Kontroll+Pil höger växlar mellan detaljer och händelser."},
     {Str::KeysLot,
-     "Pil upp och Pil ned byter grupp, Pil vänster och Pil höger flyttar inom den; på en inställningssida går "
-     "Pil upp och Pil ned igenom inställningarna och Pil vänster och Pil höger ändrar ett skjutreglage eller en "
-     "väljare. Page Down och Page Up går igenom föremålen, med Skift byter de kategori, med Kontroll byter de "
-     "rum. Enter öppnar föremålets interaktioner, Kontroll+Enter låter simmen gå dit, R upprepar. Mellanslag "
-     "väljer nästa sim, Kontroll+1 till 9 väljer en sim i familjen, Kontroll+F slår på eller av att kameran "
-     "följer den valda simmen. P pausar och läser upp tid och pengar. Kontroll+Pil upp och Kontroll+Pil ned "
-     "läser detaljerna, Kontroll+Pil vänster och Kontroll+Pil höger växlar mellan detaljer och händelser."},
+     "Tabb och Skift+Tabb går igenom grupperna: statusraden, behoven, familjen, åtgärdskön, föremål efter sort, "
+     "föremål efter rum, sedan spelets paneler; piltangenterna flyttar inom en grupp, och på en inställningssida "
+     "ändrar Pil vänster och Pil höger ett skjutreglage eller en väljare. I föremål efter sort eller efter rum "
+     "öppnar Enter en sort eller ett rum, dess föremål kommer närmast först och kameran går till vart och ett, "
+     "Backspace går tillbaka; Enter på ett föremål öppnar dess interaktioner, Kontroll+Enter låter simmen gå "
+     "dit. R upprepar. Mellanslag väljer nästa sim, Kontroll+1 till 9 väljer en sim i familjen, Kontroll+F slår "
+     "på eller av att kameran följer den valda simmen. Kontroll+E säger vad den valda simmen gör och behöver, "
+     "Kontroll+N ändrar hur mycket berättaren säger. P pausar och läser upp tid och pengar. Kontroll+Pil upp och "
+     "Kontroll+Pil ned läser detaljerna, Kontroll+Pil vänster och Kontroll+Pil höger växlar mellan detaljer och "
+     "händelser."},
     {Str::KeysPlacing,
-     "Page Down och Page Up går igenom platserna där den får plats och kan användas, de bästa först; med "
-     "Kontroll byter de rum, med Skift vrids den på samma plats. Enter köper den där, Escape avbryter, R "
+     "Tabb och Skift+Tabb går igenom platserna där den får plats och kan användas, de bästa först; Page Down och "
+     "Page Up byter rum; komma och punkt vrider den på samma plats. Enter köper den där, Escape avbryter, R "
      "upprepar. Kontroll+Pil upp och Kontroll+Pil ned läser platsens detaljer och vad mer som kontrollerades."},
     {Str::KeysBuy,
      "Piltangenterna går igenom katalogen; en produkt läser upp pris och beskrivning, Kontroll+Pil upp och "
-     "Kontroll+Pil ned allt om den. Enter på en produkt börjar placera den där den får plats och kan användas. "
-     "Page Down och Page Up går igenom tomtens föremål, med Skift byter de kategori, med Kontroll byter de rum; "
-     "Enter plockar upp föremålet för att flytta det, sedan säljer Delete det."},
+     "Kontroll+Pil ned allt om den. Enter på en produkt börjar placera den där den får plats och kan användas. I "
+     "föremål efter sort eller efter rum (Tabb) plockar Enter på ett föremål på tomten upp det för att flytta "
+     "det, sedan säljer Delete det."},
     {Str::KeysMenu, "Pil upp och Pil ned väljer en interaktion, Enter utför den, Escape går tillbaka."},
     {Str::UnsupportedBuild, "Tillgänglighet för The Sims: spelversionen stöds inte, modden är avstängd"},
     // Control state
@@ -98,7 +102,7 @@ const Translation kEntries[] = {
     {Str::FamilyMembers, "%d medlemmar"},
     {Str::NetWorth, "nettovärde"},
     {Str::Friends, "vänner"},
-    // Lot: object browser (PageUp/PageDown)
+    // Lot: the lot's things by kind and by room
     {Str::CategorySims, "simmar"},
     {Str::CategorySeating, "sittplatser"},
     {Str::CategorySurfaces, "ytor"},
@@ -109,8 +113,10 @@ const Translation kEntries[] = {
     {Str::CategoryDecorative, "dekorationer"},
     {Str::CategoryMiscellaneous, "övrigt"},
     {Str::CategoryOther, "andra föremål"},
+    {Str::ThingsByKind, "föremål efter sort"},
+    {Str::ThingsByRoom, "föremål efter rum"},
     {Str::NoObjects, "inga föremål här"},
-    // Lot: rooms (Ctrl+PageUp/PageDown)
+    // Lot: rooms
     {Str::RoomOutside, "utomhus"},
     {Str::RoomBathroom, "badrum"},
     {Str::RoomBedroom, "sovrum"},
@@ -166,8 +172,8 @@ const Translation kEntries[] = {
     {Str::TutorialPointsAtSpot, "pilen pekar på en plats på tomten: %s"},
     {Str::SpotOnLot, "plats"},
     {Str::HintNewspaper,
-     "Med tangentbordet: Skift+Page Down till övrigt eller andra föremål, Page Down till Tidning, Enter, välj "
-     "Leta jobb."},
+     "Med tangentbordet: Tabb till föremål efter sort, Enter på övrigt eller andra föremål, Pil ned till "
+     "Tidning, Enter, välj Leta jobb."},
     {Str::TutorialEscapeAgain, "Escape igen avslutar övningen"},
     {Str::TutorialOver, "övningen är slut"},
     // The tutorial's steps told for the keyboard (nav/tutorial.cpp)
@@ -180,10 +186,10 @@ const Translation kEntries[] = {
      "största förstoringen."},
     {Str::StepScroll,
      "Det finns flera olika sätt att flytta skärmbilden. Med tangentbordet följer kameran det du bläddrar till: "
-     "tryck på Page Down för att gå till nästa föremål."},
+     "Tabb till föremål efter sort, Enter på en sort, sedan går Pil ned till nästa föremål."},
     {Str::StepScrollAgain,
-     "Bra. Page Down och Page Up går igenom föremålen, med Skift byter de kategori, och kameran går till vart "
-     "och ett. Tryck på Page Down igen."},
+     "Bra. Piltangenterna går igenom föremålen, Backspace går tillbaka till sorterna, och kameran går till vart "
+     "och ett. Tryck på Pil ned igen."},
     {Str::StepRotate, "Nu ska vi vrida på skärmbilden: i kontroller, tryck på Vrid åt höger."},
     {Str::StepLive,
      "Nu när du vet hur du styr skärmbilden är det dags att gå in i boendeläget. Tryck på F1, eller Boendeläge i "
@@ -192,18 +198,18 @@ const Translation kEntries[] = {
      "Familjemedlemmarna finns på kontrollpanelen. Den här familjen består bara av en person, Robert. Tryck på "
      "Kontroll+1, hans porträtt, för att centrera bilden kring honom."},
     {Str::StepGoHere,
-     "Nu ska du lära dig att styra Robert. Välj ett föremål med Page Down och tryck på Kontroll+Enter: Robert "
-     "går dit."},
+     "Nu ska du lära dig att styra Robert. Välj ett föremål i föremål efter sort eller efter rum och tryck på "
+     "Kontroll+Enter: Robert går dit."},
     {Str::StepGoHereAgain, "Tryck på Kontroll+Enter på ett föremål så att Robert går dit."},
     {Str::StepInteract,
-     "Du kan säga åt dina simmar att göra något med de flesta föremålen. Page Down går igenom föremålen; Enter "
-     "på ett föremål öppnar dess interaktioner, och Enter väljer en åt Robert."},
+     "Du kan säga åt dina simmar att göra något med de flesta föremålen. I föremål efter sort går piltangenterna "
+     "igenom föremålen; Enter på ett föremål öppnar dess interaktioner, och Enter väljer en åt Robert."},
     {Str::StepMood,
      "Fliken Humör, i simpaneler, är både en mätare och en knapp: grönt betyder att Robert är glad, rött att han "
      "inte är det. Tabb till simpaneler, Enter på Humör för att visa hans behov."},
     {Str::StepShower,
-     "Låt oss förbättra Roberts hygien. Skift+Page Down till vattenartiklar, Page Down till duschen, Enter, och "
-     "välj Ta en dusch."},
+     "Låt oss förbättra Roberts hygien. Tabb till föremål efter sort, Enter på vattenartiklar, Pil ned till "
+     "duschen, Enter, och välj Ta en dusch."},
     {Str::StepNeeds,
      "Gå igenom behoven: Tabb till Behov, Pil vänster och Pil höger, Enter på ett behov läser vad det innebär "
      "och vilka föremål som uppfyller det. Olika föremål uppfyller behoven olika bra."},
@@ -214,11 +220,11 @@ const Translation kEntries[] = {
      "Bläddra igenom katalogen: Tabb till katalog, Enter på Sittplatser, piltangenterna genom stolarna; Enter på "
      "den stol som Robert kanske gillar börjar placera ut den."},
     {Str::StepPlace,
-     "För att köpa den: Page Down och Page Up väljer en tom plats, Enter köper den där. Escape lägger undan "
-     "nästa som blir kvar i handen."},
+     "För att köpa den: Tabb och Skift+Tabb väljer en tom plats, Enter köper den där. Escape lägger undan nästa "
+     "som blir kvar i handen."},
     {Str::StepTurn,
-     "Bra, nu ska vi vrida på den: Page Down till stolen du nyss köpte, Enter plockar upp den, Skift+Page Down "
-     "vrider den, Enter ställer ner den."},
+     "Bra, nu ska vi vrida på den: i föremål efter sort, Enter på sittplatser, gå till stolen du nyss köpte, "
+     "Enter plockar upp den, punkttangenten vrider den, Enter ställer ner den."},
     {Str::StepBackToLive,
      "Tänk på att du alltid kan gå tillbaka till köpläget för att köpa nya föremål eller flytta om saker i "
      "huset. Nu går vi tillbaka till boendeläget: F1, eller Boendeläge i kontroller."},
@@ -230,16 +236,16 @@ const Translation kEntries[] = {
      "Nu ska vi lägga till en ny person i den här familjen: Bettan. Tryck på Kontroll+2 för att välja henne, och "
      "Kontroll+2 igen för att centrera skärmen kring henne."},
     {Str::StepSecondObject,
-     "Välj ett föremål med Page Down och tryck på Enter för att få Bettan att göra något; interaktionerna är "
-     "hennes nu."},
+     "Välj ett föremål i föremål efter sort eller efter rum och tryck på Enter för att få Bettan att göra något; "
+     "interaktionerna är hennes nu."},
     {Str::StepSelectFirst,
      "Det finns flera sätt att byta den valda karaktären. Tryck på Kontroll+1 för att välja Robert."},
     {Str::StepSpace,
      "Så där ja. Nu har du valt Robert. Ett annat sätt att växla karaktär är att trycka på mellanslag. Tryck på "
      "Mellanslag nu så byter du tillbaka till Bettan."},
     {Str::StepSocial,
-     "Bra. Simmar gör saker med varandra på samma sätt som med föremål. Med Bettan vald: Skift+Page Up till "
-     "simmar, Page Down till Robert, Enter, och välj en interaktion."},
+     "Bra. Simmar gör saker med varandra på samma sätt som med föremål. Med Bettan vald: Tabb till föremål efter "
+     "sort, Enter på simmar, Pil ned till Robert, Enter, och välj en interaktion."},
     {Str::StepSocialAgain,
      "Vad simmarna tycker om varandra syns på panelen Förhållanden, med dagliga och livslånga poäng. Försök med "
      "en annan interaktion med Robert och se resultatet där."},
@@ -247,8 +253,8 @@ const Translation kEntries[] = {
      "Tabb till simpaneler, piltangenterna till Förhållanden, Enter: där ser du vad den valda karaktären tycker "
      "om den här personen."},
     {Str::StepNewspaper,
-     "Simmar tjänar pengar genom att arbeta. Leta reda på tidningen utomhus: Skift+Page Down till andra föremål, "
-     "Page Down till Tidning, Enter, och välj Leta jobb."},
+     "Simmar tjänar pengar genom att arbeta. Leta reda på tidningen utomhus: Tabb till föremål efter sort, Enter "
+     "på andra föremål, Pil ned till Tidning, Enter, och välj Leta jobb."},
     {Str::StepJobTab,
      "Grattis! Nu Tabb till simpaneler, piltangenterna till Jobb, Enter så får du veta mer om det nya jobbet."},
     {Str::StepJobName,
@@ -262,6 +268,7 @@ const Translation kEntries[] = {
      "spelalternativ. Tryck på F5, eller Alternativ i kontroller."},
     // Buy mode: catalog
     {Str::CannotAfford, "har inte råd"},
+    {Str::NoFamilyFunds, "ingen familj, obegränsade pengar"},
     {Str::RatingHunger, "hunger"},
     {Str::RatingComfort, "komfort"},
     {Str::RatingHygiene, "hygien"},
@@ -551,8 +558,8 @@ const Translation kEntries[] = {
      "Enter bygger en vägg från starten till markören, Skift+Enter de fyra väggarna i ett rum mellan dem, "
      "Kontroll+Enter eller Delete tar bort väggar. Innan något byggs varnar modden om väggarna skulle stänga ute "
      "simmarna från ett föremål, stänga en dörr eller skära av en del av tomten, och Enter igen bygger ändå. "
-     "Page Down och Page Up väljer en färdig rumsstorlek, Insert bygger den med nordvästra hörnet vid markören. "
-     "Home går tillbaka till den valda simmen, Escape lämnar markören."},
+     "Komma och punkt väljer en färdig rumsstorlek, Insert bygger den med nordvästra hörnet vid markören. Home "
+     "går tillbaka till den valda simmen, Escape lämnar markören."},
     // Build cursor (area)
     {Str::BuildOutsideArea, "inget byggt: det ligger utanför tomtens byggbara område"},
     {Str::BuildNotBuildableHere, "utanför det byggbara området"},
@@ -719,8 +726,8 @@ const Translation kEntries[] = {
     {Str::BuildNoRooms, "inga rum på den här våningen eller under ännu"},
     {Str::BuildRoomJump, "%s, %d gånger %d, i nordvästra hörnet"},
     {Str::KeysRoomJump,
-     "Ctrl+Page Down och Ctrl+Page Up hoppar till nästa eller föregående rum, i nordvästra hörnet; på en övre "
-     "våning till rummen under."},
+     "Tabb och Skift+Tabb hoppar till nästa eller föregående rum, i nordvästra hörnet; på en övre våning till "
+     "rummen under."},
     // Stairs
     {Str::StairsClimb, "går upp mot %s"},
     {Str::StairsTop, "når våningen ovanför vid ruta %d, %d"},
@@ -728,8 +735,8 @@ const Translation kEntries[] = {
     {Str::BuildBlocksStairs, "spärrar trappan"},
     // Build cursor: floors and rooms
     {Str::KeysFloorChange,
-     "Skift+Page Up och Skift+Page Down går till våningen ovanför eller under; när du väljer ett verktyg kommer "
-     "du tillbaka till bottenvåningen."},
+     "Page Up och Page Down går till våningen ovanför eller under; när du väljer ett verktyg kommer du tillbaka "
+     "till bottenvåningen."},
     // Catalog room filter
     {Str::RoomFilterAll, "produkter för alla rum"},
     {Str::RoomFilterOn, "bara produkter för: %s"},
@@ -746,18 +753,21 @@ const Translation kEntries[] = {
     {Str::ObjRoaches, "kackerlackor"},
     // Narrator: visitors
     {Str::PizzaGreetHint,
-     "Hälsa på honom för att få pizzan: i kategorin simmar, Page Down till honom, Enter, Hälsa. Om ingen hälsar "
-     "går han med den."},
+     "Hälsa på honom för att få pizzan: i föremål efter sort, Enter på simmar, Pil ned till honom, Enter, Hälsa. "
+     "Om ingen hälsar går han med den."},
     // Placing: free cursor
     {Str::FreeFits, "får plats"},
     {Str::FreeNoFit, "får inte plats: %s"},
     {Str::KeysPlacingFree,
-     "Piltangenterna flyttar den en ruta i taget, med Skift fem, och säger om den får plats; Skift+Page Up och "
-     "Skift+Page Down vrider den, Enter ställer den där, Page Down går tillbaka till platserna."},
+     "Piltangenterna flyttar den en ruta i taget, med Skift fem, och säger om den får plats; komma och punkt "
+     "vrider den, Enter ställer den där, Tabb går tillbaka till platserna."},
     // Sim card
     {Str::BioFor, "Bakgrund för %s"},
     // Key help
     {Str::KeysSimCard, "Ctrl+Skift+1 till 9 öppnar en simmes kort, där bakgrunden kan redigeras."},
+    {Str::KeysHouseFile,
+     "På ett hus beskriver Ctrl+Skift+L det som Byggläge gör, enligt den senaste sparningen: rum, vad som "
+     "saknas, rum utan ingång. Kontroll+Pil upp läser det rad för rad."},
     // Travel maps
     {Str::ScreenStudioTown, "Studiostaden, vart ska vi?"},
     {Str::ScreenMagicTown, "Magistaden, vart ska vi?"},

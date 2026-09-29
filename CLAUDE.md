@@ -1,5 +1,11 @@
 # The Sims Legacy Collection: screen reader accessibility mod
 
+**Navigation follows meaning, not the screen's layout (the user's rule, 2026-09-29): read
+`NAVIGATION.md` before touching any key.** A ring of groups (Tab), items (arrows), levels (Enter /
+Backspace); groups in the order of importance, then the window tree's order, never sorted by
+position; one key grammar for every screen and mode (the lot view's HUD included); only the
+spatial tools (placing, the build cursor) use the arrows for space.
+
 Playbook: `template_generic.md` (read it first; its rules apply). This file holds what has been
 learned about *this* game. Anything marked **hypothesis** has not been verified yet.
 
@@ -35,7 +41,19 @@ inventory: `SCREENS.md`. Verified targets: `PATCH_TARGETS.md`; layouts: `STRUCTS
   languages (see "Languages").
 - **Save files are disposable**: the user wipes them before really playing. Tests may answer yes
   to save / buy / move-in prompts. (An old backup of the stock saves exists in
-  `C:\Users\Nitropc\code\mods\sims-backups\2026-09-21-pre-first-launch`.)
+  `C:\Users\Nitropc\code\mods\sims-backups\2026-09-21-pre-first-launch`.) `python tools/reset_saves.py`
+  backs up the changed neighborhoods to `sims-backups\<date>-saves` and puts the stock ones back
+  (from the install folder's `UserData*`, options kept; `--list` shows which differ, `--restore
+  <folder>` brings a backup back). Run it before handing the game back for real play. **The stock
+  neighborhood 1 has only seven occupied houses** (verified against the install files and the
+  Sims wiki, 2026-09-25): Lápida at Calle Sim 5, the tutorial Novato family at 7, and Unleashed's
+  Old Town families at 56, 63, 69, 76, 77; Gentil, Compañeras and Soltero wait in the family bin
+  with $20,000. Calle Sim 1-4, 6, 8-10 are for sale and empty. Entering an empty house is the
+  game's build-only mode: no family, live mode unavailable, and the simulator's funds mode
+  (`cSimulator + 0x50` = 1, getter `0x556e20` answers 999999) shows no money; the mod says "sin
+  familia, fondos ilimitados" there instead of $999.999. Leaving such a lot asks through a
+  `cWinEditDTLotDesc` (two lot-description fields, Sí/No/Cancelar; its question is drawn by the
+  dialog, not a widget, so the mod reads only the fields: not done yet).
 - NVDA runs on this PC; audible speech tests are allowed any time (keep them short).
 
 ## The mod (`mod/`)
@@ -79,7 +97,13 @@ eturn_focus.txt`; a dev core hands the foreground back to it
     details buffer. Every build tool has a cursor now (walls, floors, wallpaper, pools, terrain).
   - Ctrl+Shift+L (and on entering build mode): the house overview: floors, rooms, ratings,
     what is missing (toilet, shower, beds for everyone, fridge, stove, phone, smoke alarm), rooms
-    with no way in, unreachable objects, dark or disliked rooms; details in the buffer.
+    with no way in, unreachable objects, dark or disliked rooms; details in the buffer. Pets need
+    no bed. In the neighborhood the focused house gets the same overview from its saved file
+    (`game/house_file.cpp`, `nav/house_plan.cpp`): its details buffer holds it (Ctrl+Up after
+    the card) and Ctrl+Shift+L speaks it. Rooms, names, what is missing and rooms with no way in
+    match build mode's (verified on the Goths' lot, a closed room included); ratings, light,
+    liked rooms and unreachable objects need the engine and are left out. Upstairs areas with
+    no floor (the opening over a staircase) are no room in either.
   - Ctrl+N: the narrator's verbosity, everything / warnings only / off (saved in
     `SimsAccess\SimsAccess.ini`, `[mod] narrator=2/1/0`); unspoken lines still go to eventos.
   - Review buffers (`nav/buffers.cpp`, playbook section 11): Ctrl+Up reads the next line deeper,
@@ -99,8 +123,9 @@ eturn_focus.txt`; a dev core hands the foreground back to it
     Enter runs the line through the game's interpreter and keeps the console open, so Enter
     again repeats it ("truco: rosebud. fondos $4.232, +$1.000"); the game's errors come as a
     message box ("Sorry. No such cheat!"); Escape closes.
-  - Screens and dialogs: arrows (move in group), Home/End, Tab/Shift+Tab (groups), Enter/Space
-    (press; texts the press changes are read, e.g. a help topic), R (repeat), Escape (cancel an
+  - Screens and dialogs: arrows (move in group), Home/End, Tab/Shift+Tab (groups, said with their
+    name and size on entering, even of one item), Enter/Space (press; texts the press changes are
+    read, e.g. a help topic), Backspace (back a level), R (repeat), Escape (cancel an
     open interaction menu). In the lot view Space is left to the game: it selects the next Sim of
     the family (the tutorial teaches it), and the change is announced ("Isabel, seleccionado,
     Comer"); Enter presses there. Enter on the mode tab that is already selected only says
@@ -116,33 +141,35 @@ eturn_focus.txt`; a dev core hands the foreground back to it
     the inventory and relationship filters. List entries say "botón" right after their name,
     before their details: houses ("Calle Sim,1, botón. La familia ..."), families, catalog
     products ("Silla ..., botón, $80, ..."), interaction menu entries. Read-only items say no role.
-  - Values: Left/Right (or PageUp/PageDown) change the focused slider ("6 de 10"), value picker
+  - Values: Left/Right (or PageUp/PageDown, their only other use) change the focused slider ("6 de 10"), value picker
     ("Media") or personality bar; Up/Down move; Enter only repeats them (a press would click the
     slider's middle and set it to half). Check boxes toggle with Enter.
   - Create a Sim: Left/Right on a personality bar add/remove a point ("4 de 10, quedan 6
     puntos"); age, sex and skin choices and the head/body arrows say the new head and body
     ("cabeza 3 de 137: waylon").
-  - Lot view (the HUD): Up/Down switch groups (status line: time, funds, speed, friends; needs;
-    family, where Enter selects a Sim; action queue, where Enter cancels; controls; Sim panels),
-    Left/Right move inside a group. On a settings page (an options page, or any group with a
-    slider) Up/Down walk its rows first and leave it at either end; coming up into one lands on
-    its last row. The options panel opens with no page shown until a page tab is pressed (the
+  - Lot view (the HUD), since 2026-09-29 like every screen: Tab/Shift+Tab the groups (status line:
+    time, funds, speed, friends; needs; family, where Enter selects a Sim; action queue, where
+    Enter cancels; things by kind; things by room; controls; Sim panels), the arrows move inside
+    a group (Left/Right change a slider). Groups: GroupOrder (status, needs, family, queue, a
+    screen's main list: the neighborhood's houses, the family picker), then the window tree's
+    order (`MakeGroups`; the pixel tie-break was removed). The options panel opens with no page shown until a page tab is pressed (the
     game's behavior). Pausing (the game's P) says "Pausa. 11:46, $9.500" and puts
     focus on the status line; unpausing and speed changes are spoken.
-  - Lot (live mode) object browser: PageDown/PageUp (next/previous object in the category or
-    room), Shift+PageDown/PageUp (next/previous category: Sims, then the buy mode categories,
-    then "other"), Ctrl+PageDown/PageUp (next/previous room, the selected Sim's first: "cocina,
-    piso 1, 22 objetos, 74 casillas"), Enter/Space on the object (open its interaction menu),
-    Ctrl+Enter (walk the selected Sim to the object's spot, e.g. into that room), R
-    (repeat with distance). Arrows/Tab return to the panels. Objects read as "name, room, a N
-    casillas al noreste" from the selected Sim. Rooms are the engine's; their names are the
+  - Lot (live mode) things (`nav/world.cpp`, since 2026-09-29): two groups after the action
+    queue, "objetos por tipo" (Sims, then the buy mode categories, then "other") and "objetos por
+    habitación" (the selected Sim's first: "cocina, piso 1, 22 objetos, 74 casillas"); Enter on a
+    kind or room lists its things nearest first (virtual items: `Role::Level` / `Role::LotObject`,
+    widget = the group key, `IsVirtual`: nothing reads game memory through them), Backspace goes
+    back to it; Enter on a thing opens its interaction menu (buy mode: picks it up), Ctrl+Enter
+    walks the selected Sim to the thing last focused. The lot is read at most once a second for
+    these groups. Objects read as "name, room, a N casillas al noreste" from the selected Sim. Rooms are the engine's; their names are the
     mod's guess from their contents (`nav/room_names.cpp`).
   - Camera and Sims (`nav/camera.cpp`, `game/view.cpp`): Ctrl+1..Ctrl+9 select the n-th Sim of the
     family the way a click on its portrait does ("Isabel, seleccionado, Comer"), in any mode. The
     camera follows the selected Sim (the game's own follow mode, what Enter does in live mode)
-    because the game's sounds come from what is on screen; while PageUp/PageDown browse objects,
-    Sims or placement spots the camera points at the browsed thing instead (following pauses) and
-    follows the Sim again once the browser is left (arrows, Tab, Home/End). Ctrl+F turns following
+    because the game's sounds come from what is on screen; while the focus is on a thing of the lot
+    (or a placement spot) the camera points at it instead (following pauses) and follows the Sim
+    again once the focus leaves the things. Ctrl+F turns following
     off ("cámara libre") and on ("siguiendo a Isabel"). Ctrl+n presses the portrait as a click
     does (the click is what the tutorial detects); the game opens the Sim's card instead when it
     sees Ctrl held at that moment, so `GetAsyncKeyState` is hooked to report Ctrl up for 400 ms.
@@ -160,8 +187,8 @@ eturn_focus.txt`; a dev core hands the foreground back to it
     panel's group is "tutorial" (its unnamed button hides the text) and never takes focus. The
     help system's tip icon is announced when it appears. Options > Opciones de juego >
     Reiniciar tutorial restarts it (the family is evicted, the house restored). Every step was
-    completed by keyboard (`tools/tutorial_drive.py` replays them): browsing with PageDown counts
-    as scrolling, Ctrl+Enter as "Ir a este punto", the mod's placing and turning as buying and
+    completed by keyboard (`tools/tutorial_drive.py` replays them): browsing the lot's things
+    counts as scrolling (the camera goes to each), Ctrl+Enter as "Ir a este punto", the mod's placing and turning as buying and
     rotating. The game's Escape cancels the tutorial silently, so while a step is shown the first
     Escape only says "Escape otra vez para salir del tutorial" and the second within 4 s goes
     through; "el tutorial ha terminado" is said when the tutorial object leaves the lot.
@@ -176,7 +203,7 @@ eturn_focus.txt`; a dev core hands the foreground back to it
     exterior, a 5 casillas al sur"). Ctrl+H with nothing pending says so.
   - Pizza (verified by keyboard): phone > Servicios... > Pizza ("Son $40 pavos"); about a game
     hour later the delivery Sim ("Dandi de la Pizza Dale") stands outside and **must be greeted**:
-    Sims category, PageDown to him, Enter, Saludar ("Recibir Pizza, en cola"); if nobody greets
+    objetos por tipo, Sims, Down to him, Enter, Saludar ("Recibir Pizza, en cola"); if nobody greets
     him he leaves with the pizza and the money comes back. The Sim who receives it puts the box
     on a counter and eats; the box ("Caja de pizza", otros objetos, OBJD type 34 = food, listed
     since this session) offers "Coger una porción" and "Limpiar" to the others. His arrival is
@@ -226,16 +253,18 @@ eturn_focus.txt`; a dev core hands the foreground back to it
   - Buy mode (F2): Ctrl+R keeps the catalog to one kind of room (arrows skip the rest and turn
     pages). The catalog's buttons by arrows; a product reads name, price, ratings and its
     description (the details buffer: all ratings, rooms it is meant for). Enter on a product starts placing
-    it: PageDown/PageUp the spots (best first), Ctrl+PageDown/PageUp rooms, Shift+PageDown/PageUp
-    other directions on the tile, arrows move it tile by tile instead (saying whether it fits), Enter buys, Escape cancels, R repeats; the details buffer has
+    it, a spatial tool that owns its keys while an object is held (`PlacingKey`): Tab/Shift+Tab the
+    spots (best first), PageDown/PageUp rooms, comma/period other directions on the tile, arrows
+    move it tile by tile instead (Shift five; saying whether it fits), Enter buys, Escape cancels, R repeats; the details buffer has
     the spot's tile and the area's refused spots with the game's reason. Enter on an object of the lot browser picks it up to move it (same spot list;
     Escape puts it back, Delete sells it and says the refund). Moving past a page's last product
     (or back from its first) turns the catalog's page by itself ("página siguiente").
 - Build mode (F3): the panel's tools are tabs, their styles products. Enter on a wall or fence
   style starts the build cursor (`nav/build_mode.cpp`, keys in its header and Ctrl+F1): arrows
   move a corner (Shift five), Space marks the start, Enter builds a wall, Shift+Enter a room,
-  Ctrl+Enter/Delete removes, PageDown/PageUp + Insert ready-made rooms, Home back to the Sim, R
-  everything (free space, room), Escape leaves. The mod drags the wall tool itself (down, drag,
+  Ctrl+Enter/Delete removes, comma/period + Insert ready-made rooms, Tab/Shift+Tab the rooms,
+  PageUp/PageDown the floors, Home back to the Sim, R everything (free space, room), Escape
+  leaves (Tab no longer does: it is the rooms). The mod drags the wall tool itself (down, drag,
   up; `STRUCTS.md` "Build mode"), checks the walls first from the lot's entrance
   (`placement::CheckNewWalls`) and asks for a second Enter when they would shut in a Sim, cut an
   object off, close a door or isolate tiles. Some expansion "fences" are objects: their press
@@ -252,6 +281,9 @@ eturn_focus.txt`; a dev core hands the foreground back to it
 - When the game window has keyboard focus, everything typed goes to it: Space and R are mod keys
   there (Space presses the focused item, e.g. cancels a queued action) and letters are game
   hotkeys (T shows the FPS counter). Happened once when the user typed elsewhere-bound text.
+- A key that arrives while a new root settles (350 ms) completes the entering through
+  `CompleteEntering` and announces the screen before acting (a Tab right after Ctrl+H used to
+  swallow the tip's text, 2026-09-25).
 - Game behaviors that affect testing: posted keys arriving during a screen transition are
   discarded by the game's input flush (`0x6da260`); SimAntics notice dialogs close themselves after
   about 40 s; the live panel is hidden when a lot loads until F1 (or a mode switch). A pause key
@@ -398,8 +430,11 @@ shell (the scripts do it).
   `enable_sound_trycatch`, `skip_intro`, `software_intro`, `no_thread_init`, `dynamic_draw`,
   `debug_objects`, `rebuild_catalog`, `non_us_locale`, `show_init_progress`, `soundguys`,
   `dumpassets`, `reportassets`. Prefix syntax (`-x`?) not yet verified.
-- **Saves**: inside the install folder: `UserData` .. `UserData8` (Houses, Characters, Neighborhood.iff,
-  Options.iff). Current neighborhood is in the registry (`SIMS_CURRENT_NEIGHBORHOOD_PATH`).
+- **Saves**: `C:\Users\<user>\Saved Games\Electronic Arts\The Sims 25\UserData` .. `UserData8`
+  (Houses, Characters, Neighborhood.iff, Options.iff; `0x454a80` builds the path from
+  `FOLDERID_SavedGames`). The install folder's `UserData*` are only the first copy and never
+  change (verified 2026-09-25: a save wrote only the Saved Games copy). Current neighborhood is in
+  the registry (`SIMS_CURRENT_NEIGHBORHOOD_PATH`). House file format: `STRUCTS.md` "House files".
 - **Startup**: no launcher, no EA account prompt; through Steam the game reaches the neighborhood
   screen in about 10 seconds on this machine (first launch, 2026-09-21).
 - **Custom content**: `Downloads\<name>\*.far|*.iff` and `GameData\UserObjects`.

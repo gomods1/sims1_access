@@ -1,15 +1,17 @@
-// The object browser of the lot view: every Sim and object a player can interact with, by
-// category (Sims, then the buy mode categories) or by room, nearest to the selected Sim first.
-//   PageUp / PageDown              previous / next object in the category or room
-//   Shift+PageUp / Shift+PageDown  previous / next category
-//   Ctrl+PageUp / Ctrl+PageDown    previous / next room (the first press: the Sim's own room)
-//   Enter (after PageUp/PageDown)  open the object's interaction menu
-//   Ctrl+Enter                     walk the selected Sim to the object's spot (into its room)
+// The lot's things (every Sim and object a player can interact with) as two groups of the lot
+// view (NAVIGATION.md): "things by kind" (Sims, then the buy mode categories, then the rest) and
+// "things by room" (the selected Sim's room first). Their items are kinds or rooms; Enter opens
+// one (its things, nearest to the selected Sim first), Backspace goes back to the kinds or rooms.
+// The camera looks at the thing focused. On a thing:
+//   Enter        its interaction menu (buy mode: pick it up to move it)
+//   Ctrl+Enter   walk the selected Sim to its spot (into its room)
 #pragma once
 
 #include <string>
+#include <vector>
 
 #include "../game/lot.h"
+#include "model.h"
 
 namespace nav::world {
 
@@ -18,15 +20,21 @@ namespace nav::world {
 std::string DisplayName(const game::LotObject& o);
 
 void Reset();
-void NextObject(int delta);
-void NextCategory(int delta);
-void NextRoom(int delta);
+Group KindsGroup();   // kKindsGroup: the kinds, or the things of the open kind
+Group RoomsGroup();   // kRoomsGroup: the rooms, or the things of the open room
+std::string LevelName(game::Ptr group);  // the group's name: its open kind or room, else its own
+// Enter on a kind or room (its item's number) shows its things; Backspace goes back and returns
+// the number of the kind or room that was open (0: none was).
+void Open(game::Ptr group, int number);
+int Close(game::Ptr group);
+void Focus(int objectId);   // the thing focus is on: the camera looks at it; Enter acts on it
+bool HasFocus();            // a thing was focused and is still on the lot
+std::vector<std::string> DetailsOf(int objectId);  // a listed thing's details
 void Interact();
 // Why the object's menu is empty for the selected Sim ("sin interacciones. solo para niños: Jugar").
 std::string WhyNoInteractions(const game::LotObject& o);     // opens the focused object's interaction menu (runs modally)
 void WalkToFocus();  // sends the selected Sim to the focused object's spot
-void Repeat();       // says the focused object again
-game::Ptr FocusedObject();  // the object PageUp/PageDown last spoke, 0 if gone
+game::Ptr FocusedObject();  // the thing focus was last on, 0 if gone
 // The object bought last reads "recién comprado", so it can be told from identical ones (in buy
 // mode identical objects are listed one by one, since one of them is to be moved).
 void MarkBought(game::Ptr object);

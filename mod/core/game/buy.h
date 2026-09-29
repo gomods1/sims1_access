@@ -36,6 +36,9 @@ bool HeldProduct(ProductInfo* out);
 
 // The family's money; false when the lot has unlimited funds or none is known.
 bool GetFunds(int* funds);
+// True on a lot nobody lives in: the simulator's unlimited-funds mode (the game shows no money
+// and its funds getter answers 999999).
+bool UnlimitedFunds();
 
 // ---- The object being placed ----------------------------------------------------------------
 

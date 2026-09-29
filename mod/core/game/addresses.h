@@ -716,7 +716,16 @@ constexpr int kType = 0x120;       // object type record
 namespace objtype {
 constexpr int kResFile = 0x00;     // ObjResFile* (the object's IFF)
 constexpr int kInternalName = 0x18; // char* (English internal name, e.g. "Trash Outside")
+constexpr int kObjd = 0x60;        // raw OBJD resource of the type (as obj::kObjd)
 }  // namespace objtype
+// ObjectFolder ([[kSimRoot]] + 0x28): every object type the game loaded at startup, by GUID in a
+// std::unordered_map whose node list sentinel is at +0x1260 (count at +0x1264); nodes are next,
+// prev, GUID, type record. 0x5738b0 (thiscall, GUID) is the game's lookup (used by Create New
+// Object Instance, 0x614700). Read in the neighborhood: 5461 types.
+namespace folder {
+constexpr int kObjectFolder = 0x28;
+constexpr int kGuidList = 0x1260;
+}  // namespace folder
 // OBJD field indices (u16 each; the version takes fields 0-1)
 namespace objd {
 constexpr int kObjectType = 9;     // 2 person, 4 normal, 7 system, 12 inventory, 34 food (FreeSO OBJDType)

@@ -17,43 +17,36 @@ constexpr uint16_t kRoomLiving = 0x08;
 constexpr uint16_t kRoomDining = 0x20;
 constexpr uint16_t kRoomStudy = 0x80;
 
-// Cooking gear, by internal name (constant English resource names): what makes a kitchen. The
-// kitchen room flag does not (wet bars, counters and coffee makers carry it too).
-bool IsCookingFixture(const LotObject& o) {
-    static const char* const kWords[] = {"Fridge", "Refrigerator", "Stove", "Oven", "Microwave"};
-    std::string name = game::ObjectInternalName(o);
-    for (const char* w : kWords)
-        if (name.find(w) != std::string::npos) return true;
+bool NameHas(const Thing& t, std::initializer_list<const char*> words) {
+    for (const char* w : words)
+        if (t.internalName.find(w) != std::string::npos) return true;
     return false;
 }
 
-bool NameHas(const LotObject& o, std::initializer_list<const char*> words) {
-    std::string name = game::ObjectInternalName(o);
-    for (const char* w : words)
-        if (name.find(w) != std::string::npos) return true;
-    return false;
-}
+// Cooking gear, by internal name (constant English resource names): what makes a kitchen. The
+// kitchen room flag does not (wet bars, counters and coffee makers carry it too).
+bool IsCookingFixture(const Thing& t) { return NameHas(t, {"Fridge", "Refrigerator", "Stove", "Oven", "Microwave"}); }
 
 // Community lots: the engine counts no bath objects in their toilet rooms, and a shop's pet beds
 // and display cases carry bedroom and living room flags.
-bool IsBathFixture(const LotObject& o) { return NameHas(o, {"Toilet", "Shower", "Bathtub"}); }
-bool IsShopFixture(const LotObject& o) { return NameHas(o, {"Cash Register", "Display"}); }
-bool IsPetThing(const LotObject& o) { return NameHas(o, {"Pet - "}); }
+bool IsBathFixture(const Thing& t) { return NameHas(t, {"Toilet", "Shower", "Bathtub"}); }
+bool IsShopFixture(const Thing& t) { return NameHas(t, {"Cash Register", "Display"}); }
+bool IsPetThing(const Thing& t) { return NameHas(t, {"Pet - "}); }
 
 // The engine's counters decide bathrooms and bedrooms (as the house panel counts them), cooking
 // gear makes a kitchen, and the
 // rest goes by what its objects are meant for. Objects meant for more than two kinds of room
 // (plants, paintings, lamps) do not vote.
-Str Kind(const game::Room& room, const std::vector<const LotObject*>& contents) {
+Str Kind(const RoomContents& room) {
     if (room.outside) return Str::RoomOutside;
     if (room.bathObjects > 0) return Str::RoomBathroom;
     if (room.beds > 0) return Str::RoomBedroom;
-    for (const LotObject* o : contents)
-        if (!o->person && IsBathFixture(*o)) return Str::RoomBathroom;
-    for (const LotObject* o : contents)
-        if (!o->person && IsCookingFixture(*o)) return Str::RoomKitchen;
-    for (const LotObject* o : contents)
-        if (!o->person && IsShopFixture(*o)) return Str::RoomShop;
+    for (const Thing& t : room.things)
+        if (IsBathFixture(t)) return Str::RoomBathroom;
+    for (const Thing& t : room.things)
+        if (IsCookingFixture(t)) return Str::RoomKitchen;
+    for (const Thing& t : room.things)
+        if (IsShopFixture(t)) return Str::RoomShop;
     struct Vote {
         uint16_t flag;
         Str kind;
@@ -62,13 +55,13 @@ Str Kind(const game::Room& room, const std::vector<const LotObject*>& contents) 
                  {kRoomDining, Str::RoomDining, 0},
                  {kRoomStudy, Str::RoomStudy, 0},
                  {kRoomBedroom, Str::RoomBedroom, 0}};
-    for (const LotObject* o : contents) {
-        if (o->person || IsPetThing(*o)) continue;
+    for (const Thing& t : room.things) {
+        if (IsPetThing(t)) continue;
         int n = 0;
-        for (const Vote& v : votes) n += (o->roomFlags & v.flag) != 0;
+        for (const Vote& v : votes) n += (t.roomFlags & v.flag) != 0;
         if (n == 0 || n > 2) continue;
         for (Vote& v : votes)
-            if (o->roomFlags & v.flag) v.score += 1.0 / n;
+            if (t.roomFlags & v.flag) v.score += 1.0 / n;
     }
     const Vote* best = nullptr;
     for (const Vote& v : votes)
@@ -79,39 +72,48 @@ Str Kind(const game::Room& room, const std::vector<const LotObject*>& contents) 
 }  // namespace
 
 std::vector<NamedRoom> NameRooms(const std::vector<LotObject>& objects) {
-    std::map<int, std::vector<const LotObject*>> contents;  // by room id, ascending
-    std::set<int> levels;
+    std::map<int, RoomContents> contents;  // by room id, ascending
     for (const LotObject& o : objects) {
         if (o.room == game::kNoRoom) continue;
-        contents[o.room].push_back(&o);
-        levels.insert(o.level);
+        auto known = contents.find(o.room);
+        if (known == contents.end()) {
+            game::Room room;
+            if (!game::GetRoom(o.room, &room)) continue;
+            RoomContents c;
+            c.id = o.room;
+            c.level = o.level;
+            c.tiles = room.tiles;
+            c.outside = room.outside;
+            c.beds = room.beds;
+            c.bathObjects = room.bathObjects;
+            known = contents.emplace(o.room, c).first;
+        }
+        if (!o.person) known->second.things.push_back({game::ObjectInternalName(o), o.roomFlags});
     }
-    struct Named {
-        NamedRoom room;
-        Str kind;
-        int level;
-    };
-    std::vector<Named> named;
+    std::vector<RoomContents> rooms;
+    for (auto& entry : contents) rooms.push_back(std::move(entry.second));
+    return NameRooms(rooms);
+}
+
+std::vector<NamedRoom> NameRooms(const std::vector<RoomContents>& rooms) {
+    std::set<int> levels;
+    for (const RoomContents& r : rooms) levels.insert(r.level);
     std::map<std::pair<Str, int>, int> kindCount;  // by kind and floor
-    for (const auto& entry : contents) {
-        game::Room room;
-        if (!game::GetRoom(entry.first, &room)) continue;
-        Str kind = Kind(room, entry.second);
-        int level = entry.second.front()->level;
-        kindCount[{kind, level}]++;
-        named.push_back({{entry.first, "", room.tiles}, kind, level});
+    std::vector<Str> kinds;
+    for (const RoomContents& r : rooms) {
+        kinds.push_back(Kind(r));
+        kindCount[{kinds.back(), r.level}]++;
     }
     // "dormitorio 1", "dormitorio 2" when a kind repeats on a floor; the floor when the house
     // has several.
     std::map<std::pair<Str, int>, int> seen;
     std::vector<NamedRoom> out;
-    for (Named& n : named) {
-        std::string name = S(n.kind);
-        if (kindCount[{n.kind, n.level}] > 1) name += util::Format(" %d", ++seen[{n.kind, n.level}]);
-        if (levels.size() > 1) name += ", " + util::Format(S(Str::FloorNumber), n.level);
-        n.room.name = name;
-        n.room.kind = n.kind;
-        out.push_back(n.room);
+    for (size_t i = 0; i < rooms.size(); i++) {
+        const RoomContents& r = rooms[i];
+        std::string name = S(kinds[i]);
+        if (kindCount[{kinds[i], r.level}] > 1) name += util::Format(" %d", ++seen[{kinds[i], r.level}]);
+        if (levels.size() > 1) name += ", " + util::Format(S(Str::FloorNumber), r.level);
+        out.push_back({r.id, name, r.tiles, kinds[i]});
     }
     return out;
 }

@@ -72,6 +72,10 @@ std::vector<LotObject> LotObjects();
 std::string ObjectName(const LotObject& o);
 // The object's internal English name from its resource ("MailBox - Part B").
 std::string ObjectInternalName(const LotObject& o);
+// The same for an object type record (what an object's kType points to, or
+// housefile::ObjectType), and a field of its OBJD (addr::objd indices); 0 when unreadable.
+std::string TypeInternalName(Ptr type);
+uint16_t TypeObjdField(Ptr type, int field);
 
 Ptr ObjectById(int id);           // any object of the lot (every part, Sims too), 0 if none
 
@@ -85,6 +89,7 @@ struct PlacedPart {
 };
 std::vector<PlacedPart> PlacedParts();
 bool IsInvisibleHelper(Ptr object);
+bool IsInvisibleHelperType(Ptr type);  // the same by the object's type record
 bool IsLotEntrance(Ptr object);   // the invisible edge portals Sims walk on and off the lot by  // portals of the lot edge, phone line, plumb-bob, markers
 
 Ptr SelectedSim();                // cXPerson* of the Sim the player controls, 0 if none

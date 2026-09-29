@@ -26,30 +26,32 @@
 namespace input {
 namespace {
 
-// Keys the mod owns (none of them is a game hotkey; see CLAUDE.md "Game key bindings"):
-//   Up/Left, Down/Right            previous/next item in the group
-//                                  lot view (the HUD): Up/Down previous/next group (status,
-//                                  needs, family, action queue, panels), Left/Right the items;
-//                                  on a settings page (options) Up/Down walk its rows first
+// Keys the mod owns (none of them is a game hotkey; see CLAUDE.md "Game key bindings"). One
+// grammar everywhere (NAVIGATION.md): groups on Tab, items on the arrows, levels on Enter and
+// Backspace; only the spatial tools (placing, the build cursor) use the arrows for space.
+//   Up/Left, Down/Right            previous/next item in the group (the lot view's HUD too)
 //                                  on a slider, value picker or personality bar: Left/Right change it
 //   Home, End                      first/last item in the group
-//   Tab, Shift+Tab                 next/previous group
+//   Tab, Shift+Tab                 next/previous group (the lot view: status, needs, family, action
+//                                  queue, things by kind, things by room, then the game's panels)
 //   Space                          lot view: the game's next-Sim key (the selection is announced)
-//   Enter, Space                   press the focused item, or in the lot view after PageUp/Down
-//                                  open the focused object's interaction menu (Space is typing
-//                                  while a text field is shown)
+//   Enter, Space                   press the focused item; a kind or a room of the lot's things
+//                                  opens its things; a thing opens its interaction menu (buy mode:
+//                                  picks it up) (Space is typing while a text field is shown)
+//   Backspace                      back up a level (a kind's or room's things to the kinds or rooms)
 //   R                              repeat the focused item (typing while a text field is shown)
 //   Ctrl+Up / Ctrl+Down            review buffers (nav/buffers.h): the next / previous line of the
 //                                  current buffer (details of what was spoken, or events)
 //   Ctrl+Left / Ctrl+Right         previous / next review buffer
-//   buy mode, while placing an object (nav/buy_mode.h): PageUp/PageDown the spots, Ctrl+ the rooms,
-//   Shift+ the directions on a spot, Enter buys, Escape cancels, R repeats
 //   PageUp/PageDown                a value control (slider, value picker, personality bar): one
 //                                  step up/down, like Right/Left
-//                                  lot view: previous/next object in the category
-//   Shift+PageUp/PageDown          lot view: previous/next object category
-//   Ctrl+PageUp/PageDown           lot view: previous/next room
-//   Ctrl+Enter                     lot view, after PageUp/PageDown: walk to the focused object
+//   buy mode, while placing an object (nav/buy_mode.h, a spatial tool): arrows move it (Shift
+//   five), Tab/Shift+Tab the spots, PageDown/PageUp the rooms, comma/period turn it, Enter buys,
+//   Delete sells, Escape cancels, R repeats
+//   the build cursor (nav/build_mode.h, a spatial tool): arrows move (Shift five), Tab/Shift+Tab
+//   the rooms, PageUp/PageDown the floors, comma/period the ready-made room sizes, Insert builds
+//   one, Space marks, Enter builds, Delete or Ctrl+Enter removes, Home, R, Escape
+//   Ctrl+Enter                     lot view: walk to the thing last focused
 //   Escape                         close the interaction menu (otherwise the game's Escape)
 //   Ctrl+F1                        say the mod's keys for this screen
 //   Ctrl+1 .. Ctrl+9               lot view: select the n-th Sim of the family (its portrait)
@@ -77,8 +79,6 @@ bool Held(int vk) {
 }
 bool IsModifier(WPARAM vk) { return vk == VK_SHIFT || vk == VK_CONTROL || vk == VK_MENU; }
 
-bool WorldTarget() { return nav::WorldFocused() && nav::LotViewActive(); }
-
 // The keys that work where the player is.
 void SayKeyHelp() {
     if (game::IsPieMenu(game::InputRoot())) speech::Say(S(Str::KeysMenu));
@@ -86,16 +86,37 @@ void SayKeyHelp() {
     else if (nav::buy::Placing()) speech::Say(std::string(S(Str::KeysPlacing)) + " " + S(Str::KeysPlacingFree));
     else if (nav::LotViewActive() && game::InBuyTool()) speech::Say(std::string(S(Str::KeysBuy)) + " " + S(Str::KeysRoomFilter) + " " + S(Str::KeysLayoutHint));
     else if (nav::LotViewActive()) speech::Say(std::string(S(Str::KeysLot)) + " " + S(Str::KeysSimCard) + " " + S(Str::KeysLayoutHint));
+    else if (nav::FocusedLotNumber() >= 0) speech::Say(std::string(S(Str::KeysScreen)) + " " + S(Str::KeysHouseFile));
     else speech::Say(S(Str::KeysScreen));
 }
 
-// The lot view's HUD is a list of groups read top to bottom, each read left to right. Left/Right
+// Up/Down and Left/Right move through the group, the lot view's HUD included; Left/Right
 // change a slider or value picker instead of leaving it.
 void Arrow(bool vertical, int delta) {
-    nav::FocusWorld(false);
     if (!vertical && nav::Adjust(delta)) return;
-    if (vertical && nav::LotViewActive()) nav::NextRowOrGroup(delta);
-    else nav::Move(delta);
+    nav::Move(delta);
+}
+
+// Placing an object (buy mode) is a spatial tool: it owns these keys while it holds one.
+bool PlacingKey(WPARAM vk, bool shift, bool ctrl) {
+    namespace b = nav::buy;
+    if (ctrl) return false;
+    int n = shift ? 5 : 1;
+    switch (vk) {
+    case VK_UP: b::MoveFree(0, -n); return true;
+    case VK_DOWN: b::MoveFree(0, n); return true;
+    case VK_LEFT: b::MoveFree(-n, 0); return true;
+    case VK_RIGHT: b::MoveFree(n, 0); return true;
+    case VK_TAB: g_swallowChar = '\t'; b::NextSpot(shift ? -1 : +1); return true;
+    case VK_NEXT: case VK_PRIOR: b::NextArea(vk == VK_NEXT ? +1 : -1); return true;
+    case VK_OEM_COMMA: case VK_OEM_PERIOD:  // the game's own rotate keys, turning what is held
+        g_swallowChar = vk == VK_OEM_COMMA ? (shift ? '<' : ',') : (shift ? '>' : '.');
+        b::NextTurn(vk == VK_OEM_PERIOD ? +1 : -1);
+        return true;
+    case VK_RETURN: g_swallowChar = '\r'; b::Confirm(); return true;
+    case 'R': g_swallowChar = 'r'; b::Repeat(); return true;
+    }
+    return false;
 }
 
 // The build cursor (nav/build_mode.h) owns these keys while it is on; the rest leave it.
@@ -110,14 +131,18 @@ bool BuildCursorKey(WPARAM vk, bool shift, bool ctrl) {
     case VK_SPACE: g_swallowChar = ' '; b::MarkStart(); return true;
     case VK_RETURN: g_swallowChar = ctrl ? 0x0a : 0x0d; b::Build(shift, ctrl); return true;
     case VK_DELETE: b::Build(false, true); return true;
-    case VK_NEXT: if (shift) b::ChangeFloor(-1); else if (ctrl) b::NextRoom(+1); else b::NextPreset(+1); return true;
-    case VK_PRIOR: if (shift) b::ChangeFloor(+1); else if (ctrl) b::NextRoom(-1); else b::NextPreset(-1); return true;
+    case VK_NEXT: b::ChangeFloor(-1); return true;   // the bigger unit: the floor below / above
+    case VK_PRIOR: b::ChangeFloor(+1); return true;
+    case VK_TAB: g_swallowChar = '\t'; b::NextRoom(shift ? -1 : +1); return true;  // its targets: the rooms
+    case VK_OEM_COMMA: case VK_OEM_PERIOD:  // what it holds: the ready-made room sizes
+        g_swallowChar = vk == VK_OEM_COMMA ? (shift ? '<' : ',') : (shift ? '>' : '.');
+        b::NextPreset(vk == VK_OEM_PERIOD ? +1 : -1);
+        return true;
     case VK_INSERT: b::BuildPreset(); return true;
     case VK_HOME: b::Home(); return true;
     case 'R': if (ctrl) return false; g_swallowChar = 'r'; b::Repeat(); return true;
     case VK_ESCAPE: g_swallowChar = 0x1b; b::End(); return true;
     case VK_F1: if (!ctrl) return false; speech::Say(std::string(S(b::TerrainCursor() ? Str::KeysTerrainCursor : b::PoolCursor() ? Str::KeysPoolCursor : b::PaperCursor() ? Str::KeysPaperCursor : b::FloorCursor() ? Str::KeysFloorCursor : Str::KeysBuildCursor)) + " " + S(Str::KeysRoomJump) + " " + S(Str::KeysFloorChange) + " " + S(Str::KeysLayoutHint)); return true;
-    case VK_TAB: b::End(); return false;  // back to the panel: Tab moves there as usual
     }
     return false;
 }
@@ -128,18 +153,7 @@ bool BuildCursorKey(WPARAM vk, bool shift, bool ctrl) {
 bool Dispatch(WPARAM vk, bool shift, bool ctrl) {
     bool typing = nav::TextEntryActive();
     if (nav::build::Active() && !typing && BuildCursorKey(vk, shift, ctrl)) return true;
-    switch (vk) {
-    case VK_UP: case VK_DOWN: case VK_LEFT: case VK_RIGHT:
-        // Placing with the world focused: the arrows move the held object tile by tile.
-        if (!ctrl && WorldTarget() && nav::buy::Placing()) {
-            int n = shift ? 5 : 1;
-            nav::buy::MoveFree(vk == VK_LEFT ? -n : vk == VK_RIGHT ? n : 0, vk == VK_UP ? -n : vk == VK_DOWN ? n : 0);
-            return true;
-        }
-        break;
-    default:
-        break;
-    }
+    if (!typing && nav::LotViewActive() && nav::buy::Placing() && PlacingKey(vk, shift, ctrl)) return true;
     switch (vk) {
     case VK_UP:
         if (ctrl) nav::buffers::Deeper();
@@ -155,30 +169,14 @@ bool Dispatch(WPARAM vk, bool shift, bool ctrl) {
     case VK_RIGHT: if (ctrl) nav::buffers::Switch(+1); else Arrow(false, +1); return true;
     case VK_HOME: case VK_END:
         if (nav::cheats::Entering()) nav::cheats::SelectEdge(vk == VK_END);
-        else {
-            nav::FocusWorld(false);
-            nav::MoveToEdge(vk == VK_END);
-        }
+        else nav::MoveToEdge(vk == VK_END);
         return true;
     case VK_TAB:
         g_swallowChar = '\t';
-        nav::FocusWorld(false);
         nav::NextGroup(shift ? -1 : +1);
         return true;
-    case VK_PRIOR: case VK_NEXT:
-        if (!ctrl && !WorldTarget() && nav::Adjust(vk == VK_PRIOR ? +1 : -1)) return true;
-        if (!nav::LotViewActive()) return false;
-        nav::FocusWorld(true);
-        if (nav::buy::Placing()) {  // the spots where the held object can go
-            if (ctrl) nav::buy::NextArea(vk == VK_NEXT ? +1 : -1);
-            else if (shift) nav::buy::NextTurn(vk == VK_NEXT ? +1 : -1);
-            else nav::buy::NextSpot(vk == VK_NEXT ? +1 : -1);
-            return true;
-        }
-        if (ctrl) nav::world::NextRoom(vk == VK_NEXT ? +1 : -1);
-        else if (shift) nav::world::NextCategory(vk == VK_NEXT ? +1 : -1);
-        else nav::world::NextObject(vk == VK_NEXT ? +1 : -1);
-        return true;
+    case VK_PRIOR: case VK_NEXT:  // a value control's step, like Right/Left
+        return !ctrl && nav::Adjust(vk == VK_PRIOR ? +1 : -1);
     case '1': case '2': case '3': case '4': case '5': case '6': case '7': case '8': case '9':
         if (!ctrl) return false;
         g_swallowChar = vk;  // a posted digit still makes its character (a game speed key)
@@ -228,15 +226,9 @@ bool Dispatch(WPARAM vk, bool shift, bool ctrl) {
             return true;
         }
         g_swallowChar = vk == VK_RETURN ? (ctrl ? '\n' : '\r') : ' ';  // Ctrl+Enter types a line feed
-        if (ctrl) {
-            if (!WorldTarget() || nav::buy::Placing()) return false;
+        if (ctrl) {  // walk to the thing last focused
+            if (!nav::LotViewActive() || !nav::world::HasFocus()) return false;
             nav::world::WalkToFocus();
-        } else if (WorldTarget() && nav::buy::Placing()) {
-            nav::buy::Confirm();
-        } else if (WorldTarget() && game::InBuyTool()) {
-            nav::buy::PickUpFocused();
-        } else if (WorldTarget()) {
-            nav::world::Interact();
         } else {
             uintptr_t pressed = nav::FocusedWidget();
             bool product = pressed && game::IsProductButton(pressed);
@@ -267,9 +259,7 @@ bool Dispatch(WPARAM vk, bool shift, bool ctrl) {
             nav::CycleRoomFilter();
             return true;
         }
-        if (WorldTarget() && nav::buy::Placing()) nav::buy::Repeat();
-        else if (WorldTarget()) nav::world::Repeat();
-        else nav::RepeatFocus();
+        nav::RepeatFocus();
         return true;
     default:
         return false;
@@ -286,9 +276,21 @@ bool OnKeyDown(WPARAM vk, LPARAM lp) {
         if (g_synthetic) g_syntheticDown[vk] = true;
         return false;
     }
-    if (vk == VK_BACK) {  // typing: the game gets the key, the mod only speaks what it deletes
-        nav::text::OnBackspace();
-        return false;
+    if (vk == VK_BACK) {
+        if (nav::TextEntryActive()) {  // typing: the game gets the key, the mod only speaks what it deletes
+            nav::text::OnBackspace();
+            return false;
+        }
+        if (Held(VK_CONTROL) || Held(VK_MENU)) return false;
+        // Up a level (NAVIGATION.md); at the top of the lot view the key says where the focus is
+        // (the game's own Backspace would pause it).
+        if (!nav::Back()) {
+            if (!nav::LotViewActive()) return false;
+            nav::RepeatFocus();
+        }
+        g_consumed[vk] = true;
+        g_swallowChar = 0x08;
+        return true;
     }
     bool ctrl = Held(VK_CONTROL);
     bool ctrlKey = vk == VK_PRIOR || vk == VK_NEXT || vk == VK_RETURN || vk == VK_F1 || vk == VK_UP ||

@@ -44,6 +44,9 @@ enum class Role {
     Spinner,       // a value between two arrow buttons ("< Alta >"); widget = the value text,
                    // label = the name above it; PageUp/PageDown press the arrows
     Product,       // a buy mode catalog product (ProductButton): name, price, ratings
+    Level,         // lot view: a kind or a room of the lot's things (number: which); Enter opens its
+                   // things (nav/world.h). widget = its group key: no game widget behind it
+    LotObject,     // lot view: a thing of the lot (number = object id); Enter its interactions
 };
 
 enum class JobField { Job, Pay, Performance, FriendsNeeded };
@@ -110,6 +113,12 @@ constexpr Ptr kLooksGroup = 9;         // create a Sim: age, sex, skin, head and
 constexpr Ptr kMembersGroup = 10;      // family picker: the selected family's members
 constexpr Ptr kTipGroup = 11;          // lot view: the help system's tip icon (it blinks)
 constexpr Ptr kBookEntriesGroup = 12;  // Makin' Magic's book: the page's spells or recipes
+constexpr Ptr kKindsGroup = 13;        // lot view: the lot's things by kind (nav/world.h)
+constexpr Ptr kRoomsGroup = 14;        // lot view: the lot's things by room
+
+// Items the mod makes from game state, with no widget behind them (their widget is their group
+// key): nothing may read game memory through it.
+inline bool IsVirtual(const Item& it) { return it.role == Role::Level || it.role == Role::LotObject; }
 
 inline bool HasRole(const Group& g, Role role) {
     for (const Item& it : g.items)

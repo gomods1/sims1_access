@@ -12,29 +12,32 @@ const Translation kEntries[] = {
     {Str::ModLoaded, "Acessibilidade para The Sims carregada"},
     // Key help (Ctrl+F1)
     {Str::KeysScreen,
-     "As setas se movem dentro de um grupo, Tab e Shift+Tab mudam de grupo, Home e End vão para os extremos, "
-     "Enter aciona, R repete. Em um controle deslizante ou seletor, as setas para a esquerda e para a direita "
-     "mudam o valor e as setas para cima e para baixo se movem. Control+Seta para cima e Control+Seta para baixo "
-     "leem os detalhes do que foi dito, Control+Seta para a esquerda e Control+Seta para a direita alternam "
-     "entre detalhes e eventos."},
+     "Tab e Shift+Tab mudam de grupo, as setas se movem dentro de um grupo, Home e End vão para os extremos "
+     "dele; Enter aciona e, em um tipo ou um cômodo dos objetos do lote, abre os objetos dele; Backspace volta; "
+     "R repete. Em um controle deslizante ou seletor, as setas para a esquerda e para a direita mudam o valor. "
+     "Control+Seta para cima e Control+Seta para baixo leem os detalhes do que foi dito, Control+Seta para a "
+     "esquerda e Control+Seta para a direita alternam entre detalhes e eventos."},
     {Str::KeysLot,
-     "As setas para cima e para baixo mudam de grupo, as setas para a esquerda e para a direita se movem dentro "
-     "dele; em uma página de configurações, para cima e para baixo percorrem as configurações e esquerda e "
-     "direita mudam um controle deslizante ou seletor. Page Down e Page Up percorrem os objetos, com Shift mudam "
-     "de categoria, com Control mudam de cômodo. Enter abre as interações do objeto, Control+Enter caminha até "
-     "lá, R repete. Espaço seleciona o próximo Sim, Control+1 a 9 selecionam um Sim da família, Control+F faz a "
-     "câmera seguir ou não o Sim selecionado. P pausa e lê a hora e o dinheiro. Control+Seta para cima e "
-     "Control+Seta para baixo leem os detalhes, Control+Seta para a esquerda e Control+Seta para a direita "
-     "alternam entre detalhes e eventos."},
+     "Tab e Shift+Tab percorrem os grupos: a linha de status, as necessidades, a família, a fila de ações, "
+     "objetos por tipo, objetos por cômodo e depois os painéis do jogo; as setas se movem dentro de um grupo e, "
+     "em uma página de configurações, as setas para a esquerda e para a direita mudam um controle deslizante ou "
+     "seletor. Em objetos por tipo ou por cômodo, Enter abre um tipo ou um cômodo, os objetos vêm do mais "
+     "próximo ao mais distante e a câmera vai até cada um, Backspace volta; Enter em um objeto abre as "
+     "interações dele, Control+Enter caminha até lá. R repete. Espaço seleciona o próximo Sim, Control+1 a 9 "
+     "selecionam um Sim da família, Control+F faz a câmera seguir ou não o Sim selecionado. Control+E diz o que "
+     "o Sim selecionado faz e do que precisa, Control+N muda quanto o narrador fala. P pausa e lê a hora e o "
+     "dinheiro. Control+Seta para cima e Control+Seta para baixo leem os detalhes, Control+Seta para a esquerda "
+     "e Control+Seta para a direita alternam entre detalhes e eventos."},
     {Str::KeysPlacing,
-     "Page Down e Page Up percorrem os lugares onde o objeto cabe e pode ser usado, os melhores primeiro; com "
-     "Control mudam de cômodo, com Shift giram o objeto no mesmo lugar. Enter compra ali, Esc cancela, R repete. "
-     "Control+Seta para cima e Control+Seta para baixo leem os detalhes do lugar e o que mais foi verificado."},
+     "Tab e Shift+Tab percorrem os lugares onde o objeto cabe e pode ser usado, os melhores primeiro; Page Down "
+     "e Page Up mudam de cômodo; vírgula e ponto giram o objeto no mesmo lugar. Enter compra ali, Esc cancela, R "
+     "repete. Control+Seta para cima e Control+Seta para baixo leem os detalhes do lugar e o que mais foi "
+     "verificado."},
     {Str::KeysBuy,
      "As setas percorrem o catálogo; um produto diz seu preço e sua descrição, Control+Seta para cima e "
      "Control+Seta para baixo, tudo sobre ele. Enter em um produto começa a posicioná-lo onde ele cabe e pode "
-     "ser usado. Page Down e Page Up percorrem os objetos do lote, com Shift mudam de categoria, com Control "
-     "mudam de cômodo; Enter pega o objeto para movê-lo, e Delete o vende."},
+     "ser usado. Em objetos por tipo ou por cômodo (Tab), Enter em um objeto do lote o pega para movê-lo, e "
+     "Delete o vende."},
     {Str::KeysMenu, "As setas para cima e para baixo escolhem uma interação, Enter a executa, Esc volta."},
     {Str::UnsupportedBuild, "Acessibilidade para The Sims: versão do jogo não suportada, mod desativado"},
     // Control state
@@ -100,7 +103,7 @@ const Translation kEntries[] = {
     {Str::FamilyMembers, "%d membros"},
     {Str::NetWorth, "valor"},
     {Str::Friends, "amigos"},
-    // Lot: object browser (PageUp/PageDown)
+    // Lot: the lot's things by kind and by room
     {Str::CategorySims, "Sims"},
     {Str::CategorySeating, "assentos"},
     {Str::CategorySurfaces, "superfícies"},
@@ -111,8 +114,10 @@ const Translation kEntries[] = {
     {Str::CategoryDecorative, "decorativo"},
     {Str::CategoryMiscellaneous, "variados"},
     {Str::CategoryOther, "outros objetos"},
+    {Str::ThingsByKind, "objetos por tipo"},
+    {Str::ThingsByRoom, "objetos por cômodo"},
     {Str::NoObjects, "nenhum objeto aqui"},
-    // Lot: rooms (Ctrl+PageUp/PageDown)
+    // Lot: rooms
     {Str::RoomOutside, "área externa"},
     {Str::RoomBathroom, "banheiro"},
     {Str::RoomBedroom, "quarto"},
@@ -168,8 +173,8 @@ const Translation kEntries[] = {
     {Str::TutorialPointsAtSpot, "a seta aponta para um ponto do lote: %s"},
     {Str::SpotOnLot, "ponto"},
     {Str::HintNewspaper,
-     "Pelo teclado: Shift+Page Down até variados ou outros objetos, Page Down até Jornal, Enter, escolha "
-     "Procurar Emprego."},
+     "Pelo teclado: Tab até objetos por tipo, Enter em variados ou outros objetos, seta para baixo até Jornal, "
+     "Enter, escolha Procurar Emprego."},
     {Str::TutorialEscapeAgain, "Esc de novo para sair do tutorial"},
     {Str::TutorialOver, "o tutorial terminou"},
     // The tutorial's steps told for the keyboard (nav/tutorial.cpp)
@@ -179,11 +184,11 @@ const Translation kEntries[] = {
     {Str::StepZoomAgain,
      "Este é o nível médio de zoom. Agora pressione Enter em Mais Zoom mais uma vez para chegar ainda mais perto."},
     {Str::StepScroll,
-     "Existem várias maneiras de mover a tela. Pelo teclado, a câmera segue o que você percorre: pressione Page "
-     "Down para ir ao próximo objeto."},
+     "Existem várias maneiras de mover a tela. Pelo teclado, a câmera segue o que você percorre: Tab até objetos "
+     "por tipo, Enter em um tipo e depois seta para baixo vai ao próximo objeto."},
     {Str::StepScrollAgain,
-     "Muito bem. Page Down e Page Up percorrem os objetos, com Shift mudam de categoria, e a câmera vai até cada "
-     "um. Pressione Page Down de novo."},
+     "Muito bem. As setas percorrem os objetos, Backspace volta aos tipos, e a câmera vai até cada um. Pressione "
+     "seta para baixo de novo."},
     {Str::StepRotate, "Agora vamos girar a visão: em controles, pressione Girar para Direita."},
     {Str::StepLive,
      "Agora que você sabe como controlar a visão, é hora de ir para o modo Simulação. Pressione F1, ou Modo "
@@ -193,18 +198,18 @@ const Translation kEntries[] = {
      "Os membros da família aparecem no painel de controle abaixo. Esta família tem apenas uma pessoa, João. "
      "Pressione Control+1, o retrato dele, para centralizá-lo na tela."},
     {Str::StepGoHere,
-     "Agora você irá aprender como controlar João. Escolha um objeto com Page Down e pressione Control+Enter: "
-     "João caminha até esse ponto."},
+     "Agora você irá aprender como controlar João. Escolha um objeto em objetos por tipo ou por cômodo e "
+     "pressione Control+Enter: João caminha até esse ponto."},
     {Str::StepGoHereAgain, "Pressione Control+Enter em um objeto para que João vá até lá."},
     {Str::StepInteract,
-     "Os Sims podem ser comandados para interagir com a maioria dos objetos. Page Down percorre os objetos; "
-     "Enter em um deles abre suas interações, e Enter escolhe uma para João."},
+     "Os Sims podem ser comandados para interagir com a maioria dos objetos. Em objetos por tipo, as setas "
+     "percorrem os objetos; Enter em um deles abre suas interações, e Enter escolhe uma para João."},
     {Str::StepMood,
      "A guia Humor, nos painéis do Sim, é um indicador e um botão ao mesmo tempo: verde significa que João está "
      "feliz, vermelho que não está. Tab até painéis do Sim, Enter em Humor para ver as necessidades dele."},
     {Str::StepShower,
-     "Vamos aumentar a higiene de João. Shift+Page Down até pia e cia, Page Down até o chuveiro, Enter, e "
-     "escolha Tomar Uma Ducha."},
+     "Vamos aumentar a higiene de João. Tab até objetos por tipo, Enter em pia e cia, seta para baixo até o "
+     "chuveiro, Enter, e escolha Tomar Uma Ducha."},
     {Str::StepNeeds,
      "Percorra as necessidades: Tab até Necessidades, setas para a esquerda e para a direita, Enter em uma delas "
      "lê a explicação e quais objetos a satisfazem. Os objetos satisfazem as necessidades com diferentes níveis "
@@ -216,11 +221,11 @@ const Translation kEntries[] = {
      "Olhe o catálogo: Tab até catálogo, Enter em Assentos, setas pelas cadeiras; Enter na cadeira de que João "
      "possa gostar começa a posicioná-la."},
     {Str::StepPlace,
-     "Para comprá-la: Page Down e Page Up escolhem um lugar livre, Enter a compra ali. Esc descarta a próxima "
-     "que fica na mão."},
+     "Para comprá-la: Tab e Shift+Tab escolhem um lugar livre, Enter a compra ali. Esc descarta a próxima que "
+     "fica na mão."},
     {Str::StepTurn,
-     "Muito bom, agora vamos girá-la: Page Down até a cadeira recém-comprada, Enter a pega, Shift+Page Down a "
-     "gira, Enter a coloca no lugar."},
+     "Muito bom, agora vamos girá-la: em objetos por tipo, Enter em assentos, vá até a cadeira recém-comprada, "
+     "Enter a pega, a tecla ponto a gira, Enter a coloca no lugar."},
     {Str::StepBackToLive,
      "Lembre-se, você sempre pode voltar para o modo Compra para comprar novos objetos ou rearranjar a casa. "
      "Agora vamos voltar ao modo Simulação: F1, ou Modo Simulação em controles."},
@@ -232,16 +237,16 @@ const Translation kEntries[] = {
      "Agora vamos adicionar mais uma pessoa nesta família: Bete. Pressione Control+2 para selecioná-la, e "
      "Control+2 de novo para centralizá-la na tela."},
     {Str::StepSecondObject,
-     "Escolha um objeto com Page Down e pressione Enter para que Bete faça alguma coisa; as interações agora são "
-     "dela."},
+     "Escolha um objeto em objetos por tipo ou por cômodo e pressione Enter para que Bete faça alguma coisa; as "
+     "interações agora são dela."},
     {Str::StepSelectFirst,
      "Existem várias maneiras de mudar o personagem ativo. Pressione Control+1 para selecionar João."},
     {Str::StepSpace,
      "Correto. Agora João está selecionado. Outra maneira de escolher um Sim é a barra de espaço. Pressione "
      "Espaço agora e você voltará a controlar Bete."},
     {Str::StepSocial,
-     "Bom. Os Sims interagem uns com os outros da mesma maneira que com os objetos. Com Bete selecionada: "
-     "Shift+Page Up até Sims, Page Down até João, Enter, e escolha uma interação."},
+     "Bom. Os Sims interagem uns com os outros da mesma maneira que com os objetos. Com Bete selecionada: Tab "
+     "até objetos por tipo, Enter em Sims, seta para baixo até João, Enter, e escolha uma interação."},
     {Str::StepSocialAgain,
      "O que os Sims sentem uns pelos outros está no painel Relacionamentos, com os valores diário e permanente. "
      "Tente outra interação com João e veja o resultado lá."},
@@ -249,8 +254,8 @@ const Translation kEntries[] = {
      "Tab até painéis do Sim, setas até Relacionamentos, Enter: mostra como o personagem selecionado se sente "
      "sobre esta pessoa."},
     {Str::StepNewspaper,
-     "Os Sims ganham dinheiro trabalhando. Encontre o jornal do lado de fora da casa: Shift+Page Down até outros "
-     "objetos, Page Down até Jornal, Enter, e escolha Procurar Emprego."},
+     "Os Sims ganham dinheiro trabalhando. Encontre o jornal do lado de fora da casa: Tab até objetos por tipo, "
+     "Enter em outros objetos, seta para baixo até Jornal, Enter, e escolha Procurar Emprego."},
     {Str::StepJobTab,
      "Parabéns! Agora Tab até painéis do Sim, setas até Trabalho, Enter para ter mais informações sobre o novo "
      "trabalho."},
@@ -265,6 +270,7 @@ const Translation kEntries[] = {
      "vídeo, som e jogo. Pressione F5, ou Modo Opções em controles."},
     // Buy mode: catalog
     {Str::CannotAfford, "sem dinheiro suficiente"},
+    {Str::NoFamilyFunds, "sem família, fundos ilimitados"},
     {Str::RatingHunger, "fome"},
     {Str::RatingComfort, "conforto"},
     {Str::RatingHygiene, "higiene"},
@@ -556,7 +562,7 @@ const Translation kEntries[] = {
      "constrói uma parede do início ao cursor, Shift+Enter as quatro paredes de um cômodo entre eles, "
      "Control+Enter ou Delete removem paredes. Antes de construir, o mod avisa se as paredes impediriam os Sims "
      "de chegar a um objeto, fechariam uma porta ou isolariam parte do lote, e Enter de novo constrói mesmo "
-     "assim. Page Down e Page Up escolhem um tamanho de cômodo pronto, Insert o constrói com o canto noroeste no "
+     "assim. Vírgula e ponto escolhem um tamanho de cômodo pronto, Insert o constrói com o canto noroeste no "
      "cursor. Home volta ao Sim selecionado, Escape sai do cursor."},
     // Build cursor (area)
     {Str::BuildOutsideArea, "nada construído: isso fica fora da área construível do lote"},
@@ -725,8 +731,8 @@ const Translation kEntries[] = {
     {Str::BuildNoRooms, "ainda não há cômodos neste andar nem abaixo"},
     {Str::BuildRoomJump, "%s, %d por %d, no canto noroeste"},
     {Str::KeysRoomJump,
-     "Control+Page Down e Control+Page Up pulam para o cômodo seguinte ou anterior, no canto noroeste; num andar "
-     "de cima, para os cômodos de baixo."},
+     "Tab e Shift+Tab pulam para o cômodo seguinte ou anterior, no canto noroeste; num andar de cima, para os "
+     "cômodos de baixo."},
     // Stairs
     {Str::StairsClimb, "sobe para o %s"},
     {Str::StairsTop, "chega ao andar de cima no quadrado %d, %d"},
@@ -734,8 +740,7 @@ const Translation kEntries[] = {
     {Str::BuildBlocksStairs, "bloqueia a escada"},
     // Build cursor: floors and rooms
     {Str::KeysFloorChange,
-     "Shift+Page Up e Shift+Page Down vão para o andar de cima ou de baixo; escolher uma ferramenta volta ao "
-     "primeiro andar."},
+     "Page Up e Page Down vão para o andar de cima ou de baixo; escolher uma ferramenta volta ao primeiro andar."},
     // Catalog room filter
     {Str::RoomFilterAll, "produtos para todos os cômodos"},
     {Str::RoomFilterOn, "só produtos para: %s"},
@@ -752,18 +757,21 @@ const Translation kEntries[] = {
     {Str::ObjRoaches, "baratas"},
     // Narrator: visitors
     {Str::PizzaGreetHint,
-     "Cumprimente-o para receber a pizza: na categoria Sims, Page Down até ele, Enter, Receber. Se ninguém o "
-     "cumprimentar, ele vai embora com ela."},
+     "Cumprimente-o para receber a pizza: em objetos por tipo, Enter em Sims, seta para baixo até ele, Enter, "
+     "Receber. Se ninguém o cumprimentar, ele vai embora com ela."},
     // Placing: free cursor
     {Str::FreeFits, "cabe"},
     {Str::FreeNoFit, "não cabe: %s"},
     {Str::KeysPlacingFree,
-     "As setas o movem de quadrado em quadrado, com Shift de cinco em cinco, dizendo se cabe ali; Shift+Page Up "
-     "e Shift+Page Down o giram, Enter o coloca ali, Page Down volta aos lugares."},
+     "As setas o movem de quadrado em quadrado, com Shift de cinco em cinco, dizendo se cabe ali; vírgula e "
+     "ponto o giram, Enter o coloca ali, Tab volta aos lugares."},
     // Sim card
     {Str::BioFor, "Biografia de %s"},
     // Key help
     {Str::KeysSimCard, "Control+Shift+1 a 9 abrem a ficha de um Sim, onde a biografia pode ser editada."},
+    {Str::KeysHouseFile,
+     "Em uma casa, Control+Shift+L a descreve como o Modo Construção, segundo o último jogo salvo: cômodos, o "
+     "que falta, cômodos sem entrada. Control+Seta para cima a lê linha por linha."},
     // Travel maps
     {Str::ScreenStudioTown, "Studio Town, para onde?"},
     {Str::ScreenMagicTown, "Cidade da Magia, para onde?"},

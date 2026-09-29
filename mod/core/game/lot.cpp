@@ -147,8 +147,10 @@ std::unordered_map<Ptr, std::string> g_names;
 
 }  // namespace
 
-bool IsInvisibleHelper(Ptr object) {
-    std::string name = InternalName(Rd<Ptr>(object + addr::obj::kType));
+bool IsInvisibleHelper(Ptr object) { return IsInvisibleHelperType(Rd<Ptr>(object + addr::obj::kType)); }
+
+bool IsInvisibleHelperType(Ptr type) {
+    std::string name = InternalName(type);
     for (const char* prefix : kInvisibleHelpers)
         if (name.rfind(prefix, 0) == 0) return true;
     return false;
@@ -469,6 +471,13 @@ std::string ObjectName(const LotObject& o) {
 }
 
 std::string ObjectInternalName(const LotObject& o) { return InternalName(Rd<Ptr>(o.object + addr::obj::kType)); }
+
+std::string TypeInternalName(Ptr type) { return type ? InternalName(type) : ""; }
+
+uint16_t TypeObjdField(Ptr type, int field) {
+    Ptr objd = type ? Rd<Ptr>(type + addr::objtype::kObjd) : 0;
+    return objd ? Rd<uint16_t>(objd + 2 * field) : 0;
+}
 
 int SimNeighborId(Ptr person) { return person ? NeighborIdOf(person) : -1; }
 

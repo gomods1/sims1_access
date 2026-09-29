@@ -11,6 +11,7 @@
 #include "../util/strings.h"
 #include "../util/text.h"
 #include "tutorial.h"
+#include "world.h"
 
 namespace nav {
 namespace {
@@ -111,6 +112,7 @@ std::string GroupName(const Group& g) {
     if (g.key == kLooksGroup) return S(Str::GroupLooks);
     if (g.key == kMembersGroup) return S(Str::GroupMembers);
     if (g.key == kTipGroup) return S(Str::GroupTip);
+    if (g.key == kKindsGroup || g.key == kRoomsGroup) return world::LevelName(g.key);
     // The phone book: families on the left, the chosen family's members on the right.
     if (game::IsKindOf(g.key, "cTSWinTextList") && game::IsKindOf(game::Parent(g.key), "CWinPhoneBook")) {
         RECT mine = game::Rect(g.key);
@@ -137,6 +139,9 @@ int GroupOrder(const Group& g) {
     if (HasRole(g, Role::Motive)) return 1;
     if (g.key == kFamilyGroup) return 2;
     if (IsActionQueue(g)) return 3;
+    // A screen's main content before its other panels (NAVIGATION.md): the neighborhood's houses,
+    // the family picker's list.
+    if (g.key == kHousesGroup || IsPrimaryGroup(g)) return 3;
     if (g.key == kLooksGroup) return 5;  // after the personality bars
     return 4;
 }
@@ -156,6 +161,7 @@ bool IsActionQueue(const Group& g) { return g.key == kActionQueueGroup; }
 // only panels a player opened (options, a subpanel, the catalog) take focus.
 bool TakesFocusWhenOpened(const Group& g) {
     if (g.items.size() < 2 || IsTextOnly(g) || GroupOrder(g) < 4 || g.key == kSimPanelsGroup) return false;
+    if (g.key == kKindsGroup || g.key == kRoomsGroup) return false;  // the mod's own, always there
     if (tutorial::IsStepGroup(g)) return false;  // announced by the tutorial watcher instead
     return true;
 }

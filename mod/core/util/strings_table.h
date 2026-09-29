@@ -11,28 +11,28 @@
     X(ModLoaded, "Sims accessibility loaded")                                                                          \
     /* Key help (Ctrl+F1) */                                                                                           \
     X(KeysScreen,                                                                                                      \
-      "Arrows move within a group, Tab and Shift+Tab change group, Home and End go to the ends, Enter presses, R "     \
-      "repeats. On a slider or value picker, left and right change it and up and down move. Control+Up and "           \
-      "Control+Down read the details of what was said, Control+Left and Control+Right switch between details and "     \
-      "events.")                                                                                                       \
+      "Tab and Shift+Tab go from group to group; the arrows move within a group, Home and End go to its ends; "        \
+      "Enter presses, and on a kind or a room of the lot's things opens its things; Backspace goes back; R "           \
+      "repeats. On a slider or value picker, left and right change it. Control+Up and Control+Down read the "          \
+      "details of what was said, Control+Left and Control+Right switch between details and events.")                   \
     X(KeysLot,                                                                                                         \
-      "Up and down change group, left and right move within it; on a settings page up and down go through the "        \
-      "settings and left and right change a slider or value picker. Page Down and Page Up go through objects, "        \
-      "Shift with them changes category, Control with them changes room. Enter opens the object's interactions, "      \
-      "Control+Enter walks there, R repeats. Space selects the next Sim, Control+1 to 9 select a Sim of the "          \
-      "family, Control+F makes the camera follow the selected Sim or not. Control+E says what the selected Sim "      \
-      "is doing and needs, Control+N changes how much the narrator says. P pauses and reads the time and money. "    \
-      "Control+Up and Control+Down read the details, Control+Left and Control+Right switch between details and "       \
-      "events.")                                                                                                       \
+      "Tab and Shift+Tab go through the groups: the status line, the needs, the family, the action queue, things "     \
+      "by kind, things by room, then the game's panels; the arrows move within a group, and on a settings page "       \
+      "left and right change a slider or value picker. In things by kind or by room, Enter opens a kind or a room, "   \
+      "its things come nearest first and the camera goes to each one, Backspace goes back; Enter on a thing opens "    \
+      "its interactions, Control+Enter walks there. R repeats. Space selects the next Sim, Control+1 to 9 select a "   \
+      "Sim of the family, Control+F makes the camera follow the selected Sim or not. Control+E says what the "         \
+      "selected Sim is doing and needs, Control+N changes how much the narrator says. P pauses and reads the time "    \
+      "and money. Control+Up and Control+Down read the details, Control+Left and Control+Right switch between "        \
+      "details and events.")                                                                                           \
     X(KeysPlacing,                                                                                                     \
-      "Page Down and Page Up go through the spots where it fits and can be used, best first; Control with them "       \
-      "changes room, Shift turns it on the same spot. Enter buys it there, Escape cancels, R repeats. Control+Up "     \
-      "and Control+Down read the spot's details and what else was checked.")                                           \
+      "Tab and Shift+Tab go through the spots where it fits and can be used, best first; Page Down and Page Up "       \
+      "change room; comma and period turn it on the same spot. Enter buys it there, Escape cancels, R repeats. "       \
+      "Control+Up and Control+Down read the spot's details and what else was checked.")                                \
     X(KeysBuy,                                                                                                         \
       "Arrows go through the catalog; a product reads its price and description, Control+Up and Control+Down "         \
-      "everything about it. Enter on a product starts placing it where it fits and can be used. Page Down and Page "   \
-      "Up go through the lot's objects, Shift with them changes category, Control with them changes room; Enter "      \
-      "picks the object up to move it, Delete then sells it.")                                                         \
+      "everything about it. Enter on a product starts placing it where it fits and can be used. In things by kind "    \
+      "or by room (Tab), Enter on a thing of the lot picks it up to move it, Delete then sells it.")                   \
     X(KeysMenu, "Up and down choose an interaction, Enter does it, Escape goes back.")                                 \
     X(UnsupportedBuild, "Sims accessibility: unsupported game version, mod disabled")                                  \
     /* Control state */                                                                                                \
@@ -97,7 +97,7 @@
     X(FamilyMembers, "%d members")                                                                                     \
     X(NetWorth, "net worth")                                                                                           \
     X(Friends, "friends")                                                                                              \
-    /* Lot: object browser (PageUp/PageDown) */                                                                        \
+    /* Lot: the lot's things by kind and by room */                                                                        \
     X(CategorySims, "Sims")                                                                                            \
     X(CategorySeating, "seating")                                                                                      \
     X(CategorySurfaces, "surfaces")                                                                                    \
@@ -108,8 +108,12 @@
     X(CategoryDecorative, "decorative")                                                                                \
     X(CategoryMiscellaneous, "miscellaneous")                                                                          \
     X(CategoryOther, "other objects")                                                                                  \
+    X(ThingsByKind,                                                                                                    \
+      "things by kind")                                                                                                \
+    X(ThingsByRoom,                                                                                                    \
+      "things by room")                                                                                                \
     X(NoObjects, "no objects here")                                                                                    \
-    /* Lot: rooms (Ctrl+PageUp/PageDown) */                                                                            \
+    /* Lot: rooms */                                                                                                   \
     X(RoomOutside, "outside")                                                                                          \
     X(RoomBathroom, "bathroom")                                                                                        \
     X(RoomBedroom, "bedroom")                                                                                          \
@@ -165,8 +169,8 @@
     X(TutorialPointsAtSpot, "the arrow points at a spot on the lot: %s")                                               \
     X(SpotOnLot, "spot")                                                                                               \
     X(HintNewspaper,                                                                                                   \
-      "Keyboard: Shift+Page Down to miscellaneous or other objects, Page Down to the newspaper, Enter, choose Find "   \
-      "a job.")                                                                                                        \
+      "Keyboard: Tab to things by kind, Enter on miscellaneous or other objects, Down to the newspaper, Enter, "       \
+      "choose Find a job.")                                                                                            \
     X(TutorialEscapeAgain, "Escape again leaves the tutorial")                                                         \
     X(TutorialOver, "the tutorial is over")                                                                            \
     /* The tutorial's steps told for the keyboard (nav/tutorial.cpp) */                                                \
@@ -175,11 +179,11 @@
       "can press Escape twice at any time to cancel the tutorial.")                                                    \
     X(StepZoomAgain, "This is the medium zoom level. Now press Enter on Zoom in again to get even closer.")            \
     X(StepScroll,                                                                                                      \
-      "There are many ways to scroll the screen. With the keyboard the camera follows what you browse: press Page "    \
-      "Down to go to the next object.")                                                                                \
+      "There are many ways to scroll the screen. With the keyboard the camera follows what you browse: Tab to "        \
+      "things by kind, Enter on a kind, then Down goes to the next object.")                                           \
     X(StepScrollAgain,                                                                                                 \
-      "Good. Page Down and Page Up go through the objects, Shift with them changes category, and the camera goes "     \
-      "to each one. Press Page Down again.")                                                                           \
+      "Good. The arrows go through the objects, Backspace goes back to the kinds, and the camera goes to each one. "   \
+      "Press Down again.")                                                                                             \
     X(StepRotate, "Now let us rotate the point of view: in controls, press Rotate right.")                             \
     X(StepLive,                                                                                                        \
       "You know how to control the view; time for Live mode. Press F1, or Live mode in controls. If it is selected "   \
@@ -188,20 +192,20 @@
       "The family members are on the control panel below. This family is one person, Bob. Press Control+1, his "       \
       "portrait, to center him on the screen.")                                                                        \
     X(StepGoHere,                                                                                                      \
-      "Now you will learn to control Bob. Choose an object with Page Down and press Control+Enter: Bob walks to "      \
-      "that spot.")                                                                                                    \
+      "Now you will learn to control Bob. Choose an object in things by kind or by room and press Control+Enter: "     \
+      "Bob walks to that spot.")                                                                                       \
     X(StepGoHereAgain, "Press Control+Enter on an object so that Bob goes there.")                                     \
     X(StepInteract,                                                                                                    \
-      "You can order Sims to interact with most objects. Page Down goes through the objects; Enter on one opens "      \
-      "its interactions, and Enter chooses one for Bob.")                                                              \
+      "You can order Sims to interact with most objects. In things by kind, the arrows go through the objects; "       \
+      "Enter on one opens its interactions, and Enter chooses one for Bob.")                                           \
     X(StepMood,                                                                                                        \
       "The mood tab, in the Sim panels, is both a button and a meter: green means Bob is happy, red that he is "       \
       "not. Tab to the Sim panels, Enter on Mood to see his needs.")                                                   \
     X(StepShower,                                                                                                      \
-      "Let us improve Bob's hygiene. Shift+Page Down to plumbing, Page Down to the shower, Enter, then choose Take "   \
-      "a shower.")                                                                                                     \
+      "Let us improve Bob's hygiene. Tab to things by kind, Enter on plumbing, Down to the shower, Enter, then "       \
+      "choose Take a shower.")                                                                                         \
     X(StepNeeds,                                                                                                       \
-      "Go through the needs: Tab to Needs, left and right, Enter on one reads its explanation and which objects "      \
+      "Go through the needs: Tab to Needs, up and down, Enter on one reads its explanation and which objects "         \
       "satisfy it. Objects satisfy needs with different efficiency.")                                                  \
     X(StepBuy,                                                                                                         \
       "If you keep most needs green, your Sim will be satisfied; usually you satisfy the most critical first. Now "    \
@@ -210,11 +214,11 @@
       "Take a look at the catalog: Tab to catalog, Enter on Seating, arrows along the chairs; Enter on the one Bob "   \
       "would like starts placing it.")                                                                                 \
     X(StepPlace,                                                                                                       \
-      "To buy it: Page Down and Page Up choose a free spot, Enter buys it there. Escape puts away the next one "       \
-      "that stays in hand.")                                                                                           \
+      "To buy it: Tab and Shift+Tab choose a free spot, Enter buys it there. Escape puts away the next one that "      \
+      "stays in hand.")                                                                                                \
     X(StepTurn,                                                                                                        \
-      "Great, now let us rotate it: Page Down to the chair just bought, Enter picks it up, Shift+Page Down turns "     \
-      "it, Enter puts it down.")                                                                                       \
+      "Great, now let us rotate it: in things by kind, Enter on seating, go to the chair just bought, Enter picks "    \
+      "it up, the period key turns it, Enter puts it down.")                                                           \
     X(StepBackToLive,                                                                                                  \
       "Remember you can always return to Buy mode to buy new objects or rearrange the house. Now back to Live "        \
       "mode: F1, or Live mode in controls.")                                                                           \
@@ -226,14 +230,15 @@
       "Now let us add one more person to this family: Betty. Press Control+2 to select her, and Control+2 again to "   \
       "center her on the screen.")                                                                                     \
     X(StepSecondObject,                                                                                                \
-      "Choose an object with Page Down and press Enter so that Betty does something; the interactions are hers now.")  \
+      "Choose an object in things by kind or by room and press Enter so that Betty does something; the "               \
+      "interactions are hers now.")                                                                                    \
     X(StepSelectFirst, "There are several ways to change the active Sim. Press Control+1 to select Bob.")              \
     X(StepSpace,                                                                                                       \
       "Very good, Bob is selected. Another way to choose a Sim is the space bar. Press Space now and you are back "    \
       "to Betty.")                                                                                                     \
     X(StepSocial,                                                                                                      \
-      "Good. Sims interact with each other like with objects. With Betty selected: Shift+Page Up to Sims, Page "       \
-      "Down to Bob, Enter, and choose an interaction.")                                                                \
+      "Good. Sims interact with each other like with objects. With Betty selected: Tab to things by kind, Enter on "   \
+      "Sims, Down to Bob, Enter, and choose an interaction.")                                                          \
     X(StepSocialAgain,                                                                                                 \
       "How the Sims feel about each other is in the Relationships panel, with daily and lifetime scores. Try "         \
       "another interaction with Bob and see the result there.")                                                        \
@@ -241,8 +246,8 @@
       "Tab to the Sim panels, arrows to Relationships, Enter: it shows how the selected Sim feels about this "         \
       "person.")                                                                                                       \
     X(StepNewspaper,                                                                                                   \
-      "Sims earn money by working. Find the newspaper outside: Shift+Page Down to other objects, Page Down to "        \
-      "Newspaper, Enter, and choose Find a job.")                                                                      \
+      "Sims earn money by working. Find the newspaper outside: Tab to things by kind, Enter on other objects, Down "   \
+      "to Newspaper, Enter, and choose Find a job.")                                                                   \
     X(StepJobTab, "Congratulations! Now Tab to the Sim panels, arrows to Job, Enter to find out about the new job.")   \
     X(StepJobName,                                                                                                     \
       "This panel shows the selected Sim's job and skill levels, important for promotions. Tab to job, Enter on "      \
@@ -255,6 +260,7 @@
       "options. Press F5, or Options mode in controls.")                                                               \
     /* Buy mode: catalog */                                                                                            \
     X(CannotAfford, "can't afford")                                                                                    \
+    X(NoFamilyFunds, "no family, unlimited funds")                                                                     \
     X(RatingHunger, "hunger")                                                                                          \
     X(RatingComfort, "comfort")                                                                                        \
     X(RatingHygiene, "hygiene")                                                                                        \
@@ -714,18 +720,17 @@
     X(BuildAboveNothing, "nothing built below")                                                                      \
     X(BuildNoRooms, "no rooms on this floor or below yet")                                                           \
     X(BuildRoomJump, "%s, %d by %d, at its north-west corner")                                                       \
-    X(KeysRoomJump,                                                                                                  \
-      "Control+Page Down and Control+Page Up jump to the next or previous room, at its north-west corner; "          \
-      "on an upper floor, to the rooms below.")                                                                      \
+    X(KeysRoomJump,                                                                                                    \
+      "Tab and Shift+Tab jump to the next or previous room, at its north-west corner; on an upper floor, to the "      \
+      "rooms below.")                                                                                                  \
     /* Stairs */                                                                                                     \
     X(StairsClimb, "climbs %s")                                                                                      \
     X(StairsTop, "reaches the upper floor at tile %d, %d")                                                           \
     /* Build warnings */                                                                                             \
     X(BuildBlocksStairs, "cuts off the stairs")                                                                      \
     /* Build cursor: floors and rooms */                                                                             \
-    X(KeysFloorChange,                                                                                               \
-      "Shift+Page Up and Shift+Page Down go to the floor above or below; choosing a tool puts you back on "          \
-      "the first floor.")                                                                                            \
+    X(KeysFloorChange,                                                                                                 \
+      "Page Up and Page Down go to the floor above or below; choosing a tool puts you back on the first floor.")       \
     /* Catalog room filter */                                                                                        \
     X(RoomFilterAll, "products for every room")                                                                      \
     X(RoomFilterOn, "only products for: %s")                                                                         \
@@ -741,19 +746,22 @@
     X(ObjDigPile, "pile of dirt a dog dug up")                                                                       \
     X(ObjRoaches, "cockroaches")                                                                                     \
     /* Narrator: visitors */                                                                                         \
-    X(PizzaGreetHint,                                                                                                \
-      "Greet him to get the pizza: in the Sims category, Page Down to him, Enter, Greet. Unless someone "            \
-      "greets him he leaves with it.")                                                                               \
+    X(PizzaGreetHint,                                                                                                  \
+      "Greet him to get the pizza: in things by kind, Enter on Sims, Down to him, Enter, Greet. Unless someone "       \
+      "greets him he leaves with it.")                                                                                 \
     /* Placing: free cursor */                                                                                       \
     X(FreeFits, "fits")                                                                                              \
     X(FreeNoFit, "does not fit: %s")                                                                                 \
-    X(KeysPlacingFree,                                                                                               \
-      "The arrows move it one tile at a time instead, Shift with them five, saying whether it fits there; "          \
-      "Shift+Page Up and Shift+Page Down turn it, Enter puts it there, Page Down goes back to the spots.")           \
+    X(KeysPlacingFree,                                                                                                 \
+      "The arrows move it one tile at a time instead, Shift with them five, saying whether it fits there; comma "      \
+      "and period turn it, Enter puts it there, Tab goes back to the spots.")                                          \
     /* Sim card */                                                                                                   \
     X(BioFor, "Bio for %s")                                                                                          \
     /* Key help */                                                                                                   \
     X(KeysSimCard, "Control+Shift+1 to 9 open a Sim's card, where its biography can be edited.")                     \
+    X(KeysHouseFile,                                                                                                 \
+      "On a house, Control+Shift+L describes it as Build Mode does, from its last save: rooms, what is "             \
+      "missing, rooms with no way in. Control+Up reads it line by line.")                                            \
     /* Travel maps */                                                                                                \
     X(ScreenStudioTown, "Studio Town, where to?")                                                                    \
     X(ScreenMagicTown, "Magic Town, where to?")                                                                      \

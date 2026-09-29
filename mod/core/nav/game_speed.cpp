@@ -4,11 +4,13 @@
 
 #include "buffers.h"
 
+#include "../game/buy.h"
 #include "../game/rtti.h"
 #include "../game/ui.h"
 #include "../game/view_control.h"
 #include "../speech/speech.h"
 #include "../util/log.h"
+#include "../util/strings.h"
 #include "describe.h"
 #include "navigator.h"
 
@@ -35,7 +37,7 @@ void AnnouncePause(Ptr vc) {
     std::string clock = game::ClockText(vc);
     Ptr funds = game::FundsButton(vc);
     if (!clock.empty()) line += ". " + clock;
-    if (funds) line += ", " + game::Caption(funds);
+    if (funds) line += ", " + (game::UnlimitedFunds() ? std::string(S(Str::NoFamilyFunds)) : game::Caption(funds));
     FocusStatus();
     buffers::Event(line);
 }

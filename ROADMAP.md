@@ -1,5 +1,11 @@
 # Roadmap
 
+Note (2026-09-29): the keys changed to the one model of `NAVIGATION.md` (the lot's things are the
+groups "objetos por tipo" / "objetos por habitación", placing uses Tab for spots, PageUp/PageDown for
+rooms, comma/period to turn; the build cursor Tab for rooms, PageUp/PageDown for floors, comma/period
+for ready-made sizes). Entries below describe the keys of their day.
+
+
 What the mod must eventually cover so a blind player can play the whole game by keyboard. The
 mouse is useless for blind players: every item below has to work without it. Status of individual
 screens and dialogs lives in `SCREENS.md`; this file is the list of flows still to build and test.
@@ -15,7 +21,9 @@ screens and dialogs lives in `SCREENS.md`; this file is the list of flows still 
 
 ## Base game
 
-- Neighborhood: choose, buy, move into and evict houses (done: choose, buy, move in).
+- Neighborhood: choose, buy, move into and evict houses (done: choose, buy, move in). Each house
+  describes itself as build mode's overview would, from its saved file (done: rooms, what is
+  missing, rooms with no way in; Ctrl+Up on the house or Ctrl+Shift+L).
 - Create a family and create Sims (`cWinDesignFamily`, `cWinDesignCharacter`): names by typing,
   gender, age, skin, personality points, zodiac, biography (done). Heads and bodies are spoken
   with **descriptions of what each one looks like** (done for every head and body the game ships:

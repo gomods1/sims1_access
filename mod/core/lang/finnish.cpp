@@ -12,31 +12,32 @@ const Translation kEntries[] = {
     {Str::ModLoaded, "Sims-saavutettavuus ladattu"},
     // Key help (Ctrl+F1)
     {Str::KeysScreen,
-     "Nuolinäppäimet liikkuvat ryhmän sisällä, Sarkain ja Vaihto+Sarkain vaihtavat ryhmää, Home ja End siirtyvät "
-     "alkuun ja loppuun, Enter aktivoi, R toistaa. Liukusäätimessä tai valitsimessa nuoli vasemmalle ja nuoli "
-     "oikealle muuttavat arvoa ja nuoli ylös ja nuoli alas liikkuvat. Control+nuoli ylös ja Control+nuoli alas "
-     "lukevat juuri sanotun tiedot, Control+nuoli vasemmalle ja Control+nuoli oikealle vaihtavat tietojen ja "
-     "tapahtumien välillä."},
+     "Sarkain ja Vaihto+Sarkain vaihtavat ryhmää, nuolinäppäimet liikkuvat ryhmän sisällä, Home ja End siirtyvät "
+     "sen alkuun ja loppuun; Enter aktivoi, ja tontin esineiden lajilla tai huoneella se avaa sen esineet; "
+     "Askelpalautin palaa takaisin; R toistaa. Liukusäätimessä tai valitsimessa nuoli vasemmalle ja nuoli "
+     "oikealle muuttavat arvoa. Control+nuoli ylös ja Control+nuoli alas lukevat juuri sanotun tiedot, "
+     "Control+nuoli vasemmalle ja Control+nuoli oikealle vaihtavat tietojen ja tapahtumien välillä."},
     {Str::KeysLot,
-     "Nuoli ylös ja nuoli alas vaihtavat ryhmää, nuoli vasemmalle ja nuoli oikealle liikkuvat sen sisällä; "
-     "asetussivulla nuoli ylös ja nuoli alas käyvät asetukset läpi ja nuoli vasemmalle ja nuoli oikealle "
-     "muuttavat liukusäädintä tai valitsinta. Page Down ja Page Up selaavat esineitä, Vaihto niiden kanssa "
-     "vaihtaa luokkaa, Control niiden kanssa vaihtaa huonetta. Enter avaa esineen toiminnot, Control+Enter vie "
-     "simin sinne, R toistaa. Välilyönti valitsee seuraavan simin, Control+1, Control+2 ja niin edelleen "
-     "valitsevat perheen simin, Control+F kytkee kameran seurannan päälle tai pois. P pysäyttää pelin ja lukee "
+     "Sarkain ja Vaihto+Sarkain käyvät ryhmät läpi: tilarivi, tarpeet, perhe, toimintajono, esineet lajeittain, "
+     "esineet huoneittain, sitten pelin paneelit; nuolinäppäimet liikkuvat ryhmän sisällä, ja asetussivulla "
+     "nuoli vasemmalle ja nuoli oikealle muuttavat liukusäädintä tai valitsinta. Esineet lajeittain tai "
+     "huoneittain -ryhmässä Enter avaa lajin tai huoneen, sen esineet tulevat lähin ensin ja kamera siirtyy "
+     "kunkin luo, Askelpalautin palaa takaisin; Enter esineen kohdalla avaa sen toiminnot, Control+Enter vie "
+     "simin sinne. R toistaa. Välilyönti valitsee seuraavan simin, Control+1, Control+2 ja niin edelleen "
+     "valitsevat perheen simin, Control+F kytkee kameran seurannan päälle tai pois. Control+E kertoo, mitä "
+     "valittu simi tekee ja tarvitsee, Control+N muuttaa kertojan puheliaisuutta. P pysäyttää pelin ja lukee "
      "ajan ja rahat. Control+nuoli ylös ja Control+nuoli alas lukevat tiedot, Control+nuoli vasemmalle ja "
      "Control+nuoli oikealle vaihtavat tietojen ja tapahtumien välillä."},
     {Str::KeysPlacing,
-     "Page Down ja Page Up selaavat paikkoja, joihin se mahtuu ja joissa sitä voi käyttää, parhaat ensin; "
-     "Control niiden kanssa vaihtaa huonetta, Vaihto kääntää sitä samassa paikassa. Enter ostaa sen siihen, "
-     "Escape peruuttaa, R toistaa. Control+nuoli ylös ja Control+nuoli alas lukevat paikan tiedot ja mitä muuta "
-     "tarkistettiin."},
+     "Sarkain ja Vaihto+Sarkain selaavat paikkoja, joihin se mahtuu ja joissa sitä voi käyttää, parhaat ensin; "
+     "Page Down ja Page Up vaihtavat huonetta; pilkku ja piste kääntävät sitä samassa paikassa. Enter ostaa sen "
+     "siihen, Escape peruuttaa, R toistaa. Control+nuoli ylös ja Control+nuoli alas lukevat paikan tiedot ja "
+     "mitä muuta tarkistettiin."},
     {Str::KeysBuy,
      "Nuolinäppäimet selaavat tavaraluetteloa; tuotteesta luetaan hinta ja kuvaus, Control+nuoli ylös ja "
      "Control+nuoli alas kertovat siitä kaiken. Enter tuotteen kohdalla aloittaa sen sijoittamisen paikkaan, "
-     "johon se mahtuu ja jossa sitä voi käyttää. Page Down ja Page Up selaavat tontin esineitä, Vaihto niiden "
-     "kanssa vaihtaa luokkaa, Control niiden kanssa vaihtaa huonetta; Enter nostaa esineen siirrettäväksi, ja "
-     "sen jälkeen Delete myy sen."},
+     "johon se mahtuu ja jossa sitä voi käyttää. Esineet lajeittain tai huoneittain -ryhmässä (Sarkain) Enter "
+     "tontin esineen kohdalla nostaa sen siirrettäväksi, ja sen jälkeen Delete myy sen."},
     {Str::KeysMenu, "Nuoli ylös ja nuoli alas valitsevat toiminnon, Enter suorittaa sen, Escape palaa takaisin."},
     {Str::UnsupportedBuild, "Sims-saavutettavuus: pelin versiota ei tueta, modi on poistettu käytöstä"},
     // Control state
@@ -102,7 +103,7 @@ const Translation kEntries[] = {
     {Str::FamilyMembers, "%d jäsentä"},
     {Str::NetWorth, "nettovarallisuus"},
     {Str::Friends, "ystävät"},
-    // Lot: object browser (PageUp/PageDown)
+    // Lot: the lot's things by kind and by room
     {Str::CategorySims, "simit"},
     {Str::CategorySeating, "istuimet ja sängyt"},
     {Str::CategorySurfaces, "tasot"},
@@ -113,8 +114,10 @@ const Translation kEntries[] = {
     {Str::CategoryDecorative, "koriste-esineet"},
     {Str::CategoryMiscellaneous, "sekalaiset"},
     {Str::CategoryOther, "muut esineet"},
+    {Str::ThingsByKind, "esineet lajeittain"},
+    {Str::ThingsByRoom, "esineet huoneittain"},
     {Str::NoObjects, "täällä ei ole esineitä"},
-    // Lot: rooms (Ctrl+PageUp/PageDown)
+    // Lot: rooms
     {Str::RoomOutside, "ulkona"},
     {Str::RoomBathroom, "kylpyhuone"},
     {Str::RoomBedroom, "makuuhuone"},
@@ -170,8 +173,8 @@ const Translation kEntries[] = {
     {Str::TutorialPointsAtSpot, "nuoli osoittaa kohtaa tontilla: %s"},
     {Str::SpotOnLot, "kohta"},
     {Str::HintNewspaper,
-     "Näppäimistöllä: Vaihto+Page Down luokkaan sekalaiset tai muut esineet, Page Down kohtaan Sanomalehti, "
-     "Enter, valitse Etsi työpaikka."},
+     "Näppäimistöllä: Sarkain kohtaan esineet lajeittain, Enter kohdassa sekalaiset tai muut esineet, nuoli alas "
+     "kohtaan Sanomalehti, Enter, valitse Etsi työpaikka."},
     {Str::TutorialEscapeAgain, "Escape uudestaan lopettaa harjoituspelin"},
     {Str::TutorialOver, "harjoituspeli on päättynyt"},
     // The tutorial's steps told for the keyboard (nav/tutorial.cpp)
@@ -183,11 +186,11 @@ const Translation kEntries[] = {
      "Tämä on keskimmäinen zoomaustaso. Siirry nyt lähikuvaan painamalla Enter-näppäintä uudestaan kohdassa "
      "Siirry lähemmäs."},
     {Str::StepScroll,
-     "Voit vierittää ruutua monella tavalla. Näppäimistöllä kamera seuraa sitä, mitä selaat: paina Page Down, "
-     "niin siirryt seuraavaan esineeseen."},
+     "Voit vierittää ruutua monella tavalla. Näppäimistöllä kamera seuraa sitä, mitä selaat: Sarkain kohtaan "
+     "esineet lajeittain, Enter lajin kohdalla, sitten nuoli alas siirtää seuraavaan esineeseen."},
     {Str::StepScrollAgain,
-     "Hyvä. Page Down ja Page Up selaavat esineitä, Vaihto niiden kanssa vaihtaa luokkaa, ja kamera siirtyy "
-     "kunkin esineen luo. Paina Page Down uudestaan."},
+     "Hyvä. Nuolinäppäimet selaavat esineitä, Askelpalautin palaa lajeihin, ja kamera siirtyy kunkin esineen "
+     "luo. Paina nuoli alas uudestaan."},
     {Str::StepRotate, "Käännetään nyt näkymää: paina ryhmässä ohjaimet painiketta Pyöritä oikealle."},
     {Str::StepLive,
      "Nyt kun osaat ohjata näkymää, voit siirtyä pelaamaan. Paina F1 tai ryhmässä ohjaimet painiketta Pelaa. Jos "
@@ -196,19 +199,19 @@ const Translation kEntries[] = {
      "Perheen jäsenet näkyvät ohjauspaneelissa. Tässä perheessä on tällä hetkellä vain yksi jäsen, Bob. Keskitä "
      "näkymä Bobiin painamalla Control+1, joka vastaa hänen kuvaansa."},
     {Str::StepGoHere,
-     "Seuraavaksi opit, miten Bobia ohjataan. Valitse esine painamalla Page Down ja paina Control+Enter: Bob "
-     "kävelee sinne."},
+     "Seuraavaksi opit, miten Bobia ohjataan. Valitse esine kohdassa esineet lajeittain tai huoneittain ja paina "
+     "Control+Enter: Bob kävelee sinne."},
     {Str::StepGoHereAgain, "Paina esineen kohdalla Control+Enter, niin Bob menee sinne."},
     {Str::StepInteract,
-     "Simit voivat käyttää suurinta osaa esineistä. Page Down selaa esineitä; Enter esineen kohdalla avaa sen "
-     "toiminnot, ja Enter valitsee toiminnon Bobille."},
+     "Simit voivat käyttää suurinta osaa esineistä. Kohdassa esineet lajeittain nuolinäppäimet selaavat "
+     "esineitä; Enter esineen kohdalla avaa sen toiminnot, ja Enter valitsee toiminnon Bobille."},
     {Str::StepMood,
      "Mieliala-välilehti ryhmässä simin paneelit toimii sekä osoittimena että painikkeena: vihreä tarkoittaa, "
      "että Bob on iloinen, ja punainen, että hän ei ole. Sarkain ryhmään simin paneelit, Enter kohdassa "
      "Mieliala, niin näet Bobin tarpeet."},
     {Str::StepShower,
-     "Parannetaan vähän Bobin hygieniaa. Vaihto+Page Down luokkaan vesikalusteet, Page Down suihkun kohdalle, "
-     "Enter, ja valitse Ota suihku."},
+     "Parannetaan vähän Bobin hygieniaa. Sarkain kohtaan esineet lajeittain, Enter kohdassa vesikalusteet, nuoli "
+     "alas suihkun kohdalle, Enter, ja valitse Ota suihku."},
     {Str::StepNeeds,
      "Käy tarpeet läpi: Sarkain kohtaan Tarpeet, nuoli vasemmalle ja nuoli oikealle, Enter tarpeen kohdalla "
      "lukee sen selityksen ja esineet, jotka tyydyttävät sitä. Eri esineet tyydyttävät tarpeet eri tehokkuudella."},
@@ -220,11 +223,11 @@ const Translation kEntries[] = {
      "Selaa tavaraluetteloa: Sarkain ryhmään tavaraluettelo, Enter kohdassa Istuimet ja sängyt, nuolinäppäimet "
      "selaavat tuoleja; Enter sen tuolin kohdalla, joka voisi olla Bobin mieleen, aloittaa sen sijoittamisen."},
     {Str::StepPlace,
-     "Jos haluat ostaa sen: Page Down ja Page Up valitsevat vapaan paikan, Enter ostaa sen siihen. Escape "
+     "Jos haluat ostaa sen: Sarkain ja Vaihto+Sarkain valitsevat vapaan paikan, Enter ostaa sen siihen. Escape "
      "laittaa pois seuraavan, joka jää käteen."},
     {Str::StepTurn,
-     "Hyvä, käännetään sitä seuraavaksi: Page Down juuri ostetun tuolin kohdalle, Enter nostaa sen, Vaihto+Page "
-     "Down kääntää sitä, Enter laskee sen paikalleen."},
+     "Hyvä, käännetään sitä seuraavaksi: kohdassa esineet lajeittain Enter kohdassa istuimet ja sängyt, siirry "
+     "juuri ostetun tuolin kohdalle, Enter nostaa sen, piste-näppäin kääntää sitä, Enter laskee sen paikalleen."},
     {Str::StepBackToLive,
      "Muista, että voit aina palata osta-tilaan ja hankkia uusia esineitä tai järjestellä vanhat uudestaan. "
      "Mennäänpä nyt takaisin pelaamaan: paina F1 tai ryhmässä ohjaimet painiketta Pelaa."},
@@ -236,14 +239,16 @@ const Translation kEntries[] = {
      "Nyt lisäämme perheeseen toisen jäsenen, Bettyn. Valitse hänet painamalla Control+2, ja keskitä ruutu "
      "häneen painamalla Control+2 uudestaan."},
     {Str::StepSecondObject,
-     "Valitse esine painamalla Page Down ja paina Enter, niin Betty tekee jotakin; toiminnot ovat nyt hänen."},
+     "Valitse esine kohdassa esineet lajeittain tai huoneittain ja paina Enter, niin Betty tekee jotakin; "
+     "toiminnot ovat nyt hänen."},
     {Str::StepSelectFirst, "Voit vaihtaa aktiivista hahmoa usealla eri tavalla. Valitse Bob painamalla Control+1."},
     {Str::StepSpace,
      "Juuri noin. Nyt Bob on valittuna. Voit vaihtaa hahmoa myös välilyönnin avulla. Siirry nyt takaisin Bettyyn "
      "painamalla välilyöntiä."},
     {Str::StepSocial,
      "Hyvä. Simit voivat toimia toisten simien kanssa samaan tapaan kuin esineidenkin kanssa. Kun Betty on "
-     "valittuna: Vaihto+Page Up luokkaan simit, Page Down Bobin kohdalle, Enter, ja valitse toiminto."},
+     "valittuna: Sarkain kohtaan esineet lajeittain, Enter kohdassa simit, nuoli alas Bobin kohdalle, Enter, ja "
+     "valitse toiminto."},
     {Str::StepSocialAgain,
      "Simien suhtautuminen toisiinsa näkyy Suhteet-paneelissa päivittäisinä ja elinikäisinä pisteinä. Kokeile "
      "jotain toista toimintoa Bobin kanssa ja katso tulos sieltä."},
@@ -251,8 +256,8 @@ const Translation kEntries[] = {
      "Sarkain ryhmään simin paneelit, nuolinäppäimet kohtaan Suhteet, Enter: näet, mitä mieltä valittu hahmo on "
      "tästä henkilöstä."},
     {Str::StepNewspaper,
-     "Simit ansaitsevat rahaa tekemällä työtä. Hae pihalta sanomalehti: Vaihto+Page Down luokkaan muut esineet, "
-     "Page Down kohtaan Sanomalehti, Enter, ja valitse Etsi työpaikka."},
+     "Simit ansaitsevat rahaa tekemällä työtä. Hae pihalta sanomalehti: Sarkain kohtaan esineet lajeittain, "
+     "Enter kohdassa muut esineet, nuoli alas kohtaan Sanomalehti, Enter, ja valitse Etsi työpaikka."},
     {Str::StepJobTab,
      "Onneksi olkoon! Nyt Sarkain ryhmään simin paneelit, nuolinäppäimet kohtaan Työ, Enter, niin saat lisää "
      "tietoja simisi uudesta työstä."},
@@ -267,6 +272,7 @@ const Translation kEntries[] = {
      "ääni- ja peliasetukset. Paina F5 tai ryhmässä ohjaimet painiketta Peliasetukset."},
     // Buy mode: catalog
     {Str::CannotAfford, "ei varaa"},
+    {Str::NoFamilyFunds, "ei perhettä, rajattomasti rahaa"},
     {Str::RatingHunger, "nälkä"},
     {Str::RatingComfort, "mukavuus"},
     {Str::RatingHygiene, "hygienia"},
@@ -556,8 +562,8 @@ const Translation kEntries[] = {
      "se maksaa. Enter rakentaa seinän alusta kohdistimeen, Vaihto+Enter huoneen neljä seinää niiden väliin, "
      "Control+Enter tai Delete poistaa seiniä. Ennen rakentamista modi varoittaa, jos seinät estäisivät simejä "
      "pääsemästä esineen luo, sulkisivat oven tai erottaisivat osan tontista, ja Enter uudelleen rakentaa silti. "
-     "Page Down ja Page Up valitsevat valmiin huonekoon, Insert rakentaa sen luoteiskulma kohdistimessa. Home "
-     "palaa valittuun simiin, Escape poistuu kohdistimesta."},
+     "Pilkku ja piste valitsevat valmiin huonekoon, Insert rakentaa sen luoteiskulma kohdistimessa. Home palaa "
+     "valittuun simiin, Escape poistuu kohdistimesta."},
     // Build cursor (area)
     {Str::BuildOutsideArea, "mitään ei rakennettu: se on tontin rakennettavan alueen ulkopuolella"},
     {Str::BuildNotBuildableHere, "rakennettavan alueen ulkopuolella"},
@@ -724,8 +730,8 @@ const Translation kEntries[] = {
     {Str::BuildNoRooms, "tässä kerroksessa tai alla ei vielä ole huoneita"},
     {Str::BuildRoomJump, "%s, %d kertaa %d, sen luoteiskulmassa"},
     {Str::KeysRoomJump,
-     "Ctrl+Page Down ja Ctrl+Page Up hyppäävät seuraavaan tai edelliseen huoneeseen, sen luoteiskulmaan; "
-     "yläkerrassa alla oleviin huoneisiin."},
+     "Sarkain ja Vaihto+Sarkain hyppäävät seuraavaan tai edelliseen huoneeseen, sen luoteiskulmaan; yläkerrassa "
+     "alla oleviin huoneisiin."},
     // Stairs
     {Str::StairsClimb, "nousee %ssuuntaan"},
     {Str::StairsTop, "päättyy yläkertaan ruutuun %d, %d"},
@@ -733,8 +739,8 @@ const Translation kEntries[] = {
     {Str::BuildBlocksStairs, "katkaisee portaat"},
     // Build cursor: floors and rooms
     {Str::KeysFloorChange,
-     "Vaihto+Page Up ja Vaihto+Page Down siirtyvät ylempään tai alempaan kerrokseen; työkalun valinta palauttaa "
-     "ensimmäiseen kerrokseen."},
+     "Page Up ja Page Down siirtyvät ylempään tai alempaan kerrokseen; työkalun valinta palauttaa ensimmäiseen "
+     "kerrokseen."},
     // Catalog room filter
     {Str::RoomFilterAll, "tuotteet kaikkiin huoneisiin"},
     {Str::RoomFilterOn, "vain tuotteet kohteeseen: %s"},
@@ -751,18 +757,21 @@ const Translation kEntries[] = {
     {Str::ObjRoaches, "torakat"},
     // Narrator: visitors
     {Str::PizzaGreetHint,
-     "Tervehdi häntä saadaksesi pizzan: simit-luokassa Page Down hänen kohdalleen, Enter, Tervehdi. Jos kukaan "
-     "ei tervehdi, hän lähtee pizzan kanssa."},
+     "Tervehdi häntä saadaksesi pizzan: kohdassa esineet lajeittain Enter kohdassa simit, nuoli alas hänen "
+     "kohdalleen, Enter, Tervehdi. Jos kukaan ei tervehdi, hän lähtee pizzan kanssa."},
     // Placing: free cursor
     {Str::FreeFits, "mahtuu"},
     {Str::FreeNoFit, "ei mahdu: %s"},
     {Str::KeysPlacingFree,
-     "Nuolet siirtävät sitä ruutu kerrallaan, Vaihdon kanssa viisi, ja kertovat mahtuuko se; Vaihto+Page Up ja "
-     "Vaihto+Page Down kääntävät sitä, Enter asettaa sen siihen, Page Down palaa paikkoihin."},
+     "Nuolet siirtävät sitä ruutu kerrallaan, Vaihdon kanssa viisi, ja kertovat mahtuuko se; pilkku ja piste "
+     "kääntävät sitä, Enter asettaa sen siihen, Sarkain palaa paikkoihin."},
     // Sim card
     {Str::BioFor, "Tausta - %s"},
     // Key help
     {Str::KeysSimCard, "Ctrl+Vaihto+1–9 avaavat simin kortin, jossa taustaa voi muokata."},
+    {Str::KeysHouseFile,
+     "Talon kohdalla Ctrl+Vaihto+L kuvaa sen kuten Rakenna, viimeisimmän tallennuksen mukaan: huoneet, mitä "
+     "puuttuu, huoneet joihin ei pääse. Control+nuoli ylös lukee sen rivi riviltä."},
     // Travel maps
     {Str::ScreenStudioTown, "Studiokaupunki, minne mennään?"},
     {Str::ScreenMagicTown, "Taikakaupunki, minne mennään?"},

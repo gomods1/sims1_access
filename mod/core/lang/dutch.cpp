@@ -12,31 +12,32 @@ const Translation kEntries[] = {
     {Str::ModLoaded, "Toegankelijkheid voor De Sims geladen"},
     // Key help (Ctrl+F1)
     {Str::KeysScreen,
-     "Pijltoetsen bewegen binnen een groep, Tab en Shift+Tab wisselen van groep, Home en End gaan naar het begin "
-     "en het einde, Enter activeert, R herhaalt. Op een schuifregelaar of waardekiezer veranderen pijl links en "
-     "rechts de waarde en bewegen pijl omhoog en omlaag verder. Control+pijl omhoog en Control+pijl omlaag lezen "
-     "de details van wat er gezegd is, Control+pijl links en Control+pijl rechts wisselen tussen details en "
-     "gebeurtenissen."},
+     "Tab en Shift+Tab wisselen van groep, pijltoetsen bewegen binnen een groep, Home en End gaan naar het begin "
+     "en het einde ervan; Enter activeert en opent op een soort of een kamer van de voorwerpen op het kavel de "
+     "voorwerpen ervan; Backspace gaat terug; R herhaalt. Op een schuifregelaar of waardekiezer veranderen pijl "
+     "links en rechts de waarde. Control+pijl omhoog en Control+pijl omlaag lezen de details van wat er gezegd "
+     "is, Control+pijl links en Control+pijl rechts wisselen tussen details en gebeurtenissen."},
     {Str::KeysLot,
-     "Pijl omhoog en omlaag wisselen van groep, pijl links en rechts bewegen erbinnen; op een instellingenpagina "
-     "lopen pijl omhoog en omlaag door de instellingen en veranderen pijl links en rechts een schuifregelaar of "
-     "waardekiezer. Page Down en Page Up lopen door de voorwerpen, met Shift wisselen ze van categorie, met "
-     "Control van kamer. Enter opent de interacties van het voorwerp, Control+Enter loopt erheen, R herhaalt. De "
-     "spatiebalk selecteert de volgende Sim, Control+1 tot 9 selecteren een Sim van de familie, Control+F laat "
-     "de camera de geselecteerde Sim wel of niet volgen. P pauzeert en leest de tijd en het geld voor. "
-     "Control+pijl omhoog en Control+pijl omlaag lezen de details, Control+pijl links en Control+pijl rechts "
-     "wisselen tussen details en gebeurtenissen."},
+     "Tab en Shift+Tab lopen door de groepen: de statusregel, de behoeften, de familie, de actiewachtrij, "
+     "voorwerpen per soort, voorwerpen per kamer, dan de vensters van het spel; pijltoetsen bewegen binnen een "
+     "groep, en op een instellingenpagina veranderen pijl links en rechts een schuifregelaar of waardekiezer. In "
+     "voorwerpen per soort of per kamer opent Enter een soort of een kamer, de voorwerpen komen de "
+     "dichtstbijzijnde eerst en de camera gaat naar elk voorwerp, Backspace gaat terug; Enter op een voorwerp "
+     "opent de interacties, Control+Enter loopt erheen. R herhaalt. De spatiebalk selecteert de volgende Sim, "
+     "Control+1 tot 9 selecteren een Sim van de familie, Control+F laat de camera de geselecteerde Sim wel of "
+     "niet volgen. Control+E zegt wat de geselecteerde Sim doet en nodig heeft, Control+N verandert hoeveel de "
+     "verteller zegt. P pauzeert en leest de tijd en het geld voor. Control+pijl omhoog en Control+pijl omlaag "
+     "lezen de details, Control+pijl links en Control+pijl rechts wisselen tussen details en gebeurtenissen."},
     {Str::KeysPlacing,
-     "Page Down en Page Up lopen door de plekken waar het past en gebruikt kan worden, de beste eerst; met "
-     "Control wisselen ze van kamer, Shift draait het op dezelfde plek. Enter koopt het daar, Escape annuleert, "
-     "R herhaalt. Control+pijl omhoog en Control+pijl omlaag lezen de details van de plek en wat er verder is "
-     "gecontroleerd."},
+     "Tab en Shift+Tab lopen door de plekken waar het past en gebruikt kan worden, de beste eerst; Page Down en "
+     "Page Up wisselen van kamer; komma en punt draaien het op dezelfde plek. Enter koopt het daar, Escape "
+     "annuleert, R herhaalt. Control+pijl omhoog en Control+pijl omlaag lezen de details van de plek en wat er "
+     "verder is gecontroleerd."},
     {Str::KeysBuy,
      "Pijltoetsen lopen door de catalogus; een product noemt zijn prijs en beschrijving, Control+pijl omhoog en "
      "Control+pijl omlaag alles erover. Enter op een product begint het te plaatsen waar het past en gebruikt "
-     "kan worden. Page Down en Page Up lopen door de voorwerpen op het kavel, met Shift wisselen ze van "
-     "categorie, met Control van kamer; Enter pakt het voorwerp op om het te verplaatsen, Delete verkoopt het "
-     "dan."},
+     "kan worden. In voorwerpen per soort of per kamer (Tab) pakt Enter op een voorwerp van het kavel het op om "
+     "het te verplaatsen, Delete verkoopt het dan."},
     {Str::KeysMenu, "Pijl omhoog en omlaag kiezen een interactie, Enter voert die uit, Escape gaat terug."},
     {Str::UnsupportedBuild, "Toegankelijkheid voor De Sims: niet-ondersteunde spelversie, mod uitgeschakeld"},
     // Control state
@@ -102,7 +103,7 @@ const Translation kEntries[] = {
     {Str::FamilyMembers, "%d leden"},
     {Str::NetWorth, "nettowaarde"},
     {Str::Friends, "vrienden"},
-    // Lot: object browser (PageUp/PageDown)
+    // Lot: the lot's things by kind and by room
     {Str::CategorySims, "Sims"},
     {Str::CategorySeating, "zitmeubilair"},
     {Str::CategorySurfaces, "oppervlakken"},
@@ -113,8 +114,10 @@ const Translation kEntries[] = {
     {Str::CategoryDecorative, "decoratie"},
     {Str::CategoryMiscellaneous, "diversen"},
     {Str::CategoryOther, "overige voorwerpen"},
+    {Str::ThingsByKind, "voorwerpen per soort"},
+    {Str::ThingsByRoom, "voorwerpen per kamer"},
     {Str::NoObjects, "hier zijn geen voorwerpen"},
-    // Lot: rooms (Ctrl+PageUp/PageDown)
+    // Lot: rooms
     {Str::RoomOutside, "buiten"},
     {Str::RoomBathroom, "badkamer"},
     {Str::RoomBedroom, "slaapkamer"},
@@ -170,8 +173,8 @@ const Translation kEntries[] = {
     {Str::TutorialPointsAtSpot, "de pijl wijst naar een plek op het kavel: %s"},
     {Str::SpotOnLot, "plek"},
     {Str::HintNewspaper,
-     "Met het toetsenbord: Shift+Page Down naar diversen of overige voorwerpen, Page Down naar Krant, Enter, "
-     "kies Een baan zoeken."},
+     "Met het toetsenbord: Tab naar voorwerpen per soort, Enter op diversen of overige voorwerpen, pijl omlaag "
+     "naar Krant, Enter, kies Een baan zoeken."},
     {Str::TutorialEscapeAgain, "nog een keer Escape verlaat de les"},
     {Str::TutorialOver, "de les is afgelopen"},
     // The tutorial's steps told for the keyboard (nav/tutorial.cpp)
@@ -183,10 +186,11 @@ const Translation kEntries[] = {
      "bekijken."},
     {Str::StepScroll,
      "Er zijn verschillende manieren om het scherm te laten verschuiven. Met het toetsenbord volgt de camera wat "
-     "je doorloopt: druk op Page Down om naar het volgende voorwerp te gaan."},
+     "je doorloopt: Tab naar voorwerpen per soort, Enter op een soort, dan gaat pijl omlaag naar het volgende "
+     "voorwerp."},
     {Str::StepScrollAgain,
-     "Goed zo. Page Down en Page Up lopen door de voorwerpen, met Shift wissel je van categorie, en de camera "
-     "gaat naar elk voorwerp. Druk nogmaals op Page Down."},
+     "Goed zo. De pijltoetsen lopen door de voorwerpen, Backspace gaat terug naar de soorten, en de camera gaat "
+     "naar elk voorwerp. Druk nogmaals op pijl omlaag."},
     {Str::StepRotate,
      "Laten we alles eens van een andere kant bekijken: druk in de besturing op Rechtsom draaien."},
     {Str::StepLive,
@@ -196,19 +200,19 @@ const Translation kEntries[] = {
      "De gezinsleden vind je in het besturingspaneel onderin. Dit gezin bestaat nu nog uit één persoon: Gijs. "
      "Druk op Control+1, zijn portret, om het scherm op hem te centreren."},
     {Str::StepGoHere,
-     "Nu gaan we je laten zien hoe je Gijs kunt besturen. Kies een voorwerp met Page Down en druk op "
-     "Control+Enter: Gijs loopt naar die plek."},
+     "Nu gaan we je laten zien hoe je Gijs kunt besturen. Kies een voorwerp in voorwerpen per soort of per kamer "
+     "en druk op Control+Enter: Gijs loopt naar die plek."},
     {Str::StepGoHereAgain, "Druk op Control+Enter op een voorwerp, zodat Gijs erheen gaat."},
     {Str::StepInteract,
-     "Je kunt de Sims met de meeste voorwerpen iets laten doen. Page Down loopt door de voorwerpen; Enter op een "
-     "voorwerp opent de interacties, en Enter kiest er een voor Gijs."},
+     "Je kunt de Sims met de meeste voorwerpen iets laten doen. In voorwerpen per soort lopen de pijltoetsen "
+     "door de voorwerpen; Enter op een voorwerp opent de interacties, en Enter kiest er een voor Gijs."},
     {Str::StepMood,
      "Het tabblad Humeur, in de Sim-panelen, is zowel een knop als een graadmeter: groen betekent dat Gijs "
      "gelukkig is, rood dat hij ongelukkig is. Tab naar Sim-panelen, Enter op Humeur om de behoeften van Gijs te "
      "zien."},
     {Str::StepShower,
-     "Laten we de hygiëne van Gijs eens aanpakken. Shift+Page Down naar sanitair, Page Down naar de douche, "
-     "Enter, en kies Een douche nemen."},
+     "Laten we de hygiëne van Gijs eens aanpakken. Tab naar voorwerpen per soort, Enter op sanitair, pijl omlaag "
+     "naar de douche, Enter, en kies Een douche nemen."},
     {Str::StepNeeds,
      "Loop door de behoeften: Tab naar Behoeften, pijl links en rechts, Enter op een behoefte leest de uitleg en "
      "welke voorwerpen erin voorzien. Verschillende voorwerpen voorzien in verschillende mate in deze behoeften."},
@@ -219,11 +223,11 @@ const Translation kEntries[] = {
      "Bekijk de catalogus: Tab naar catalogus, Enter op Zitmeubilair, pijltoetsen door de stoelen; Enter op de "
      "stoel die Gijs leuk zou vinden, begint hem te plaatsen."},
     {Str::StepPlace,
-     "Om hem te kopen: Page Down en Page Up kiezen een lege plek, Enter koopt hem daar. Escape legt de volgende "
-     "weg die je nog in de hand hebt."},
+     "Om hem te kopen: Tab en Shift+Tab kiezen een lege plek, Enter koopt hem daar. Escape legt de volgende weg "
+     "die je nog in de hand hebt."},
     {Str::StepTurn,
-     "Goed, laten we hem eens draaien: Page Down naar de net gekochte stoel, Enter pakt hem op, Shift+Page Down "
-     "draait hem, Enter zet hem neer."},
+     "Goed, laten we hem eens draaien: in voorwerpen per soort Enter op zitmeubilair, ga naar de net gekochte "
+     "stoel, Enter pakt hem op, de punttoets draait hem, Enter zet hem neer."},
     {Str::StepBackToLive,
      "Je kunt altijd naar de stand Kopen gaan om nieuwe voorwerpen aan te schaffen of het huis anders in te "
      "richten. Nu gaan we weer terug naar de stand Leven: F1, of Leven in de besturing."},
@@ -237,8 +241,8 @@ const Translation kEntries[] = {
      "Nu gaan we de familie uitbreiden met nog een persoon: Gerda. Druk op Control+2 om haar te selecteren, en "
      "nogmaals op Control+2 om het scherm op haar te centreren."},
     {Str::StepSecondObject,
-     "Kies een voorwerp met Page Down en druk op Enter om Gerda er iets mee te laten doen; de interacties zijn "
-     "nu van haar."},
+     "Kies een voorwerp in voorwerpen per soort of per kamer en druk op Enter om Gerda er iets mee te laten "
+     "doen; de interacties zijn nu van haar."},
     {Str::StepSelectFirst,
      "Er zijn verschillende manieren om van actief personage te veranderen. Druk op Control+1 om Gijs te "
      "selecteren."},
@@ -247,7 +251,7 @@ const Translation kEntries[] = {
      "spatiebalk en je schakelt over naar Gerda."},
     {Str::StepSocial,
      "Goed zo. Sims hebben interactie met elkaar op dezelfde manier als met voorwerpen. Met Gerda geselecteerd: "
-     "Shift+Page Up naar Sims, Page Down naar Gijs, Enter, en kies een interactie."},
+     "Tab naar voorwerpen per soort, Enter op Sims, pijl omlaag naar Gijs, Enter, en kies een interactie."},
     {Str::StepSocialAgain,
      "Wat de Sims van elkaar vinden, staat in het paneel Relaties, met dagelijkse en levenslange scores. Laat "
      "Gerda nog iets anders met Gijs doen en bekijk daar het resultaat."},
@@ -255,8 +259,8 @@ const Translation kEntries[] = {
      "Tab naar Sim-panelen, pijltoetsen naar Relaties, Enter: daar zie je wat het geselecteerde personage van "
      "deze persoon vindt."},
     {Str::StepNewspaper,
-     "Sims verdienen hun geld door te werken. Zoek de krant buiten: Shift+Page Down naar overige voorwerpen, "
-     "Page Down naar Krant, Enter, en kies Een baan zoeken."},
+     "Sims verdienen hun geld door te werken. Zoek de krant buiten: Tab naar voorwerpen per soort, Enter op "
+     "overige voorwerpen, pijl omlaag naar Krant, Enter, en kies Een baan zoeken."},
     {Str::StepJobTab,
      "Gefeliciteerd! Nu Tab naar Sim-panelen, pijltoetsen naar Werk, Enter om meer te weten te komen over de "
      "nieuwe baan."},
@@ -272,6 +276,7 @@ const Translation kEntries[] = {
      "speelopties aan. Druk op F5, of op Opties in de besturing."},
     // Buy mode: catalog
     {Str::CannotAfford, "te duur"},
+    {Str::NoFamilyFunds, "geen gezin, onbeperkt geld"},
     {Str::RatingHunger, "honger"},
     {Str::RatingComfort, "comfort"},
     {Str::RatingHygiene, "hygiëne"},
@@ -562,7 +567,7 @@ const Translation kEntries[] = {
      "Enter bouwt een muur van het begin tot de cursor, Shift+Enter de vier muren van een kamer ertussen, "
      "Control+Enter of Delete haalt muren weg. Voor het bouwen waarschuwt de mod als de muren Sims van een "
      "voorwerp zouden afsluiten, een deur zouden afsluiten of een deel van het terrein zouden afsluiten; nog een "
-     "keer Enter bouwt toch. Page Down en Page Up kiezen een kant-en-klare kamergrootte, Insert bouwt die met de "
+     "keer Enter bouwt toch. Komma en punt kiezen een kant-en-klare kamergrootte, Insert bouwt die met de "
      "noordwesthoek bij de cursor. Home gaat terug naar de geselecteerde Sim, Escape verlaat de cursor."},
     // Build cursor (area)
     {Str::BuildOutsideArea, "niets gebouwd: dat ligt buiten het bebouwbare deel van het terrein"},
@@ -732,8 +737,8 @@ const Translation kEntries[] = {
     {Str::BuildNoRooms, "nog geen kamers op deze verdieping of eronder"},
     {Str::BuildRoomJump, "%s, %d bij %d, in de noordwesthoek"},
     {Str::KeysRoomJump,
-     "Control+Page Down en Control+Page Up springen naar de volgende of vorige kamer, in de noordwesthoek; op "
-     "een hogere verdieping naar de kamers eronder."},
+     "Tab en Shift+Tab springen naar de volgende of vorige kamer, in de noordwesthoek; op een hogere verdieping "
+     "naar de kamers eronder."},
     // Stairs
     {Str::StairsClimb, "loopt omhoog naar het %s"},
     {Str::StairsTop, "komt boven uit op vak %d, %d"},
@@ -741,8 +746,8 @@ const Translation kEntries[] = {
     {Str::BuildBlocksStairs, "sluit de trap af"},
     // Build cursor: floors and rooms
     {Str::KeysFloorChange,
-     "Shift+Page Up en Shift+Page Down gaan naar de verdieping erboven of eronder; een gereedschap kiezen brengt "
-     "je terug naar de begane grond."},
+     "Page Up en Page Down gaan naar de verdieping erboven of eronder; een gereedschap kiezen brengt je terug "
+     "naar de begane grond."},
     // Catalog room filter
     {Str::RoomFilterAll, "producten voor alle kamers"},
     {Str::RoomFilterOn, "alleen producten voor: %s"},
@@ -759,18 +764,21 @@ const Translation kEntries[] = {
     {Str::ObjRoaches, "kakkerlakken"},
     // Narrator: visitors
     {Str::PizzaGreetHint,
-     "Begroet hem om de pizza te krijgen: in de categorie Sims met Page Down naar hem, Enter, Begroet. Als "
-     "niemand hem begroet, gaat hij met de pizza weg."},
+     "Begroet hem om de pizza te krijgen: in voorwerpen per soort Enter op Sims, pijl omlaag naar hem, Enter, "
+     "Begroet. Als niemand hem begroet, gaat hij met de pizza weg."},
     // Placing: free cursor
     {Str::FreeFits, "past"},
     {Str::FreeNoFit, "past niet: %s"},
     {Str::KeysPlacingFree,
-     "De pijltjes verplaatsen het vak voor vak, met Shift vijf tegelijk, en zeggen of het past; Shift+Page Up en "
-     "Shift+Page Down draaien het, Enter zet het daar, Page Down gaat terug naar de plekken."},
+     "De pijltjes verplaatsen het vak voor vak, met Shift vijf tegelijk, en zeggen of het past; komma en punt "
+     "draaien het, Enter zet het daar, Tab gaat terug naar de plekken."},
     // Sim card
     {Str::BioFor, "Biografie van %s"},
     // Key help
     {Str::KeysSimCard, "Control+Shift+1 tot 9 openen de kaart van een Sim, waar de biografie bewerkt kan worden."},
+    {Str::KeysHouseFile,
+     "Op een huis beschrijft Control+Shift+L het zoals Bouwen doet, volgens de laatste keer opslaan: kamers, wat "
+     "ontbreekt, kamers zonder ingang. Control+pijl omhoog leest het regel voor regel."},
     // Travel maps
     {Str::ScreenStudioTown, "Studio-Stad, waarheen?"},
     {Str::ScreenMagicTown, "Magie-Stad, waarheen?"},

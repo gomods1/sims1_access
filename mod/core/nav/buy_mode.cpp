@@ -175,7 +175,6 @@ void Start(game::Ptr held) {
         return;
     }
     ShowCurrent();
-    FocusWorld(true);
     SaySpot(line + AreaLine());
 }
 

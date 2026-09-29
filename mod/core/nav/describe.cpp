@@ -8,6 +8,7 @@
 #include "../game/addresses.h"
 #include "../game/design.h"
 #include "../game/house.h"
+#include "../game/buy.h"
 #include "../game/iff_strings.h"
 #include "../game/lot.h"
 #include "../game/magic.h"
@@ -21,6 +22,8 @@
 #include "appearance.h"
 #include "buffers.h"
 #include "buy_mode.h"
+#include "world.h"
+#include "house_overview.h"
 #include "screens.h"
 #include "tutorial.h"
 
@@ -28,6 +31,7 @@ namespace nav {
 namespace {
 
 std::unordered_map<int, std::string> g_houseCards;  // by house number
+std::unordered_map<int, std::vector<std::string>> g_housePlans;  // the overview from the house's file
 
 std::string HouseText(const Item& it) {
     auto cached = g_houseCards.find(it.number);
@@ -239,8 +243,11 @@ std::string StatusText(const Item& it) {
     case StatusField::Speed:
         return GameSpeedName(game::Parent(it.widget));
     case StatusField::Funds:
-        return util::Format(S(Str::LabelValue), it.label.c_str(), game::Caption(it.widget).c_str()) + ", " +
-               S(Str::RoleButton);
+        // A house nobody lives in: the game blanks the money and lets everything be bought (its
+        // funds getter answers $999.999); say why instead of the number.
+        return util::Format(S(Str::LabelValue), it.label.c_str(),
+                            game::UnlimitedFunds() ? S(Str::NoFamilyFunds) : game::Caption(it.widget).c_str()) +
+               ", " + S(Str::RoleButton);
     case StatusField::Friends:
         return util::Format(S(Str::LabelValue), it.label.c_str(), game::Caption(it.widget).c_str());
     }
@@ -381,6 +388,9 @@ std::string GameSpeedName(Ptr vc) {
 std::string Describe(const Item& it) {
     switch (it.role) {
     case Role::Text:
+        return it.label;
+    case Role::Level:      // "Fontanería, 3 elementos"
+    case Role::LotObject:  // "Nevera Porcina, cocina, a 21 casillas al sur"
         return it.label;
     case Role::PieItem:  // "Hablar..., botón"
         return it.label + ", " + S(Str::RoleButton);
@@ -529,8 +539,20 @@ std::vector<std::string> PanelHelp(const Item& it) {
 
 std::vector<std::string> DetailLines(const Item& it, const Group& g, int index) {
     std::vector<std::string> lines;
+    if (IsVirtual(it)) {  // no widget to read: the lot's things carry their own details
+        lines = it.role == Role::LotObject ? world::DetailsOf(it.number) : std::vector<std::string>{it.label};
+        if (lines.empty()) lines.push_back(it.label);
+        lines.push_back(util::Format(S(Str::PositionInGroup), index + 1, (int)g.items.size(), GroupName(g).c_str()));
+        return lines;
+    }
     if (it.role == Role::Product) lines = buy::ProductDetails(it.widget);
     else lines.push_back(Describe(it));
+    if (it.role == Role::Lot) {
+        // A house of the neighborhood: what build mode's overview would say, from its file.
+        auto plan = g_housePlans.find(it.number);
+        if (plan == g_housePlans.end()) plan = g_housePlans.emplace(it.number, house::FileOverview(it.number)).first;
+        lines.insert(lines.end(), plan->second.begin(), plan->second.end());
+    }
     std::string tip = util::CleanForSpeech(game::Tooltip(it.widget));
     if (!tip.empty() && lines.front().find(tip) == std::string::npos) lines.push_back(tip);
     for (const std::string& h : PanelHelp(it))
@@ -549,6 +571,9 @@ std::string GroupSummary(const Group& g) {
                          : util::Format(S(Str::GroupSummary), name.c_str(), controls);
 }
 
-void ClearDescriptionCache() { g_houseCards.clear(); }
+void ClearDescriptionCache() {
+    g_houseCards.clear();
+    g_housePlans.clear();
+}
 
 }  // namespace nav

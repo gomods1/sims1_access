@@ -74,14 +74,16 @@ const KnownObject kTreeSpecies[] = {
     {"Elm", Str::ObjElmTree},       {"Cypress", Str::ObjCypressTree},
 };
 
-// What PageUp/PageDown walk through: a buy mode category or a room.
+// Which list a thing's line is made for: a kind's (the room is said) or a room's (it is not).
 enum class Mode { Category, Room };
 
 Mode g_mode = Mode::Category;
-int g_category = 0;
-int g_room = game::kNoRoom;  // room id in room mode
-int g_focusId = -1;          // object id of the focused object
+int g_openKind = 0;          // the kind open in "things by kind" (category + 1), 0: the kinds
+int g_openRoom = 0;          // the room open in "things by room" (room id + 1), 0: the rooms
+int g_focusId = -1;          // object id of the thing focus was last on
 int g_boughtId = -1;         // object id of the last purchase ("recién comprado")
+std::map<int, std::vector<std::string>> g_details;  // object id -> its details, from the last list
+constexpr ULONGLONG kLotCacheMs = 1000;
 
 // One reading of the lot, taken for each key press.
 struct Lot {
@@ -99,6 +101,9 @@ Lot ReadLot() {
     lot.hasRef = game::GetObject(game::SelectedSim(), &lot.ref);
     return lot;
 }
+
+Lot g_lot;               // the lot as last read (CachedLot)
+ULONGLONG g_lotAt = 0;
 
 double DistanceTiles(const LotObject& a, const LotObject& b) {
     double dx = double(a.x - b.x) / kUnitsPerTile, dy = double(a.y - b.y) / kUnitsPerTile;
@@ -153,10 +158,6 @@ std::vector<LotObject> InRoom(const Lot& lot, int room) {
         if (o.room == room) out.push_back(o);
     SortByDistance(out, lot.Ref());
     return out;
-}
-
-std::vector<Entry> CurrentList(const Lot& lot) {
-    return Collapse(g_mode == Mode::Room ? InRoom(lot, g_room) : InCategory(lot, g_category));
 }
 
 // Rooms nearest first (by their nearest object): the selected Sim's own room leads.
@@ -246,26 +247,12 @@ std::vector<std::string> Details(const Entry& e, const Lot& lot) {
     return lines;
 }
 
-// Speaks an entry and puts its details in the buffer.
-void SayEntry(const std::string& line, const Entry& e, const Lot& lot) {
-    buffers::SetDetails(Details(e, lot));
-    camera::LookAt(e.nearest.object);  // the player hears what the camera shows
-    speech::Say(line);
-}
-
 // "cocina, 12 objetos, 37 casillas"; the outdoors without its size (the whole lot).
 std::string RoomSummary(const rooms::NamedRoom& room, size_t count, bool outside) {
     std::string s = count == 1 ? util::Format(S(Str::RoomObjectsOne), room.name.c_str())
                                : util::Format(S(Str::RoomObjects), room.name.c_str(), (int)count);
     if (!outside) s += ", " + util::Format(S(Str::RoomTiles), room.tiles);
     return s;
-}
-
-// Index of the entry holding the focused object, or -1.
-int FocusIndex(const std::vector<Entry>& list) {
-    for (int i = 0; i < (int)list.size(); i++)
-        if (std::find(list[i].ids.begin(), list[i].ids.end(), g_focusId) != list[i].ids.end()) return i;
-    return -1;
 }
 
 std::string Summary(const std::string& name, size_t count) {
@@ -331,74 +318,121 @@ void MarkBought(game::Ptr object) {
 void Reset() {
     g_boughtId = -1;
     g_mode = Mode::Category;
-    g_category = 0;
-    g_room = game::kNoRoom;
+    g_openKind = 0;
+    g_openRoom = 0;
     g_focusId = -1;
+    g_details.clear();
+    g_lotAt = 0;
 }
 
-void NextCategory(int delta) {
-    if (!OnLot()) return;
-    Lot lot = ReadLot();
-    int from = g_mode == Mode::Category ? g_category : (delta > 0 ? kCategoryCount - 1 : 0);
-    g_mode = Mode::Category;
-    for (int step = 1; step <= kCategoryCount; step++) {
-        int c = ((from + delta * step) % kCategoryCount + kCategoryCount) % kCategoryCount;
+namespace {
+
+// The lot read at most once a second: the groups are made again at every refresh (4 a second).
+const Lot& CachedLot() {
+    ULONGLONG now = GetTickCount64();
+    if (!g_lotAt || now - g_lotAt > kLotCacheMs) {
+        g_lot = ReadLot();
+        g_lotAt = now;
+    }
+    return g_lot;
+}
+
+// A kind's or room's things as items (number = the object id of the entry's nearest member);
+// their details are kept for the details buffer.
+void AddThings(Group& g, const std::vector<Entry>& list, const Lot& lot, Mode mode) {
+    g_mode = mode;  // the room is part of the line in a kind's list, not in a room's
+    for (const Entry& e : list) {
+        Item it;
+        it.widget = g.key;
+        it.role = Role::LotObject;
+        it.number = e.nearest.id;
+        it.label = Describe(e, lot);
+        g_details[e.nearest.id] = Details(e, lot);
+        g.items.push_back(std::move(it));
+    }
+}
+
+}  // namespace
+
+Group KindsGroup() {
+    Group g;
+    g.key = kKindsGroup;
+    if (!game::LotModule()) return g;
+    const Lot& lot = CachedLot();
+    if (g_openKind > 0) {
+        AddThings(g, Collapse(InCategory(lot, g_openKind - 1)), lot, Mode::Category);
+        return g;
+    }
+    for (int c = 0; c < kCategoryCount; c++) {
         std::vector<Entry> list = Collapse(InCategory(lot, c));
         if (list.empty()) continue;
-        g_category = c;
-        g_focusId = list.front().nearest.id;
-        SayEntry(Summary(S(kCategories[c].name), list.size()) + ". " + Describe(list.front(), lot), list.front(), lot);
-        return;
+        Item it;
+        it.widget = g.key;
+        it.role = Role::Level;
+        it.number = c + 1;
+        it.label = Summary(S(kCategories[c].name), list.size());
+        g.items.push_back(std::move(it));
     }
-    speech::Say(S(Str::NoObjects));
+    return g;
 }
 
-void NextRoom(int delta) {
-    if (!OnLot()) return;
-    Lot lot = ReadLot();
-    std::vector<const rooms::NamedRoom*> order = RoomsByDistance(lot);
-    if (order.empty()) {
-        speech::Say(S(Str::NoObjects));
-        return;
+Group RoomsGroup() {
+    Group g;
+    g.key = kRoomsGroup;
+    if (!game::LotModule()) return g;
+    const Lot& lot = CachedLot();
+    if (g_openRoom > 0) {
+        AddThings(g, Collapse(InRoom(lot, g_openRoom - 1)), lot, Mode::Room);
+        return g;
     }
-    int current = -1;
-    for (int i = 0; g_mode == Mode::Room && i < (int)order.size(); i++)
-        if (order[i]->id == g_room) current = i;
-    int n = (int)order.size();
-    int next = current < 0 ? 0 : ((current + delta) % n + n) % n;  // the first press: the Sim's room
-    const rooms::NamedRoom& room = *order[next];
-    g_mode = Mode::Room;
-    g_room = room.id;
-    std::vector<LotObject> objects = InRoom(lot, room.id);
-    std::vector<Entry> list = Collapse(objects);
-    game::Room info;
-    bool outside = game::GetRoom(room.id, &info) && info.outside;
-    g_focusId = list.empty() ? -1 : list.front().nearest.id;
-    std::string line = RoomSummary(room, objects.size(), outside);
-    if (!list.empty()) {
-        SayEntry(line + ". " + Describe(list.front(), lot), list.front(), lot);
-        return;
+    for (const rooms::NamedRoom* room : RoomsByDistance(lot)) {  // the selected Sim's room first
+        std::vector<LotObject> objects = InRoom(lot, room->id);
+        if (objects.empty()) continue;
+        game::Room info;
+        bool outside = game::GetRoom(room->id, &info) && info.outside;
+        Item it;
+        it.widget = g.key;
+        it.role = Role::Level;
+        it.number = room->id + 1;
+        it.label = RoomSummary(*room, objects.size(), outside);
+        g.items.push_back(std::move(it));
     }
-    buffers::ClearDetails();
-    speech::Say(line);
+    return g;
 }
 
-void NextObject(int delta) {
-    if (!OnLot()) return;
-    Lot lot = ReadLot();
-    std::vector<Entry> list = CurrentList(lot);
-    if (list.empty()) {  // the category or room emptied: move on to one that has objects
-        if (g_mode == Mode::Room) NextRoom(+1);
-        else NextCategory(+1);
-        return;
-    }
-    int index = FocusIndex(list);
-    index = index < 0 ? 0 : std::clamp(index + delta, 0, (int)list.size() - 1);  // ends repeat
-    g_focusId = list[index].nearest.id;  // Enter acts on the nearest of a merged entry
-    SayEntry(Describe(list[index], lot), list[index], lot);
+std::string LevelName(Ptr group) {
+    const Lot& lot = CachedLot();
+    if (group == kKindsGroup) return g_openKind > 0 ? S(kCategories[g_openKind - 1].name) : S(Str::ThingsByKind);
+    if (g_openRoom > 0) return rooms::NameOf(lot.rooms, g_openRoom - 1);
+    return S(Str::ThingsByRoom);
 }
 
-void Repeat() { NextObject(0); }
+void Open(Ptr group, int number) {
+    g_lotAt = 0;  // read the lot again: what is in the kind or room now
+    if (group == kKindsGroup) g_openKind = number;
+    if (group == kRoomsGroup) g_openRoom = number;
+}
+
+int Close(Ptr group) {
+    int* open = group == kKindsGroup ? &g_openKind : group == kRoomsGroup ? &g_openRoom : nullptr;
+    if (!open || !*open) return 0;
+    int was = *open;
+    *open = 0;
+    return was;
+}
+
+void Focus(int objectId) {
+    g_focusId = objectId;
+    for (const LotObject& o : CachedLot().objects)
+        if (o.id == objectId) camera::LookAt(o.object);  // the player hears what the camera shows
+}
+
+bool HasFocus() { return FocusedObject() != 0; }
+
+std::vector<std::string> DetailsOf(int objectId) {
+    auto it = g_details.find(objectId);
+    return it == g_details.end() ? std::vector<std::string>{} : it->second;
+}
 
 game::Ptr FocusedObject() {
     for (const LotObject& o : game::LotObjects())
@@ -453,7 +487,7 @@ void Interact() {
         if (!game::OpenInteractionMenu(o, 512, 384) || !PieMenuSeenSince(before)) speech::Say(WhyNoInteractions(o));
         return;
     }
-    NextObject(0);  // the focused object is gone: say what is focused now
+    speech::Say(S(Str::NoObjects));  // the thing is gone
 }
 
 void WalkToFocus() {
@@ -465,7 +499,7 @@ void WalkToFocus() {
         else speech::Say(S(Str::CannotWalk));
         return;
     }
-    NextObject(0);
+    speech::Say(S(Str::NoObjects));
 }
 
 }  // namespace nav::world
