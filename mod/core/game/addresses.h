@@ -426,6 +426,10 @@ constexpr int kCaption = 0x50;     // std::string
 constexpr int kTooltip = 0xbc;     // std::string
 constexpr int kFlags = 0xf4;       // u32
 constexpr uint32_t kFlagVisible = 0x1;
+// Cleared by slot 36 (0x6dedb0, SetFlag(2, 0)) to disable a control: the book's "siguiente" on its
+// last page. The window manager skips such widgets; a press sent straight to one goes through
+// (the game crashed paging past the last page of the spellbook, 2026-10-31).
+constexpr uint32_t kFlagEnabled = 0x2;
 }  // namespace win
 
 // cTSWin message types, delivered through vtable slot 0 with {type, x, y, flags}

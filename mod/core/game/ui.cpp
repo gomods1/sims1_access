@@ -94,7 +94,9 @@ bool Visible(Ptr w) { return (Rd<uint32_t>(w + addr::win::kFlags) & addr::win::k
 std::string Caption(Ptr w) { return ReadStdStringUtf8(w + addr::win::kCaption); }
 std::string Tooltip(Ptr w) { return ReadStdStringUtf8(w + addr::win::kTooltip); }
 
-bool ButtonEnabled(Ptr b) { return Rd<uint8_t>(b + addr::btn::kEnabled) != 0; }
+bool ButtonEnabled(Ptr b) {
+    return Rd<uint8_t>(b + addr::btn::kEnabled) != 0 && (Rd<uint32_t>(b + addr::win::kFlags) & addr::win::kFlagEnabled) != 0;
+}
 ButtonType GetButtonType(Ptr b) { return (ButtonType)Rd<int>(b + addr::btn::kType); }
 bool ButtonChecked(Ptr b) { return Rd<int>(b + addr::btn::kChecked) != 0; }
 

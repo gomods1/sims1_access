@@ -756,12 +756,17 @@ void JumpToGroup(char letter) {
     int n = (int)Groups().size();
     for (int step = 1; step <= n; step++) {
         int gi = ((g.group < 0 ? -1 : g.group) + step + n) % n;
-        if (FirstLetter(GroupName(Groups()[gi])) != letter) continue;
+        const Group& gr = Groups()[gi];
+        // the lot's things go by their own name too while a kind or room is open ("varios")
+        bool match = FirstLetter(GroupName(gr)) == letter ||
+                     (gr.key == kKindsGroup && FirstLetter(S(Str::ThingsByKind)) == letter) ||
+                     (gr.key == kRoomsGroup && FirstLetter(S(Str::ThingsByRoom)) == letter);
+        if (!match) continue;
         SetFocus(gi, EntryItem(Groups()[gi]));
         AnnounceFocus(true);
         return;
     }
-    LogVerbose("group letter %c: none of %d groups", letter, n);
+    for (const Group& gr : Groups()) LogVerbose("group letter %c: not '%s' (key %p)", letter, GroupName(gr).c_str(), (void*)gr.key);
     speech::Say(util::Format(S(Str::NoGroupLetter), std::string(1, (char)toupper(letter)).c_str()));
 }
 
