@@ -317,12 +317,17 @@
     X(WouldBlockDoor, "it would block a door")                                                                         \
     X(DoesNotFit, "it does not fit")                                                                                   \
     X(PlaceOnSurface, "it goes on a table, a counter or another surface")                                              \
-    X(ObjectSize, "takes %1$d tiles, %2$d by %3$d")                                                                    \
+    X(ObjectSize, "takes %1$d tiles: %2$d west to east, %3$d north to south")                                                                    \
     X(NoGroupLetter, "no group starting with %s")                                                                      \
     X(KeysGroupLetter, "Alt and a letter: the next group whose name starts with that letter.")                         \
     X(KeysShowFocus, "Control Shift V: light the focused control on screen for someone helping.")                      \
     X(ShowFocusOn, "focus shown on screen")                                                                            \
     X(ShowFocusOff, "focus no longer shown on screen")                                                                 \
+    X(CollidesWith, "runs into %s")                                                                                    \
+    X(FacingThing, "toward %s")                                                                                        \
+    X(RoomChange, "leaving %1$s, entering %2$s")                                                                       \
+    X(BesideThing, "beside %s")                                                                                        \
+    X(KeysPlacingThings, "Control Shift Page Down and Page Up: put it beside the next thing of the lot, nearest first.") \
     /* Default lot objects that have no catalog name */                                                                \
     X(ObjMailbox, "mailbox")                                                                                           \
     X(ObjTrashOutside, "outdoor trash can")                                                                            \

@@ -6,6 +6,7 @@
 #include "../game/lot.h"
 #include "../game/lotgrid.h"
 #include "../game/rooms.h"
+#include "../game/rtti.h"
 #include "../game/ui.h"
 #include "../speech/speech.h"
 #include "../util/log.h"
@@ -34,6 +35,10 @@ struct State {
     game::Tile freeTile;
     int freeDirection = 0;
     int freeRoom = -1;  // the room the free cursor's line named last (said again when it changes)
+    // Ctrl+Shift+PageDown/PageUp: the lot's things nearest the cursor first (ids), and the one
+    // the held object was put beside last.
+    std::vector<int> things;
+    int thing = -1;
 };
 
 State g;
@@ -107,11 +112,12 @@ std::string SpotLine() {
     return util::Format(S(Str::SpotOf), g.spot + 1, (int)a->spots.size(), placement::Describe(*s).c_str());
 }
 
-// How much floor the held object takes ("ocupa 2 casillas, 2 por 1"; a tester's pet bed did not
-// fit and nothing had said how big it was), from a spot's footprint.
-std::string SizeLine(const placement::Spot& s) {
+// How much floor the held object takes and along which way ("ocupa 6 casillas: 3 de oeste a
+// este, 2 de norte a sur"): a tester's pet bed did not fit and nothing had said how big it was,
+// and a bed "facing north" lay west to east.
+std::string SizeLine(const std::vector<game::Tile>& footprint) {
     std::vector<game::Tile> tiles;  // parts can share a tile
-    for (const game::Tile& t : s.footprint)
+    for (const game::Tile& t : footprint)
         if (std::find(tiles.begin(), tiles.end(), t) == tiles.end()) tiles.push_back(t);
     if (tiles.empty()) return "";
     int x0 = tiles[0].x, x1 = x0, y0 = tiles[0].y, y1 = y0;
@@ -121,8 +127,43 @@ std::string SizeLine(const placement::Spot& s) {
         y0 = std::min(y0, t.y);
         y1 = std::max(y1, t.y);
     }
-    int a = x1 - x0 + 1, b = y1 - y0 + 1;
-    return util::Format(S(Str::ObjectSize), (int)tiles.size(), std::max(a, b), std::min(a, b));
+    return util::Format(S(Str::ObjectSize), (int)tiles.size(), x1 - x0 + 1, y1 - y0 + 1);
+}
+
+std::string SizeLine(const placement::Spot& s) { return SizeLine(s.footprint); }
+
+// Names of the objects on these tiles (the held object's own parts left out), each once. Every
+// object of a tile counts: a side table and the window in the wall beside it share one.
+std::string ObjectsOn(const std::vector<game::Tile>& tiles, int level, game::Ptr held) {
+    std::vector<game::Ptr> own = game::ObjectParts(held);
+    std::vector<std::string> names;
+    std::vector<game::PlacedPart> placed = game::PlacedParts();
+    for (const game::Tile& t : tiles)
+        for (const game::PlacedPart& p : placed) {
+            if (p.level != level || p.tileX != t.x || p.tileY != t.y) continue;
+            game::LotObject o;
+            if (!game::GetObject(p.object, &o) || game::IsInvisibleHelper(o.object)) continue;
+            if (o.object == held || std::find(own.begin(), own.end(), o.object) != own.end()) continue;
+            if (game::IsKindOf(o.object, "cXCursorObject") || game::ObjectInternalName(o).rfind("Tile Cursor", 0) == 0) continue;
+            std::string name = world::DisplayName(o);
+            if (!name.empty() && std::find(names.begin(), names.end(), name) == names.end()) names.push_back(name);
+        }
+    std::string out;
+    for (const std::string& n : names) out += (out.empty() ? "" : ", ") + n;
+    return out;
+}
+
+// The tiles just in front of a footprint facing `direction` (what a chair would face), in the
+// same room: a window in the wall behind is not what it faces.
+std::vector<game::Tile> FrontTiles(const std::vector<game::Tile>& footprint, int direction, int level) {
+    std::vector<game::Tile> out;
+    for (const game::Tile& t : footprint) {
+        game::Tile n = game::Step(t, direction);
+        if (std::find(footprint.begin(), footprint.end(), n) != footprint.end()) continue;
+        if (game::RoomAt(level, n.x, n.y) != game::RoomAt(level, t.x, t.y)) continue;
+        out.push_back(n);
+    }
+    return out;
 }
 
 // Everything about the focused spot, for the details buffer: what is held, the spot's parts, its
@@ -395,22 +436,31 @@ namespace {
 // 2026-10-31: coordinates first made the line hard to follow).
 std::string FreeLine(bool withRoom = false) {
     int level = game::HeldLevel();
+    game::Ptr held = game::HeldObject();
     game::LiftHeld();
     game::TurnHeld(g.freeDirection);
     int error = game::CheckHeldAt(g.freeTile, level);
     game::ShowHeldAt(g.freeTile);
-    camera::LookAt(game::HeldObject());
+    camera::LookAt(held);
+    std::vector<game::Tile> footprint = game::FootprintAt(held, g.freeTile);
     std::string line;
     if (error == 0) line = S(Str::FreeFits);
     else {
         std::string why = game::PlacementErrorText(error);
         line = util::Format(S(Str::FreeNoFit), why.empty() ? S(Str::DoesNotFit) : why.c_str());
+        // what it runs into (a tester: it may not overlap another object, but which one?)
+        std::string in = ObjectsOn(footprint, level, held);
+        if (!in.empty()) line += ", " + util::Format(S(Str::CollidesWith), in.c_str());
     }
     int roomId = game::RoomAt(level, g.freeTile.x, g.freeTile.y);
     if (withRoom || roomId != g.freeRoom) {
-        g.freeRoom = roomId;
+        std::string from = g.freeRoom >= 0 && !withRoom ? placement::RoomNameOf(g.freeRoom) : "";
         std::string room = placement::RoomNameOf(roomId);
-        if (!room.empty()) line += ", " + room;
+        g.freeRoom = roomId;
+        if (!room.empty() && !from.empty() && from != room)
+            line += ", " + util::Format(S(Str::RoomChange), from.c_str(), room.c_str());
+        else if (!room.empty())
+            line += ", " + room;
     }
     uint32_t walls = game::WallsAt(level, g.freeTile.x, g.freeTile.y);
     std::string sides;
@@ -420,6 +470,8 @@ std::string FreeLine(bool withRoom = false) {
         if (walls & side.first) sides += (sides.empty() ? "" : ", ") + std::string(S(side.second));
     if (!sides.empty()) line += ", " + util::Format(S(Str::BuildWallsHere), sides.c_str());
     line += ", " + util::Format(S(Str::FacingDirection), S(placement::CompassWord(game::CompassOf(g.freeDirection))));
+    std::string faced = ObjectsOn(FrontTiles(footprint, g.freeDirection, level), level, held);
+    if (!faced.empty()) line += ", " + util::Format(S(Str::FacingThing), faced.c_str());
     return line + ", " + util::Format(S(Str::TileAt), g.freeTile.x, g.freeTile.y);
 }
 
@@ -446,6 +498,85 @@ void MoveFree(int dx, int dy) {
     }
     g.freeTile = next;
     std::string line = FreeLine();
+    buffers::SetDetails({line});
+    speech::Say(line);
+}
+
+void NextThing(int delta) {
+    if (!Placing()) return;
+    game::Ptr held = game::HeldObject();
+    int level = game::HeldLevel();
+    std::vector<game::Ptr> own = game::ObjectParts(held);
+    if (g.things.empty()) {  // nearest the cursor (or the spot, or the Sim) first
+        game::Tile origin{0, 0};
+        const placement::Spot* spot = CurrentSpot();
+        game::LotObject sim;
+        if (g.free) origin = g.freeTile;
+        else if (spot) origin = spot->tile;
+        else if (game::GetObject(game::SelectedSim(), &sim)) origin = game::Tile{sim.x >> 4, sim.y >> 4};
+        std::vector<std::pair<int, int>> byDistance;  // (squared distance, id)
+        for (const game::LotObject& o : game::LotObjects()) {
+            if (o.person || o.level != level || o.object == held || std::find(own.begin(), own.end(), o.object) != own.end())
+                continue;
+            int dx = (o.x >> 4) - origin.x, dy = (o.y >> 4) - origin.y;
+            byDistance.push_back({dx * dx + dy * dy, o.id});
+        }
+        std::sort(byDistance.begin(), byDistance.end());
+        for (const auto& d : byDistance) g.things.push_back(d.second);
+        g.thing = -1;
+    }
+    if (g.things.empty()) {
+        speech::Say(S(Str::NoObjects));
+        return;
+    }
+    int n = (int)g.things.size();
+    g.thing = g.thing < 0 ? (delta > 0 ? 0 : n - 1) : ((g.thing + delta) % n + n) % n;
+    game::LotObject target;
+    if (!game::GetObject(game::ObjectById(g.things[g.thing]), &target)) {
+        g.things.clear();
+        speech::Say(S(Str::NoObjects));
+        return;
+    }
+    // A free tile beside it: facing it if the held object fits that way, else any way it fits;
+    // when nothing fits, the first tile beside it, so the line says why.
+    // where its parts stand (FootprintAt is for the held object: a placed one may be turned)
+    std::vector<game::Ptr> parts = game::ObjectParts(target.object);
+    std::vector<game::Tile> body;
+    for (const game::PlacedPart& p : game::PlacedParts())
+        if (p.level == level && (p.object == target.object || std::find(parts.begin(), parts.end(), p.object) != parts.end()))
+            body.push_back(game::Tile{p.tileX, p.tileY});
+    if (body.empty()) body.push_back(game::Tile{target.x >> 4, target.y >> 4});
+    game::LiftHeld();
+    bool found = false;
+    game::Tile firstTile{-1, -1};
+    int firstFacing = g.free ? g.freeDirection : game::ObjectDirection(held);
+    for (int pass = 0; pass < 2 && !found; pass++)
+        for (const game::Tile& f : body) {
+            for (int dir = 0; dir < 8 && !found; dir += 2) {
+                game::Tile t = game::Step(f, dir);
+                if (!game::InGrid(t.x, t.y) || std::find(body.begin(), body.end(), t) != body.end()) continue;
+                if (game::RoomAt(level, t.x, t.y) != game::RoomAt(level, f.x, f.y)) continue;  // not through a wall
+                int facing = (dir + 4) % 8;  // from the tile toward the thing
+                if (firstTile.x < 0) {
+                    firstTile = t;
+                    firstFacing = facing;
+                }
+                for (int k = 0; k < (pass == 0 ? 1 : 4) && !found; k++) {
+                    int d = (facing + 2 * k) % 8;
+                    if (!game::TurnHeld(d) || game::CheckHeldAt(t, level) != 0) continue;
+                    found = true;
+                    g.freeTile = t;
+                    g.freeDirection = d;
+                }
+            }
+            if (found) break;
+        }
+    if (!found && firstTile.x >= 0) {
+        g.freeTile = firstTile;
+        g.freeDirection = firstFacing;
+    }
+    g.free = true;
+    std::string line = util::Format(S(Str::BesideThing), world::DisplayName(target).c_str()) + ": " + FreeLine(true);
     buffers::SetDetails({line});
     speech::Say(line);
 }

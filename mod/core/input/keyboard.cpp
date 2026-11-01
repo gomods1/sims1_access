@@ -94,7 +94,7 @@ bool IsModifier(WPARAM vk) { return vk == VK_SHIFT || vk == VK_CONTROL || vk == 
 void SayKeyHelp() {
     if (game::IsPieMenu(game::InputRoot())) speech::Say(S(Str::KeysMenu));
     else if (nav::cheats::Entering()) speech::Say(S(Str::CheatHint));
-    else if (nav::buy::Placing()) speech::Say(std::string(S(Str::KeysPlacing)) + " " + S(Str::KeysPlacingFree));
+    else if (nav::buy::Placing()) speech::Say(std::string(S(Str::KeysPlacing)) + " " + S(Str::KeysPlacingFree) + " " + S(Str::KeysPlacingThings));
     else if (nav::LotViewActive() && game::InBuyTool()) speech::Say(std::string(S(Str::KeysBuy)) + " " + S(Str::KeysRoomFilter) + " " + S(Str::KeysLayoutHint));
     else if (nav::LotViewActive()) speech::Say(std::string(S(Str::KeysLot)) + " " + S(Str::KeysSimCard) + " " + S(Str::KeysLayoutHint));
     else if (nav::FocusedLotNumber() >= 0) speech::Say(std::string(S(Str::KeysScreen)) + " " + S(Str::KeysHouseFile));
@@ -114,7 +114,8 @@ bool PlacingKey(WPARAM vk, bool shift, bool ctrl) {
     namespace b = nav::buy;
     if (vk == VK_NEXT || vk == VK_PRIOR) {  // the spots, as the lot's things: Ctrl the rooms, Shift the turns
         int delta = vk == VK_NEXT ? +1 : -1;
-        if (ctrl) b::NextArea(delta);
+        if (ctrl && shift) b::NextThing(delta);  // beside the lot's things, nearest first
+        else if (ctrl) b::NextArea(delta);
         else if (shift) b::NextTurn(delta);
         else b::NextSpot(delta);
         return true;

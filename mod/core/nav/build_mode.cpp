@@ -67,6 +67,7 @@ struct State {
     ULONGLONG pressedAt = 0;
     int lastRoom = -1;       // the room the cursor's line last named (said again when it changes)
     int lastRoomLevel = 0;
+    std::string lastRoomName;
 };
 
 State g;
@@ -230,13 +231,16 @@ Tile TileSE(Corner c) { return Tile{c.x, c.y}; }
 // first made the line hard to filter): what stands there, the room when the cursor has just
 // entered it, walls or floor, whether it can be built on, the plan from the start; the
 // coordinates last (R and the details buffer have them too).
-std::string ShortLine(bool withRoom = false) {
+std::string ShortLine(bool withRoom = false, const std::string& fromRoom = "") {
     std::vector<std::string> parts;
     std::string object = ObjectOn(TileSE(g.cursor));
     if (!object.empty()) parts.push_back(object);
-    if (withRoom) {
+    if (withRoom) {  // "saliendo de cocina, entrando en dormitorio" (a tester asked for both)
         std::string room = RoomName(TileSE(g.cursor));
-        if (!room.empty()) parts.push_back(room);
+        if (!room.empty() && !fromRoom.empty() && fromRoom != room)
+            parts.push_back(util::Format(S(Str::RoomChange), fromRoom.c_str(), room.c_str()));
+        else if (!room.empty())
+            parts.push_back(room);
     }
     if (g.floors && !g.paper && !g.pool && !g.terrain) {
         parts.push_back(S(game::HasFloor(g.level, g.cursor.x, g.cursor.y) ? Str::FloorHere : Str::FloorNone));
@@ -266,6 +270,7 @@ bool RoomChanged() {
     bool changed = room != g.lastRoom || g.level != g.lastRoomLevel;
     g.lastRoom = room;
     g.lastRoomLevel = g.level;
+    if (changed) g.lastRoomName = RoomName(TileSE(g.cursor));
     return changed;
 }
 
@@ -291,7 +296,10 @@ std::vector<std::string> FullLines() {
 void SayShort() {
     std::vector<std::string> lines = FullLines();
     buffers::SetDetails(lines);
-    speech::Say(ShortLine(RoomChanged()));
+    std::string from = g.lastRoomName;
+    int fromLevel = g.lastRoomLevel;
+    bool changed = RoomChanged();
+    speech::Say(ShortLine(changed, fromLevel == g.level ? from : ""));
 }
 
 // ---- Building ------------------------------------------------------------------------------

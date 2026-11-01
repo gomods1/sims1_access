@@ -30,6 +30,10 @@ bool Placing();     // an object is being placed: the spot keys work
 void NextSpot(int delta);
 void NextArea(int delta);
 void NextTurn(int delta);
+// Ctrl+Shift+PageDown/PageUp: the lot's things, nearest the cursor first; the held object goes on
+// a free tile beside the chosen one, facing it when it fits that way, and the arrows go on from
+// there (a tester: placing a chair at a desk took twenty spots).
+void NextThing(int delta);
 void Confirm();
 // Arrows while placing: the held object moves one tile (the engine says whether it fits there);
 // Shift+PageUp/PageDown or comma/period then turn it, Enter puts it there, PageUp/PageDown go back
