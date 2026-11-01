@@ -13,6 +13,9 @@ std::string Describe(const Item& it);
 // The details buffer's lines for a focused item: what was spoken, then what else there is (a
 // product's ratings and description, the tooltip, its place in the group).
 std::vector<std::string> DetailLines(const Item& it, const Group& g, int index);
+// What the game's hover popup says about a live panel item (a need, trait, interest, skill, the
+// job, a house rating...), empty when it has none.
+std::vector<std::string> PanelHelp(const Item& it);
 std::string GroupSummary(const Group& g);
 // A lot's own name from its card ("Hotel Palmeras Palazzo"); the address when it has none.
 std::string LotPlaceName(const Item& it);  // "casas, 41 elementos"

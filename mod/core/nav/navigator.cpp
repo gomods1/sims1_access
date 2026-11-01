@@ -52,6 +52,7 @@ struct PendingPress {
     ULONGLONG at = 0;
     std::vector<std::pair<Ptr, std::string>> texts;  // the screen's texts before the press
     bool reshowPanel = false;  // a selected mode tab was pressed: it hides the panel, press again
+    bool helpSpoken = false;   // a live panel item's hover help was said: no "seleccionado" after it
 };
 
 // The on/off state a press can change, for the feedback after it.
@@ -349,7 +350,7 @@ void CheckPressFeedback() {
         return;
     }
     if (SayChangedTexts(p.texts)) return;  // the text says what happened; no need for "seleccionado"
-    if (p.item != g.focus || !game::IsKindOf(w, "cTSWinBtn") || game::IsSpeedButton(w)) return;
+    if (p.helpSpoken || p.item != g.focus || !game::IsKindOf(w, "cTSWinBtn") || game::IsSpeedButton(w)) return;
     bool checked = game::ButtonChecked(w);
     if (checked == p.wasChecked) return;
     if (item.role == Role::Tab) {
@@ -704,8 +705,14 @@ void Activate() {
         speech::Say(S(Str::NothingHere));
         return;
     }
+    // The live panels show what an item means on hover, and the game's texts say to click them
+    // (a tester, 2026-11-01: "they do nothing"): Enter speaks that popup.
+    std::vector<std::string> help = IsValueControl(*it) ? std::vector<std::string>{} : PanelHelp(*it);
+    std::string helpLine;
+    for (const std::string& h : help) helpLine += (helpLine.empty() ? "" : " ") + h;
     if (IsReadOnly(*it) || IsValueControl(*it)) {
-        AnnounceFocus(false);
+        if (helpLine.empty()) AnnounceFocus(false);
+        else speech::Say(helpLine);
         return;
     }
     if (it->role == Role::Level) {
@@ -750,7 +757,10 @@ void Activate() {
     if (it->role == Role::Lot && game::TravelMap(g.root)) narrator::NoteDestination(LotPlaceName(*it));
     g.press = PendingPress{IdOf(*it), CheckedState(*it), GetTickCount64(), TextSnapshot(), reshow};
     Log("press %s %p (%s)", game::ClassName(w).c_str(), (void*)w, it->label.c_str());
-    game::Press(w);  // may open a dialog or change screens; the tick picks that up
+    bool sayHelp = !helpLine.empty() && it->role != Role::Button;  // a need bar, skill, job...
+    g.press.helpSpoken = sayHelp;
+    game::Press(w);  // may open a dialog or change screens (and run ticks): `it` may be gone after
+    if (sayHelp) speech::Say(helpLine);
 }
 
 // "4 de 10, quedan 21 puntos". When nothing changed the game refused (no points left, or the
