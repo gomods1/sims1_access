@@ -698,6 +698,34 @@ void NextGroup(int delta) {
     AnnounceFocus(true);
 }
 
+// The first letter of a group's name, lowercase, without its accent ("Catálogo" c, "Ñ" n);
+// 0 for a name that starts with anything else (a CJK name).
+char FirstLetter(const std::string& utf8) {
+    if (utf8.empty()) return 0;
+    unsigned char c = (unsigned char)utf8[0];
+    if (c < 0x80) return (char)tolower(c);
+    if ((c & 0xe0) != 0xc0 || utf8.size() < 2) return 0;
+    int cp = ((c & 0x1f) << 6) | ((unsigned char)utf8[1] & 0x3f);
+    if (cp < 0xc0 || cp > 0xff) return 0;
+    static const char kFold[] = "aaaaaaaceeeeiiiidnooooo/ouuuuyts";  // U+00C0..U+00DF; +0x20 is the lowercase
+    char f = kFold[(cp & 0xdf) - 0xc0];
+    return f == '/' ? 0 : f;
+}
+
+void JumpToGroup(char letter) {
+    EnsureCurrent();
+    int n = (int)Groups().size();
+    for (int step = 1; step <= n; step++) {
+        int gi = ((g.group < 0 ? -1 : g.group) + step + n) % n;
+        if (FirstLetter(GroupName(Groups()[gi])) != letter) continue;
+        SetFocus(gi, EntryItem(Groups()[gi]));
+        AnnounceFocus(true);
+        return;
+    }
+    LogVerbose("group letter %c: none of %d groups", letter, n);
+    speech::Say(util::Format(S(Str::NoGroupLetter), std::string(1, (char)toupper(letter)).c_str()));
+}
+
 void Activate() {
     EnsureCurrent();
     const Item* it = Focused();

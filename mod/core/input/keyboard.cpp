@@ -60,6 +60,9 @@ namespace {
 //   R, Escape
 //   Ctrl+Enter                     lot view: walk to the thing last focused
 //   Escape                         close the interaction menu (otherwise the game's Escape)
+//   Alt+letter                     the next group whose name starts with that letter (Alt+N needs,
+//                                  Alt+F family, Alt+O the lot's things...: the names are spoken
+//                                  in the game's language, so the letters follow it)
 //   Ctrl+F1                        say the mod's keys for this screen
 //   Ctrl+1 .. Ctrl+9               lot view: select the n-th Sim of the family (its portrait)
 //   Ctrl+F                         lot view: follow the selected Sim with the camera on/off
@@ -95,6 +98,7 @@ void SayKeyHelp() {
     else if (nav::LotViewActive()) speech::Say(std::string(S(Str::KeysLot)) + " " + S(Str::KeysSimCard) + " " + S(Str::KeysLayoutHint));
     else if (nav::FocusedLotNumber() >= 0) speech::Say(std::string(S(Str::KeysScreen)) + " " + S(Str::KeysHouseFile));
     else speech::Say(S(Str::KeysScreen));
+    speech::Say(S(Str::KeysGroupLetter));
 }
 
 // Up/Down and Left/Right move through the group, the lot view's HUD included; Left/Right
@@ -343,6 +347,21 @@ bool OnChar(WPARAM ch) {
     bool swallow = g_swallowChar && (ch == g_swallowChar || (letter && (ch == g_swallowChar - 32 || ch == (g_swallowChar & 0x1f))));
     g_swallowChar = 0;
     if (!swallow) nav::text::OnChar(ch);
+    return swallow;
+}
+
+bool g_swallowSysChar = false;
+
+bool OnSysKeyDown(WPARAM vk, LPARAM) {
+    if (vk < 'A' || vk > 'Z' || Held(VK_CONTROL) || nav::buy::Placing() || nav::build::Active()) return false;
+    g_swallowSysChar = true;
+    nav::JumpToGroup((char)(vk - 'A' + 'a'));
+    return true;
+}
+
+bool OnSysChar(WPARAM) {
+    bool swallow = g_swallowSysChar;
+    g_swallowSysChar = false;
     return swallow;
 }
 

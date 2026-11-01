@@ -113,6 +113,8 @@ extern "C" __declspec(dllexport) int __cdecl SA_OnMessage(HWND, UINT msg, WPARAM
     case WM_KEYDOWN: consumed = input::OnKeyDown(wp, lp); break;
     case WM_KEYUP: consumed = input::OnKeyUp(wp, lp); break;
     case WM_CHAR: consumed = input::OnChar(wp); break;
+    case WM_SYSKEYDOWN: consumed = input::OnSysKeyDown(wp, lp); break;
+    case WM_SYSCHAR: consumed = input::OnSysChar(wp); break;
     case WM_KILLFOCUS:
     case WM_ACTIVATEAPP: input::OnFocusLost(); break;
     }

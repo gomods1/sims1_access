@@ -318,6 +318,8 @@
     X(DoesNotFit, "it does not fit")                                                                                   \
     X(PlaceOnSurface, "it goes on a table, a counter or another surface")                                              \
     X(ObjectSize, "takes %1$d tiles, %2$d by %3$d")                                                                    \
+    X(NoGroupLetter, "no group starting with %s")                                                                      \
+    X(KeysGroupLetter, "Alt and a letter: the next group whose name starts with that letter.")                         \
     /* Default lot objects that have no catalog name */                                                                \
     X(ObjMailbox, "mailbox")                                                                                           \
     X(ObjTrashOutside, "outdoor trash can")                                                                            \
