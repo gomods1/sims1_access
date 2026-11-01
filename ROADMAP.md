@@ -242,6 +242,24 @@ for a second Enter. A new room without a door is said, not asked about. Still to
   phone, smoke alarm, by internal names), rooms with no way in, objects nobody can reach, dark
   rooms, rooms the Sims dislike (negative impact) or clearly like (impact 50 or more: a furnished
   house read 96 and 123 for its kitchen and living room, 1 to 40 for plainer rooms). Per room: Ctrl+L.
+- **Sound cues for the cursors (next, after the open fixes; a tester asked, 2026-11-01, and the
+  user wants every cue):** besides speech, a short sound whenever the cursor's tile changes, so the
+  space is heard as it is crossed: the kind of floor (grass/terrain, floor tile, carpet, wood,
+  stone, water, no floor upstairs), a wall or fence under or beside the corner (and which side), a
+  door or window in that wall, an object on the tile, a room change, the lot's edge, a slope, an
+  unbuildable corner, and while placing: fits / does not fit. Sounds made with the genny skill
+  (`/genny`), shipped in `SimsAccess\sounds\`, played by SpeechHost (a `play <file>` pipe
+  command beside `say`) so they mix with NVDA and not with the game's mixer; speech still says
+  what changed. A setting to turn the cues off.
+- **Map mode in live mode (next, after the open fixes; a tester asked, 2026-11-01):** a read-only
+  cursor over the house during play, with the build cursor's descriptions (what stands on the
+  tile and which way it faces, the room, walls, doors and windows, floors) and the same sound
+  cues, without leaving live mode: "I didn't notice the bed was turned that way" is something a
+  player should find out while playing. It starts at the selected Sim; PageDown/PageUp, Home and
+  Ctrl+Enter (walk there) work from it as from the lot's things.
+- Build mode "can't build here" while the game allowed it (a tester, 2026-11-01): the mod's check
+  (tile flag 0x20 at the corner) matches the wall tool's own (`0x58a660`) except under the
+  move_objects cheat; waiting for the tool, floor and place it happened at.
 
 ## Expansions (each flow end to end)
 
