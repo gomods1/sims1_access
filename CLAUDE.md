@@ -111,6 +111,17 @@ eturn_focus.txt`; a dev core hands the foreground back to it
     match build mode's (verified on the Goths' lot, a closed room included); ratings, light,
     liked rooms and unreachable objects need the engine and are left out. Upstairs areas with
     no floor (the opening over a staircase) are no room in either.
+  - Alt+letter (any screen): the next group whose spoken name starts with that letter (Spanish
+    Alt+O objetos, Alt+F familia, Alt+P paneles del Sim; WM_SYSKEYDOWN, its WM_SYSCHAR swallowed).
+    Ctrl+Shift+V: the focused control is lit on screen for a sighted helper (the mouse-enter a
+    real pointer sends; `show_focus` in the ini, off by default). Backspace in buy mode's catalog
+    presses the game's "Atrás" (`cWinCatalog + 0x220`). Enter on a live panel item (need, skill,
+    job, house rating) speaks its hover popup. Arrowing onto a text field gives it the typing
+    (`cTSWinMgr::SetInput 0x6dbed0`, `game::FocusTextField`); Left/Right/Home/End/Delete
+    edit it there. A control is disabled when either its enabled byte or the widget flag 2
+    (`+0xf4`) is clear (the spellbook's last-page "siguiente": pressing it anyway crashed the game).
+    Placing: Ctrl+Shift+PageDown/Up put the held object beside the lot's things (nearest first,
+    in their room, facing them when it fits); the arrow line names what it runs into and faces.
   - Ctrl+N: the narrator's verbosity, everything / warnings only / off (saved in
     `SimsAccess\SimsAccess.ini`, `[mod] narrator=2/1/0`); unspoken lines still go to eventos.
   - Review buffers (`nav/buffers.cpp`, playbook section 11): Ctrl+Up reads the next line deeper,
