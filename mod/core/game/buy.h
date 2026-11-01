@@ -60,6 +60,9 @@ int HeldRotationStep();        // direction step per turn: 2 quarter turns, 1 ei
 // The engine's own placement check for the held object with its lead part on `lead`: 0 when it
 // fits, else the reason (a 1-based index into the game's placement messages).
 int CheckHeldAt(Tile lead, int level);
+// The catalog's "Atrás" (back from a category's subsorts to the categories), 0 when not shown.
+Ptr CatalogBackButton();
+
 constexpr int kErrorNeedsSurface = 24;  // STR# 137 entry 23, "Must place on a table or surface"
 std::string PlacementErrorText(int code);  // the game's message, UTF-8
 // The same on top of another object (a lamp on a table): `surface` is the part standing on the

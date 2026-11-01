@@ -33,6 +33,7 @@ struct State {
     bool free = false;
     game::Tile freeTile;
     int freeDirection = 0;
+    int freeRoom = -1;  // the room the free cursor's line named last (said again when it changes)
 };
 
 State g;
@@ -106,6 +107,24 @@ std::string SpotLine() {
     return util::Format(S(Str::SpotOf), g.spot + 1, (int)a->spots.size(), placement::Describe(*s).c_str());
 }
 
+// How much floor the held object takes ("ocupa 2 casillas, 2 por 1"; a tester's pet bed did not
+// fit and nothing had said how big it was), from a spot's footprint.
+std::string SizeLine(const placement::Spot& s) {
+    std::vector<game::Tile> tiles;  // parts can share a tile
+    for (const game::Tile& t : s.footprint)
+        if (std::find(tiles.begin(), tiles.end(), t) == tiles.end()) tiles.push_back(t);
+    if (tiles.empty()) return "";
+    int x0 = tiles[0].x, x1 = x0, y0 = tiles[0].y, y1 = y0;
+    for (const game::Tile& t : tiles) {
+        x0 = std::min(x0, t.x);
+        x1 = std::max(x1, t.x);
+        y0 = std::min(y0, t.y);
+        y1 = std::max(y1, t.y);
+    }
+    int a = x1 - x0 + 1, b = y1 - y0 + 1;
+    return util::Format(S(Str::ObjectSize), (int)tiles.size(), std::max(a, b), std::min(a, b));
+}
+
 // Everything about the focused spot, for the details buffer: what is held, the spot's parts, its
 // tile, and what else was checked in the area.
 std::vector<std::string> SpotDetails() {
@@ -117,6 +136,8 @@ std::vector<std::string> SpotDetails() {
     if (a && s) {
         lines.push_back(util::Format(S(Str::SpotOf), g.spot + 1, (int)a->spots.size(), a->name.c_str()));
         for (const std::string& part : placement::DescribeParts(*s)) lines.push_back(part);
+        std::string size = SizeLine(*s);
+        if (!size.empty()) lines.push_back(size);
         lines.push_back(util::Format(S(Str::TileAt), s->tile.x, s->tile.y));
         lines.push_back(s->useTiles.size() == 1 ? std::string(S(Str::UsedFromTile))
                                                 : util::Format(S(Str::UsedFromTiles), (int)s->useTiles.size()));
@@ -175,6 +196,8 @@ void Start(game::Ptr held) {
         return;
     }
     ShowCurrent();
+    const placement::Spot* first = CurrentSpot();
+    if (first && first->footprint.size() > 1) line += SizeLine(*first) + ". ";
     SaySpot(line + AreaLine());
 }
 
@@ -367,23 +390,28 @@ void PickUpFocused() {
 
 namespace {
 
-// "29, 31, cabe, baño, junto a Ducha Miniespás": the tile, the engine's verdict, the room and
-// what stands next to it.
-std::string FreeLine() {
+// "cabe, baño, paredes al norte, mirando al este, casilla 29, 31": the engine's verdict first,
+// the room when the cursor has just entered it, the walls, the facing; the tile last (a tester,
+// 2026-10-31: coordinates first made the line hard to follow).
+std::string FreeLine(bool withRoom = false) {
     int level = game::HeldLevel();
     game::LiftHeld();
     game::TurnHeld(g.freeDirection);
     int error = game::CheckHeldAt(g.freeTile, level);
     game::ShowHeldAt(g.freeTile);
     camera::LookAt(game::HeldObject());
-    std::string line = util::Format(S(Str::TileAt), g.freeTile.x, g.freeTile.y) + ", ";
-    if (error == 0) line += S(Str::FreeFits);
+    std::string line;
+    if (error == 0) line = S(Str::FreeFits);
     else {
         std::string why = game::PlacementErrorText(error);
-        line += util::Format(S(Str::FreeNoFit), why.empty() ? S(Str::DoesNotFit) : why.c_str());
+        line = util::Format(S(Str::FreeNoFit), why.empty() ? S(Str::DoesNotFit) : why.c_str());
     }
-    std::string room = placement::RoomNameOf(game::RoomAt(level, g.freeTile.x, g.freeTile.y));
-    if (!room.empty()) line += ", " + room;
+    int roomId = game::RoomAt(level, g.freeTile.x, g.freeTile.y);
+    if (withRoom || roomId != g.freeRoom) {
+        g.freeRoom = roomId;
+        std::string room = placement::RoomNameOf(roomId);
+        if (!room.empty()) line += ", " + room;
+    }
     uint32_t walls = game::WallsAt(level, g.freeTile.x, g.freeTile.y);
     std::string sides;
     const std::pair<uint32_t, Str> kSides[] = {{game::kWallNorth, Str::BuildNorth}, {game::kWallEast, Str::BuildEast},
@@ -392,7 +420,7 @@ std::string FreeLine() {
         if (walls & side.first) sides += (sides.empty() ? "" : ", ") + std::string(S(side.second));
     if (!sides.empty()) line += ", " + util::Format(S(Str::BuildWallsHere), sides.c_str());
     line += ", " + util::Format(S(Str::FacingDirection), S(placement::CompassWord(game::CompassOf(g.freeDirection))));
-    return line;
+    return line + ", " + util::Format(S(Str::TileAt), g.freeTile.x, g.freeTile.y);
 }
 
 }  // namespace
@@ -438,7 +466,7 @@ bool FreeTurn(int delta) {
 
 void Repeat() {
     if (g.free) {
-        std::string line = FreeLine();
+        std::string line = FreeLine(true);
         buffers::SetDetails({line});
         speech::Say(line);
         return;

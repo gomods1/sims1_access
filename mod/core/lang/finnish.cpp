@@ -328,6 +328,8 @@ const Translation kEntries[] = {
     {Str::NoReachableSpot, "yksikään simi ei pääsisi sen luo"},
     {Str::WouldBlockDoor, "se tukkisi oven"},
     {Str::DoesNotFit, "se ei mahdu"},
+    {Str::PlaceOnSurface, "sijoitetaan pöydälle, työtasolle tai muulle tasolle"},
+    {Str::ObjectSize, "vie %1$d ruutua, %2$d kertaa %3$d"},
     // Default lot objects that have no catalog name
     {Str::ObjMailbox, "postilaatikko"},
     {Str::ObjTrashOutside, "ulkoroska-astia"},

@@ -269,6 +269,8 @@ const Translation kEntries[] = {
     {Str::NoReachableSpot, "어떤 심도 다가갈 수 없습니다"},
     {Str::WouldBlockDoor, "문을 막습니다"},
     {Str::DoesNotFit, "들어가지 않습니다"},
+    {Str::PlaceOnSurface, "탁자, 조리대 같은 표면 위에 놓아야 합니다"},
+    {Str::ObjectSize, "%1$d칸 차지, %2$d×%3$d"},
     // Default lot objects that have no catalog name
     {Str::ObjMailbox, "우편함"},
     {Str::ObjTrashOutside, "실외 쓰레기통"},

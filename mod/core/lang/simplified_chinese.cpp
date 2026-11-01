@@ -248,6 +248,8 @@ const Translation kEntries[] = {
     {Str::NoReachableSpot, "没有模拟市民能走过去使用"},
     {Str::WouldBlockDoor, "会挡住门"},
     {Str::DoesNotFit, "放不下"},
+    {Str::PlaceOnSurface, "要放在桌子、台面或其他平面上"},
+    {Str::ObjectSize, "占%1$d格，%2$d乘%3$d"},
     // Default lot objects that have no catalog name
     {Str::ObjMailbox, "信箱"},
     {Str::ObjTrashOutside, "户外垃圾桶"},

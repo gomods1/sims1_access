@@ -334,6 +334,8 @@ const Translation kEntries[] = {
     {Str::NoReachableSpot, "kein Sim könnte es erreichen"},
     {Str::WouldBlockDoor, "würde eine Tür blockieren"},
     {Str::DoesNotFit, "passt nicht"},
+    {Str::PlaceOnSurface, "gehört auf einen Tisch, eine Arbeitsplatte oder eine andere Fläche"},
+    {Str::ObjectSize, "belegt %1$d Felder, %2$d mal %3$d"},
     // Default lot objects that have no catalog name
     {Str::ObjMailbox, "Briefkasten"},
     {Str::ObjTrashOutside, "Mülltonne"},

@@ -27,6 +27,7 @@ constexpr int kCatalog = 0x70;
 constexpr int kProducts = 0x04;           // Catalog: std::vector<Product*> (begin, end)
 constexpr int kProductName = 0x04;        // Product: std::string, in the game's language
 constexpr int kProductType = 0x40;        // Product: object type record (resFile at +0)
+constexpr int kBackButton = 0x220;        // cWinCatalog: cTSWinBtn* "Atrás", shown with a category's subsorts
 }  // namespace catalog
 
 // ---- Functions ----------------------------------------------------------------------------

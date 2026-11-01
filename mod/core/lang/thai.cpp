@@ -317,6 +317,8 @@ const Translation kEntries[] = {
     {Str::NoReachableSpot, "ไม่มีซิมคนไหนเข้าไปถึงได้"},
     {Str::WouldBlockDoor, "จะขวางประตู"},
     {Str::DoesNotFit, "วางไม่ลง"},
+    {Str::PlaceOnSurface, "ต้องวางบนโต๊ะ เคาน์เตอร์ หรือพื้นผิวอื่น"},
+    {Str::ObjectSize, "ใช้ %1$d ช่อง, %2$d คูณ %3$d"},
     // Default lot objects that have no catalog name
     {Str::ObjMailbox, "ตู้ไปรษณีย์"},
     {Str::ObjTrashOutside, "ถังขยะนอกบ้าน"},

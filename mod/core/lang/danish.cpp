@@ -322,6 +322,8 @@ const Translation kEntries[] = {
     {Str::NoReachableSpot, "ingen Sim ville kunne nå det"},
     {Str::WouldBlockDoor, "det ville blokere en dør"},
     {Str::DoesNotFit, "det passer ikke"},
+    {Str::PlaceOnSurface, "skal stå på et bord, et køkkenbord eller en anden flade"},
+    {Str::ObjectSize, "fylder %1$d fliser, %2$d gange %3$d"},
     // Default lot objects that have no catalog name
     {Str::ObjMailbox, "postkasse"},
     {Str::ObjTrashOutside, "udendørs skraldespand"},

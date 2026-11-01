@@ -794,12 +794,31 @@ void RepeatFocus() {
     AnnounceFocus(true);
 }
 
+// Buy mode, focus in the catalog: a category's subsorts back to the categories, as the game's "Atrás" does (it sits
+// after the subsorts, and neither Backspace nor Escape reached it: a tester, 2026-10-16).
+bool PressCatalogBack() {
+    Ptr back = game::CatalogBackButton();
+    if (!back || !LotViewActive()) return false;
+    int group = -1, index = -1;
+    for (int gi = 0; gi < (int)Groups().size() && group < 0; gi++)
+        for (int ii = 0; ii < (int)Groups()[gi].items.size(); ii++)
+            if (Groups()[gi].items[ii].widget == back) {
+                group = gi;
+                index = ii;
+                break;
+            }
+    if (group != g.group) return false;  // only from the catalog: elsewhere Backspace is another level
+    SetFocus(group, index);
+    Activate();
+    return true;
+}
+
 bool Back() {
     EnsureCurrent();
     if (g.group < 0 || g.group >= (int)Groups().size()) return false;
     Ptr key = Groups()[g.group].key;
     int was = world::Close(key);
-    if (!was) return false;
+    if (!was) return PressCatalogBack();
     g.focus = ItemId{};  // the thing goes away with its level: no "focus moved" line first
     Refresh();  // back to the kinds or rooms, on the one that was open
     for (int gi = 0; gi < (int)Groups().size(); gi++) {

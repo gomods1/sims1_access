@@ -132,6 +132,14 @@ Ptr FindCatalog(Ptr w, int depth) {
 
 }  // namespace
 
+Ptr CatalogBackButton() {
+    Ptr catalog = FindCatalog(MainWindow(), 0);
+    if (!catalog || !Visible(catalog)) return 0;
+    Ptr back = Rd<Ptr>(catalog + addr::catalog::kBackButton);
+    if (!IsKindOf(back, "cTSWinBtn") || Parent(back) != catalog || !Visible(back) || !ButtonEnabled(back)) return 0;
+    return back;
+}
+
 bool HeldProduct(ProductInfo* out) {
     Ptr type = HeldProductType();
     Ptr catalog = type ? FindCatalog(MainWindow(), 0) : 0;
