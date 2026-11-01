@@ -63,6 +63,7 @@ namespace {
 //   Alt+letter                     the next group whose name starts with that letter (Alt+N needs,
 //                                  Alt+F family, Alt+O the lot's things...: the names are spoken
 //                                  in the game's language, so the letters follow it)
+//   Ctrl+Shift+V                   light the focused control on screen for a sighted helper (on/off)
 //   Ctrl+F1                        say the mod's keys for this screen
 //   Ctrl+1 .. Ctrl+9               lot view: select the n-th Sim of the family (its portrait)
 //   Ctrl+F                         lot view: follow the selected Sim with the camera on/off
@@ -98,7 +99,7 @@ void SayKeyHelp() {
     else if (nav::LotViewActive()) speech::Say(std::string(S(Str::KeysLot)) + " " + S(Str::KeysSimCard) + " " + S(Str::KeysLayoutHint));
     else if (nav::FocusedLotNumber() >= 0) speech::Say(std::string(S(Str::KeysScreen)) + " " + S(Str::KeysHouseFile));
     else speech::Say(S(Str::KeysScreen));
-    speech::Say(S(Str::KeysGroupLetter));
+    speech::Say(std::string(S(Str::KeysGroupLetter)) + " " + S(Str::KeysShowFocus));
 }
 
 // Up/Down and Left/Right move through the group, the lot view's HUD included; Left/Right
@@ -232,6 +233,11 @@ bool Dispatch(WPARAM vk, bool shift, bool ctrl) {
         g_swallowChar = 'f';
         nav::camera::ToggleFollow();
         return true;
+    case 'V':  // Ctrl+Shift+V: show the focus on screen (Ctrl+V alone is the game's paste)
+        if (!ctrl || !shift) return false;
+        g_swallowChar = 'v';
+        nav::ToggleShowFocus();
+        return true;
     case 'C':  // Ctrl+Shift+C: the cheat console, opened the way the game's own key does
         if (!ctrl || !shift) return false;
         g_swallowChar = 'c';  // Ctrl+C comes as 0x03, a posted one as 'c': neither may reach the console
@@ -319,7 +325,7 @@ bool OnKeyDown(WPARAM vk, LPARAM lp) {
     bool ctrl = Held(VK_CONTROL);
     bool ctrlKey = vk == VK_PRIOR || vk == VK_NEXT || vk == VK_RETURN || vk == VK_F1 || vk == VK_UP ||
                    vk == VK_DOWN || vk == VK_LEFT || vk == VK_RIGHT || (vk >= '1' && vk <= '9') || vk == 'F' || vk == 'H' || vk == 'E' || vk == 'N' || vk == 'L' || vk == 'R' || vk == VK_DELETE ||
-                   (vk == 'C' && Held(VK_SHIFT));  // the mod's Ctrl combinations
+                   ((vk == 'C' || vk == 'V') && Held(VK_SHIFT));  // the mod's Ctrl combinations
     if (Held(VK_MENU) || (ctrl && !ctrlKey)) {
         LogVerbose("key 0x%02x left to the game: %s held", (unsigned)vk, ctrl ? "Ctrl" : "Alt");
         return false;

@@ -67,5 +67,6 @@ bool Press(Ptr w);
 // widgets whose click depends on where it lands (a personality bar).
 bool PressAt(Ptr w, int x, int y);
 void Unhover(Ptr w);
+void Hover(Ptr w);  // the mouse-enter a real pointer over its middle would send (the game lights it)
 
 }  // namespace game

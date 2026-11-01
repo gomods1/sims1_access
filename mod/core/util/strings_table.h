@@ -320,6 +320,9 @@
     X(ObjectSize, "takes %1$d tiles, %2$d by %3$d")                                                                    \
     X(NoGroupLetter, "no group starting with %s")                                                                      \
     X(KeysGroupLetter, "Alt and a letter: the next group whose name starts with that letter.")                         \
+    X(KeysShowFocus, "Control Shift V: light the focused control on screen for someone helping.")                      \
+    X(ShowFocusOn, "focus shown on screen")                                                                            \
+    X(ShowFocusOff, "focus no longer shown on screen")                                                                 \
     /* Default lot objects that have no catalog name */                                                                \
     X(ObjMailbox, "mailbox")                                                                                           \
     X(ObjTrashOutside, "outdoor trash can")                                                                            \

@@ -15,6 +15,7 @@
 #include "../speech/speech.h"
 #include "../util/log.h"
 #include "../util/strings.h"
+#include "../util/settings.h"
 #include "../util/text.h"
 #include "buy_mode.h"
 #include "build_mode.h"
@@ -116,6 +117,34 @@ bool Locate(const ItemId& id, int* group, int* index) {
     return false;
 }
 
+// ---- The focus on screen, for a sighted helper (Ctrl+Shift+V) ---------------------------------
+// The focused control gets the mouse-enter a real pointer would give it, so the game lights it
+// as under the mouse (a tester's partner could not tell what the mod had selected). Off unless
+// asked for: hovering can show tooltips.
+
+int g_showFocus = -1;  // -1 not read yet
+Ptr g_hovered = 0;
+
+bool ShowFocus() {
+    if (g_showFocus < 0) g_showFocus = util::GetSetting("show_focus", 0) ? 1 : 0;
+    return g_showFocus == 1;
+}
+
+bool StillListed(Ptr w) {
+    for (const Group& gr : Groups())
+        for (const Item& it : gr.items)
+            if (it.widget == w && !IsVirtual(it)) return true;
+    return false;
+}
+
+void HoverFocused(const Item* it) {
+    Ptr want = ShowFocus() && it && !IsVirtual(*it) && it->role != Role::PieItem ? it->widget : 0;
+    if (want == g_hovered) return;
+    if (g_hovered && StillListed(g_hovered)) game::Unhover(g_hovered);  // a widget gone may be freed
+    g_hovered = want;
+    if (want && game::Visible(want)) game::Hover(want);
+}
+
 void SetFocus(int group, int index) {
     g.group = group;
     g.index = index;
@@ -124,6 +153,7 @@ void SetFocus(int group, int index) {
     if (it && it->role == Role::PieItem) game::PieHighlight(it->widget, it->number);
     if (it && it->role == Role::LotObject) world::Focus(it->number);  // the camera looks at it
     if (it && it->role == Role::TextField) text::TakeTyping(it->widget);  // typing follows the focus
+    HoverFocused(it);
     if (g.root && IsScreen(g.root)) g.focusByScreen[g.root] = Remembered{g.focus, ScreenInstance(g.root)};
 }
 
@@ -315,6 +345,7 @@ void CheckPressFeedback() {
     PendingPress p = g.press;
     if (!p.item || GetTickCount64() - p.at < kPressFeedbackMs) return;
     g.press = PendingPress{};
+    if (p.item.widget == g_hovered) g_hovered = 0;  // the feedback unhovers it: the tick lights it again
     int gi, ii;
     if (!Locate(p.item, &gi, &ii)) return;  // the press closed or replaced it
     Ptr w = p.item.widget;
@@ -539,6 +570,7 @@ void Tick() {
     if (now - g.lastCollect > kRefreshMs) Refresh();
     FinishPageTurn();
     CheckPressFeedback();
+    if (ShowFocus() && !g_hovered) HoverFocused(Focused());
     speed::Tick(g.root);
     buy::Tick();
     build::Tick();
@@ -710,6 +742,13 @@ char FirstLetter(const std::string& utf8) {
     static const char kFold[] = "aaaaaaaceeeeiiiidnooooo/ouuuuyts";  // U+00C0..U+00DF; +0x20 is the lowercase
     char f = kFold[(cp & 0xdf) - 0xc0];
     return f == '/' ? 0 : f;
+}
+
+void ToggleShowFocus() {
+    g_showFocus = ShowFocus() ? 0 : 1;
+    util::SetSetting("show_focus", g_showFocus);
+    HoverFocused(Focused());
+    speech::Say(S(g_showFocus ? Str::ShowFocusOn : Str::ShowFocusOff));
 }
 
 void JumpToGroup(char letter) {

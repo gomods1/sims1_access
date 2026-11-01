@@ -152,6 +152,12 @@ bool PressAt(Ptr w, int x, int y) {
            SendMessageTo(w, addr::msg::kLeftUp, x, y, 0);
 }
 
+void Hover(Ptr w) {
+    RECT r = Rect(w);
+    int x = (r.right - r.left) / 2, y = (r.bottom - r.top) / 2;
+    SendMessageTo(w, addr::msg::kMouseEnter, x, y, 0) && SendMessageTo(w, addr::msg::kMouseMove, x, y, 0);
+}
+
 void Unhover(Ptr w) {
     RECT r = Rect(w);
     SendMessageTo(w, addr::msg::kMouseLeave, (r.right - r.left) / 2, (r.bottom - r.top) / 2, 0);
