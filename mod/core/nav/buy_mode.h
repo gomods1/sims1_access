@@ -2,13 +2,13 @@
 // hover popup's description; the details buffer (Ctrl+Up/Down, nav/buffers.h) has every rating,
 // the rooms it is meant for and the description by sentences. Choosing one (Enter) starts placing it: the mod finds the
 // spots where it fits and can be used (placement.h), best first, and the object shows there.
-//   PageDown / PageUp              next / previous spot in the area
+//   PageDown / PageUp (Tab)        next / previous spot in the area
 //   Ctrl+PageDown / Ctrl+PageUp    next / previous area (rooms, the outdoors)
-//   Shift+PageDown / Shift+PageUp  the other directions that work on the same tile
+//   Shift+PageDown / Shift+PageUp  the other directions that work on the same tile (comma, period)
 //   Enter                          buy it on the spot
 //   Escape                         stop placing (nothing is bought; a moved object goes back)
 //   Delete                         sell the object being moved
-// Enter on an object of the lot browser (PageUp/PageDown) picks it up to move it.
+// Enter on a thing of the lot (PageUp/PageDown, nav/world.h) picks it up to move it.
 //   R                              repeat the spot (its details, and what else was checked in the
 //                                  area, are in the details buffer: Ctrl+Up/Down)
 #pragma once
@@ -32,7 +32,8 @@ void NextArea(int delta);
 void NextTurn(int delta);
 void Confirm();
 // Arrows while placing: the held object moves one tile (the engine says whether it fits there);
-// Shift+PageUp/PageDown then turn it, Enter puts it there, PageUp/PageDown go back to the spots.
+// Shift+PageUp/PageDown or comma/period then turn it, Enter puts it there, PageUp/PageDown go back
+// to the spots.
 void MoveFree(int dx, int dy);
 bool FreeTurn(int delta);
 bool Cancel();      // false when nothing is being placed

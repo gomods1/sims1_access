@@ -805,4 +805,43 @@ bool Back() {
     return true;
 }
 
+// PageUp/PageDown (nav/world.h): the lot's things from anywhere in the lot view. A kind or room
+// is opened in its group and focus goes there, so Tab, the arrows, Enter and Backspace go on from
+// it as usual.
+void BrowseThings(Browse how, int delta) {
+    EnsureCurrent();
+    Ptr key = how == Browse::Kind ? kKindsGroup : how == Browse::Room ? kRoomsGroup : world::LastGroup();
+    const Item* it = Focused();
+    bool inGroup = it && Groups()[g.group].key == key;
+    if (how == Browse::Thing && inGroup && it->role == Role::LotObject) {
+        Move(delta);
+        return;
+    }
+    // A thing: from the kind or room focused in its list, else the one open, else the first.
+    int number = how != Browse::Thing ? world::Step(key, delta)
+                 : inGroup && it->role == Role::Level ? it->number
+                 : world::OpenNumber(key) ? world::OpenNumber(key)
+                                          : world::Step(key, +1);
+    // Twice: the kind or room left open may have emptied since (its group is then gone).
+    for (int attempt = 0; attempt < 2 && number; attempt++) {
+        bool same = number == world::OpenNumber(key);
+        world::Open(key, number);
+        g.focus = ItemId{};  // what was focused may go with its level: no "focus moved" line first
+        Refresh();
+        for (int gi = 0; gi < (int)Groups().size(); gi++) {
+            const Group& gr = Groups()[gi];
+            if (gr.key != key || gr.items.empty()) continue;
+            int at = 0;  // back in the same kind or room: on the thing focused last
+            for (int ii = 0; same && ii < (int)gr.items.size(); ii++)
+                if (gr.items[ii].number == world::FocusedId()) at = ii;
+            SetFocus(gi, at);
+            AnnounceFocus(true);
+            return;
+        }
+        world::Close(key);
+        number = world::Step(key, delta);
+    }
+    speech::Say(S(Str::NoObjects));
+}
+
 }  // namespace nav

@@ -20,23 +20,24 @@ const Translation kEntries[] = {
     {Str::KeysLot,
      "Tab og Skift+Tab går gjennom gruppene: statuslinjen, behovene, familien, handlingskøen, objekter etter "
      "type, objekter etter rom, deretter spillets paneler; piltastene flytter innenfor en gruppe, og på en "
-     "innstillingsside endrer Venstre pil og Høyre pil en glidebryter eller en verdivelger. I objekter etter "
-     "type eller etter rom åpner Enter en type eller et rom, objektene kommer nærmeste først og kameraet går til "
-     "hvert av dem, Backspace går tilbake; Enter på et objekt åpner handlingene, Kontroll+Enter går dit. R "
-     "gjentar. Mellomrom velger neste sim, Kontroll+1 til 9 velger en sim i familien, Kontroll+F får kameraet "
-     "til å følge den valgte simmen eller ikke. Kontroll+E sier hva den valgte simmen gjør og trenger, "
+     "innstillingsside endrer Venstre pil og Høyre pil en glidebryter eller en verdivelger. Side ned og Side opp "
+     "går gjennom tomtens objekter, nærmeste først, og kameraet går til hvert av dem; Skift sammen med dem "
+     "bytter type objekt, Kontroll sammen med dem rom. Enter på et objekt åpner handlingene, Kontroll+Enter går "
+     "dit. R gjentar. Mellomrom velger neste sim, Kontroll+1 til 9 velger en sim i familien, Kontroll+F får "
+     "kameraet til å følge den valgte simmen eller ikke. Kontroll+E sier hva den valgte simmen gjør og trenger, "
      "Kontroll+N endrer hvor mye fortelleren sier. P setter på pause og leser klokkeslett og midler. "
      "Kontroll+Pil opp og Kontroll+Pil ned leser detaljene, Kontroll+Venstre pil og Kontroll+Høyre pil bytter "
      "mellom detaljer og hendelser."},
     {Str::KeysPlacing,
-     "Tab og Skift+Tab går gjennom stedene der det får plass og kan brukes, de beste først; Side ned og Side opp "
-     "bytter rom; komma og punktum snur det på samme sted. Enter kjøper det der, Escape avbryter, R gjentar. "
-     "Kontroll+Pil opp og Kontroll+Pil ned leser stedets detaljer og hva mer som ble sjekket."},
+     "Side ned og Side opp går gjennom stedene der det får plass og kan brukes, de beste først; Kontroll sammen "
+     "med dem bytter rom; Skift sammen med dem, eller komma og punktum, snur det på samme sted. Enter kjøper det "
+     "der, Escape avbryter, R gjentar. Kontroll+Pil opp og Kontroll+Pil ned leser stedets detaljer og hva mer "
+     "som ble sjekket."},
     {Str::KeysBuy,
      "Piltastene går gjennom katalogen; ved et produkt leses pris og beskrivelse, med Kontroll+Pil opp og "
      "Kontroll+Pil ned alt om det. Enter på et produkt begynner å plassere det der det får plass og kan brukes. "
-     "I objekter etter type eller etter rom (Tab) plukker Enter på et objekt på tomten det opp for å flytte det, "
-     "og Delete selger det deretter."},
+     "Side ned og Side opp går gjennom tomtens objekter, Skift sammen med dem typene, Kontroll sammen med dem "
+     "rommene; Enter på et objekt plukker det opp for å flytte det, og Delete selger det deretter."},
     {Str::KeysMenu, "Pil opp og Pil ned velger en handling, Enter utfører den, Escape går tilbake."},
     {Str::UnsupportedBuild, "Sims-tilgjengelighet: spillversjonen støttes ikke, modden er deaktivert"},
     // Control state
@@ -724,8 +725,8 @@ const Translation kEntries[] = {
     {Str::BuildNoRooms, "ingen rom i denne etasjen eller under ennå"},
     {Str::BuildRoomJump, "%s, %d ganger %d, i det nordvestre hjørnet"},
     {Str::KeysRoomJump,
-     "Tab og Skift+Tab hopper til neste eller forrige rom, i det nordvestre hjørnet; i en øvre etasje til "
-     "rommene under."},
+     "Tab og Skift+Tab, eller Kontroll+Side ned og Side opp, hopper til neste eller forrige rom, i det "
+     "nordvestre hjørnet; i en øvre etasje til rommene under."},
     // Stairs
     {Str::StairsClimb, "går opp mot %s"},
     {Str::StairsTop, "når etasjen over ved rute %d, %d"},
@@ -758,7 +759,7 @@ const Translation kEntries[] = {
     {Str::FreeNoFit, "passer ikke: %s"},
     {Str::KeysPlacingFree,
      "Piltastene flytter den én rute om gangen, med Skift fem, og sier om den passer; komma og punktum snur den, "
-     "Enter setter den der, Tab går tilbake til plassene."},
+     "Enter setter den der, Side ned går tilbake til plassene."},
     // Sim card
     {Str::BioFor, "Bio for %s"},
     // Key help

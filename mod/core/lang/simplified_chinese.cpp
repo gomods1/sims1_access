@@ -15,16 +15,16 @@ const Translation kEntries[] = {
      "Tab和Shift+Tab切换组，方向键在组内移动，Home和End跳到组的两端，回车激活；在地块物品的某个类型或房间上按回车，会打开其中的物品；退格键返回，R重复朗读。在滑块或选择器上，左右方向键调整数值。Ctr"
      "l+上方向键和Ctrl+下方向键朗读刚才所说内容的详情，Ctrl+左方向键和Ctrl+右方向键在详情和事件之间切换。"},
     {Str::KeysLot,
-     "Tab和Shift+Tab依次浏览各组：状态行、需求、家庭、动作队列、按类型的物品、按房间的物品，然后是游戏的面板；方向键在组内移动，在设置页上，左右方向键调整滑块或选择器。在按类型或按房间的物品中，回车打开一个类"
-     "型或房间，其中的物品由近到远排列，镜头会移到每一个物品，退格键返回；在物品上按回车打开它的互动，Ctrl+回车让模拟市民走过去。R重复朗读。空格键选择下一个模拟市民，Ctrl+1到9选择家庭中的某个模拟市民，Ctr"
-     "l+F切换镜头是否跟随选中的模拟市民。Ctrl+E朗读选中的模拟市民正在做什么和需要什么，Ctrl+N改变旁白说话的多少。P暂停并朗读时间和资金。Ctrl+上方向键和Ctrl+下方向键朗读详情，Ctrl+左方向键和"
-     "Ctrl+右方向键在详情和事件之间切换。"},
+     "Tab和Shift+Tab依次浏览各组：状态行、需求、家庭、动作队列、按类型的物品、按房间的物品，然后是游戏的面板；方向键在组内移动，在设置页上，左右方向键调整滑块或选择器。Page Down和Page "
+     "Up由近到远浏览地块上的物品，镜头会移到每一个物品；同时按住Shift切换物品类型，按住Ctrl切换房间。在物品上按回车打开它的互动，Ctrl+回车让模拟市民走过去。R重复朗读。空格键选择下一个模拟市民，Ctrl+"
+     "1到9选择家庭中的某个模拟市民，Ctrl+F切换镜头是否跟随选中的模拟市民。Ctrl+E朗读选中的模拟市民正在做什么和需要什么，Ctrl+N改变旁白说话的多少。P暂停并朗读时间和资金。Ctrl+上方向键和Ctrl+"
+     "下方向键朗读详情，Ctrl+左方向键和Ctrl+右方向键在详情和事件之间切换。"},
     {Str::KeysPlacing,
-     "Tab和Shift+Tab浏览放得下又能使用的位置，最好的排在前面；Page Down和Page Up切换房间；逗号和句号在同一位置转向。回车在该处购买，Esc取消，R重复朗读。Ctrl+上方向键和Ctrl+下方向"
-     "键朗读该位置的详情以及其他检查结果。"},
+     "Page Down和Page Up浏览放得下又能使用的位置，最好的排在前面；同时按住Ctrl切换房间；同时按住Shift，或用逗号和句号，在同一位置转向。回车在该处购买，Esc取消，R重复朗读。Ctrl+上方向键和"
+     "Ctrl+下方向键朗读该位置的详情以及其他检查结果。"},
     {Str::KeysBuy,
-     "方向键浏览目录；商品会读出价格和描述，Ctrl+上方向键和Ctrl+下方向键读出它的全部信息。在商品上按回车，开始把它摆放到放得下又能使用的地方。在按类型或按房间的物品中（Tab），在地块上的物品上按回车拿起它来移"
-     "动，接着按Delete出售。"},
+     "方向键浏览目录；商品会读出价格和描述，Ctrl+上方向键和Ctrl+下方向键读出它的全部信息。在商品上按回车，开始把它摆放到放得下又能使用的地方。Page Down和Page "
+     "Up浏览地块上的物品，同时按住Shift切换类型，按住Ctrl切换房间；在物品上按回车拿起它来移动，接着按Delete出售。"},
     {Str::KeysMenu, "上下方向键选择互动，回车执行，Esc返回。"},
     {Str::UnsupportedBuild, "模拟人生无障碍模组：不支持的游戏版本，模组已停用"},
     // Control state
@@ -634,7 +634,7 @@ const Translation kEntries[] = {
     {Str::BuildAboveNothing, "下面没有建造任何东西"},
     {Str::BuildNoRooms, "这一层和下面还没有房间"},
     {Str::BuildRoomJump, "%s，%d×%d，在它的西北角"},
-    {Str::KeysRoomJump, "Tab 和 Shift+Tab 跳到下一个或上一个房间的西北角；在楼上时，跳到下面的房间。"},
+    {Str::KeysRoomJump, "Tab 和 Shift+Tab，或 Ctrl+Page Down 和 Page Up，跳到下一个或上一个房间的西北角；在楼上时，跳到下面的房间。"},
     // Stairs
     {Str::StairsClimb, "向%s上"},
     {Str::StairsTop, "在格子%d, %d到达楼上"},
@@ -659,7 +659,7 @@ const Translation kEntries[] = {
     // Placing: free cursor
     {Str::FreeFits, "放得下"},
     {Str::FreeNoFit, "放不下：%s"},
-    {Str::KeysPlacingFree, "方向键一次移动一格，按住 Shift 一次五格，并说明能否放下；逗号和句号旋转，回车放在这里，Tab 回到位置列表。"},
+    {Str::KeysPlacingFree, "方向键一次移动一格，按住 Shift 一次五格，并说明能否放下；逗号和句号旋转，回车放在这里，Page Down 回到位置列表。"},
     // Sim card
     {Str::BioFor, "%s 的个人简历"},
     // Key help

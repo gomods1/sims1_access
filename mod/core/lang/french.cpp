@@ -20,24 +20,26 @@ const Translation kEntries[] = {
     {Str::KeysLot,
      "Tab et Maj+Tab parcourent les groupes : la ligne d'état, les besoins, la famille, la file d'actions, "
      "objets par type, objets par pièce, puis les panneaux du jeu ; les flèches se déplacent dans un groupe, et "
-     "sur une page de réglages gauche et droite changent une glissière ou un sélecteur. Dans objets par type ou "
-     "par pièce, Entrée ouvre un type ou une pièce, ses objets viennent du plus proche au plus loin et la caméra "
-     "va sur chacun, Retour arrière revient en arrière ; Entrée sur un objet ouvre ses interactions, "
-     "Contrôle+Entrée y envoie le Sim. R répète. Espace sélectionne le Sim suivant, Contrôle+1 à Contrôle+9 "
-     "sélectionnent un Sim de la famille, Contrôle+F active ou désactive le suivi du Sim sélectionné par la "
-     "caméra. Contrôle+E dit ce que fait et ce dont a besoin le Sim sélectionné, Contrôle+N change la verbosité "
-     "du narrateur. P met en pause et lit l'heure et l'argent. Contrôle+flèche haut et Contrôle+flèche bas "
-     "lisent les détails, Contrôle+flèche gauche et Contrôle+flèche droite passent des détails aux événements."},
+     "sur une page de réglages gauche et droite changent une glissière ou un sélecteur. Page suivante et Page "
+     "précédente parcourent les objets du terrain, du plus proche au plus loin, et la caméra va sur chacun ; Maj "
+     "avec elles change le type d'objet, Contrôle avec elles la pièce. Entrée sur un objet ouvre ses "
+     "interactions, Contrôle+Entrée y envoie le Sim. R répète. Espace sélectionne le Sim suivant, Contrôle+1 à "
+     "Contrôle+9 sélectionnent un Sim de la famille, Contrôle+F active ou désactive le suivi du Sim sélectionné "
+     "par la caméra. Contrôle+E dit ce que fait et ce dont a besoin le Sim sélectionné, Contrôle+N change la "
+     "verbosité du narrateur. P met en pause et lit l'heure et l'argent. Contrôle+flèche haut et Contrôle+flèche "
+     "bas lisent les détails, Contrôle+flèche gauche et Contrôle+flèche droite passent des détails aux "
+     "événements."},
     {Str::KeysPlacing,
-     "Tab et Maj+Tab parcourent les emplacements où l'objet tient et reste utilisable, les meilleurs d'abord ; "
-     "Page suivante et Page précédente changent de pièce ; virgule et point le tournent sur place. Entrée "
-     "l'achète à cet endroit, Échap annule, R répète. Contrôle+flèche haut et Contrôle+flèche bas lisent les "
-     "détails de l'emplacement et les autres emplacements examinés."},
+     "Page suivante et Page précédente parcourent les emplacements où l'objet tient et reste utilisable, les "
+     "meilleurs d'abord ; Contrôle avec elles change de pièce ; Maj avec elles, ou virgule et point, le tournent "
+     "sur place. Entrée l'achète à cet endroit, Échap annule, R répète. Contrôle+flèche haut et Contrôle+flèche "
+     "bas lisent les détails de l'emplacement et les autres emplacements examinés."},
     {Str::KeysBuy,
      "Les flèches parcourent le catalogue ; un produit annonce son prix et sa description, Contrôle+flèche haut "
      "et Contrôle+flèche bas tout le détail. Entrée sur un produit commence à le placer là où il tient et reste "
-     "utilisable. Dans objets par type ou par pièce (Tab), Entrée sur un objet du terrain le prend pour le "
-     "déplacer, puis la touche Supprimer le vend."},
+     "utilisable. Page suivante et Page précédente parcourent les objets du terrain, Maj avec elles les types, "
+     "Contrôle avec elles les pièces ; Entrée sur un objet le prend pour le déplacer, puis la touche Supprimer "
+     "le vend."},
     {Str::KeysMenu, "Haut et bas choisissent une interaction, Entrée l'exécute, Échap revient en arrière."},
     {Str::UnsupportedBuild, "Accessibilité pour Les Sims : version du jeu non prise en charge, mod désactivé"},
     // Control state
@@ -742,8 +744,8 @@ const Translation kEntries[] = {
     {Str::BuildNoRooms, "pas encore de pièce à cet étage ni en dessous"},
     {Str::BuildRoomJump, "%s, %d sur %d, à son coin nord-ouest"},
     {Str::KeysRoomJump,
-     "Tab et Maj+Tab sautent à la pièce suivante ou précédente, à son coin nord-ouest ; à un étage, aux pièces "
-     "du dessous."},
+     "Tab et Maj+Tab, ou Contrôle+Page suivante et Page précédente, sautent à la pièce suivante ou précédente, à "
+     "son coin nord-ouest ; à un étage, aux pièces du dessous."},
     // Stairs
     {Str::StairsClimb, "monte vers le %s"},
     {Str::StairsTop, "arrive à l'étage à la case %d, %d"},
@@ -776,7 +778,7 @@ const Translation kEntries[] = {
     {Str::FreeNoFit, "ne tient pas : %s"},
     {Str::KeysPlacingFree,
      "Les flèches le déplacent case par case, avec Maj de cinq en cinq, et disent s'il tient ; virgule et point "
-     "le tournent, Entrée le pose là, Tab revient aux emplacements."},
+     "le tournent, Entrée le pose là, Page suivante revient aux emplacements."},
     // Sim card
     {Str::BioFor, "Biographie de %s"},
     // Key help

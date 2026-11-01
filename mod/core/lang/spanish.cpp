@@ -21,21 +21,23 @@ const Translation kEntries[] = {
      "Tab y Mayúsculas+Tab recorren los grupos: la línea de estado, las necesidades, la familia, la cola de "
      "acciones, objetos por tipo, objetos por habitación y luego los paneles del juego; las flechas se mueven "
      "dentro de un grupo, y en una página de ajustes izquierda y derecha cambian un control deslizante o un "
-     "selector. En objetos por tipo o por habitación, Intro abre un tipo o una habitación, sus objetos van del "
-     "más cercano al más lejano y la cámara va a cada uno, Retroceso vuelve atrás; Intro sobre un objeto abre "
-     "sus interacciones, Control+Intro camina hasta allí. R repite. Espacio selecciona al siguiente Sim, "
-     "Control+1 a 9 seleccionan un Sim de la familia, Control+F hace que la cámara siga al Sim seleccionado o "
-     "no. Control+E dice qué hace y qué necesita el Sim seleccionado, Control+N cambia cuánto habla el narrador. "
-     "P pausa y lee la hora y el dinero. Control+Arriba y Control+Abajo leen los detalles, Control+Izquierda y "
-     "Control+Derecha cambian entre detalles y eventos."},
+     "selector. Avanzar página y Retroceder página recorren los objetos del solar, del más cercano al más "
+     "lejano, y la cámara va a cada uno; Mayúsculas con ellas cambia el tipo de objeto, Control con ellas la "
+     "habitación. Intro sobre un objeto abre sus interacciones, Control+Intro camina hasta allí. R repite. "
+     "Espacio selecciona al siguiente Sim, Control+1 a 9 seleccionan un Sim de la familia, Control+F hace que la "
+     "cámara siga al Sim seleccionado o no. Control+E dice qué hace y qué necesita el Sim seleccionado, "
+     "Control+N cambia cuánto habla el narrador. P pausa y lee la hora y el dinero. Control+Arriba y "
+     "Control+Abajo leen los detalles, Control+Izquierda y Control+Derecha cambian entre detalles y eventos."},
     {Str::KeysPlacing,
-     "Tab y Mayúsculas+Tab recorren los sitios donde cabe y se puede usar, los mejores primero; Avanzar página y "
-     "Retroceder página cambian de habitación; coma y punto lo giran en el mismo sitio. Intro lo compra ahí, "
-     "Escape cancela, R repite. Control+Arriba y Control+Abajo leen los detalles del sitio y qué más se comprobó."},
+     "Avanzar página y Retroceder página recorren los sitios donde cabe y se puede usar, los mejores primero; "
+     "Control con ellas cambia de habitación; Mayúsculas con ellas, o coma y punto, lo giran en el mismo sitio. "
+     "Intro lo compra ahí, Escape cancela, R repite. Control+Arriba y Control+Abajo leen los detalles del sitio "
+     "y qué más se comprobó."},
     {Str::KeysBuy,
      "Las flechas recorren el catálogo; un producto dice su precio y descripción, Control+Arriba y Control+Abajo "
-     "todo sobre él. Intro sobre un producto empieza a colocarlo donde cabe y se puede usar. En objetos por tipo "
-     "o por habitación (Tab), Intro sobre un objeto del solar lo recoge para moverlo, y Suprimir lo vende."},
+     "todo sobre él. Intro sobre un producto empieza a colocarlo donde cabe y se puede usar. Avanzar página y "
+     "Retroceder página recorren los objetos del solar, Mayúsculas con ellas los tipos, Control con ellas las "
+     "habitaciones; Intro sobre un objeto lo recoge para moverlo, y Suprimir lo vende."},
     {Str::KeysMenu, "Arriba y abajo eligen una interacción, Intro la hace, Escape vuelve atrás."},
     {Str::UnsupportedBuild, "Accesibilidad de Los Sims: versión del juego no compatible, mod desactivado"},
     // Control state
@@ -731,8 +733,8 @@ const Translation kEntries[] = {
     {Str::BuildNoRooms, "todavía no hay habitaciones en este piso ni debajo"},
     {Str::BuildRoomJump, "%s, %d por %d, en su esquina noroeste"},
     {Str::KeysRoomJump,
-     "Tab y Mayúsculas+Tab saltan a la habitación siguiente o anterior, a su esquina noroeste; en un piso de "
-     "arriba, a las habitaciones de debajo."},
+     "Tab y Mayúsculas+Tab, o Control+Avanzar página y Retroceder página, saltan a la habitación siguiente o "
+     "anterior, a su esquina noroeste; en un piso de arriba, a las habitaciones de debajo."},
     // Stairs
     {Str::StairsClimb, "sube hacia el %s"},
     {Str::StairsTop, "llega arriba a la casilla %d, %d"},
@@ -765,7 +767,7 @@ const Translation kEntries[] = {
     {Str::FreeNoFit, "no cabe: %s"},
     {Str::KeysPlacingFree,
      "Las flechas lo mueven de casilla en casilla, con Mayúsculas de cinco en cinco, y dicen si cabe ahí; coma y "
-     "punto lo giran, Intro lo pone ahí, Tab vuelve a los sitios."},
+     "punto lo giran, Intro lo pone ahí, Avanzar página vuelve a los sitios."},
     // Sim card
     {Str::BioFor, "Bio de %s"},
     // Key help

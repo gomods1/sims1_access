@@ -4,7 +4,9 @@
 `NAVIGATION.md` before touching any key.** A ring of groups (Tab), items (arrows), levels (Enter /
 Backspace); groups in the order of importance, then the window tree's order, never sorted by
 position; one key grammar for every screen and mode (the lot view's HUD included); only the
-spatial tools (placing, the build cursor) use the arrows for space.
+spatial tools (placing, the build cursor) use the arrows for space. Since 2026-10-29 (the user: "an overuse of
+arrow keys") the lot's things are on PageDown/PageUp in every mode, Shift+ the kinds, Ctrl+ the
+rooms, as placing's spots are (Ctrl+ its rooms, Shift+ its turns).
 
 Playbook: `template_generic.md` (read it first; its rules apply). This file holds what has been
 learned about *this* game. Anything marked **hypothesis** has not been verified yet.
@@ -66,6 +68,11 @@ inventory: `SCREENS.md`. Verified targets: `PATCH_TARGETS.md`; layouts: `STRUCTS
 | `mod/third_party/minhook/` | | Vendored MinHook (BSD). |
 
 - Build: `mod\build.bat` (MSVC 2022, x64 + x86); `mod\build.bat deploy` copies into the game folder.
+- **Release** (offline only, the repo is private): `python tools/package.py vX.Y.Z` builds, writes
+  `mod\out\SimsAccess-vX.Y.Z.zip` (+ `.map` for crash offsets) and the shared installer
+  `..\installer\SimsAccessibilityInstaller-vX.Y.Z-offline.exe` (game entry 5 in
+  `..\installer\src\games.rs`): it finds the game through Steam or lets the player browse, and
+  installs/uninstalls `version.dll` + `SimsAccess\` (never `dev.txt`).
 - **Dev loop**: with `SimsAccess\dev.txt` present, the loader hot-reloads `SimsAccess.dll` within a
   second of a rebuild (no game restart; Ctrl+Alt+F12 forces it) and verbose logging is on. With
   `SimsAccess\force_active.txt` the core keeps the game's app-active flag set, so the game takes
@@ -141,7 +148,7 @@ eturn_focus.txt`; a dev core hands the foreground back to it
     the inventory and relationship filters. List entries say "botón" right after their name,
     before their details: houses ("Calle Sim,1, botón. La familia ..."), families, catalog
     products ("Silla ..., botón, $80, ..."), interaction menu entries. Read-only items say no role.
-  - Values: Left/Right (or PageUp/PageDown, their only other use) change the focused slider ("6 de 10"), value picker
+  - Values: Left/Right (or PageUp/PageDown while one is focused) change the focused slider ("6 de 10"), value picker
     ("Media") or personality bar; Up/Down move; Enter only repeats them (a press would click the
     slider's middle and set it to half). Check boxes toggle with Enter.
   - Create a Sim: Left/Right on a personality bar add/remove a point ("4 de 10, quedan 6
@@ -161,7 +168,10 @@ eturn_focus.txt`; a dev core hands the foreground back to it
     kind or room lists its things nearest first (virtual items: `Role::Level` / `Role::LotObject`,
     widget = the group key, `IsVirtual`: nothing reads game memory through them), Backspace goes
     back to it; Enter on a thing opens its interaction menu (buy mode: picks it up), Ctrl+Enter
-    walks the selected Sim to the thing last focused. The lot is read at most once a second for
+    walks the selected Sim to the thing last focused. From anywhere in the lot view (live, buy
+    and build mode) PageDown/PageUp go through the things of the kind or room chosen last,
+    Shift+PageDown/PageUp the kinds, Ctrl+PageDown/PageUp the rooms (`nav::BrowseThings` opens
+    them in those groups and moves focus there; verified 2026-10-29). The lot is read at most once a second for
     these groups. Objects read as "name, room, a N casillas al noreste" from the selected Sim. Rooms are the engine's; their names are the
     mod's guess from their contents (`nav/room_names.cpp`).
   - Camera and Sims (`nav/camera.cpp`, `game/view.cpp`): Ctrl+1..Ctrl+9 select the n-th Sim of the
@@ -253,17 +263,18 @@ eturn_focus.txt`; a dev core hands the foreground back to it
   - Buy mode (F2): Ctrl+R keeps the catalog to one kind of room (arrows skip the rest and turn
     pages). The catalog's buttons by arrows; a product reads name, price, ratings and its
     description (the details buffer: all ratings, rooms it is meant for). Enter on a product starts placing
-    it, a spatial tool that owns its keys while an object is held (`PlacingKey`): Tab/Shift+Tab the
-    spots (best first), PageDown/PageUp rooms, comma/period other directions on the tile, arrows
+    it, a spatial tool that owns its keys while an object is held (`PlacingKey`): PageDown/PageUp
+    (or Tab) the spots (best first), Ctrl+PageDown/PageUp rooms, Shift+PageDown/PageUp (or
+    comma/period) other directions on the tile, arrows
     move it tile by tile instead (Shift five; saying whether it fits), Enter buys, Escape cancels, R repeats; the details buffer has
-    the spot's tile and the area's refused spots with the game's reason. Enter on an object of the lot browser picks it up to move it (same spot list;
+    the spot's tile and the area's refused spots with the game's reason. Enter on a thing of the lot (PageDown) picks it up to move it (same spot list;
     Escape puts it back, Delete sells it and says the refund). Moving past a page's last product
     (or back from its first) turns the catalog's page by itself ("página siguiente").
 - Build mode (F3): the panel's tools are tabs, their styles products. Enter on a wall or fence
   style starts the build cursor (`nav/build_mode.cpp`, keys in its header and Ctrl+F1): arrows
   move a corner (Shift five), Space marks the start, Enter builds a wall, Shift+Enter a room,
-  Ctrl+Enter/Delete removes, comma/period + Insert ready-made rooms, Tab/Shift+Tab the rooms,
-  PageUp/PageDown the floors, Home back to the Sim, R everything (free space, room), Escape
+  Ctrl+Enter/Delete removes, comma/period + Insert ready-made rooms, Tab/Shift+Tab (or
+  Ctrl+PageDown/PageUp) the rooms, PageUp/PageDown the floors, Home back to the Sim, R everything (free space, room), Escape
   leaves (Tab no longer does: it is the rooms). The mod drags the wall tool itself (down, drag,
   up; `STRUCTS.md` "Build mode"), checks the walls first from the lot's entrance
   (`placement::CheckNewWalls`) and asks for a second Enter when they would shut in a Sim, cut an

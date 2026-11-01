@@ -20,24 +20,25 @@ const Translation kEntries[] = {
     {Str::KeysLot,
      "Sarkain ja Vaihto+Sarkain käyvät ryhmät läpi: tilarivi, tarpeet, perhe, toimintajono, esineet lajeittain, "
      "esineet huoneittain, sitten pelin paneelit; nuolinäppäimet liikkuvat ryhmän sisällä, ja asetussivulla "
-     "nuoli vasemmalle ja nuoli oikealle muuttavat liukusäädintä tai valitsinta. Esineet lajeittain tai "
-     "huoneittain -ryhmässä Enter avaa lajin tai huoneen, sen esineet tulevat lähin ensin ja kamera siirtyy "
-     "kunkin luo, Askelpalautin palaa takaisin; Enter esineen kohdalla avaa sen toiminnot, Control+Enter vie "
-     "simin sinne. R toistaa. Välilyönti valitsee seuraavan simin, Control+1, Control+2 ja niin edelleen "
-     "valitsevat perheen simin, Control+F kytkee kameran seurannan päälle tai pois. Control+E kertoo, mitä "
-     "valittu simi tekee ja tarvitsee, Control+N muuttaa kertojan puheliaisuutta. P pysäyttää pelin ja lukee "
-     "ajan ja rahat. Control+nuoli ylös ja Control+nuoli alas lukevat tiedot, Control+nuoli vasemmalle ja "
-     "Control+nuoli oikealle vaihtavat tietojen ja tapahtumien välillä."},
+     "nuoli vasemmalle ja nuoli oikealle muuttavat liukusäädintä tai valitsinta. Page Down ja Page Up selaavat "
+     "tontin esineitä, lähin ensin, ja kamera siirtyy kunkin luo; Vaihto niiden kanssa vaihtaa esineen lajia, "
+     "Control niiden kanssa huonetta. Enter esineen kohdalla avaa sen toiminnot, Control+Enter vie simin sinne. "
+     "R toistaa. Välilyönti valitsee seuraavan simin, Control+1, Control+2 ja niin edelleen valitsevat perheen "
+     "simin, Control+F kytkee kameran seurannan päälle tai pois. Control+E kertoo, mitä valittu simi tekee ja "
+     "tarvitsee, Control+N muuttaa kertojan puheliaisuutta. P pysäyttää pelin ja lukee ajan ja rahat. "
+     "Control+nuoli ylös ja Control+nuoli alas lukevat tiedot, Control+nuoli vasemmalle ja Control+nuoli "
+     "oikealle vaihtavat tietojen ja tapahtumien välillä."},
     {Str::KeysPlacing,
-     "Sarkain ja Vaihto+Sarkain selaavat paikkoja, joihin se mahtuu ja joissa sitä voi käyttää, parhaat ensin; "
-     "Page Down ja Page Up vaihtavat huonetta; pilkku ja piste kääntävät sitä samassa paikassa. Enter ostaa sen "
-     "siihen, Escape peruuttaa, R toistaa. Control+nuoli ylös ja Control+nuoli alas lukevat paikan tiedot ja "
-     "mitä muuta tarkistettiin."},
+     "Page Down ja Page Up selaavat paikkoja, joihin se mahtuu ja joissa sitä voi käyttää, parhaat ensin; "
+     "Control niiden kanssa vaihtaa huonetta; Vaihto niiden kanssa, tai pilkku ja piste, kääntävät sitä samassa "
+     "paikassa. Enter ostaa sen siihen, Escape peruuttaa, R toistaa. Control+nuoli ylös ja Control+nuoli alas "
+     "lukevat paikan tiedot ja mitä muuta tarkistettiin."},
     {Str::KeysBuy,
      "Nuolinäppäimet selaavat tavaraluetteloa; tuotteesta luetaan hinta ja kuvaus, Control+nuoli ylös ja "
      "Control+nuoli alas kertovat siitä kaiken. Enter tuotteen kohdalla aloittaa sen sijoittamisen paikkaan, "
-     "johon se mahtuu ja jossa sitä voi käyttää. Esineet lajeittain tai huoneittain -ryhmässä (Sarkain) Enter "
-     "tontin esineen kohdalla nostaa sen siirrettäväksi, ja sen jälkeen Delete myy sen."},
+     "johon se mahtuu ja jossa sitä voi käyttää. Page Down ja Page Up selaavat tontin esineitä, Vaihto niiden "
+     "kanssa lajeja, Control niiden kanssa huoneita; Enter esineen kohdalla nostaa sen siirrettäväksi, ja sen "
+     "jälkeen Delete myy sen."},
     {Str::KeysMenu, "Nuoli ylös ja nuoli alas valitsevat toiminnon, Enter suorittaa sen, Escape palaa takaisin."},
     {Str::UnsupportedBuild, "Sims-saavutettavuus: pelin versiota ei tueta, modi on poistettu käytöstä"},
     // Control state
@@ -730,8 +731,8 @@ const Translation kEntries[] = {
     {Str::BuildNoRooms, "tässä kerroksessa tai alla ei vielä ole huoneita"},
     {Str::BuildRoomJump, "%s, %d kertaa %d, sen luoteiskulmassa"},
     {Str::KeysRoomJump,
-     "Sarkain ja Vaihto+Sarkain hyppäävät seuraavaan tai edelliseen huoneeseen, sen luoteiskulmaan; yläkerrassa "
-     "alla oleviin huoneisiin."},
+     "Sarkain ja Vaihto+Sarkain, tai Control+Page Down ja Page Up, hyppäävät seuraavaan tai edelliseen "
+     "huoneeseen, sen luoteiskulmaan; yläkerrassa alla oleviin huoneisiin."},
     // Stairs
     {Str::StairsClimb, "nousee %ssuuntaan"},
     {Str::StairsTop, "päättyy yläkertaan ruutuun %d, %d"},
@@ -764,7 +765,7 @@ const Translation kEntries[] = {
     {Str::FreeNoFit, "ei mahdu: %s"},
     {Str::KeysPlacingFree,
      "Nuolet siirtävät sitä ruutu kerrallaan, Vaihdon kanssa viisi, ja kertovat mahtuuko se; pilkku ja piste "
-     "kääntävät sitä, Enter asettaa sen siihen, Sarkain palaa paikkoihin."},
+     "kääntävät sitä, Enter asettaa sen siihen, Page Down palaa paikkoihin."},
     // Sim card
     {Str::BioFor, "Tausta - %s"},
     // Key help

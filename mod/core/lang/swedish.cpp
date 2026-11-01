@@ -20,23 +20,24 @@ const Translation kEntries[] = {
     {Str::KeysLot,
      "Tabb och Skift+Tabb går igenom grupperna: statusraden, behoven, familjen, åtgärdskön, föremål efter sort, "
      "föremål efter rum, sedan spelets paneler; piltangenterna flyttar inom en grupp, och på en inställningssida "
-     "ändrar Pil vänster och Pil höger ett skjutreglage eller en väljare. I föremål efter sort eller efter rum "
-     "öppnar Enter en sort eller ett rum, dess föremål kommer närmast först och kameran går till vart och ett, "
-     "Backspace går tillbaka; Enter på ett föremål öppnar dess interaktioner, Kontroll+Enter låter simmen gå "
-     "dit. R upprepar. Mellanslag väljer nästa sim, Kontroll+1 till 9 väljer en sim i familjen, Kontroll+F slår "
-     "på eller av att kameran följer den valda simmen. Kontroll+E säger vad den valda simmen gör och behöver, "
-     "Kontroll+N ändrar hur mycket berättaren säger. P pausar och läser upp tid och pengar. Kontroll+Pil upp och "
-     "Kontroll+Pil ned läser detaljerna, Kontroll+Pil vänster och Kontroll+Pil höger växlar mellan detaljer och "
-     "händelser."},
+     "ändrar Pil vänster och Pil höger ett skjutreglage eller en väljare. Page Down och Page Up går igenom "
+     "tomtens föremål, närmast först, och kameran går till vart och ett; Skift tillsammans med dem byter sort av "
+     "föremål, Kontroll tillsammans med dem rum. Enter på ett föremål öppnar dess interaktioner, Kontroll+Enter "
+     "låter simmen gå dit. R upprepar. Mellanslag väljer nästa sim, Kontroll+1 till 9 väljer en sim i familjen, "
+     "Kontroll+F slår på eller av att kameran följer den valda simmen. Kontroll+E säger vad den valda simmen gör "
+     "och behöver, Kontroll+N ändrar hur mycket berättaren säger. P pausar och läser upp tid och pengar. "
+     "Kontroll+Pil upp och Kontroll+Pil ned läser detaljerna, Kontroll+Pil vänster och Kontroll+Pil höger växlar "
+     "mellan detaljer och händelser."},
     {Str::KeysPlacing,
-     "Tabb och Skift+Tabb går igenom platserna där den får plats och kan användas, de bästa först; Page Down och "
-     "Page Up byter rum; komma och punkt vrider den på samma plats. Enter köper den där, Escape avbryter, R "
-     "upprepar. Kontroll+Pil upp och Kontroll+Pil ned läser platsens detaljer och vad mer som kontrollerades."},
+     "Page Down och Page Up går igenom platserna där den får plats och kan användas, de bästa först; Kontroll "
+     "tillsammans med dem byter rum; Skift tillsammans med dem, eller komma och punkt, vrider den på samma "
+     "plats. Enter köper den där, Escape avbryter, R upprepar. Kontroll+Pil upp och Kontroll+Pil ned läser "
+     "platsens detaljer och vad mer som kontrollerades."},
     {Str::KeysBuy,
      "Piltangenterna går igenom katalogen; en produkt läser upp pris och beskrivning, Kontroll+Pil upp och "
-     "Kontroll+Pil ned allt om den. Enter på en produkt börjar placera den där den får plats och kan användas. I "
-     "föremål efter sort eller efter rum (Tabb) plockar Enter på ett föremål på tomten upp det för att flytta "
-     "det, sedan säljer Delete det."},
+     "Kontroll+Pil ned allt om den. Enter på en produkt börjar placera den där den får plats och kan användas. "
+     "Page Down och Page Up går igenom tomtens föremål, Skift tillsammans med dem sorterna, Kontroll tillsammans "
+     "med dem rummen; Enter på ett föremål plockar upp det för att flytta det, sedan säljer Delete det."},
     {Str::KeysMenu, "Pil upp och Pil ned väljer en interaktion, Enter utför den, Escape går tillbaka."},
     {Str::UnsupportedBuild, "Tillgänglighet för The Sims: spelversionen stöds inte, modden är avstängd"},
     // Control state
@@ -726,8 +727,8 @@ const Translation kEntries[] = {
     {Str::BuildNoRooms, "inga rum på den här våningen eller under ännu"},
     {Str::BuildRoomJump, "%s, %d gånger %d, i nordvästra hörnet"},
     {Str::KeysRoomJump,
-     "Tabb och Skift+Tabb hoppar till nästa eller föregående rum, i nordvästra hörnet; på en övre våning till "
-     "rummen under."},
+     "Tabb och Skift+Tabb, eller Kontroll+Page Down och Page Up, hoppar till nästa eller föregående rum, i "
+     "nordvästra hörnet; på en övre våning till rummen under."},
     // Stairs
     {Str::StairsClimb, "går upp mot %s"},
     {Str::StairsTop, "når våningen ovanför vid ruta %d, %d"},
@@ -760,7 +761,7 @@ const Translation kEntries[] = {
     {Str::FreeNoFit, "får inte plats: %s"},
     {Str::KeysPlacingFree,
      "Piltangenterna flyttar den en ruta i taget, med Skift fem, och säger om den får plats; komma och punkt "
-     "vrider den, Enter ställer den där, Tabb går tillbaka till platserna."},
+     "vrider den, Enter ställer den där, Page Down går tillbaka till platserna."},
     // Sim card
     {Str::BioFor, "Bakgrund för %s"},
     // Key help

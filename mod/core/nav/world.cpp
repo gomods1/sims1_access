@@ -80,6 +80,7 @@ enum class Mode { Category, Room };
 Mode g_mode = Mode::Category;
 int g_openKind = 0;          // the kind open in "things by kind" (category + 1), 0: the kinds
 int g_openRoom = 0;          // the room open in "things by room" (room id + 1), 0: the rooms
+Ptr g_lastGroup = kKindsGroup;  // the list a kind or room was opened in last: PageUp/PageDown's
 int g_focusId = -1;          // object id of the thing focus was last on
 int g_boughtId = -1;         // object id of the last purchase ("recién comprado")
 std::map<int, std::vector<std::string>> g_details;  // object id -> its details, from the last list
@@ -320,6 +321,7 @@ void Reset() {
     g_mode = Mode::Category;
     g_openKind = 0;
     g_openRoom = 0;
+    g_lastGroup = kKindsGroup;
     g_focusId = -1;
     g_details.clear();
     g_lotAt = 0;
@@ -409,9 +411,36 @@ std::string LevelName(Ptr group) {
 
 void Open(Ptr group, int number) {
     g_lotAt = 0;  // read the lot again: what is in the kind or room now
+    g_lastGroup = group;
     if (group == kKindsGroup) g_openKind = number;
     if (group == kRoomsGroup) g_openRoom = number;
 }
+
+int Step(Ptr group, int delta) {
+    const Lot& lot = CachedLot();
+    std::vector<int> numbers;  // the kinds or rooms that have things, in their list's order
+    if (group == kKindsGroup) {
+        for (int c = 0; c < kCategoryCount; c++)
+            if (!InCategory(lot, c).empty()) numbers.push_back(c + 1);
+    } else {
+        for (const rooms::NamedRoom* room : RoomsByDistance(lot))
+            if (!InRoom(lot, room->id).empty()) numbers.push_back(room->id + 1);
+    }
+    if (numbers.empty()) return 0;
+    int open = group == kKindsGroup ? g_openKind : g_openRoom;
+    int n = (int)numbers.size(), at = -1;
+    for (int i = 0; i < n; i++)
+        if (numbers[i] == open) at = i;
+    // From the list itself: the first kind, or the selected Sim's room (rooms come nearest first).
+    if (at < 0) return group == kRoomsGroup || delta > 0 ? numbers.front() : numbers.back();
+    return numbers[((at + delta) % n + n) % n];
+}
+
+int OpenNumber(Ptr group) { return group == kKindsGroup ? g_openKind : group == kRoomsGroup ? g_openRoom : 0; }
+
+Ptr LastGroup() { return g_lastGroup; }
+
+int FocusedId() { return g_focusId; }
 
 int Close(Ptr group) {
     int* open = group == kKindsGroup ? &g_openKind : group == kRoomsGroup ? &g_openRoom : nullptr;

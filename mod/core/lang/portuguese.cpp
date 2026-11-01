@@ -21,23 +21,23 @@ const Translation kEntries[] = {
      "Tab e Shift+Tab percorrem os grupos: a linha de status, as necessidades, a família, a fila de ações, "
      "objetos por tipo, objetos por cômodo e depois os painéis do jogo; as setas se movem dentro de um grupo e, "
      "em uma página de configurações, as setas para a esquerda e para a direita mudam um controle deslizante ou "
-     "seletor. Em objetos por tipo ou por cômodo, Enter abre um tipo ou um cômodo, os objetos vêm do mais "
-     "próximo ao mais distante e a câmera vai até cada um, Backspace volta; Enter em um objeto abre as "
-     "interações dele, Control+Enter caminha até lá. R repete. Espaço seleciona o próximo Sim, Control+1 a 9 "
+     "seletor. Page Down e Page Up percorrem os objetos do lote, do mais próximo ao mais distante, e a câmera "
+     "vai até cada um; Shift com elas muda o tipo de objeto, Control com elas o cômodo. Enter em um objeto abre "
+     "as interações dele, Control+Enter caminha até lá. R repete. Espaço seleciona o próximo Sim, Control+1 a 9 "
      "selecionam um Sim da família, Control+F faz a câmera seguir ou não o Sim selecionado. Control+E diz o que "
      "o Sim selecionado faz e do que precisa, Control+N muda quanto o narrador fala. P pausa e lê a hora e o "
      "dinheiro. Control+Seta para cima e Control+Seta para baixo leem os detalhes, Control+Seta para a esquerda "
      "e Control+Seta para a direita alternam entre detalhes e eventos."},
     {Str::KeysPlacing,
-     "Tab e Shift+Tab percorrem os lugares onde o objeto cabe e pode ser usado, os melhores primeiro; Page Down "
-     "e Page Up mudam de cômodo; vírgula e ponto giram o objeto no mesmo lugar. Enter compra ali, Esc cancela, R "
-     "repete. Control+Seta para cima e Control+Seta para baixo leem os detalhes do lugar e o que mais foi "
-     "verificado."},
+     "Page Down e Page Up percorrem os lugares onde o objeto cabe e pode ser usado, os melhores primeiro; "
+     "Control com elas muda de cômodo; Shift com elas, ou vírgula e ponto, giram o objeto no mesmo lugar. Enter "
+     "compra ali, Esc cancela, R repete. Control+Seta para cima e Control+Seta para baixo leem os detalhes do "
+     "lugar e o que mais foi verificado."},
     {Str::KeysBuy,
      "As setas percorrem o catálogo; um produto diz seu preço e sua descrição, Control+Seta para cima e "
      "Control+Seta para baixo, tudo sobre ele. Enter em um produto começa a posicioná-lo onde ele cabe e pode "
-     "ser usado. Em objetos por tipo ou por cômodo (Tab), Enter em um objeto do lote o pega para movê-lo, e "
-     "Delete o vende."},
+     "ser usado. Page Down e Page Up percorrem os objetos do lote, Shift com elas os tipos, Control com elas os "
+     "cômodos; Enter em um objeto o pega para movê-lo, e Delete o vende."},
     {Str::KeysMenu, "As setas para cima e para baixo escolhem uma interação, Enter a executa, Esc volta."},
     {Str::UnsupportedBuild, "Acessibilidade para The Sims: versão do jogo não suportada, mod desativado"},
     // Control state
@@ -731,8 +731,8 @@ const Translation kEntries[] = {
     {Str::BuildNoRooms, "ainda não há cômodos neste andar nem abaixo"},
     {Str::BuildRoomJump, "%s, %d por %d, no canto noroeste"},
     {Str::KeysRoomJump,
-     "Tab e Shift+Tab pulam para o cômodo seguinte ou anterior, no canto noroeste; num andar de cima, para os "
-     "cômodos de baixo."},
+     "Tab e Shift+Tab, ou Control+Page Down e Page Up, pulam para o cômodo seguinte ou anterior, no canto "
+     "noroeste; num andar de cima, para os cômodos de baixo."},
     // Stairs
     {Str::StairsClimb, "sobe para o %s"},
     {Str::StairsTop, "chega ao andar de cima no quadrado %d, %d"},
@@ -764,7 +764,7 @@ const Translation kEntries[] = {
     {Str::FreeNoFit, "não cabe: %s"},
     {Str::KeysPlacingFree,
      "As setas o movem de quadrado em quadrado, com Shift de cinco em cinco, dizendo se cabe ali; vírgula e "
-     "ponto o giram, Enter o coloca ali, Tab volta aos lugares."},
+     "ponto o giram, Enter o coloca ali, Page Down volta aos lugares."},
     // Sim card
     {Str::BioFor, "Biografia de %s"},
     // Key help

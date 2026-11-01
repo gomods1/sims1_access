@@ -46,6 +46,10 @@ void MoveToEdge(bool last);  // first/last item in the current group
 void NextGroup(int delta);   // previous/next group (wraps)
 bool Back();                 // Backspace: up a level (a kind's or room's things to the kinds or
                              // rooms); false at a top level
+// PageUp/PageDown in the lot view: the next thing of the kind or room chosen last (Thing), the
+// next kind (Shift) or room (Ctrl), opened in its group with focus on its first thing.
+enum class Browse { Thing, Kind, Room };
+void BrowseThings(Browse how, int delta);
 void Activate();             // press the focused item
 bool Adjust(int delta);      // change the focused value (a slider, a value picker, a personality
                              // bar); false if the focus holds none

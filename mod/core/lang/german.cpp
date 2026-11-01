@@ -22,24 +22,25 @@ const Translation kEntries[] = {
      "Tab und Umschalt+Tab gehen die Gruppen durch: die Statuszeile, die Bedürfnisse, die Familie, die "
      "Aktionswarteschlange, Objekte nach Art, Objekte nach Raum, dann die Fenster des Spiels; die Pfeiltasten "
      "bewegen innerhalb einer Gruppe, und auf einer Einstellungsseite ändern Pfeil nach links und rechts einen "
-     "Schieberegler oder ein Auswahlfeld. In Objekte nach Art oder nach Raum öffnet Eingabe eine Art oder einen "
-     "Raum, seine Objekte kommen der Nähe nach und die Kamera fährt zu jedem, Rücktaste geht zurück; Eingabe auf "
-     "einem Objekt öffnet seine Interaktionen, Strg+Eingabe geht dorthin. R wiederholt. Die Leertaste wählt den "
-     "nächsten Sim, Strg+1 bis 9 wählen einen Sim der Familie, Strg+F lässt die Kamera dem ausgewählten Sim "
-     "folgen oder nicht. Strg+E sagt, was der ausgewählte Sim tut und braucht, Strg+N ändert, wie viel der "
-     "Erzähler spricht. P pausiert und liest Uhrzeit und Geld. Strg+Pfeil nach oben und Strg+Pfeil nach unten "
-     "lesen die Details, Strg+Pfeil nach links und Strg+Pfeil nach rechts wechseln zwischen Details und "
-     "Ereignissen."},
+     "Schieberegler oder ein Auswahlfeld. Bild ab und Bild auf gehen die Objekte des Grundstücks durch, die "
+     "nächsten zuerst, und die Kamera fährt zu jedem; Umschalt mit ihnen wechselt die Art des Objekts, Strg mit "
+     "ihnen den Raum. Eingabe auf einem Objekt öffnet seine Interaktionen, Strg+Eingabe geht dorthin. R "
+     "wiederholt. Die Leertaste wählt den nächsten Sim, Strg+1 bis 9 wählen einen Sim der Familie, Strg+F lässt "
+     "die Kamera dem ausgewählten Sim folgen oder nicht. Strg+E sagt, was der ausgewählte Sim tut und braucht, "
+     "Strg+N ändert, wie viel der Erzähler spricht. P pausiert und liest Uhrzeit und Geld. Strg+Pfeil nach oben "
+     "und Strg+Pfeil nach unten lesen die Details, Strg+Pfeil nach links und Strg+Pfeil nach rechts wechseln "
+     "zwischen Details und Ereignissen."},
     {Str::KeysPlacing,
-     "Tab und Umschalt+Tab gehen die Plätze durch, an denen es passt und benutzt werden kann, die besten zuerst; "
-     "Bild ab und Bild auf wechseln den Raum; Komma und Punkt drehen es auf demselben Platz. Eingabe kauft es "
-     "dort, Esc bricht ab, R wiederholt. Strg+Pfeil nach oben und Strg+Pfeil nach unten lesen die Details des "
-     "Platzes und was sonst noch geprüft wurde."},
+     "Bild ab und Bild auf gehen die Plätze durch, an denen es passt und benutzt werden kann, die besten zuerst; "
+     "Strg mit ihnen wechselt den Raum; Umschalt mit ihnen, oder Komma und Punkt, drehen es auf demselben Platz. "
+     "Eingabe kauft es dort, Esc bricht ab, R wiederholt. Strg+Pfeil nach oben und Strg+Pfeil nach unten lesen "
+     "die Details des Platzes und was sonst noch geprüft wurde."},
     {Str::KeysBuy,
      "Pfeiltasten gehen durch den Katalog; ein Produkt nennt Preis und Beschreibung, Strg+Pfeil nach oben und "
      "Strg+Pfeil nach unten alles darüber. Eingabe auf einem Produkt beginnt, es dort zu platzieren, wo es passt "
-     "und benutzt werden kann. In Objekte nach Art oder nach Raum (Tab) hebt Eingabe auf einem Objekt des "
-     "Grundstücks es zum Verschieben auf, Entf verkauft es dann."},
+     "und benutzt werden kann. Bild ab und Bild auf gehen die Objekte des Grundstücks durch, Umschalt mit ihnen "
+     "die Arten, Strg mit ihnen die Räume; Eingabe auf einem Objekt hebt es zum Verschieben auf, Entf verkauft "
+     "es dann."},
     {Str::KeysMenu, "Pfeil nach oben und unten wählen eine Interaktion, Eingabe führt sie aus, Esc geht zurück."},
     {Str::UnsupportedBuild, "Barrierefreiheit für Die Sims: nicht unterstützte Spielversion, Mod deaktiviert"},
     // Control state
@@ -738,8 +739,8 @@ const Translation kEntries[] = {
     {Str::BuildNoRooms, "noch keine Räume auf dieser Etage oder darunter"},
     {Str::BuildRoomJump, "%s, %d mal %d, an seiner Nordwestecke"},
     {Str::KeysRoomJump,
-     "Tab und Umschalt+Tab springen zum nächsten oder vorigen Raum, an seine Nordwestecke; in einem oberen "
-     "Stockwerk zu den Räumen darunter."},
+     "Tab und Umschalt+Tab, oder Strg+Bild ab und Bild auf, springen zum nächsten oder vorigen Raum, an seine "
+     "Nordwestecke; in einem oberen Stockwerk zu den Räumen darunter."},
     // Stairs
     {Str::StairsClimb, "führt nach %s hinauf"},
     {Str::StairsTop, "endet oben auf Feld %d, %d"},
@@ -772,7 +773,7 @@ const Translation kEntries[] = {
     {Str::FreeNoFit, "passt nicht: %s"},
     {Str::KeysPlacingFree,
      "Die Pfeiltasten verschieben es Feld für Feld, mit Umschalt um fünf, und sagen, ob es dort passt; Komma und "
-     "Punkt drehen es, Eingabe stellt es dort hin, Tab kehrt zu den Plätzen zurück."},
+     "Punkt drehen es, Eingabe stellt es dort hin, Bild ab kehrt zu den Plätzen zurück."},
     // Sim card
     {Str::BioFor, "Biografie für %s"},
     // Key help

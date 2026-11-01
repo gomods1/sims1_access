@@ -10,7 +10,9 @@
 //   Enter                              build a wall from the start to here
 //   Shift+Enter                        build a room: the four walls of the start-to-here rectangle
 //   Ctrl+Enter or Delete               remove the walls from the start to here
-//   PageDown / PageUp                  choose a ready-made room size (said with its cost)
+//   Comma / period                     choose a ready-made room size (said with its cost)
+//   Tab / Shift+Tab, Ctrl+PageDown/Up  the next / previous room (its north-west corner)
+//   PageUp / PageDown                  the floor above / below
 //   Insert                             build that room with its north-west corner here
 //   Home                               back to the selected Sim
 //   R                                  where the cursor is, in full (details buffer: every part)

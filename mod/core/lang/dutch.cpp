@@ -20,24 +20,25 @@ const Translation kEntries[] = {
     {Str::KeysLot,
      "Tab en Shift+Tab lopen door de groepen: de statusregel, de behoeften, de familie, de actiewachtrij, "
      "voorwerpen per soort, voorwerpen per kamer, dan de vensters van het spel; pijltoetsen bewegen binnen een "
-     "groep, en op een instellingenpagina veranderen pijl links en rechts een schuifregelaar of waardekiezer. In "
-     "voorwerpen per soort of per kamer opent Enter een soort of een kamer, de voorwerpen komen de "
-     "dichtstbijzijnde eerst en de camera gaat naar elk voorwerp, Backspace gaat terug; Enter op een voorwerp "
+     "groep, en op een instellingenpagina veranderen pijl links en rechts een schuifregelaar of waardekiezer. "
+     "Page Down en Page Up lopen door de voorwerpen van het kavel, de dichtstbijzijnde eerst, en de camera gaat "
+     "naar elk voorwerp; Shift erbij verandert de soort voorwerp, Control erbij de kamer. Enter op een voorwerp "
      "opent de interacties, Control+Enter loopt erheen. R herhaalt. De spatiebalk selecteert de volgende Sim, "
      "Control+1 tot 9 selecteren een Sim van de familie, Control+F laat de camera de geselecteerde Sim wel of "
      "niet volgen. Control+E zegt wat de geselecteerde Sim doet en nodig heeft, Control+N verandert hoeveel de "
      "verteller zegt. P pauzeert en leest de tijd en het geld voor. Control+pijl omhoog en Control+pijl omlaag "
      "lezen de details, Control+pijl links en Control+pijl rechts wisselen tussen details en gebeurtenissen."},
     {Str::KeysPlacing,
-     "Tab en Shift+Tab lopen door de plekken waar het past en gebruikt kan worden, de beste eerst; Page Down en "
-     "Page Up wisselen van kamer; komma en punt draaien het op dezelfde plek. Enter koopt het daar, Escape "
-     "annuleert, R herhaalt. Control+pijl omhoog en Control+pijl omlaag lezen de details van de plek en wat er "
-     "verder is gecontroleerd."},
+     "Page Down en Page Up lopen door de plekken waar het past en gebruikt kan worden, de beste eerst; Control "
+     "erbij wisselt van kamer; Shift erbij, of komma en punt, draaien het op dezelfde plek. Enter koopt het "
+     "daar, Escape annuleert, R herhaalt. Control+pijl omhoog en Control+pijl omlaag lezen de details van de "
+     "plek en wat er verder is gecontroleerd."},
     {Str::KeysBuy,
      "Pijltoetsen lopen door de catalogus; een product noemt zijn prijs en beschrijving, Control+pijl omhoog en "
      "Control+pijl omlaag alles erover. Enter op een product begint het te plaatsen waar het past en gebruikt "
-     "kan worden. In voorwerpen per soort of per kamer (Tab) pakt Enter op een voorwerp van het kavel het op om "
-     "het te verplaatsen, Delete verkoopt het dan."},
+     "kan worden. Page Down en Page Up lopen door de voorwerpen van het kavel, Shift erbij door de soorten, "
+     "Control erbij door de kamers; Enter op een voorwerp pakt het op om het te verplaatsen, Delete verkoopt het "
+     "dan."},
     {Str::KeysMenu, "Pijl omhoog en omlaag kiezen een interactie, Enter voert die uit, Escape gaat terug."},
     {Str::UnsupportedBuild, "Toegankelijkheid voor De Sims: niet-ondersteunde spelversie, mod uitgeschakeld"},
     // Control state
@@ -737,8 +738,8 @@ const Translation kEntries[] = {
     {Str::BuildNoRooms, "nog geen kamers op deze verdieping of eronder"},
     {Str::BuildRoomJump, "%s, %d bij %d, in de noordwesthoek"},
     {Str::KeysRoomJump,
-     "Tab en Shift+Tab springen naar de volgende of vorige kamer, in de noordwesthoek; op een hogere verdieping "
-     "naar de kamers eronder."},
+     "Tab en Shift+Tab, of Control+Page Down en Page Up, springen naar de volgende of vorige kamer, in de "
+     "noordwesthoek; op een hogere verdieping naar de kamers eronder."},
     // Stairs
     {Str::StairsClimb, "loopt omhoog naar het %s"},
     {Str::StairsTop, "komt boven uit op vak %d, %d"},
@@ -771,7 +772,7 @@ const Translation kEntries[] = {
     {Str::FreeNoFit, "past niet: %s"},
     {Str::KeysPlacingFree,
      "De pijltjes verplaatsen het vak voor vak, met Shift vijf tegelijk, en zeggen of het past; komma en punt "
-     "draaien het, Enter zet het daar, Tab gaat terug naar de plekken."},
+     "draaien het, Enter zet het daar, Page Down gaat terug naar de plekken."},
     // Sim card
     {Str::BioFor, "Biografie van %s"},
     // Key help

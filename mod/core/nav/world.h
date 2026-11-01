@@ -2,7 +2,11 @@
 // view (NAVIGATION.md): "things by kind" (Sims, then the buy mode categories, then the rest) and
 // "things by room" (the selected Sim's room first). Their items are kinds or rooms; Enter opens
 // one (its things, nearest to the selected Sim first), Backspace goes back to the kinds or rooms.
-// The camera looks at the thing focused. On a thing:
+// The camera looks at the thing focused. From anywhere in the lot view (every mode):
+//   PageDown / PageUp              next / previous thing of the kind or room chosen last
+//   Shift+PageDown / Shift+PageUp  next / previous kind (its things, from the nearest)
+//   Ctrl+PageDown / Ctrl+PageUp    next / previous room (the first press: the selected Sim's)
+// On a thing:
 //   Enter        its interaction menu (buy mode: pick it up to move it)
 //   Ctrl+Enter   walk the selected Sim to its spot (into its room)
 #pragma once
@@ -27,6 +31,12 @@ std::string LevelName(game::Ptr group);  // the group's name: its open kind or r
 // the number of the kind or room that was open (0: none was).
 void Open(game::Ptr group, int number);
 int Close(game::Ptr group);
+// The kind or room after the open one (delta +1) or before it, skipping empty ones, wrapping; with
+// none open the first kind (the last going back) or the selected Sim's room. 0: the lot has none.
+int Step(game::Ptr group, int delta);
+int OpenNumber(game::Ptr group);  // the kind or room open in the group, 0: none
+game::Ptr LastGroup();            // the group a kind or room was opened in last (kKindsGroup at first)
+int FocusedId();                  // object id of the thing focus was last on, -1: none
 void Focus(int objectId);   // the thing focus is on: the camera looks at it; Enter acts on it
 bool HasFocus();            // a thing was focused and is still on the lot
 std::vector<std::string> DetailsOf(int objectId);  // a listed thing's details

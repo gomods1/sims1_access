@@ -20,24 +20,24 @@ const Translation kEntries[] = {
     {Str::KeysLot,
      "Tab e Maiuscole+Tab scorrono i gruppi: la riga di stato, i bisogni, la famiglia, la coda delle azioni, "
      "oggetti per tipo, oggetti per stanza, poi i pannelli del gioco; le frecce si spostano in un gruppo, e in "
-     "una pagina di impostazioni sinistra e destra cambiano un cursore o un selettore. In oggetti per tipo o per "
-     "stanza, Invio apre un tipo o una stanza, i suoi oggetti vengono dal più vicino e la telecamera va su "
-     "ognuno, Backspace torna indietro; Invio su un oggetto apre le sue interazioni, Control+Invio ci manda il "
-     "Sim. R ripete. Spazio seleziona il Sim successivo, da Control+1 a Control+9 selezionano un Sim della "
-     "famiglia, Control+F fa seguire o no il Sim selezionato dalla telecamera. Control+E dice cosa fa e di cosa "
-     "ha bisogno il Sim selezionato, Control+N cambia quanto parla il narratore. P mette in pausa e legge l'ora "
-     "e il denaro. Control+freccia su e Control+freccia giù leggono i dettagli, Control+freccia sinistra e "
-     "Control+freccia destra passano tra dettagli ed eventi."},
+     "una pagina di impostazioni sinistra e destra cambiano un cursore o un selettore. Pagina giù e Pagina su "
+     "scorrono gli oggetti del lotto, dal più vicino, e la telecamera va su ognuno; Maiuscole insieme a loro "
+     "cambia il tipo di oggetto, Control insieme a loro la stanza. Invio su un oggetto apre le sue interazioni, "
+     "Control+Invio ci manda il Sim. R ripete. Spazio seleziona il Sim successivo, da Control+1 a Control+9 "
+     "selezionano un Sim della famiglia, Control+F fa seguire o no il Sim selezionato dalla telecamera. "
+     "Control+E dice cosa fa e di cosa ha bisogno il Sim selezionato, Control+N cambia quanto parla il "
+     "narratore. P mette in pausa e legge l'ora e il denaro. Control+freccia su e Control+freccia giù leggono i "
+     "dettagli, Control+freccia sinistra e Control+freccia destra passano tra dettagli ed eventi."},
     {Str::KeysPlacing,
-     "Tab e Maiuscole+Tab scorrono le posizioni in cui l'oggetto ci sta e si può usare, prima le migliori; "
-     "Pagina giù e Pagina su cambiano stanza; virgola e punto lo ruotano nella stessa posizione. Invio lo compra "
-     "lì, Esc annulla, R ripete. Control+freccia su e Control+freccia giù leggono i dettagli della posizione e "
-     "cos'altro è stato controllato."},
+     "Pagina giù e Pagina su scorrono le posizioni in cui l'oggetto ci sta e si può usare, prima le migliori; "
+     "Control insieme a loro cambia stanza; Maiuscole insieme a loro, o virgola e punto, lo ruotano nella stessa "
+     "posizione. Invio lo compra lì, Esc annulla, R ripete. Control+freccia su e Control+freccia giù leggono i "
+     "dettagli della posizione e cos'altro è stato controllato."},
     {Str::KeysBuy,
      "Le frecce scorrono il catalogo; un prodotto dice il prezzo e la descrizione, Control+freccia su e "
      "Control+freccia giù tutto il resto. Invio su un prodotto inizia a posizionarlo dove ci sta e si può usare. "
-     "In oggetti per tipo o per stanza (Tab), Invio su un oggetto del lotto lo prende per spostarlo, poi Canc lo "
-     "vende."},
+     "Pagina giù e Pagina su scorrono gli oggetti del lotto, Maiuscole insieme a loro i tipi, Control insieme a "
+     "loro le stanze; Invio su un oggetto lo prende per spostarlo, poi Canc lo vende."},
     {Str::KeysMenu, "Su e giù scelgono un'interazione, Invio la esegue, Esc torna indietro."},
     {Str::UnsupportedBuild, "Accessibilità per The Sims: versione del gioco non supportata, mod disattivata"},
     // Control state
@@ -731,8 +731,8 @@ const Translation kEntries[] = {
     {Str::BuildNoRooms, "ancora nessuna stanza a questo piano o sotto"},
     {Str::BuildRoomJump, "%s, %d per %d, al suo angolo nord-ovest"},
     {Str::KeysRoomJump,
-     "Tab e Maiuscole+Tab saltano alla stanza successiva o precedente, al suo angolo nord-ovest; a un piano "
-     "superiore, alle stanze sottostanti."},
+     "Tab e Maiuscole+Tab, o Control+Pagina giù e Pagina su, saltano alla stanza successiva o precedente, al suo "
+     "angolo nord-ovest; a un piano superiore, alle stanze sottostanti."},
     // Stairs
     {Str::StairsClimb, "sale verso %s"},
     {Str::StairsTop, "arriva al piano di sopra nella casella %d, %d"},
@@ -764,7 +764,7 @@ const Translation kEntries[] = {
     {Str::FreeNoFit, "non ci sta: %s"},
     {Str::KeysPlacingFree,
      "Le frecce lo spostano di una casella alla volta, con Maiusc di cinque, e dicono se ci sta; virgola e punto "
-     "lo ruotano, Invio lo mette lì, Tab torna ai posti."},
+     "lo ruotano, Invio lo mette lì, Pagina giù torna ai posti."},
     // Sim card
     {Str::BioFor, "Bio per %s"},
     // Key help

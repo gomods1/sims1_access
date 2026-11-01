@@ -18,21 +18,22 @@
     X(KeysLot,                                                                                                         \
       "Tab and Shift+Tab go through the groups: the status line, the needs, the family, the action queue, things "     \
       "by kind, things by room, then the game's panels; the arrows move within a group, and on a settings page "       \
-      "left and right change a slider or value picker. In things by kind or by room, Enter opens a kind or a room, "   \
-      "its things come nearest first and the camera goes to each one, Backspace goes back; Enter on a thing opens "    \
-      "its interactions, Control+Enter walks there. R repeats. Space selects the next Sim, Control+1 to 9 select a "   \
-      "Sim of the family, Control+F makes the camera follow the selected Sim or not. Control+E says what the "         \
-      "selected Sim is doing and needs, Control+N changes how much the narrator says. P pauses and reads the time "    \
-      "and money. Control+Up and Control+Down read the details, Control+Left and Control+Right switch between "        \
-      "details and events.")                                                                                           \
+      "left and right change a slider or value picker. Page Down and Page Up go through the lot's things, nearest "    \
+      "first, and the camera goes to each one; Shift with them changes the kind of thing, Control with them the "      \
+      "room. Enter on a thing opens its interactions, Control+Enter walks there. R repeats. Space selects the "        \
+      "next Sim, Control+1 to 9 select a Sim of the family, Control+F makes the camera follow the selected Sim or "    \
+      "not. Control+E says what the selected Sim is doing and needs, Control+N changes how much the narrator "         \
+      "says. P pauses and reads the time and money. Control+Up and Control+Down read the details, Control+Left "       \
+      "and Control+Right switch between details and events.")                                                          \
     X(KeysPlacing,                                                                                                     \
-      "Tab and Shift+Tab go through the spots where it fits and can be used, best first; Page Down and Page Up "       \
-      "change room; comma and period turn it on the same spot. Enter buys it there, Escape cancels, R repeats. "       \
-      "Control+Up and Control+Down read the spot's details and what else was checked.")                                \
+      "Page Down and Page Up go through the spots where it fits and can be used, best first; Control with them "       \
+      "changes room; Shift with them, or comma and period, turn it on the same spot. Enter buys it there, Escape "     \
+      "cancels, R repeats. Control+Up and Control+Down read the spot's details and what else was checked.")            \
     X(KeysBuy,                                                                                                         \
       "Arrows go through the catalog; a product reads its price and description, Control+Up and Control+Down "         \
-      "everything about it. Enter on a product starts placing it where it fits and can be used. In things by kind "    \
-      "or by room (Tab), Enter on a thing of the lot picks it up to move it, Delete then sells it.")                   \
+      "everything about it. Enter on a product starts placing it where it fits and can be used. Page Down and "        \
+      "Page Up go through the lot's things, Shift with them the kinds, Control with them the rooms; Enter on a "       \
+      "thing picks it up to move it, Delete then sells it.")                                                           \
     X(KeysMenu, "Up and down choose an interaction, Enter does it, Escape goes back.")                                 \
     X(UnsupportedBuild, "Sims accessibility: unsupported game version, mod disabled")                                  \
     /* Control state */                                                                                                \
@@ -721,8 +722,8 @@
     X(BuildNoRooms, "no rooms on this floor or below yet")                                                           \
     X(BuildRoomJump, "%s, %d by %d, at its north-west corner")                                                       \
     X(KeysRoomJump,                                                                                                    \
-      "Tab and Shift+Tab jump to the next or previous room, at its north-west corner; on an upper floor, to the "      \
-      "rooms below.")                                                                                                  \
+      "Tab and Shift+Tab, or Control+Page Down and Page Up, jump to the next or previous room, at its north-west "     \
+      "corner; on an upper floor, to the rooms below.")                                                                \
     /* Stairs */                                                                                                     \
     X(StairsClimb, "climbs %s")                                                                                      \
     X(StairsTop, "reaches the upper floor at tile %d, %d")                                                           \
@@ -754,7 +755,7 @@
     X(FreeNoFit, "does not fit: %s")                                                                                 \
     X(KeysPlacingFree,                                                                                                 \
       "The arrows move it one tile at a time instead, Shift with them five, saying whether it fits there; comma "      \
-      "and period turn it, Enter puts it there, Tab goes back to the spots.")                                          \
+      "and period turn it, Enter puts it there, Page Down goes back to the spots.")                                    \
     /* Sim card */                                                                                                   \
     X(BioFor, "Bio for %s")                                                                                          \
     /* Key help */                                                                                                   \

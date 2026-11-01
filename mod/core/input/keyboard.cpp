@@ -45,12 +45,17 @@ namespace {
 //   Ctrl+Left / Ctrl+Right         previous / next review buffer
 //   PageUp/PageDown                a value control (slider, value picker, personality bar): one
 //                                  step up/down, like Right/Left
+//                                  lot view (every mode): previous/next thing of the kind or room
+//                                  chosen last (nav/world.h)
+//   Shift+PageUp/PageDown          lot view: previous/next kind of things
+//   Ctrl+PageUp/PageDown           lot view: previous/next room
 //   buy mode, while placing an object (nav/buy_mode.h, a spatial tool): arrows move it (Shift
-//   five), Tab/Shift+Tab the spots, PageDown/PageUp the rooms, comma/period turn it, Enter buys,
-//   Delete sells, Escape cancels, R repeats
+//   five), PageDown/PageUp (or Tab/Shift+Tab) the spots, Ctrl+ the rooms, Shift+ (or comma/period)
+//   turn it, Enter buys, Delete sells, Escape cancels, R repeats
 //   the build cursor (nav/build_mode.h, a spatial tool): arrows move (Shift five), Tab/Shift+Tab
-//   the rooms, PageUp/PageDown the floors, comma/period the ready-made room sizes, Insert builds
-//   one, Space marks, Enter builds, Delete or Ctrl+Enter removes, Home, R, Escape
+//   (or Ctrl+PageDown/PageUp) the rooms, PageUp/PageDown the floors, comma/period the ready-made
+//   room sizes, Insert builds one, Space marks, Enter builds, Delete or Ctrl+Enter removes, Home,
+//   R, Escape
 //   Ctrl+Enter                     lot view: walk to the thing last focused
 //   Escape                         close the interaction menu (otherwise the game's Escape)
 //   Ctrl+F1                        say the mod's keys for this screen
@@ -100,6 +105,13 @@ void Arrow(bool vertical, int delta) {
 // Placing an object (buy mode) is a spatial tool: it owns these keys while it holds one.
 bool PlacingKey(WPARAM vk, bool shift, bool ctrl) {
     namespace b = nav::buy;
+    if (vk == VK_NEXT || vk == VK_PRIOR) {  // the spots, as the lot's things: Ctrl the rooms, Shift the turns
+        int delta = vk == VK_NEXT ? +1 : -1;
+        if (ctrl) b::NextArea(delta);
+        else if (shift) b::NextTurn(delta);
+        else b::NextSpot(delta);
+        return true;
+    }
     if (ctrl) return false;
     int n = shift ? 5 : 1;
     switch (vk) {
@@ -108,7 +120,6 @@ bool PlacingKey(WPARAM vk, bool shift, bool ctrl) {
     case VK_LEFT: b::MoveFree(-n, 0); return true;
     case VK_RIGHT: b::MoveFree(n, 0); return true;
     case VK_TAB: g_swallowChar = '\t'; b::NextSpot(shift ? -1 : +1); return true;
-    case VK_NEXT: case VK_PRIOR: b::NextArea(vk == VK_NEXT ? +1 : -1); return true;
     case VK_OEM_COMMA: case VK_OEM_PERIOD:  // the game's own rotate keys, turning what is held
         g_swallowChar = vk == VK_OEM_COMMA ? (shift ? '<' : ',') : (shift ? '>' : '.');
         b::NextTurn(vk == VK_OEM_PERIOD ? +1 : -1);
@@ -131,8 +142,8 @@ bool BuildCursorKey(WPARAM vk, bool shift, bool ctrl) {
     case VK_SPACE: g_swallowChar = ' '; b::MarkStart(); return true;
     case VK_RETURN: g_swallowChar = ctrl ? 0x0a : 0x0d; b::Build(shift, ctrl); return true;
     case VK_DELETE: b::Build(false, true); return true;
-    case VK_NEXT: b::ChangeFloor(-1); return true;   // the bigger unit: the floor below / above
-    case VK_PRIOR: b::ChangeFloor(+1); return true;
+    case VK_NEXT: if (ctrl) b::NextRoom(+1); else b::ChangeFloor(-1); return true;   // Ctrl: the rooms, as
+    case VK_PRIOR: if (ctrl) b::NextRoom(-1); else b::ChangeFloor(+1); return true;  // the lot's things
     case VK_TAB: g_swallowChar = '\t'; b::NextRoom(shift ? -1 : +1); return true;  // its targets: the rooms
     case VK_OEM_COMMA: case VK_OEM_PERIOD:  // what it holds: the ready-made room sizes
         g_swallowChar = vk == VK_OEM_COMMA ? (shift ? '<' : ',') : (shift ? '>' : '.');
@@ -175,8 +186,13 @@ bool Dispatch(WPARAM vk, bool shift, bool ctrl) {
         g_swallowChar = '\t';
         nav::NextGroup(shift ? -1 : +1);
         return true;
-    case VK_PRIOR: case VK_NEXT:  // a value control's step, like Right/Left
-        return !ctrl && nav::Adjust(vk == VK_PRIOR ? +1 : -1);
+    case VK_PRIOR: case VK_NEXT: {
+        int delta = vk == VK_NEXT ? +1 : -1;
+        if (!ctrl && !shift && nav::Adjust(-delta)) return true;  // a value control's step, like Right/Left
+        if (!nav::LotViewActive()) return false;
+        nav::BrowseThings(ctrl ? nav::Browse::Room : shift ? nav::Browse::Kind : nav::Browse::Thing, delta);
+        return true;
+    }
     case '1': case '2': case '3': case '4': case '5': case '6': case '7': case '8': case '9':
         if (!ctrl) return false;
         g_swallowChar = vk;  // a posted digit still makes its character (a game speed key)

@@ -3,7 +3,9 @@
 Note (2026-09-29): the keys changed to the one model of `NAVIGATION.md` (the lot's things are the
 groups "objetos por tipo" / "objetos por habitación", placing uses Tab for spots, PageUp/PageDown for
 rooms, comma/period to turn; the build cursor Tab for rooms, PageUp/PageDown for floors, comma/period
-for ready-made sizes). Entries below describe the keys of their day.
+for ready-made sizes). Since 2026-10-29 the lot's things are on PageDown/PageUp again in every
+mode (Shift+ the kinds, Ctrl+ the rooms), placing's spots too (Ctrl+ rooms, Shift+ turns), and the
+build cursor's rooms also on Ctrl+PageDown/PageUp. Entries below describe the keys of their day.
 
 
 What the mod must eventually cover so a blind player can play the whole game by keyboard. The

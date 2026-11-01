@@ -20,24 +20,25 @@ const Translation kEntries[] = {
     {Str::KeysLot,
      "Tab i Shift+Tab przechodzą przez grupy: wiersz stanu, potrzeby, rodzinę, kolejkę działań, obiekty według "
      "rodzaju, obiekty według pokoju, potem panele gry; strzałki poruszają się w obrębie grupy, a na stronie "
-     "ustawień strzałki w lewo i w prawo zmieniają suwak lub selektor. W obiektach według rodzaju lub według "
-     "pokoju Enter otwiera rodzaj lub pokój, jego obiekty idą od najbliższego, a kamera przesuwa się do każdego "
-     "z nich, Backspace wraca; Enter na obiekcie otwiera jego działania, Control+Enter wysyła tam Sima. R "
-     "powtarza. Spacja wybiera następnego Sima, Control+1 do 9 wybierają Sima z rodziny, Control+F włącza lub "
-     "wyłącza śledzenie wybranego Sima przez kamerę. Control+E mówi, co robi i czego potrzebuje wybrany Sim, "
-     "Control+N zmienia, ile mówi narrator. P wstrzymuje grę i odczytuje godzinę oraz pieniądze. "
+     "ustawień strzałki w lewo i w prawo zmieniają suwak lub selektor. Page Down i Page Up przechodzą przez "
+     "obiekty na parceli, od najbliższego, a kamera przesuwa się do każdego z nich; Shift razem z nimi zmienia "
+     "rodzaj obiektu, Control razem z nimi pokój. Enter na obiekcie otwiera jego działania, Control+Enter wysyła "
+     "tam Sima. R powtarza. Spacja wybiera następnego Sima, Control+1 do 9 wybierają Sima z rodziny, Control+F "
+     "włącza lub wyłącza śledzenie wybranego Sima przez kamerę. Control+E mówi, co robi i czego potrzebuje "
+     "wybrany Sim, Control+N zmienia, ile mówi narrator. P wstrzymuje grę i odczytuje godzinę oraz pieniądze. "
      "Control+strzałka w górę i Control+strzałka w dół czytają szczegóły, Control+strzałka w lewo i "
      "Control+strzałka w prawo przełączają między szczegółami a zdarzeniami."},
     {Str::KeysPlacing,
-     "Tab i Shift+Tab przechodzą przez miejsca, w których obiekt się mieści i można go używać, najlepsze "
-     "najpierw; Page Down i Page Up zmieniają pokój; przecinek i kropka obracają obiekt w tym samym miejscu. "
-     "Enter kupuje go tam, Escape anuluje, R powtarza. Control+strzałka w górę i Control+strzałka w dół czytają "
-     "szczegóły miejsca i co jeszcze sprawdzono."},
+     "Page Down i Page Up przechodzą przez miejsca, w których obiekt się mieści i można go używać, najlepsze "
+     "najpierw; Control razem z nimi zmienia pokój; Shift razem z nimi albo przecinek i kropka obracają obiekt w "
+     "tym samym miejscu. Enter kupuje go tam, Escape anuluje, R powtarza. Control+strzałka w górę i "
+     "Control+strzałka w dół czytają szczegóły miejsca i co jeszcze sprawdzono."},
     {Str::KeysBuy,
      "Strzałki przechodzą przez katalog; produkt podaje cenę i opis, a Control+strzałka w górę i "
      "Control+strzałka w dół wszystko o nim. Enter na produkcie zaczyna ustawianie go tam, gdzie się mieści i "
-     "można go używać. W obiektach według rodzaju lub według pokoju (Tab) Enter na obiekcie na parceli podnosi "
-     "go, aby go przenieść, a Delete go wtedy sprzedaje."},
+     "można go używać. Page Down i Page Up przechodzą przez obiekty na parceli, Shift razem z nimi przez "
+     "rodzaje, Control razem z nimi przez pokoje; Enter na obiekcie podnosi go, aby go przenieść, a Delete go "
+     "wtedy sprzedaje."},
     {Str::KeysMenu, "Strzałki w górę i w dół wybierają działanie, Enter je wykonuje, Escape wraca."},
     {Str::UnsupportedBuild, "Moduł dostępności The Sims: nieobsługiwana wersja gry, mod wyłączony"},
     // Control state
@@ -727,8 +728,8 @@ const Translation kEntries[] = {
     {Str::BuildNoRooms, "na tym piętrze ani niżej nie ma jeszcze pokoi"},
     {Str::BuildRoomJump, "%s, %d na %d, w północno-zachodnim rogu"},
     {Str::KeysRoomJump,
-     "Tab i Shift+Tab przeskakują do następnego lub poprzedniego pokoju, do jego północno-zachodniego rogu; na "
-     "wyższym piętrze do pokoi poniżej."},
+     "Tab i Shift+Tab albo Control+Page Down i Page Up przeskakują do następnego lub poprzedniego pokoju, do "
+     "jego północno-zachodniego rogu; na wyższym piętrze do pokoi poniżej."},
     // Stairs
     {Str::StairsClimb, "w górę w kierunku %s"},
     {Str::StairsTop, "wychodzi na piętro na polu %d, %d"},
@@ -760,7 +761,7 @@ const Translation kEntries[] = {
     {Str::FreeNoFit, "nie mieści się: %s"},
     {Str::KeysPlacingFree,
      "Strzałki przesuwają go o jedno pole, z Shiftem o pięć, i mówią, czy się mieści; przecinek i kropka go "
-     "obracają, Enter stawia go tam, Tab wraca do miejsc."},
+     "obracają, Enter stawia go tam, Page Down wraca do miejsc."},
     // Sim card
     {Str::BioFor, "%s - charakterystyka"},
     // Key help

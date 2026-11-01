@@ -15,16 +15,16 @@ const Translation kEntries[] = {
      "Tab和Shift+Tab切換群組，方向鍵在群組內移動，Home和End移到群組的兩端，Enter執行；在地段物品的某個類型或房間上按Enter，會開啟其中的物品；退格鍵返回，R重複朗讀。在滑桿或選擇器上，左右方向"
      "鍵調整數值。Ctrl+上方向鍵和Ctrl+下方向鍵朗讀剛才所說內容的詳細資料，Ctrl+左方向鍵和Ctrl+右方向鍵在詳細資料和事件之間切換。"},
     {Str::KeysLot,
-     "Tab和Shift+Tab依序瀏覽各群組：狀態列、需求、家庭、動作佇列、依類型的物品、依房間的物品，然後是遊戲的面板；方向鍵在群組內移動，在設定頁面上，左右方向鍵調整滑桿或選擇器。在依類型或依房間的物品中，Ente"
-     "r開啟一個類型或房間，其中的物品由近到遠排列，畫面會移到每個物品，退格鍵返回；在物品上按Enter開啟它的互動，Ctrl+Enter讓模擬人物走過去。R重複朗讀。空白鍵選擇下一個模擬人物，Ctrl+1到9選擇家庭中"
-     "的某個模擬人物，Ctrl+F切換畫面是否跟隨選取的模擬人物。Ctrl+E朗讀選取的模擬人物正在做什麼和需要什麼，Ctrl+N改變旁白說話的多寡。P暫停並朗讀時間和資金。Ctrl+上方向鍵和Ctrl+下方向鍵朗讀詳細"
-     "資料，Ctrl+左方向鍵和Ctrl+右方向鍵在詳細資料和事件之間切換。"},
+     "Tab和Shift+Tab依序瀏覽各群組：狀態列、需求、家庭、動作佇列、依類型的物品、依房間的物品，然後是遊戲的面板；方向鍵在群組內移動，在設定頁面上，左右方向鍵調整滑桿或選擇器。Page Down和Page "
+     "Up由近到遠瀏覽地段上的物品，畫面會移到每個物品；同時按住Shift切換物品類型，按住Ctrl切換房間。在物品上按Enter開啟它的互動，Ctrl+Enter讓模擬人物走過去。R重複朗讀。空白鍵選擇下一個模擬人物，"
+     "Ctrl+1到9選擇家庭中的某個模擬人物，Ctrl+F切換畫面是否跟隨選取的模擬人物。Ctrl+E朗讀選取的模擬人物正在做什麼和需要什麼，Ctrl+N改變旁白說話的多寡。P暫停並朗讀時間和資金。Ctrl+上方向鍵和"
+     "Ctrl+下方向鍵朗讀詳細資料，Ctrl+左方向鍵和Ctrl+右方向鍵在詳細資料和事件之間切換。"},
     {Str::KeysPlacing,
-     "Tab和Shift+Tab瀏覽放得下又能使用的位置，最好的排在前面；Page Down和Page Up切換房間；逗號和句號在同一位置轉向。Enter在該處購買，Esc取消，R重複朗讀。Ctrl+上方向鍵和Ctrl+"
-     "下方向鍵朗讀該位置的詳細資料，以及其他檢查結果。"},
+     "Page Down和Page Up瀏覽放得下又能使用的位置，最好的排在前面；同時按住Ctrl切換房間；同時按住Shift，或用逗號和句號，在同一位置轉向。Enter在該處購買，Esc取消，R重複朗讀。Ctrl+上方"
+     "向鍵和Ctrl+下方向鍵朗讀該位置的詳細資料，以及其他檢查結果。"},
     {Str::KeysBuy,
-     "方向鍵瀏覽目錄；商品會讀出價格和說明，Ctrl+上方向鍵和Ctrl+下方向鍵讀出它的所有資訊。在商品上按Enter，開始把它擺在放得下又能使用的地方。在依類型或依房間的物品中（Tab），在地段上的物品上按Enter"
-     "拿起它來移動，接著按Delete就能賣掉。"},
+     "方向鍵瀏覽目錄；商品會讀出價格和說明，Ctrl+上方向鍵和Ctrl+下方向鍵讀出它的所有資訊。在商品上按Enter，開始把它擺在放得下又能使用的地方。Page Down和Page "
+     "Up瀏覽地段上的物品，同時按住Shift切換類型，按住Ctrl切換房間；在物品上按Enter拿起它來移動，接著按Delete就能賣掉。"},
     {Str::KeysMenu, "上下方向鍵選擇互動，Enter執行，Esc返回。"},
     {Str::UnsupportedBuild, "模擬市民無障礙模組：不支援的遊戲版本，模組已停用"},
     // Control state
@@ -634,7 +634,7 @@ const Translation kEntries[] = {
     {Str::BuildAboveNothing, "下面沒有建造任何東西"},
     {Str::BuildNoRooms, "這一層和下面還沒有房間"},
     {Str::BuildRoomJump, "%s，%d×%d，在它的西北角"},
-    {Str::KeysRoomJump, "Tab 和 Shift+Tab 跳到下一個或上一個房間的西北角；在樓上時，跳到下面的房間。"},
+    {Str::KeysRoomJump, "Tab 和 Shift+Tab，或 Ctrl+Page Down 和 Page Up，跳到下一個或上一個房間的西北角；在樓上時，跳到下面的房間。"},
     // Stairs
     {Str::StairsClimb, "向%s上"},
     {Str::StairsTop, "在格子%d, %d到達樓上"},
@@ -659,7 +659,7 @@ const Translation kEntries[] = {
     // Placing: free cursor
     {Str::FreeFits, "放得下"},
     {Str::FreeNoFit, "放不下：%s"},
-    {Str::KeysPlacingFree, "方向鍵一次移動一格，按住 Shift 一次五格，並說明能否放下；逗號和句號旋轉，Enter 放在這裡，Tab 回到位置清單。"},
+    {Str::KeysPlacingFree, "方向鍵一次移動一格，按住 Shift 一次五格，並說明能否放下；逗號和句號旋轉，Enter 放在這裡，Page Down 回到位置清單。"},
     // Sim card
     {Str::BioFor, "%s的小傳"},
     // Key help
