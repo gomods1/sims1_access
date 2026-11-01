@@ -40,6 +40,8 @@ namespace {
 //                                  picks it up) (Space is typing while a text field is shown)
 //   Backspace                      back up a level (a kind's or room's things to the kinds or rooms)
 //   R                              repeat the focused item (typing while a text field is shown)
+//   on the text field that takes typing (focus on it gives it the typing): Left/Right (Ctrl: by
+//   word), Home/End and Delete go to the field and the character at the caret is spoken
 //   Ctrl+Up / Ctrl+Down            review buffers (nav/buffers.h): the next / previous line of the
 //                                  current buffer (details of what was spoken, or events)
 //   Ctrl+Left / Ctrl+Right         previous / next review buffer
@@ -165,6 +167,8 @@ bool Dispatch(WPARAM vk, bool shift, bool ctrl) {
     bool typing = nav::TextEntryActive();
     if (nav::build::Active() && !typing && BuildCursorKey(vk, shift, ctrl)) return true;
     if (!typing && nav::LotViewActive() && nav::buy::Placing() && PlacingKey(vk, shift, ctrl)) return true;
+    // On the field that takes typing, Left/Right/Home/End/Delete edit it (the field moves its caret).
+    if (typing && !nav::cheats::Entering() && nav::text::OnCaretKey(vk, ctrl, nav::FocusedWidget())) return false;
     switch (vk) {
     case VK_UP:
         if (ctrl) nav::buffers::Deeper();

@@ -65,6 +65,8 @@ struct State {
     // the tick once the tool is there (a style that is really an object brings the buy tool).
     uintptr_t pressed = 0;
     ULONGLONG pressedAt = 0;
+    int lastRoom = -1;       // the room the cursor's line last named (said again when it changes)
+    int lastRoomLevel = 0;
 };
 
 State g;
@@ -224,28 +226,53 @@ std::string PlanLine() {
 
 Tile TileSE(Corner c) { return Tile{c.x, c.y}; }
 
-std::string ShortLine() {
-    std::string line = util::Format(S(Str::BuildCorner), g.cursor.x, g.cursor.y);
-    if (!game::CornerBuildable(g.cursor)) line += ", " + std::string(S(Str::BuildNotBuildableHere));
+// What is at the cursor, in the order a builder needs it (the tester, 2026-10-31: coordinates
+// first made the line hard to filter): what stands there, the room when the cursor has just
+// entered it, walls or floor, whether it can be built on, the plan from the start; the
+// coordinates last (R and the details buffer have them too).
+std::string ShortLine(bool withRoom = false) {
+    std::vector<std::string> parts;
+    std::string object = ObjectOn(TileSE(g.cursor));
+    if (!object.empty()) parts.push_back(object);
+    if (withRoom) {
+        std::string room = RoomName(TileSE(g.cursor));
+        if (!room.empty()) parts.push_back(room);
+    }
+    if (g.floors && !g.paper && !g.pool && !g.terrain) {
+        parts.push_back(S(game::HasFloor(g.level, g.cursor.x, g.cursor.y) ? Str::FloorHere : Str::FloorNone));
+    } else {
+        std::vector<Str> walls = WallsAtCorner(g.cursor);
+        if (!walls.empty()) parts.push_back(util::Format(S(Str::BuildWallsHere), JoinDirections(walls).c_str()));
+    }
+    if (!game::CornerBuildable(g.cursor)) parts.push_back(S(Str::BuildNotBuildableHere));
     uint8_t h[4];
     if (game::TileHeights(g.cursor.x, g.cursor.y, h)) {
         bool sloped = h[0] != h[1] || h[0] != h[2] || h[0] != h[3];
-        if (g.terrain) line += ", " + util::Format(S(Str::TerrainHeight), (int)std::min({h[0], h[1], h[2], h[3]}));
-        if (sloped) line += ", " + std::string(S(Str::TerrainSloped));
+        if (g.terrain) parts.push_back(util::Format(S(Str::TerrainHeight), (int)std::min({h[0], h[1], h[2], h[3]})));
+        if (sloped) parts.push_back(S(Str::TerrainSloped));
     }
-    if (g.floors && !g.paper && !g.pool && !g.terrain) {
-        line += ", " + std::string(S(game::HasFloor(g.level, g.cursor.x, g.cursor.y) ? Str::FloorHere : Str::FloorNone));
-    } else {
-        std::vector<Str> walls = WallsAtCorner(g.cursor);
-        if (!walls.empty()) line += ", " + util::Format(S(Str::BuildWallsHere), JoinDirections(walls).c_str());
-    }
-    std::string object = ObjectOn(TileSE(g.cursor));
-    if (!object.empty()) line += ", " + object;
     std::string below = BelowLine(TileSE(g.cursor));
-    if (!below.empty()) line += ", " + below;
+    if (!below.empty()) parts.push_back(below);
+    std::string line;
+    for (const std::string& p : parts) line += (line.empty() ? "" : ", ") + p;
     std::string plan = PlanLine();
-    if (!plan.empty()) line += ". " + plan;
-    return line;
+    if (!plan.empty()) line += (line.empty() ? "" : ". ") + plan;
+    return line + (line.empty() ? "" : ". ") + util::Format(S(Str::BuildCorner), g.cursor.x, g.cursor.y);
+}
+
+// The room under the cursor changed since it was last said.
+bool RoomChanged() {
+    int room = game::RoomAt(g.level, g.cursor.x, g.cursor.y);
+    bool changed = room != g.lastRoom || g.level != g.lastRoomLevel;
+    g.lastRoom = room;
+    g.lastRoomLevel = g.level;
+    return changed;
+}
+
+// The line with the room always named (the cursor starts or changes floor).
+std::string LineWithRoom() {
+    RoomChanged();
+    return ShortLine(true);
 }
 
 std::vector<std::string> FullLines() {
@@ -264,7 +291,7 @@ std::vector<std::string> FullLines() {
 void SayShort() {
     std::vector<std::string> lines = FullLines();
     buffers::SetDetails(lines);
-    speech::Say(ShortLine());
+    speech::Say(ShortLine(RoomChanged()));
 }
 
 // ---- Building ------------------------------------------------------------------------------
@@ -448,7 +475,7 @@ bool Start(uintptr_t productButton) {
               : g.floors ? Str::FloorCursorStart : Str::BuildCursorStart;
     // The floor it works on: choosing a tool puts the view back on the first floor.
     speech::Say(util::Format(S(start), g.style.c_str()) + " " + util::Format(S(Str::FloorNumber), g.level) + ". " +
-                ShortLine());
+                LineWithRoom());
     return true;
 }
 
@@ -749,7 +776,7 @@ void ChangeFloor(int delta) {
     g.rooms = rooms::NameRooms(game::LotObjects());
     std::vector<std::string> lines = FullLines();
     buffers::SetDetails(lines);
-    speech::Say(util::Format(S(Str::FloorNumber), g.level) + ". " + ShortLine());
+    speech::Say(util::Format(S(Str::FloorNumber), g.level) + ". " + LineWithRoom());
 }
 
 // Ctrl+PageDown / Ctrl+PageUp: the rooms of this floor (on an upper floor, of the floor below,
@@ -795,6 +822,7 @@ void NextRoom(int delta) {
                                     b.x1 - b.x0 + 1, b.y1 - b.y0 + 1);
     std::vector<std::string> lines = FullLines();
     buffers::SetDetails(lines);
+    RoomChanged();  // the jump names the room already
     speech::Say(line + ". " + ShortLine());
 }
 

@@ -14,4 +14,16 @@ void OnChar(WPARAM ch);
 // speaks the character about to be deleted.
 void OnBackspace();
 
+// Gives the game's typing to the field the mod's focus is on (the bio after the name field: the
+// letters used to go on into the name).
+void TakeTyping(uintptr_t field);
+
+// Left/Right (Ctrl: by word), Home/End, Delete while the mod's focus is on the field that takes
+// typing: true when the key is left to the field, which moves its caret; the mod then speaks the
+// character (or word) at the caret, or the one Delete removes.
+bool OnCaretKey(WPARAM vk, bool ctrl, uintptr_t focusedWidget);
+
+// Speaks where a caret key left the caret, once the game has handled it.
+void Tick();
+
 }  // namespace nav::text

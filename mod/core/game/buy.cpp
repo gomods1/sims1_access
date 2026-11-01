@@ -4,6 +4,7 @@
 #include <cstring>
 
 #include "../util/log.h"
+#include "../util/strings.h"
 #include "../util/text.h"
 #include "addresses.h"
 #include "hooks.h"
@@ -319,6 +320,9 @@ std::vector<int> FreeSlotsFor(Ptr surface) {
 }
 
 std::string PlacementErrorText(int code) {
+    // "Must place on a table or surface": most translations say "must be at a different height"
+    // (Spanish "¡Debe estar a diferente altura!"), which sent a player looking for another floor.
+    if (code == kErrorNeedsSurface) return S(Str::PlaceOnSurface);
     typedef void(__cdecl * LoadFn)();
     typedef const char*(__thiscall * GetFn)(void*, int, char);
     if (code <= 0 || !FunctionOk(addr::kStringSetGetAt) || !FunctionOk(addr::kLoadPlacementErrors)) return "";

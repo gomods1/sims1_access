@@ -411,6 +411,9 @@ namespace winmgr {
 constexpr int kInputRoot = 0x24;   // cTSWin*: the widget that owns input: a screen, a modal
                                    // dialog, a panel inside them, or the text field being typed in
 constexpr int kMainWindow = 0x2c;  // cTSMainWindowW95*
+// thiscall cTSWin* (cTSWin* w) on the manager: gives `w` the input (+0x24), sending the old one
+// message 0x14 and `w` 0x15; what a click on a text field ends in. The caret stays where it was.
+constexpr Va kSetInput = 0x6dbed0;
 }  // namespace winmgr
 
 // ---- cTSWin (every widget) ----------------------------------------------------------------

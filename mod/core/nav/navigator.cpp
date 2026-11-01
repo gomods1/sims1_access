@@ -31,6 +31,7 @@
 #include "narrator.h"
 #include "screens.h"
 #include "sim_watch.h"
+#include "text_entry.h"
 #include "tutorial.h"
 #include "world.h"
 
@@ -121,6 +122,7 @@ void SetFocus(int group, int index) {
     g.focus = it ? IdOf(*it) : ItemId{};
     if (it && it->role == Role::PieItem) game::PieHighlight(it->widget, it->number);
     if (it && it->role == Role::LotObject) world::Focus(it->number);  // the camera looks at it
+    if (it && it->role == Role::TextField) text::TakeTyping(it->widget);  // typing follows the focus
     if (g.root && IsScreen(g.root)) g.focusByScreen[g.root] = Remembered{g.focus, ScreenInstance(g.root)};
 }
 
@@ -542,6 +544,7 @@ void Tick() {
     house::Tick();
     camera::Tick();
     tutorial::Tick();
+    text::Tick();
 }
 
 bool TextEntryActive() { return g.screen.textEntryVisible; }
@@ -720,6 +723,11 @@ void Activate() {
         world::Focus(it->number);
         if (game::InBuyTool()) buy::PickUpFocused();
         else world::Interact();
+        return;
+    }
+    if (it->role == Role::TextField) {  // a click would put the caret where it lands
+        text::TakeTyping(it->widget);
+        AnnounceFocus(false);
         return;
     }
     if (it->role == Role::PieItem) {

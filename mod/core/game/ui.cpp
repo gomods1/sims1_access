@@ -54,6 +54,17 @@ std::string TextFieldText(Ptr edit) { return util::GameTextToUtf8(TextFieldRaw(e
 
 int TextFieldCaret(Ptr edit) { return Rd<int>(edit + addr::textedit::kCaret); }
 
+bool FocusTextField(Ptr edit) {
+    typedef Ptr(__thiscall * SetInputFn)(void*, void*);
+    Ptr mgr = WinMgr();
+    if (!mgr || !IsKindOf(edit, "cTSWinTextEdit2") || !Visible(edit)) return false;
+    if (KeyboardFocus() == edit) return true;
+    if (!FunctionOk(addr::winmgr::kSetInput)) return false;
+    bool ok = Guarded([&] { ((SetInputFn)Va(addr::winmgr::kSetInput))((void*)mgr, (void*)edit); });
+    Log("text field %p takes typing: %s", (void*)edit, ok && KeyboardFocus() == edit ? "yes" : "no");
+    return ok && KeyboardFocus() == edit;
+}
+
 Ptr MainWindow() { return Rd<Ptr>(WinMgr() + addr::winmgr::kMainWindow); }
 
 void ForceAppActive() { WriteU8(Va(addr::kAppActive), 1); }

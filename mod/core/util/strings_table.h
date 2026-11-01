@@ -316,6 +316,7 @@
     X(NoReachableSpot, "no Sim could get to it")                                                                       \
     X(WouldBlockDoor, "it would block a door")                                                                         \
     X(DoesNotFit, "it does not fit")                                                                                   \
+    X(PlaceOnSurface, "it goes on a table, a counter or another surface")                                              \
     /* Default lot objects that have no catalog name */                                                                \
     X(ObjMailbox, "mailbox")                                                                                           \
     X(ObjTrashOutside, "outdoor trash can")                                                                            \
