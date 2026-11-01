@@ -16,28 +16,29 @@ struct LanguageInfo {
     unsigned codePage;                   // the game's text in this language
     const char* digitGroupSeparator;
     const lang::Translations* strings;   // nullptr: English, the source
+    const char* docTag;                  // the manual's file: SimsAccess\docs\<tag>.html
 };
 
 // Code pages verified on the game's UIText.iff (tools/simsfmt.py). Thai text joins its words
 // with '_', which the game does not draw (see GameTextToUtf8).
 const LanguageInfo kLanguages[] = {
-    {Language::English, "English", 1252, ",", nullptr},
-    {Language::French, "French", 1252, "", &lang::kFrench},
-    {Language::German, "German", 1252, ".", &lang::kGerman},
-    {Language::Italian, "Italian", 1252, ".", &lang::kItalian},
-    {Language::Spanish, "Spanish", 1252, ".", &lang::kSpanish},
-    {Language::Dutch, "Dutch", 1252, ".", &lang::kDutch},
-    {Language::Danish, "Danish", 1252, ".", &lang::kDanish},
-    {Language::Swedish, "Swedish", 1252, "", &lang::kSwedish},
-    {Language::Norwegian, "Norwegian", 1252, "", &lang::kNorwegian},
-    {Language::Finnish, "Finnish", 1252, "", &lang::kFinnish},
-    {Language::Portuguese, "Portuguese (Brazil)", 1252, ".", &lang::kPortuguese},
-    {Language::Japanese, "Japanese", 932, ",", &lang::kJapanese},
-    {Language::Polish, "Polish", 1250, "", &lang::kPolish},
-    {Language::SimplifiedChinese, "Simplified Chinese", 936, ",", &lang::kSimplifiedChinese},
-    {Language::TraditionalChinese, "Traditional Chinese", 950, ",", &lang::kTraditionalChinese},
-    {Language::Thai, "Thai", 874, ",", &lang::kThai},
-    {Language::Korean, "Korean", 949, ",", &lang::kKorean},
+    {Language::English, "English", 1252, ",", nullptr, "en"},
+    {Language::French, "French", 1252, "", &lang::kFrench, "fr"},
+    {Language::German, "German", 1252, ".", &lang::kGerman, "de"},
+    {Language::Italian, "Italian", 1252, ".", &lang::kItalian, "it"},
+    {Language::Spanish, "Spanish", 1252, ".", &lang::kSpanish, "es"},
+    {Language::Dutch, "Dutch", 1252, ".", &lang::kDutch, "nl"},
+    {Language::Danish, "Danish", 1252, ".", &lang::kDanish, "da"},
+    {Language::Swedish, "Swedish", 1252, "", &lang::kSwedish, "sv"},
+    {Language::Norwegian, "Norwegian", 1252, "", &lang::kNorwegian, "no"},
+    {Language::Finnish, "Finnish", 1252, "", &lang::kFinnish, "fi"},
+    {Language::Portuguese, "Portuguese (Brazil)", 1252, ".", &lang::kPortuguese, "pt"},
+    {Language::Japanese, "Japanese", 932, ",", &lang::kJapanese, "ja"},
+    {Language::Polish, "Polish", 1250, "", &lang::kPolish, "pl"},
+    {Language::SimplifiedChinese, "Simplified Chinese", 936, ",", &lang::kSimplifiedChinese, "zh-hans"},
+    {Language::TraditionalChinese, "Traditional Chinese", 950, ",", &lang::kTraditionalChinese, "zh-hant"},
+    {Language::Thai, "Thai", 874, ",", &lang::kThai, "th"},
+    {Language::Korean, "Korean", 949, ",", &lang::kKorean, "ko"},
 };
 
 // The game's language numbers, with the SIMS_LANGUAGE value that selects each (0x457600).
@@ -133,6 +134,8 @@ void SetGameLanguage(int number) {
 }
 
 Language CurrentLanguage() { return g_current->language; }
+
+const char* DocTag() { return g_current->docTag; }
 
 unsigned GameCodePage() { return g_current->codePage; }
 

@@ -67,7 +67,14 @@ inventory: `SCREENS.md`. Verified targets: `PATCH_TARGETS.md`; layouts: `STRUCTS
 | `mod/speechhost/` | `SimsAccess\SpeechHost.exe` (x64) + `prism.dll` | Owns Prism; reads `say 0 <utf8>` lines from `\\.\pipe\SimsAccessSpeech-<pid>`; logs every line to `SpeechHost.log`; `--mute` logs without speaking. |
 | `mod/third_party/minhook/` | | Vendored MinHook (BSD). |
 
-- Build: `mod\build.bat` (MSVC 2022, x64 + x86); `mod\build.bat deploy` copies into the game folder.
+- Build: `mod\build.bat` (MSVC 2022, x64 + x86, then the manual through pandoc); `mod\build.bat
+  deploy` copies into the game folder.
+- **Keys and docs never drift** (the user, 2026-11-01): a change to a key or a feature edits, in
+  the same change, the code, the `Keys*` strings Ctrl+F1 speaks (English and all 16 languages),
+  the manual `docs/manual/en.md` and its 16 translations, and `NAVIGATION.md` when the grammar
+  changes. `python tools/build_docs.py --check` compares each translation with en.md (headings,
+  table rows, list items, the key combinations of each table row: an ASCII "+" joins keys in
+  every language); `package.py` refuses a release when it fails.
 - **Release** (offline only, the repo is private): `python tools/package.py vX.Y.Z` builds, writes
   `mod\out\SimsAccess-vX.Y.Z.zip` (+ `.map` for crash offsets) and the shared installer
   `..\installer\SimsAccessibilityInstaller-vX.Y.Z-offline.exe` (game entry 5 in
@@ -96,7 +103,12 @@ eturn_focus.txt`; a dev core hands the foreground back to it
   "held" and every key went to the game. Read results in
   `<game>\SimsAccess\SimsAccess.log` (every spoken line is logged as `Spoke:`).
 - Mod keys (none is a game hotkey; Ctrl/Alt combinations are free for later features):
-  - Ctrl+F1 anywhere: the mod's keys for the current screen, spoken.
+  - Ctrl+F1 anywhere: the mod's keys for the current screen, spoken. Ctrl+Shift+F1: the player's
+    manual (`docs/manual/<tag>.md`, built by `tools/build_docs.py` with pandoc into
+    `SimsAccess\docs\<tag>.html`) opens in the browser in the game's language (`util::DocTag`,
+    English when missing; `nav/manual.cpp`). Every named screen (not dialogs) ends with the group
+    "mod help" (`kModHelpGroup`, `Role::ModManual`): "keys for this screen" (what Ctrl+F1 says)
+    and the manual. The startup line names both keys once per game start.
   - Ctrl+E (lot view): the selected Sim's state in one line ("Cris, en exterior, Tomar un
     tentempié; necesidades urgentes: comodidad, higiene; humor, 3 de 5 barras en rojo").
   - Ctrl+L (lot view): the room's layout (the build cursor's, else the selected Sim's): size,
@@ -124,6 +136,19 @@ eturn_focus.txt`; a dev core hands the foreground back to it
     in their room, facing them when it fits); the arrow line names what it runs into and faces.
   - Ctrl+N: the narrator's verbosity, everything / warnings only / off (saved in
     `SimsAccess\SimsAccess.ini`, `[mod] narrator=2/1/0`); unspoken lines still go to eventos.
+  - Ctrl+M (lot view): the live map (`nav/map_mode.cpp`), a tile cursor from the selected Sim:
+    arrows (Shift five) say what stands there and its facing, the room and floor when they
+    change, walls, fences, railings, doors, windows by side; Home, Ctrl+Shift+PageUp/Down floors,
+    Enter the menu of what stands there, Ctrl+Enter walk there, R, Escape. The Page keys still
+    browse the lot's things and the map follows them.
+  - Sound cues (`nav/cues.cpp`): the build cursor, placing's arrows and the map play foley per
+    step (floor, each side's wall/fence/door/window panned and pitched by side, objects, room
+    change, edge, slope, fits). SpeechHost plays `SimsAccess\sounds\<name>.wav` through XAudio2
+    (`play <name> <pan> <pitch> <volume> <delay>` on the pipe). Ctrl+Shift+S off/on (`[mod]
+    cues`, `cue_volume`). Sounds come from `mod\sounds\batch.json` (`genny render`); **no tonal
+    instruments** (the user rejected chimes and dings). SpeechHost caches the files: after
+    changing one, kill `SpeechHost.exe` (the core relaunches it from the game folder, which is
+    also how a new SpeechHost gets in without restarting the game).
   - Review buffers (`nav/buffers.cpp`, playbook section 11): Ctrl+Up reads the next line deeper,
     Ctrl+Down goes back toward the top (no wrap); Ctrl+Left/Right switch buffers, skipping empty
     ones ("detalles, 5 elementos"). **detalles**: the details of what focus last spoke (a
@@ -321,7 +346,7 @@ eturn_focus.txt`; a dev core hands the foreground back to it
   hook) keeps pumping timer ticks; a reload then freed code still on the stack and the game died
   with 0xC0000409 (`__report_gsfailure`) when the box closed. The loader now counts calls into the
   core and asks `SA_Busy()` (a detour on the stack) and only reloads when both are clear.
-  `moduild.bat` writes `mod\out\SimsAccess.map` for looking up crash offsets.
+  `mod\build.bat` writes `mod\out\SimsAccess.map` for looking up crash offsets.
 - The cheat console gives its keys to a dialog opened over it (Enter used to re-run the cheat).
 - **Frida Interceptor on SimAntics code can crash the game when it detaches**: SimAntics throws
   C++ exceptions through its primitives, which breaks Frida's per-call state (fail-fast

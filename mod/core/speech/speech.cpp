@@ -2,6 +2,7 @@
 
 #include <windows.h>
 
+#include <cstdio>
 #include <deque>
 #include <mutex>
 
@@ -131,5 +132,12 @@ void Say(const std::string& utf8, bool interrupt) {
 }
 
 void Silence() { Enqueue("stop\n"); }
+
+void Cue(const char* name, float pan, float pitch, float volume, int delayMs) {
+    char line[128];
+    snprintf(line, sizeof line, "play %s %.2f %.2f %.2f %d", name, pan, pitch, volume, delayMs);
+    LogVerbose("Cue: %s", line);
+    Enqueue(std::string(line) + "\n");
+}
 
 }  // namespace speech

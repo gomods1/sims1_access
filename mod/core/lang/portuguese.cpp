@@ -926,6 +926,44 @@ const Translation kEntries[] = {
     {Str::ItemCount, "%s, %d unidades"},
     // Trips: home again
     {Str::ArrivedHome, "de volta a casa"},
+    // Sound cues and the live-mode map
+    {Str::CuesOn, "sons do cursor ligados"},
+    {Str::CuesOff, "sons do cursor desligados"},
+    {Str::SurfaceGround, "terreno"},
+    {Str::SurfaceWood, "piso de madeira"},
+    {Str::SurfaceTile, "piso de cerâmica"},
+    {Str::SurfaceCarpet, "carpete"},
+    {Str::SurfacePaving, "pavimento"},
+    {Str::SurfacePoolRim, "borda da piscina"},
+    {Str::SurfaceWater, "água"},
+    {Str::SurfaceNone, "sem piso"},
+    {Str::EdgeWall, "parede ao %s"},
+    {Str::EdgeFence, "cerca ao %s"},
+    {Str::EdgeRailing, "grade ao %s"},
+    {Str::EdgeDoor, "porta ao %s"},
+    {Str::EdgeWindow, "janela ao %s"},
+    {Str::MapStairs, "escada"},
+    {Str::MapOn, "Mapa da casa. Control+F1 diz as teclas."},
+    {Str::MapOff, "mapa fechado"},
+    {Str::MapNoFloor, "não há nada construído no andar %d"},
+    {Str::MapNothingHere, "não há nada para usar aqui"},
+    {Str::KeysMap,
+     "Mapa da casa: as setas avançam um quadrado, com Shift cinco; cada quadrado diz o que há nele e para onde "
+     "está virado, o cômodo e o piso quando mudam, e as paredes, cercas, portas e janelas em volta, com um som "
+     "para cada uma. Home volta ao Sim selecionado. Page Down e Page Up percorrem as coisas do terreno como "
+     "sempre, e o mapa vai a cada uma. Control Shift Page Up e Page Down mudam de andar. Enter abre o menu do "
+     "que está ali; Control+Enter manda o Sim selecionado para lá. R diz tudo, Control+L a disposição do cômodo. "
+     "Control Shift S desliga e liga os sons. Escape ou Control+M sai do mapa."},
+    {Str::KeysMapHint, "Control+M: o mapa da casa, um cursor que a percorre quadrado por quadrado."},
+    {Str::KeysCuesHint, "Control Shift S desliga e liga os sons do cursor."},
+    // The manual (Control+Shift+F1, the mod help button)
+    {Str::ManualHint, "Control Shift F1 abre o manual; Control F1 diz as teclas de cada tela."},
+    {Str::KeysManual, "Control Shift F1 abre o manual completo do mod no navegador."},
+    {Str::ManualOpening, "abrindo o manual no navegador"},
+    {Str::ManualMissing, "o manual está faltando: reinstale o mod"},
+    {Str::ManualButton, "Manual de Acessibilidade para The Sims"},
+    {Str::GroupModHelp, "ajuda do mod"},
+    {Str::KeysButton, "Teclas desta tela"},
 };
 
 }  // namespace

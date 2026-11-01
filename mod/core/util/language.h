@@ -43,6 +43,10 @@ void SetGameLanguage(int number);
 
 Language CurrentLanguage();
 
+// The manual's file name for the current language ("en", "es", "zh-hans"...): tools/build_docs.py
+// makes SimsAccess\docs\<tag>.html from docs/manual/<tag>.md.
+const char* DocTag();
+
 // The Windows code page of the game's text in the current language (1252, 1250, 932...).
 unsigned GameCodePage();
 

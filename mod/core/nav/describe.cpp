@@ -392,7 +392,8 @@ std::string Describe(const Item& it) {
     case Role::Level:      // "Fontanería, 3 elementos"
     case Role::LotObject:  // "Nevera Porcina, cocina, a 21 casillas al sur"
         return it.label;
-    case Role::PieItem:  // "Hablar..., botón"
+    case Role::PieItem:    // "Hablar..., botón"
+    case Role::ModManual:  // "Teclas de esta pantalla, botón"
         return it.label + ", " + S(Str::RoleButton);
     case Role::Lot:
         return LotText(it);

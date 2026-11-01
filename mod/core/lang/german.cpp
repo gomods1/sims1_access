@@ -939,6 +939,45 @@ const Translation kEntries[] = {
     {Str::ItemCount, "%s, %d Stück"},
     // Trips: home again
     {Str::ArrivedHome, "wieder zu Hause"},
+    // Sound cues and the live-mode map
+    {Str::CuesOn, "Cursorklänge an"},
+    {Str::CuesOff, "Cursorklänge aus"},
+    {Str::SurfaceGround, "Boden"},
+    {Str::SurfaceWood, "Holzboden"},
+    {Str::SurfaceTile, "Fliesen"},
+    {Str::SurfaceCarpet, "Teppich"},
+    {Str::SurfacePaving, "Pflaster"},
+    {Str::SurfacePoolRim, "Beckenrand"},
+    {Str::SurfaceWater, "Wasser"},
+    {Str::SurfaceNone, "kein Boden"},
+    {Str::EdgeWall, "Wand nach %s"},
+    {Str::EdgeFence, "Zaun nach %s"},
+    {Str::EdgeRailing, "Geländer nach %s"},
+    {Str::EdgeDoor, "Tür nach %s"},
+    {Str::EdgeWindow, "Fenster nach %s"},
+    {Str::MapStairs, "Treppe"},
+    {Str::MapOn, "Hausplan. Strg+F1 nennt die Tasten."},
+    {Str::MapOff, "Plan aus"},
+    {Str::MapNoFloor, "auf Etage %d ist nichts gebaut"},
+    {Str::MapNothingHere, "hier gibt es nichts zu benutzen"},
+    {Str::KeysMap,
+     "Hausplan: die Pfeile gehen ein Feld weiter, mit Umschalt fünf; jedes Feld sagt, was dort steht und wohin "
+     "es schaut, den Raum und den Boden, wenn sie wechseln, und die Wände, Zäune, Türen und Fenster ringsum, "
+     "jeweils mit einem Klang. Pos1 geht zurück zum gewählten Sim. Bild ab und Bild auf gehen wie immer durch "
+     "die Dinge des Grundstücks, und der Plan geht zu jedem. Strg Umschalt Bild auf und Bild ab wechseln die "
+     "Etage. Eingabe öffnet das Menü dessen, was dort steht; Strg+Eingabe schickt den gewählten Sim dorthin. R "
+     "sagt alles, Strg+L den Aufbau des Raums. Strg Umschalt S schaltet die Klänge aus und an. Escape oder "
+     "Strg+M verlässt den Plan."},
+    {Str::KeysMapHint, "Strg+M: der Hausplan, ein Cursor, der das Haus Feld für Feld abgeht."},
+    {Str::KeysCuesHint, "Strg Umschalt S schaltet die Cursorklänge aus und an."},
+    // The manual (Control+Shift+F1, the mod help button)
+    {Str::ManualHint, "Strg Umschalt F1 öffnet das Handbuch; Strg F1 sagt die Tasten jedes Bildschirms."},
+    {Str::KeysManual, "Strg Umschalt F1 öffnet das vollständige Handbuch des Mods im Browser."},
+    {Str::ManualOpening, "Handbuch wird im Browser geöffnet"},
+    {Str::ManualMissing, "das Handbuch fehlt: bitte den Mod neu installieren"},
+    {Str::ManualButton, "Handbuch zu Barrierefreiheit für Die Sims"},
+    {Str::GroupModHelp, "Mod-Hilfe"},
+    {Str::KeysButton, "Tasten für diesen Bildschirm"},
 };
 
 }  // namespace

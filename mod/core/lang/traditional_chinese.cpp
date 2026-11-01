@@ -817,6 +817,41 @@ const Translation kEntries[] = {
     {Str::ItemCount, "%s，%d 個"},
     // Trips: home again
     {Str::ArrivedHome, "回到家了"},
+    // Sound cues and the live-mode map
+    {Str::CuesOn, "游標音效開"},
+    {Str::CuesOff, "游標音效關"},
+    {Str::SurfaceGround, "地面"},
+    {Str::SurfaceWood, "木地板"},
+    {Str::SurfaceTile, "磁磚地板"},
+    {Str::SurfaceCarpet, "地毯"},
+    {Str::SurfacePaving, "鋪面"},
+    {Str::SurfacePoolRim, "泳池邊"},
+    {Str::SurfaceWater, "水"},
+    {Str::SurfaceNone, "沒有地板"},
+    {Str::EdgeWall, "%s面有牆"},
+    {Str::EdgeFence, "%s面有圍籬"},
+    {Str::EdgeRailing, "%s面有欄杆"},
+    {Str::EdgeDoor, "%s面有門"},
+    {Str::EdgeWindow, "%s面有窗"},
+    {Str::MapStairs, "樓梯"},
+    {Str::MapOn, "房屋地圖。Ctrl+F1讀出按鍵。"},
+    {Str::MapOff, "地圖已關閉"},
+    {Str::MapNoFloor, "第%d層沒有建造任何東西"},
+    {Str::MapNothingHere, "這裡沒有可用的東西"},
+    {Str::KeysMap,
+     "房屋地圖：方向鍵移動一格，加Shift移動五格；每一格讀出那裡的東西和朝向，房間和地板改變時也讀出，以及周圍的牆、圍籬、門和窗，每種都有音效。Home回到所選的模擬市民。Page Down和Page "
+     "Up照常瀏覽地段上的東西，地圖也跟到每一個。Ctrl Shift Page Up和Page Down切換樓層。Enter開啟那裡東西的選單；Ctrl+Enter讓所選的模擬市民走過去。R讀出全部，Ctrl+L讀出房"
+     "間佈局。Ctrl Shift S關閉或開啟音效。Escape或Ctrl+M離開地圖。"},
+    {Str::KeysMapHint, "Ctrl+M：房屋地圖，一個逐格走遍房屋的游標。"},
+    {Str::KeysCuesHint, "Ctrl Shift S關閉或開啟游標音效。"},
+    // The manual (Control+Shift+F1, the mod help button)
+    {Str::ManualHint, "Ctrl Shift F1開啟手冊；Ctrl F1說出每個畫面的按鍵。"},
+    {Str::KeysManual, "Ctrl Shift F1在瀏覽器中開啟模組的完整手冊。"},
+    {Str::ManualOpening, "正在瀏覽器中開啟手冊"},
+    {Str::ManualMissing, "找不到手冊：請重新安裝模組"},
+    {Str::ManualButton, "模擬市民無障礙模組手冊"},
+    {Str::GroupModHelp, "模組說明"},
+    {Str::KeysButton, "此畫面的按鍵"},
 };
 
 }  // namespace

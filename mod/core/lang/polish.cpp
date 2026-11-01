@@ -923,6 +923,44 @@ const Translation kEntries[] = {
     {Str::ItemCount, "%s, sztuk: %d"},
     // Trips: home again
     {Str::ArrivedHome, "z powrotem w domu"},
+    // Sound cues and the live-mode map
+    {Str::CuesOn, "dźwięki kursora włączone"},
+    {Str::CuesOff, "dźwięki kursora wyłączone"},
+    {Str::SurfaceGround, "grunt"},
+    {Str::SurfaceWood, "drewniana podłoga"},
+    {Str::SurfaceTile, "płytki"},
+    {Str::SurfaceCarpet, "wykładzina"},
+    {Str::SurfacePaving, "nawierzchnia"},
+    {Str::SurfacePoolRim, "brzeg basenu"},
+    {Str::SurfaceWater, "woda"},
+    {Str::SurfaceNone, "bez podłogi"},
+    {Str::EdgeWall, "ściana: %s"},
+    {Str::EdgeFence, "płot: %s"},
+    {Str::EdgeRailing, "balustrada: %s"},
+    {Str::EdgeDoor, "drzwi: %s"},
+    {Str::EdgeWindow, "okno: %s"},
+    {Str::MapStairs, "schody"},
+    {Str::MapOn, "Mapa domu. Control+F1 podaje klawisze."},
+    {Str::MapOff, "mapa zamknięta"},
+    {Str::MapNoFloor, "na piętrze %d nic nie zbudowano"},
+    {Str::MapNothingHere, "tu nie ma nic do użycia"},
+    {Str::KeysMap,
+     "Mapa domu: strzałki przesuwają o jedno pole, z Shift o pięć; każde pole mówi, co na nim stoi i w którą "
+     "stronę jest zwrócone, pokój i podłogę, gdy się zmieniają, oraz ściany, płoty, drzwi i okna wokół, każde z "
+     "własnym dźwiękiem. Home wraca do wybranego Sima. Page Down i Page Up przechodzą jak zawsze przez rzeczy na "
+     "parceli, a mapa idzie do każdej z nich. Control Shift Page Up i Page Down zmieniają piętro. Enter otwiera "
+     "menu tego, co tam stoi; Control+Enter wysyła tam wybranego Sima. R mówi wszystko, Control+L układ pokoju. "
+     "Control Shift S wyłącza i włącza dźwięki. Escape lub Control+M zamyka mapę."},
+    {Str::KeysMapHint, "Control+M: mapa domu, kursor, który przechodzi dom pole po polu."},
+    {Str::KeysCuesHint, "Control Shift S wyłącza i włącza dźwięki kursora."},
+    // The manual (Control+Shift+F1, the mod help button)
+    {Str::ManualHint, "Control Shift F1 otwiera instrukcję; Control F1 mówi klawisze każdego ekranu."},
+    {Str::KeysManual, "Control Shift F1 otwiera pełną instrukcję moda w przeglądarce."},
+    {Str::ManualOpening, "otwieram instrukcję w przeglądarce"},
+    {Str::ManualMissing, "brak instrukcji: zainstaluj moda ponownie"},
+    {Str::ManualButton, "Instrukcja modułu dostępności The Sims"},
+    {Str::GroupModHelp, "pomoc moda"},
+    {Str::KeysButton, "Klawisze tego ekranu"},
 };
 
 }  // namespace

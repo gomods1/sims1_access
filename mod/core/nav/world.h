@@ -44,6 +44,7 @@ void Interact();
 // Why the object's menu is empty for the selected Sim ("sin interacciones. solo para niños: Jugar").
 std::string WhyNoInteractions(const game::LotObject& o);     // opens the focused object's interaction menu (runs modally)
 void WalkToFocus();  // sends the selected Sim to the focused object's spot
+void WalkToSpot(int worldX, int worldY);  // to a spot of the floor (1/16 tile units): the live map
 game::Ptr FocusedObject();  // the thing focus was last on, 0 if gone
 // The object bought last reads "recién comprado", so it can be told from identical ones (in buy
 // mode identical objects are listed one by one, since one of them is to be moved).

@@ -7,6 +7,7 @@
        version.dll                  (loader, next to Sims.exe)
        SimsAccess\\SimsAccess.dll    (core)
        SimsAccess\\SpeechHost.exe + prism.dll
+       SimsAccess\\docs\\<tag>.html    (the manual in every language, tools/build_docs.py)
        SimsAccess\\licenses\\...      (MinHook, Prism and its parts)
    and mod\\out\\SimsAccess-<tag>.map, the core's map for crash offsets of that release.
 3. ..\\installer\\build_offline_sims.bat with that zip:
@@ -44,10 +45,17 @@ def main():
     if not re.fullmatch(r"v\d+\.\d+\.\d+", args.tag):
         sys.exit("tag must look like v1.2.3")
 
+    # The manual must say what the mod does in every language: a translation whose sections,
+    # tables, lists or key combinations differ from en.md stops the release.
+    subprocess.run([sys.executable, str(ROOT / "tools" / "build_docs.py"), "--check"], check=True)
     if not args.no_build:
         subprocess.run(["cmd", "/c", str(ROOT / "mod" / "build.bat")], check=True)
 
     files = list(FILES)
+    for f in sorted((ROOT / "mod" / "sounds").glob("*.wav")):  # the cursors' sound cues
+        files.append((f, "SimsAccess/sounds/" + f.name))
+    for f in sorted((OUT / "docs").glob("*.html")):  # the manual, one page per language
+        files.append((f, "SimsAccess/docs/" + f.name))
     for f in sorted((PRISM / "LICENSES").rglob("*")):
         if f.is_file():
             files.append((f, "SimsAccess/licenses/Prism/" + f.relative_to(PRISM / "LICENSES").as_posix()))

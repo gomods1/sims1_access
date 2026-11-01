@@ -19,6 +19,8 @@
 #include "../util/text.h"
 #include "buy_mode.h"
 #include "build_mode.h"
+#include "cues.h"
+#include "map_mode.h"
 #include "house_overview.h"
 #include "camera.h"
 #include "cheat_console.h"
@@ -34,6 +36,8 @@
 #include "sim_watch.h"
 #include "text_entry.h"
 #include "tutorial.h"
+#include "../input/keyboard.h"
+#include "manual.h"
 #include "world.h"
 
 namespace nav {
@@ -169,7 +173,7 @@ void FocusDefault() {
         return false;
     };
     if (pick(IsPrimaryGroup)) return;
-    if (pick([](const Group& gr) { return !IsActionQueue(gr); })) return;
+    if (pick([](const Group& gr) { return !IsActionQueue(gr) && gr.key != kModHelpGroup; })) return;
     if (pick([](const Group&) { return true; })) return;
     SetFocus(Groups().empty() ? -1 : 0, Groups().empty() ? -1 : 0);
 }
@@ -550,6 +554,8 @@ void Reset() {
     speed::Reset();
     buy::Reset();
     build::Reset();
+    map::Reset();
+    cues::Reset();
     house::Reset();
     camera::Reset();
     tutorial::Reset();
@@ -574,6 +580,7 @@ void Tick() {
     speed::Tick(g.root);
     buy::Tick();
     build::Tick();
+    map::Tick();
     house::Tick();
     camera::Tick();
     tutorial::Tick();
@@ -802,6 +809,11 @@ void Activate() {
         world::Focus(it->number);
         if (game::InBuyTool()) buy::PickUpFocused();
         else world::Interact();
+        return;
+    }
+    if (it->role == Role::ModManual) {
+        if (it->number) input::SayKeyHelp();
+        else manual::Open();
         return;
     }
     if (it->role == Role::TextField) {  // a click would put the caret where it lands

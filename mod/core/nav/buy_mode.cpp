@@ -13,6 +13,7 @@
 #include "../util/strings.h"
 #include "../util/text.h"
 #include "buffers.h"
+#include "cues.h"
 #include "camera.h"
 #include "navigator.h"
 #include "placement.h"
@@ -34,6 +35,7 @@ struct State {
     bool free = false;
     game::Tile freeTile;
     int freeDirection = 0;
+    bool freeFits = false;  // the engine let the held object stand on the free cursor's tile
     int freeRoom = -1;  // the room the free cursor's line named last (said again when it changes)
     // Ctrl+Shift+PageDown/PageUp: the lot's things nearest the cursor first (ids), and the one
     // the held object was put beside last.
@@ -440,6 +442,7 @@ std::string FreeLine(bool withRoom = false) {
     game::LiftHeld();
     game::TurnHeld(g.freeDirection);
     int error = game::CheckHeldAt(g.freeTile, level);
+    g.freeFits = error == 0;
     game::ShowHeldAt(g.freeTile);
     camera::LookAt(held);
     std::vector<game::Tile> footprint = game::FootprintAt(held, g.freeTile);
@@ -494,12 +497,16 @@ void MoveFree(int dx, int dy) {
     game::Tile next{g.freeTile.x + dx, g.freeTile.y + dy};
     if (!game::InGrid(next.x, next.y)) {
         speech::Say(S(Str::BuildLotEdge));
+        cues::LotEdge();
         return;
     }
     g.freeTile = next;
     std::string line = FreeLine();
     buffers::SetDetails({line});
     speech::Say(line);
+    // The tile's sounds, then whether the object fits on it (nav/cues.h).
+    cues::Tile(game::HeldLevel(), g.freeTile.x, g.freeTile.y, game::HeldObject());
+    cues::Fit(g.freeFits);
 }
 
 void NextThing(int delta) {

@@ -921,6 +921,44 @@ const Translation kEntries[] = {
     {Str::ItemCount, "%s, %d stk."},
     // Trips: home again
     {Str::ArrivedHome, "hjemme igjen"},
+    // Sound cues and the live-mode map
+    {Str::CuesOn, "markørlyder på"},
+    {Str::CuesOff, "markørlyder av"},
+    {Str::SurfaceGround, "bakke"},
+    {Str::SurfaceWood, "tregulv"},
+    {Str::SurfaceTile, "fliser"},
+    {Str::SurfaceCarpet, "teppe"},
+    {Str::SurfacePaving, "belegg"},
+    {Str::SurfacePoolRim, "bassengkant"},
+    {Str::SurfaceWater, "vann"},
+    {Str::SurfaceNone, "intet gulv"},
+    {Str::EdgeWall, "vegg mot %s"},
+    {Str::EdgeFence, "gjerde mot %s"},
+    {Str::EdgeRailing, "rekkverk mot %s"},
+    {Str::EdgeDoor, "dør mot %s"},
+    {Str::EdgeWindow, "vindu mot %s"},
+    {Str::MapStairs, "trapp"},
+    {Str::MapOn, "Husets kart. Kontroll+F1 sier tastene."},
+    {Str::MapOff, "kartet lukket"},
+    {Str::MapNoFloor, "ingenting er bygget i etasje %d"},
+    {Str::MapNothingHere, "her er det ingenting å bruke"},
+    {Str::KeysMap,
+     "Husets kart: pilene flytter én rute, med Skift fem; hver rute sier hva som står der og hvilken vei det "
+     "vender, rommet og gulvet når de skifter, og veggene, gjerdene, dørene og vinduene rundt, hver med en lyd. "
+     "Home går tilbake til den valgte simen. Page Down og Page Up går som alltid gjennom tomtens ting, og kartet "
+     "går til hver av dem. Kontroll Skift Page Up og Page Down bytter etasje. Enter åpner menyen for det som "
+     "står der; Kontroll+Enter sender den valgte simen dit. R sier alt, Kontroll+L rommets planløsning. Kontroll "
+     "Skift S slår lydene av og på. Escape eller Kontroll+M lukker kartet."},
+    {Str::KeysMapHint, "Kontroll+M: husets kart, en markør som går gjennom huset rute for rute."},
+    {Str::KeysCuesHint, "Kontroll Skift S slår markørlydene av og på."},
+    // The manual (Control+Shift+F1, the mod help button)
+    {Str::ManualHint, "Kontroll Skift F1 åpner håndboken; Kontroll F1 sier tastene på hver skjerm."},
+    {Str::KeysManual, "Kontroll Skift F1 åpner moddens fullstendige håndbok i nettleseren."},
+    {Str::ManualOpening, "åpner håndboken i nettleseren"},
+    {Str::ManualMissing, "håndboken mangler: installer modden på nytt"},
+    {Str::ManualButton, "Håndbok for Sims-tilgjengelighet"},
+    {Str::GroupModHelp, "modhjelp"},
+    {Str::KeysButton, "Taster på denne skjermen"},
 };
 
 }  // namespace

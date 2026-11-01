@@ -12,9 +12,12 @@
 #include "../nav/buy_mode.h"
 #include "../nav/camera.h"
 #include "../nav/cheat_console.h"
+#include "../nav/cues.h"
+#include "../nav/map_mode.h"
 #include "../nav/narrator.h"
 #include "../nav/room_layout.h"
 #include "../nav/house_overview.h"
+#include "../nav/manual.h"
 #include "../nav/navigator.h"
 #include "../nav/text_entry.h"
 #include "../nav/tutorial.h"
@@ -58,6 +61,10 @@ namespace {
 //   (or Ctrl+PageDown/PageUp) the rooms, PageUp/PageDown the floors, comma/period the ready-made
 //   room sizes, Insert builds one, Space marks, Enter builds, Delete or Ctrl+Enter removes, Home,
 //   R, Escape
+//   the live-mode map (nav/map_mode.h, a spatial tool): Ctrl+M on/off; arrows move a tile (Shift
+//   five), Home back to the Sim, Ctrl+Shift+PageUp/PageDown the floors, Enter the menu of what
+//   stands there, Ctrl+Enter walk there, R, Escape; the Page keys browse and the map follows
+//   Ctrl+Shift+S                   the cursors' sound cues on/off (nav/cues.h)
 //   Ctrl+Enter                     lot view: walk to the thing last focused
 //   Escape                         close the interaction menu (otherwise the game's Escape)
 //   Alt+letter                     the next group whose name starts with that letter (Alt+N needs,
@@ -65,6 +72,8 @@ namespace {
 //                                  in the game's language, so the letters follow it)
 //   Ctrl+Shift+V                   light the focused control on screen for a sighted helper (on/off)
 //   Ctrl+F1                        say the mod's keys for this screen
+//   Ctrl+Shift+F1                  open the manual (nav/manual.h) in the browser, in the game's
+//                                  language; so does the "mod help" group's button on every screen
 //   Ctrl+1 .. Ctrl+9               lot view: select the n-th Sim of the family (its portrait)
 //   Ctrl+F                         lot view: follow the selected Sim with the camera on/off
 //   Ctrl+H                         lot view: open the help system's waiting tip
@@ -90,17 +99,21 @@ bool Held(int vk) {
 }
 bool IsModifier(WPARAM vk) { return vk == VK_SHIFT || vk == VK_CONTROL || vk == VK_MENU; }
 
+}  // namespace
+
 // The keys that work where the player is.
 void SayKeyHelp() {
     if (game::IsPieMenu(game::InputRoot())) speech::Say(S(Str::KeysMenu));
     else if (nav::cheats::Entering()) speech::Say(S(Str::CheatHint));
-    else if (nav::buy::Placing()) speech::Say(std::string(S(Str::KeysPlacing)) + " " + S(Str::KeysPlacingFree) + " " + S(Str::KeysPlacingThings));
-    else if (nav::LotViewActive() && game::InBuyTool()) speech::Say(std::string(S(Str::KeysBuy)) + " " + S(Str::KeysRoomFilter) + " " + S(Str::KeysLayoutHint));
-    else if (nav::LotViewActive()) speech::Say(std::string(S(Str::KeysLot)) + " " + S(Str::KeysSimCard) + " " + S(Str::KeysLayoutHint));
+    else if (nav::buy::Placing()) speech::Say(std::string(S(Str::KeysPlacing)) + " " + S(Str::KeysPlacingFree) + " " + S(Str::KeysPlacingThings) + " " + S(Str::KeysCuesHint));
+    else if (nav::LotViewActive() && game::InBuyTool()) speech::Say(std::string(S(Str::KeysBuy)) + " " + S(Str::KeysRoomFilter) + " " + S(Str::KeysLayoutHint) + " " + S(Str::KeysMapHint));
+    else if (nav::LotViewActive()) speech::Say(std::string(S(Str::KeysLot)) + " " + S(Str::KeysSimCard) + " " + S(Str::KeysLayoutHint) + " " + S(Str::KeysMapHint));
     else if (nav::FocusedLotNumber() >= 0) speech::Say(std::string(S(Str::KeysScreen)) + " " + S(Str::KeysHouseFile));
     else speech::Say(S(Str::KeysScreen));
-    speech::Say(std::string(S(Str::KeysGroupLetter)) + " " + S(Str::KeysShowFocus));
+    speech::Say(std::string(S(Str::KeysGroupLetter)) + " " + S(Str::KeysShowFocus) + " " + S(Str::KeysManual));
 }
+
+namespace {
 
 // Up/Down and Left/Right move through the group, the lot view's HUD included; Left/Right
 // change a slider or value picker instead of leaving it.
@@ -161,7 +174,34 @@ bool BuildCursorKey(WPARAM vk, bool shift, bool ctrl) {
     case VK_HOME: b::Home(); return true;
     case 'R': if (ctrl) return false; g_swallowChar = 'r'; b::Repeat(); return true;
     case VK_ESCAPE: g_swallowChar = 0x1b; b::End(); return true;
-    case VK_F1: if (!ctrl) return false; speech::Say(std::string(S(b::TerrainCursor() ? Str::KeysTerrainCursor : b::PoolCursor() ? Str::KeysPoolCursor : b::PaperCursor() ? Str::KeysPaperCursor : b::FloorCursor() ? Str::KeysFloorCursor : Str::KeysBuildCursor)) + " " + S(Str::KeysRoomJump) + " " + S(Str::KeysFloorChange) + " " + S(Str::KeysLayoutHint)); return true;
+    case VK_F1: if (!ctrl || shift) return false; speech::Say(std::string(S(b::TerrainCursor() ? Str::KeysTerrainCursor : b::PoolCursor() ? Str::KeysPoolCursor : b::PaperCursor() ? Str::KeysPaperCursor : b::FloorCursor() ? Str::KeysFloorCursor : Str::KeysBuildCursor)) + " " + S(Str::KeysRoomJump) + " " + S(Str::KeysFloorChange) + " " + S(Str::KeysLayoutHint) + " " + S(Str::KeysCuesHint)); return true;
+    }
+    return false;
+}
+
+// The live-mode map (nav/map_mode.h) owns these keys while it is on; the rest work as usual
+// (the Page keys browse the lot's things and the map goes to the thing).
+bool MapKey(WPARAM vk, bool shift, bool ctrl) {
+    namespace m = nav::map;
+    int step = shift ? 5 : 1;
+    switch (vk) {
+    case VK_UP: if (ctrl) return false; m::Move(0, -step); return true;
+    case VK_DOWN: if (ctrl) return false; m::Move(0, step); return true;
+    case VK_LEFT: if (ctrl) return false; m::Move(-step, 0); return true;
+    case VK_RIGHT: if (ctrl) return false; m::Move(step, 0); return true;
+    case VK_HOME: if (ctrl) return false; m::Home(); return true;
+    case VK_NEXT: case VK_PRIOR:
+        if (!ctrl || !shift) return false;  // the lot's things, below
+        m::ChangeFloor(vk == VK_PRIOR ? +1 : -1);
+        return true;
+    case VK_RETURN:
+        g_swallowChar = ctrl ? 0x0a : 0x0d;
+        if (ctrl) m::WalkHere();
+        else m::Activate();
+        return true;
+    case 'R': if (ctrl || shift) return false; g_swallowChar = 'r'; m::Repeat(); return true;
+    case VK_ESCAPE: g_swallowChar = 0x1b; m::End(); return true;
+    case VK_F1: if (!ctrl || shift) return false; speech::Say(S(Str::KeysMap)); return true;  // Shift: the manual
     }
     return false;
 }
@@ -173,6 +213,7 @@ bool Dispatch(WPARAM vk, bool shift, bool ctrl) {
     bool typing = nav::TextEntryActive();
     if (nav::build::Active() && !typing && BuildCursorKey(vk, shift, ctrl)) return true;
     if (!typing && nav::LotViewActive() && nav::buy::Placing() && PlacingKey(vk, shift, ctrl)) return true;
+    if (!typing && nav::map::Active() && nav::LotViewActive() && MapKey(vk, shift, ctrl)) return true;
     // On the field that takes typing, Left/Right/Home/End/Delete edit it (the field moves its caret).
     if (typing && !nav::cheats::Entering() && nav::text::OnCaretKey(vk, ctrl, nav::FocusedWidget())) return false;
     switch (vk) {
@@ -201,6 +242,7 @@ bool Dispatch(WPARAM vk, bool shift, bool ctrl) {
         if (!ctrl && !shift && nav::Adjust(-delta)) return true;  // a value control's step, like Right/Left
         if (!nav::LotViewActive()) return false;
         nav::BrowseThings(ctrl ? nav::Browse::Room : shift ? nav::Browse::Kind : nav::Browse::Thing, delta);
+        nav::map::FollowFocus();  // the map, when it is on, goes to the thing
         return true;
     }
     case '1': case '2': case '3': case '4': case '5': case '6': case '7': case '8': case '9':
@@ -223,6 +265,16 @@ bool Dispatch(WPARAM vk, bool shift, bool ctrl) {
         g_swallowChar = 'l';
         if (shift) nav::house::SayOverview();
         else nav::layout::SayRoomLayout();
+        return true;
+    case 'M':  // Ctrl+M: the live-mode map
+        if (!ctrl || shift) return false;
+        g_swallowChar = 'm';
+        nav::map::Toggle();
+        return true;
+    case 'S':  // Ctrl+Shift+S: the cursors' sound cues (Ctrl+S alone is the game's save)
+        if (!ctrl || !shift) return false;
+        g_swallowChar = 's';
+        nav::cues::Toggle();
         return true;
     case 'N':
         if (!ctrl || shift) return false;
@@ -276,7 +328,8 @@ bool Dispatch(WPARAM vk, bool shift, bool ctrl) {
         return true;
     case VK_F1:
         if (!ctrl) return false;  // F1 alone is the game's Live mode
-        SayKeyHelp();
+        if (shift) nav::manual::Open();
+        else SayKeyHelp();
         return true;
     case VK_ESCAPE:
         g_swallowChar = 0x1b;
@@ -325,8 +378,8 @@ bool OnKeyDown(WPARAM vk, LPARAM lp) {
     }
     bool ctrl = Held(VK_CONTROL);
     bool ctrlKey = vk == VK_PRIOR || vk == VK_NEXT || vk == VK_RETURN || vk == VK_F1 || vk == VK_UP ||
-                   vk == VK_DOWN || vk == VK_LEFT || vk == VK_RIGHT || (vk >= '1' && vk <= '9') || vk == 'F' || vk == 'H' || vk == 'E' || vk == 'N' || vk == 'L' || vk == 'R' || vk == VK_DELETE ||
-                   ((vk == 'C' || vk == 'V') && Held(VK_SHIFT));  // the mod's Ctrl combinations
+                   vk == VK_DOWN || vk == VK_LEFT || vk == VK_RIGHT || (vk >= '1' && vk <= '9') || vk == 'F' || vk == 'H' || vk == 'E' || vk == 'N' || vk == 'L' || vk == 'R' || vk == 'M' || vk == VK_DELETE ||
+                   ((vk == 'C' || vk == 'V' || vk == 'S') && Held(VK_SHIFT));  // the mod's Ctrl combinations
     if (Held(VK_MENU) || (ctrl && !ctrlKey)) {
         LogVerbose("key 0x%02x left to the game: %s held", (unsigned)vk, ctrl ? "Ctrl" : "Alt");
         return false;

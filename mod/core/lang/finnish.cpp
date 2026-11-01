@@ -927,6 +927,44 @@ const Translation kEntries[] = {
     {Str::ItemCount, "%s, %d kpl"},
     // Trips: home again
     {Str::ArrivedHome, "taas kotona"},
+    // Sound cues and the live-mode map
+    {Str::CuesOn, "osoittimen äänet päällä"},
+    {Str::CuesOff, "osoittimen äänet pois"},
+    {Str::SurfaceGround, "maa"},
+    {Str::SurfaceWood, "puulattia"},
+    {Str::SurfaceTile, "laattalattia"},
+    {Str::SurfaceCarpet, "kokolattiamatto"},
+    {Str::SurfacePaving, "päällyste"},
+    {Str::SurfacePoolRim, "altaan reuna"},
+    {Str::SurfaceWater, "vesi"},
+    {Str::SurfaceNone, "ei lattiaa"},
+    {Str::EdgeWall, "seinä: %s"},
+    {Str::EdgeFence, "aita: %s"},
+    {Str::EdgeRailing, "kaide: %s"},
+    {Str::EdgeDoor, "ovi: %s"},
+    {Str::EdgeWindow, "ikkuna: %s"},
+    {Str::MapStairs, "portaat"},
+    {Str::MapOn, "Talon kartta. Control+F1 kertoo näppäimet."},
+    {Str::MapOff, "kartta suljettu"},
+    {Str::MapNoFloor, "kerrokseen %d ei ole rakennettu mitään"},
+    {Str::MapNothingHere, "täällä ei ole mitään käytettävää"},
+    {Str::KeysMap,
+     "Talon kartta: nuolet siirtävät yhden ruudun, Vaihdon kanssa viisi; jokainen ruutu kertoo, mitä siinä on ja "
+     "mihin suuntaan se on käännetty, huoneen ja lattian kun ne vaihtuvat, sekä ympäröivät seinät, aidat, ovet "
+     "ja ikkunat, kukin omalla äänellään. Home palaa valittuun simiin. Page Down ja Page Up käyvät tontin asiat "
+     "läpi kuten aina, ja kartta siirtyy kuhunkin. Control Vaihto Page Up ja Page Down vaihtavat kerrosta. Enter "
+     "avaa siinä olevan asian valikon; Control+Enter lähettää valitun simin sinne. R kertoo kaiken, Control+L "
+     "huoneen pohjan. Control Vaihto S kytkee äänet pois ja päälle. Escape tai Control+M sulkee kartan."},
+    {Str::KeysMapHint, "Control+M: talon kartta, osoitin joka kulkee talon läpi ruutu ruudulta."},
+    {Str::KeysCuesHint, "Control Vaihto S kytkee osoittimen äänet pois ja päälle."},
+    // The manual (Control+Shift+F1, the mod help button)
+    {Str::ManualHint, "Control Vaihto F1 avaa käyttöoppaan; Control F1 kertoo kunkin näkymän näppäimet."},
+    {Str::KeysManual, "Control Vaihto F1 avaa modin koko käyttöoppaan selaimessa."},
+    {Str::ManualOpening, "avataan käyttöopas selaimessa"},
+    {Str::ManualMissing, "käyttöopas puuttuu: asenna modi uudelleen"},
+    {Str::ManualButton, "Sims-saavutettavuuden käyttöopas"},
+    {Str::GroupModHelp, "modin ohje"},
+    {Str::KeysButton, "Tämän näkymän näppäimet"},
 };
 
 }  // namespace

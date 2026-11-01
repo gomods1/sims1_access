@@ -1,0 +1,533 @@
+{
+ "out_dir": ".",
+ "normalize": -4.0,
+ "sounds": [
+  {
+   "out": "floor_grass.wav",
+   "normalize": -9,
+   "layers": [
+    {
+     "type": "sfx",
+     "kind": "noise",
+     "params": {
+      "dur": 0.09,
+      "color": "pink",
+      "attack": 0.01
+     },
+     "fx": [
+      {
+       "type": "bandpass",
+       "center": 1700
+      },
+      {
+       "type": "lowpass",
+       "cutoff": 3500
+      },
+      {
+       "type": "fade",
+       "out": 0.05
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "out": "floor_carpet.wav",
+   "normalize": -8,
+   "layers": [
+    {
+     "type": "sfx",
+     "kind": "footstep",
+     "params": {
+      "tone": 85
+     },
+     "fx": [
+      {
+       "type": "lowpass",
+       "cutoff": 500
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "out": "floor_wood.wav",
+   "normalize": -8,
+   "layers": [
+    {
+     "type": "sfx",
+     "kind": "steel_ball",
+     "params": {
+      "surface": "wood",
+      "force": 0.45
+     }
+    },
+    {
+     "type": "sfx",
+     "kind": "footstep",
+     "params": {
+      "tone": 140
+     },
+     "gain": 0.4
+    }
+   ]
+  },
+  {
+   "out": "floor_tile.wav",
+   "normalize": -9,
+   "layers": [
+    {
+     "type": "sfx",
+     "kind": "steel_ball",
+     "params": {
+      "surface": "plastic",
+      "force": 0.4
+     }
+    },
+    {
+     "type": "sfx",
+     "kind": "footstep",
+     "params": {
+      "tone": 180
+     },
+     "gain": 0.3
+    }
+   ]
+  },
+  {
+   "out": "floor_stone.wav",
+   "normalize": -8,
+   "layers": [
+    {
+     "type": "sfx",
+     "kind": "footstep",
+     "params": {
+      "tone": 150
+     }
+    },
+    {
+     "type": "sfx",
+     "kind": "noise",
+     "params": {
+      "dur": 0.05,
+      "color": "white",
+      "attack": 0.001
+     },
+     "gain": 0.35,
+     "fx": [
+      {
+       "type": "highpass",
+       "cutoff": 1500
+      },
+      {
+       "type": "lowpass",
+       "cutoff": 4500
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "out": "floor_water.wav",
+   "normalize": -8,
+   "layers": [
+    {
+     "type": "sfx",
+     "kind": "noise",
+     "params": {
+      "dur": 0.12,
+      "color": "pink",
+      "attack": 0.01
+     },
+     "fx": [
+      {
+       "type": "lowpass",
+       "cutoff": 1400
+      },
+      {
+       "type": "fade",
+       "out": 0.08
+      }
+     ],
+     "gain": 1,
+     "at": 0
+    },
+    {
+     "type": "sfx",
+     "kind": "noise",
+     "params": {
+      "dur": 0.05,
+      "color": "white",
+      "attack": 0.002
+     },
+     "fx": [
+      {
+       "type": "bandpass",
+       "center": 900,
+       "q": 2
+      }
+     ],
+     "gain": 0.4,
+     "at": 0.02
+    }
+   ]
+  },
+  {
+   "out": "floor_none.wav",
+   "normalize": -10,
+   "layers": [
+    {
+     "type": "sfx",
+     "kind": "whoosh",
+     "params": {
+      "dur": 0.16,
+      "low": 300,
+      "high": 1500,
+      "direction": "down"
+     },
+     "fx": [
+      {
+       "type": "lowpass",
+       "cutoff": 3000
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "out": "wall.wav",
+   "layers": [
+    {
+     "type": "sfx",
+     "kind": "hit",
+     "params": {
+      "dur": 0.12,
+      "tone": 130,
+      "crunch": 0.0
+     },
+     "fx": [
+      {
+       "type": "lowpass",
+       "cutoff": 900
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "out": "fence.wav",
+   "layers": [
+    {
+     "type": "sfx",
+     "kind": "steel_ball",
+     "params": {
+      "surface": "wood",
+      "force": 0.5,
+      "seed": 11
+     },
+     "at": 0,
+     "gain": 1
+    },
+    {
+     "type": "sfx",
+     "kind": "steel_ball",
+     "params": {
+      "surface": "wood",
+      "force": 0.35,
+      "seed": 12
+     },
+     "at": 0.05,
+     "gain": 1
+    }
+   ],
+   "fx": [
+    {
+     "type": "lowpass",
+     "cutoff": 3000
+    }
+   ]
+  },
+  {
+   "out": "door.wav",
+   "layers": [
+    {
+     "type": "sfx",
+     "kind": "door",
+     "params": {},
+     "gain": 0.8
+    },
+    {
+     "type": "sfx",
+     "kind": "click",
+     "params": {
+      "tone": 2200
+     },
+     "gain": 0.5,
+     "at": 0.0
+    }
+   ],
+   "duration": 0.35,
+   "fx": [
+    {
+     "type": "lowpass",
+     "cutoff": 3500
+    },
+    {
+     "type": "fade",
+     "out": 0.1
+    }
+   ]
+  },
+  {
+   "out": "window.wav",
+   "layers": [
+    {
+     "type": "sfx",
+     "kind": "click",
+     "params": {
+      "tone": 2600
+     },
+     "gain": 0.6
+    },
+    {
+     "type": "sfx",
+     "kind": "noise",
+     "params": {
+      "dur": 0.03,
+      "color": "white",
+      "attack": 0.002
+     },
+     "fx": [
+      {
+       "type": "bandpass",
+       "center": 2800,
+       "q": 2
+      }
+     ],
+     "gain": 0.3
+    }
+   ],
+   "duration": 0.15,
+   "fx": [
+    {
+     "type": "lowpass",
+     "cutoff": 4000
+    }
+   ]
+  },
+  {
+   "out": "stairs.wav",
+   "layers": [
+    {
+     "type": "sfx",
+     "kind": "footstep",
+     "params": {
+      "tone": 150
+     },
+     "at": 0,
+     "gain": 1
+    },
+    {
+     "type": "sfx",
+     "kind": "footstep",
+     "params": {
+      "tone": 170
+     },
+     "at": 0.08,
+     "gain": 0.9
+    },
+    {
+     "type": "sfx",
+     "kind": "footstep",
+     "params": {
+      "tone": 190
+     },
+     "at": 0.16,
+     "gain": 0.8
+    }
+   ],
+   "duration": 0.35
+  },
+  {
+   "out": "object.wav",
+   "layers": [
+    {
+     "type": "sfx",
+     "kind": "steel_ball",
+     "params": {
+      "surface": "rubber",
+      "force": 0.6,
+      "seed": 5
+     },
+     "at": 0,
+     "gain": 1
+    }
+   ]
+  },
+  {
+   "out": "person.wav",
+   "layers": [
+    {
+     "type": "sfx",
+     "kind": "noise",
+     "params": {
+      "dur": 0.14,
+      "color": "pink",
+      "attack": 0.03
+     },
+     "fx": [
+      {
+       "type": "bandpass",
+       "center": 900,
+       "q": 1.2
+      },
+      {
+       "type": "fade",
+       "out": 0.07
+      }
+     ],
+     "gain": 1,
+     "at": 0
+    }
+   ]
+  },
+  {
+   "out": "room.wav",
+   "layers": [
+    {
+     "type": "sfx",
+     "kind": "swoosh",
+     "params": {
+      "dur": 0.18
+     },
+     "fx": [
+      {
+       "type": "lowpass",
+       "cutoff": 2500
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "out": "edge.wav",
+   "layers": [
+    {
+     "type": "sfx",
+     "kind": "punch",
+     "params": {
+      "dur": 0.15
+     }
+    }
+   ],
+   "fx": [
+    {
+     "type": "lowpass",
+     "cutoff": 500
+    }
+   ]
+  },
+  {
+   "out": "slope.wav",
+   "layers": [
+    {
+     "type": "sfx",
+     "kind": "noise",
+     "params": {
+      "dur": 0.16,
+      "color": "brown",
+      "attack": 0.03
+     },
+     "fx": [
+      {
+       "type": "sweep",
+       "kind": "lowpass",
+       "start": 400,
+       "end": 1800
+      },
+      {
+       "type": "fade",
+       "out": 0.06
+      }
+     ],
+     "gain": 1,
+     "at": 0
+    }
+   ]
+  },
+  {
+   "out": "blocked.wav",
+   "layers": [
+    {
+     "type": "sfx",
+     "kind": "punch",
+     "params": {
+      "dur": 0.1
+     }
+    },
+    {
+     "type": "sfx",
+     "kind": "punch",
+     "params": {
+      "dur": 0.1
+     },
+     "at": 0.09,
+     "gain": 0.8
+    }
+   ],
+   "fx": [
+    {
+     "type": "lowpass",
+     "cutoff": 700
+    }
+   ]
+  },
+  {
+   "out": "fits.wav",
+   "layers": [
+    {
+     "type": "sfx",
+     "kind": "click",
+     "params": {
+      "tone": 1800
+     }
+    },
+    {
+     "type": "sfx",
+     "kind": "click",
+     "params": {
+      "tone": 2400
+     },
+     "at": 0.05,
+     "gain": 0.7
+    }
+   ],
+   "fx": [
+    {
+     "type": "lowpass",
+     "cutoff": 4000
+    }
+   ]
+  },
+  {
+   "out": "nofit.wav",
+   "layers": [
+    {
+     "type": "sfx",
+     "kind": "hit",
+     "params": {
+      "dur": 0.14,
+      "tone": 90,
+      "crunch": 0.3
+     }
+    }
+   ],
+   "fx": [
+    {
+     "type": "lowpass",
+     "cutoff": 800
+    }
+   ]
+  }
+ ]
+}

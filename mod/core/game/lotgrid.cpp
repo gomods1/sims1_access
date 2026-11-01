@@ -70,6 +70,77 @@ bool HasFloor(int level, int x, int y) {
     return row && Rd<uint16_t>(row + x * 2) != 0;
 }
 
+int FloorPattern(int level, int x, int y) {
+    Ptr row = x >= 0 && x < GridSize() ? MapRow(addr::grid::kFloors, level, y) : 0;
+    return row ? Rd<uint16_t>(row + x * 2) : 0;
+}
+
+namespace {
+
+// A byte of the pool or pond map (ground floor), 0xff when none.
+uint8_t ByteMapAt(int mapOffset, int x, int y) {
+    Ptr grid = Grid();
+    Ptr map = grid ? Rd<Ptr>(grid + mapOffset) : 0;
+    if (!map || x < 0 || y < 0 || x >= Rd<int>(map + 0x08) || y >= Rd<int>(map + 0x0c)) return 0xff;
+    Ptr rows = Rd<Ptr>(map + addr::grid::kByteMapRows);
+    Ptr row = rows ? Rd<Ptr>(rows + y * 4) : 0;
+    return row ? Rd<uint8_t>(row + x, 0xff) : 0xff;
+}
+
+// The footstep sound of a floor pattern, from the game's floor styles (a red-black tree: left
+// +0, parent +4, right +8, is-nil byte +0xd, key +0x10, value +0x14).
+int FloorSound(int pattern) {
+    Ptr map = Rd<Ptr>(Va(addr::grid::kFloorStyles));
+    Ptr head = map ? Rd<Ptr>(map) : 0;
+    if (!head) return 2;
+    Ptr node = Rd<Ptr>(head + 4);  // the root
+    for (int depth = 0; node && node != head && !Rd<uint8_t>(node + 0xd) && depth < 64; depth++) {
+        int key = Rd<int>(node + 0x10);
+        if (key == pattern) {
+            Ptr style = Rd<Ptr>(node + 0x14);
+            return style ? Rd<uint8_t>(style + addr::grid::kFloorStyleSound, 2) : 2;
+        }
+        node = Rd<Ptr>(node + (pattern < key ? 0 : 8));
+    }
+    return 2;
+}
+
+}  // namespace
+
+Surface SurfaceAt(int level, int x, int y) {
+    if (level == 1) {
+        uint8_t pool = ByteMapAt(addr::grid::kPoolMap, x, y);
+        if (pool < 0x10) return Surface::Water;
+        if (pool == 0x10) return Surface::PoolRim;
+        if (ByteMapAt(addr::grid::kPondMap, x, y) != 0xff) return Surface::Water;
+    }
+    int pattern = FloorPattern(level, x, y);
+    if (pattern == 0) return level > 1 ? Surface::NoFloor : Surface::Ground;
+    if (pattern == 0xff) return Surface::Tile;  // the half tile beside a diagonal wall
+    switch (FloorSound(pattern)) {
+    case 0: return Surface::Wood;
+    case 1: return Surface::Tile;
+    case 3: return Surface::Paving;
+    default: return Surface::Carpet;
+    }
+}
+
+void WallStylesAt(int level, int x, int y, uint16_t out[4]) {
+    typedef void*(__thiscall * WallsFn)(void* grid, void* out, const uint8_t* tile);
+    out[0] = out[1] = out[2] = out[3] = 0;
+    if (!FunctionOk(addr::grid::kWalls) || x < 0 || y < 0 || x >= GridSize() || y >= GridSize()) return;
+    Ptr grid = Grid();
+    if (!grid || level < 1 || level > addr::rooms::kMaxLevel) return;
+    alignas(4) unsigned char info[addr::grid::kWallInfoSize] = {};
+    uint8_t tile[4] = {(uint8_t)y, (uint8_t)x, (uint8_t)level, 0};
+    if (!Guarded([&] { ((WallsFn)Va(addr::grid::kWalls))((void*)grid, info, tile); })) return;
+    uint32_t mask;
+    memcpy(&mask, info, sizeof mask);
+    const uint32_t bits[4] = {kWallNorth, kWallWest, kWallSouth, kWallEast};
+    for (int i = 0; i < 4; i++)
+        if (mask & bits[i]) memcpy(&out[i], info + addr::grid::kWallStyles + 2 * i, 2);
+}
+
 uint32_t WallsAt(int level, int x, int y) {
     typedef void*(__thiscall * WallsFn)(void* grid, void* out, const uint8_t* tile);
     if (!FunctionOk(addr::grid::kWalls) || x < 0 || y < 0 || x >= GridSize() || y >= GridSize()) return 0;

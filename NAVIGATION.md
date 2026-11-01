@@ -38,6 +38,7 @@ for moving.
 | R | the item again, with its group |
 | Escape | close the interaction menu; otherwise the game's |
 | Ctrl+Up / Ctrl+Down, Ctrl+Left / Ctrl+Right | the review buffers (details, events) |
+| Ctrl+F1 / Ctrl+Shift+F1 | this screen's keys / the manual; both are also the buttons of every screen's last group, "mod help" |
 
 - Entering a group says its name and size ("objetos por tipo, 10 elementos. Sims, 3 elementos");
   moving inside says the item only; the position ("3 de 12, group") is in the details buffer.
@@ -59,3 +60,7 @@ When the task is a place, the arrows move in space:
 |---|---|---|---|---|---|---|---|
 | Placing (buy mode, `nav/buy_mode.cpp`, `PlacingKey`) | one tile, Shift five | the spots where it fits | the rooms with spots | the other directions on the tile | the spots too | the directions too | Enter buys, Delete sells, Escape stops, R repeats |
 | Build cursor (`nav/build_mode.cpp`) | one corner or tile, Shift five | the floor above / below | the rooms (their north-west corner) | | the rooms too | the ready-made room sizes (Insert builds one) | Space marks, Enter builds, Ctrl+Enter or Delete removes, Home back to the Sim, R, Escape leaves |
+| Live map (`nav/map_mode.cpp`, Ctrl+M) | one tile, Shift five | the lot's things (the map goes to each) | the rooms, as the lot's things | the kinds, as the lot's things | the HUD's groups as usual | | Ctrl+Shift+PageUp/Down the floors, Enter the menu of what stands there, Ctrl+Enter walks there, Home back to the Sim, R, Escape or Ctrl+M leaves |
+
+Every spatial tool also plays the sound cues of `nav/cues.h` on each step (Ctrl+Shift+S turns them
+off): the floor, each side's wall, fence, door or window, what stands on the tile.

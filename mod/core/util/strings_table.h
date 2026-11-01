@@ -563,7 +563,7 @@
       "would build and cost. Enter builds a wall from the start to the cursor, Shift+Enter builds the four "         \
       "walls of a room between them, Control+Enter or Delete removes walls. Before building, the mod warns "         \
       "when the walls would cut Sims off from an object, close a door or shut off part of the lot, and "             \
-      "Enter again builds anyway. Page Down and Page Up choose a ready-made room size, Insert builds it "            \
+      "Enter again builds anyway. Comma and period choose a ready-made room size, Insert builds it "                 \
       "with its north-west corner at the cursor. Home goes back to the selected Sim, Escape leaves the "             \
       "cursor.")                                                                                                     \
     /* Build cursor (area) */                                                                                        \
@@ -915,4 +915,36 @@
     /* Inventory */                                                                                                  \
     X(ItemCount, "%s, %d of them")                                                                                   \
     /* Trips: home again */                                                                                          \
-    X(ArrivedHome, "back home")
+    X(ArrivedHome, "back home")                                                                                      \
+    /* Sound cues and the live-mode map */                                                                           \
+    X(CuesOn, "cursor sounds on")                                                                                    \
+    X(CuesOff, "cursor sounds off")                                                                                  \
+    X(SurfaceGround, "ground")                                                                                       \
+    X(SurfaceWood, "wood floor")                                                                                     \
+    X(SurfaceTile, "tile floor")                                                                                     \
+    X(SurfaceCarpet, "carpet")                                                                                       \
+    X(SurfacePaving, "paving")                                                                                       \
+    X(SurfacePoolRim, "pool edge")                                                                                   \
+    X(SurfaceWater, "water")                                                                                         \
+    X(SurfaceNone, "no floor")                                                                                       \
+    X(EdgeWall, "wall to the %s")                                                                                    \
+    X(EdgeFence, "fence to the %s")                                                                                  \
+    X(EdgeRailing, "railing to the %s")                                                                              \
+    X(EdgeDoor, "door to the %s")                                                                                    \
+    X(EdgeWindow, "window to the %s")                                                                                \
+    X(MapStairs, "stairs")                                                                                           \
+    X(MapOn, "House map. Control+F1 says the keys.")                                                                 \
+    X(MapOff, "map off")                                                                                             \
+    X(MapNoFloor, "nothing is built on floor %d")                                                                    \
+    X(MapNothingHere, "nothing to use here")                                                                         \
+    X(KeysMap, "House map: arrows move one tile, with Shift five; each tile says what stands there and which way it faces, the room and the floor when they change, and the walls, fences, doors and windows around it, with a sound for each. Home goes back to the selected Sim. Page Down and Page Up go through the lot's things as always, and the map goes to each one. Control+Shift+Page Up and Page Down change floor. Enter opens the menu of what stands there; Control+Enter walks the selected Sim there. R says everything, Control+L the room's layout. Control+Shift+S turns the sounds off and on. Escape or Control+M leaves the map.")\
+    X(KeysMapHint, "Control+M: the house map, a cursor that walks the house tile by tile.")                          \
+    X(KeysCuesHint, "Control+Shift+S turns the cursor sounds off and on.")                                           \
+    /* The manual (Control+Shift+F1, the mod help button) */                                                         \
+    X(ManualHint, "Control+Shift+F1 opens the manual; Control+F1 says the keys of each screen.")                     \
+    X(KeysManual, "Control+Shift+F1 opens the mod's full manual in your browser.")                                   \
+    X(ManualOpening, "opening the manual in your browser")                                                           \
+    X(ManualMissing, "the manual is missing: reinstall the mod")                                                     \
+    X(ManualButton, "Sims Accessibility manual")                                                                     \
+    X(GroupModHelp, "mod help")                                                                                      \
+    X(KeysButton, "Keys for this screen")

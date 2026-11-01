@@ -393,6 +393,17 @@ constexpr Va kWalls = 0x585a30;       // thiscall WallInfo* (WallInfo* out, u8 t
                                       // 2 = toward x-1, 4 = toward y+1, 8 = toward x+1, 0x10/0x20
                                       // diagonals), u16 style per segment at +8
 constexpr size_t kWallInfoSize = 0x2c;
+constexpr int kWallStyles = 0x08;     // WallInfo: u16 style of the y-1, x-1, y+1, x+1 edge (1 = a wall)
+constexpr int kPoolMap = 0x60;        // byte per tile, ground floor only: 0xff none, < 0x10 pool water,
+constexpr int kPondMap = 0x64;        //   0x10 its rim ("Pool"); the water tool's ponds ("Water"): not 0xff
+constexpr int kByteMapRows = 0x10;    // these two maps keep their rows (by tile y) at +0x10
+// The floor styles: std::map<int pattern, FloorStyle*> at [kFloorStyles]; the style's +0x44 byte
+// is what its footsteps sound like (0 wood, 1 tile, 2 carpet, 3 paving: 0x59b480, read by the
+// footstep code 0x5cf100; a pattern missing from the map counts as 2). Verified on the 29 base
+// floors by their names (Build.iff STR# 130): carpets 2, parquet and hardwood 0, ceramic and
+// granite tiles and linoleum 1, macadam, cement, concrete and gravel 3.
+constexpr Va kFloorStyles = 0xa72e40;
+constexpr int kFloorStyleSound = 0x44;
 }  // namespace grid
 
 // ---- The cheat console (main window, cTSMainWindowW95) ------------------------------------

@@ -47,6 +47,8 @@ enum class Role {
     Level,         // lot view: a kind or a room of the lot's things (number: which); Enter opens its
                    // things (nav/world.h). widget = its group key: no game widget behind it
     LotObject,     // lot view: a thing of the lot (number = object id); Enter its interactions
+    ModManual,     // the "mod help" group's buttons: Enter opens the manual (number 0, nav/manual.h)
+                   // or says this screen's keys, as Control+F1 does (number 1)
 };
 
 enum class JobField { Job, Pay, Performance, FriendsNeeded };
@@ -115,10 +117,13 @@ constexpr Ptr kTipGroup = 11;          // lot view: the help system's tip icon (
 constexpr Ptr kBookEntriesGroup = 12;  // Makin' Magic's book: the page's spells or recipes
 constexpr Ptr kKindsGroup = 13;        // lot view: the lot's things by kind (nav/world.h)
 constexpr Ptr kRoomsGroup = 14;        // lot view: the lot's things by room
+constexpr Ptr kModHelpGroup = 15;      // every screen's last group: this screen's keys, the manual
 
 // Items the mod makes from game state, with no widget behind them (their widget is their group
 // key): nothing may read game memory through it.
-inline bool IsVirtual(const Item& it) { return it.role == Role::Level || it.role == Role::LotObject; }
+inline bool IsVirtual(const Item& it) {
+    return it.role == Role::Level || it.role == Role::LotObject || it.role == Role::ModManual;
+}
 
 inline bool HasRole(const Group& g, Role role) {
     for (const Item& it : g.items)

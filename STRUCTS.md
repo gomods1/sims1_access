@@ -762,7 +762,17 @@ editable), `+0x38` u16 object id (one per tile: a window on the wall hides the c
 so the mod lists objects from the object vector instead), `+0x40` 14-byte wall entries.
 `0x585a30` (thiscall on the grid, `(WallInfo* out, u8 tile[3] {y, x, level})`) fills a WallInfo:
 `+0` mask 1 = edge toward y-1, 2 = toward x-1 (both owned by the tile), 4 = toward y+1, 8 = toward
-x+1 (from the neighbours), 0x10/0x20 diagonals; `+8` u16 style per segment (2, 0xc-0xe fences).
+x+1 (from the neighbours), 0x10/0x20 diagonals; `+8` u16 style per edge in the order y-1, x-1,
+y+1, x+1. Styles (the Lápida mansion, 2026-11-01): 1 the plain wall, 3 the wall piece a door
+stands in, 22 a window's, 13 its iron fence, 14 the railing upstairs around the stairwell; the
+mod counts everything but 1, 3 and 22 as a fence (a railing upstairs).
+Pool and pond: `+0x60` and `+0x64` are byte maps ("Pool", "Water"; w, h at `+0x08`/`+0x0c`,
+rows by y at `+0x10`), ground floor only: 0xff none; pool < 0x10 water, 0x10 its rim; pond not
+0xff = water (`0x585dc0`, `0x585d10`, `0x585e70`, read by the footstep code `0x5cf100`).
+Floor styles: `[0xa72e40]` is a std::map<int pattern, FloorStyle*> (237 entries: 1-29 base,
+256+ the rest); the style's `+0x44` byte is its footstep sound, 0 wood, 1 tile, 2 carpet, 3
+paving (`0x59b480`; missing = 2). `[0xa72e48]` is another map (311 entries, 0-30, 248+:
+wallpapers, not checked). Levels above 2 have maps full of garbage: The Sims 1 builds two floors.
 Verified: the fridge the mod put "contra la pared oeste" had mask 2 and stood against that wall.
 
 ## House files (`<neighborhood>\Houses\HouseNN.iff`)

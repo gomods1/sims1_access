@@ -18,6 +18,7 @@
 #include "game/rtti.h"
 #include "game/ui.h"
 #include "input/keyboard.h"
+#include "nav/manual.h"
 #include "nav/navigator.h"
 #include "speech/speech.h"
 #include "util/language.h"
@@ -76,6 +77,7 @@ extern "C" __declspec(dllexport) int __cdecl SA_Init(const SaLoaderApi* api) {
     util::InitLog(api, dev);
     Log("SimsAccess core init (built %s %s)", __DATE__, __TIME__);
     util::InitSettings(api->mod_dir);
+    nav::manual::Init(api->mod_dir);
     g_gameWindow = api->hwnd;
     if (dev) ReadReturnFocus(api);
     util::InitLanguage();  // from the registry: even an unsupported build speaks the player's language
@@ -92,7 +94,8 @@ extern "C" __declspec(dllexport) int __cdecl SA_Init(const SaLoaderApi* api) {
     nav::Reset();
     if (g_forceActive) Log("development: forcing the game's app-active flag on");
     g_active = true;
-    if (!api->reloaded) speech::Say(S(Str::ModLoaded));
+    // Where the help is, once per game start: the manual and each screen's keys.
+    if (!api->reloaded) speech::Say(std::string(S(Str::ModLoaded)) + ". " + S(Str::ManualHint));
     return 1;
 }
 

@@ -841,6 +841,42 @@ const Translation kEntries[] = {
     {Str::ItemCount, "%s、%d個"},
     // Trips: home again
     {Str::ArrivedHome, "帰宅しました"},
+    // Sound cues and the live-mode map
+    {Str::CuesOn, "カーソル音オン"},
+    {Str::CuesOff, "カーソル音オフ"},
+    {Str::SurfaceGround, "地面"},
+    {Str::SurfaceWood, "木の床"},
+    {Str::SurfaceTile, "タイルの床"},
+    {Str::SurfaceCarpet, "カーペット"},
+    {Str::SurfacePaving, "舗装"},
+    {Str::SurfacePoolRim, "プールの縁"},
+    {Str::SurfaceWater, "水"},
+    {Str::SurfaceNone, "床なし"},
+    {Str::EdgeWall, "%s側に壁"},
+    {Str::EdgeFence, "%s側にフェンス"},
+    {Str::EdgeRailing, "%s側に手すり"},
+    {Str::EdgeDoor, "%s側にドア"},
+    {Str::EdgeWindow, "%s側に窓"},
+    {Str::MapStairs, "階段"},
+    {Str::MapOn, "家のマップ。Ctrl+F1でキーを読みます。"},
+    {Str::MapOff, "マップを閉じました"},
+    {Str::MapNoFloor, "%d階には何も建っていません"},
+    {Str::MapNothingHere, "ここに使える物はありません"},
+    {Str::KeysMap,
+     "家のマップ：矢印キーで1マス、Shiftで5マス移動します。各マスで、そこにある物と向き、部屋と床が変わったときはそれも、周りの壁、フェンス、ドア、窓をそれぞれの音とともに読みます。Homeで選択中のシムに戻ります"
+     "。Page DownとPage Upはいつもどおり区画の物を巡り、マップもそこへ移ります。Ctrl Shift Page UpとPage "
+     "Downで階を変えます。Enterでそこにある物のメニューを開き、Ctrl+Enterで選択中のシムをそこへ歩かせます。Rですべてを、Ctrl+Lで部屋の配置を読みます。Ctrl Shift "
+     "Sで音をオフ・オンします。EscapeまたはCtrl+Mでマップを閉じます。"},
+    {Str::KeysMapHint, "Ctrl+M：家のマップ。家を1マスずつ巡るカーソルです。"},
+    {Str::KeysCuesHint, "Ctrl Shift Sでカーソル音をオフ・オンします。"},
+    // The manual (Control+Shift+F1, the mod help button)
+    {Str::ManualHint, "Ctrl Shift F1でマニュアルを開きます。Ctrl F1で各画面のキーを読み上げます。"},
+    {Str::KeysManual, "Ctrl Shift F1でモッドの完全なマニュアルをブラウザーで開きます。"},
+    {Str::ManualOpening, "ブラウザーでマニュアルを開いています"},
+    {Str::ManualMissing, "マニュアルが見つかりません。モッドを入れ直してください"},
+    {Str::ManualButton, "シムピープル アクセシビリティ マニュアル"},
+    {Str::GroupModHelp, "モッドのヘルプ"},
+    {Str::KeysButton, "この画面のキー"},
 };
 
 }  // namespace

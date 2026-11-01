@@ -846,6 +846,42 @@ const Translation kEntries[] = {
     {Str::ItemCount, "%s, %d개"},
     // Trips: home again
     {Str::ArrivedHome, "집으로 돌아왔습니다"},
+    // Sound cues and the live-mode map
+    {Str::CuesOn, "커서 소리 켬"},
+    {Str::CuesOff, "커서 소리 끔"},
+    {Str::SurfaceGround, "땅"},
+    {Str::SurfaceWood, "나무 바닥"},
+    {Str::SurfaceTile, "타일 바닥"},
+    {Str::SurfaceCarpet, "카펫"},
+    {Str::SurfacePaving, "포장 바닥"},
+    {Str::SurfacePoolRim, "수영장 가장자리"},
+    {Str::SurfaceWater, "물"},
+    {Str::SurfaceNone, "바닥 없음"},
+    {Str::EdgeWall, "%s에 벽"},
+    {Str::EdgeFence, "%s에 울타리"},
+    {Str::EdgeRailing, "%s에 난간"},
+    {Str::EdgeDoor, "%s에 문"},
+    {Str::EdgeWindow, "%s에 창문"},
+    {Str::MapStairs, "계단"},
+    {Str::MapOn, "집 지도. Ctrl+F1은 키를 알려 줍니다."},
+    {Str::MapOff, "지도 닫음"},
+    {Str::MapNoFloor, "%d층에는 지어진 것이 없습니다"},
+    {Str::MapNothingHere, "여기에는 사용할 것이 없습니다"},
+    {Str::KeysMap,
+     "집 지도: 화살표는 한 칸, Shift와 함께 다섯 칸 움직입니다. 칸마다 그곳에 있는 것과 향하는 방향, 방과 바닥이 바뀌면 그것도, 주변의 벽, 울타리, 문, 창문을 각각의 소리와 함께 "
+     "알려 줍니다. Home은 선택한 심으로 돌아갑니다. Page Down과 Page Up은 평소처럼 부지의 물건을 차례로 보며, 지도도 그곳으로 갑니다. Ctrl Shift Page Up과 "
+     "Page Down은 층을 바꿉니다. Enter는 그곳에 있는 것의 메뉴를 열고, Ctrl+Enter는 선택한 심을 그곳으로 걸어가게 합니다. R은 모든 것을, Ctrl+L은 방의 배치를 알려 "
+     "줍니다. Ctrl Shift S는 소리를 끄고 켭니다. Escape나 Ctrl+M은 지도를 닫습니다."},
+    {Str::KeysMapHint, "Ctrl+M: 집 지도, 집을 한 칸씩 돌아보는 커서입니다."},
+    {Str::KeysCuesHint, "Ctrl Shift S는 커서 소리를 끄고 켭니다."},
+    // The manual (Control+Shift+F1, the mod help button)
+    {Str::ManualHint, "Ctrl Shift F1은 설명서를 엽니다. Ctrl F1은 각 화면의 키를 알려 줍니다."},
+    {Str::KeysManual, "Ctrl Shift F1은 모드의 전체 설명서를 브라우저에서 엽니다."},
+    {Str::ManualOpening, "브라우저에서 설명서를 여는 중"},
+    {Str::ManualMissing, "설명서가 없습니다: 모드를 다시 설치하세요"},
+    {Str::ManualButton, "더 심즈 접근성 설명서"},
+    {Str::GroupModHelp, "모드 도움말"},
+    {Str::KeysButton, "이 화면의 키"},
 };
 
 }  // namespace

@@ -16,4 +16,7 @@ bool OnSysKeyDown(WPARAM vk, LPARAM lp);
 bool OnSysChar(WPARAM ch);
 void OnFocusLost();  // forget tracked modifier keys
 
+// What Control+F1 says: the mod's keys where the player is (also the "mod help" group's button).
+void SayKeyHelp();
+
 }  // namespace input

@@ -19,6 +19,10 @@ uint8_t TileFlags(int level, int x, int y);
 constexpr uint8_t kTileOutside = 0x04;
 constexpr uint8_t kTileNotBuildable = 0x20;  // outside the lot's buildable area (walls refused)
 bool HasFloor(int level, int x, int y);    // a floor pattern (upper levels need one to stand on)
+int FloorPattern(int level, int x, int y);  // 0 none, 255 the half tile of a diagonal wall
+// What the floor is made of, as the game's footsteps hear it.
+enum class Surface { Ground, Wood, Tile, Carpet, Paving, NoFloor, Water, PoolRim };
+Surface SurfaceAt(int level, int x, int y);
 // The ground height at a tile's four corners (the terrain map, world + 0x14: 4 bytes per tile,
 // grid order; what 0x585940 reads). false outside the grid.
 bool TileHeights(int x, int y, uint8_t out[4]);
@@ -32,6 +36,9 @@ enum WallEdge : uint32_t {
     kWallDiagonals = 0x30,
 };
 uint32_t WallsAt(int level, int x, int y);
+// The style of each wall of the tile, north, west, south, east (0 where there is none); 1 is the
+// wall tool's wall, anything else a fence, a balustrade or a wall of another kind.
+void WallStylesAt(int level, int x, int y, uint16_t out[4]);
 
 struct Tile {
     int x = 0, y = 0;

@@ -935,6 +935,45 @@ const Translation kEntries[] = {
     {Str::ItemCount, "%s, %d stuks"},
     // Trips: home again
     {Str::ArrivedHome, "weer thuis"},
+    // Sound cues and the live-mode map
+    {Str::CuesOn, "cursorgeluiden aan"},
+    {Str::CuesOff, "cursorgeluiden uit"},
+    {Str::SurfaceGround, "grond"},
+    {Str::SurfaceWood, "houten vloer"},
+    {Str::SurfaceTile, "tegels"},
+    {Str::SurfaceCarpet, "vloerbedekking"},
+    {Str::SurfacePaving, "bestrating"},
+    {Str::SurfacePoolRim, "zwembadrand"},
+    {Str::SurfaceWater, "water"},
+    {Str::SurfaceNone, "geen vloer"},
+    {Str::EdgeWall, "muur naar het %s"},
+    {Str::EdgeFence, "hek naar het %s"},
+    {Str::EdgeRailing, "reling naar het %s"},
+    {Str::EdgeDoor, "deur naar het %s"},
+    {Str::EdgeWindow, "raam naar het %s"},
+    {Str::MapStairs, "trap"},
+    {Str::MapOn, "Plattegrond van het huis. Control+F1 noemt de toetsen."},
+    {Str::MapOff, "plattegrond uit"},
+    {Str::MapNoFloor, "op verdieping %d is niets gebouwd"},
+    {Str::MapNothingHere, "hier is niets te gebruiken"},
+    {Str::KeysMap,
+     "Plattegrond: de pijltjes gaan één vak verder, met Shift vijf; elk vak zegt wat er staat en welke kant het "
+     "op kijkt, de kamer en de vloer als die veranderen, en de muren, hekken, deuren en ramen eromheen, elk met "
+     "een geluid. Home gaat terug naar de gekozen Sim. Page Down en Page Up gaan zoals altijd door de dingen van "
+     "het perceel, en de plattegrond gaat naar elk ervan. Control Shift Page Up en Page Down wisselen van "
+     "verdieping. Enter opent het menu van wat er staat; Control+Enter stuurt de gekozen Sim erheen. R zegt "
+     "alles, Control+L de indeling van de kamer. Control Shift S zet de geluiden uit en aan. Escape of Control+M "
+     "sluit de plattegrond."},
+    {Str::KeysMapHint, "Control+M: de plattegrond, een cursor die het huis vak voor vak afloopt."},
+    {Str::KeysCuesHint, "Control Shift S zet de cursorgeluiden uit en aan."},
+    // The manual (Control+Shift+F1, the mod help button)
+    {Str::ManualHint, "Control Shift F1 opent de handleiding; Control F1 noemt de toetsen van elk scherm."},
+    {Str::KeysManual, "Control Shift F1 opent de volledige handleiding van de mod in je browser."},
+    {Str::ManualOpening, "handleiding wordt geopend in de browser"},
+    {Str::ManualMissing, "de handleiding ontbreekt: installeer de mod opnieuw"},
+    {Str::ManualButton, "Handleiding Toegankelijkheid voor De Sims"},
+    {Str::GroupModHelp, "mod-hulp"},
+    {Str::KeysButton, "Toetsen voor dit scherm"},
 };
 
 }  // namespace

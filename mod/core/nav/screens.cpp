@@ -112,6 +112,7 @@ std::string GroupName(const Group& g) {
     if (g.key == kLooksGroup) return S(Str::GroupLooks);
     if (g.key == kMembersGroup) return S(Str::GroupMembers);
     if (g.key == kTipGroup) return S(Str::GroupTip);
+    if (g.key == kModHelpGroup) return S(Str::GroupModHelp);
     if (g.key == kKindsGroup || g.key == kRoomsGroup) return world::LevelName(g.key);
     // The phone book: families on the left, the chosen family's members on the right.
     if (game::IsKindOf(g.key, "cTSWinTextList") && game::IsKindOf(game::Parent(g.key), "CWinPhoneBook")) {

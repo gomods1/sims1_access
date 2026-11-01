@@ -930,6 +930,45 @@ const Translation kEntries[] = {
     {Str::ItemCount, "%s, %d unidades"},
     // Trips: home again
     {Str::ArrivedHome, "de vuelta en casa"},
+    // Sound cues and the live-mode map
+    {Str::CuesOn, "sonidos del cursor activados"},
+    {Str::CuesOff, "sonidos del cursor desactivados"},
+    {Str::SurfaceGround, "terreno"},
+    {Str::SurfaceWood, "suelo de madera"},
+    {Str::SurfaceTile, "baldosas"},
+    {Str::SurfaceCarpet, "moqueta"},
+    {Str::SurfacePaving, "pavimento"},
+    {Str::SurfacePoolRim, "borde de la piscina"},
+    {Str::SurfaceWater, "agua"},
+    {Str::SurfaceNone, "sin suelo"},
+    {Str::EdgeWall, "pared al %s"},
+    {Str::EdgeFence, "valla al %s"},
+    {Str::EdgeRailing, "barandilla al %s"},
+    {Str::EdgeDoor, "puerta al %s"},
+    {Str::EdgeWindow, "ventana al %s"},
+    {Str::MapStairs, "escalera"},
+    {Str::MapOn, "Mapa de la casa. Control+F1 dice las teclas."},
+    {Str::MapOff, "mapa cerrado"},
+    {Str::MapNoFloor, "en el piso %d no hay nada construido"},
+    {Str::MapNothingHere, "aquí no hay nada que usar"},
+    {Str::KeysMap,
+     "Mapa de la casa: las flechas avanzan una casilla, con Mayúsculas cinco; cada casilla dice lo que hay y "
+     "hacia dónde mira, la habitación y el suelo cuando cambian, y las paredes, vallas, puertas y ventanas "
+     "alrededor, con un sonido para cada una. Inicio vuelve al Sim seleccionado. Avance de página y Retroceso de "
+     "página recorren las cosas del solar como siempre, y el mapa va a cada una. Control Mayúsculas Retroceso de "
+     "página y Avance de página cambian de piso. Intro abre el menú de lo que hay; Control+Intro manda allí al "
+     "Sim seleccionado. R lo dice todo, Control+L la distribución de la habitación. Control Mayúsculas S quita y "
+     "pone los sonidos. Escape o Control+M sale del mapa."},
+    {Str::KeysMapHint, "Control+M: el mapa de la casa, un cursor que la recorre casilla a casilla."},
+    {Str::KeysCuesHint, "Control Mayúsculas S quita y pone los sonidos del cursor."},
+    // The manual (Control+Shift+F1, the mod help button)
+    {Str::ManualHint, "Control Mayúsculas F1 abre el manual; Control F1 dice las teclas de cada pantalla."},
+    {Str::KeysManual, "Control Mayúsculas F1 abre el manual completo del mod en el navegador."},
+    {Str::ManualOpening, "abriendo el manual en el navegador"},
+    {Str::ManualMissing, "falta el manual: reinstala el mod"},
+    {Str::ManualButton, "Manual de Accesibilidad de Los Sims"},
+    {Str::GroupModHelp, "ayuda del mod"},
+    {Str::KeysButton, "Teclas de esta pantalla"},
 };
 
 }  // namespace

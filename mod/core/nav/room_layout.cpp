@@ -14,6 +14,7 @@
 #include "../util/text.h"
 #include "buffers.h"
 #include "build_mode.h"
+#include "map_mode.h"
 #include "navigator.h"
 #include "room_names.h"
 #include "world.h"
@@ -62,7 +63,7 @@ void SayRoomLayout() {
         return;
     }
     int x = 0, y = 0, level = 1;
-    if (!build::CursorTile(&x, &y, &level)) {
+    if (!build::CursorTile(&x, &y, &level) && !map::CursorTile(&x, &y, &level)) {
         game::LotObject sim;
         if (!game::GetObject(game::SelectedSim(), &sim)) {
             speech::Say(S(Str::NoSimSelected));

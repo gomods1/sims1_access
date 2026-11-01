@@ -943,6 +943,45 @@ const Translation kEntries[] = {
     {Str::ItemCount, "%s, %d unités"},
     // Trips: home again
     {Str::ArrivedHome, "de retour à la maison"},
+    // Sound cues and the live-mode map
+    {Str::CuesOn, "sons du curseur activés"},
+    {Str::CuesOff, "sons du curseur désactivés"},
+    {Str::SurfaceGround, "terrain"},
+    {Str::SurfaceWood, "parquet"},
+    {Str::SurfaceTile, "carrelage"},
+    {Str::SurfaceCarpet, "moquette"},
+    {Str::SurfacePaving, "pavé"},
+    {Str::SurfacePoolRim, "bord de piscine"},
+    {Str::SurfaceWater, "eau"},
+    {Str::SurfaceNone, "pas de sol"},
+    {Str::EdgeWall, "mur au %s"},
+    {Str::EdgeFence, "clôture au %s"},
+    {Str::EdgeRailing, "garde-corps au %s"},
+    {Str::EdgeDoor, "porte au %s"},
+    {Str::EdgeWindow, "fenêtre au %s"},
+    {Str::MapStairs, "escalier"},
+    {Str::MapOn, "Plan de la maison. Contrôle+F1 donne les touches."},
+    {Str::MapOff, "plan fermé"},
+    {Str::MapNoFloor, "rien n'est construit à l'étage %d"},
+    {Str::MapNothingHere, "rien à utiliser ici"},
+    {Str::KeysMap,
+     "Plan de la maison : les flèches avancent d'une case, avec Maj de cinq ; chaque case dit ce qui s'y trouve "
+     "et vers où c'est orienté, la pièce et le sol quand ils changent, et les murs, clôtures, portes et fenêtres "
+     "autour, avec un son pour chacun. Début revient au Sim sélectionné. Page suivante et Page précédente "
+     "parcourent les objets du terrain comme toujours, et le plan va à chacun. Contrôle Maj Page précédente et "
+     "Page suivante changent d'étage. Entrée ouvre le menu de ce qui s'y trouve ; Contrôle+Entrée y envoie le "
+     "Sim sélectionné. R dit tout, Contrôle+L la disposition de la pièce. Contrôle Maj S active ou coupe les "
+     "sons. Échap ou Contrôle+M quitte le plan."},
+    {Str::KeysMapHint, "Contrôle+M : le plan de la maison, un curseur qui la parcourt case par case."},
+    {Str::KeysCuesHint, "Contrôle Maj S active ou coupe les sons du curseur."},
+    // The manual (Control+Shift+F1, the mod help button)
+    {Str::ManualHint, "Contrôle Maj F1 ouvre le manuel ; Contrôle F1 dit les touches de chaque écran."},
+    {Str::KeysManual, "Contrôle Maj F1 ouvre le manuel complet du mod dans ton navigateur."},
+    {Str::ManualOpening, "ouverture du manuel dans le navigateur"},
+    {Str::ManualMissing, "le manuel est introuvable : réinstalle le mod"},
+    {Str::ManualButton, "Manuel d'Accessibilité pour Les Sims"},
+    {Str::GroupModHelp, "aide du mod"},
+    {Str::KeysButton, "Touches de cet écran"},
 };
 
 }  // namespace

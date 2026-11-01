@@ -911,6 +911,44 @@ const Translation kEntries[] = {
     {Str::ItemCount, "%s, %d ชิ้น"},
     // Trips: home again
     {Str::ArrivedHome, "กลับถึงบ้านแล้ว"},
+    // Sound cues and the live-mode map
+    {Str::CuesOn, "เปิดเสียงเคอร์เซอร์"},
+    {Str::CuesOff, "ปิดเสียงเคอร์เซอร์"},
+    {Str::SurfaceGround, "พื้นดิน"},
+    {Str::SurfaceWood, "พื้นไม้"},
+    {Str::SurfaceTile, "พื้นกระเบื้อง"},
+    {Str::SurfaceCarpet, "พรม"},
+    {Str::SurfacePaving, "พื้นปูทาง"},
+    {Str::SurfacePoolRim, "ขอบสระ"},
+    {Str::SurfaceWater, "น้ำ"},
+    {Str::SurfaceNone, "ไม่มีพื้น"},
+    {Str::EdgeWall, "กำแพงทางทิศ%s"},
+    {Str::EdgeFence, "รั้วทางทิศ%s"},
+    {Str::EdgeRailing, "ราวกั้นทางทิศ%s"},
+    {Str::EdgeDoor, "ประตูทางทิศ%s"},
+    {Str::EdgeWindow, "หน้าต่างทางทิศ%s"},
+    {Str::MapStairs, "บันได"},
+    {Str::MapOn, "แผนที่บ้าน Control+F1 บอกปุ่ม"},
+    {Str::MapOff, "ปิดแผนที่"},
+    {Str::MapNoFloor, "ชั้น %d ยังไม่มีสิ่งก่อสร้าง"},
+    {Str::MapNothingHere, "ที่นี่ไม่มีอะไรให้ใช้"},
+    {Str::KeysMap,
+     "แผนที่บ้าน: ลูกศรเลื่อนทีละช่อง กับ Shift ห้าช่อง แต่ละช่องบอกสิ่งที่อยู่ตรงนั้นและหันไปทางไหน "
+     "ห้องและพื้นเมื่อเปลี่ยน และกำแพง รั้ว ประตู หน้าต่างรอบ ๆ พร้อมเสียงของแต่ละอย่าง Home "
+     "กลับไปที่ซิมที่เลือก Page Down และ Page Up ไล่สิ่งของในที่ดินเหมือนเดิม และแผนที่ตามไปที่แต่ละชิ้น Control "
+     "Shift Page Up และ Page Down เปลี่ยนชั้น Enter เปิดเมนูของสิ่งที่อยู่ตรงนั้น Control+Enter "
+     "ให้ซิมที่เลือกเดินไปที่นั่น R บอกทั้งหมด Control+L บอกผังห้อง Control Shift S ปิดและเปิดเสียง Escape หรือ "
+     "Control+M ออกจากแผนที่"},
+    {Str::KeysMapHint, "Control+M: แผนที่บ้าน เคอร์เซอร์ที่เดินดูบ้านทีละช่อง"},
+    {Str::KeysCuesHint, "Control Shift S ปิดและเปิดเสียงเคอร์เซอร์"},
+    // The manual (Control+Shift+F1, the mod help button)
+    {Str::ManualHint, "Control Shift F1 เปิดคู่มือ Control F1 บอกปุ่มของแต่ละหน้าจอ"},
+    {Str::KeysManual, "Control Shift F1 เปิดคู่มือฉบับเต็มของม็อดในเบราว์เซอร์"},
+    {Str::ManualOpening, "กำลังเปิดคู่มือในเบราว์เซอร์"},
+    {Str::ManualMissing, "ไม่พบคู่มือ: ติดตั้งม็อดใหม่"},
+    {Str::ManualButton, "คู่มือม็อดการเข้าถึงเดอะซิมส์"},
+    {Str::GroupModHelp, "ความช่วยเหลือของม็อด"},
+    {Str::KeysButton, "ปุ่มของหน้าจอนี้"},
 };
 
 }  // namespace

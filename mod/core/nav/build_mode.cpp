@@ -20,6 +20,7 @@
 #include "../util/strings.h"
 #include "../util/text.h"
 #include "buffers.h"
+#include "cues.h"
 #include "navigator.h"
 #include "placement.h"
 #include "room_names.h"
@@ -293,6 +294,13 @@ std::vector<std::string> FullLines() {
     return lines;
 }
 
+// The cursor's sounds (nav/cues.h): corners for walls and fences, tiles for the other tools.
+void Cue() {
+    if (g.floors) cues::Tile(g.level, g.cursor.x, g.cursor.y);
+    else cues::Corner(g.level, g.cursor.x, g.cursor.y);
+    if (!game::CornerBuildable(g.cursor)) cues::Blocked();
+}
+
 void SayShort() {
     std::vector<std::string> lines = FullLines();
     buffers::SetDetails(lines);
@@ -300,6 +308,7 @@ void SayShort() {
     int fromLevel = g.lastRoomLevel;
     bool changed = RoomChanged();
     speech::Say(ShortLine(changed, fromLevel == g.level ? from : ""));
+    Cue();
 }
 
 // ---- Building ------------------------------------------------------------------------------
@@ -484,6 +493,8 @@ bool Start(uintptr_t productButton) {
     // The floor it works on: choosing a tool puts the view back on the first floor.
     speech::Say(util::Format(S(start), g.style.c_str()) + " " + util::Format(S(Str::FloorNumber), g.level) + ". " +
                 LineWithRoom());
+    cues::Reset();
+    Cue();
     return true;
 }
 
@@ -508,6 +519,7 @@ void Move(int dx, int dy) {
     Corner next = Clamp({g.cursor.x + dx, g.cursor.y + dy});
     if (next == g.cursor) {
         speech::Say(S(Str::BuildLotEdge));
+        cues::LotEdge();
         return;
     }
     g.cursor = next;
@@ -785,6 +797,7 @@ void ChangeFloor(int delta) {
     std::vector<std::string> lines = FullLines();
     buffers::SetDetails(lines);
     speech::Say(util::Format(S(Str::FloorNumber), g.level) + ". " + LineWithRoom());
+    Cue();
 }
 
 // Ctrl+PageDown / Ctrl+PageUp: the rooms of this floor (on an upper floor, of the floor below,
@@ -832,6 +845,7 @@ void NextRoom(int delta) {
     buffers::SetDetails(lines);
     RoomChanged();  // the jump names the room already
     speech::Say(line + ". " + ShortLine());
+    Cue();
 }
 
 void Home() {

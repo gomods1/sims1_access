@@ -354,6 +354,21 @@ Screen Collect(Ptr root) {
             screen.groups.insert(screen.groups.begin() + at++, std::move(g));
         }
     }
+    // Every screen ends with the mod's help: this screen's keys (Control+F1) and the manual
+    // (Control+Shift+F1). Not on dialogs (their text and buttons are all there is to them) nor on
+    // a screen whose widgets do not exist yet (an empty screen waits for them: CompleteEntering).
+    if (!screen.groups.empty() && IsScreen(root)) {
+        Group g{kModHelpGroup, {}, {}};
+        for (int n : {1, 0}) {
+            Item it;
+            it.widget = kModHelpGroup;
+            it.role = Role::ModManual;
+            it.number = n;
+            it.label = S(n ? Str::KeysButton : Str::ManualButton);
+            g.items.push_back(std::move(it));
+        }
+        screen.groups.push_back(std::move(g));
+    }
     return screen;
 }
 

@@ -531,4 +531,11 @@ void WalkToFocus() {
     speech::Say(S(Str::NoObjects));
 }
 
+void WalkToSpot(int worldX, int worldY) {
+    if (!OnLot()) return;
+    ChooseInNextMenu(0);  // the floor's menu: "Ir a este punto"
+    if (game::WalkTo(worldX, worldY, 512, 384)) speech::Say(S(Str::WalkingThere));
+    else speech::Say(S(Str::CannotWalk));
+}
+
 }  // namespace nav::world

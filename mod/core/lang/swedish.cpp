@@ -923,6 +923,45 @@ const Translation kEntries[] = {
     {Str::ItemCount, "%s, %d st."},
     // Trips: home again
     {Str::ArrivedHome, "hemma igen"},
+    // Sound cues and the live-mode map
+    {Str::CuesOn, "markörljud på"},
+    {Str::CuesOff, "markörljud av"},
+    {Str::SurfaceGround, "mark"},
+    {Str::SurfaceWood, "trägolv"},
+    {Str::SurfaceTile, "kakel"},
+    {Str::SurfaceCarpet, "heltäckningsmatta"},
+    {Str::SurfacePaving, "stenläggning"},
+    {Str::SurfacePoolRim, "poolkant"},
+    {Str::SurfaceWater, "vatten"},
+    {Str::SurfaceNone, "inget golv"},
+    {Str::EdgeWall, "vägg åt %s"},
+    {Str::EdgeFence, "staket åt %s"},
+    {Str::EdgeRailing, "räcke åt %s"},
+    {Str::EdgeDoor, "dörr åt %s"},
+    {Str::EdgeWindow, "fönster åt %s"},
+    {Str::MapStairs, "trappa"},
+    {Str::MapOn, "Husets karta. Kontroll+F1 säger tangenterna."},
+    {Str::MapOff, "kartan stängd"},
+    {Str::MapNoFloor, "inget är byggt på våning %d"},
+    {Str::MapNothingHere, "här finns inget att använda"},
+    {Str::KeysMap,
+     "Husets karta: pilarna flyttar en ruta, med Skift fem; varje ruta säger vad som står där och åt vilket håll "
+     "det är vänt, rummet och golvet när de byts, och väggarna, staketen, dörrarna och fönstren runt om, var och "
+     "en med ett ljud. Home går tillbaka till den valda simen. Page Down och Page Up går som vanligt genom "
+     "tomtens saker, och kartan går till var och en. Kontroll Skift Page Up och Page Down byter våning. Enter "
+     "öppnar menyn för det som står där; Kontroll+Enter skickar dit den valda simen. R säger allt, Kontroll+L "
+     "rummets planlösning. Kontroll Skift S stänger av och sätter på ljuden. Escape eller Kontroll+M stänger "
+     "kartan."},
+    {Str::KeysMapHint, "Kontroll+M: husets karta, en markör som går genom huset ruta för ruta."},
+    {Str::KeysCuesHint, "Kontroll Skift S stänger av och sätter på markörljuden."},
+    // The manual (Control+Shift+F1, the mod help button)
+    {Str::ManualHint, "Kontroll Skift F1 öppnar handboken; Kontroll F1 säger tangenterna på varje skärm."},
+    {Str::KeysManual, "Kontroll Skift F1 öppnar moddens fullständiga handbok i webbläsaren."},
+    {Str::ManualOpening, "öppnar handboken i webbläsaren"},
+    {Str::ManualMissing, "handboken saknas: installera om modden"},
+    {Str::ManualButton, "Handbok för Tillgänglighet för The Sims"},
+    {Str::GroupModHelp, "modhjälp"},
+    {Str::KeysButton, "Tangenter för den här skärmen"},
 };
 
 }  // namespace

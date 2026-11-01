@@ -7,6 +7,10 @@
 //   say <0|1> <text>   speak (1 = interrupt; the mod only uses 0)
 //   braille <text>     braille only
 //   stop               silence speech
+//   play <name> <pan> <pitch> <volume> <delay ms>
+//                      a sound cue: sounds\<name>.wav next to the exe, panned -1 (left) .. 1
+//                      (right), its speed (frequency ratio 0.5 .. 2), volume 0 .. 1, after a delay;
+//                      mixed by XAudio2 beside the screen reader, so cues never wait for speech
 //   quit               exit
 // Exits on quit or when the game process exits; clients may disconnect and reconnect.
 // Logs every spoken line to SpeechHost.log next to the exe (overwritten each launch).
@@ -14,12 +18,20 @@
 #include <windows.h>
 #include <shellapi.h>
 
+#include <xaudio2.h>
+
+#include <cctype>
+#include <cmath>
 #include <cstdarg>
 #include <cstdint>
 #include <cstdio>
+#include <cstring>
+#include <map>
+#include <mutex>
 #include <share.h>
 #include <string>
 #include <type_traits>
+#include <vector>
 
 #pragma warning(push)
 #pragma warning(disable : 4309)  // constant truncation inside prism.h
@@ -157,6 +169,172 @@ struct Prism {
 Prism g_prism;
 bool g_mute = false;
 
+// ---- Sound cues ------------------------------------------------------------------------------
+
+struct Wav {
+    WAVEFORMATEX format = {};
+    std::vector<BYTE> data;
+};
+
+// Reads a PCM WAV file (what genny writes: 16-bit, any rate and channel count).
+bool LoadWav(const std::wstring& path, Wav* out) {
+    FILE* f = nullptr;
+    if (_wfopen_s(&f, path.c_str(), L"rb") || !f) return false;
+    std::vector<BYTE> file;
+    BYTE buf[65536];
+    size_t n;
+    while ((n = fread(buf, 1, sizeof buf, f)) > 0) file.insert(file.end(), buf, buf + n);
+    fclose(f);
+    if (file.size() < 12 || memcmp(file.data(), "RIFF", 4) || memcmp(file.data() + 8, "WAVE", 4)) return false;
+    bool haveFormat = false, haveData = false;
+    for (size_t at = 12; at + 8 <= file.size();) {
+        uint32_t size;
+        memcpy(&size, file.data() + at + 4, 4);
+        const BYTE* body = file.data() + at + 8;
+        if (at + 8 + size > file.size()) size = (uint32_t)(file.size() - at - 8);
+        if (!memcmp(file.data() + at, "fmt ", 4) && size >= 16) {
+            memcpy(&out->format, body, 16);
+            out->format.cbSize = 0;
+            haveFormat = out->format.wFormatTag == WAVE_FORMAT_PCM;
+        } else if (!memcmp(file.data() + at, "data", 4)) {
+            out->data.assign(body, body + size);
+            haveData = true;
+        }
+        at += 8 + size + (size & 1);
+    }
+    return haveFormat && haveData && !out->data.empty();
+}
+
+class Cues {
+public:
+    bool Start(const std::wstring& dir) {
+        dir_ = dir + L"\\sounds\\";
+        HRESULT hr = XAudio2Create(&xaudio_, 0, XAUDIO2_DEFAULT_PROCESSOR);
+        if (FAILED(hr)) { Log("XAudio2Create failed: 0x%08lx", hr); return false; }
+        hr = xaudio_->CreateMasteringVoice(&master_);
+        if (FAILED(hr)) { Log("no audio output: 0x%08lx", hr); xaudio_->Release(); xaudio_ = nullptr; return false; }
+        XAUDIO2_VOICE_DETAILS d;
+        master_->GetVoiceDetails(&d);
+        channels_ = d.InputChannels;
+        Log("sound cues: %u output channels", channels_);
+        return true;
+    }
+
+    void Play(const std::string& name, float pan, float pitch, float volume) {
+        std::lock_guard<std::mutex> lk(lock_);
+        if (!xaudio_) return;
+        Reap();
+        if (voices_.size() >= 32) return;  // a burst of key repeats: drop the rest
+        const Wav* wav = Get(name);
+        if (!wav) return;
+        IXAudio2SourceVoice* v = nullptr;
+        if (FAILED(xaudio_->CreateSourceVoice(&v, &wav->format, 0, 2.0f))) return;
+        XAUDIO2_BUFFER b = {};
+        b.Flags = XAUDIO2_END_OF_STREAM;
+        b.AudioBytes = (UINT32)wav->data.size();
+        b.pAudioData = wav->data.data();
+        // Constant-power pan of each source channel onto the first two speakers.
+        UINT32 src = wav->format.nChannels;
+        std::vector<float> matrix(src * channels_, 0.0f);
+        pan = pan < -1 ? -1 : pan > 1 ? 1 : pan;
+        float angle = (pan + 1) * 0.78539816f;
+        for (UINT32 c = 0; c < src; c++) {
+            if (channels_ == 1) {
+                matrix[c] = 1;
+            } else {
+                matrix[0 * src + c] = std::cos(angle);
+                matrix[1 * src + c] = std::sin(angle);
+            }
+        }
+        v->SetOutputMatrix(master_, src, channels_, matrix.data());
+        v->SetFrequencyRatio(pitch < 0.5f ? 0.5f : pitch > 2.0f ? 2.0f : pitch);
+        v->SetVolume(volume < 0 ? 0 : volume > 1 ? 1 : volume);
+        if (FAILED(v->SubmitSourceBuffer(&b)) || FAILED(v->Start())) {
+            v->DestroyVoice();
+            return;
+        }
+        voices_.push_back(v);
+    }
+
+    void Close() {
+        std::lock_guard<std::mutex> lk(lock_);
+        for (IXAudio2SourceVoice* v : voices_) v->DestroyVoice();
+        voices_.clear();
+        if (master_) master_->DestroyVoice();
+        master_ = nullptr;
+        if (xaudio_) xaudio_->Release();
+        xaudio_ = nullptr;
+    }
+
+private:
+    const Wav* Get(const std::string& name) {
+        auto it = cache_.find(name);
+        if (it != cache_.end()) return it->second.data.empty() ? nullptr : &it->second;
+        Wav& w = cache_[name];  // a missing file is remembered too, and logged once
+        std::wstring path = dir_ + std::wstring(name.begin(), name.end()) + L".wav";
+        if (!LoadWav(path, &w)) {
+            w.data.clear();
+            Log("sound cue %s: cannot read %ls", name.c_str(), path.c_str());
+            return nullptr;
+        }
+        return &w;
+    }
+
+    // Voices that have played out.
+    void Reap() {
+        for (size_t i = 0; i < voices_.size();) {
+            XAUDIO2_VOICE_STATE st;
+            voices_[i]->GetState(&st, XAUDIO2_VOICE_NOSAMPLESPLAYED);
+            if (st.BuffersQueued == 0) {
+                voices_[i]->DestroyVoice();
+                voices_.erase(voices_.begin() + i);
+            } else {
+                i++;
+            }
+        }
+    }
+
+    std::wstring dir_;
+    IXAudio2* xaudio_ = nullptr;
+    IXAudio2MasteringVoice* master_ = nullptr;
+    UINT32 channels_ = 2;
+    std::map<std::string, Wav> cache_;
+    std::vector<IXAudio2SourceVoice*> voices_;
+    std::mutex lock_;
+};
+
+Cues g_cues;
+
+struct DelayedCue {
+    std::string name;
+    float pan, pitch, volume;
+    HANDLE timer;
+};
+
+void CALLBACK PlayDelayed(void* param, BOOLEAN) {
+    DelayedCue* c = static_cast<DelayedCue*>(param);
+    g_cues.Play(c->name, c->pan, c->pitch, c->volume);
+    // Deleting a fired one-shot timer from its own callback must not wait for it.
+    DeleteTimerQueueTimer(nullptr, c->timer, nullptr);
+    delete c;
+}
+
+void PlayCue(const std::string& args) {
+    char name[64] = {};
+    float pan = 0, pitch = 1, volume = 1;
+    int delay = 0;
+    if (sscanf_s(args.c_str(), "%63s %f %f %f %d", name, (unsigned)sizeof name, &pan, &pitch, &volume, &delay) < 1) return;
+    for (const char* p = name; *p; p++)
+        if (!(isalnum((unsigned char)*p) || *p == '_')) return;  // file names only
+    if (delay <= 0) {
+        g_cues.Play(name, pan, pitch, volume);
+        return;
+    }
+    DelayedCue* c = new DelayedCue{name, pan, pitch, volume, nullptr};
+    if (!CreateTimerQueueTimer(&c->timer, nullptr, PlayDelayed, c, (DWORD)delay, 0, WT_EXECUTEONLYONCE)) delete c;
+}
+
+
 // Returns false when the host should exit.
 bool HandleLine(const std::string& line) {
     if (line.rfind("say ", 0) == 0 && line.size() >= 6) {
@@ -168,6 +346,8 @@ bool HandleLine(const std::string& line) {
         }
     } else if (line.rfind("braille ", 0) == 0) {
         g_prism.Braille(line.c_str() + 8);
+    } else if (line.rfind("play ", 0) == 0) {
+        if (!g_mute) PlayCue(line.substr(5));
     } else if (line == "stop") {
         g_prism.Stop();
     } else if (line == "quit") {
@@ -266,6 +446,8 @@ int WINAPI wWinMain(HINSTANCE, HINSTANCE, PWSTR, int) {
     if (pipe_name.empty()) pipe_name = L"\\\\.\\pipe\\SimsAccessSpeech-" + std::to_wstring(pid);
     Log("SpeechHost starting, game pid %lu", pid);
 
+    CoInitializeEx(nullptr, COINIT_MULTITHREADED);
+    if (!g_mute) g_cues.Start(dir);
     if (g_mute) {
         Log("muted: lines are logged, not spoken");
     } else if (!g_prism.Load(dir + L"\\prism.dll") || !g_prism.Start()) {
@@ -274,6 +456,7 @@ int WINAPI wWinMain(HINSTANCE, HINSTANCE, PWSTR, int) {
     }
     int rc = Run(pid, pipe_name);
     g_prism.Close();
+    g_cues.Close();
     Log("SpeechHost exiting");
     if (g_log) fclose(g_log);
     return rc;
