@@ -123,6 +123,8 @@ On a lot the HUD is a ring of groups like any screen. Tab goes through them in t
 
 On a live panel item (a need, skill, job, house rating), Enter speaks the game's popup for it.
 
+The job says its hours and when the carpool comes. The game's menus have no option to quit a job: a Sim who keeps missing work gets fired, and the newspaper and the computer offer other jobs.
+
 ### Selecting Sims and the camera
 
 | Key | What it does |
@@ -130,13 +132,15 @@ On a live panel item (a need, skill, job, house rating), Enter speaks the game's
 | Space | The game's "next Sim": the next family member is selected and announced ("Isabel, selected, Eat"). |
 | Control+1 to Control+9 | Select the first to ninth Sim of the family. |
 | Control+Shift+1 to Control+Shift+9 | Open that Sim's card (biography). |
-| Control+F | The camera follows the selected Sim, or stays free. |
+| Control+Shift+F | The camera follows the selected Sim, or stays free. |
 | Control+E | The selected Sim in one line: room, what it is doing, urgent needs, mood. |
 | P | Pause (the game's key); the mod says the time and funds. 1, 2, 3 set the speed. |
 
 The camera follows the selected Sim, because the game's sounds come from what is on screen.
 While you browse the lot's things, the camera goes to each thing and comes back to the Sim
 afterwards.
+
+The zoom and the way the camera faces are said when they change (plus and minus zoom, comma and period turn the view), and the status line has them too: "camera: medium view, facing north-west". The facing is what the top of the screen looks toward. The mod's north does not turn with the camera.
 
 ### The lot's things
 
@@ -156,8 +160,12 @@ buy and build mode.
 | Control+Page Down, Control+Page Up | Next or previous room (the first press: the selected Sim's room). |
 | Enter | The thing's interactions (in buy mode: pick it up to move it). |
 | Control+Enter | Walk the selected Sim to the thing. |
+| Control+F | Find a thing: type part of its name ("tel" finds the telephone, accents do not matter). Up and Down go through what matches, Enter acts on it, Control+Enter walks there, Delete removes a door or window, Escape goes back to where you were. |
+| Delete | On a door or window, in buy or build mode: removes it and refunds it. |
 
 A Sim or an object still showing a balloon says it too ("Bella, Eat, thinks: hunger").
+
+After the Sims comes **problems**: what wants attention, such as broken things, things that need cleaning, puddles, rubbish, ashes, fire, and anything with flies over it. Last comes **doors, windows and stairs**.
 
 ### Interaction menus
 
@@ -212,6 +220,8 @@ the events buffer:
 still go to the events buffer.
 
 Sounds you can hear (the phone, the doorbell, alarms) are not announced.
+
+Actions with another Sim name that Sim, whoever started them: "Homer: Greet, with Elvira".
 
 ### Help tips and the tutorial
 
@@ -272,6 +282,8 @@ appears. Identical objects are listed one by one, and the last purchase says "ju
 F3 opens build mode. Its tools are tabs, their styles are products. The house overview is spoken
 when you enter build mode (Control+Shift+L repeats it).
 
+Pressing a tool moves you to its styles, in a group of their own named after the tool; Tab goes back to the tools. Nothing is in your hand until you press Enter on a style.
+
 ### The build cursor
 
 Enter on a wall or fence style starts the build cursor at the selected Sim. It moves on the
@@ -308,10 +320,18 @@ Control+F1 for the details):
   Control+Enter fills tiles back in. Sims need a pool ladder (in the tool's list).
 - **Terrain**: level from a marked tile to the cursor, or raise and lower the ground.
 
+**Grass** uses the same cursor: Enter paints the tile under it.
+
 ### Doors, windows and stairs
 
 Doors and windows are placed like furniture, from a list of spots: "in the west wall of the
 kitchen, opening onto the outside, the first door of that room".
+
+With the arrows, a door or window says which wall it would go in; turning it chooses the wall. After a door is placed the mod says whether Sims can walk through it, or what is in the way. To change one later, find it in **doors, windows and stairs** or with Control+F: Enter picks it up to move it, Delete removes it (the game's Control+click).
+
+### The roof
+
+The game builds the roof by itself over your walls, so there is no cursor and nothing to place. The roof tool only chooses the slope and the style, for the whole house. The styles have no names in the game: the mod says their colour.
 
 ## Sound cues
 

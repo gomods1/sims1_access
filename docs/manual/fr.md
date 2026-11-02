@@ -90,6 +90,8 @@ Sur un terrain, l'interface est un cercle de groupes comme sur n'importe quel é
 
 Sur un élément d'un panneau du mode Vie (un besoin, une aptitude, une profession, une évaluation de la maison), Entrée lit la bulle d'aide du jeu.
 
+L'emploi donne ses horaires et l'heure du covoiturage. Les menus du jeu n'ont aucune option pour quitter un emploi : un Sim qui manque sans cesse le travail est renvoyé, et le journal et l'ordinateur proposent d'autres emplois.
+
 ### Sélectionner les Sims et la caméra
 
 | Touche | Ce qu'elle fait |
@@ -97,11 +99,13 @@ Sur un élément d'un panneau du mode Vie (un besoin, une aptitude, une professi
 | Espace | Le « Sim suivant » du jeu : le membre suivant de la famille est sélectionné et annoncé (« Isabel, Sim sélectionné, Manger »). |
 | Contrôle+1 à Contrôle+9 | Sélectionne le premier au neuvième Sim de la famille. |
 | Contrôle+Maj+1 à Contrôle+Maj+9 | Ouvre la fiche de ce Sim (biographie). |
-| Contrôle+F | La caméra suit le Sim sélectionné, ou reste libre. |
+| Contrôle+Maj+F | La caméra suit le Sim sélectionné, ou reste libre. |
 | Contrôle+E | Le Sim sélectionné en une phrase : pièce, ce qu'il fait, besoins urgents, humeur. |
 | P | Pause (la touche du jeu) ; le mod dit l'heure et les fonds. 1, 2, 3 règlent la vitesse. |
 
 La caméra suit le Sim sélectionné, parce que les sons du jeu viennent de ce qui est à l'écran. Pendant que vous parcourez les objets du terrain, la caméra va sur chacun puis revient au Sim.
+
+Le zoom et l'orientation de la caméra sont annoncés quand ils changent (plus et moins pour le zoom, virgule et point pour tourner la vue), et ils figurent aussi dans la ligne d'état : "caméra : vue moyenne, orientée nord-ouest". L'orientation est ce que montre le haut de l'écran. Le nord du mod ne tourne pas avec la caméra.
 
 ### Les objets du terrain
 
@@ -116,8 +120,12 @@ Inutile d'y aller avec Tab : les touches Page parcourent les objets depuis n'imp
 | Contrôle+Page suivante, Contrôle+Page précédente | Pièce suivante ou précédente (au premier appui : la pièce du Sim sélectionné). |
 | Entrée | Les interactions de l'objet (en mode Achat : le prendre pour le déplacer). |
 | Contrôle+Entrée | Envoie le Sim sélectionné jusqu'à l'objet. |
+| Contrôle+F | Chercher un élément : tapez une partie de son nom ("tél" trouve le téléphone, les accents ne comptent pas). Haut et Bas parcourent les résultats, Entrée agit dessus, Contrôle+Entrée y envoie le Sim, Suppr enlève une porte ou une fenêtre, Échap revient là où vous étiez. |
+| Suppr | Sur une porte ou une fenêtre, en mode achat ou construction : l'enlève et la rembourse. |
 
 Un Sim ou un objet qui affiche encore une bulle la dit aussi (« Bella, Manger, pense : appétit »).
+
+Après les Sims vient **problèmes** : ce qui demande de l'attention, comme les objets cassés, ce qui est à nettoyer, les flaques, les ordures, les cendres, le feu et tout ce qui a des mouches. En dernier vient **portes, fenêtres et escaliers**.
 
 ### Les menus d'interactions
 
@@ -159,6 +167,8 @@ Le jeu ne montre beaucoup de choses qu'en images. Le mod les dit quand elles arr
 **Contrôle+N** change ce qui est dit : tout, les alertes seulement, ou rien. Les lignes non dites vont quand même dans le tampon des événements.
 
 Les sons que vous entendez (le téléphone, la sonnette, les alarmes) ne sont pas annoncés.
+
+Les actions avec un autre Sim le nomment, quel que soit celui qui les a commencées : "Homer : Saluer, avec Elvira".
 
 ### Les conseils et le didacticiel
 
@@ -206,6 +216,8 @@ En mode Achat, allez avec Page suivante sur un objet du terrain et appuyez sur E
 
 F3 ouvre le mode Construction. Ses outils sont des onglets, leurs styles des produits. L'aperçu de la maison est lu quand vous entrez en mode Construction (Contrôle+Maj+L le répète).
 
+Appuyer sur un outil vous amène à ses modèles, dans un groupe à part portant le nom de l'outil ; Tab revient aux outils. Vous n'avez rien en main tant que vous n'appuyez pas sur Entrée sur un modèle.
+
 ### Le curseur de construction
 
 Entrée sur un style de mur ou de clôture lance le curseur de construction sur le Sim sélectionné. Il se déplace sur les coins entre les cases.
@@ -236,9 +248,17 @@ Chacun de ces outils a le même curseur sur les cases (flèches, Maj pour cinq, 
 - **Piscines** : Espace marque un coin, Entrée creuse ; le mod prévient avant que l'eau isole quoi que ce soit. Contrôle+Entrée comble les cases. Les Sims ont besoin d'une échelle de piscine (dans la liste de l'outil).
 - **Terrain** : aplanir d'une case marquée jusqu'au curseur, ou monter et descendre le sol.
 
+**Herbe** utilise le même curseur : Entrée peint la case dessous.
+
 ### Portes, fenêtres et escaliers
 
 Les portes et les fenêtres se placent comme les meubles, depuis une liste d'emplacements : « dans le mur ouest de cuisine, donne sur extérieur, la première porte de cette pièce ».
+
+Avec les flèches, une porte ou une fenêtre dit dans quel mur elle irait ; la tourner choisit le mur. Une fois une porte posée, le mod dit si les Sims peuvent y passer, ou ce qui la bloque. Pour la changer plus tard, cherchez-la dans **portes, fenêtres et escaliers** ou avec Contrôle+F : Entrée la prend pour la déplacer, Suppr l'enlève (le Contrôle+clic du jeu).
+
+### Le toit
+
+Le jeu construit le toit tout seul sur vos murs : il n'y a ni curseur ni rien à placer. L'outil toit choisit seulement la pente et le modèle, pour toute la maison. Les modèles n'ont pas de nom dans le jeu : le mod dit leur couleur.
 
 ## Les repères sonores
 

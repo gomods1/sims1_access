@@ -5,7 +5,10 @@
 #include <cmath>
 #include <unordered_map>
 
+#include "../util/strings.h"
+#include "../util/text.h"
 #include "addresses.h"
+#include "lot.h"
 #include "rtti.h"
 #include "ui.h"
 
@@ -83,6 +86,12 @@ std::vector<SimAction> SimActionList(int neighborId) {
             a.running = Rd<uint8_t>(e + addr::kQueueEntryRunning) != 0;
             Ptr record = Rd<Ptr>(e + addr::kQueueEntryRecord);
             a.byPlayer = record && Rd<int>(record + addr::kQueueRecordPriority) >= addr::kPlayerPriority;
+            // The object whose interaction it is: another Sim, for a social.
+            Ptr callee = record ? Rd<Ptr>(record + addr::kQueueRecordObject) : 0;
+            if (IsKindOf(callee, "cXPerson")) {
+                int other = SimNeighborId(callee);
+                if (other >= 0 && other != neighborId) a.target = NeighborName(other);
+            }
             if (!a.name.empty()) actions.push_back(a);
         }
         empty();
@@ -90,10 +99,39 @@ std::vector<SimAction> SimActionList(int neighborId) {
     return actions;
 }
 
+std::string SimAction::Spoken() const {
+    return target.empty() ? name : util::Format(S(Str::ActionWithSim), name.c_str(), target.c_str());
+}
+
 std::vector<std::string> SimActions(int neighborId) {
     std::vector<std::string> names;
-    for (const SimAction& a : SimActionList(neighborId)) names.push_back(a.name);
+    for (const SimAction& a : SimActionList(neighborId)) names.push_back(a.Spoken());
     return names;
+}
+
+bool JobHours(int neighborId, int* startHour, int* endHour) {
+    typedef Ptr(__cdecl * JobFn)(int id);
+    if (neighborId < 0 || !FunctionOk(addr::kJobLevel)) return false;
+    Ptr job = 0;
+    if (!Guarded([&] { job = ((JobFn)Va(addr::kJobLevel))(neighborId); }) || !job) return false;
+    *startHour = Rd<int>(job + addr::kJobStartHour);
+    *endHour = Rd<int>(job + addr::kJobEndHour);
+    return true;
+}
+
+std::string HourText(int hour) {
+    typedef void*(__thiscall * ServicesFn)(void*);
+    typedef void(__thiscall * FormatFn)(void*, void* out, int hour, int, int, int);
+    std::string text;
+    // A raw MSVC std::string in its empty state, as for the names (hours fit its inline buffer).
+    uint32_t str[6] = {0, 0, 0, 0, 0, 15};
+    Ptr services = Rd<Ptr>(Va(addr::kTimeServices));
+    bool ok = services && Guarded([&] {
+        void* formatter = ((ServicesFn)Rd<Ptr>(Rd<Ptr>(services) + addr::kTimeFormatterSlot * 4))((void*)services);
+        ((FormatFn)Rd<Ptr>(*(Ptr*)formatter + addr::kHourFormatSlot * 4))(formatter, str, hour, 0, 0, 0);
+    });
+    if (ok) text = ReadStdStringUtf8((Ptr)str);
+    return text.empty() ? std::to_string(hour) + ":00" : text;
 }
 
 namespace {

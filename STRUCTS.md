@@ -375,6 +375,16 @@ pass through any hook on these functions.
 | 0x0c | ptr | the tree's instructions (heap data; no path from here to the tree's name was found) |
 | 0x10 | short[] | arguments, then locals (the accessor `0x62db70` is `frame + 0x10 + 2 * args`) |
 
+Object variables are shorts from `cXObject + 0x4a` (FreeSO's stack object numbering: 1 direction,
+8 flags). 15 above 0 means broken (the repairman's "can repair"; a clog sets it to 100); 39 above 400
+with flag bit 0x20 clear means dirty (global tree 303 "Clean test", the maid's; read live: an unmade
+bed and a used toilet 1000, trash pile and roaches 800, a tub 605, a sink 350 not yet). `tools/bhav_dump.py`
+prints expression operators in the wrong order: FreeSO's are 0 `>`, 1 `<`, 2 `==`, 3 `+=`, 4 `-=`, 5 `:=`.
+
+Job: `0x43ac50` (cdecl, neighbor id) returns the job level, 0 unemployed: `+0x48` start hour, `+0x4c`
+end hour; the carpool is an hour before the start. The popup (`0x4dea70`) fills Live.iff STR# 137
+entry 23 with them, through `[0xa7f464]` slot 1's slot 32 (`std::string* out, int hour, 0, 0, 0`).
+
 Variables (the accessor `0x610d90`): an object's attributes are `short*` at `cXObject + 0x2c`,
 count at `+0x30`; globals are shorts at `[[0xa67044] + 0x1c]` (`cSimulator`) `+ 0x10`: 0 hour,
 1 day of month, 2 zoom, 3 selected Sim's object id, 4 time of day, 5 minute, 6 second, 7 month,
@@ -730,6 +740,17 @@ Terrain heights: the world's `+0x14` map (rows at `+0x0c`, by tile y) holds 4 by
 ground height at its corners in grid order (`0x585940` reorders them for the camera). On the
 Compañeras lot the buildable interior is 0 and the border 10; a raise made neighbours differ, a
 level made them equal again (read live).
+
+Removing a door or window: neither is picked up by the tool's Ctrl path. The move tool's slot 11
+(`0x56ec10`), with mode 3 or 4, `+0x77` set and Ctrl held, asks `0x5e00c0` (cdecl `short (u32*
+packedScreen, int level, int kind)`, kind 2 doors, 3 windows; `0x55f420` hit-tests the sprites on
+screen), checks the door and window type lists, refunds through `0x53adc0` and removes with slot 27
+(`+0x6c`). A plain hand pick-up of a door works too and leaves the tool in mode 3 with `+0x75`
+(purchase) clear: `game::IsBuying` tests that byte.
+
+Roof panel (`cWinRoofPanel`, notify `0x4cf8e0`): `+0x140` vector of texture buttons (18, 16 to a
+page), `+0x14c` their `GameData/Roofs` file names (0x18 each). UIText STR# 147 entries 14-17 are its
+popups. Terrain's grass is `cGrassTool` (slot 8 `0x65bae0` paints, slot 11 is empty).
 
 The lot's entrance: invisible `cXObject`s named "Portal - Pedestrian" and "Portal - Car" at the
 lot's edge (not `cXPortal`).

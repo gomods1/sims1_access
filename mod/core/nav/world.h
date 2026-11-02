@@ -24,6 +24,13 @@ namespace nav::world {
 std::string DisplayName(const game::LotObject& o);
 
 void Reset();
+void Refocus();  // the lot changed: read it again on the next list
+// Ctrl+F: the things whose name contains the text (accents and case aside) as a list of the kinds
+// group, those starting with it first, then the nearest. Returns how many match; with none the
+// list stays as it was. Open(kKindsGroup, kFindKind) shows it.
+constexpr int kFindKind = 1000;
+int SetFindQuery(const std::string& utf8);
+void ClearFindQuery();
 Group KindsGroup();   // kKindsGroup: the kinds, or the things of the open kind
 Group RoomsGroup();   // kRoomsGroup: the rooms, or the things of the open room
 std::string LevelName(game::Ptr group);  // the group's name: its open kind or room, else its own

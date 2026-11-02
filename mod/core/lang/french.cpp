@@ -24,11 +24,11 @@ const Translation kEntries[] = {
      "précédente parcourent les objets du terrain, du plus proche au plus loin, et la caméra va sur chacun ; Maj "
      "avec elles change le type d'objet, Contrôle avec elles la pièce. Entrée sur un objet ouvre ses "
      "interactions, Contrôle+Entrée y envoie le Sim. R répète. Espace sélectionne le Sim suivant, Contrôle+1 à "
-     "Contrôle+9 sélectionnent un Sim de la famille, Contrôle+F active ou désactive le suivi du Sim sélectionné "
-     "par la caméra. Contrôle+E dit ce que fait et ce dont a besoin le Sim sélectionné, Contrôle+N change la "
-     "verbosité du narrateur. P met en pause et lit l'heure et l'argent. Contrôle+flèche haut et Contrôle+flèche "
-     "bas lisent les détails, Contrôle+flèche gauche et Contrôle+flèche droite passent des détails aux "
-     "événements."},
+     "Contrôle+9 sélectionnent un Sim de la famille, Contrôle+Maj+F active ou désactive le suivi du Sim "
+     "sélectionné par la caméra. Contrôle+E dit ce que fait et ce dont a besoin le Sim sélectionné, Contrôle+N "
+     "change la verbosité du narrateur. P met en pause et lit l'heure et l'argent. Contrôle+flèche haut et "
+     "Contrôle+flèche bas lisent les détails, Contrôle+flèche gauche et Contrôle+flèche droite passent des "
+     "détails aux événements."},
     {Str::KeysPlacing,
      "Page suivante et Page précédente parcourent les emplacements où l'objet tient et reste utilisable, les "
      "meilleurs d'abord ; Contrôle avec elles change de pièce ; Maj avec elles, ou virgule et point, le tournent "
@@ -116,6 +116,59 @@ const Translation kEntries[] = {
     {Str::CategoryDecorative, "décoration"},
     {Str::CategoryMiscellaneous, "divers"},
     {Str::CategoryOther, "autres objets"},
+    {Str::CategoryProblems, "problèmes"},
+    {Str::CategoryPortals, "portes, fenêtres et escaliers"},
+    {Str::ConditionBroken, "cassé"},
+    {Str::ConditionDirty, "à nettoyer"},
+    {Str::ObjPuddle, "flaque"},
+    {Str::ObjAshes, "cendres"},
+    {Str::ObjFire, "feu"},
+    {Str::ObjPetMess, "saleté d'animal"},
+    {Str::FindPrompt,
+     "Chercher un élément du terrain : tapez une partie de son nom. Haut et Bas parcourent les résultats, Entrée "
+     "l'ouvre, Échap annule."},
+    {Str::FindCount, "%1$s : %2$d trouvés"},
+    {Str::FindCountOne, "%s : 1 trouvé"},
+    {Str::FindNoMatch, "%s : aucun résultat"},
+    {Str::FindEmpty, "recherche vide"},
+    {Str::FindTypeFirst, "Tapez d'abord une partie d'un nom."},
+    {Str::FindResults, "trouvé : %s"},
+    {Str::FindCancelled, "recherche annulée"},
+    {Str::FindNotNow, "Terminez d'abord le placement : Échap, puis Contrôle+F."},
+    {Str::KeysFind, "Contrôle+F cherche un élément du terrain en tapant une partie de son nom."},
+    {Str::KeysPortalDelete, "Suppr sur une porte ou une fenêtre des éléments du terrain l'enlève."},
+    {Str::ZoomFar, "vue lointaine"},
+    {Str::ZoomMedium, "vue moyenne"},
+    {Str::ZoomNear, "vue rapprochée"},
+    {Str::CameraFacing, "caméra orientée %s"},
+    {Str::CameraStatus, "caméra : %1$s, orientée %2$s"},
+    {Str::GroupRoof, "toit"},
+    {Str::GroupBuildStyles, "modèles"},
+    {Str::RoofHint,
+     "Le jeu construit le toit tout seul sur vos murs : il n'y a rien à placer. Ici, vous choisissez seulement "
+     "son modèle et sa pente, pour toute la maison."},
+    {Str::RoofStyle, "modèle de toit %1$d sur %2$d, %3$s"},
+    {Str::RoofStylePlain, "modèle de toit %1$d sur %2$d"},
+    {Str::RoofGray, "gris"},
+    {Str::RoofLightGray, "gris clair"},
+    {Str::RoofDarkGray, "gris foncé"},
+    {Str::RoofBlueGray, "gris bleuté"},
+    {Str::RoofBlack, "noir"},
+    {Str::RoofGreen, "vert"},
+    {Str::RoofTerracotta, "terre cuite"},
+    {Str::RoofTan, "beige"},
+    {Str::RoofCopper, "cuivre"},
+    {Str::RoofLightBlue, "bleu clair"},
+    {Str::RoofGold, "doré"},
+    {Str::RoofWhite, "blanc"},
+    {Str::PortalRemoved, "%s enlevée"},
+    {Str::PortalNotRemoved, "impossible d'enlever %s"},
+    {Str::PortalDeleteHint, "Les portes et fenêtres ne se déplacent pas : Suppr l'enlève."},
+    {Str::PortalNeedsHand, "Pour enlever une porte ou une fenêtre : Mode Construction, outil Main."},
+    {Str::ActionWithSim, "%1$s, avec %2$s"},
+    {Str::DoorUsable, "les Sims peuvent y passer"},
+    {Str::DoorBlocked, "Attention : les Sims ne peuvent pas utiliser cette porte, %s la bloque"},
+    {Str::DoorNoWay, "Attention : les Sims ne peuvent pas atteindre cette porte depuis l'entrée du terrain"},
     {Str::ThingsByKind, "objets par type"},
     {Str::ThingsByRoom, "objets par pièce"},
     {Str::NoObjects, "aucun objet ici"},

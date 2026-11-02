@@ -50,6 +50,7 @@ constexpr ULONGLONG kPressFeedbackMs = 120; // read a toggle's new state this lo
 constexpr ULONGLONG kPrepareQuietMs = 1000; // panels shown by PrepareScreen appear over a few frames
 constexpr ULONGLONG kAutoChooseMs = 3000;   // how long ChooseInNextMenu waits for its menu
 constexpr ULONGLONG kPageTurnMs = 250;      // a page arrow's new page is shown by then
+constexpr unsigned kToolTabHoldMs = 700;    // a build tool's tab brings back its last object by then
 
 struct PendingPress {
     ItemId item;
@@ -191,6 +192,8 @@ void AnnounceFocus(bool withGroup) {
     std::string prefix = withGroup ? GroupSummary(group) + ". " : "";
     buffers::SetDetails(DetailLines(*it, group, g.index));
     speech::Say(prefix + Describe(*it));
+    // Nothing on this panel places a roof: a player looking for the map to put it with never finds it.
+    if (withGroup && game::IsKindOf(group.key, "cWinRoofPanel")) speech::Say(S(Str::RoofHint));
 }
 
 void LogScreen() {
@@ -211,7 +214,7 @@ void AnnounceAfterPie() {
     g.choseInPie = false;
     for (const Group& group : Groups())
         if (IsActionQueue(group) && !group.items.empty())
-            buffers::Event(util::Format(S(Str::QueuedAction), group.items.back().label.c_str()));
+            buffers::Event(util::Format(S(Str::QueuedAction), QueuedLabel(group.items.back().label).c_str()));
 }
 
 // Screen: its name, then the focused item with its group. Dialog: its text (title, message),
@@ -343,6 +346,27 @@ bool SayChangedTexts(const std::vector<std::pair<Ptr, std::string>>& before) {
     return said;
 }
 
+// A build tool's tab was pressed: focus goes to what the tool offers (its roof panel, or its
+// styles, on the one chosen). false when it offers nothing.
+bool FocusToolOptions() {
+    Refresh();
+    for (int gi = 0; gi < (int)Groups().size(); gi++) {
+        const Group& gr = Groups()[gi];
+        if (gr.items.empty() || (gr.key != kBuildStylesGroup && !game::IsKindOf(gr.key, "cWinRoofPanel"))) continue;
+        if (g.group == gi) return true;  // the panel opened with focus on it: said already
+        int at = FirstControl(gr);
+        for (int i = 0; i < (int)gr.items.size(); i++)
+            if (!IsPageArrow(gr.items[i]) && game::IsKindOf(gr.items[i].widget, "cTSWinBtn") && game::ButtonChecked(gr.items[i].widget)) {
+                at = i;
+                break;
+            }
+        SetFocus(gi, at);
+        AnnounceFocus(true);
+        return true;
+    }
+    return false;
+}
+
 // Toggles and check boxes say their new state; the press's synthetic mouse-enter is undone.
 // Speed buttons stay quiet here: the speed watcher announces every speed change.
 void CheckPressFeedback() {
@@ -379,6 +403,7 @@ void CheckPressFeedback() {
         return;
     }
     game::Unhover(w);
+    if (item.role == Role::Tab && game::IsKindOf(game::Parent(w), "cWinArch") && FocusToolOptions()) return;
     std::string after = AfterPress(g.root, w);
     if (!after.empty()) {
         speech::Say(after);
@@ -574,6 +599,7 @@ void Tick() {
         return;
     }
     if (now - g.lastCollect > kRefreshMs) Refresh();
+    if (FindActive() && !LotViewActive()) FindEnd();  // a dialog came up: the typing is the game's again
     FinishPageTurn();
     CheckPressFeedback();
     if (ShowFocus() && !g_hovered) HoverFocused(Focused());
@@ -838,6 +864,7 @@ void Activate() {
         return;
     }
     if (it->role == Role::QueuedAction) simwatch::NoteCancelled(it->label);  // not a refusal
+    if (it->role == Role::Tab && game::IsKindOf(game::Parent(w), "cWinArch")) buy::HoldOff(kToolTabHoldMs);
     if (it->role == Role::Lot && game::TravelMap(g.root)) narrator::NoteDestination(LotPlaceName(*it));
     g.press = PendingPress{IdOf(*it), CheckedState(*it), GetTickCount64(), TextSnapshot(), reshow};
     Log("press %s %p (%s)", game::ClassName(w).c_str(), (void*)w, it->label.c_str());
@@ -925,6 +952,155 @@ bool Back() {
     AnnounceFocus(true);
     return true;
 }
+
+// ---- Find (Ctrl+F) ---------------------------------------------------------------------------
+
+namespace {
+
+struct FindState {
+    bool active = false;
+    std::string query;       // UTF-8
+    bool listed = false;     // the matches are the open list of the kinds group
+    unsigned char lead = 0;  // the first byte of a double-byte character
+    // Where things were, for Escape.
+    ItemId before;
+    int beforeKind = 0;
+    Ptr beforeLast = 0;
+};
+
+FindState g_find;
+
+// Back to the list and the focus from before the search.
+void FindRestore() {
+    world::Open(kKindsGroup, g_find.beforeKind);
+    world::Open(g_find.beforeLast, world::OpenNumber(g_find.beforeLast));  // PageDown's list as it was
+    world::ClearFindQuery();
+    g_find.listed = false;
+    g.focus = ItemId{};
+    Refresh();
+    int gi, ii;
+    if (g_find.before && Locate(g_find.before, &gi, &ii)) SetFocus(gi, ii);
+}
+
+// The matches for the query, focus on the best: "tel: 2 encontrados. Teléfono ..."
+void FindShow() {
+    int count = world::SetFindQuery(g_find.query);
+    if (!count) {
+        speech::Say(util::Format(S(Str::FindNoMatch), g_find.query.c_str()));
+        return;
+    }
+    world::Open(kKindsGroup, world::kFindKind);
+    g_find.listed = true;
+    g.focus = ItemId{};  // no "focus moved" line before the new one
+    Refresh();
+    for (int gi = 0; gi < (int)Groups().size(); gi++) {
+        if (Groups()[gi].key != kKindsGroup || Groups()[gi].items.empty()) continue;
+        SetFocus(gi, 0);
+        buffers::SetDetails(DetailLines(*Focused(), Groups()[gi], 0));
+        std::string found = count == 1 ? util::Format(S(Str::FindCountOne), g_find.query.c_str())
+                                       : util::Format(S(Str::FindCount), g_find.query.c_str(), count);
+        speech::Say(found + ". " + Describe(*Focused()));
+        return;
+    }
+}
+
+}  // namespace
+
+bool FindActive() { return g_find.active; }
+
+void FindBegin() {
+    if (!LotViewActive() || !game::LotModule()) {
+        speech::Say(S(Str::NotOnLot));
+        return;
+    }
+    if (buy::Placing() || build::Active()) {
+        speech::Say(S(Str::FindNotNow));
+        return;
+    }
+    if (g_find.active) {  // the keys again
+        speech::Say(S(Str::FindPrompt));
+        return;
+    }
+    EnsureCurrent();
+    g_find = FindState{};
+    g_find.active = true;
+    g_find.before = g.focus;
+    g_find.beforeKind = world::OpenNumber(kKindsGroup);
+    g_find.beforeLast = world::LastGroup();
+    speech::Say(S(Str::FindPrompt));
+}
+
+void FindChar(WPARAM ch) {
+    if (ch < 0x20 || ch >= 0x100) {
+        g_find.lead = 0;
+        return;
+    }
+    unsigned char byte = (unsigned char)ch;
+    std::string raw;
+    if (g_find.lead) {
+        raw = {(char)g_find.lead, (char)byte};
+        g_find.lead = 0;
+    } else if (util::IsGameLeadByte(byte)) {
+        g_find.lead = byte;
+        return;
+    } else {
+        raw = std::string(1, (char)byte);
+    }
+    if (raw == " " && g_find.query.empty()) return;
+    g_find.query += util::GameTextToUtf8(raw);
+    FindShow();
+}
+
+void FindErase() {
+    std::string& q = g_find.query;
+    if (q.empty()) {
+        speech::Say(S(Str::FindEmpty));
+        return;
+    }
+    size_t at = q.size() - 1;
+    while (at > 0 && ((unsigned char)q[at] & 0xc0) == 0x80) at--;  // a whole UTF-8 character
+    q.resize(at);
+    if (!q.empty()) {
+        FindShow();
+        return;
+    }
+    if (g_find.listed) FindRestore();
+    speech::Say(S(Str::FindEmpty));
+}
+
+void FindMove(int delta) {
+    if (!g_find.listed) {
+        speech::Say(S(Str::FindTypeFirst));
+        return;
+    }
+    Move(delta);
+}
+
+void FindEdge(bool last) {
+    if (!g_find.listed) {
+        speech::Say(S(Str::FindTypeFirst));
+        return;
+    }
+    MoveToEdge(last);
+}
+
+void FindConfirm(bool walk) {
+    if (!g_find.listed) {
+        speech::Say(S(Str::FindTypeFirst));
+        return;
+    }
+    g_find.active = false;
+    if (walk) world::WalkToFocus();
+    else Activate();
+}
+
+void FindCancel() {
+    g_find.active = false;
+    if (g_find.listed) FindRestore();
+    speech::Say(S(Str::FindCancelled));
+}
+
+void FindEnd() { g_find.active = false; }
 
 // PageUp/PageDown (nav/world.h): the lot's things from anywhere in the lot view. A kind or room
 // is opened in its group and focus goes there, so Tab, the arrows, Enter and Backspace go on from

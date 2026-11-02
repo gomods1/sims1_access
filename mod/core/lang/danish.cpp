@@ -24,9 +24,9 @@ const Translation kEntries[] = {
      "gennem grundens objekter, nærmeste først, og kameraet går hen til hvert af dem; Skift sammen med dem "
      "skifter type af objekt, Kontrol sammen med dem rum. Enter på et objekt åbner dets handlinger, "
      "Kontrol+Enter går derhen. R gentager. Mellemrum vælger den næste Sim, Kontrol+1 til 9 vælger en Sim i "
-     "familien, Kontrol+F får kameraet til at følge den valgte Sim eller ej. Kontrol+E siger, hvad den valgte "
-     "Sim laver og har brug for, Kontrol+N ændrer, hvor meget fortælleren siger. P sætter på pause og læser "
-     "klokken og pengene. Kontrol+Pil op og Kontrol+Pil ned læser detaljerne, Kontrol+Venstre pil og "
+     "familien, Kontrol+Skift+F får kameraet til at følge den valgte Sim eller ej. Kontrol+E siger, hvad den "
+     "valgte Sim laver og har brug for, Kontrol+N ændrer, hvor meget fortælleren siger. P sætter på pause og "
+     "læser klokken og pengene. Kontrol+Pil op og Kontrol+Pil ned læser detaljerne, Kontrol+Venstre pil og "
      "Kontrol+Højre pil skifter mellem detaljer og hændelser."},
     {Str::KeysPlacing,
      "Side ned og Side op går gennem de steder, hvor det kan stå og bruges, de bedste først; Kontrol sammen med "
@@ -114,6 +114,59 @@ const Translation kEntries[] = {
     {Str::CategoryDecorative, "dekorationer"},
     {Str::CategoryMiscellaneous, "diverse"},
     {Str::CategoryOther, "andre objekter"},
+    {Str::CategoryProblems, "problemer"},
+    {Str::CategoryPortals, "døre, vinduer og trapper"},
+    {Str::ConditionBroken, "i stykker"},
+    {Str::ConditionDirty, "skal rengøres"},
+    {Str::ObjPuddle, "vandpyt"},
+    {Str::ObjAshes, "aske"},
+    {Str::ObjFire, "ild"},
+    {Str::ObjPetMess, "kæledyrssnavs"},
+    {Str::FindPrompt,
+     "Find noget på grunden: skriv en del af navnet. Pil op og ned går gennem resultaterne, Enter åbner det, "
+     "Escape annullerer."},
+    {Str::FindCount, "%1$s: %2$d fundet"},
+    {Str::FindCountOne, "%s: 1 fundet"},
+    {Str::FindNoMatch, "%s: intet fundet"},
+    {Str::FindEmpty, "søgning tom"},
+    {Str::FindTypeFirst, "Skriv først en del af et navn."},
+    {Str::FindResults, "fundet: %s"},
+    {Str::FindCancelled, "søgning annulleret"},
+    {Str::FindNotNow, "Gør først placeringen færdig: Escape, så Kontrol+F."},
+    {Str::KeysFind, "Kontrol+F finder noget på grunden, når du skriver en del af navnet."},
+    {Str::KeysPortalDelete, "Delete på en dør eller et vindue på listen fjerner det."},
+    {Str::ZoomFar, "fjern visning"},
+    {Str::ZoomMedium, "mellem visning"},
+    {Str::ZoomNear, "tæt visning"},
+    {Str::CameraFacing, "kamera vendt mod %s"},
+    {Str::CameraStatus, "kamera: %1$s, vendt mod %2$s"},
+    {Str::GroupRoof, "tag"},
+    {Str::GroupBuildStyles, "modeller"},
+    {Str::RoofHint,
+     "Spillet bygger selv taget over dine vægge, så der er intet at placere. Her vælger du kun model og "
+     "hældning, for hele huset."},
+    {Str::RoofStyle, "tagmodel %1$d af %2$d, %3$s"},
+    {Str::RoofStylePlain, "tagmodel %1$d af %2$d"},
+    {Str::RoofGray, "grå"},
+    {Str::RoofLightGray, "lysegrå"},
+    {Str::RoofDarkGray, "mørkegrå"},
+    {Str::RoofBlueGray, "blågrå"},
+    {Str::RoofBlack, "sort"},
+    {Str::RoofGreen, "grøn"},
+    {Str::RoofTerracotta, "terrakotta"},
+    {Str::RoofTan, "beige"},
+    {Str::RoofCopper, "kobber"},
+    {Str::RoofLightBlue, "lyseblå"},
+    {Str::RoofGold, "guld"},
+    {Str::RoofWhite, "hvid"},
+    {Str::PortalRemoved, "%s fjernet"},
+    {Str::PortalNotRemoved, "%s kunne ikke fjernes"},
+    {Str::PortalDeleteHint, "Døre og vinduer kan ikke flyttes: Delete fjerner dem."},
+    {Str::PortalNeedsHand, "For at fjerne en dør eller et vindue: Byggefunktion, Håndværktøj."},
+    {Str::ActionWithSim, "%1$s, med %2$s"},
+    {Str::DoorUsable, "simmerne kan gå igennem"},
+    {Str::DoorBlocked, "Advarsel: simmerne kan ikke bruge denne dør, %s er i vejen"},
+    {Str::DoorNoWay, "Advarsel: simmerne kan ikke nå denne dør fra grundens indgang"},
     {Str::ThingsByKind, "objekter efter type"},
     {Str::ThingsByRoom, "objekter efter rum"},
     {Str::NoObjects, "ingen objekter her"},

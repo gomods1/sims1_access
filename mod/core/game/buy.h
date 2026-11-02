@@ -88,6 +88,9 @@ int SaleValue(Ptr object);      // what selling it pays now
 // The held object that is being moved: Delete sells it (the refund goes to the family), Escape
 // puts it back where it was. false when the tool did not take the key.
 bool SellHeld();
+// Removes a door or window the way the game's Ctrl+click with their tool does, with whatever move
+// tool is up; true when it is gone. (Neither can be picked up.)
+bool RemovePortal(Ptr object);
 bool PutBackHeld();
 
 }  // namespace game

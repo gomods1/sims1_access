@@ -8,6 +8,7 @@
 #include "../util/text.h"
 #include "addresses.h"
 #include "hooks.h"
+#include "lot.h"
 #include "rtti.h"
 #include "ui.h"
 
@@ -169,7 +170,7 @@ bool InBuyTool() { return Tool() != 0; }
 bool IsBuying() {
     Ptr tool = Tool();
     int mode = tool ? Rd<int>(tool + addr::movetool::kMode) : 0;
-    return mode >= addr::movetool::kBuyMode &&
+    return mode >= addr::movetool::kBuyMode && Rd<uint8_t>(tool + addr::movetool::kBuying) != 0 &&
            Rd<Ptr>(tool + addr::movetool::kProductType) != 0;
 }
 
@@ -407,6 +408,36 @@ int PickUp(Ptr object) {
     if (held && !parts.empty() && held == parts[0]) return 0;
     int error = LastError();
     return error > 0 ? error : -1;
+}
+
+bool RemovePortal(Ptr object) {
+    typedef void(__thiscall * Fn)(void*, int, int, int, PickInfo*);
+    Ptr tool = Tool();
+    if (!tool || !IsPortal(object)) return false;
+    int id = Rd<int16_t>(object + addr::obj::kId);
+    Tile at{Rd<int>(object + addr::obj::kX) >> 4, Rd<int>(object + addr::obj::kY) >> 4};
+    int vx, vy;
+    GridToView(at.x * 16 + 8, at.y * 16 + 8, &vx, &vy);
+    int mode = Rd<int>(tool + addr::movetool::kMode);
+    uint8_t removes = Rd<uint8_t>(tool + addr::movetool::kCtrlRemoves);
+    // The tool's own state for this one mouse up: its door or window mode, with Ctrl held.
+    WriteU32(tool + addr::movetool::kMode, PeoplePass(object) ? addr::movetool::kDoorMode : addr::movetool::kWindowMode);
+    WriteU8(tool + addr::movetool::kCtrlRemoves, 1);
+    WriteU32(Va(addr::kPlacementError), 0);
+    Activate(tool);
+    ForceModifiers(false, true);
+    ForcePortalPick(id);
+    SetWorldPointerOverride(vx, vy);
+    PickInfo pick = {12, InputRoot(), 0, 300, 512, {}};
+    CallSlot<Fn>(tool, addr::movetool::kUpSlot, addr::movetool::kUp, "cMoveTool::MouseUp", vx, vy, id, &pick);
+    ClearWorldPointerOverride();
+    ForcePortalPick(-1);
+    ClearForcedModifiers();
+    WriteU32(tool + addr::movetool::kMode, (uint32_t)mode);
+    WriteU8(tool + addr::movetool::kCtrlRemoves, removes);
+    bool gone = ObjectById(id) != object || (Rd<uint32_t>(object + addr::obj::kPlacement) & 0xffff) == 0xffff;
+    Log("buy: remove door or window %d: %s", id, gone ? "gone" : "still there");
+    return gone;
 }
 
 int SaleValue(Ptr object) {

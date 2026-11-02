@@ -44,7 +44,7 @@ screens and dialogs lives in `SCREENS.md`; this file is the list of flows still 
 The game's sounds come from what the camera shows, so the camera is part of what a blind player
 hears. Done (`nav/camera.cpp`): the camera follows the selected Sim through the game's own follow
 mode; while PageUp/PageDown browse (objects, Sims, rooms, placement spots) it points at the browsed
-thing and following pauses; leaving the browser (arrows, Tab, Home/End) resumes following. Ctrl+F
+thing and following pauses; leaving the browser (arrows, Tab, Home/End) resumes following. Ctrl+Shift+F
 turns following off and on. Ctrl+1..9 select a family member by position. Open: what a player
 hears while browsing far from the Sim is the object's surroundings, not the Sim; the narrator
 below is what will keep them informed of the Sim meanwhile (its actions, needs, rooms, spoken as
@@ -220,8 +220,9 @@ for a second Enter. A new room without a door is said, not asked about. Still to
   Ctrl+Enter fills in; ladders, diving boards and slides from the spot list; ponds untested).
   Terrain (done, verified: the level tool flattens the rectangle from the start to the cursor,
   raise/lower press once at the cursor; every tile cursor says "inclinado" on sloped tiles and
-  the terrain cursor the height, from the terrain map, world + 0x14). Roofs are visual only: left out unless they turn
-  out to matter (e.g. for the house's ratings). Stairs (verified 2026-09-23): the spot list says
+  the terrain cursor the height, from the terrain map, world + 0x14; Grass paints the tile, 2026-11-02). Roofs have no
+  cursor: the game builds them over the walls; the panel's pitch and texture buttons read by name
+  and colour, and a hint says so (a tester looked for a map to place one, 2026-11-02). Stairs (verified 2026-09-23): the spot list says
   which way they climb, the bottom tile and the upper floor tile they reach; they need a floor on
   the story above first (without one every tile is refused). Upper floors (verified): the cursor
   starts with its floor ("piso 2"; choosing a tool puts the view back on floor 1),
@@ -261,6 +262,17 @@ for a second Enter. A new room without a door is said, not asked about. Still to
   what stands there (verified: the aquarium's "Alimentar peces"), Ctrl+Enter walks there (not
   tried yet), R in full, Ctrl+L that room's layout, Escape or Ctrl+M leaves. Menus and dialogs do
   not end it. Open: the camera does not follow the map cursor.
+- Door reports (a tester, 2026-11-02). Not reproduced: "my Sim can't use the door". A curtain door
+  placed from the spot list let the Sim walk in and out on a sloped lot; the arrow-placed one was
+  not walked. Asked for: which door, placed how, on which lot. Added so the next report says more:
+  the check after placing (`CheckDoor`) and the wall named on the arrow cursor. Fixed: doors and
+  windows could not be listed, moved or removed (type 8 objects were left out of the list).
+- Phone (the same tester): no object or text the game shows offers quitting a job (every TTAs and
+  readable STR#/CTSS of the archives and loose IFFs, 2026-11-02; unreadable: player houses and
+  Sims, editor-only label tables). A Sim loses a job by missing work; the newspaper and computer
+  offer others (replacing the job by taking another is not verified). "Throw Party" is on the phone:
+  its test (`PhoneGlobals.iff` 8264) wants a residential lot, the hour above 6, the phone free and a
+  loop over neighbors that needs enough of them to pass; semi-global 8239 inside it is not decoded.
 - Build mode "can't build here" while the game allowed it (a tester, 2026-11-01): the mod's check
   (tile flag 0x20 at the corner) matches the wall tool's own (`0x58a660`) except under the
   move_objects cheat; waiting for the tool, floor and place it happened at.

@@ -410,7 +410,9 @@ bool Represents(Ptr object, const std::map<Family, bool>& familyHasStrings, cons
     return first != familyFirstSub.end() && ObjdField(object, addr::objd::kSubIndex) == first->second;
 }
 
-std::vector<LotObject> LotObjects() {
+namespace {
+
+std::vector<LotObject> ListObjects(bool withPortals) {
     std::vector<LotObject> out;
     Ptr module = LotModule();
     if (!module) return out;
@@ -428,7 +430,8 @@ std::vector<LotObject> LotObjects() {
         // People, normal objects, food (a pizza box on a counter); and type 7 with catalog strings
         // (the cheap stove is one: the other type 7 objects are invisible controllers).
         bool catalogued7 = kind == 7 && ObjdField(object, addr::objd::kCatalogStringsId) != 0;
-        if (kind != 2 && kind != 4 && kind != 34 && !catalogued7) continue;
+        bool portal = withPortals && kind == 8 && IsPortal(object);
+        if (kind != 2 && kind != 4 && kind != 34 && !catalogued7 && !portal) continue;
         if (IsInvisibleHelper(object)) continue;
         candidates.push_back(object);
         if (ObjdField(object, addr::objd::kMasterId) != 0) {
@@ -445,6 +448,26 @@ std::vector<LotObject> LotObjects() {
         if (GetObject(object, &o)) out.push_back(o);
     }
     return out;
+}
+
+// Variable n of the object or of any of its parts, the largest.
+int MaxPartVariable(Ptr object, int n) {
+    int best = 0;
+    for (Ptr part : ObjectParts(object)) best = std::max<int>(best, Rd<short>(part + addr::objvar::kBase + 2 * n));
+    return best;
+}
+
+}  // namespace
+
+std::vector<LotObject> LotObjects() { return ListObjects(false); }
+
+std::vector<LotObject> LotThings() { return ListObjects(true); }
+
+bool ObjectBroken(Ptr object) { return MaxPartVariable(object, addr::objvar::kBroken) > 0; }
+
+bool ObjectDirty(Ptr object) {
+    if (MaxPartVariable(object, addr::objvar::kDirt) <= addr::objvar::kDirtyAbove) return false;
+    return !(Rd<short>(object + addr::objvar::kBase + 2 * addr::objvar::kFlags) & addr::objvar::kFlagNotCleanable);
 }
 
 std::string ObjectName(const LotObject& o) {

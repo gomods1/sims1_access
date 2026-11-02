@@ -90,6 +90,8 @@ En un solar, la interfaz es un anillo de grupos como cualquier pantalla. Tab los
 
 Sobre un elemento de un panel del modo Vivir (una necesidad, una cualidad, un empleo, una puntuación de la casa), Intro lee la ventana emergente del juego.
 
+El empleo dice su horario y cuándo pasa el coche de la compañía. Los menús del juego no tienen ninguna opción para dejar un empleo: a un Sim que falta al trabajo una y otra vez lo despiden, y el periódico y el ordenador ofrecen otros empleos.
+
 ### Seleccionar Sims y la cámara
 
 | Tecla | Qué hace |
@@ -97,11 +99,13 @@ Sobre un elemento de un panel del modo Vivir (una necesidad, una cualidad, un em
 | Espacio | El «siguiente Sim» del juego: se selecciona y anuncia el siguiente miembro de la familia («Isabel, seleccionado, Comer»). |
 | Control+1 a Control+9 | Selecciona del primer al noveno Sim de la familia. |
 | Control+Mayúsculas+1 a Control+Mayúsculas+9 | Abre la ficha de ese Sim (biografía). |
-| Control+F | La cámara sigue al Sim seleccionado, o queda libre. |
+| Control+Mayúsculas+F | La cámara sigue al Sim seleccionado, o queda libre. |
 | Control+E | El Sim seleccionado en una frase: habitación, qué está haciendo, necesidades urgentes, humor. |
 | P | Pausa (la tecla del juego); el mod dice la hora y los fondos. 1, 2, 3 ponen la velocidad. |
 
 La cámara sigue al Sim seleccionado porque los sonidos del juego salen de lo que hay en pantalla. Mientras recorres los objetos del solar, la cámara va a cada uno y después vuelve al Sim.
+
+El zoom y hacia dónde mira la cámara se dicen cuando cambian (más y menos acercan y alejan, coma y punto giran la vista), y también están en la línea de estado: "cámara: vista media, mirando al noroeste". Hacia donde mira es lo que muestra la parte de arriba de la pantalla. El norte del mod no gira con la cámara.
 
 ### Los objetos del solar
 
@@ -116,8 +120,12 @@ No hace falta ir hasta allí con Tab: las teclas de página recorren los objetos
 | Control+Avanzar página, Control+Retroceder página | Habitación siguiente o anterior (la primera vez: la habitación del Sim seleccionado). |
 | Intro | Las interacciones del objeto (en el Modo Comprar: recogerlo para moverlo). |
 | Control+Intro | Lleva al Sim seleccionado hasta el objeto. |
+| Control+F | Buscar algo: escribe parte de su nombre ("tel" encuentra el teléfono, los acentos no importan). Arriba y Abajo recorren lo que coincide, Intro actúa sobre ello, Control+Intro lleva allí, Supr quita una puerta o ventana, Escape vuelve a donde estabas. |
+| Supr | Sobre una puerta o ventana, en modo comprar o construir: la quita y devuelve su valor. |
 
 Un Sim o un objeto que todavía muestra un globo también lo dice («Bella, Comer, piensa: hambre»).
+
+Después de los Sims viene **problemas**: lo que necesita atención, como cosas rotas, cosas por limpiar, charcos, basura, cenizas, fuego y cualquier cosa con moscas. Al final viene **puertas, ventanas y escaleras**.
 
 ### Menús de interacciones
 
@@ -159,6 +167,8 @@ El juego muestra muchas cosas solo con imágenes. El mod las dice cuando pasan y
 **Control+N** cambia cuánto se dice: todo, solo avisos o nada. Las líneas no dichas van igualmente al búfer de eventos.
 
 Los sonidos que oyes (el teléfono, el timbre, las alarmas) no se anuncian.
+
+Las acciones con otro Sim dicen con quién, sea quien sea el que las empezó: "Homero: Saludar, con Elvira".
 
 ### Consejos y tutorial
 
@@ -206,6 +216,8 @@ En el Modo Comprar, ve con Avanzar página a un objeto del solar y pulsa Intro: 
 
 F3 abre el Modo Construir. Sus herramientas son pestañas, y sus estilos, productos. El resumen de la casa se dice al entrar en el Modo Construir (Control+Mayúsculas+L lo repite).
 
+Al pulsar una herramienta pasas a sus modelos, en un grupo propio con el nombre de la herramienta; Tab vuelve a las herramientas. No tienes nada en la mano hasta que pulsas Intro sobre un modelo.
+
 ### El cursor de construcción
 
 Intro sobre un estilo de pared o de valla inicia el cursor de construcción en el Sim seleccionado. Se mueve por las esquinas entre casillas.
@@ -236,9 +248,17 @@ Cada una de estas herramientas tiene el mismo cursor por casillas (flechas, May�
 - **Piscinas**: Espacio marca una esquina, Intro cava; el mod avisa antes de que el agua deje algo aislado. Control+Intro vuelve a rellenar casillas. Los Sims necesitan una escalerilla de piscina (en la lista de la herramienta).
 - **Terreno**: nivelar desde una casilla marcada hasta el cursor, o subir y bajar el terreno.
 
+**Hierba** usa el mismo cursor: Intro pinta la casilla bajo él.
+
 ### Puertas, ventanas y escaleras
 
 Las puertas y ventanas se colocan como los muebles, desde una lista de sitios: «en la pared oeste de cocina, da a exterior, la primera puerta de esa habitación».
+
+Con las flechas, una puerta o ventana dice en qué pared iría; al girarla eliges la pared. Después de colocar una puerta el mod dice si los Sims pueden pasar por ella, o qué la bloquea. Para cambiarla más tarde, búscala en **puertas, ventanas y escaleras** o con Control+F: Intro la coge para moverla, Supr la quita (el Control+clic del juego).
+
+### El tejado
+
+El juego construye el tejado solo sobre tus paredes, así que no hay cursor ni nada que colocar. La herramienta de tejado solo elige la inclinación y el modelo, para toda la casa. Los modelos no tienen nombre en el juego: el mod dice su color.
 
 ## Señales sonoras
 

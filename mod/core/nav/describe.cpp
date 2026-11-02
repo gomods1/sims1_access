@@ -1,6 +1,7 @@
 #include "describe.h"
 
 #include <algorithm>
+#include <cstring>
 #include <unordered_map>
 #include <utility>
 #include <vector>
@@ -16,18 +17,28 @@
 #include "../game/people.h"
 #include "../game/rtti.h"
 #include "../game/ui.h"
+#include "../game/view.h"
 #include "../game/view_control.h"
 #include "../util/strings.h"
 #include "../util/text.h"
 #include "appearance.h"
 #include "buffers.h"
 #include "buy_mode.h"
+#include "camera.h"
 #include "world.h"
 #include "house_overview.h"
 #include "screens.h"
 #include "tutorial.h"
 
 namespace nav {
+
+// The queue icon's action with the other Sim it is done with, from the Sim's own queue.
+std::string QueuedLabel(const std::string& action) {
+    for (const game::SimAction& a : game::SimActionList(game::SimNeighborId(game::SelectedSim())))
+        if (a.name == action) return a.Spoken();
+    return action;
+}
+
 namespace {
 
 std::unordered_map<int, std::string> g_houseCards;  // by house number
@@ -250,6 +261,8 @@ std::string StatusText(const Item& it) {
                ", " + S(Str::RoleButton);
     case StatusField::Friends:
         return util::Format(S(Str::LabelValue), it.label.c_str(), game::Caption(it.widget).c_str());
+    case StatusField::Camera:
+        return camera::ViewLine();
     }
     return it.label;
 }
@@ -402,8 +415,8 @@ std::string Describe(const Item& it) {
     case Role::Motive:
         // The bar runs from -100 (empty, red) to 100 (full): spoken as percent full.
         return util::Format(S(Str::MotiveValue), it.label.c_str(), (game::MotiveValue(it.widget) + 100) / 2);
-    case Role::QueuedAction:  // "Hablar, en cola, botón": pressing cancels it
-        return util::Format(S(Str::QueuedAction), it.label.c_str()) + ", " + S(Str::RoleButton);
+    case Role::QueuedAction:  // "Hablar, con Elvira, en cola, botón": pressing cancels it
+        return util::Format(S(Str::QueuedAction), QueuedLabel(it.label).c_str()) + ", " + S(Str::RoleButton);
     case Role::TutorialIcon:
         return S(Str::TutorialIcon) + std::string(", ") + S(Str::RoleButton);
     case Role::Button:
@@ -501,9 +514,25 @@ std::vector<std::string> PanelHelp(const Item& it) {
         // Unemployed, the job and pay buttons say so (STR# 136 entries 7 and 8) and the texts change.
         std::string caption = game::Caption(it.widget);
         switch ((JobField)it.number) {
-        case JobField::Job:
-            if (caption == game::GameDataString(kLive, 136, 7)) pair(137, 12, 13);
+        case JobField::Job: {
+            if (caption == game::GameDataString(kLive, 136, 7)) {
+                pair(137, 12, 13);
+                break;
+            }
+            // The popup's "Horario: $Start-$End. Coche de la compañía: $CarTime." (0x4dea70): the
+            // carpool comes an hour before the start.
+            int start = 0, end = 0;
+            if (!game::JobHours(game::SelectedNeighborId(), &start, &end)) break;
+            text = game::GameDataString(kLive, 137, 23);
+            auto put = [&](const char* tag, int hour) {
+                size_t at = text.find(tag);
+                if (at != std::string::npos) text.replace(at, strlen(tag), game::HourText(hour));
+            };
+            put("$Start", start);
+            put("$End", end);
+            put("$CarTime", (start + 23) % 24);
             break;
+        }
         case JobField::Pay:
             pair(137, 14, caption == game::GameDataString(kLive, 136, 8) ? 24 : 15);
             break;
@@ -527,6 +556,13 @@ std::vector<std::string> PanelHelp(const Item& it) {
         break;
     case Role::Button:
         text = game::InventoryItemDescription(it.widget);  // empty for anything but inventory items
+        if (game::IsKindOf(game::Parent(it.widget), "cWinRoofPanel")) {
+            // The roof panel's popups: its pitch buttons have labels, its texture buttons do not
+            // (UIText STR# 147: entries 14-15 the pitch, 16-17 the textures).
+            bool pitch = !game::Tooltip(it.widget).empty() && game::Tooltip(it.widget) == it.label;
+            title = game::GameDataString("UIText.iff", 147, pitch ? 14 : 16);
+            text = game::GameDataString("UIText.iff", 147, pitch ? 15 : 17);
+        }
         break;
     default:
         break;

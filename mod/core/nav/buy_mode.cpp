@@ -45,6 +45,17 @@ struct State {
 
 State g;
 
+// The wall bit behind something facing an engine direction (6 north, 0 west, 2 south, 4 east).
+uint32_t kWallBehind(int direction) {
+    switch ((direction + 4) & 7) {
+    case 6: return game::kWallNorth;
+    case 0: return game::kWallWest;
+    case 2: return game::kWallSouth;
+    case 4: return game::kWallEast;
+    }
+    return 0;
+}
+
 const Str kRatings[game::kRatingCount] = {Str::RatingHunger, Str::RatingComfort, Str::RatingHygiene,
                                           Str::RatingBladder, Str::RatingEnergy, Str::RatingFun,
                                           Str::RatingRoom};
@@ -257,7 +268,12 @@ game::Ptr g_renewedFrom = 0;
 ULONGLONG g_renewedAt = 0;
 constexpr ULONGLONG kRenewWaitMs = 400;
 
+ULONGLONG g_holdOffUntil = 0;
+
+void HoldOff(unsigned ms) { g_holdOffUntil = GetTickCount64() + ms; }
+
 void Renew() {
+    g_holdOffUntil = 0;
     g_renewedFrom = g.session;
     g_renewedAt = GetTickCount64();
     g.session = 0;
@@ -269,6 +285,13 @@ bool Placing() { return game::IsPlacing() && game::HeldObject() != 0; }
 // keeps its spots and just shows again. A new product, or the next one after buying, gets new
 // spots.
 void Tick() {
+    if (GetTickCount64() < g_holdOffUntil) {
+        if (game::IsBuying()) {
+            game::CancelPlacing();
+            Reset();
+        }
+        return;
+    }
     if (!game::IsPlacing()) {
         if (g.session) Reset();
         return;
@@ -360,6 +383,8 @@ void Confirm() {
     if (buying && game::HeldProduct(&p)) name = p.name;
     if (name.empty()) name = HeldName();  // build mode's items are not in the buy catalog
     game::Ptr placed = game::HeldObject();
+    bool door = game::IsPortal(placed) && game::PeoplePass(placed) && direction >= 0 &&
+                (game::WallsAt(game::HeldLevel(), tile.x, tile.y) & kWallBehind(direction)) != 0;
     game::LiftHeld();
     if (direction >= 0) game::TurnHeld(direction);
     int error = game::PlaceHeldAt(tile);
@@ -375,6 +400,13 @@ void Confirm() {
     std::string line = util::Format(S(buying ? Str::Bought : Str::PutDown), name.c_str());
     int funds = 0;
     if (buying && game::GetFunds(&funds)) line += ". " + util::Format(S(Str::FundsLeft), util::Money(funds).c_str());
+    if (door) {  // the placing is over, and only now can the engine's own state answer this
+        std::string blocker;
+        int check = placement::CheckDoor(tile, direction, game::HeldLevel(), &blocker);
+        if (check == 1) line += ". " + util::Format(S(Str::DoorBlocked), blocker.c_str());
+        else if (check == 2) line += ". " + std::string(S(Str::DoorNoWay));
+        else line += ". " + std::string(S(Str::DoorUsable));
+    }
     g.session = 0;  // the lot changed: the next one of a kind gets new spots
     if (Placing()) line += ". " + std::string(S(Str::AnotherInHand));
     buffers::Event(line);
@@ -424,9 +456,29 @@ void PickUpFocused() {
     int error = game::PickUp(object);
     if (error != 0) {
         std::string why = game::PlacementErrorText(error);
-        speech::Say(util::Format(S(Str::CannotPickUp), why.c_str()));
+        std::string line = util::Format(S(Str::CannotPickUp), why.c_str());
+        if (game::IsPortal(object)) line += ". " + std::string(S(Str::PortalDeleteHint));
+        speech::Say(line);
     }
     // Tick notices the held object and says where it can go.
+}
+
+bool RemoveFocusedPortal() {
+    game::Ptr object = world::FocusedObject();
+    if (!object || !game::IsPortal(object)) return false;
+    if (!game::InBuyTool()) {
+        speech::Say(S(Str::PortalNeedsHand));
+        return true;
+    }
+    game::LotObject o;
+    std::string name = game::GetObject(object, &o) ? world::DisplayName(o) : "";
+    world::Refocus();
+    if (!game::RemovePortal(object)) {
+        speech::Say(util::Format(S(Str::PortalNotRemoved), name.c_str()));
+        return true;
+    }
+    buffers::Event(util::Format(S(Str::PortalRemoved), name.c_str()));
+    return true;
 }
 
 // ---- The free cursor (arrows while placing) ------------------------------------------------
@@ -473,6 +525,13 @@ std::string FreeLine(bool withRoom = false) {
         if (walls & side.first) sides += (sides.empty() ? "" : ", ") + std::string(S(side.second));
     if (!sides.empty()) line += ", " + util::Format(S(Str::BuildWallsHere), sides.c_str());
     line += ", " + util::Format(S(Str::FacingDirection), S(placement::CompassWord(game::CompassOf(g.freeDirection))));
+    // A door or window goes in the wall behind it: this is what turning it chooses.
+    if (error == 0 && game::IsPortal(held) && (walls & kWallBehind(g.freeDirection))) {
+        game::Tile behind = game::Step(g.freeTile, (g.freeDirection + 4) & 7);
+        line += ", " + util::Format(S(Str::DoorInWall), S(placement::CompassWord(game::CompassOf((g.freeDirection + 4) & 7))),
+                                    placement::RoomNameOf(roomId).c_str(),
+                                    placement::RoomNameOf(game::RoomAt(level, behind.x, behind.y)).c_str());
+    }
     std::string faced = ObjectsOn(FrontTiles(footprint, g.freeDirection, level), level, held);
     if (!faced.empty()) line += ", " + util::Format(S(Str::FacingThing), faced.c_str());
     return line + ", " + util::Format(S(Str::TileAt), g.freeTile.x, g.freeTile.y);

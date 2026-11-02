@@ -20,6 +20,8 @@ struct State {
     bool enabled = true;   // follow the selected Sim when nothing is browsed
     game::Ptr wanted = 0;  // the Sim the mod told the game to follow (0: none yet, or paused)
     game::Ptr selected = 0;  // the selected Sim last seen, to announce a change
+    int zoom = 0;            // the zoom and facing last said (or first read on this lot)
+    int facing = -1;
     bool browsing = false; // the camera is on a browsed object
 };
 
@@ -44,13 +46,48 @@ std::string SimName(game::Ptr person) {
 
 void Reset() { g = State{}; }
 
+namespace {
+
+Str ZoomWord(int zoom) { return zoom >= 3 ? Str::ZoomNear : zoom == 2 ? Str::ZoomMedium : Str::ZoomFar; }
+
+Str CompassWord(int compass) {
+    switch (compass) {
+    case 1: return Str::DirNorthEast;
+    case 3: return Str::DirSouthEast;
+    case 5: return Str::DirSouthWest;
+    default: return Str::DirNorthWest;
+    }
+}
+
+// The camera's own keys and buttons change these: a player can't tell otherwise.
+void WatchView() {
+    int zoom = game::ViewZoom(), facing = game::ViewCompass();
+    bool first = !g.zoom;
+    bool zoomed = zoom != g.zoom, turned = facing != g.facing;
+    g.zoom = zoom;
+    g.facing = facing;
+    if (first || !zoom) return;
+    if (zoomed) buffers::Event(S(ZoomWord(zoom)));
+    if (turned) buffers::Event(util::Format(S(Str::CameraFacing), S(CompassWord(facing))));
+}
+
+}  // namespace
+
+std::string ViewLine() {
+    int zoom = game::ViewZoom(), facing = game::ViewCompass();
+    if (!zoom) return "";
+    return util::Format(S(Str::CameraStatus), S(ZoomWord(zoom)), S(CompassWord(facing)));
+}
+
 void Tick() {
     if (!LotViewActive() || !game::LotModule()) {
         g.wanted = 0;
         g.browsing = false;
         g.selected = 0;
+        g.zoom = 0;
         return;
     }
+    WatchView();
     game::Ptr now = game::SelectedSim();
     if (now != g.selected) {
         bool first = g.selected == 0;

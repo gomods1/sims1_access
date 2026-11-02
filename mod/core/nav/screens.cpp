@@ -35,6 +35,7 @@ const Named kPanels[] = {
     {"cWinOptions", Str::GroupOptions},
     {"cWinCatalog", Str::GroupCatalog},
     {"cWinArch", Str::GroupBuild},
+    {"cWinRoofPanel", Str::GroupRoof},
     {"cWinCamPanel", Str::GroupCamera},
     {"cWinPeople", Str::GroupFamilyPanel},
     {"cPickFamilyList", Str::GroupFamilies},
@@ -114,6 +115,10 @@ std::string GroupName(const Group& g) {
     if (g.key == kTipGroup) return S(Str::GroupTip);
     if (g.key == kModHelpGroup) return S(Str::GroupModHelp);
     if (g.key == kKindsGroup || g.key == kRoomsGroup) return world::LevelName(g.key);
+    if (g.key == kBuildStylesGroup) {  // named after the tool that offers them
+        std::string tool = game::CheckedTabOf(g.items.empty() ? 0 : game::Parent(g.items[0].widget));
+        return tool.empty() ? S(Str::GroupBuildStyles) : tool;
+    }
     // The phone book: families on the left, the chosen family's members on the right.
     if (game::IsKindOf(g.key, "cTSWinTextList") && game::IsKindOf(game::Parent(g.key), "CWinPhoneBook")) {
         RECT mine = game::Rect(g.key);

@@ -677,7 +677,7 @@ namespace {
 
 void BuildTerrain() {
     g.pending = false;
-    if (g.terrain == 2) {
+    if (g.terrain >= 2) {  // raise, lower, grass: the tile under the cursor
         int error = game::PressTerrain(g.cursor);
         if (error != 0) {
             std::string reason = error > 0 ? game::PlacementErrorText(error) : "";

@@ -90,6 +90,8 @@ På en grund er kontrolpanelet en ring af grupper som enhver skærm. Tab går ge
 
 På et element i et panel i Spillefunktion (et behov, en færdighed, et job, en vurdering af huset) siger Enter spillets pop op-tekst for det.
 
+Jobbet siger arbejdstiden, og hvornår samkørslen kommer. Spillets menuer har ingen mulighed for at sige op: En sim, der bliver ved med at udeblive, bliver fyret, og avisen og computeren tilbyder andre job.
+
 ### Vælg Simmere og kameraet
 
 | Tast | Hvad den gør |
@@ -97,11 +99,13 @@ På et element i et panel i Spillefunktion (et behov, en færdighed, et job, en 
 | Mellemrum | Spillets "næste Sim": det næste familiemedlem vælges og annonceres ("Isabel, valgt, Spise"). |
 | Kontrol+1 til Kontrol+9 | Vælger familiens første til niende Sim. |
 | Kontrol+Skift+1 til Kontrol+Skift+9 | Åbner den Sims kort (biografi). |
-| Kontrol+F | Kameraet følger den valgte Sim eller er frit. |
+| Kontrol+Skift+F | Kameraet følger den valgte Sim eller er frit. |
 | Kontrol+E | Den valgte Sim på én linje: rum, hvad den laver, akutte behov, humør. |
 | P | Pause (spillets tast); modden siger klokken og pengene. 1, 2, 3 indstiller hastigheden. |
 
 Kameraet følger den valgte Sim, fordi spillets lyde kommer fra det, der er på skærmen. Mens du gennemgår grundens objekter, går kameraet hen til hvert objekt og vender bagefter tilbage til Simmen.
+
+Zoom og kameraets retning siges, når de ændres (plus og minus zoomer, komma og punktum drejer visningen), og de står også i statuslinjen: "kamera: mellem visning, vendt mod nordvest". Retningen er det, toppen af skærmen viser. Modets nord drejer ikke med kameraet.
 
 ### Grundens objekter
 
@@ -116,8 +120,12 @@ Du behøver ikke at tabbe derhen: Side-tasterne gennemgår objekterne fra hvor s
 | Kontrol+Side ned, Kontrol+Side op | Næste eller forrige rum (første tryk: den valgte Sims rum). |
 | Enter | Objektets handlinger (i Købefunktion: samler det op for at flytte det). |
 | Kontrol+Enter | Sender den valgte Sim hen til objektet. |
+| Kontrol+F | Find noget: skriv en del af navnet ("tel" finder telefonen, accenter er ligegyldige). Pil op og ned går gennem resultaterne, Enter handler på det, Kontrol+Enter sender simmen derhen, Delete fjerner en dør eller et vindue, Escape går tilbage, hvor du var. |
+| Delete | På en dør eller et vindue, i købe- eller byggefunktion: fjerner det og refunderer det. |
 
 En Sim eller et objekt, der stadig viser en boble, siger den også ("Bella, Spise, tænker: sult").
+
+Efter simmerne kommer **problemer**: det, der kræver opmærksomhed, som ting i stykker, det der skal rengøres, vandpytter, affald, aske, ild og alt med fluer over. Til sidst kommer **døre, vinduer og trapper**.
 
 ### Handlingsmenuer
 
@@ -159,6 +167,8 @@ Spillet viser mange ting kun som billeder. Modden siger dem, mens de sker, og ge
 **Kontrol+N** ændrer, hvor meget der siges: alt, kun advarsler eller fra. Linjer, der ikke siges, kommer stadig i hændelsesbufferen.
 
 Lyde, du kan høre (telefonen, dørklokken, alarmer), annonceres ikke.
+
+Handlinger med en anden sim nævner denne, uanset hvem der startede dem: "Homer: Hils, med Elvira".
 
 ### Hjælpetips og træningsspillet
 
@@ -206,6 +216,8 @@ I Købefunktion: gå med Side ned til et objekt på grunden, og tryk Enter: det 
 
 F3 åbner Byggefunktion. Dens værktøjer er faner, deres stilarter er produkter. Husoversigten siges, når du går ind i Byggefunktion (Kontrol+Skift+L gentager den).
 
+Når du trykker på et værktøj, kommer du til dets modeller i en gruppe for sig med værktøjets navn; Tab går tilbage til værktøjerne. Du har intet i hånden, før du trykker Enter på en model.
+
 ### Byggemarkøren
 
 Enter på en stil af mur eller hegn starter byggemarkøren ved den valgte Sim. Den bevæger sig på hjørnerne mellem felterne.
@@ -236,9 +248,17 @@ Hvert af disse værktøjer har den samme markør på felter (piletasterne, Skift
 - **Pøle**: Mellemrum markerer et hjørne, Enter graver; modden advarer, før vand afskærer noget. Kontrol+Enter fylder felter op igen. Simmerne skal have en poolstige (i værktøjets liste).
 - **Terræn**: jævner fra et markeret felt til markøren, eller hæver og sænker jorden.
 
+**Græs** bruger samme markør: Enter maler feltet under den.
+
 ### Døre, vinduer og trapper
 
 Døre og vinduer placeres som møbler, fra en liste over steder: "i væggen mod vest i køkken, fører ud til udenfor, rummets første dør".
+
+Med pilene siger en dør eller et vindue, hvilken væg det ville komme i; at dreje det vælger væggen. Når en dør er placeret, siger modet, om simmerne kan gå igennem, eller hvad der er i vejen. For at ændre den senere: find den under **døre, vinduer og trapper** eller med Kontrol+F. Enter tager den op for at flytte den, Delete fjerner den (spillets Kontrol+klik).
+
+### Taget
+
+Spillet bygger selv taget over dine vægge, så der er ingen markør og intet at placere. Tagværktøjet vælger kun hældning og model, for hele huset. Modellerne har ingen navne i spillet: modet siger deres farve.
 
 ## Lydsignaler
 

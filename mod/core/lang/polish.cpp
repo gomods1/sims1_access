@@ -23,10 +23,10 @@ const Translation kEntries[] = {
      "ustawień strzałki w lewo i w prawo zmieniają suwak lub selektor. Page Down i Page Up przechodzą przez "
      "obiekty na parceli, od najbliższego, a kamera przesuwa się do każdego z nich; Shift razem z nimi zmienia "
      "rodzaj obiektu, Control razem z nimi pokój. Enter na obiekcie otwiera jego działania, Control+Enter wysyła "
-     "tam Sima. R powtarza. Spacja wybiera następnego Sima, Control+1 do 9 wybierają Sima z rodziny, Control+F "
-     "włącza lub wyłącza śledzenie wybranego Sima przez kamerę. Control+E mówi, co robi i czego potrzebuje "
-     "wybrany Sim, Control+N zmienia, ile mówi narrator. P wstrzymuje grę i odczytuje godzinę oraz pieniądze. "
-     "Control+strzałka w górę i Control+strzałka w dół czytają szczegóły, Control+strzałka w lewo i "
+     "tam Sima. R powtarza. Spacja wybiera następnego Sima, Control+1 do 9 wybierają Sima z rodziny, "
+     "Control+Shift+F włącza lub wyłącza śledzenie wybranego Sima przez kamerę. Control+E mówi, co robi i czego "
+     "potrzebuje wybrany Sim, Control+N zmienia, ile mówi narrator. P wstrzymuje grę i odczytuje godzinę oraz "
+     "pieniądze. Control+strzałka w górę i Control+strzałka w dół czytają szczegóły, Control+strzałka w lewo i "
      "Control+strzałka w prawo przełączają między szczegółami a zdarzeniami."},
     {Str::KeysPlacing,
      "Page Down i Page Up przechodzą przez miejsca, w których obiekt się mieści i można go używać, najlepsze "
@@ -115,6 +115,59 @@ const Translation kEntries[] = {
     {Str::CategoryDecorative, "elementy dekoracyjne"},
     {Str::CategoryMiscellaneous, "różne"},
     {Str::CategoryOther, "inne obiekty"},
+    {Str::CategoryProblems, "problemy"},
+    {Str::CategoryPortals, "drzwi, okna i schody"},
+    {Str::ConditionBroken, "zepsute"},
+    {Str::ConditionDirty, "do sprzątnięcia"},
+    {Str::ObjPuddle, "kałuża"},
+    {Str::ObjAshes, "popiół"},
+    {Str::ObjFire, "ogień"},
+    {Str::ObjPetMess, "nieczystości zwierzaka"},
+    {Str::FindPrompt,
+     "Szukaj czegoś na działce: wpisz część nazwy. Strzałka w górę i w dół przechodzą przez wyniki, Enter "
+     "otwiera, Escape anuluje."},
+    {Str::FindCount, "%1$s: znaleziono %2$d"},
+    {Str::FindCountOne, "%s: znaleziono 1"},
+    {Str::FindNoMatch, "%s: brak wyników"},
+    {Str::FindEmpty, "wyszukiwanie puste"},
+    {Str::FindTypeFirst, "Najpierw wpisz część nazwy."},
+    {Str::FindResults, "znaleziono: %s"},
+    {Str::FindCancelled, "wyszukiwanie anulowane"},
+    {Str::FindNotNow, "Najpierw dokończ ustawianie: Escape, potem Control+F."},
+    {Str::KeysFind, "Control+F szuka czegoś na działce po wpisaniu części nazwy."},
+    {Str::KeysPortalDelete, "Delete na drzwiach lub oknie z listy usuwa je."},
+    {Str::ZoomFar, "widok z daleka"},
+    {Str::ZoomMedium, "widok średni"},
+    {Str::ZoomNear, "widok z bliska"},
+    {Str::CameraFacing, "kamera w kierunku %s"},
+    {Str::CameraStatus, "kamera: %1$s, w kierunku %2$s"},
+    {Str::GroupRoof, "dach"},
+    {Str::GroupBuildStyles, "modele"},
+    {Str::RoofHint,
+     "Gra sama buduje dach nad ścianami, więc nie ma czego ustawiać. Tu wybierasz tylko model i nachylenie, dla "
+     "całego domu."},
+    {Str::RoofStyle, "model dachu %1$d z %2$d, %3$s"},
+    {Str::RoofStylePlain, "model dachu %1$d z %2$d"},
+    {Str::RoofGray, "szary"},
+    {Str::RoofLightGray, "jasnoszary"},
+    {Str::RoofDarkGray, "ciemnoszary"},
+    {Str::RoofBlueGray, "niebieskoszary"},
+    {Str::RoofBlack, "czarny"},
+    {Str::RoofGreen, "zielony"},
+    {Str::RoofTerracotta, "terakota"},
+    {Str::RoofTan, "beżowy"},
+    {Str::RoofCopper, "miedziany"},
+    {Str::RoofLightBlue, "jasnoniebieski"},
+    {Str::RoofGold, "złoty"},
+    {Str::RoofWhite, "biały"},
+    {Str::PortalRemoved, "usunięto: %s"},
+    {Str::PortalNotRemoved, "nie można usunąć: %s"},
+    {Str::PortalDeleteHint, "Drzwi i okien nie można przenosić: Delete je usuwa."},
+    {Str::PortalNeedsHand, "Aby usunąć drzwi lub okno: Tryb budowania, Przesuwanie sprzętów."},
+    {Str::ActionWithSim, "%1$s, z: %2$s"},
+    {Str::DoorUsable, "Simowie mogą tędy przejść"},
+    {Str::DoorBlocked, "Uwaga: Simowie nie mogą użyć tych drzwi, blokuje je: %s"},
+    {Str::DoorNoWay, "Uwaga: Simowie nie dotrą do tych drzwi od wejścia na działkę"},
     {Str::ThingsByKind, "obiekty według rodzaju"},
     {Str::ThingsByRoom, "obiekty według pokoju"},
     {Str::NoObjects, "brak obiektów"},

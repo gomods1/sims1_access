@@ -834,6 +834,20 @@ ReachReport CheckReach(int level) {
     return report;
 }
 
+int CheckDoor(Tile tile, int direction, int level, std::string* blocker) {
+    Floor f = ReadFloor(level);
+    if (!f.entrance.empty()) f.starts = f.entrance;
+    std::vector<uint8_t> none(f.size * f.size, 0);
+    std::vector<uint8_t> reach = Reach(f, none);
+    Tile sides[2] = {tile, game::Step(tile, (direction + 4) & 7)};
+    for (Tile side : sides) {
+        if (!f.Inside(side) || Standable(f, side, none)) continue;
+        if (blocker) *blocker = f.Inside(side) ? NameOfId(f.objectId[f.Index(side)]) : "";
+        return 1;
+    }
+    return reach[f.Index(sides[0])] || reach[f.Index(sides[1])] ? 0 : 2;
+}
+
 WallCheck CheckBlockedTiles(int level, const std::vector<Tile>& tiles) {
     Floor before = ReadFloor(level);
     Floor after = before;

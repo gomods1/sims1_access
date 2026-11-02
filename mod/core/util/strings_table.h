@@ -2,7 +2,7 @@
 // X(Id, "English"), grouped by feature. A translation keeps the printf placeholders (it may
 // reorder them as %1$s, %2$d); tools/mod_strings.py checks that and lists missing translations.
 // The direction words (Dir*) are only ever inserted into TilesAway, OneTileAway, FacingDirection,
-// InCorner, AgainstWall, BesideWall, DoorInWall and StairsClimb; a translation may store them in the form those need
+// InCorner, AgainstWall, BesideWall, DoorInWall, StairsClimb, CameraFacing and CameraStatus; a translation may store them in the form those need
 // (Finnish keeps compound stems), so never speak one on its own.
 #pragma once
 
@@ -21,7 +21,7 @@
       "left and right change a slider or value picker. Page Down and Page Up go through the lot's things, nearest "    \
       "first, and the camera goes to each one; Shift with them changes the kind of thing, Control with them the "      \
       "room. Enter on a thing opens its interactions, Control+Enter walks there. R repeats. Space selects the "        \
-      "next Sim, Control+1 to 9 select a Sim of the family, Control+F makes the camera follow the selected Sim or "    \
+      "next Sim, Control+1 to 9 select a Sim of the family, Control+Shift+F makes the camera follow the selected Sim or "    \
       "not. Control+E says what the selected Sim is doing and needs, Control+N changes how much the narrator "         \
       "says. P pauses and reads the time and money. Control+Up and Control+Down read the details, Control+Left "       \
       "and Control+Right switch between details and events.")                                                          \
@@ -109,6 +109,55 @@
     X(CategoryDecorative, "decorative")                                                                                \
     X(CategoryMiscellaneous, "miscellaneous")                                                                          \
     X(CategoryOther, "other objects")                                                                                  \
+    X(CategoryProblems, "problems")                                                                                    \
+    X(CategoryPortals, "doors, windows and stairs")                                                                    \
+    X(ConditionBroken, "broken")                                                                                       \
+    X(ConditionDirty, "needs cleaning")                                                                                \
+    X(ObjPuddle, "puddle")                                                                                             \
+    X(ObjAshes, "ashes")                                                                                               \
+    X(ObjFire, "fire")                                                                                                 \
+    X(ObjPetMess, "pet mess")                                                                                          \
+    X(FindPrompt, "Find a thing of the lot: type part of its name. Up and Down go through what matches, Enter opens it, Escape cancels.") \
+    X(FindCount, "%1$s: %2$d found")                                                                                   \
+    X(FindCountOne, "%s: 1 found")                                                                                     \
+    X(FindNoMatch, "%s: nothing matches")                                                                              \
+    X(FindEmpty, "search empty")                                                                                       \
+    X(FindTypeFirst, "Type part of a name first.")                                                                     \
+    X(FindResults, "found: %s")                                                                                        \
+    X(FindCancelled, "search cancelled")                                                                               \
+    X(FindNotNow, "Finish placing first: Escape, then Control+F.")                                                     \
+    X(KeysFind, "Control+F finds a thing of the lot by typing part of its name.")                                      \
+    X(KeysPortalDelete, "Delete on a door or window of the lot's things removes it.")                                  \
+    X(ZoomFar, "far view")                                                                                             \
+    X(ZoomMedium, "medium view")                                                                                       \
+    X(ZoomNear, "close view")                                                                                          \
+    X(CameraFacing, "camera facing %s")                                                                                \
+    X(CameraStatus, "camera: %1$s, facing %2$s")                                                                       \
+    X(GroupRoof, "roof")                                                                                               \
+    X(GroupBuildStyles, "styles")                                                                                      \
+    X(RoofHint, "The game builds the roof by itself over your walls, so there is nothing to place. Here you only choose its style and slope, for the whole house.") \
+    X(RoofStyle, "roof style %1$d of %2$d, %3$s")                                                                      \
+    X(RoofStylePlain, "roof style %1$d of %2$d")                                                                       \
+    X(RoofGray, "gray")                                                                                                \
+    X(RoofLightGray, "light gray")                                                                                     \
+    X(RoofDarkGray, "dark gray")                                                                                       \
+    X(RoofBlueGray, "blue gray")                                                                                       \
+    X(RoofBlack, "black")                                                                                              \
+    X(RoofGreen, "green")                                                                                              \
+    X(RoofTerracotta, "terracotta")                                                                                    \
+    X(RoofTan, "tan")                                                                                                  \
+    X(RoofCopper, "copper")                                                                                            \
+    X(RoofLightBlue, "light blue")                                                                                     \
+    X(RoofGold, "gold")                                                                                                \
+    X(RoofWhite, "white")                                                                                              \
+    X(PortalRemoved, "%s removed")                                                                                     \
+    X(PortalNotRemoved, "%s could not be removed")                                                                     \
+    X(PortalDeleteHint, "Doors and windows cannot be moved: Delete removes it.")                                       \
+    X(PortalNeedsHand, "To remove a door or window: build mode, hand tool.")                                           \
+    X(ActionWithSim, "%1$s, with %2$s")                                                                                \
+    X(DoorUsable, "Sims can walk through it")                                                                          \
+    X(DoorBlocked, "Warning: Sims can't use this door, %s is in the way")                                              \
+    X(DoorNoWay, "Warning: Sims can't get to this door from the lot's entrance")                                       \
     X(ThingsByKind,                                                                                                    \
       "things by kind")                                                                                                \
     X(ThingsByRoom,                                                                                                    \

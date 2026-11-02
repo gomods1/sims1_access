@@ -10,6 +10,28 @@
 #include "language.h"
 
 namespace util {
+
+std::string FoldForSearch(const std::string& utf8) {
+    int n = MultiByteToWideChar(CP_UTF8, 0, utf8.c_str(), (int)utf8.size(), nullptr, 0);
+    if (n <= 0) return "";
+    std::wstring wide(n, L'\0');
+    MultiByteToWideChar(CP_UTF8, 0, utf8.c_str(), (int)utf8.size(), &wide[0], n);
+    // Accents apart from their letters, then without them.
+    int m = FoldStringW(MAP_COMPOSITE, wide.c_str(), n, nullptr, 0);
+    std::wstring parts(m > 0 ? m : 0, L'\0');
+    if (m > 0) FoldStringW(MAP_COMPOSITE, wide.c_str(), n, &parts[0], m);
+    std::vector<WORD> types(parts.size());
+    std::wstring bare;
+    if (!parts.empty() && GetStringTypeW(CT_CTYPE3, parts.c_str(), (int)parts.size(), types.data()))
+        for (size_t i = 0; i < parts.size(); i++)
+            if (!(types[i] & (C3_NONSPACING | C3_DIACRITIC))) bare += parts[i];
+    if (bare.empty()) return "";
+    CharLowerBuffW(&bare[0], (DWORD)bare.size());
+    int out = WideCharToMultiByte(CP_UTF8, 0, bare.c_str(), (int)bare.size(), nullptr, 0, nullptr, nullptr);
+    std::string folded(out, '\0');
+    WideCharToMultiByte(CP_UTF8, 0, bare.c_str(), (int)bare.size(), &folded[0], out, nullptr, nullptr);
+    return folded;
+}
 namespace {
 
 std::string Convert(const std::string& s, unsigned fromCodePage, unsigned toCodePage) {

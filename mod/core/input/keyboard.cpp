@@ -75,7 +75,13 @@ namespace {
 //   Ctrl+Shift+F1                  open the manual (nav/manual.h) in the browser, in the game's
 //                                  language; so does the "mod help" group's button on every screen
 //   Ctrl+1 .. Ctrl+9               lot view: select the n-th Sim of the family (its portrait)
-//   Ctrl+F                         lot view: follow the selected Sim with the camera on/off
+//   Ctrl+F                         lot view: find a thing by typing part of its name; while it
+//                                  is on, typing and Backspace edit the search, Up/Down (Page keys,
+//                                  Home/End) go through the matches, Enter acts on one, Ctrl+Enter
+//                                  walks there, Escape goes back (nav/navigator.h)
+//   Ctrl+Shift+F                   lot view: follow the selected Sim with the camera on/off
+//   Delete                         on a door or window of the lot's things (buy or build mode):
+//                                  removes it, what the game does on Ctrl+click
 //   Ctrl+H                         lot view: open the help system's waiting tip
 //   Ctrl+E                         lot view: the selected Sim's state (room, actions, needs, mood)
 //   Ctrl+N                         the narrator's verbosity: everything, warnings only, off
@@ -106,8 +112,9 @@ void SayKeyHelp() {
     if (game::IsPieMenu(game::InputRoot())) speech::Say(S(Str::KeysMenu));
     else if (nav::cheats::Entering()) speech::Say(S(Str::CheatHint));
     else if (nav::buy::Placing()) speech::Say(std::string(S(Str::KeysPlacing)) + " " + S(Str::KeysPlacingFree) + " " + S(Str::KeysPlacingThings) + " " + S(Str::KeysCuesHint));
-    else if (nav::LotViewActive() && game::InBuyTool()) speech::Say(std::string(S(Str::KeysBuy)) + " " + S(Str::KeysRoomFilter) + " " + S(Str::KeysLayoutHint) + " " + S(Str::KeysMapHint));
-    else if (nav::LotViewActive()) speech::Say(std::string(S(Str::KeysLot)) + " " + S(Str::KeysSimCard) + " " + S(Str::KeysLayoutHint) + " " + S(Str::KeysMapHint));
+    else if (nav::FindActive()) speech::Say(S(Str::FindPrompt));
+    else if (nav::LotViewActive() && game::InBuyTool()) speech::Say(std::string(S(Str::KeysBuy)) + " " + S(Str::KeysRoomFilter) + " " + S(Str::KeysFind) + " " + S(Str::KeysPortalDelete) + " " + S(Str::KeysLayoutHint) + " " + S(Str::KeysMapHint));
+    else if (nav::LotViewActive()) speech::Say(std::string(S(Str::KeysLot)) + " " + S(Str::KeysFind) + " " + S(Str::KeysSimCard) + " " + S(Str::KeysLayoutHint) + " " + S(Str::KeysMapHint));
     else if (nav::FocusedLotNumber() >= 0) speech::Say(std::string(S(Str::KeysScreen)) + " " + S(Str::KeysHouseFile));
     else speech::Say(S(Str::KeysScreen));
     speech::Say(std::string(S(Str::KeysGroupLetter)) + " " + S(Str::KeysShowFocus) + " " + S(Str::KeysManual));
@@ -120,6 +127,33 @@ namespace {
 void Arrow(bool vertical, int delta) {
     if (!vertical && nav::Adjust(delta)) return;
     nav::Move(delta);
+}
+
+// Finding a thing (Ctrl+F) owns the keyboard while it is on: what types goes to the search through
+// its character. Ctrl combinations (the review buffers...) and the game's function keys go on as
+// usual.
+bool FindKey(WPARAM vk, bool shift, bool ctrl) {
+    if (ctrl) {
+        if (vk != VK_RETURN) return false;
+        g_swallowChar = 0x0a;
+        nav::FindConfirm(true);
+        return true;
+    }
+    switch (vk) {
+    case VK_UP: case VK_LEFT: case VK_PRIOR: nav::FindMove(-1); return true;
+    case VK_DOWN: case VK_RIGHT: case VK_NEXT: nav::FindMove(+1); return true;
+    case VK_HOME: nav::FindEdge(false); return true;
+    case VK_END: nav::FindEdge(true); return true;
+    case VK_RETURN: g_swallowChar = '\r'; nav::FindConfirm(false); return true;
+    case VK_ESCAPE: g_swallowChar = 0x1b; nav::FindCancel(); return true;
+    case VK_TAB: case VK_DELETE: nav::FindEnd(); return false;  // the groups, removing it: the matches stay
+    }
+    if (vk >= VK_F1 && vk <= VK_F12) {
+        nav::FindEnd();
+        return false;
+    }
+    (void)shift;
+    return true;
 }
 
 // Placing an object (buy mode) is a spatial tool: it owns these keys while it holds one.
@@ -211,6 +245,7 @@ bool MapKey(WPARAM vk, bool shift, bool ctrl) {
 // modally (and processes that character) before returning.
 bool Dispatch(WPARAM vk, bool shift, bool ctrl) {
     bool typing = nav::TextEntryActive();
+    if (nav::FindActive() && FindKey(vk, shift, ctrl)) return true;
     if (nav::build::Active() && !typing && BuildCursorKey(vk, shift, ctrl)) return true;
     if (!typing && nav::LotViewActive() && nav::buy::Placing() && PlacingKey(vk, shift, ctrl)) return true;
     if (!typing && nav::map::Active() && nav::LotViewActive() && MapKey(vk, shift, ctrl)) return true;
@@ -281,10 +316,11 @@ bool Dispatch(WPARAM vk, bool shift, bool ctrl) {
         g_swallowChar = 'n';
         nav::narrator::CycleVerbosity();
         return true;
-    case 'F':
-        if (!ctrl || shift) return false;
+    case 'F':  // Ctrl+F finds a thing, Ctrl+Shift+F the camera's following
+        if (!ctrl) return false;
         g_swallowChar = 'f';
-        nav::camera::ToggleFollow();
+        if (shift) nav::camera::ToggleFollow();
+        else nav::FindBegin();
         return true;
     case 'V':  // Ctrl+Shift+V: show the focus on screen (Ctrl+V alone is the game's paste)
         if (!ctrl || !shift) return false;
@@ -323,7 +359,7 @@ bool Dispatch(WPARAM vk, bool shift, bool ctrl) {
         }
         return true;
     case VK_DELETE:  // the game sells a held object too, but says nothing
-        if (!nav::buy::Placing()) return false;
+        if (!nav::buy::Placing()) return nav::LotViewActive() && nav::WorldFocused() && nav::buy::RemoveFocusedPortal();
         nav::buy::Sell();
         return true;
     case VK_F1:
@@ -361,6 +397,12 @@ bool OnKeyDown(WPARAM vk, LPARAM lp) {
         return false;
     }
     if (vk == VK_BACK) {
+        if (nav::FindActive()) {
+            nav::FindErase();
+            g_consumed[vk] = true;
+            g_swallowChar = 0x08;
+            return true;
+        }
         if (nav::TextEntryActive()) {  // typing: the game gets the key, the mod only speaks what it deletes
             nav::text::OnBackspace();
             return false;
@@ -406,14 +448,20 @@ bool OnChar(WPARAM ch) {
     bool letter = g_swallowChar >= 'a' && g_swallowChar <= 'z';
     bool swallow = g_swallowChar && (ch == g_swallowChar || (letter && (ch == g_swallowChar - 32 || ch == (g_swallowChar & 0x1f))));
     g_swallowChar = 0;
-    if (!swallow) nav::text::OnChar(ch);
-    return swallow;
+    if (swallow) return true;
+    if (nav::FindActive()) {
+        nav::FindChar(ch);
+        return true;
+    }
+    nav::text::OnChar(ch);
+    return false;
 }
 
 bool g_swallowSysChar = false;
 
 bool OnSysKeyDown(WPARAM vk, LPARAM) {
     if (vk < 'A' || vk > 'Z' || Held(VK_CONTROL) || nav::buy::Placing() || nav::build::Active()) return false;
+    nav::FindEnd();
     g_swallowSysChar = true;
     nav::JumpToGroup((char)(vk - 'A' + 'a'));
     return true;

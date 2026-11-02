@@ -127,6 +127,8 @@ Na parceli HUD jest pierścieniem grup jak każdy ekran. Tab przechodzi przez ni
 Na elemencie panelu (potrzeba, umiejętność, praca, ocena domu) Enter odczytuje okienko gry na jego
 temat.
 
+Praca podaje godziny i kiedy przyjeżdża samochód. Menu gry nie mają opcji odejścia z pracy: Sim, który ciągle opuszcza pracę, zostaje zwolniony, a gazeta i komputer oferują inne prace.
+
 ### Wybieranie Simów i kamera
 
 | Klawisz | Co robi |
@@ -134,12 +136,14 @@ temat.
 | Spacja | "Następny Sim" gry: następny członek rodziny zostaje wybrany i ogłoszony ("aktywna postać: Isabel, Zjedz"). |
 | Control+1 do Control+9 | Wybiera od pierwszego do dziewiątego Sima z rodziny. |
 | Control+Shift+1 do Control+Shift+9 | Otwiera kartę tego Sima (charakterystyka). |
-| Control+F | Kamera śledzi wybranego Sima albo jest swobodna. |
+| Control+Shift+F | Kamera śledzi wybranego Sima albo jest swobodna. |
 | Control+E | Wybrany Sim w jednym zdaniu: pokój, co robi, pilne potrzeby, nastrój. |
 | P | Pauza (klawisz gry); mod mówi godzinę i fundusze. 1, 2, 3 ustawiają prędkość. |
 
 Kamera śledzi wybranego Sima, bo dźwięki gry pochodzą z tego, co jest na ekranie. Kiedy
 przeglądasz obiekty na parceli, kamera przesuwa się do każdego z nich, a potem wraca do Sima.
+
+Przybliżenie i kierunek kamery są podawane, gdy się zmieniają (plus i minus przybliżają, przecinek i kropka obracają widok), a także w wierszu stanu: "kamera: widok średni, w kierunku północnego zachodu". Kierunek to to, co pokazuje górna krawędź ekranu. Północ moda nie obraca się z kamerą.
 
 ### Obiekty na parceli
 
@@ -160,8 +164,12 @@ trybie życia, kupowania i budowania.
 | Control+Page Down, Control+Page Up | Następny lub poprzedni pokój (pierwsze naciśnięcie: pokój wybranego Sima). |
 | Enter | Działania obiektu (w trybie kupowania: podnosi go, aby go przenieść). |
 | Control+Enter | Wysyła wybranego Sima do obiektu. |
+| Control+F | Szukaj: wpisz część nazwy ("tel" znajdzie telefon, akcenty nie mają znaczenia). Strzałka w górę i w dół przechodzą przez wyniki, Enter działa na wybranym, Control+Enter posyła tam Sima, Delete usuwa drzwi lub okno, Escape wraca tam, gdzie byłeś. |
+| Delete | Na drzwiach lub oknie, w trybie kupowania lub budowania: usuwa je i zwraca pieniądze. |
 
 Sim lub obiekt, nad którym wciąż widać dymek, też to mówi ("Bella, Zjedz, myśli: głód").
+
+Po Simach są **problemy**: to, co wymaga uwagi, czyli zepsute rzeczy, rzeczy do sprzątnięcia, kałuże, śmieci, popiół, ogień i wszystko z muchami. Na końcu są **drzwi, okna i schody**.
 
 ### Menu działań
 
@@ -217,6 +225,8 @@ buforze zdarzeń:
 wiersze i tak trafiają do bufora zdarzeń.
 
 Dźwięki, które słychać (telefon, dzwonek do drzwi, alarmy), nie są ogłaszane.
+
+Działania z innym Simem podają jego imię, niezależnie od tego, kto je zaczął: "Homer: Przywitaj, z: Elvira".
 
 ### Wskazówki pomocy i samouczek
 
@@ -278,6 +288,8 @@ mówi "nowy zakup".
 F3 otwiera tryb budowania. Jego narzędzia to karty, a ich style to produkty. Po wejściu w tryb
 budowania pada przegląd domu (Control+Shift+L go powtarza).
 
+Naciśnięcie narzędzia przenosi do jego modeli, w osobnej grupie o nazwie narzędzia; Tab wraca do narzędzi. Nie masz nic w ręku, dopóki nie naciśniesz Enter na modelu.
+
 ### Kursor budowy
 
 Enter na stylu ściany lub płotu uruchamia kursor budowy przy wybranym Simie. Porusza się on po
@@ -313,10 +325,18 @@ Control+F1 podaje szczegóły):
   Control+Enter zasypuje pola. Simowie potrzebują drabinki (jest na liście narzędzia).
 - **Teren**: wyrównuje od zaznaczonego pola do kursora albo podnosi i obniża grunt.
 
+**Trawa** używa tego samego kursora: Enter maluje pole pod nim.
+
 ### Drzwi, okna i schody
 
 Drzwi i okna ustawia się jak meble, z listy miejsc: "w ścianie od zachodu: kuchnia, prowadzi do:
 na zewnątrz, pierwsze drzwi tego pokoju".
+
+Ze strzałkami drzwi lub okno mówią, w której ścianie by się znalazły; obracanie wybiera ścianę. Po ustawieniu drzwi mod mówi, czy Simowie mogą przez nie przejść, albo co blokuje. Aby zmienić je później, znajdź je w **drzwi, okna i schody** lub przez Control+F: Enter podnosi je, by przenieść, Delete usuwa (Control+kliknięcie z gry).
+
+### Dach
+
+Gra sama buduje dach nad ścianami, więc nie ma kursora ani czego ustawiać. Narzędzie Dach wybiera tylko nachylenie i model, dla całego domu. Modele nie mają w grze nazw: mod podaje ich kolor.
 
 ## Sygnały dźwiękowe
 

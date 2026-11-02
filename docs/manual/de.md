@@ -90,6 +90,8 @@ Auf einem Grundstück ist die Oberfläche ein Ring von Gruppen wie jeder Bildsch
 
 Auf einem Element einer Live-Leiste (einem Bedürfnis, einer Fähigkeit, einem Job, einer Hausbewertung) sagt Eingabe das Popup des Spiels dazu.
 
+Der Beruf nennt seine Arbeitszeiten und wann die Fahrgemeinschaft kommt. Die Menüs des Spiels haben keine Option, einen Job zu kündigen: Wer immer wieder fehlt, wird entlassen, und Zeitung und Computer bieten andere Jobs an.
+
 ### Sims auswählen und die Kamera
 
 | Taste | Was sie tut |
@@ -97,11 +99,13 @@ Auf einem Element einer Live-Leiste (einem Bedürfnis, einer Fähigkeit, einem J
 | Leertaste | Das „nächster Sim“ des Spiels: das nächste Familienmitglied wird ausgewählt und angesagt („Isabel, ausgewählt, Essen“). |
 | Strg+1 bis Strg+9 | Wählt den ersten bis neunten Sim der Familie aus. |
 | Strg+Umschalt+1 bis Strg+Umschalt+9 | Öffnet die Karte dieses Sims (Biografie). |
-| Strg+F | Die Kamera folgt dem ausgewählten Sim oder bleibt frei. |
+| Strg+Umschalt+F | Die Kamera folgt dem ausgewählten Sim oder bleibt frei. |
 | Strg+E | Der ausgewählte Sim in einer Zeile: Raum, was er tut, dringende Bedürfnisse, Stimmung. |
 | P | Pause (die Taste des Spiels); der Mod sagt Uhrzeit und Vermögen. 1, 2, 3 stellen die Geschwindigkeit ein. |
 
 Die Kamera folgt dem ausgewählten Sim, weil die Klänge des Spiels von dem kommen, was auf dem Bildschirm ist. Während Du die Objekte des Grundstücks durchgehst, fährt die Kamera zu jedem und kehrt danach zum Sim zurück.
+
+Zoom und Blickrichtung der Kamera werden gesagt, wenn sie sich ändern (Plus und Minus zoomen, Komma und Punkt drehen die Ansicht), und stehen auch in der Statuszeile: "Kamera: mittlere Ansicht, Blick nach Nordwesten". Die Blickrichtung ist, was der obere Bildschirmrand zeigt. Der Norden des Mods dreht sich nicht mit der Kamera.
 
 ### Die Objekte des Grundstücks
 
@@ -116,8 +120,12 @@ Du musst nicht mit Tab dorthin: die Bild-Tasten gehen von überall auf dem Grund
 | Strg+Bild ab, Strg+Bild auf | Nächster oder vorheriger Raum (beim ersten Drücken: der Raum des ausgewählten Sims). |
 | Eingabe | Die Interaktionen des Objekts (im Kaufmodus: es zum Verschieben aufheben). |
 | Strg+Eingabe | Schickt den ausgewählten Sim zum Objekt. |
+| Strg+F | Etwas suchen: Tippe einen Teil des Namens ("tel" findet das Telefon, Akzente sind egal). Pfeil nach oben und unten gehen die Treffer durch, Eingabe wirkt darauf, Strg+Eingabe schickt den Sim hin, Entf entfernt eine Tür oder ein Fenster, Esc führt zurück, wo du warst. |
+| Entf | Auf einer Tür oder einem Fenster, im Kauf- oder Baumodus: entfernt es und erstattet den Wert. |
 
 Ein Sim oder ein Objekt, über dem noch eine Sprechblase steht, sagt sie mit („Bella, Essen, denkt: Hunger“).
+
+Nach den Sims kommt **Probleme**: was Aufmerksamkeit braucht, etwa Kaputtes, was gereinigt werden muss, Pfützen, Müll, Asche, Feuer und alles mit Fliegen. Zuletzt kommt **Türen, Fenster und Treppen**.
 
 ### Interaktionsmenüs
 
@@ -159,6 +167,8 @@ Vieles zeigt das Spiel nur als Bild. Der Mod sagt es, wenn es passiert, und beh�
 **Strg+N** ändert, wie viel gesagt wird: alles, nur Warnungen oder nichts. Nicht gesprochene Zeilen kommen trotzdem in den Ereignis-Puffer.
 
 Klänge, die Du hörst (das Telefon, die Türklingel, Alarme), werden nicht angesagt.
+
+Aktionen mit einem anderen Sim nennen ihn, egal wer sie begonnen hat: "Homer: Begrüßen, mit Elvira".
 
 ### Hilfetipps und das Tutorial
 
@@ -206,6 +216,8 @@ Geh im Kaufmodus mit Bild ab zu einem Objekt des Grundstücks und drücke Eingab
 
 F3 öffnet den Baumodus. Seine Werkzeuge sind Registerkarten, ihre Stile Produkte. Die Hausübersicht wird gesprochen, wenn Du den Baumodus betrittst (Strg+Umschalt+L wiederholt sie).
 
+Ein Werkzeug zu drücken führt zu seinen Modellen, in einer eigenen Gruppe mit dem Namen des Werkzeugs; Tab führt zurück zu den Werkzeugen. Du hast nichts in der Hand, bis du auf einem Modell Eingabe drückst.
+
 ### Der Bau-Cursor
 
 Eingabe auf einem Wand- oder Zaunstil startet den Bau-Cursor beim ausgewählten Sim. Er bewegt sich auf den Ecken zwischen den Feldern.
@@ -236,9 +248,17 @@ Jedes dieser Werkzeuge hat denselben Cursor auf den Feldern (Pfeiltasten, Umscha
 - **Pools**: die Leertaste markiert eine Ecke, Eingabe gräbt; der Mod warnt, bevor Wasser etwas abtrennt. Strg+Eingabe schüttet Felder wieder zu. Sims brauchen eine Poolleiter (in der Liste des Werkzeugs).
 - **Gelände**: von einem markierten Feld bis zum Cursor einebnen, oder den Boden anheben und absenken.
 
+**Gras** benutzt denselben Cursor: Eingabe malt das Feld darunter.
+
 ### Türen, Fenster und Treppen
 
 Türen und Fenster werden wie Möbel platziert, aus einer Liste von Plätzen: „in der Wand im Westen von Küche, führt zu draußen, die erste Tür dieses Raums“.
+
+Mit den Pfeilen sagt eine Tür oder ein Fenster, in welche Wand es käme; Drehen wählt die Wand. Nach dem Platzieren einer Tür sagt der Mod, ob Sims hindurchgehen können oder was im Weg steht. Um sie später zu ändern, finde sie unter **Türen, Fenster und Treppen** oder mit Strg+F: Eingabe nimmt sie zum Verschieben auf, Entf entfernt sie (das Strg+Klick des Spiels).
+
+### Das Dach
+
+Das Spiel baut das Dach von selbst über deinen Wänden: Es gibt keinen Cursor und nichts zu platzieren. Das Dach-Tool wählt nur Neigung und Modell, für das ganze Haus. Die Modelle haben im Spiel keine Namen: Der Mod nennt ihre Farbe.
 
 ## Klanghinweise
 

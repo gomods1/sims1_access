@@ -4,11 +4,13 @@
 
 #include <algorithm>
 #include <cmath>
+#include <cstring>
 #include <map>
 #include <vector>
 
 #include "../game/buy.h"
 #include "../game/lot.h"
+#include "../game/lotgrid.h"
 #include "../game/people.h"
 #include "../speech/speech.h"
 #include "../util/log.h"
@@ -33,12 +35,38 @@ struct Category {
 bool IsSim(const LotObject& o) { return o.person; }
 template <uint16_t Flag>
 bool HasFunction(const LotObject& o) { return !o.person && (o.functionFlags & Flag) != 0; }
-bool IsOther(const LotObject& o) { return !o.person && o.functionFlags == 0; }
+bool IsOther(const LotObject& o) { return !o.person && o.functionFlags == 0 && !game::IsPortal(o.object); }
+bool IsPortalThing(const LotObject& o) { return game::IsPortal(o.object); }
+
+// Exact names (a word followed by " - " or nothing): "Fire" must not catch "Fireplace".
+bool NamedLike(const std::string& internal, const char* word) {
+    size_t n = strlen(word);
+    return internal.rfind(word, 0) == 0 && (internal.size() == n || internal.compare(n, 3, " - ") == 0);
+}
+
+// Messes with no state of their own to read; the rest of the problems are broken or dirty.
+bool IsMess(const std::string& internal) {
+    static const char* const kMesses[] = {"Trash Pile", "Flood", "Ash", "Fire", "Flies", "Roaches", "Poop", "Dog - Dig - Hole", "Dog - Dig - Pile"};
+    if (internal.find("Controller") != std::string::npos || internal.find("master") != std::string::npos) return false;
+    for (const char* word : kMesses)
+        if (NamedLike(internal, word)) return true;
+    return false;
+}
+
+// What wants someone's attention: what the game's repairman and maid would go for, messes, and
+// whatever has flies over it.
+bool IsProblem(const LotObject& o) {
+    if (o.person) return false;
+    if (game::ObjectBroken(o.object) || game::ObjectDirty(o.object)) return true;
+    if (IsMess(game::ObjectInternalName(o))) return true;
+    return narrator::ShownBalloon(o.object) == S(Str::HeadlineFlies);
+}
 
 // Sims first, then the buy mode categories in catalog order, then everything without one
 // (doors, windows, trees, mailbox...). An object with several functions is in each of them.
 const Category kCategories[] = {
     {Str::CategorySims, IsSim},
+    {Str::CategoryProblems, IsProblem},
     {Str::CategorySeating, HasFunction<game::kFnSeating>},
     {Str::CategorySurfaces, HasFunction<game::kFnSurfaces>},
     {Str::CategoryAppliances, HasFunction<game::kFnAppliances>},
@@ -48,6 +76,7 @@ const Category kCategories[] = {
     {Str::CategoryDecorative, HasFunction<game::kFnDecorative>},
     {Str::CategoryMiscellaneous, HasFunction<game::kFnMiscellaneous>},
     {Str::CategoryOther, IsOther},
+    {Str::CategoryPortals, IsPortalThing},
 };
 constexpr int kCategoryCount = sizeof(kCategories) / sizeof(kCategories[0]);
 constexpr int kUnitsPerTile = 16;
@@ -66,7 +95,10 @@ const KnownObject kKnownObjects[] = {
     {"Dog - Dig - Pile", Str::ObjDigPile},
     {"Flies", Str::HeadlineFlies},  // over dirty dishes and rubbish, with their own balloon
     {"Roaches", Str::ObjRoaches},
+    {"Flood - ", Str::ObjPuddle},   // water on the floor, from a broken sink or toilet
+    {"Poop - ", Str::ObjPetMess},
 };
+const KnownObject kKnownExact[] = {{"Ash", Str::ObjAshes}, {"Fire", Str::ObjFire}};
 const KnownObject kTreeSpecies[] = {
     {"Pine", Str::ObjPineTree},     {"Birch", Str::ObjBirchTree},   {"Sycamore", Str::ObjSycamoreTree},
     {"Oak", Str::ObjOakTree},       {"Maple", Str::ObjMapleTree},   {"Palm", Str::ObjPalmTree},
@@ -97,14 +129,16 @@ struct Lot {
 
 Lot ReadLot() {
     Lot lot;
-    lot.objects = game::LotObjects();
-    lot.rooms = rooms::NameRooms(lot.objects);
+    lot.rooms = rooms::NameRooms(game::LotObjects());
+    lot.objects = game::LotThings();  // doors and windows too: a door must be findable to be removed
     lot.hasRef = game::GetObject(game::SelectedSim(), &lot.ref);
     return lot;
 }
 
 Lot g_lot;               // the lot as last read (CachedLot)
 ULONGLONG g_lotAt = 0;
+std::string g_findFolded;  // Ctrl+F: what the list holds, folded (util::FoldForSearch)
+std::string g_findLabel;   // ... as it was typed
 
 double DistanceTiles(const LotObject& a, const LotObject& b) {
     double dx = double(a.x - b.x) / kUnitsPerTile, dy = double(a.y - b.y) / kUnitsPerTile;
@@ -193,6 +227,8 @@ std::string Describe(const Entry& e, const Lot& lot) {
     std::string s = e.name;
     if (e.ids.size() > 1) s += ", " + util::Format(S(Str::SameObjects), (int)e.ids.size());
     if (o.id == g_boughtId) s += std::string(", ") + S(Str::JustBought);
+    if (!o.person && game::ObjectBroken(o.object)) s += std::string(", ") + S(Str::ConditionBroken);
+    else if (!o.person && game::ObjectDirty(o.object)) s += std::string(", ") + S(Str::ConditionDirty);
     const LotObject* ref = lot.Ref();
     if (ref && o.object == ref->object) s += std::string(", ") + S(Str::SelectedSimSuffix);
     if (o.person) {  // what the Sim is doing: its current action
@@ -275,6 +311,8 @@ std::string DisplayName(const game::LotObject& o) {
     std::string internal = game::ObjectInternalName(o);
     for (const KnownObject& k : kKnownObjects)
         if (internal.rfind(k.word, 0) == 0) return S(k.name);
+    for (const KnownObject& k : kKnownExact)
+        if (internal == k.word) return S(k.name);
     std::string name = game::ObjectName(o);
     if (!name.empty()) return name;
     if (internal.rfind("Trees", 0) == 0) {
@@ -316,7 +354,11 @@ void MarkBought(game::Ptr object) {
     g_boughtId = game::GetObject(object, &o) ? o.id : -1;
 }
 
+void Refocus() { g_lotAt = 0; }
+
 void Reset() {
+    g_findFolded.clear();
+    g_findLabel.clear();
     g_boughtId = -1;
     g_mode = Mode::Category;
     g_openKind = 0;
@@ -337,6 +379,29 @@ const Lot& CachedLot() {
         g_lotAt = now;
     }
     return g_lot;
+}
+
+// Ctrl+F's list: names starting with the text first, then with a word starting with it, then
+// containing it; within each the nearest first.
+std::vector<Entry> FindMatches(const Lot& lot, const std::string& folded) {
+    std::vector<LotObject> all = lot.objects;
+    SortByDistance(all, lot.Ref());
+    std::vector<Entry> ranked[3];
+    for (Entry& e : Collapse(all)) {
+        std::string name = util::FoldForSearch(e.name);
+        size_t at = name.find(folded);
+        if (at == std::string::npos) continue;
+        int rank = at == 0 ? 0 : 2;
+        if (rank == 2) {
+            size_t word = name.find(" " + folded);
+            if (word != std::string::npos) rank = 1;
+        }
+        ranked[rank].push_back(std::move(e));
+    }
+    std::vector<Entry> out;
+    for (auto& r : ranked)
+        for (Entry& e : r) out.push_back(std::move(e));
+    return out;
 }
 
 // A kind's or room's things as items (number = the object id of the entry's nearest member);
@@ -361,6 +426,10 @@ Group KindsGroup() {
     g.key = kKindsGroup;
     if (!game::LotModule()) return g;
     const Lot& lot = CachedLot();
+    if (g_openKind == kFindKind) {
+        AddThings(g, FindMatches(lot, g_findFolded), lot, Mode::Category);
+        return g;
+    }
     if (g_openKind > 0) {
         AddThings(g, Collapse(InCategory(lot, g_openKind - 1)), lot, Mode::Category);
         return g;
@@ -404,6 +473,7 @@ Group RoomsGroup() {
 
 std::string LevelName(Ptr group) {
     const Lot& lot = CachedLot();
+    if (group == kKindsGroup && g_openKind == kFindKind) return util::Format(S(Str::FindResults), g_findLabel.c_str());
     if (group == kKindsGroup) return g_openKind > 0 ? S(kCategories[g_openKind - 1].name) : S(Str::ThingsByKind);
     if (g_openRoom > 0) return rooms::NameOf(lot.rooms, g_openRoom - 1);
     return S(Str::ThingsByRoom);
@@ -436,6 +506,22 @@ int Step(Ptr group, int delta) {
     return numbers[((at + delta) % n + n) % n];
 }
 
+int SetFindQuery(const std::string& utf8) {
+    g_lotAt = 0;
+    std::string folded = util::FoldForSearch(utf8);
+    int count = (int)FindMatches(CachedLot(), folded).size();
+    if (count > 0) {
+        g_findFolded = folded;
+        g_findLabel = utf8;
+    }
+    return count;
+}
+
+void ClearFindQuery() {
+    g_findFolded.clear();
+    g_findLabel.clear();
+}
+
 int OpenNumber(Ptr group) { return group == kKindsGroup ? g_openKind : group == kRoomsGroup ? g_openRoom : 0; }
 
 Ptr LastGroup() { return g_lastGroup; }
@@ -464,7 +550,7 @@ std::vector<std::string> DetailsOf(int objectId) {
 }
 
 game::Ptr FocusedObject() {
-    for (const LotObject& o : game::LotObjects())
+    for (const LotObject& o : game::LotThings())
         if (o.id == g_focusId) return o.object;
     return 0;
 }
@@ -507,7 +593,7 @@ std::string WhyNoInteractions(const LotObject& o) {
 
 void Interact() {
     if (!OnLot()) return;
-    for (const LotObject& o : game::LotObjects()) {
+    for (const LotObject& o : game::LotThings()) {
         if (o.id != g_focusId) continue;
         // The menu opens at the centre of the game view; the game runs it modally in this call.
         // An object with nothing to offer right now makes no menu at all (the bed of a Sim who is
@@ -521,7 +607,7 @@ void Interact() {
 
 void WalkToFocus() {
     if (!OnLot()) return;
-    for (const LotObject& o : game::LotObjects()) {
+    for (const LotObject& o : game::LotThings()) {
         if (o.id != g_focusId) continue;
         ChooseInNextMenu(0);  // the floor's menu: "Ir a este punto"
         if (game::WalkTo(o.x, o.y, 512, 384)) speech::Say(S(Str::WalkingThere));

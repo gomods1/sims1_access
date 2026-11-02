@@ -24,10 +24,11 @@ const Translation kEntries[] = {
      "Page Down en Page Up lopen door de voorwerpen van het kavel, de dichtstbijzijnde eerst, en de camera gaat "
      "naar elk voorwerp; Shift erbij verandert de soort voorwerp, Control erbij de kamer. Enter op een voorwerp "
      "opent de interacties, Control+Enter loopt erheen. R herhaalt. De spatiebalk selecteert de volgende Sim, "
-     "Control+1 tot 9 selecteren een Sim van de familie, Control+F laat de camera de geselecteerde Sim wel of "
-     "niet volgen. Control+E zegt wat de geselecteerde Sim doet en nodig heeft, Control+N verandert hoeveel de "
-     "verteller zegt. P pauzeert en leest de tijd en het geld voor. Control+pijl omhoog en Control+pijl omlaag "
-     "lezen de details, Control+pijl links en Control+pijl rechts wisselen tussen details en gebeurtenissen."},
+     "Control+1 tot 9 selecteren een Sim van de familie, Control+Shift+F laat de camera de geselecteerde Sim wel "
+     "of niet volgen. Control+E zegt wat de geselecteerde Sim doet en nodig heeft, Control+N verandert hoeveel "
+     "de verteller zegt. P pauzeert en leest de tijd en het geld voor. Control+pijl omhoog en Control+pijl "
+     "omlaag lezen de details, Control+pijl links en Control+pijl rechts wisselen tussen details en "
+     "gebeurtenissen."},
     {Str::KeysPlacing,
      "Page Down en Page Up lopen door de plekken waar het past en gebruikt kan worden, de beste eerst; Control "
      "erbij wisselt van kamer; Shift erbij, of komma en punt, draaien het op dezelfde plek. Enter koopt het "
@@ -115,6 +116,59 @@ const Translation kEntries[] = {
     {Str::CategoryDecorative, "decoratie"},
     {Str::CategoryMiscellaneous, "diversen"},
     {Str::CategoryOther, "overige voorwerpen"},
+    {Str::CategoryProblems, "problemen"},
+    {Str::CategoryPortals, "deuren, ramen en trappen"},
+    {Str::ConditionBroken, "kapot"},
+    {Str::ConditionDirty, "moet schoongemaakt"},
+    {Str::ObjPuddle, "plas"},
+    {Str::ObjAshes, "as"},
+    {Str::ObjFire, "vuur"},
+    {Str::ObjPetMess, "huisdierviezigheid"},
+    {Str::FindPrompt,
+     "Iets op het perceel zoeken: typ een deel van de naam. Pijl omhoog en omlaag lopen door de treffers, Enter "
+     "opent het, Escape annuleert."},
+    {Str::FindCount, "%1$s: %2$d gevonden"},
+    {Str::FindCountOne, "%s: 1 gevonden"},
+    {Str::FindNoMatch, "%s: geen treffers"},
+    {Str::FindEmpty, "zoekopdracht leeg"},
+    {Str::FindTypeFirst, "Typ eerst een deel van een naam."},
+    {Str::FindResults, "gevonden: %s"},
+    {Str::FindCancelled, "zoeken geannuleerd"},
+    {Str::FindNotNow, "Maak eerst het plaatsen af: Escape, dan Control+F."},
+    {Str::KeysFind, "Control+F zoekt iets op het perceel door een deel van de naam te typen."},
+    {Str::KeysPortalDelete, "Delete op een deur of raam in de lijst verwijdert het."},
+    {Str::ZoomFar, "verre weergave"},
+    {Str::ZoomMedium, "middelste weergave"},
+    {Str::ZoomNear, "dichtbije weergave"},
+    {Str::CameraFacing, "camera gericht naar het %s"},
+    {Str::CameraStatus, "camera: %1$s, gericht naar het %2$s"},
+    {Str::GroupRoof, "dak"},
+    {Str::GroupBuildStyles, "modellen"},
+    {Str::RoofHint,
+     "Het spel bouwt het dak zelf boven je muren, dus er valt niets te plaatsen. Hier kies je alleen model en "
+     "helling, voor het hele huis."},
+    {Str::RoofStyle, "dakmodel %1$d van %2$d, %3$s"},
+    {Str::RoofStylePlain, "dakmodel %1$d van %2$d"},
+    {Str::RoofGray, "grijs"},
+    {Str::RoofLightGray, "lichtgrijs"},
+    {Str::RoofDarkGray, "donkergrijs"},
+    {Str::RoofBlueGray, "blauwgrijs"},
+    {Str::RoofBlack, "zwart"},
+    {Str::RoofGreen, "groen"},
+    {Str::RoofTerracotta, "terracotta"},
+    {Str::RoofTan, "beige"},
+    {Str::RoofCopper, "koper"},
+    {Str::RoofLightBlue, "lichtblauw"},
+    {Str::RoofGold, "goud"},
+    {Str::RoofWhite, "wit"},
+    {Str::PortalRemoved, "%s verwijderd"},
+    {Str::PortalNotRemoved, "%s kon niet worden verwijderd"},
+    {Str::PortalDeleteHint, "Deuren en ramen kun je niet verplaatsen: Delete verwijdert het."},
+    {Str::PortalNeedsHand, "Een deur of raam verwijderen: Bouwen, Handgereedschap."},
+    {Str::ActionWithSim, "%1$s, met %2$s"},
+    {Str::DoorUsable, "Sims kunnen erdoorheen"},
+    {Str::DoorBlocked, "Let op: Sims kunnen deze deur niet gebruiken, %s staat in de weg"},
+    {Str::DoorNoWay, "Let op: Sims kunnen deze deur niet bereiken vanaf de ingang van het perceel"},
     {Str::ThingsByKind, "voorwerpen per soort"},
     {Str::ThingsByRoom, "voorwerpen per kamer"},
     {Str::NoObjects, "hier zijn geen voorwerpen"},

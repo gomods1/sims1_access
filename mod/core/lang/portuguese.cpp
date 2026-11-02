@@ -24,10 +24,10 @@ const Translation kEntries[] = {
      "seletor. Page Down e Page Up percorrem os objetos do lote, do mais próximo ao mais distante, e a câmera "
      "vai até cada um; Shift com elas muda o tipo de objeto, Control com elas o cômodo. Enter em um objeto abre "
      "as interações dele, Control+Enter caminha até lá. R repete. Espaço seleciona o próximo Sim, Control+1 a 9 "
-     "selecionam um Sim da família, Control+F faz a câmera seguir ou não o Sim selecionado. Control+E diz o que "
-     "o Sim selecionado faz e do que precisa, Control+N muda quanto o narrador fala. P pausa e lê a hora e o "
-     "dinheiro. Control+Seta para cima e Control+Seta para baixo leem os detalhes, Control+Seta para a esquerda "
-     "e Control+Seta para a direita alternam entre detalhes e eventos."},
+     "selecionam um Sim da família, Control+Shift+F faz a câmera seguir ou não o Sim selecionado. Control+E diz "
+     "o que o Sim selecionado faz e do que precisa, Control+N muda quanto o narrador fala. P pausa e lê a hora e "
+     "o dinheiro. Control+Seta para cima e Control+Seta para baixo leem os detalhes, Control+Seta para a "
+     "esquerda e Control+Seta para a direita alternam entre detalhes e eventos."},
     {Str::KeysPlacing,
      "Page Down e Page Up percorrem os lugares onde o objeto cabe e pode ser usado, os melhores primeiro; "
      "Control com elas muda de cômodo; Shift com elas, ou vírgula e ponto, giram o objeto no mesmo lugar. Enter "
@@ -114,6 +114,59 @@ const Translation kEntries[] = {
     {Str::CategoryDecorative, "decorativo"},
     {Str::CategoryMiscellaneous, "variados"},
     {Str::CategoryOther, "outros objetos"},
+    {Str::CategoryProblems, "problemas"},
+    {Str::CategoryPortals, "portas, janelas e escadas"},
+    {Str::ConditionBroken, "quebrado"},
+    {Str::ConditionDirty, "precisa de limpeza"},
+    {Str::ObjPuddle, "poça"},
+    {Str::ObjAshes, "cinzas"},
+    {Str::ObjFire, "fogo"},
+    {Str::ObjPetMess, "sujeira de animal"},
+    {Str::FindPrompt,
+     "Procurar algo no terreno: digite parte do nome. Seta para cima e para baixo percorrem os resultados, Enter "
+     "abre, Esc cancela."},
+    {Str::FindCount, "%1$s: %2$d encontrados"},
+    {Str::FindCountOne, "%s: 1 encontrado"},
+    {Str::FindNoMatch, "%s: nada encontrado"},
+    {Str::FindEmpty, "busca vazia"},
+    {Str::FindTypeFirst, "Digite primeiro parte de um nome."},
+    {Str::FindResults, "encontrado: %s"},
+    {Str::FindCancelled, "busca cancelada"},
+    {Str::FindNotNow, "Termine de posicionar primeiro: Esc e depois Control+F."},
+    {Str::KeysFind, "Control+F procura algo no terreno digitando parte do nome."},
+    {Str::KeysPortalDelete, "Delete em uma porta ou janela da lista a remove."},
+    {Str::ZoomFar, "vista distante"},
+    {Str::ZoomMedium, "vista média"},
+    {Str::ZoomNear, "vista próxima"},
+    {Str::CameraFacing, "câmera de frente para o %s"},
+    {Str::CameraStatus, "câmera: %1$s, de frente para o %2$s"},
+    {Str::GroupRoof, "telhado"},
+    {Str::GroupBuildStyles, "modelos"},
+    {Str::RoofHint,
+     "O jogo constrói o telhado sozinho sobre as paredes, então não há nada para posicionar. Aqui você só "
+     "escolhe o modelo e a inclinação, para a casa toda."},
+    {Str::RoofStyle, "modelo de telhado %1$d de %2$d, %3$s"},
+    {Str::RoofStylePlain, "modelo de telhado %1$d de %2$d"},
+    {Str::RoofGray, "cinza"},
+    {Str::RoofLightGray, "cinza-claro"},
+    {Str::RoofDarkGray, "cinza-escuro"},
+    {Str::RoofBlueGray, "cinza-azulado"},
+    {Str::RoofBlack, "preto"},
+    {Str::RoofGreen, "verde"},
+    {Str::RoofTerracotta, "terracota"},
+    {Str::RoofTan, "bege"},
+    {Str::RoofCopper, "cobre"},
+    {Str::RoofLightBlue, "azul-claro"},
+    {Str::RoofGold, "dourado"},
+    {Str::RoofWhite, "branco"},
+    {Str::PortalRemoved, "%s removida"},
+    {Str::PortalNotRemoved, "não foi possível remover %s"},
+    {Str::PortalDeleteHint, "Portas e janelas não podem ser movidas: Delete a remove."},
+    {Str::PortalNeedsHand, "Para remover uma porta ou janela: Modo Construção, Ferramenta Mão."},
+    {Str::ActionWithSim, "%1$s, com %2$s"},
+    {Str::DoorUsable, "os Sims podem passar por ela"},
+    {Str::DoorBlocked, "Atenção: os Sims não podem usar esta porta, %s está bloqueando"},
+    {Str::DoorNoWay, "Atenção: os Sims não conseguem chegar a esta porta pela entrada do terreno"},
     {Str::ThingsByKind, "objetos por tipo"},
     {Str::ThingsByRoom, "objetos por cômodo"},
     {Str::NoObjects, "nenhum objeto aqui"},

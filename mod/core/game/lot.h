@@ -66,6 +66,14 @@ Ptr ObjectAtView(int viewX, int viewY, int level, int* tileX, int* tileY);
 // Placed, visible objects a player can interact with: one entry per multi-tile object (its lead
 // part), invisible helpers (portals, phone line, the plumb-bob) left out.
 std::vector<LotObject> LotObjects();
+// The same with doors, windows and stairs too (OBJD type 8): every thing a player can name. They
+// are left out of LotObjects because what reads the rooms' contents should not count them.
+std::vector<LotObject> LotThings();
+
+// What the game's own repairman and maid look for: the object or one of its parts is broken, or
+// dirty (an unmade bed, a used toilet, a trash pile).
+bool ObjectBroken(Ptr object);
+bool ObjectDirty(Ptr object);
 
 // A Sim's name, or the object's catalog name in the game's language; empty for objects that are
 // not in the catalog (default lot objects such as the mailbox). UTF-8.

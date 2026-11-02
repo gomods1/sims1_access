@@ -129,6 +129,8 @@ No lote, o HUD é um anel de grupos como qualquer tela. Tab percorre os grupos n
 Em um item de painel (uma necessidade, habilidade, trabalho, avaliação da casa), Enter lê o
 popup do jogo sobre ele.
 
+O emprego diz o horário e quando a carona passa. Os menus do jogo não têm opção para pedir demissão: um Sim que falta ao trabalho sem parar é demitido, e o jornal e o computador oferecem outros empregos.
+
 ### Selecionar Sims e a câmera
 
 | Tecla | O que faz |
@@ -136,12 +138,14 @@ popup do jogo sobre ele.
 | Espaço | O "próximo Sim" do jogo: o próximo membro da família é selecionado e anunciado ("Isabel, selecionado, Comer"). |
 | Control+1 a Control+9 | Seleciona do primeiro ao nono Sim da família. |
 | Control+Shift+1 a Control+Shift+9 | Abre o cartão desse Sim (biografia). |
-| Control+F | A câmera segue o Sim selecionado ou fica livre. |
+| Control+Shift+F | A câmera segue o Sim selecionado ou fica livre. |
 | Control+E | O Sim selecionado em uma frase: cômodo, o que está fazendo, necessidades urgentes, humor. |
 | P | Pausa (a tecla do jogo); o mod diz a hora e os fundos. 1, 2, 3 definem a velocidade. |
 
 A câmera segue o Sim selecionado porque os sons do jogo vêm do que está na tela. Enquanto você
 percorre os objetos do lote, a câmera vai até cada objeto e depois volta para o Sim.
+
+O zoom e a direção da câmera são ditos quando mudam (mais e menos dão zoom, vírgula e ponto giram a vista), e também estão na linha de status: "câmera: vista média, de frente para o noroeste". A direção é o que a parte de cima da tela mostra. O norte do mod não gira com a câmera.
 
 ### Os objetos do lote
 
@@ -162,8 +166,12 @@ nos modos Simulação, Compra e Construção.
 | Control+Page Down, Control+Page Up | Cômodo seguinte ou anterior (o primeiro toque: o cômodo do Sim selecionado). |
 | Enter | As interações do objeto (no Modo Compra: pega o objeto para movê-lo). |
 | Control+Enter | Leva o Sim selecionado até o objeto. |
+| Control+F | Procurar algo: digite parte do nome ("tel" encontra o telefone, acentos não importam). Seta para cima e para baixo percorrem os resultados, Enter age sobre ele, Control+Enter leva o Sim até lá, Delete remove uma porta ou janela, Esc volta para onde você estava. |
+| Delete | Em uma porta ou janela, no modo compra ou construção: remove e devolve o valor. |
 
 Um Sim ou objeto que ainda mostra um balão também o diz ("Bella, Comer, pensa: fome").
+
+Depois dos Sims vem **problemas**: o que precisa de atenção, como coisas quebradas, o que precisa de limpeza, poças, lixo, cinzas, fogo e tudo com moscas em cima. Por último vem **portas, janelas e escadas**.
 
 ### Menus de interação
 
@@ -218,6 +226,8 @@ eventos:
 indo para o buffer de eventos.
 
 Os sons que você ouve (o telefone, a campainha, os alarmes) não são anunciados.
+
+Ações com outro Sim dizem o nome dele, seja quem for que começou: "Homer: Cumprimentar, com Elvira".
 
 ### Dicas de ajuda e o tutorial
 
@@ -280,6 +290,8 @@ mesma lista de lugares. Objetos idênticos são listados um a um, e a última co
 F3 abre o Modo Construção. As ferramentas dele são guias, e os estilos são produtos. A visão geral
 da casa é dita quando você entra no Modo Construção (Control+Shift+L a repete).
 
+Ao pressionar uma ferramenta você vai para os modelos dela, em um grupo próprio com o nome da ferramenta; Tab volta às ferramentas. Você não tem nada na mão até pressionar Enter em um modelo.
+
 ### O cursor de construção
 
 Enter em um estilo de parede ou cerca inicia o cursor de construção no Sim selecionado. Ele se
@@ -318,10 +330,18 @@ R, Esc; Control+F1 para os detalhes):
   lista da ferramenta).
 - **Terreno**: nivela de um quadrado marcado até o cursor, ou levanta e abaixa o chão.
 
+**Grama** usa o mesmo cursor: Enter pinta o quadrado embaixo dele.
+
 ### Portas, janelas e escadas
 
 Portas e janelas são posicionadas como móveis, a partir de uma lista de lugares: "na parede oeste
 de cozinha, dá para área externa, a primeira porta desse cômodo".
+
+Com as setas, uma porta ou janela diz em qual parede ficaria; girá-la escolhe a parede. Depois de colocar uma porta, o mod diz se os Sims podem passar por ela ou o que está bloqueando. Para mudá-la depois, encontre-a em **portas, janelas e escadas** ou com Control+F: Enter a pega para mover, Delete a remove (o Control+clique do jogo).
+
+### O telhado
+
+O jogo constrói o telhado sozinho sobre as paredes, então não há cursor nem nada para posicionar. A Ferramenta Telhado só escolhe a inclinação e o modelo, para a casa toda. Os modelos não têm nome no jogo: o mod diz a cor.
 
 ## Sinais sonoros
 

@@ -69,11 +69,22 @@ constexpr int kQueueEntryRunning = 0x09;
 // menu, 2 for one the Sim chose by free will.
 constexpr int kQueueEntryRecord = 0x0c;
 constexpr int kQueueRecordPriority = 0x1c;
+constexpr int kQueueRecordObject = 0x0c;  // the object whose interaction it is (0x438f80 tests its OBJD type)
 constexpr int kPlayerPriority = 50;
 // cdecl short* (int neighborId): a Sim's person data (personality traits at their index, 0..1000)
 constexpr Va kSimPersonData = 0x43a480;
 // cdecl Ptr (int neighborId): the Sim's person object on the lot, 0 when not on it
 constexpr Va kPersonByNeighbor = 0x43abd0;
+// cdecl JobLevel* (int neighborId): the Sim's job level, 0 when unemployed (the job popup, 0x4dea70).
+// +0x48 int start hour, +0x4c int end hour; the carpool comes an hour before the start.
+constexpr Va kJobLevel = 0x43ac50;
+constexpr int kJobStartHour = 0x48;
+constexpr int kJobEndHour = 0x4c;
+// [kTimeServices] slot 1 returns the object whose slot 32 writes an hour in the game's own format:
+// thiscall void (std::string* out, int hour, 0, 0, 0).
+constexpr Va kTimeServices = 0xa7f464;
+constexpr int kTimeFormatterSlot = 1;
+constexpr int kHourFormatSlot = 32;
 // cdecl int (int neighborId, int personDataIndex): a Sim's skill points, 0..1000 (one bar per 100)
 constexpr Va kSimSkill = 0x43bc30;
 // cdecl void (int fromNeighborId, int toNeighborId, RelOut* out): how the first Sim feels about
@@ -139,6 +150,7 @@ constexpr Va kRatings[5] = {0x56b7e0, 0x56b400, 0x56b940, 0x56b850, 0x56b620};  
 // root keeps the room records in a std::map (id -> Room*).
 constexpr Va kWorld = 0xa675b4;
 constexpr int kWorldRotation = 0x84;  // world: int camera rotation 0..3
+constexpr Va kViewZoom = 0xa67118;    // int: the view's zoom, 1 far, 2 medium, 3 near (SimAntics global 2)
 constexpr int kWorldTerrain = 0x14;   // world: the terrain map (4 corner heights per tile)
 constexpr int kMapRows = 0x0c;        // a map: its rows (one pointer per tile y)
 constexpr int kWorldSpan = 0x400;     // the grid in 1/16 tile units (64 tiles)
@@ -286,6 +298,8 @@ constexpr int kLevelCost = 0x30;
 constexpr int kLevelError = 0x38;
 constexpr Va kAltDown = 0x656580;
 constexpr Va kAltUp = 0x657960;
+constexpr Va kGrassDown = 0x65bae0;  // cGrassTool: paints the tile on the down; its up does nothing
+constexpr Va kGrassUp = 0x65bdf0;
 }  // namespace terraintool
 // cdecl void (int code, int arg): the build tools' "Can't place here!" message; code = 1-based
 // index into STR# 137 (as buy mode's placement errors), 0 hides it. Hooked: the mod speaks it.
@@ -316,6 +330,13 @@ constexpr int kActive = 0x97;         // u8: the held object follows the mouse; 
                                       // takes the held object out of the world
 constexpr int kBuyMode = 2;
 // Build mode's objects are placed the same way in modes above it: 3 doors, 4 windows (seen live).
+constexpr int kDoorMode = 3, kWindowMode = 4;
+// u8, set by the door and window tools: Ctrl+click on one removes it (mouse up, slot 11; the game's
+// only way, since neither tool nor hand picks them up: their slot 26 refuses with error 37).
+constexpr int kCtrlRemoves = 0x77;
+// cdecl short (u32* packedScreen, int level, int kind): the door (kind 2) or window (3) under a
+// screen point, by the sprites on screen. Hooked while the mod removes one it has by id.
+constexpr Va kPickPortal = 0x5e00c0;
 }  // namespace movetool
 constexpr Va kScreenToWorld = 0x5e00e0;  // cdecl int* (int* out, u32* packedScreen, int flag):
                                          // view coordinates (1/16 tile) under a screen point
@@ -571,6 +592,14 @@ constexpr int kSubpanelButtons = 0x1b4;  // cTSWinBtn*[7]: mood, relationships, 
 constexpr int kSubpanelCount = 7;        // personality, interests, inventory
 }  // namespace people
 
+// ---- cWinRoofPanel (build mode's roof tool) ------------------------------------------------
+// The roof is not placed: the game builds it over the walls; this panel only picks its texture and
+// pitch for the whole house (notify 0x4cf8e0). Its texture buttons have no text.
+namespace roofpanel {
+constexpr int kStyleButtons = 0x140;  // std::vector<cTSWinBtn*>
+constexpr int kStyleFiles = 0x14c;    // std::string* : GameData/Roofs file of each, same order
+}  // namespace roofpanel
+
 // ---- cWinSubpanelJob (the family panel's job subpanel) ------------------------------------
 namespace jobpanel {
 constexpr int kSkillButtons = 0x130;  // cFlashyBtn** [6], same order as kJobPanelSkillIds
@@ -732,6 +761,18 @@ constexpr uint32_t kFlagSelected = 0x2;
 constexpr int kObjd = 0x11c;       // raw OBJD resource (little-endian u16 fields)
 constexpr int kType = 0x120;       // object type record
 }  // namespace obj
+// SimAntics object variables are shorts from +0x4a (variable 1 the direction at 0x4c, 8 the flags at
+// 0x5a). Variable 15 above 0 is what the repairman looks for (his "can repair"), 39 above 400 and
+// flag bit 0x20 clear what the maid looks for (global tree 303 "Clean test"; read live: an unmade
+// bed, a used toilet, a trash pile 800-1000).
+namespace objvar {
+constexpr int kBase = 0x4a;
+constexpr int kBroken = 15;
+constexpr int kDirt = 39;
+constexpr int kDirtyAbove = 400;
+constexpr int kFlags = 8;
+constexpr int kFlagNotCleanable = 0x20;
+}  // namespace objvar
 namespace objtype {
 constexpr int kResFile = 0x00;     // ObjResFile* (the object's IFF)
 constexpr int kInternalName = 0x18; // char* (English internal name, e.g. "Trash Outside")

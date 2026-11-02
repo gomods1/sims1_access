@@ -187,7 +187,9 @@ constexpr ULONGLONG kCancelMs = 5000;
 // A running action the player cancels winds down before it ends: its end is not news then.
 constexpr ULONGLONG kCancelledEndMs = 60000;
 bool CancelledByPlayer(const std::string& action, ULONGLONG now) {
-    return action == g_cancelled && now - g_cancelledAt < kCancelledEndMs;
+    // what was running reads with its target ("Saludar, con Elvira"), the icon without it
+    bool same = action == g_cancelled || action.rfind(g_cancelled + ",", 0) == 0;
+    return same && now - g_cancelledAt < kCancelledEndMs;
 }
 constexpr ULONGLONG kArrivalQuietMs = 15000;
 
@@ -201,7 +203,7 @@ void PollAction(ULONGLONG now) {
     bool byPlayer = false;
     for (const game::SimAction& a : actions)
         if (a.running) {
-            running = a.name;
+            running = a.Spoken();  // a greeting of another Sim is another action, and said as such
             byPlayer = a.byPlayer;
             break;
         }
@@ -467,7 +469,7 @@ std::string Status() {
     std::vector<game::SimAction> actions = game::SimActionList(id);
     if (actions.empty()) line += ", " + std::string(S(Str::StatusIdle));
     for (size_t i = 0; i < actions.size(); i++)
-        line += ", " + (i == 0 ? actions[i].name : util::Format(S(Str::StatusThen), actions[i].name.c_str()));
+        line += ", " + (i == 0 ? actions[i].Spoken() : util::Format(S(Str::StatusThen), actions[i].Spoken().c_str()));
     std::vector<Need> low, urgent;
     for (Need n : kNeeds) {
         int value = 0;

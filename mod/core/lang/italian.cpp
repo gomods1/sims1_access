@@ -24,10 +24,10 @@ const Translation kEntries[] = {
      "scorrono gli oggetti del lotto, dal più vicino, e la telecamera va su ognuno; Maiuscole insieme a loro "
      "cambia il tipo di oggetto, Control insieme a loro la stanza. Invio su un oggetto apre le sue interazioni, "
      "Control+Invio ci manda il Sim. R ripete. Spazio seleziona il Sim successivo, da Control+1 a Control+9 "
-     "selezionano un Sim della famiglia, Control+F fa seguire o no il Sim selezionato dalla telecamera. "
-     "Control+E dice cosa fa e di cosa ha bisogno il Sim selezionato, Control+N cambia quanto parla il "
-     "narratore. P mette in pausa e legge l'ora e il denaro. Control+freccia su e Control+freccia giù leggono i "
-     "dettagli, Control+freccia sinistra e Control+freccia destra passano tra dettagli ed eventi."},
+     "selezionano un Sim della famiglia, Control+Maiuscole+F fa seguire o no il Sim selezionato dalla "
+     "telecamera. Control+E dice cosa fa e di cosa ha bisogno il Sim selezionato, Control+N cambia quanto parla "
+     "il narratore. P mette in pausa e legge l'ora e il denaro. Control+freccia su e Control+freccia giù leggono "
+     "i dettagli, Control+freccia sinistra e Control+freccia destra passano tra dettagli ed eventi."},
     {Str::KeysPlacing,
      "Pagina giù e Pagina su scorrono le posizioni in cui l'oggetto ci sta e si può usare, prima le migliori; "
      "Control insieme a loro cambia stanza; Maiuscole insieme a loro, o virgola e punto, lo ruotano nella stessa "
@@ -114,6 +114,59 @@ const Translation kEntries[] = {
     {Str::CategoryDecorative, "ornamenti"},
     {Str::CategoryMiscellaneous, "varie"},
     {Str::CategoryOther, "altri oggetti"},
+    {Str::CategoryProblems, "problemi"},
+    {Str::CategoryPortals, "porte, finestre e scale"},
+    {Str::ConditionBroken, "rotto"},
+    {Str::ConditionDirty, "da pulire"},
+    {Str::ObjPuddle, "pozzanghera"},
+    {Str::ObjAshes, "cenere"},
+    {Str::ObjFire, "fuoco"},
+    {Str::ObjPetMess, "sporco di animale"},
+    {Str::FindPrompt,
+     "Cerca qualcosa nel lotto: scrivi parte del nome. Freccia su e giù scorrono i risultati, Invio lo apre, Esc "
+     "annulla."},
+    {Str::FindCount, "%1$s: %2$d trovati"},
+    {Str::FindCountOne, "%s: 1 trovato"},
+    {Str::FindNoMatch, "%s: nessun risultato"},
+    {Str::FindEmpty, "ricerca vuota"},
+    {Str::FindTypeFirst, "Scrivi prima parte di un nome."},
+    {Str::FindResults, "trovato: %s"},
+    {Str::FindCancelled, "ricerca annullata"},
+    {Str::FindNotNow, "Finisci prima di collocare: Esc, poi Control+F."},
+    {Str::KeysFind, "Control+F cerca qualcosa nel lotto scrivendo parte del nome."},
+    {Str::KeysPortalDelete, "Canc su una porta o finestra degli oggetti del lotto la rimuove."},
+    {Str::ZoomFar, "vista lontana"},
+    {Str::ZoomMedium, "vista media"},
+    {Str::ZoomNear, "vista ravvicinata"},
+    {Str::CameraFacing, "telecamera rivolta a %s"},
+    {Str::CameraStatus, "telecamera: %1$s, rivolta a %2$s"},
+    {Str::GroupRoof, "tetto"},
+    {Str::GroupBuildStyles, "modelli"},
+    {Str::RoofHint,
+     "Il gioco costruisce il tetto da solo sopra i muri, quindi non c'è nulla da collocare. Qui scegli solo "
+     "modello e pendenza, per tutta la casa."},
+    {Str::RoofStyle, "modello di tetto %1$d di %2$d, %3$s"},
+    {Str::RoofStylePlain, "modello di tetto %1$d di %2$d"},
+    {Str::RoofGray, "grigio"},
+    {Str::RoofLightGray, "grigio chiaro"},
+    {Str::RoofDarkGray, "grigio scuro"},
+    {Str::RoofBlueGray, "grigio azzurro"},
+    {Str::RoofBlack, "nero"},
+    {Str::RoofGreen, "verde"},
+    {Str::RoofTerracotta, "terracotta"},
+    {Str::RoofTan, "beige"},
+    {Str::RoofCopper, "rame"},
+    {Str::RoofLightBlue, "azzurro"},
+    {Str::RoofGold, "oro"},
+    {Str::RoofWhite, "bianco"},
+    {Str::PortalRemoved, "%s rimossa"},
+    {Str::PortalNotRemoved, "impossibile rimuovere %s"},
+    {Str::PortalDeleteHint, "Porte e finestre non si possono spostare: Canc la rimuove."},
+    {Str::PortalNeedsHand, "Per rimuovere una porta o finestra: Costruisci, Mano."},
+    {Str::ActionWithSim, "%1$s, con %2$s"},
+    {Str::DoorUsable, "i Sim possono passarci"},
+    {Str::DoorBlocked, "Attenzione: i Sim non possono usare questa porta, la blocca %s"},
+    {Str::DoorNoWay, "Attenzione: i Sim non raggiungono questa porta dall'ingresso del lotto"},
     {Str::ThingsByKind, "oggetti per tipo"},
     {Str::ThingsByRoom, "oggetti per stanza"},
     {Str::NoObjects, "nessun oggetto qui"},

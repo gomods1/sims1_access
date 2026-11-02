@@ -1,6 +1,7 @@
 #include "collect.h"
 
 #include <algorithm>
+#include <cstring>
 #include <map>
 #include <set>
 
@@ -16,6 +17,7 @@
 #include "../game/rtti.h"
 #include "../game/magic.h"
 #include "../game/ui.h"
+#include "../game/view.h"
 #include "../game/view_control.h"
 #include "../util/strings.h"
 #include "../util/text.h"
@@ -48,11 +50,37 @@ struct Registered {
     int number;
 };
 
+// Roof textures say nothing but their picture: their colour, from the file's average.
+struct RoofTexture {
+    const char* file;
+    Str colour;
+};
+const RoofTexture kRoofTextures[] = {
+    {"r1_", Str::RoofBlueGray},        {"r2_", Str::RoofLightGray},       {"r3_", Str::RoofDarkGray},
+    {"r4_", Str::RoofTerracotta},      {"tar1", Str::RoofBlack},          {"gravel1", Str::RoofGray},
+    {"MMGypsyTent", Str::RoofDarkGray}, {"MMOldWood1", Str::RoofGray},    {"MMOldWood2", Str::RoofGreen},
+    {"MMSuburban1", Str::RoofGray},    {"MMSuburban2", Str::RoofGreen},   {"MMTent1", Str::RoofTan},
+    {"MMTent2", Str::RoofTerracotta},  {"SuperstarDirty", Str::RoofBlack}, {"SuperstarFashionCopper", Str::RoofCopper},
+    {"SuperstarFashion", Str::RoofLightBlue}, {"SuperstarGold", Str::RoofGold}, {"SuperstarTent", Str::RoofWhite},
+};
+
+std::string RoofStyleLabel(Ptr panel, int index, int count) {
+    std::string file = game::RoofStyleFile(panel, index);
+    size_t slash = file.find_last_of("/\\");
+    if (slash != std::string::npos) file = file.substr(slash + 1);
+    for (const RoofTexture& t : kRoofTextures)
+        if (_strnicmp(file.c_str(), t.file, strlen(t.file)) == 0)
+            return util::Format(S(Str::RoofStyle), index + 1, count, S(t.colour));
+    return util::Format(S(Str::RoofStylePlain), index + 1, count);
+}
+
 struct Walker {
     Screen& screen;
     std::vector<Item> items;
     std::set<Ptr> claimed;               // widgets already represented by a status item
     std::map<Ptr, Registered> registered;
+    std::map<Ptr, int> roofStyles;       // the roof panel's texture buttons -> their index
+    int roofStyleCount = 0;
     Ptr needsBox = 0;                    // the family panel's needs container, when shown
     bool moodAdded = false;              // the mood meter has two halves; one item reads it
 
@@ -84,6 +112,7 @@ struct Walker {
         add(game::FundsButton(vc), StatusField::Funds, true);
         add(game::PauseButton(vc), StatusField::Speed, false);
         add(game::FriendsButton(vc), StatusField::Friends, true);
+        if (game::ViewZoom()) Add(vc, Role::Status, "", (int)StatusField::Camera);
     }
 
     // Create a Sim: the appearance controls in a group of their own, in the game's order (the
@@ -103,6 +132,11 @@ struct Walker {
         // The wardrobe's clothing choice and the pet picker: the unlabeled preview says what it shows.
         if (Ptr preview = game::OutfitPreview(root)) registered[preview] = Registered{Role::SimPreview, 0, 0};
     }
+
+    // Build mode: a tool's styles apart from the tools themselves (by position they are mixed
+    // with the tools' tabs, and turning a page moves the tabs around them): a group of their own,
+    // with their page arrows.
+    void AddBuildStyle(Ptr w, Role role, std::string label) { Add(w, role, std::move(label), 0, kBuildStylesGroup); }
 
     // The live mode family panel and its subpanels. true when w was handled here.
     bool VisitFamilyPanel(Ptr w, bool* descend) {
@@ -169,6 +203,17 @@ struct Walker {
             return true;
         }
         if (IsKindOf(w, "cWinViewControl")) { AddStatus(w); return true; }
+        if (IsKindOf(w, "cWinRoofPanel")) {  // its texture buttons have no text: named by their texture
+            std::vector<Ptr> styles = game::RoofStyleButtons(w);
+            for (int i = 0; i < (int)styles.size(); i++) roofStyles[styles[i]] = i;
+            roofStyleCount = (int)styles.size();
+            return true;
+        }
+        auto roof = roofStyles.find(w);
+        if (roof != roofStyles.end()) {
+            Add(w, Role::Button, RoofStyleLabel(game::Parent(w), roof->second, roofStyleCount));
+            return true;
+        }
         bool descend = true;
         if (VisitFamilyPanel(w, &descend)) return descend;
         if (game::IsTraitBar(w)) {
@@ -196,7 +241,9 @@ struct Walker {
         if (IsKindOf(w, "cWinBudgetRow")) { Add(w, Role::BudgetRow, game::Caption(w)); return false; }
         if (game::IsProductButton(w)) {
             game::ProductInfo p;
-            Add(w, Role::Product, game::ReadProductOfButton(w, &p) ? p.name : game::Tooltip(w));
+            std::string name = game::ReadProductOfButton(w, &p) ? p.name : game::Tooltip(w);
+            if (IsKindOf(game::Parent(w), "cWinArch")) AddBuildStyle(w, Role::Product, name);
+            else Add(w, Role::Product, name);
             return false;
         }
         if (IsKindOf(w, "cWinGift")) {  // an inventory item (a toggle button, but no tab)
@@ -233,8 +280,11 @@ struct Walker {
         std::string label = game::Tooltip(w);
         if (IsKindOf(w, "cTSWinBtn")) {
             if (label.empty()) label = game::Caption(w);
+            RECT r = game::Rect(w);
+            bool archPage = IsKindOf(game::Parent(w), "cWinArch") && r.right - r.left <= 12 && r.bottom - r.top >= 40;
             // An unlabeled button holding other widgets is a panel background, not a control.
-            if (!label.empty()) Add(w, IsTab(w) ? Role::Tab : Role::Button, label);
+            if (archPage) AddBuildStyle(w, Role::Button, label);
+            else if (!label.empty()) Add(w, IsTab(w) ? Role::Tab : Role::Button, label);
             else if (!hasChildren && game::ButtonEnabled(w)) Add(w, Role::Button, label);
             return true;
         }

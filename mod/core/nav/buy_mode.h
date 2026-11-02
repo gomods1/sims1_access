@@ -42,7 +42,14 @@ void MoveFree(int dx, int dy);
 bool FreeTurn(int delta);
 bool Cancel();      // false when nothing is being placed
 void Sell();        // Delete while moving an object: sell it (a purchase is cancelled instead)
-void PickUpFocused();  // buy mode, Enter on an object of the lot browser: pick it up to move it
+void PickUpFocused();
+// A build tool's tab was pressed: the game brings back the tool's last object in hand, which would
+// give the arrows to placing it with the tool's styles out of reach. For this long what it brings
+// is put away, so the tab always leads to the styles; Renew (a style pressed) ends it.
+void HoldOff(unsigned ms);
+// Delete on a door or window of the lot's things: they cannot be picked up, the game only removes
+// them. false when the focus is on something else (the key is then the game's).
+bool RemoveFocusedPortal();  // buy mode, Enter on an object of the lot browser: pick it up to move it
 void Repeat();
 
 // Catalog product buttons: "Silla todoterreno Nalghaus, $80, comodidad 2. <description>"; the

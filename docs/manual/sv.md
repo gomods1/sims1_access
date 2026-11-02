@@ -90,6 +90,8 @@ På en tomt är kontrollpanelen en ring av grupper som vilken skärm som helst. 
 
 På ett objekt i en panel i Boendeläge (ett behov, en färdighet, ett jobb, ett betyg för huset) läser Enter upp spelets popupruta för det.
 
+Jobbet säger arbetstiderna och när samåkningen kommer. Spelets menyer har inget alternativ för att säga upp sig: en sim som fortsätter att missa jobbet får sparken, och tidningen och datorn erbjuder andra jobb.
+
 ### Välja simmar och kameran
 
 | Tangent | Vad den gör |
@@ -97,11 +99,13 @@ På ett objekt i en panel i Boendeläge (ett behov, en färdighet, ett jobb, ett
 | Mellanslag | Spelets "nästa sim": nästa familjemedlem väljs och sägs ("Isabel, vald, Ät"). |
 | Kontroll+1 till Kontroll+9 | Väljer familjens första till nionde sim. |
 | Kontroll+Skift+1 till Kontroll+Skift+9 | Öppnar den simmens kort (bakgrund). |
-| Kontroll+F | Kameran följer den valda simmen, eller är fri. |
+| Kontroll+Skift+F | Kameran följer den valda simmen, eller är fri. |
 | Kontroll+E | Den valda simmen på en rad: rum, vad den gör, akuta behov, humör. |
 | P | Paus (spelets tangent); modden säger tid och pengar. 1, 2, 3 ställer in hastigheten. |
 
 Kameran följer den valda simmen, eftersom spelets ljud kommer från det som syns på skärmen. Medan du bläddrar bland tomtens föremål går kameran till varje föremål och kommer sedan tillbaka till simmen.
+
+Zoomen och kamerans riktning sägs när de ändras (plus och minus zoomar, komma och punkt vrider vyn), och de finns också i statusraden: "kamera: mellanvy, vänd mot nordväst". Riktningen är det som skärmens överkant visar. Modets norr vrids inte med kameran.
 
 ### Tomtens föremål
 
@@ -116,8 +120,12 @@ Du behöver inte tabba dit: Page-tangenterna bläddrar bland föremålen var du 
 | Kontroll+Page Down, Kontroll+Page Up | Nästa eller föregående rum (första trycket: den valda simmens rum). |
 | Enter | Föremålets interaktioner (i Köpläge: plockar upp det för att flytta det). |
 | Kontroll+Enter | Låter den valda simmen gå till föremålet. |
+| Kontroll+F | Sök något: skriv en del av namnet ("tel" hittar telefonen, accenter spelar ingen roll). Pil upp och ned går igenom träffarna, Enter agerar på den, Kontroll+Enter skickar dit simmen, Delete tar bort en dörr eller ett fönster, Escape går tillbaka dit du var. |
+| Delete | På en dörr eller ett fönster, i köp- eller byggläge: tar bort det och ger pengarna tillbaka. |
 
 En sim eller ett föremål som fortfarande visar en bubbla säger den också ("Bella, Ät, tänker: hunger").
+
+Efter simmarna kommer **problem**: det som behöver uppmärksamhet, som trasiga saker, det som behöver städas, vattenpölar, skräp, aska, eld och allt med flugor över. Sist kommer **dörrar, fönster och trappor**.
 
 ### Interaktionsmenyer
 
@@ -159,6 +167,8 @@ Spelet visar många saker bara som bilder. Modden säger dem när de händer och
 **Kontroll+N** ändrar hur mycket som sägs: allt, bara varningar eller av. Rader som inte sägs hamnar ändå i händelsebufferten.
 
 Ljud som du kan höra (telefonen, dörrklockan, larm) meddelas inte.
+
+Handlingar med en annan sim nämner den simmen, vem som än började: "Homer: Hälsa, med Elvira".
 
 ### Hjälptips och övningen
 
@@ -206,6 +216,8 @@ I Köpläge, gå med Page Down till ett föremål på tomten och tryck Enter: de
 
 F3 öppnar Byggläge. Dess verktyg är flikar, deras stilar är produkter. Husöversikten läses upp när du går in i Byggläge (Kontroll+Skift+L upprepar den).
 
+När du trycker på ett verktyg kommer du till dess modeller, i en egen grupp med verktygets namn; Tab går tillbaka till verktygen. Du har inget i handen förrän du trycker Enter på en modell.
+
 ### Byggmarkören
 
 Enter på en stil av vägg eller staket startar byggmarkören vid den valda simmen. Den rör sig på hörnen mellan rutorna.
@@ -236,9 +248,17 @@ Vart och ett av de här verktygen har samma markör på rutor (piltangenterna, S
 - **Pooler**: Mellanslag markerar ett hörn, Enter gräver; modden varnar innan vatten skär av något. Kontroll+Enter fyller igen rutor. Simmar behöver en poolstege (i verktygets lista).
 - **Terräng**: jämnar ut från en markerad ruta till markören, eller höjer och sänker marken.
 
+**Gräs** använder samma markör: Enter målar rutan under den.
+
 ### Dörrar, fönster och trappor
 
 Dörrar och fönster placeras som möbler, från en lista över platser: "i väggen i väster i kök, leder till utomhus, rummets första dörr".
+
+Med pilarna säger en dörr eller ett fönster vilken vägg det skulle hamna i; att vrida det väljer väggen. När en dörr är placerad säger modet om simmarna kan gå igenom, eller vad som står i vägen. För att ändra den senare: hitta den under **dörrar, fönster och trappor** eller med Kontroll+F. Enter tar upp den för att flytta den, Delete tar bort den (spelets Kontroll+klick).
+
+### Taket
+
+Spelet bygger taket själv över dina väggar, så det finns ingen markör och inget att placera. Takverktyget väljer bara lutning och modell, för hela huset. Modellerna har inga namn i spelet: modet säger deras färg.
 
 ## Ljudsignaler
 

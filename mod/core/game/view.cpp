@@ -60,6 +60,18 @@ int SelectedNeighborId() {
     return id;
 }
 
+int ViewZoom() {
+    int zoom = Rd<int>(Va(addr::kViewZoom));
+    return zoom >= 1 && zoom <= 3 ? zoom : 0;
+}
+
+int ViewCompass() {
+    Ptr world = Rd<Ptr>(Va(addr::kWorld));
+    if (!world) return -1;
+    static const int kFacing[4] = {7, 1, 3, 5};
+    return kFacing[Rd<int>(world + addr::kWorldRotation) & 3];
+}
+
 int SelectFamilyMember(Ptr lotView, int index, bool card) {
     Ptr people = FamilyPanel(lotView);
     if (!people) return -1;

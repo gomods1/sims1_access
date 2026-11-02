@@ -55,7 +55,7 @@ enum class JobField { Job, Pay, Performance, FriendsNeeded };
 
 // What a Role::Status item reads. The clock item's widget is the control panel itself; the
 // others are the panel's buttons for that value.
-enum class StatusField { Clock, Funds, Speed, Friends };
+enum class StatusField { Clock, Funds, Speed, Friends, Camera };
 
 struct Item {
     Ptr widget = 0;
@@ -85,7 +85,7 @@ inline ItemId IdOf(const Item& it) { return ItemId{it.widget, it.role, it.number
 // Read-only items: Enter repeats them instead of pressing anything.
 inline bool IsReadOnly(const Item& it) {
     return it.role == Role::Text || it.role == Role::Info ||
-           (it.role == Role::Status && it.number == (int)StatusField::Clock);
+           (it.role == Role::Status && (it.number == (int)StatusField::Clock || it.number == (int)StatusField::Camera));
 }
 
 // Controls holding a value: Left/Right (and PageUp/PageDown) change it, Enter does not press them
@@ -118,6 +118,7 @@ constexpr Ptr kBookEntriesGroup = 12;  // Makin' Magic's book: the page's spells
 constexpr Ptr kKindsGroup = 13;        // lot view: the lot's things by kind (nav/world.h)
 constexpr Ptr kRoomsGroup = 14;        // lot view: the lot's things by room
 constexpr Ptr kModHelpGroup = 15;      // every screen's last group: this screen's keys, the manual
+constexpr Ptr kBuildStylesGroup = 16;  // build mode: what the chosen tool offers (styles, page arrows)
 
 // Items the mod makes from game state, with no widget behind them (their widget is their group
 // key): nothing may read game memory through it.

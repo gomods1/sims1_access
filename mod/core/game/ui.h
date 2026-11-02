@@ -11,6 +11,12 @@
 
 namespace game {
 
+// Build mode's roof panel: its texture buttons, and the GameData/Roofs file each one puts on.
+std::vector<Ptr> RoofStyleButtons(Ptr panel);
+std::string RoofStyleFile(Ptr panel, int index);
+// The tooltip of a panel's checked tool tab (build mode's chosen tool), empty when none.
+std::string CheckedTabOf(Ptr panel);
+
 // Window manager
 Ptr InputRoot();    // the screen or modal dialog that owns input now
 Ptr MainWindow();

@@ -24,10 +24,10 @@ const Translation kEntries[] = {
      "tomtens föremål, närmast först, och kameran går till vart och ett; Skift tillsammans med dem byter sort av "
      "föremål, Kontroll tillsammans med dem rum. Enter på ett föremål öppnar dess interaktioner, Kontroll+Enter "
      "låter simmen gå dit. R upprepar. Mellanslag väljer nästa sim, Kontroll+1 till 9 väljer en sim i familjen, "
-     "Kontroll+F slår på eller av att kameran följer den valda simmen. Kontroll+E säger vad den valda simmen gör "
-     "och behöver, Kontroll+N ändrar hur mycket berättaren säger. P pausar och läser upp tid och pengar. "
-     "Kontroll+Pil upp och Kontroll+Pil ned läser detaljerna, Kontroll+Pil vänster och Kontroll+Pil höger växlar "
-     "mellan detaljer och händelser."},
+     "Kontroll+Skift+F slår på eller av att kameran följer den valda simmen. Kontroll+E säger vad den valda "
+     "simmen gör och behöver, Kontroll+N ändrar hur mycket berättaren säger. P pausar och läser upp tid och "
+     "pengar. Kontroll+Pil upp och Kontroll+Pil ned läser detaljerna, Kontroll+Pil vänster och Kontroll+Pil "
+     "höger växlar mellan detaljer och händelser."},
     {Str::KeysPlacing,
      "Page Down och Page Up går igenom platserna där den får plats och kan användas, de bästa först; Kontroll "
      "tillsammans med dem byter rum; Skift tillsammans med dem, eller komma och punkt, vrider den på samma "
@@ -114,6 +114,59 @@ const Translation kEntries[] = {
     {Str::CategoryDecorative, "dekorationer"},
     {Str::CategoryMiscellaneous, "övrigt"},
     {Str::CategoryOther, "andra föremål"},
+    {Str::CategoryProblems, "problem"},
+    {Str::CategoryPortals, "dörrar, fönster och trappor"},
+    {Str::ConditionBroken, "trasig"},
+    {Str::ConditionDirty, "behöver städas"},
+    {Str::ObjPuddle, "vattenpöl"},
+    {Str::ObjAshes, "aska"},
+    {Str::ObjFire, "eld"},
+    {Str::ObjPetMess, "husdjurssmuts"},
+    {Str::FindPrompt,
+     "Sök något på tomten: skriv en del av namnet. Pil upp och ned går igenom träffarna, Enter öppnar, Escape "
+     "avbryter."},
+    {Str::FindCount, "%1$s: %2$d hittade"},
+    {Str::FindCountOne, "%s: 1 hittad"},
+    {Str::FindNoMatch, "%s: inga träffar"},
+    {Str::FindEmpty, "sökningen tom"},
+    {Str::FindTypeFirst, "Skriv först en del av ett namn."},
+    {Str::FindResults, "hittat: %s"},
+    {Str::FindCancelled, "sökning avbruten"},
+    {Str::FindNotNow, "Slutför placeringen först: Escape, sedan Kontroll+F."},
+    {Str::KeysFind, "Kontroll+F söker något på tomten när du skriver en del av namnet."},
+    {Str::KeysPortalDelete, "Delete på en dörr eller ett fönster i listan tar bort det."},
+    {Str::ZoomFar, "fjärrvy"},
+    {Str::ZoomMedium, "mellanvy"},
+    {Str::ZoomNear, "närvy"},
+    {Str::CameraFacing, "kamera vänd mot %s"},
+    {Str::CameraStatus, "kamera: %1$s, vänd mot %2$s"},
+    {Str::GroupRoof, "tak"},
+    {Str::GroupBuildStyles, "modeller"},
+    {Str::RoofHint,
+     "Spelet bygger taket själv över dina väggar, så det finns inget att placera. Här väljer du bara modell och "
+     "lutning, för hela huset."},
+    {Str::RoofStyle, "takmodell %1$d av %2$d, %3$s"},
+    {Str::RoofStylePlain, "takmodell %1$d av %2$d"},
+    {Str::RoofGray, "grå"},
+    {Str::RoofLightGray, "ljusgrå"},
+    {Str::RoofDarkGray, "mörkgrå"},
+    {Str::RoofBlueGray, "blågrå"},
+    {Str::RoofBlack, "svart"},
+    {Str::RoofGreen, "grön"},
+    {Str::RoofTerracotta, "terrakotta"},
+    {Str::RoofTan, "beige"},
+    {Str::RoofCopper, "koppar"},
+    {Str::RoofLightBlue, "ljusblå"},
+    {Str::RoofGold, "guld"},
+    {Str::RoofWhite, "vit"},
+    {Str::PortalRemoved, "%s borttagen"},
+    {Str::PortalNotRemoved, "%s kunde inte tas bort"},
+    {Str::PortalDeleteHint, "Dörrar och fönster kan inte flyttas: Delete tar bort dem."},
+    {Str::PortalNeedsHand, "För att ta bort en dörr eller ett fönster: Byggläge, Handverktyget."},
+    {Str::ActionWithSim, "%1$s, med %2$s"},
+    {Str::DoorUsable, "simmarna kan gå igenom"},
+    {Str::DoorBlocked, "Varning: simmarna kan inte använda den här dörren, %s står i vägen"},
+    {Str::DoorNoWay, "Varning: simmarna kan inte nå den här dörren från tomtens ingång"},
     {Str::ThingsByKind, "föremål efter sort"},
     {Str::ThingsByRoom, "föremål efter rum"},
     {Str::NoObjects, "inga föremål här"},

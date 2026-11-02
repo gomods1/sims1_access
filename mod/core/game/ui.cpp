@@ -160,6 +160,27 @@ void Hover(Ptr w) {
     SendMessageTo(w, addr::msg::kMouseEnter, x, y, 0) && SendMessageTo(w, addr::msg::kMouseMove, x, y, 0);
 }
 
+std::vector<Ptr> RoofStyleButtons(Ptr panel) {
+    std::vector<Ptr> buttons;
+    if (!IsKindOf(panel, "cWinRoofPanel")) return buttons;
+    Ptr begin = Rd<Ptr>(panel + addr::roofpanel::kStyleButtons), end = Rd<Ptr>(panel + addr::roofpanel::kStyleButtons + 4);
+    for (Ptr p = begin; p && p < end && buttons.size() < 64; p += 4) buttons.push_back(Rd<Ptr>(p));
+    return buttons;
+}
+
+std::string RoofStyleFile(Ptr panel, int index) {
+    Ptr files = IsKindOf(panel, "cWinRoofPanel") ? Rd<Ptr>(panel + addr::roofpanel::kStyleFiles) : 0;
+    return files && index >= 0 ? ReadStdStringUtf8(files + index * 0x18) : "";
+}
+
+std::string CheckedTabOf(Ptr panel) {
+    for (Ptr c : Children(panel))
+        if (IsKindOf(c, "cTSWinBtn") && !IsKindOf(c, "ProductButton") && Visible(c) &&
+            GetButtonType(c) != ButtonType::Push && ButtonChecked(c))
+            return Tooltip(c);
+    return "";
+}
+
 void Unhover(Ptr w) {
     RECT r = Rect(w);
     SendMessageTo(w, addr::msg::kMouseLeave, (r.right - r.left) / 2, (r.bottom - r.top) / 2, 0);

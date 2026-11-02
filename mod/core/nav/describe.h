@@ -17,6 +17,8 @@ std::vector<std::string> DetailLines(const Item& it, const Group& g, int index);
 // job, a house rating...), empty when it has none.
 std::vector<std::string> PanelHelp(const Item& it);
 std::string GroupSummary(const Group& g);
+// The action of a queue icon with the other Sim it is done with ("Saludar, con Elvira").
+std::string QueuedLabel(const std::string& action);
 // A lot's own name from its card ("Hotel Palmeras Palazzo"); the address when it has none.
 std::string LotPlaceName(const Item& it);  // "casas, 41 elementos"
 

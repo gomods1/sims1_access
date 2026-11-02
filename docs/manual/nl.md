@@ -90,6 +90,8 @@ Op een kavel is het bedieningspaneel een ring van groepen, zoals elk scherm. Tab
 
 Op een item van een paneel van Leven (een behoefte, vaardigheid, baan, beoordeling van het huis) leest Enter de pop-up van het spel ervoor voor.
 
+De baan noemt de werktijden en wanneer de carpool komt. De menu's van het spel hebben geen optie om ontslag te nemen: een Sim die steeds niet komt werken wordt ontslagen, en de krant en de computer bieden andere banen.
+
 ### Sims selecteren en de camera
 
 | Toets | Wat hij doet |
@@ -97,11 +99,13 @@ Op een item van een paneel van Leven (een behoefte, vaardigheid, baan, beoordeli
 | Spatie | De "volgende Sim" van het spel: het volgende familielid wordt geselecteerd en genoemd ("Isabel, geselecteerd, Eten"). |
 | Control+1 tot Control+9 | De eerste tot negende Sim van de familie selecteren. |
 | Control+Shift+1 tot Control+Shift+9 | De kaart van die Sim openen (biografie). |
-| Control+F | De camera volgt de geselecteerde Sim, of blijft vrij. |
+| Control+Shift+F | De camera volgt de geselecteerde Sim, of blijft vrij. |
 | Control+E | De geselecteerde Sim in één regel: kamer, wat hij doet, dringende behoeften, humeur. |
 | P | Pauze (de toets van het spel); de mod zegt de tijd en het geld. 1, 2, 3 stellen de snelheid in. |
 
 De camera volgt de geselecteerde Sim, omdat de geluiden van het spel komen van wat er op het scherm is. Terwijl je door de voorwerpen op het kavel bladert, gaat de camera naar elk voorwerp en komt daarna terug bij de Sim.
+
+De zoom en de richting van de camera worden gezegd als ze veranderen (plus en min zoomen, komma en punt draaien het beeld), en staan ook in de statusregel: "camera: middelste weergave, gericht naar het noordwesten". De richting is wat de bovenkant van het scherm toont. Het noorden van de mod draait niet mee met de camera.
 
 ### De voorwerpen op het kavel
 
@@ -116,8 +120,12 @@ Je hoeft er niet met Tab heen: de Page-toetsen bladeren overal op het kavel door
 | Control+Page Down, Control+Page Up | Volgende of vorige kamer (de eerste keer: de kamer van de geselecteerde Sim). |
 | Enter | De interacties van het voorwerp (in Kopen: het oppakken om het te verplaatsen). |
 | Control+Enter | De geselecteerde Sim naar het voorwerp laten lopen. |
+| Control+F | Iets zoeken: typ een deel van de naam ("tel" vindt de telefoon, accenten maken niet uit). Pijl omhoog en omlaag lopen door de treffers, Enter werkt erop, Control+Enter stuurt de Sim erheen, Delete verwijdert een deur of raam, Escape gaat terug naar waar je was. |
+| Delete | Op een deur of raam, in koop- of bouwmodus: verwijdert het en betaalt het terug. |
 
 Een Sim of voorwerp waarboven nog een ballon staat, zegt die ook ("Bella, Eten, denkt: honger").
+
+Na de Sims komt **problemen**: wat aandacht vraagt, zoals kapotte dingen, wat schoongemaakt moet worden, plassen, afval, as, vuur en alles met vliegen erboven. Als laatste komt **deuren, ramen en trappen**.
 
 ### Interactiemenu's
 
@@ -159,6 +167,8 @@ Het spel laat veel dingen alleen als plaatjes zien. De mod zegt ze terwijl ze ge
 **Control+N** verandert hoeveel er gezegd wordt: alles, alleen waarschuwingen, of uit. Regels die niet worden uitgesproken, komen toch in de gebeurtenissenbuffer.
 
 Geluiden die je kunt horen (de telefoon, de deurbel, alarmen) worden niet aangekondigd.
+
+Acties met een andere Sim noemen die Sim, wie ze ook begon: "Homer: Begroeten, met Elvira".
 
 ### Helptips en de les
 
@@ -206,6 +216,8 @@ Ga in Kopen met Page Down naar een voorwerp op het kavel en druk op Enter: het w
 
 F3 opent Bouwen. De gereedschappen zijn tabbladen, hun stijlen zijn producten. Het huisoverzicht wordt uitgesproken als je Bouwen binnengaat (Control+Shift+L herhaalt het).
 
+Een gereedschap indrukken brengt je naar de modellen ervan, in een eigen groep met de naam van het gereedschap; Tab gaat terug naar de gereedschappen. Je hebt niets in handen tot je Enter op een model drukt.
+
 ### De bouwcursor
 
 Enter op een stijl van muur of hek start de bouwcursor bij de geselecteerde Sim. Hij beweegt over de hoeken tussen de vakken.
@@ -236,9 +248,17 @@ Elk van deze gereedschappen heeft dezelfde cursor op vakken (pijltoetsen, Shift 
 - **Zwembaden**: Spatie markeert een hoek, Enter graaft; de mod waarschuwt voordat water iets afsluit. Control+Enter vult vakken weer op. Sims hebben een zwembadtrap nodig (in de lijst van het gereedschap).
 - **Terrein**: egaliseren van een gemarkeerd vak tot de cursor, of de grond ophogen en verlagen.
 
+**Gras** gebruikt dezelfde cursor: Enter schildert het vakje eronder.
+
 ### Deuren, ramen en trappen
 
 Deuren en ramen worden geplaatst zoals meubels, vanuit een lijst met plekken: "in de muur in het westen van keuken, komt uit op buiten, de eerste deur van die kamer".
+
+Met de pijlen zegt een deur of raam in welke muur het zou komen; draaien kiest de muur. Na het plaatsen van een deur zegt de mod of Sims erdoorheen kunnen, of wat in de weg staat. Om het later te wijzigen, zoek het in **deuren, ramen en trappen** of met Control+F: Enter pakt het op om te verplaatsen, Delete verwijdert het (de Control+klik van het spel).
+
+### Het dak
+
+Het spel bouwt het dak zelf boven je muren, dus er is geen cursor en niets te plaatsen. Het dakgereedschap kiest alleen de helling en het model, voor het hele huis. De modellen hebben in het spel geen naam: de mod noemt hun kleur.
 
 ## Geluidssignalen
 

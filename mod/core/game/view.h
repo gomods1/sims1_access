@@ -22,6 +22,12 @@ bool StopFollowing(Ptr lotView);
 // biography) instead of selecting.
 int SelectFamilyMember(Ptr lotView, int index, bool card = false);
 int SelectedNeighborId();  // -1 when none
+
+// The view: zoom 1 far, 2 medium, 3 near (0 unknown), and the mod's compass direction the camera
+// looks toward, what the top of the screen shows: 7 north-west, 1 north-east, 3 south-east, 5
+// south-west (-1 no lot). Verified through ScreenToWorld at rotation 0: up the screen is -x, -y.
+int ViewZoom();
+int ViewCompass();
 Ptr FamilyPanel(Ptr lotView);  // the cWinPeople panel of the lot view, shown or not; 0 if none
 
 }  // namespace game

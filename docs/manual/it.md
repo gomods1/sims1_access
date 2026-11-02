@@ -90,6 +90,8 @@ In un lotto l'interfaccia è un anello di gruppi come qualsiasi schermata. Tab l
 
 Su un elemento di un pannello di Vivi (un bisogno, un'abilità, un lavoro, una valutazione della casa), Invio legge il riquadro informativo del gioco.
 
+Il lavoro dice gli orari e quando passa l'auto. I menu del gioco non hanno un'opzione per lasciare il lavoro: un Sim che salta il lavoro di continuo viene licenziato, e il giornale e il computer offrono altri lavori.
+
 ### Selezionare i Sim e la telecamera
 
 | Tasto | Cosa fa |
@@ -97,11 +99,13 @@ Su un elemento di un pannello di Vivi (un bisogno, un'abilità, un lavoro, una v
 | Spazio | Il "Sim successivo" del gioco: viene selezionato e annunciato il membro successivo della famiglia ("Isabel, Sim selezionato, Mangia"). |
 | Da Control+1 a Control+9 | Seleziona dal primo al nono Sim della famiglia. |
 | Da Control+Maiusc+1 a Control+Maiusc+9 | Apre la scheda di quel Sim (biografia). |
-| Control+F | La telecamera segue il Sim selezionato, o resta libera. |
+| Control+Maiusc+F | La telecamera segue il Sim selezionato, o resta libera. |
 | Control+E | Il Sim selezionato in una frase: stanza, cosa sta facendo, bisogni urgenti, umore. |
 | P | Pausa (il tasto del gioco); la mod dice l'ora e il denaro. 1, 2, 3 impostano la velocità. |
 
 La telecamera segue il Sim selezionato, perché i suoni del gioco provengono da ciò che è sullo schermo. Mentre scorri gli oggetti del lotto, la telecamera va su ognuno e poi torna al Sim.
+
+Lo zoom e la direzione della telecamera vengono detti quando cambiano (più e meno per lo zoom, virgola e punto ruotano la vista), e sono anche nella riga di stato: "telecamera: vista media, rivolta a nord-ovest". La direzione è ciò che mostra la parte alta dello schermo. Il nord del mod non ruota con la telecamera.
 
 ### Gli oggetti del lotto
 
@@ -116,8 +120,12 @@ Non serve andarci con Tab: i tasti Pagina scorrono gli oggetti da qualsiasi punt
 | Control+Pagina giù, Control+Pagina su | Stanza successiva o precedente (alla prima pressione: la stanza del Sim selezionato). |
 | Invio | Le interazioni dell'oggetto (in Compra: lo prende per spostarlo). |
 | Control+Invio | Manda il Sim selezionato fino all'oggetto. |
+| Control+F | Cerca qualcosa: scrivi parte del nome ("tel" trova il telefono, gli accenti non contano). Freccia su e giù scorrono i risultati, Invio agisce, Control+Invio manda lì il Sim, Canc rimuove una porta o finestra, Esc torna dov'eri. |
+| Canc | Su una porta o finestra, in modalità acquisto o costruzione: la rimuove e la rimborsa. |
 
 Un Sim o un oggetto che mostra ancora un fumetto lo dice anche ("Bella, Mangia, pensa: mangiare").
+
+Dopo i Sim viene **problemi**: ciò che richiede attenzione, come oggetti rotti, cose da pulire, pozzanghere, rifiuti, cenere, fuoco e tutto ciò che ha mosche. Per ultimo viene **porte, finestre e scale**.
 
 ### I menu delle interazioni
 
@@ -159,6 +167,8 @@ Il gioco mostra molte cose solo come immagini. La mod le dice quando succedono e
 **Control+N** cambia quanto viene detto: tutto, solo avvisi, o niente. Le righe non dette finiscono comunque nel buffer degli eventi.
 
 I suoni che senti (il telefono, il campanello, gli allarmi) non vengono annunciati.
+
+Le azioni con un altro Sim lo nominano, chiunque le abbia iniziate: "Homer: Saluta, con Elvira".
 
 ### Consigli e tutorial
 
@@ -206,6 +216,8 @@ In Compra, vai con Pagina giù su un oggetto del lotto e premi Invio: viene pres
 
 F3 apre Costruisci. I suoi strumenti sono schede, i loro stili prodotti. La panoramica della casa viene letta quando entri in Costruisci (Control+Maiusc+L la ripete).
 
+Premere uno strumento porta ai suoi modelli, in un gruppo a parte con il nome dello strumento; Tab torna agli strumenti. Non hai nulla in mano finché non premi Invio su un modello.
+
 ### Il cursore di costruzione
 
 Invio su uno stile di muro o di recinto avvia il cursore di costruzione sul Sim selezionato. Si muove sugli angoli tra le caselle.
@@ -236,9 +248,17 @@ Ognuno di questi strumenti ha lo stesso cursore sulle caselle (frecce, Maiusc pe
 - **Piscine**: Spazio segna un angolo, Invio scava; la mod avvisa prima che l'acqua isoli qualcosa. Control+Invio riempie di nuovo le caselle. I Sim hanno bisogno di una scaletta per piscina (nell'elenco dello strumento).
 - **Terreno**: livella da una casella segnata fino al cursore, oppure alza e abbassa il terreno.
 
+**Erba** usa lo stesso cursore: Invio dipinge la casella sotto.
+
 ### Porte, finestre e scale
 
 Porte e finestre si posizionano come i mobili, da un elenco di posizioni: "nel muro ovest di cucina, dà su esterno, la prima porta di quella stanza".
+
+Con le frecce, una porta o finestra dice in quale muro andrebbe; ruotarla sceglie il muro. Dopo aver collocato una porta il mod dice se i Sim possono passarci, o cosa la blocca. Per cambiarla in seguito, trovala in **porte, finestre e scale** o con Control+F: Invio la prende per spostarla, Canc la rimuove (il Control+clic del gioco).
+
+### Il tetto
+
+Il gioco costruisce il tetto da solo sopra i muri: non c'è cursore né nulla da collocare. Lo strumento Tetto sceglie solo pendenza e modello, per tutta la casa. I modelli non hanno nome nel gioco: il mod dice il colore.
 
 ## Segnali sonori
 

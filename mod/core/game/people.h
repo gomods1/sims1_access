@@ -28,8 +28,14 @@ struct SimAction {
     std::string name;
     bool running = false;
     bool byPlayer = false;  // queued by the player (not the Sim's free will)
+    std::string target;     // the other Sim it is done with ("Saludar" Elvira), else empty
+    std::string Spoken() const;  // "Saludar, con Elvira"
 };
 std::vector<SimAction> SimActionList(int neighborId);
+
+// A Sim's job hours as the game's job popup gives them: false when unemployed.
+bool JobHours(int neighborId, int* startHour, int* endHour);
+std::string HourText(int hour);  // in the game's own format
 
 // A Sim's needs, -100 (empty) .. 100 (full), by motive number (Behavior.iff STR# 134).
 enum class Need { Energy = 5, Comfort = 6, Hunger = 7, Hygiene = 8, Bladder = 9, Room = 13, Social = 14, Fun = 15 };

@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "../game/house.h"
+#include "../game/buy.h"
 #include "../game/lot.h"
 #include "../game/lotgrid.h"
 #include "../game/neighborhood.h"
@@ -29,6 +30,8 @@ namespace nav::house {
 namespace {
 
 bool g_buildShown = false;  // the build panel was up at the last tick
+ULONGLONG g_buildSeenAt = 0;
+constexpr ULONGLONG kBuildAwayMs = 2000;
 game::Ptr g_lot = 0;
 
 std::string Join(const std::vector<std::string>& items) {
@@ -188,8 +191,18 @@ void Tick() {
         g_buildShown = false;
     }
     bool shown = lot && game::IsKindOf(root, "cDDDSimsView") && game::BuildPanelShown(root);
-    if (shown && !g_buildShown) SayOverview();
-    g_buildShown = shown;
+    // The panel also hides for a moment while a door is moved or a dialog is up: only a real
+    // absence makes coming back an entrance worth the overview.
+    ULONGLONG now = GetTickCount64();
+    if (shown) {
+        if (!g_buildShown) SayOverview();
+        g_buildShown = true;
+        g_buildSeenAt = now;
+    } else if (game::IsPlacing()) {  // something in hand: the panel is only out of the way
+        g_buildSeenAt = now;
+    } else if (now - g_buildSeenAt > kBuildAwayMs) {
+        g_buildShown = false;
+    }
 }
 
 void SayOverview() {

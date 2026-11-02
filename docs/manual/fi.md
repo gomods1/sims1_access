@@ -124,6 +124,8 @@ Tontilla HUD on ryhmien kehä kuten mikä tahansa näkymä. Sarkain käy ne läp
 
 Pelin paneelin kohteessa (tarve, taito, työ, talon arvio) Enter lukee pelin ponnahdusikkunan.
 
+Työ kertoo työajat ja milloin kimppakyyti tulee. Pelin valikoissa ei ole vaihtoehtoa irtisanoutua: toistuvasti töistä poissa oleva simi saa potkut, ja sanomalehti ja tietokone tarjoavat muita töitä.
+
 ### Simien valinta ja kamera
 
 | Näppäin | Mitä se tekee |
@@ -131,12 +133,14 @@ Pelin paneelin kohteessa (tarve, taito, työ, talon arvio) Enter lukee pelin pon
 | Välilyönti | Pelin "seuraava simi": seuraava perheenjäsen valitaan ja ilmoitetaan ("Isabel, valittu, Syö"). |
 | Control+1–Control+9 | Valitse perheen ensimmäinen–yhdeksäs simi. |
 | Control+Vaihto+1–Control+Vaihto+9 | Avaa sen simin kortti (taustatarina). |
-| Control+F | Kamera seuraa valittua simiä tai on vapaa. |
+| Control+Vaihto+F | Kamera seuraa valittua simiä tai on vapaa. |
 | Control+E | Valittu simi yhdellä rivillä: huone, mitä se tekee, kiireelliset tarpeet, mieliala. |
 | P | Tauko (pelin näppäin); modi kertoo ajan ja rahat. 1, 2, 3 asettavat nopeuden. |
 
 Kamera seuraa valittua simiä, koska pelin äänet tulevat siitä, mitä näytöllä on. Kun selaat
 tontin esineitä, kamera siirtyy kunkin luo ja palaa sen jälkeen simin luo.
+
+Zoom ja kameran suunta sanotaan, kun ne muuttuvat (plus ja miinus zoomaavat, pilkku ja piste kääntävät näkymää), ja ne ovat myös tilarivillä: "kamera: keskinäkymä, luoteissuuntaan". Suunta on se, mitä näytön yläreuna näyttää. Modin pohjoinen ei käänny kameran mukana.
 
 ### Tontin esineet
 
@@ -157,8 +161,12 @@ tontilla, Pelaa-, Osta- ja Rakenna-tilassa.
 | Control+Page Down, Control+Page Up | Seuraava tai edellinen huone (ensimmäinen painallus: valitun simin huone). |
 | Enter | Esineen toiminnot (Osta-tilassa: nosta se siirrettäväksi). |
 | Control+Enter | Lähetä valittu simi esineen luo. |
+| Control+F | Etsi jotakin: kirjoita osa nimestä ("pu" löytää puhelimen, aksenteilla ei ole väliä). Nuoli ylös ja alas selaavat tuloksia, Enter toimii sen kanssa, Control+Enter lähettää simin sinne, Delete poistaa oven tai ikkunan, Escape palaa siihen, missä olit. |
+| Delete | Ovessa tai ikkunassa, osto- tai rakennustilassa: poistaa sen ja palauttaa rahat. |
 
 Simi tai esine, jonka yllä on yhä puhekupla, sanoo senkin ("Bella, Syö, ajattelee: nälkä").
+
+Simien jälkeen tulee **ongelmat**: huomiota vaativat asiat, kuten rikkinäiset esineet, siivousta kaipaavat, lätäköt, roskat, tuhka, tuli ja kaikki, joiden yllä on kärpäsiä. Viimeisenä tulee **ovet, ikkunat ja portaat**.
 
 ### Toimintovalikot
 
@@ -213,6 +221,8 @@ tapahtumat-puskuriin:
 jääneet rivit menevät silti tapahtumat-puskuriin.
 
 Ääniä, jotka voit kuulla (puhelin, ovikello, hälytykset), ei ilmoiteta.
+
+Toisen simin kanssa tehdyt toiminnot nimeävät hänet, aloitti ne kuka tahansa: "Homer: Tervehdi, kanssa: Elvira".
 
 ### Ohjevinkit ja harjoituspeli
 
@@ -276,6 +286,8 @@ luettelo tulee esiin. Samanlaiset esineet luetellaan yksi kerrallaan, ja viimeis
 F3 avaa Rakenna-tilan. Sen työkalut ovat välilehtiä ja niiden tyylit tuotteita. Talon
 yleiskatsaus luetaan, kun siirryt Rakenna-tilaan (Control+Vaihto+L toistaa sen).
 
+Työkalun painaminen vie sen malleihin, omaan ryhmäänsä työkalun nimellä; Tab palaa työkaluihin. Kädessäsi ei ole mitään, ennen kuin painat Enteriä mallin kohdalla.
+
 ### Rakennuskohdistin
 
 Enter seinä- tai aitatyylin kohdalla käynnistää rakennuskohdistimen valitun simin kohdalta. Se
@@ -314,10 +326,18 @@ R, Escape; Control+F1 kertoo yksityiskohdat):
   työkalun listassa).
 - **Maasto**: tasoita merkitystä ruudusta kohdistimeen tai nosta ja laske maata.
 
+**Ruoho** käyttää samaa kohdistinta: Enter maalaa sen alla olevan ruudun.
+
 ### Ovet, ikkunat ja portaat
 
 Ovet ja ikkunat sijoitetaan kuten huonekalut, paikkojen luettelosta: "keittiö: länsiseinässä,
 johtaa tilaan ulkona, huoneen ensimmäinen ovi".
+
+Nuolilla ovi tai ikkuna kertoo, mihin seinään se tulisi; kääntäminen valitsee seinän. Kun ovi on sijoitettu, modi kertoo, pääsevätkö simit siitä läpi tai mikä on tiellä. Muuttaaksesi sitä myöhemmin etsi se kohdasta **ovet, ikkunat ja portaat** tai painamalla Control+F: Enter nostaa sen siirrettäväksi, Delete poistaa sen (pelin Control+napsautus).
+
+### Katto
+
+Peli rakentaa katon itse seinien päälle, joten kohdistinta ei ole eikä mitään sijoitettavaa. Kattotyökalu valitsee vain kaltevuuden ja mallin koko talolle. Malleilla ei ole pelissä nimiä: modi kertoo niiden värin.
 
 ## Äänivihjeet
 

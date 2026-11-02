@@ -125,6 +125,16 @@ short WINAPI GetKeyStateDetour(int vk) {
     return g_getKeyState(vk);
 }
 
+// ---- The door or window under the pointer ----------------------------------------------------
+typedef short(__cdecl* PickPortalFn)(uint32_t* packedScreen, int level, int kind);
+PickPortalFn g_pickPortal = nullptr;
+int g_forcedPortal = -1;
+
+short __cdecl PickPortalDetour(uint32_t* packedScreen, int level, int kind) {
+    if (g_forcedPortal >= 0) return (short)g_forcedPortal;
+    return g_pickPortal(packedScreen, level, kind);
+}
+
 // ---- Build tools' error message ------------------------------------------------------------
 typedef void(__cdecl* BuildErrorFn)(int code, int arg);
 BuildErrorFn g_buildError = nullptr;
@@ -184,6 +194,7 @@ void InitHooks(bool blockCursorWarp) {
     Install(addr::simantics::kDispatch, (void*)&DispatchDetour, (void**)&g_dispatch, "cXObject::DoPrimitive");
     Install(addr::kBuildError, (void*)&BuildErrorDetour, (void**)&g_buildError, "ShowBuildError");
     Install(addr::kPlaySoundEvent, (void*)&PlaySoundEventDetour, (void**)&g_playSoundEvent, "SoundManager::PlayEvent");
+    Install(addr::movetool::kPickPortal, (void*)&PickPortalDetour, (void**)&g_pickPortal, "PickPortal");
     MH_STATUS gs = MH_CreateHookApi(L"user32", "GetKeyState", (void*)&GetKeyStateDetour, (void**)&g_getKeyState);
     Log("hook GetKeyState: %s", MH_StatusToString(gs));
     MH_STATUS ks = MH_CreateHookApi(L"user32", "GetAsyncKeyState", (void*)&GetAsyncKeyStateDetour, (void**)&g_getAsyncKeyState);
@@ -216,6 +227,8 @@ void ForceModifiers(bool shift, bool ctrl) {
 }
 
 void ClearForcedModifiers() { g_forceModifiers = false; }
+
+void ForcePortalPick(int id) { g_forcedPortal = g_pickPortal ? id : -1; }
 
 bool HooksBusy() { return g_hookDepth > 0; }
 

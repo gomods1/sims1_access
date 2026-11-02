@@ -119,6 +119,7 @@ int TerrainToolKind() {
     Ptr tool = Rd<Ptr>(Va(addr::kCurrentTool));
     if (IsKindOf(tool, "cLevelDirtTool")) return 1;
     if (IsKindOf(tool, "cSimpleAltTool")) return 2;
+    if (IsKindOf(tool, "cGrassTool")) return 3;
     return 0;
 }
 
@@ -145,13 +146,14 @@ int LevelTerrain(Corner from, Corner to, int* cost) {
 
 int PressTerrain(Corner at) {
     Ptr tool = Rd<Ptr>(Va(addr::kCurrentTool));
-    if (!IsKindOf(tool, "cSimpleAltTool")) return -1;
+    bool grass = IsKindOf(tool, "cGrassTool");
+    if (!grass && !IsKindOf(tool, "cSimpleAltTool")) return -1;
     int vx, vy;
     TileToView(at, &vx, &vy);
     g_lastError = 0;
     g_lastCost = 0;
-    bool ok = CallMouse(tool, addr::terraintool::kDownSlot, addr::terraintool::kAltDown, "cSimpleAltTool::MouseDown", vx, vy) &&
-              CallMouse(tool, addr::terraintool::kUpSlot, addr::terraintool::kAltUp, "cSimpleAltTool::MouseUp", vx, vy);
+    bool ok = CallMouse(tool, addr::terraintool::kDownSlot, grass ? addr::terraintool::kGrassDown : addr::terraintool::kAltDown, "terrain tool down", vx, vy) &&
+              CallMouse(tool, addr::terraintool::kUpSlot, grass ? addr::terraintool::kGrassUp : addr::terraintool::kAltUp, "terrain tool up", vx, vy);
     Log("build: terrain press %d,%d: %s, error %d", at.x, at.y, ok ? "done" : "failed", g_lastError);
     if (!ok) return -1;
     return g_lastError;

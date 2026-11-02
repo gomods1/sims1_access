@@ -90,6 +90,8 @@ På en tomt er kontrollpanelet en ring av grupper som enhver skjerm. Tab går gj
 
 På et element i et panel i Levende modus (et behov, en ferdighet, en jobb, en vurdering av huset) leser Enter opp spillets hurtigvindu for det.
 
+Jobben sier arbeidstiden og når samkjøringen kommer. Spillets menyer har ikke noe valg for å si opp: en sim som stadig uteblir fra jobben får sparken, og avisen og datamaskinen tilbyr andre jobber.
+
 ### Velge simmer og kameraet
 
 | Tast | Hva den gjør |
@@ -97,11 +99,13 @@ På et element i et panel i Levende modus (et behov, en ferdighet, en jobb, en v
 | Mellomrom | Spillets "neste sim": neste familiemedlem velges og sies ("Isabel, valgt, Spis"). |
 | Kontroll+1 til Kontroll+9 | Velger familiens første til niende sim. |
 | Kontroll+Skift+1 til Kontroll+Skift+9 | Åpner kortet til den simmen (biografi). |
-| Kontroll+F | Kameraet følger den valgte simmen, eller er fritt. |
+| Kontroll+Skift+F | Kameraet følger den valgte simmen, eller er fritt. |
 | Kontroll+E | Den valgte simmen på én linje: rom, hva den gjør, akutte behov, humør. |
 | P | Pause (spillets tast); modden sier klokkeslett og midler. 1, 2, 3 stiller inn hastigheten. |
 
 Kameraet følger den valgte simmen, fordi spillets lyder kommer fra det som er på skjermen. Mens du blar gjennom tomtens objekter, går kameraet til hvert objekt og kommer tilbake til simmen etterpå.
+
+Zoom og kameraets retning sies når de endres (pluss og minus zoomer, komma og punktum snur visningen), og de står også i statuslinjen: "kamera: middels visning, vendt mot nordvest". Retningen er det toppen av skjermen viser. Modens nord snur seg ikke med kameraet.
 
 ### Tomtens objekter
 
@@ -116,8 +120,12 @@ Du trenger ikke å tabbe dit: Side-tastene blar gjennom objektene fra hvor som h
 | Kontroll+Side ned, Kontroll+Side opp | Neste eller forrige rom (første trykk: rommet til den valgte simmen). |
 | Enter | Objektets handlinger (i Kjøpemodus: plukker det opp for å flytte det). |
 | Kontroll+Enter | Sender den valgte simmen til objektet. |
+| Kontroll+F | Finn noe: skriv en del av navnet ("tel" finner telefonen, aksenter spiller ingen rolle). Pil opp og ned går gjennom treffene, Enter handler på det, Kontroll+Enter sender simmen dit, Delete fjerner en dør eller et vindu, Escape går tilbake dit du var. |
+| Delete | På en dør eller et vindu, i kjøps- eller byggmodus: fjerner det og gir pengene tilbake. |
 
 En sim eller et objekt som fortsatt viser en boble, sier den også ("Bella, Spis, tenker: sult").
+
+Etter simmene kommer **problemer**: det som trenger oppmerksomhet, som ødelagte ting, det som må rengjøres, vannpytter, søppel, aske, ild og alt med fluer over. Til slutt kommer **dører, vinduer og trapper**.
 
 ### Handlingsmenyer
 
@@ -159,6 +167,8 @@ Spillet viser mange ting bare som bilder. Modden sier dem mens de skjer og lagre
 **Kontroll+N** endrer hvor mye som sies: alt, bare advarsler eller av. Linjer som ikke sies, havner likevel i hendelsesbufferen.
 
 Lyder du kan høre (telefonen, dørklokken, alarmer), blir ikke meldt.
+
+Handlinger med en annen sim nevner den simmen, uansett hvem som startet dem: "Homer: Hils, med Elvira".
 
 ### Hjelpetips og opplæringen
 
@@ -206,6 +216,8 @@ I Kjøpemodus går du med Side ned til et objekt på tomten og trykker Enter: de
 
 F3 åpner Byggmodus. Verktøyene er faner, stilene deres er produkter. Husoversikten leses opp når du går inn i Byggmodus (Kontroll+Skift+L gjentar den).
 
+Når du trykker på et verktøy, kommer du til modellene, i en egen gruppe med verktøyets navn; Tab går tilbake til verktøyene. Du har ingenting i hånden før du trykker Enter på en modell.
+
 ### Byggmarkøren
 
 Enter på en stil av vegg eller gjerde starter byggmarkøren ved den valgte simmen. Den beveger seg på hjørnene mellom rutene.
@@ -236,9 +248,17 @@ Hvert av disse verktøyene har den samme markøren på ruter (piltastene, Skift 
 - **Svømmebassenger**: Mellomrom merker et hjørne, Enter graver; modden advarer før vann skjærer av noe. Kontroll+Enter fyller igjen ruter. Simmene trenger en bassengstige (i verktøyets liste).
 - **Terreng**: jevner ut fra en merket rute til markøren, eller hever og senker bakken.
 
+**Gress** bruker samme markør: Enter maler ruten under den.
+
 ### Dører, vinduer og trapper
 
 Dører og vinduer plasseres som møbler, fra en liste over steder: "i veggen mot vest i kjøkken, fører ut til utenfor, rommets første dør".
+
+Med pilene sier en dør eller et vindu hvilken vegg det ville komme i; å snu det velger veggen. Når en dør er plassert, sier moden om simmene kan gå gjennom, eller hva som er i veien. For å endre den senere: finn den under **dører, vinduer og trapper** eller med Kontroll+F. Enter tar den opp for å flytte den, Delete fjerner den (spillets Kontroll+klikk).
+
+### Taket
+
+Spillet bygger taket selv over veggene dine, så det er ingen markør og ingenting å plassere. Takverktøyet velger bare helning og modell, for hele huset. Modellene har ingen navn i spillet: moden sier fargen deres.
 
 ## Lydsignaler
 

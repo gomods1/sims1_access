@@ -16,3 +16,6 @@ __pycache__/
 
 # Game screenshots
 shots/
+
+# Save backups (tools/reset_saves.py): personal data, 1.4 GB
+sims-backups/

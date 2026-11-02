@@ -2,18 +2,22 @@
 // from what is on screen). The camera follows the selected Sim (the game's own follow mode)
 // unless the player is browsing: then it points at whatever PageUp/PageDown speak (an object,
 // a Sim, a placement spot), and follows the Sim again once the browser is left (arrows, Tab).
-//   Ctrl+F      follow the selected Sim on/off ("siguiendo a Cris" / "cámara libre")
+//   Ctrl+Shift+F  follow the selected Sim on/off ("siguiendo a Cris" / "cámara libre")
 //   Ctrl+1..9   select the n-th Sim of the family (its portrait, as a click does) and say it
 #pragma once
+
+#include <string>
 
 #include "../game/memory.h"
 
 namespace nav::camera {
 
 void Reset();
+// "vista media, mirando al noroeste": the status line's item, and what is said when either changes.
+std::string ViewLine();
 void Tick();                  // keeps the follow target in step with the selected Sim
 void LookAt(game::Ptr object); // browsing: point the camera at this object now
-void ToggleFollow();          // Ctrl+F
+void ToggleFollow();          // Ctrl+Shift+F
 void SelectSim(int index, bool card = false);  // Ctrl+1..9: index 0-based; Ctrl+Shift: the Sim's card
 
 }  // namespace nav::camera

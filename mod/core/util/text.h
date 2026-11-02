@@ -6,6 +6,9 @@
 
 namespace util {
 
+// For searching: lowercase, accents gone ("Teléfono" and "telefono" alike).
+std::string FoldForSearch(const std::string& utf8);
+
 // Game text to UTF-8, and back (the cheat console's input).
 std::string GameTextToUtf8(const std::string& s);
 std::string Utf8ToGameText(const std::string& utf8);

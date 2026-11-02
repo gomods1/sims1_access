@@ -43,4 +43,8 @@ short RealGetAsyncKeyState(int vk);  // the key state without that suppression
 void ForceModifiers(bool shift, bool ctrl);
 void ClearForcedModifiers();
 
+// While set (id >= 0), the game's "door or window under the pointer" answers this object: the mod
+// removes one it has by id, wherever the camera is.
+void ForcePortalPick(int id);
+
 }  // namespace game

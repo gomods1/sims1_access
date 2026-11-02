@@ -35,6 +35,8 @@ for moving.
 | Shift+PageDown / Shift+PageUp | next / previous kind of things, on its nearest thing |
 | Ctrl+PageDown / Ctrl+PageUp | next / previous room (the first press: the selected Sim's), on its nearest thing |
 | Ctrl+Enter | walk the selected Sim to the thing last focused |
+| Ctrl+F (lot view, every mode) | find a thing by typing part of its name: the matches are a list of "things by kind", best first; Up / Down (Page keys, Home / End) go through them, Enter acts, Ctrl+Enter walks, Delete removes a door or window, Tab leaves with the list kept, Escape goes back to where the focus was |
+| Delete (buy and build mode) | on a door or window of the lot's things: removes it |
 | R | the item again, with its group |
 | Escape | close the interaction menu; otherwise the game's |
 | Ctrl+Up / Ctrl+Down, Ctrl+Left / Ctrl+Right | the review buffers (details, events) |
@@ -49,6 +51,14 @@ for moving.
   from where the Page keys left the focus. A focused slider or value picker keeps PageUp/PageDown
   for its value. Any later list of things on the lot follows this: Page for the items, a modifier
   for the filter.
+- **Find owns the keyboard while it is on** (the user's request, 2026-11-02): what types goes to the
+  search, so letters reach neither the game's hotkeys nor R. Its results are ordinary items of the
+  kinds group, so everything after it (Page keys, Backspace, Tab) goes on as usual.
+- **Build mode's tools and styles are two groups** (`kBuildStylesGroup`, 2026-11-02): by position
+  they were mixed, and a page turn moved the tabs around the styles. Pressing a tool's tab moves
+  focus to its styles and puts away the object the game brings back with it (`buy::HoldOff`);
+  otherwise the arrows would start moving that object with the styles out of reach. Only Enter on
+  a style picks one up.
 - When the focused thing goes away, focus stays in its group; after an interaction menu the focus
   is back where it was (the screen's remembered focus).
 
