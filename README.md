@@ -6,8 +6,10 @@ a blind player needs (the lot's things, a house map, a narrator, furniture spots
 
 ## For players
 
-- Install with the offline installer, or copy `version.dll` and the `SimsAccess` folder into the
-  game's folder (the one with `Sims.exe`).
+- Download `SimsAccessibilityInstaller.exe` from the
+  [latest release](https://github.com/gomods1/sims1_access/releases/latest) and run it: it finds
+  the game through Steam and installs, updates or uninstalls the mod. Or unzip
+  `SimsAccess-vX.Y.Z.zip` into the game's folder (the one with `Sims.exe`).
 - In the game: **Control+F1** says the keys of the screen you are on, **Control+Shift+F1** opens
   the manual in your browser, in the game's language. Every screen also ends with a "mod help"
   group holding both.
@@ -19,7 +21,8 @@ a blind player needs (the lot's things, a house map, a narrator, furniture spots
 - `CLAUDE.md`: how the mod is built, what is known about the game, the working rules.
 - `NAVIGATION.md`: the one key grammar every screen follows.
 - `mod\build.bat [deploy]` builds the mod and the manual (pandoc); `python tools/package.py
-  vX.Y.Z` makes a release.
+  vX.Y.Z` packages it locally (with an offline installer). Pushing a `vX.Y.Z` tag builds and
+  publishes a release on GitHub (`.github/workflows/release.yml`).
 - **Keys and docs change together**: a change to a key or a feature edits, in the same change, the
   code, the `Keys*` strings Control+F1 speaks (`mod/core/util/strings_table.h` and every
   `mod/core/lang/*.cpp`), and the manual in every language (`docs/manual/*.md`).

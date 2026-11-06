@@ -1,0 +1,78 @@
+# Builds the mod on GitHub and publishes a release when a version tag is pushed:
+#   git tag v1.2.0 && git push origin v1.2.0
+# Run it by hand (Actions > Release > Run workflow) to build and check without releasing: the
+# zip comes back as a workflow artifact, packaged as v0.0.0.
+# The release carries SimsAccess-<tag>.zip (laid out like the game folder; the online installer
+# downloads it), SimsAccess-<tag>.map (the core's map for crash offsets) and
+# installer/SimsAccessibilityInstaller.exe, built from the shared installer project
+# (..\installer, build_installer.bat) and committed here. The installer always fetches the latest
+# release, so it only needs recommitting when the installer itself changes.
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  PRISM_VERSION: v0.18.3
+  TAG: ${{ startsWith(github.ref, 'refs/tags/v') && github.ref_name || 'v0.0.0' }}
+
+jobs:
+  release:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          submodules: true # mod/third_party/minhook
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+
+      - name: Install pandoc (the manual)
+        shell: pwsh
+        run: |
+          choco install pandoc -y --no-progress
+          "C:\Program Files\Pandoc" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+
+      - name: Download Prism (speech)
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release download $env:PRISM_VERSION --repo ethindp/prism --pattern prism-windows-x64.zip --dir $env:RUNNER_TEMP
+          $prism = Join-Path $env:RUNNER_TEMP prism-windows-x64
+          Expand-Archive (Join-Path $env:RUNNER_TEMP prism-windows-x64.zip) -DestinationPath $prism
+          "PRISM=$prism" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+
+      - name: Check that the installer is committed
+        shell: bash
+        run: test -f installer/SimsAccessibilityInstaller.exe
+
+      - name: Build and package (checks the manual's translations first)
+        shell: pwsh
+        run: python tools/package.py $env:TAG --no-installer
+
+      - name: Keep the build (manual runs)
+        if: github.event_name == 'workflow_dispatch'
+        uses: actions/upload-artifact@v4
+        with:
+          name: SimsAccess-build
+          path: |
+            mod/out/SimsAccess-${{ env.TAG }}.zip
+            mod/out/SimsAccess-${{ env.TAG }}.map
+
+      - name: Create GitHub Release
+        if: github.event_name == 'push'
+        uses: softprops/action-gh-release@v3
+        with:
+          files: |
+            mod/out/SimsAccess-${{ github.ref_name }}.zip
+            mod/out/SimsAccess-${{ github.ref_name }}.map
+            installer/SimsAccessibilityInstaller.exe
+          generate_release_notes: true

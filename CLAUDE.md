@@ -75,11 +75,16 @@ inventory: `SCREENS.md`. Verified targets: `PATCH_TARGETS.md`; layouts: `STRUCTS
   changes. `python tools/build_docs.py --check` compares each translation with en.md (headings,
   table rows, list items, the key combinations of each table row: an ASCII "+" joins keys in
   every language); `package.py` refuses a release when it fails.
-- **Release** (offline only, the repo is private): `python tools/package.py vX.Y.Z` builds, writes
-  `mod\out\SimsAccess-vX.Y.Z.zip` (+ `.map` for crash offsets) and the shared installer
-  `..\installer\SimsAccessibilityInstaller-vX.Y.Z-offline.exe` (game entry 5 in
-  `..\installer\src\games.rs`): it finds the game through Steam or lets the player browse, and
-  installs/uninstalls `version.dll` + `SimsAccess\` (never `dev.txt`).
+- **Release** (the repo is public on GitHub since 2026-11-06): pushing a tag (`git tag vX.Y.Z &&
+  git push origin vX.Y.Z`) runs `.github/workflows/release.yml`, which builds on a Windows runner
+  (Prism downloaded from its release, `PRISM_VERSION`; `build.bat` finds MSVC through vswhere) and
+  publishes `SimsAccess-vX.Y.Z.zip`, its `.map` and the committed online installer
+  `installer/SimsAccessibilityInstaller.exe` (shared project `..\installer`, game entry 5 in
+  `src\games.rs`, `src/bin/sims.rs`; it downloads the latest release's zip, so recommit it only
+  when the installer changes). Actions > Release > Run workflow builds without releasing.
+  Locally, `python tools/package.py vX.Y.Z` builds the same zip and the offline installer
+  `..\installer\SimsAccessibilityInstaller-vX.Y.Z-offline.exe`. Both find the game through Steam
+  or let the player browse, and install/uninstall `version.dll` + `SimsAccess\` (never `dev.txt`).
 - **Dev loop**: with `SimsAccess\dev.txt` present, the loader hot-reloads `SimsAccess.dll` within a
   second of a rebuild (no game restart; Ctrl+Alt+F12 forces it) and verbose logging is on. With
   `SimsAccess\force_active.txt` the core keeps the game's app-active flag set, so the game takes

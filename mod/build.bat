@@ -12,10 +12,12 @@ rem   (version.dll and SpeechHost.exe while the game runs) are skipped with a no
 setlocal
 set ROOT=%~dp0
 set OUT=%ROOT%out
-set PRISM=C:\Users\Nitropc\code\libs\prism\prism-windows-x64
+rem PRISM, VCVARS and GAME may come from the environment (the release workflow sets PRISM).
+if not defined PRISM set PRISM=C:\Users\Nitropc\code\libs\prism\prism-windows-x64
 set MH=%ROOT%third_party\minhook
-set VCVARS="C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvarsall.bat"
-set GAME=S:\steam\steamapps\common\The Sims Legacy Collection
+if not defined VCVARS set VCVARS="C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvarsall.bat"
+if not exist %VCVARS% for /f "usebackq delims=" %%v in (`"%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -find VC\Auxiliary\Build\vcvarsall.bat`) do set VCVARS="%%v"
+if not defined GAME set GAME=S:\steam\steamapps\common\The Sims Legacy Collection
 set CXXFLAGS=/nologo /std:c++17 /O2 /W3 /MT /utf-8 /DNOMINMAX /DWIN32_LEAN_AND_MEAN
 for %%d in ("%OUT%" "%OUT%\obj64" "%OUT%\obj32" "%OUT%\objmh") do if not exist %%d mkdir %%d
 
