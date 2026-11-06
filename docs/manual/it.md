@@ -90,7 +90,7 @@ In un lotto l'interfaccia è un anello di gruppi come qualsiasi schermata. Tab l
 
 Su un elemento di un pannello di Vivi (un bisogno, un'abilità, un lavoro, una valutazione della casa), Invio legge il riquadro informativo del gioco.
 
-Il lavoro dice gli orari e quando passa l'auto. I menu del gioco non hanno un'opzione per lasciare il lavoro: un Sim che salta il lavoro di continuo viene licenziato, e il giornale e il computer offrono altri lavori.
+Il lavoro dice gli orari e quando passa l'auto. Ogni abilità dice il suo livello e, quando una promozione ne richiede di più, quanto: "Cucina, 2 su 10, la prossima promozione richiede 4". I menu del gioco non hanno un'opzione per lasciare il lavoro: un Sim che salta il lavoro di continuo viene licenziato, e il giornale e il computer offrono altri lavori.
 
 ### Selezionare i Sim e la telecamera
 
@@ -101,6 +101,8 @@ Il lavoro dice gli orari e quando passa l'auto. I menu del gioco non hanno un'op
 | Da Control+Maiusc+1 a Control+Maiusc+9 | Apre la scheda di quel Sim (biografia). |
 | Control+Maiusc+F | La telecamera segue il Sim selezionato, o resta libera. |
 | Control+E | Il Sim selezionato in una frase: stanza, cosa sta facendo, bisogni urgenti, umore. |
+| Control+Maiusc+E | Che aspetto ha un Sim: la testa e il corpo ("testa: capelli neri, corti; corpo: completo, nero"). Il Sim su cui si trova il focus tra gli oggetti del lotto, altrimenti quello selezionato. Anche i dettagli di un Sim (Control+Freccia su su di lui) lo dicono. |
+| Control+T | Dice ogni nuova ora dell'orologio ("sono le 14:00"), o smette di dirla. Utile alla velocità massima. |
 | P | Pausa (il tasto del gioco); la mod dice l'ora e il denaro. 1, 2, 3 impostano la velocità. |
 
 La telecamera segue il Sim selezionato, perché i suoni del gioco provengono da ciò che è sullo schermo. Mentre scorri gli oggetti del lotto, la telecamera va su ognuno e poi torna al Sim.
@@ -118,12 +120,12 @@ Non serve andarci con Tab: i tasti Pagina scorrono gli oggetti da qualsiasi punt
 | Pagina giù, Pagina su | Oggetto successivo o precedente del tipo o della stanza scelti per ultimi. |
 | Maiusc+Pagina giù, Maiusc+Pagina su | Tipo di oggetti successivo o precedente. |
 | Control+Pagina giù, Control+Pagina su | Stanza successiva o precedente (alla prima pressione: la stanza del Sim selezionato). |
-| Invio | Le interazioni dell'oggetto (in Compra: lo prende per spostarlo). |
+| Invio | Le interazioni dell'oggetto (in Compra: lo prende per spostarlo). Su una voce di cose uguali ("Sedia pieghevole, 4 uguali"): le elenca una per una, prima la più vicina; Backspace torna indietro. |
 | Control+Invio | Manda il Sim selezionato fino all'oggetto. |
 | Control+F | Cerca qualcosa: scrivi parte del nome ("tel" trova il telefono, gli accenti non contano). Freccia su e giù scorrono i risultati, Invio agisce, Control+Invio manda lì il Sim, Canc rimuove una porta o finestra, Esc torna dov'eri. |
 | Canc | Su una porta o finestra, in modalità acquisto o costruzione: la rimuove e la rimborsa. |
 
-Un Sim o un oggetto che mostra ancora un fumetto lo dice anche ("Bella, Mangia, pensa: mangiare").
+Un Sim o un oggetto che mostra ancora un fumetto lo dice anche ("Bella, Mangia, pensa: mangiare"). Ciò che nessun Sim può raggiungere dall'ingresso del lotto dice "nessun Sim può raggiungerlo".
 
 Dopo i Sim viene **problemi**: ciò che richiede attenzione, come oggetti rotti, cose da pulire, pozzanghere, rifiuti, cenere, fuoco e tutto ciò che ha mosche. Per ultimo viene **porte, finestre e scale**.
 
@@ -144,10 +146,12 @@ Invio su un oggetto (o su un Sim) apre il menu delle interazioni del gioco. Frec
 
 | Tasto | Cosa fa |
 |---|---|
-| Frecce | Una casella; con Maiusc, cinque. Dice cosa c'è e verso dove è rivolto, la stanza e il piano quando cambiano, i muri, recinti, ringhiere, porte e finestre su ogni lato. |
+| Frecce | Una casella; con Maiusc, cinque. Dice cosa c'è e verso dove è rivolto, la stanza e il piano quando cambiano, i muri, recinti, ringhiere, porte e finestre su ogni lato. Muri, recinti e finestre fermano il cursore; le porte lo lasciano passare. |
+| Alt+Frecce | Lo stesso, attraverso i muri. |
+| Virgola, punto | Cosa dice ogni passo: tutto, solo oggetti, solo pavimenti (per nome, "Piastrella di granito chiaro"), solo muri, solo stanze. |
 | Inizio | Torna al Sim selezionato. |
 | Control+Maiusc+Pagina su, Pagina giù | Il piano di sopra o di sotto. |
-| Invio | Il menu delle interazioni di ciò che c'è. |
+| Invio | Il menu delle interazioni di ciò che c'è (ciò che sta su un tavolo o una scrivania prima del tavolo: il computer, non la sua scrivania). |
 | Control+Invio | Manda lì il Sim selezionato. |
 | Pagina giù, Pagina su (e Maiusc, Control) | Gli oggetti del lotto come sempre; la mappa va su ognuno. |
 | R | Tutto sulla casella. Control+L la disposizione della stanza. |
@@ -161,10 +165,12 @@ Il gioco mostra molte cose solo come immagini. La mod le dice quando succedono e
 - **I percorsi bloccati**: "Bella non riesce a passare: Sedia blocca la strada".
 - **I visitatori** che arrivano e se ne vanno, i fantasmi, il ladro, la Morte, il fattorino della pizza, il car pooling e lo scuolabus (quale auto suona il clacson).
 - **Gli oggetti portati via** dall'ufficiale giudiziario o da un ladro, con il loro valore; **le bollette** che arrivano.
-- **La sorveglianza della famiglia**: cosa comincia a fare il Sim selezionato, per tuo ordine o di sua iniziativa ("Cris, di sua iniziativa: Siediti"), quando finisce, i cambi di stanza, i bisogni che scendono, l'umore che diventa rosso, i cambi di relazione della giornata ("Marisa con Cris: +8, ora 28") e il denaro pagato o ricevuto fuori da Compra.
+- **La sorveglianza della famiglia**: cosa comincia a fare il Sim selezionato, per tuo ordine o di sua iniziativa ("Cris, di sua iniziativa: Siediti"), quando finisce o viene interrotto ("Cris ha lasciato Siediti per Panico; resta in coda"), i cambi di stanza, i bisogni che scendono, l'umore che diventa rosso, i cambi di relazione della giornata ("Marisa con Cris: +8, ora 28"; anche il pannello delle relazioni del gioco mostra questi numeri) e il denaro pagato o ricevuto fuori da Compra.
 - **I viaggi**: dove sei arrivato, e "di nuovo a casa".
 
 **Control+N** cambia quanto viene detto: tutto, solo avvisi, o niente. Le righe non dette finiscono comunque nel buffer degli eventi.
+
+**Control+Maiusc+N** sceglie di chi si dicono le conversazioni (cosa dicono i Sim, le loro interazioni sociali, i cambi di relazione che portano): chiunque parli con la tua famiglia (all'inizio), tutti quelli del lotto, solo la tua famiglia o nessuno.
 
 I suoni che senti (il telefono, il campanello, gli allarmi) non vengono annunciati.
 
@@ -200,7 +206,8 @@ Mentre tieni un oggetto, la mod ha già trovato le posizioni in cui ci sta **e s
 | Control+Pagina giù, Control+Pagina su | Le stanze che hanno posizioni. |
 | Maiusc+Pagina giù, Maiusc+Pagina su (o virgola, punto) | Gli altri orientamenti nella stessa posizione. |
 | Control+Maiusc+Pagina giù, Pagina su | Accanto agli oggetti del lotto, prima i più vicini. |
-| Frecce | Lo sposta invece di una casella (Maiusc: cinque), dicendo se ci sta e contro cosa urta. |
+| Frecce | Lo sposta invece di una casella (Maiusc: cinque), dicendo se ci sta e contro cosa urta. Muri, recinti e finestre lo fermano; le porte lo lasciano passare. |
+| Alt+Frecce | Lo stesso, attraverso i muri. |
 | Invio | Lo compra lì (o lo posa, quando lo sposti). |
 | Esc | Annulla (un oggetto spostato torna al suo posto). |
 | Canc | Vende l'oggetto che tieni; viene detto il rimborso. |
@@ -208,9 +215,11 @@ Mentre tieni un oggetto, la mod ha già trovato le posizioni in cui ci sta **e s
 
 Il buffer dei dettagli contiene la casella della posizione e le posizioni rifiutate dal gioco, con il motivo.
 
+Le posizioni di una seduta cominciano da dove qualcosa si usa da seduti e non ha ancora una seduta: "rivolto a sud, per usare Computer da seduti". Dopo aver posato un oggetto la mod dice come verrà usato: "per usare Computer da seduti", "si usa da Sedia da ufficio", "i Sim possono raggiungerlo" o "nessun Sim può raggiungerlo".
+
 ### Spostare e vendere
 
-In Compra, vai con Pagina giù su un oggetto del lotto e premi Invio: viene preso e compare lo stesso elenco di posizioni. Gli oggetti identici sono elencati uno per uno, e l'ultimo acquistato dice "ultimo acquisto".
+In Compra, vai con Pagina giù su un oggetto del lotto e premi Invio: viene preso e compare lo stesso elenco di posizioni, a partire dalla stanza da cui viene. La prima freccia mette il cursore dove si trovava. Gli oggetti identici sono elencati uno per uno, e l'ultimo acquistato dice "ultimo acquisto".
 
 ## La modalità Costruisci
 
@@ -269,7 +278,7 @@ Il cursore di costruzione, il posizionamento e la mappa della casa riproducono u
 | Tasto | Cosa fa |
 |---|---|
 | Control+Maiusc+C | La console dei trucchi del gioco. Freccia su e freccia giù scelgono un trucco, ciò che scrivi si aggiunge, Invio lo esegue (di nuovo: lo ripete), Esc chiude. |
-| Control+Maiusc+V | Evidenzia sullo schermo il controllo selezionato, per chi ti aiuta e vede. |
+| Control+Maiusc+V | Evidenzia sullo schermo il controllo selezionato, per chi ti aiuta e vede. Sul lotto, anche il puntatore del mouse va sulla cosa selezionata. |
 
 ## I tasti del gioco
 
@@ -295,6 +304,8 @@ Le impostazioni della mod sono in `SimsAccess\SimsAccess.ini` nella cartella del
 | `cues` | 1 segnali sonori attivi, 0 disattivati (Control+Maiusc+S). |
 | `cue_volume` | Volume dei segnali sonori, da 0 a 100 (predefinito 80). |
 | `show_focus` | 1 evidenzia sullo schermo il controllo selezionato (Control+Maiusc+V). |
+| `social` | Di chi si dicono le conversazioni: 3 tutti, 2 chiunque parli con la tua famiglia, 1 la tua famiglia, 0 nessuno (Control+Maiusc+N). |
+| `hours` | 1 dice ogni nuova ora (Control+T). |
 
 ## Quando qualcosa non va
 

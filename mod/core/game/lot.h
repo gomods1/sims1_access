@@ -80,6 +80,9 @@ bool ObjectDirty(Ptr object);
 std::string ObjectName(const LotObject& o);
 // The object's internal English name from its resource ("MailBox - Part B").
 std::string ObjectInternalName(const LotObject& o);
+// A Sim's everyday head and body as their texture names (nav/appearance.h describes them):
+// false for a Sim whose character file has none (pets).
+bool SimLook(Ptr person, std::string* head, std::string* body);
 // The same for an object type record (what an object's kType points to, or
 // housefile::ObjectType), and a field of its OBJD (addr::objd indices); 0 when unreadable.
 std::string TypeInternalName(Ptr type);

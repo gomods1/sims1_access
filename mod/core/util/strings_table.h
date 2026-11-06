@@ -996,4 +996,34 @@
     X(ManualMissing, "the manual is missing: reinstall the mod")                                                     \
     X(ManualButton, "Sims Accessibility manual")                                                                     \
     X(GroupModHelp, "mod help")                                                                                      \
-    X(KeysButton, "Keys for this screen")
+    X(KeysButton, "Keys for this screen")                                                                            \
+    /* Tester feedback, 2026-11-06 */                                                                                \
+    X(HourChanged, "it is %s")                                                                                       \
+    X(HoursOn, "each new hour is said")                                                                              \
+    X(HoursOff, "hours are no longer said")                                                                          \
+    X(SocialEveryone, "conversations: everyone's")                                                                   \
+    X(SocialWithFamily, "conversations: anyone with your family")                                                    \
+    X(SocialFamilyOnly, "conversations: only your family's")                                                         \
+    X(SocialNobody, "conversations: none, kept in the events")                                                       \
+    X(ActionInterrupted, "%1$s stopped %2$s for %3$s")                                                               \
+    X(ActionInterruptedWaits, "%1$s stopped %2$s for %3$s; it waits in the queue")                                   \
+    X(SameObjectsHint, "Enter lists them one by one")                                                                \
+    X(SeatFor, "to use %s sitting down")                                                                             \
+    X(UsedFromSeat, "used from %s")                                                                                  \
+    X(NobodyReaches, "no Sim can reach it")                                                                          \
+    X(SimsCanUse, "Sims can reach it")                                                                               \
+    X(FromWhereItWas, "where it was: %s")                                                                            \
+    X(MapNoWalls, "no walls")                                                                                        \
+    X(MapLayerAll, "everything")                                                                                     \
+    X(MapLayerObjects, "objects only")                                                                               \
+    X(MapLayerFloors, "floors only")                                                                                 \
+    X(MapLayerWalls, "walls only")                                                                                   \
+    X(MapLayerRooms, "rooms only")                                                                                   \
+    X(SimLookHead, "head: %s")                                                                                       \
+    X(SimLookBody, "body: %s")                                                                                       \
+    X(SimLookUnknown, "%s: the mod has no description of this look")                                                 \
+    X(KeysLotMore, "Enter on an entry of identical things lists them one by one. Control+T says each new hour of the clock, or stops. Control+Shift+N chooses whose conversations are said: anyone with your family, everyone, only your family, or nobody. Control+Shift+E says what a Sim looks like.") \
+    X(KeysMapMore, "Walls, fences and windows stop the arrows; Alt with the arrows goes through. Comma and period choose what each step says: everything, objects, floors, walls or rooms.") \
+    X(KeysPlacingWalls, "Walls, fences and windows stop the arrows; Alt with the arrows goes through. When moving an object, the first arrow starts where it stood.") \
+    X(KeysShowFocusThings, "With it on, the mouse pointer also goes to the lot's thing in focus.")                   \
+    X(SkillNeededForPromotion, "the next promotion needs %d")

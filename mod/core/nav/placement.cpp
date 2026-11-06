@@ -210,7 +210,24 @@ std::vector<Tile> UsableTiles(const Floor& f, const std::vector<Tile>& use, cons
 struct Existing {
     int id = 0;
     std::vector<Tile> use;
+    std::vector<Tile> tiles;  // where it stands (a computer: the desk's tile it is on)
+    bool seat = false;        // a seat itself: nothing is used from it
+    bool surface = false;     // not used sitting down (UsedSitting): a seat at it is not named for it
+    bool hasSeat = false;     // a seat already stands on one of its use tiles, facing it
+    Tile at{-1, -1};          // its own tile
 };
+
+// A seat on one of an object's use tiles, facing it, is how the object is used sitting down
+// (a computer from the chair in front of its desk, a dining table): it does not block it.
+bool SeatServes(const std::vector<Tile>& seatFootprint, int seatDirection, const Existing& e) {
+    if (e.seat) return false;
+    for (Tile u : e.use) {
+        if (std::find(seatFootprint.begin(), seatFootprint.end(), u) == seatFootprint.end()) continue;
+        Tile front = game::Step(u, seatDirection);
+        if (std::find(e.tiles.begin(), e.tiles.end(), front) != e.tiles.end()) return true;
+    }
+    return false;
+}
 
 struct HeldTraits {
     uint32_t sides = 0;       // routing slot sides of every part (relative)
@@ -283,6 +300,15 @@ std::vector<int> Neighbors(const Floor& f, const std::vector<Tile>& footprint) {
 Ptr LeadOf(Ptr object) {
     std::vector<Ptr> parts = game::ObjectParts(object);
     return parts.empty() ? object : parts[0];
+}
+
+// What a seat in front of it is for: a thing standing on a desk or table and used from one spot
+// (the computer on its desk; a tester could not get a chair to work for one). Trees, paintings
+// and the lamp on a side table are used from one spot too, but standing.
+bool UsedSitting(const game::LotObject& o, size_t useSpots) {
+    if (useSpots == 0 || useSpots > 2 || game::ContainerOf(o.object) == 0) return false;
+    uint16_t fn = FunctionOf(LeadOf(o.object)) | o.functionFlags;
+    return (fn & (game::kFnElectronics | game::kFnAppliances | game::kFnMiscellaneous)) != 0;
 }
 
 // The tiles of an area. The outdoors is the whole lot, so only the yard is searched: tiles near
@@ -384,6 +410,19 @@ void StairsEnds(Spot& spot, int level) {
     }
 }
 
+namespace {
+// Where the object being moved stood before it was picked up (SetMoveOrigin): by the time the
+// spots are searched the game has put it under the pointer, in the middle of the screen, and a
+// tester's furniture "jumped" to another room.
+Tile g_origin{-1, -1};
+int g_originLevel = 0;
+}  // namespace
+
+void SetMoveOrigin(Tile tile, int level) {
+    g_origin = tile;
+    g_originLevel = level;
+}
+
 std::vector<Area> FindSpots() {
     std::vector<Area> areas;
     Ptr held = game::HeldObject();
@@ -391,7 +430,9 @@ std::vector<Area> FindSpots() {
     ULONGLONG started = GetTickCount64();
     int level = game::HeldLevel();
     bool moving = !game::IsBuying();
-    Tile from = TileOf(held);  // a moved object is still where it was
+    bool knownOrigin = moving && g_origin.x >= 0 && g_originLevel == level;
+    Tile from = knownOrigin ? g_origin : TileOf(held);
+    if (!moving) g_origin = Tile{-1, -1};
     int fromRoom = moving && game::InGrid(from.x, from.y) ? game::RoomAt(level, from.x, from.y) : game::kNoRoom;
     // What stands on the held object (the wand charger on its table) moves with it and must stay
     // usable too: its direction relative to the held one's, taken on the held one's tile (a contained
@@ -412,6 +453,9 @@ std::vector<Area> FindSpots() {
 
     game::LiftHeld();
     Floor f = ReadFloor(level);
+    // Reach from the lot's entrance (the stairs upstairs), not from where Sims stand: a Sim asleep
+    // in a corner made a chair that cut that corner off look harmless (2026-11-06).
+    if (!f.entrance.empty()) f.starts = f.entrance;
     std::vector<uint8_t> none(f.size * f.size, 0);
     std::vector<uint8_t> reachBefore = Reach(f, none);
     HeldTraits traits = ReadTraits(held);
@@ -429,8 +473,34 @@ std::vector<Area> FindSpots() {
         std::vector<Tile> fp = game::FootprintAt(o.object, at);
         std::vector<Tile> use =
             UsableTiles(f, game::UseTilesAt(o.object, at, game::ObjectDirection(o.object)), fp, none, reachBefore);
-        if (!use.empty()) existing.push_back({o.id, use});
+        std::vector<Tile> tiles = fp;
+        if (std::find(tiles.begin(), tiles.end(), at) == tiles.end()) tiles.push_back(at);
+        if (!use.empty()) {
+            uint16_t fn = FunctionOf(LeadOf(o.object)) | o.functionFlags;  // a desk's second part has none
+            // Said and scored as "used sitting down" only for what is used from one spot (the
+            // computer on a desk); a lamp on a side table is used from all around it.
+            size_t spots = game::UseTilesAt(o.object, at, game::ObjectDirection(o.object)).size();
+            existing.push_back({o.id, use, tiles, (fn & game::kFnSeating) != 0, !UsedSitting(o, spots), false, at});
+        }
     }
+    bool heldSeat = (FunctionOf(held) & game::kFnSeating) != 0;
+    // Which of them a seat already serves (a dining table with its chairs): a new seat is wanted
+    // most where there is none (the computer on a new desk).
+    if (heldSeat)
+        for (Existing& e : existing) {
+            if (e.seat) continue;
+            std::vector<Tile> all = game::UseTilesAt(game::ObjectById(e.id), e.at,
+                                                     game::ObjectDirection(game::ObjectById(e.id)));
+            Existing full = e;
+            full.use = all;  // the tiles seats stand on are not usable floor
+            for (const game::LotObject& o : objects) {
+                if (o.person || o.level != level || o.object == held || !(o.functionFlags & game::kFnSeating)) continue;
+                Tile at = TileOf(o);
+                std::vector<Tile> seatTiles = game::FootprintAt(o.object, at);
+                if (seatTiles.empty()) seatTiles.push_back(at);
+                if (SeatServes(seatTiles, game::ObjectDirection(o.object), full)) e.hasSeat = true;
+            }
+        }
 
     // Doors and windows are placed by wall; rooms that have no door yet come first.
     bool heldPortal = game::IsPortal(held);
@@ -448,7 +518,8 @@ std::vector<Area> FindSpots() {
     // The reference point for distances and the outdoors: the selected Sim.
     game::LotObject sim;
     bool hasSim = game::GetObject(game::SelectedSim(), &sim) && sim.level == level;
-    Tile center = hasSim ? TileOf(sim) : Tile{f.size / 2, f.size / 2};
+    // A moved object's spots come nearest where it stood; a new one's nearest the Sim.
+    Tile center = knownOrigin ? from : hasSim ? TileOf(sim) : Tile{f.size / 2, f.size / 2};
 
     std::vector<rooms::NamedRoom> named = rooms::NameRooms(objects);
     std::map<int, bool> roomSeen;
@@ -533,7 +604,14 @@ std::vector<Area> FindSpots() {
                 }
                 int broken = 0;
                 for (const Existing& e : existing) {
-                    bool stillUsable = false;
+                    bool serves = heldSeat && SeatServes(spot.footprint, direction, e);
+                    // named and scored for what is used sitting down (the computer on the desk),
+                    // not the bare table under it, which "facing" already says
+                    if (serves && !e.surface && (!spot.serves || (!e.hasSeat && spot.servesHasSeat))) {
+                        spot.serves = e.id;
+                        spot.servesHasSeat = e.hasSeat;
+                    }
+                    bool stillUsable = serves;
                     for (Tile u : e.use) stillUsable |= !extra[f.Index(u)] && reach[f.Index(u)];
                     if (!stillUsable) broken = e.id;
                 }
@@ -578,7 +656,10 @@ std::vector<Area> FindSpots() {
                 if (!usedFromFront) spot.score += 2 * (int)spot.useTiles.size();
                 // Anything standing on the floor is best out of the way: its back to a wall, or
                 // in a corner (a shower in the middle of a small bathroom is in everyone's way).
-                if (!usedFromFront && blocksFloor && (spot.wallSides & 4)) spot.score += (spot.wallSides & 0xa) ? 15 : 10;
+                // (a pet's bed too, which Sims walk over: a tester's stood in the middle of the room)
+                if (!usedFromFront && (spot.wallSides & 4)) spot.score += (spot.wallSides & 0xa) ? 15 : 10;
+                // A seat where something is used sitting down (in front of a computer) first.
+                if (spot.serves) spot.score += spot.servesHasSeat ? 15 : 60;
                 Ptr faced = spot.facing ? LeadOf(game::ObjectById(spot.facing)) : 0;
                 if (faced && (traits.function & game::kFnSeating) && (FunctionOf(faced) & game::kFnSurfaces)) spot.score += 40;
                 int related = 0;
@@ -610,6 +691,10 @@ std::vector<Area> FindSpots() {
             return Distance(a.tile, center) < Distance(b.tile, center);
         });
         area.suggested = moving ? area.room == fromRoom : rooms::Suits(area.kind, traits.rooms);
+        // A seat: the room where something has no seat yet (a new desk's computer) comes first.
+        bool needed = false;
+        for (const Spot& sp : area.spots) needed |= sp.serves && !sp.servesHasSeat;
+        if (heldSeat && !moving && needed) area.suggested = true;
         if (heldDoor) area.suggested = !area.spots.empty() && area.spots.front().firstDoor;
         game::Room areaInfo;
         if (heldPortal && !heldDoor)  // windows: in a room's walls first
@@ -752,7 +837,10 @@ std::vector<std::string> DescribeParts(const Spot& spot) {
         parts.push_back(S(Str::AwayFromWalls));
     }
     parts.push_back(util::Format(S(Str::FacingDirection), compass(spot.direction)));
-    if (spot.facing) {
+    std::string serves = spot.serves ? NameOfId(spot.serves) : "";
+    if (!serves.empty()) {
+        parts.push_back(util::Format(S(Str::SeatFor), serves.c_str()));
+    } else if (spot.facing) {
         std::string name = NameOfId(spot.facing);
         if (!name.empty()) parts.push_back(util::Format(S(Str::FacingObject), name.c_str()));
     } else if (spot.nextTo) {
@@ -828,10 +916,68 @@ ReachReport CheckReach(int level) {
         if (!openButCutOff) continue;
         std::string name = world::DisplayName(o);
         LogVerbose("reach: %s (#%d at %d,%d) has no reachable use tile of %d", game::ObjectInternalName(o).c_str(), o.id, at.x, at.y, (int)use.size());
+        report.unusableIds.push_back(o.id);
         if (std::find(report.unusableObjects.begin(), report.unusableObjects.end(), name) == report.unusableObjects.end())
             report.unusableObjects.push_back(name);
     }
     return report;
+}
+
+namespace {
+
+// Where an object stands: its parts' tiles, and its own tile (an object on a desk has none).
+std::vector<Tile> TilesOf(const game::LotObject& o) {
+    Tile at = TileOf(o);
+    std::vector<Tile> tiles = game::FootprintAt(o.object, at);
+    if (std::find(tiles.begin(), tiles.end(), at) == tiles.end()) tiles.push_back(at);
+    return tiles;
+}
+
+}  // namespace
+
+std::string SeatServesNow(Ptr seat) {
+    game::LotObject s;
+    if (!game::GetObject(seat, &s) || !(s.functionFlags & game::kFnSeating)) return "";
+    std::vector<Tile> seatTiles = TilesOf(s);
+    int seatDirection = game::ObjectDirection(seat);
+    for (const game::LotObject& o : game::LotObjects()) {
+        if (o.person || o.object == seat || o.level != s.level || game::IsPortal(o.object)) continue;
+        Existing e{o.id, game::UseTilesAt(o.object, TileOf(o), game::ObjectDirection(o.object)), TilesOf(o)};
+        e.seat = (o.functionFlags & game::kFnSeating) != 0;
+        if (!UsedSitting(o, game::UseTilesAt(o.object, TileOf(o), game::ObjectDirection(o.object)).size())) continue;
+        if (SeatServes(seatTiles, seatDirection, e)) return world::DisplayName(o);
+    }
+    return "";
+}
+
+std::string ServedByNow(Ptr object) {
+    game::LotObject o;
+    if (!game::GetObject(object, &o) || (o.functionFlags & game::kFnSeating)) return "";
+    Existing e{o.id, game::UseTilesAt(object, TileOf(o), game::ObjectDirection(object)), TilesOf(o)};
+    for (const game::LotObject& seat : game::LotObjects()) {
+        if (seat.person || seat.object == object || seat.level != o.level || !(seat.functionFlags & game::kFnSeating))
+            continue;
+        if (SeatServes(TilesOf(seat), game::ObjectDirection(seat.object), e)) return world::DisplayName(seat);
+    }
+    return "";
+}
+
+int CanUseNow(Ptr object) {
+    game::LotObject o;
+    if (!game::GetObject(object, &o) || o.person) return 0;
+    Tile at = TileOf(o);
+    std::vector<Tile> use = game::UseTilesAt(object, at, game::ObjectDirection(object));
+    if (use.empty()) return 0;
+    Floor f = ReadFloor(o.level);
+    if (!f.entrance.empty()) f.starts = f.entrance;
+    std::vector<uint8_t> none(f.size * f.size, 0);
+    std::vector<uint8_t> reach = Reach(f, none);
+    if (!UsableTiles(f, use, TilesOf(o), none, reach).empty()) return 1;
+    // A use tile taken by furniture is how it is used (a seat, a stool): only open floor nobody
+    // can get to makes it unusable.
+    for (Tile u : use)
+        if (f.Inside(u) && Standable(f, u, none) && !reach[f.Index(u)]) return 2;
+    return 0;
 }
 
 int CheckDoor(Tile tile, int direction, int level, std::string* blocker) {

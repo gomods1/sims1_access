@@ -1012,6 +1012,44 @@ const Translation kEntries[] = {
     {Str::ManualButton, "Manual til Sims-tilgængelighed"},
     {Str::GroupModHelp, "hjælp til modden"},
     {Str::KeysButton, "Taster på denne skærm"},
+    // Tester feedback, 2026-11-06
+    {Str::HourChanged, "klokken er %s"},
+    {Str::HoursOn, "hver ny time siges"},
+    {Str::HoursOff, "timerne siges ikke længere"},
+    {Str::SocialEveryone, "samtaler: alles"},
+    {Str::SocialWithFamily, "samtaler: alle, der taler med din familie"},
+    {Str::SocialFamilyOnly, "samtaler: kun din families"},
+    {Str::SocialNobody, "samtaler: ingen, de gemmes i hændelserne"},
+    {Str::ActionInterrupted, "%1$s stoppede %2$s til fordel for %3$s"},
+    {Str::ActionInterruptedWaits, "%1$s stoppede %2$s til fordel for %3$s; den venter i køen"},
+    {Str::SameObjectsHint, "Enter viser dem én ad gangen"},
+    {Str::SeatFor, "til at bruge %s siddende"},
+    {Str::UsedFromSeat, "bruges fra %s"},
+    {Str::NobodyReaches, "ingen Sim kan nå det"},
+    {Str::SimsCanUse, "Simmerne kan nå det"},
+    {Str::FromWhereItWas, "hvor det stod: %s"},
+    {Str::MapNoWalls, "ingen mure"},
+    {Str::MapLayerAll, "alt"},
+    {Str::MapLayerObjects, "kun objekter"},
+    {Str::MapLayerFloors, "kun gulve"},
+    {Str::MapLayerWalls, "kun mure"},
+    {Str::MapLayerRooms, "kun rum"},
+    {Str::SimLookHead, "hoved: %s"},
+    {Str::SimLookBody, "krop: %s"},
+    {Str::SimLookUnknown, "%s: modden har ingen beskrivelse af dette udseende"},
+    {Str::KeysLotMore,
+     "Enter på en linje med ens ting viser dem én ad gangen. Kontrol+T siger hver ny time på uret, eller holder "
+     "op med det. Kontrol+Skift+N vælger, hvis samtaler der siges: alle, der taler med din familie, alle, kun "
+     "din familie eller ingen. Kontrol+Skift+E siger, hvordan en Sim ser ud."},
+    {Str::KeysMapMore,
+     "Mure, hegn og vinduer standser piletasterne; Alt sammen med piletasterne går igennem. Komma og punktum "
+     "vælger, hvad hvert skridt siger: alt, objekter, gulve, mure eller rum."},
+    {Str::KeysPlacingWalls,
+     "Mure, hegn og vinduer standser piletasterne; Alt sammen med piletasterne går igennem. Når du flytter et "
+     "objekt, starter den første piletast, hvor det stod."},
+    {Str::KeysShowFocusThings,
+     "Når den er slået til, går musemarkøren også hen til den ting på grunden, der har fokus."},
+    {Str::SkillNeededForPromotion, "den næste forfremmelse kræver %d"},
 };
 
 }  // namespace

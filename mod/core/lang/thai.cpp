@@ -1000,6 +1000,43 @@ const Translation kEntries[] = {
     {Str::ManualButton, "คู่มือม็อดการเข้าถึงเดอะซิมส์"},
     {Str::GroupModHelp, "ความช่วยเหลือของม็อด"},
     {Str::KeysButton, "ปุ่มของหน้าจอนี้"},
+    // Tester feedback, 2026-11-06
+    {Str::HourChanged, "ขณะนี้เวลา %s"},
+    {Str::HoursOn, "บอกเวลาทุกชั่วโมงใหม่"},
+    {Str::HoursOff, "ไม่บอกเวลาแล้ว"},
+    {Str::SocialEveryone, "บทสนทนา: ของทุกคน"},
+    {Str::SocialWithFamily, "บทสนทนา: ทุกคนที่คุยกับครอบครัวของคุณ"},
+    {Str::SocialFamilyOnly, "บทสนทนา: เฉพาะของครอบครัวคุณ"},
+    {Str::SocialNobody, "บทสนทนา: ไม่พูด เก็บไว้ในเหตุการณ์"},
+    {Str::ActionInterrupted, "%1$s หยุด %2$s เพื่อ %3$s"},
+    {Str::ActionInterruptedWaits, "%1$s หยุด %2$s เพื่อ %3$s และสิ่งที่ทำอยู่ยังรอในคิว"},
+    {Str::SameObjectsHint, "Enter แสดงรายการทีละชิ้น"},
+    {Str::SeatFor, "เพื่อใช้ %s แบบนั่ง"},
+    {Str::UsedFromSeat, "ใช้จาก %s"},
+    {Str::NobodyReaches, "ไม่มีซิมคนไหนไปถึงได้"},
+    {Str::SimsCanUse, "ซิมไปถึงได้"},
+    {Str::FromWhereItWas, "ตำแหน่งเดิม: %s"},
+    {Str::MapNoWalls, "ไม่มีกำแพง"},
+    {Str::MapLayerAll, "ทั้งหมด"},
+    {Str::MapLayerObjects, "เฉพาะวัตถุ"},
+    {Str::MapLayerFloors, "เฉพาะพื้น"},
+    {Str::MapLayerWalls, "เฉพาะกำแพง"},
+    {Str::MapLayerRooms, "เฉพาะห้อง"},
+    {Str::SimLookHead, "ศีรษะ: %s"},
+    {Str::SimLookBody, "ร่างกาย: %s"},
+    {Str::SimLookUnknown, "%s: ม็อดไม่มีคำอธิบายของรูปลักษณ์นี้"},
+    {Str::KeysLotMore,
+     "Enter บนรายการของสิ่งที่เหมือนกันจะแสดงทีละชิ้น, Control+T บอกทุกชั่วโมงใหม่ของนาฬิกา หรือหยุดบอก, "
+     "Control+Shift+N เลือกว่าจะพูดบทสนทนาของใคร: ทุกคนที่คุยกับครอบครัวของคุณ, ทุกคน, เฉพาะครอบครัวของคุณ "
+     "หรือไม่มีใคร, Control+Shift+E บอกรูปลักษณ์ของซิม"},
+    {Str::KeysMapMore,
+     "กำแพง รั้ว และหน้าต่างหยุดลูกศร Alt กับลูกศรเดินทะลุไปได้ ลูกน้ำ (,) และจุด (.) "
+     "เลือกว่าแต่ละก้าวจะบอกอะไร: ทั้งหมด วัตถุ พื้น กำแพง หรือห้อง"},
+    {Str::KeysPlacingWalls,
+     "กำแพง รั้ว และหน้าต่างหยุดลูกศร Alt กับลูกศรเดินทะลุไปได้ เมื่อย้ายวัตถุ "
+     "ลูกศรครั้งแรกเริ่มจากตำแหน่งเดิมของมัน"},
+    {Str::KeysShowFocusThings, "เมื่อเปิดอยู่ ตัวชี้เมาส์จะไปที่สิ่งของในที่ดินที่กำลังโฟกัสด้วย"},
+    {Str::SkillNeededForPromotion, "การเลื่อนตำแหน่งครั้งต่อไปต้องการ %d"},
 };
 
 }  // namespace

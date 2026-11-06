@@ -14,6 +14,7 @@
 #include "../nav/cheat_console.h"
 #include "../nav/cues.h"
 #include "../nav/map_mode.h"
+#include "../nav/game_speed.h"
 #include "../nav/narrator.h"
 #include "../nav/room_layout.h"
 #include "../nav/house_overview.h"
@@ -111,13 +112,13 @@ bool IsModifier(WPARAM vk) { return vk == VK_SHIFT || vk == VK_CONTROL || vk == 
 void SayKeyHelp() {
     if (game::IsPieMenu(game::InputRoot())) speech::Say(S(Str::KeysMenu));
     else if (nav::cheats::Entering()) speech::Say(S(Str::CheatHint));
-    else if (nav::buy::Placing()) speech::Say(std::string(S(Str::KeysPlacing)) + " " + S(Str::KeysPlacingFree) + " " + S(Str::KeysPlacingThings) + " " + S(Str::KeysCuesHint));
+    else if (nav::buy::Placing()) speech::Say(std::string(S(Str::KeysPlacing)) + " " + S(Str::KeysPlacingFree) + " " + S(Str::KeysPlacingWalls) + " " + S(Str::KeysPlacingThings) + " " + S(Str::KeysCuesHint));
     else if (nav::FindActive()) speech::Say(S(Str::FindPrompt));
     else if (nav::LotViewActive() && game::InBuyTool()) speech::Say(std::string(S(Str::KeysBuy)) + " " + S(Str::KeysRoomFilter) + " " + S(Str::KeysFind) + " " + S(Str::KeysPortalDelete) + " " + S(Str::KeysLayoutHint) + " " + S(Str::KeysMapHint));
-    else if (nav::LotViewActive()) speech::Say(std::string(S(Str::KeysLot)) + " " + S(Str::KeysFind) + " " + S(Str::KeysSimCard) + " " + S(Str::KeysLayoutHint) + " " + S(Str::KeysMapHint));
+    else if (nav::LotViewActive()) speech::Say(std::string(S(Str::KeysLot)) + " " + S(Str::KeysLotMore) + " " + S(Str::KeysFind) + " " + S(Str::KeysSimCard) + " " + S(Str::KeysLayoutHint) + " " + S(Str::KeysMapHint));
     else if (nav::FocusedLotNumber() >= 0) speech::Say(std::string(S(Str::KeysScreen)) + " " + S(Str::KeysHouseFile));
     else speech::Say(S(Str::KeysScreen));
-    speech::Say(std::string(S(Str::KeysGroupLetter)) + " " + S(Str::KeysShowFocus) + " " + S(Str::KeysManual));
+    speech::Say(std::string(S(Str::KeysGroupLetter)) + " " + S(Str::KeysShowFocus) + " " + S(Str::KeysShowFocusThings) + " " + S(Str::KeysManual));
 }
 
 namespace {
@@ -234,8 +235,13 @@ bool MapKey(WPARAM vk, bool shift, bool ctrl) {
         else m::Activate();
         return true;
     case 'R': if (ctrl || shift) return false; g_swallowChar = 'r'; m::Repeat(); return true;
+    case VK_OEM_COMMA: case VK_OEM_PERIOD:  // the layer each step says
+        if (ctrl) return false;
+        g_swallowChar = vk == VK_OEM_COMMA ? (shift ? '<' : ',') : (shift ? '>' : '.');
+        m::NextLayer(vk == VK_OEM_PERIOD ? +1 : -1);
+        return true;
     case VK_ESCAPE: g_swallowChar = 0x1b; m::End(); return true;
-    case VK_F1: if (!ctrl || shift) return false; speech::Say(S(Str::KeysMap)); return true;  // Shift: the manual
+    case VK_F1: if (!ctrl || shift) return false; speech::Say(std::string(S(Str::KeysMap)) + " " + S(Str::KeysMapMore)); return true;  // Shift: the manual
     }
     return false;
 }
@@ -290,10 +296,11 @@ bool Dispatch(WPARAM vk, bool shift, bool ctrl) {
         g_swallowChar = 'h';
         nav::tutorial::OpenTip();
         return true;
-    case 'E':
-        if (!ctrl || shift) return false;
+    case 'E':  // Ctrl+E the selected Sim's state, Ctrl+Shift+E what the Sim looks like
+        if (!ctrl) return false;
         g_swallowChar = 'e';
-        nav::narrator::SayStatus();
+        if (shift) nav::SayLook();
+        else nav::narrator::SayStatus();
         return true;
     case 'L':  // Ctrl+L the room's layout, Ctrl+Shift+L the whole house
         if (!ctrl) return false;
@@ -311,10 +318,16 @@ bool Dispatch(WPARAM vk, bool shift, bool ctrl) {
         g_swallowChar = 's';
         nav::cues::Toggle();
         return true;
-    case 'N':
-        if (!ctrl || shift) return false;
+    case 'N':  // Ctrl+N the narrator's verbosity, Ctrl+Shift+N whose conversations it says
+        if (!ctrl) return false;
         g_swallowChar = 'n';
-        nav::narrator::CycleVerbosity();
+        if (shift) nav::narrator::CycleSocial();
+        else nav::narrator::CycleVerbosity();
+        return true;
+    case 'T':  // Ctrl+T: every new hour of the clock spoken, or not
+        if (!ctrl || shift) return false;
+        g_swallowChar = 't';
+        nav::speed::ToggleHours();
         return true;
     case 'F':  // Ctrl+F finds a thing, Ctrl+Shift+F the camera's following
         if (!ctrl) return false;
@@ -420,7 +433,7 @@ bool OnKeyDown(WPARAM vk, LPARAM lp) {
     }
     bool ctrl = Held(VK_CONTROL);
     bool ctrlKey = vk == VK_PRIOR || vk == VK_NEXT || vk == VK_RETURN || vk == VK_F1 || vk == VK_UP ||
-                   vk == VK_DOWN || vk == VK_LEFT || vk == VK_RIGHT || (vk >= '1' && vk <= '9') || vk == 'F' || vk == 'H' || vk == 'E' || vk == 'N' || vk == 'L' || vk == 'R' || vk == 'M' || vk == VK_DELETE ||
+                   vk == VK_DOWN || vk == VK_LEFT || vk == VK_RIGHT || (vk >= '1' && vk <= '9') || vk == 'F' || vk == 'H' || vk == 'E' || vk == 'N' || vk == 'T' || vk == 'L' || vk == 'R' || vk == 'M' || vk == VK_DELETE ||
                    ((vk == 'C' || vk == 'V' || vk == 'S') && Held(VK_SHIFT));  // the mod's Ctrl combinations
     if (Held(VK_MENU) || (ctrl && !ctrlKey)) {
         LogVerbose("key 0x%02x left to the game: %s held", (unsigned)vk, ctrl ? "Ctrl" : "Alt");
@@ -460,6 +473,17 @@ bool OnChar(WPARAM ch) {
 bool g_swallowSysChar = false;
 
 bool OnSysKeyDown(WPARAM vk, LPARAM) {
+    // Alt+arrows: the map's or placing's cursor through a wall (the plain arrows stop at walls).
+    if (vk == VK_UP || vk == VK_DOWN || vk == VK_LEFT || vk == VK_RIGHT) {
+        bool placing = nav::LotViewActive() && nav::buy::Placing() && !nav::TextEntryActive();
+        bool map = nav::map::Active() && nav::LotViewActive() && !nav::TextEntryActive();
+        if (!placing && !map) return false;
+        int n = Held(VK_SHIFT) ? 5 : 1;
+        int dx = vk == VK_LEFT ? -n : vk == VK_RIGHT ? n : 0, dy = vk == VK_UP ? -n : vk == VK_DOWN ? n : 0;
+        if (placing) nav::buy::MoveFree(dx, dy, true);
+        else nav::map::Move(dx, dy, true);
+        return true;
+    }
     if (vk < 'A' || vk > 'Z' || Held(VK_CONTROL) || nav::buy::Placing() || nav::build::Active()) return false;
     nav::FindEnd();
     g_swallowSysChar = true;

@@ -26,6 +26,8 @@ struct Spot {
     int wallSides = 0;      // bit per side (0 front, 1 left, 2 back, 3 right) with a wall along it
     int nextTo = 0;         // object id of the nearest neighbor (0 none)
     int facing = 0;         // object id of what the front faces (a table for a chair), 0 none
+    int serves = 0;         // a seat on a use tile of this object, facing it (a computer's chair)
+    bool servesHasSeat = false;  // ... which another seat serves already
     int cutOff = 0;         // floor tiles of the area it would cut off from the rest
     // Doors and windows: they stand in the wall on their back side, between two rooms.
     bool portal = false;
@@ -57,6 +59,17 @@ struct Area {
 // Evaluates the held object on its floor. Lifts it out of the world (the buy tool puts it back
 // on its next mouse move) and leaves it facing as before.
 std::vector<Area> FindSpots();
+// Where an object about to be moved stands now (before the pick-up puts it under the pointer):
+// the room it comes from and the distances of its spots go by this.
+void SetMoveOrigin(game::Tile tile, int level);
+// After placing: how the object is used sitting down. For a seat, what it serves (the object it
+// faces on whose use tile it stands: "Computadora"); for anything else, the seat in front of it
+// on one of its use tiles. Empty when none.
+std::string SeatServesNow(game::Ptr seat);
+std::string ServedByNow(game::Ptr object);
+// Whether Sims can get to a placed object to use it: 1 yes, 2 no (its use tiles are cut off),
+// 0 unknown (it has no use tiles, or they are all taken by furniture).
+int CanUseNow(game::Ptr object);
 
 // "junto a la pared norte, mirando al sur, junto a Nevera Porcina, a 3 casillas al este"; the
 // parts one by one for the details buffer.
@@ -92,6 +105,7 @@ Str CompassWord(int compass);      // 0 north ... 7 north-west
 // (names, each once) and the rooms with floor they could not get into.
 struct ReachReport {
     std::vector<std::string> unusableObjects;
+    std::vector<int> unusableIds;  // their object ids
     std::vector<int> closedRooms;
 };
 ReachReport CheckReach(int level);

@@ -243,4 +243,18 @@ std::string EdgesLine(const TileSense& t) {
     return line;
 }
 
+bool WallStops(int level, int x, int y, int dx, int dy, std::string* what) {
+    int side = dy < 0 ? kNorth : dx > 0 ? kEast : dy > 0 ? kSouth : kWest;
+    if (!dx && !dy) return false;
+    TileSense t = Sense(level, x, y);
+    Edge e = t.sides[side];
+    if (e == Edge::None || e == Edge::Door) return false;
+    if (what) {
+        TileSense only;
+        only.sides[side] = e;
+        *what = EdgesLine(only);
+    }
+    return true;
+}
+
 }  // namespace nav::cues

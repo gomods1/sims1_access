@@ -1015,6 +1015,43 @@ const Translation kEntries[] = {
     {Str::ManualButton, "Handbok för Tillgänglighet för The Sims"},
     {Str::GroupModHelp, "modhjälp"},
     {Str::KeysButton, "Tangenter för den här skärmen"},
+    // Tester feedback, 2026-11-06
+    {Str::HourChanged, "klockan är %s"},
+    {Str::HoursOn, "varje ny timme sägs"},
+    {Str::HoursOff, "timmarna sägs inte längre"},
+    {Str::SocialEveryone, "samtal: allas"},
+    {Str::SocialWithFamily, "samtal: alla som pratar med din familj"},
+    {Str::SocialFamilyOnly, "samtal: bara din familjs"},
+    {Str::SocialNobody, "samtal: inga, de sparas i händelserna"},
+    {Str::ActionInterrupted, "%1$s avbröt %2$s för %3$s"},
+    {Str::ActionInterruptedWaits, "%1$s avbröt %2$s för %3$s; det väntar i kön"},
+    {Str::SameObjectsHint, "Enter listar dem ett i taget"},
+    {Str::SeatFor, "för att använda %s sittande"},
+    {Str::UsedFromSeat, "används från %s"},
+    {Str::NobodyReaches, "ingen sim kan nå den"},
+    {Str::SimsCanUse, "simmarna kan nå den"},
+    {Str::FromWhereItWas, "där den stod: %s"},
+    {Str::MapNoWalls, "inga väggar"},
+    {Str::MapLayerAll, "allt"},
+    {Str::MapLayerObjects, "bara föremål"},
+    {Str::MapLayerFloors, "bara golv"},
+    {Str::MapLayerWalls, "bara väggar"},
+    {Str::MapLayerRooms, "bara rum"},
+    {Str::SimLookHead, "huvud: %s"},
+    {Str::SimLookBody, "kropp: %s"},
+    {Str::SimLookUnknown, "%s: modden har ingen beskrivning av det här utseendet"},
+    {Str::KeysLotMore,
+     "Enter på en rad med likadana saker listar dem en i taget. Kontroll+T säger varje ny timme på klockan, "
+     "eller slutar med det. Kontroll+Skift+N väljer vems samtal som sägs: alla som pratar med din familj, alla, "
+     "bara din familj eller ingen. Kontroll+Skift+E säger hur en sim ser ut."},
+    {Str::KeysMapMore,
+     "Väggar, staket och fönster stoppar pilarna; Alt med pilarna går igenom. Komma och punkt väljer vad varje "
+     "steg säger: allt, föremål, golv, väggar eller rum."},
+    {Str::KeysPlacingWalls,
+     "Väggar, staket och fönster stoppar piltangenterna; Alt med piltangenterna går igenom. När du flyttar ett "
+     "föremål börjar den första pilen där det stod."},
+    {Str::KeysShowFocusThings, "När den är på går muspekaren också till den sak på tomten som har fokus."},
+    {Str::SkillNeededForPromotion, "nästa befordran kräver %d"},
 };
 
 }  // namespace

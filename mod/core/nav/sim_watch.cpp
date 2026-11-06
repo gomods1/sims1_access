@@ -107,6 +107,7 @@ struct State {
     // How the selected Sim feels about each Sim on the lot (daily value), by neighbor id.
     ULONGLONG relationsPolled = 0;
     std::map<int, int> daily;
+    std::map<std::pair<int, int>, int> pairDaily;  // (from, to) for pairs without the selected Sim
     std::map<int, ULONGLONG> relationSaid;  // by neighbor id (both Sims of the line)
 
     // Family funds.
@@ -144,6 +145,7 @@ void ResetSelected(int id) {
     g.runningSince = 0;
     g.roomPolled = g.actionPolled = 0;
     g.daily.clear();
+    g.pairDaily.clear();
     g.relationsPolled = 0;
 }
 
@@ -201,10 +203,12 @@ void PollAction(ULONGLONG now) {
     std::vector<game::SimAction> actions = game::SimActionList(g.selected);
     std::string running;
     bool byPlayer = false;
+    int priority = 0;
     for (const game::SimAction& a : actions)
         if (a.running) {
             running = a.Spoken();  // a greeting of another Sim is another action, and said as such
             byPlayer = a.byPlayer;
+            priority = a.priority;
             break;
         }
     // The player's queued actions that left the queue without starting: the Sim refused (a
@@ -251,10 +255,24 @@ void PollAction(ULONGLONG now) {
     if (!running.empty()) {
         if (running == g.actionSaid || now - g.runningSince < kActionStartMs) return;
         // The player's action gave way to another with no idle moment between (free will picks
-        // the next thing at once): its end is still news.
-        if (!g.endSaid && g.saidByPlayer && !g.actionSaid.empty() && !CancelledByPlayer(g.actionSaid, now))
-            narrator::Announce(util::Format(S(Str::ActionFinished), SimName(g.selected).c_str(), g.actionSaid.c_str()),
-                               false);
+        // the next thing at once): its end is still news. It was interrupted (a tester's Sim
+        // left what he was doing over garden gnomes) when it waits in the queue again, or when
+        // what runs now pushed in above the player's priority.
+        if (!g.endSaid && g.saidByPlayer && !g.actionSaid.empty() && !CancelledByPlayer(g.actionSaid, now)) {
+            bool requeued = false;
+            for (const std::string& w : waiting)
+                requeued |= g.actionSaid == w || g.actionSaid.rfind(w + ",", 0) == 0;
+            bool pushed = priority > game::kPlayerActionPriority;
+            Log("action change: '%s' -> '%s' (priority %d, requeued %d)", g.actionSaid.c_str(), running.c_str(), priority,
+                requeued);
+            if (requeued || pushed)
+                narrator::Announce(util::Format(S(requeued ? Str::ActionInterruptedWaits : Str::ActionInterrupted),
+                                                SimName(g.selected).c_str(), g.actionSaid.c_str(), running.c_str()),
+                                   true);
+            else
+                narrator::Announce(
+                    util::Format(S(Str::ActionFinished), SimName(g.selected).c_str(), g.actionSaid.c_str()), false);
+        }
         g.actionSaid = running;
         g.saidByPlayer = byPlayer;
         g.endSaid = false;
@@ -273,6 +291,55 @@ void PollAction(ULONGLONG now) {
 }
 
 // ---- Relationships -------------------------------------------------------------------------
+
+// Pairs without the selected Sim, by the conversation scope (Ctrl+Shift+N): with "anyone with the
+// family" each other family member and whoever is on the lot; with "everyone" every pair. Only a
+// change a social made (a + / - balloon over either Sim within moments) is spoken; the game's own
+// drift goes to the buffer.
+void PollOtherPairs(ULONGLONG now, bool seeding) {
+    int scope = narrator::SocialScope();
+    if (scope < narrator::kSocialWithFamily) {
+        g.pairDaily.clear();
+        return;
+    }
+    std::vector<int> family = game::FamilyNeighborIds();
+    std::vector<int> people;
+    for (Ptr person : game::LotPeople()) {
+        int id = game::SimNeighborId(person);
+        if (id >= 0) people.push_back(id);
+    }
+    auto inFamily = [&](int id) { return std::find(family.begin(), family.end(), id) != family.end(); };
+    for (int from : people)
+        for (int to : people) {
+            if (from == to || from == g.selected || to == g.selected) continue;
+            if (scope == narrator::kSocialWithFamily && !inFamily(from) && !inFamily(to)) continue;
+            // One direction per pair (a social moves both): the family member's feeling, else
+            // the lower id's.
+            if (inFamily(from) != inFamily(to) ? !inFamily(from) : from > to) continue;
+            game::Relationship r;
+            if (!game::SimRelationship(from, to, &r)) continue;
+            auto key = std::make_pair(from, to);
+            auto it = g.pairDaily.find(key);
+            if (it == g.pairDaily.end() || seeding) {
+                g.pairDaily[key] = r.daily;
+                continue;
+            }
+            int delta = r.daily - it->second;
+            it->second = r.daily;
+            if (!delta) continue;
+            std::string amount = (delta > 0 ? "+" : "") + std::to_string(delta);
+            std::string line = util::Format(S(Str::RelationChanged), SimName(from).c_str(), SimName(to).c_str(),
+                                            amount.c_str(), r.daily);
+            bool social = narrator::RelationSignSince(from, now - kRelationSocialMs) ||
+                          narrator::RelationSignSince(to, now - kRelationSocialMs);
+            if (!social) {
+                narrator::Record(line);
+                continue;
+            }
+            g.relationSaid[from] = g.relationSaid[to] = now;
+            narrator::Announce(line, false);
+        }
+}
 
 // A social changes the daily relationship (the game shows + or - over the Sim, which the balloon
 // narration speaks for pairs without the selected Sim); the number says how much.
@@ -305,8 +372,10 @@ void PollRelationships(ULONGLONG now) {
             continue;
         }
         g.relationSaid[other] = g.relationSaid[g.selected] = now;
-        narrator::Announce(line, false);
+        if (narrator::SocialScope() == narrator::kSocialNobody) narrator::Record(line);
+        else narrator::Announce(line, false);
     }
+    PollOtherPairs(now, seeding);
 }
 
 // ---- Money ---------------------------------------------------------------------------------

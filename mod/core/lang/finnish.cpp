@@ -1018,6 +1018,43 @@ const Translation kEntries[] = {
     {Str::ManualButton, "Sims-saavutettavuuden käyttöopas"},
     {Str::GroupModHelp, "modin ohje"},
     {Str::KeysButton, "Tämän näkymän näppäimet"},
+    // Tester feedback, 2026-11-06
+    {Str::HourChanged, "kello on %s"},
+    {Str::HoursOn, "jokainen uusi tunti kerrotaan"},
+    {Str::HoursOff, "tunteja ei enää kerrota"},
+    {Str::SocialEveryone, "keskustelut: kaikkien"},
+    {Str::SocialWithFamily, "keskustelut: kaikki, jotka puhuvat perheesi kanssa"},
+    {Str::SocialFamilyOnly, "keskustelut: vain perheesi"},
+    {Str::SocialNobody, "keskustelut: ei mitään, ne jäävät tapahtumiin"},
+    {Str::ActionInterrupted, "%1$s jätti kesken: %2$s, tilalle %3$s"},
+    {Str::ActionInterruptedWaits, "%1$s jätti kesken: %2$s, tilalle %3$s; se odottaa jonossa"},
+    {Str::SameObjectsHint, "Enter luettelee ne yksitellen"},
+    {Str::SeatFor, "istumapaikka kohteelle %s"},
+    {Str::UsedFromSeat, "käyttöpaikka: %s"},
+    {Str::NobodyReaches, "yksikään simi ei pääse sen luo"},
+    {Str::SimsCanUse, "simit pääsevät sen luo"},
+    {Str::FromWhereItWas, "missä se oli: %s"},
+    {Str::MapNoWalls, "ei seiniä"},
+    {Str::MapLayerAll, "kaikki"},
+    {Str::MapLayerObjects, "vain esineet"},
+    {Str::MapLayerFloors, "vain lattiat"},
+    {Str::MapLayerWalls, "vain seinät"},
+    {Str::MapLayerRooms, "vain huoneet"},
+    {Str::SimLookHead, "pää: %s"},
+    {Str::SimLookBody, "vartalo: %s"},
+    {Str::SimLookUnknown, "%s: modilla ei ole kuvausta tälle ulkonäölle"},
+    {Str::KeysLotMore,
+     "Enter samanlaisten asioiden rivillä luettelee ne yksitellen. Control+T kertoo kellon jokaisen uuden tunnin "
+     "tai lopettaa sen. Control+Vaihto+N valitsee, kenen keskustelut kerrotaan: kaikki, jotka puhuvat perheesi "
+     "kanssa, kaikki, vain perheesi tai ei kenenkään. Control+Vaihto+E kertoo, miltä simi näyttää."},
+    {Str::KeysMapMore,
+     "Seinät, aidat ja ikkunat pysäyttävät nuolet; Alt nuolten kanssa kulkee läpi. Pilkku ja piste valitsevat, "
+     "mitä kukin askel kertoo: kaiken, esineet, lattiat, seinät tai huoneet."},
+    {Str::KeysPlacingWalls,
+     "Seinät, aidat ja ikkunat pysäyttävät nuolet; Alt nuolten kanssa kulkee läpi. Esinettä siirrettäessä "
+     "ensimmäinen nuoli alkaa siitä, missä se oli."},
+    {Str::KeysShowFocusThings, "Kun se on päällä, myös hiiren osoitin siirtyy tontin kohdistettuun asiaan."},
+    {Str::SkillNeededForPromotion, "seuraava ylennys vaatii %d"},
 };
 
 }  // namespace

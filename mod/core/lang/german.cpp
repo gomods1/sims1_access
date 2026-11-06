@@ -1031,6 +1031,43 @@ const Translation kEntries[] = {
     {Str::ManualButton, "Handbuch zu Barrierefreiheit für Die Sims"},
     {Str::GroupModHelp, "Mod-Hilfe"},
     {Str::KeysButton, "Tasten für diesen Bildschirm"},
+    // Tester feedback, 2026-11-06
+    {Str::HourChanged, "es ist %s"},
+    {Str::HoursOn, "jede neue Stunde wird angesagt"},
+    {Str::HoursOff, "die Stunden werden nicht mehr angesagt"},
+    {Str::SocialEveryone, "Gespräche: die aller"},
+    {Str::SocialWithFamily, "Gespräche: jeder, der mit deiner Familie redet"},
+    {Str::SocialFamilyOnly, "Gespräche: nur die deiner Familie"},
+    {Str::SocialNobody, "Gespräche: keine, sie bleiben in den Ereignissen"},
+    {Str::ActionInterrupted, "%1$s hat %2$s für %3$s unterbrochen"},
+    {Str::ActionInterruptedWaits, "%1$s hat %2$s für %3$s unterbrochen; es wartet in der Warteschlange"},
+    {Str::SameObjectsHint, "Eingabe listet sie einzeln auf"},
+    {Str::SeatFor, "um %s im Sitzen zu benutzen"},
+    {Str::UsedFromSeat, "wird von %s aus benutzt"},
+    {Str::NobodyReaches, "kein Sim kommt dorthin"},
+    {Str::SimsCanUse, "Sims kommen dorthin"},
+    {Str::FromWhereItWas, "wo es stand: %s"},
+    {Str::MapNoWalls, "keine Wände"},
+    {Str::MapLayerAll, "alles"},
+    {Str::MapLayerObjects, "nur Objekte"},
+    {Str::MapLayerFloors, "nur Böden"},
+    {Str::MapLayerWalls, "nur Wände"},
+    {Str::MapLayerRooms, "nur Räume"},
+    {Str::SimLookHead, "Kopf: %s"},
+    {Str::SimLookBody, "Körper: %s"},
+    {Str::SimLookUnknown, "%s: der Mod hat keine Beschreibung dieses Aussehens"},
+    {Str::KeysLotMore,
+     "Eingabe auf einem Eintrag gleicher Dinge listet sie einzeln auf. Strg+T sagt jede neue Stunde der Uhr an, "
+     "oder hört damit auf. Strg+Umschalt+N wählt, wessen Gespräche gesagt werden: jeder, der mit deiner Familie "
+     "redet, alle, nur deine Familie oder niemand. Strg+Umschalt+E sagt, wie ein Sim aussieht."},
+    {Str::KeysMapMore,
+     "Wände, Zäune und Fenster halten die Pfeile auf; Alt mit den Pfeilen geht hindurch. Komma und Punkt wählen, "
+     "was jeder Schritt sagt: alles, Objekte, Böden, Wände oder Räume."},
+    {Str::KeysPlacingWalls,
+     "Wände, Zäune und Fenster halten die Pfeile auf; Alt mit den Pfeilen geht hindurch. Beim Verschieben eines "
+     "Objekts beginnt der erste Pfeil dort, wo es stand."},
+    {Str::KeysShowFocusThings, "Eingeschaltet geht auch der Mauszeiger zum gewählten Ding des Grundstücks."},
+    {Str::SkillNeededForPromotion, "die nächste Beförderung braucht %d"},
 };
 
 }  // namespace

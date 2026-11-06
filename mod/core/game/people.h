@@ -28,10 +28,12 @@ struct SimAction {
     std::string name;
     bool running = false;
     bool byPlayer = false;  // queued by the player (not the Sim's free will)
+    int priority = 0;       // the queue record's: 50 the player's, 2 free will, more for what pushes in
     std::string target;     // the other Sim it is done with ("Saludar" Elvira), else empty
     std::string Spoken() const;  // "Saludar, con Elvira"
 };
 std::vector<SimAction> SimActionList(int neighborId);
+constexpr int kPlayerActionPriority = 50;  // what the player chose from a menu
 
 // A Sim's job hours as the game's job popup gives them: false when unemployed.
 bool JobHours(int neighborId, int* startHour, int* endHour);
@@ -49,6 +51,8 @@ int MoodBars(int mood);
 // Skills as the job subpanel shows them: slot 0..5 = cooking, mechanical, charisma, body, logic,
 // creativity. Points 0..1000; the panel draws one bar per 100.
 bool SkillPoints(int neighborId, int slot, int* points);
+// The points the next promotion asks for in a job panel skill (slot 0..5), 0 when the Sim has them.
+bool SkillNeeded(int neighborId, int slot, int* points);
 // Slots of the pets' skills subpanel: kPetSkillSlot + 0..2 = housebroken, tricks, obedience.
 constexpr int kPetSkillSlot = 100;
 std::vector<Ptr> PetSkillButtons(Ptr petPanel);  // index = slot - kPetSkillSlot

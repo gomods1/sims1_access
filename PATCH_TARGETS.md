@@ -27,7 +27,7 @@ module base + (VA - 0x400000)). Build: `Sims.exe` 1.10.7, SHA-256 `b7c8765e...` 
 | `0x621520` | `cObjPickerTool` | thiscall `(pie*)` | chosen entry: sub-level (pie slot 148), or queue via `0x40df10(record + 0x48, neighborId, x, y)` and close | | decompiled |
 | `0x43aec0` | Sims' data | cdecl | `SimState* (int neighborId)`; mood float at `+0xc` | Mood meter value | `game::SimMood`: "2 de 5 barras en verde" matched the meter |
 | `0x43a480` | Sims' data | cdecl | `short* PersonData(int neighborId)` | Personality traits (data[index] / 100) | `game::TraitPoints`: five traits summed to 25 |
-| `0x43bc30` | Sims' data | cdecl | `int Skill(int neighborId, int personDataIndex)` 0..1000 | Skills of the job panel | `game::SkillPoints` (0 for a new Sim; verify with a skilled Sim) |
+| `0x43bc30` | Sims' data | cdecl | `int SkillNeeded(int neighborId, int personDataIndex)`: the points the next promotion asks for when the Sim has fewer, else 0 (the panel's promotion marks) | `game::SkillNeeded` ("the next promotion needs 4"). The Sim's own points are person data `[0x43a480(id) + index * 2]` (the panel's bars, `0x4df680`): `game::SkillPoints` (until 2026-11-06 it read this function and said 0 for every skill, a tester) |
 | `0x56a990` / `0x56b460` / `0x56b7e0` `0x56b400` `0x56b940` `0x56b850` `0x56b620` | HouseStats | thiscall | init; fill (on the sim root); size, furnishings, yard, upkeep, layout ratings 0..100 | House ratings | `game::HouseRatings`: empty lot read 0, 0, 0, 10, 1 |
 | `0x627c70` | room manager (`[[0xa67044]] + 0x24`) | thiscall | `Room* Find(u16 id)` | Room records for the room browser | `game::GetRoom`: sizes and bath/bed counts matched the Goth house |
 | `0x6280a0` | Room | thiscall | `bool IsOutside()` | Name the outdoors | `game::GetRoom` |

@@ -220,8 +220,13 @@ std::string RelationshipText(const Item& it) {
 // "Cocina, 3 de 10": the bars the job panel draws for the selected Sim.
 std::string SkillText(const Item& it) {
     int points = 0;
-    if (!game::SkillPoints(game::SimNeighborId(game::SelectedSim()), it.number, &points)) return it.label;
-    return util::Format(S(Str::SkillValue), it.label.c_str(), points / 100);
+    int id = game::SimNeighborId(game::SelectedSim());
+    if (!game::SkillPoints(id, it.number, &points)) return it.label;
+    std::string line = util::Format(S(Str::SkillValue), it.label.c_str(), points / 100);
+    int needed = 0;  // the panel marks what the next promotion asks for
+    if (it.number < game::kPetSkillSlot && game::SkillNeeded(id, it.number, &needed) && needed > 0)
+        line += ", " + util::Format(S(Str::SkillNeededForPromotion), needed / 100);
+    return line;
 }
 
 // "Decano de universidad"; "sueldo: $700"; "rendimiento: Excelente"; "amigos de la familia:

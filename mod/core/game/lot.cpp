@@ -489,8 +489,26 @@ std::string ObjectName(const LotObject& o) {
         const CatalogEntry* entry = CatalogEntryOf(o.object);
         if (entry) name = entry->name;
     }
+    if (!name.empty() && name[0] == '*') name.clear();  // "*TemplatePerson": a template's own label
     g_names[type] = name;
     return name;
+}
+
+bool SimLook(Ptr person, std::string* head, std::string* body) {
+    if (!IsKindOf(person, "cXPerson")) return false;
+    Ptr type = Rd<Ptr>(person + addr::obj::kType);
+    if (!type) return false;
+    // A character's body strings (its file's STR# 200): 1 the body, 2 the head, each
+    // "mesh,BODY=texture"; the texture names the look ("B006FAFatlgt_TT1", "C001FAlgt_Shannon01").
+    std::vector<std::string> strings = ObjectStrings(type, addr::kBodyStringsId, addr::kResourceSTR);
+    auto texture = [&](size_t i) {
+        if (i >= strings.size()) return std::string();
+        size_t eq = strings[i].find('=');
+        return eq == std::string::npos ? std::string() : strings[i].substr(eq + 1);
+    };
+    *body = texture(1);
+    *head = texture(2);
+    return !head->empty() || !body->empty();
 }
 
 std::string ObjectInternalName(const LotObject& o) { return InternalName(Rd<Ptr>(o.object + addr::obj::kType)); }

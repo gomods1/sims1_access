@@ -90,7 +90,7 @@ Sur un terrain, l'interface est un cercle de groupes comme sur n'importe quel é
 
 Sur un élément d'un panneau du mode Vie (un besoin, une aptitude, une profession, une évaluation de la maison), Entrée lit la bulle d'aide du jeu.
 
-L'emploi donne ses horaires et l'heure du covoiturage. Les menus du jeu n'ont aucune option pour quitter un emploi : un Sim qui manque sans cesse le travail est renvoyé, et le journal et l'ordinateur proposent d'autres emplois.
+L'emploi donne ses horaires et l'heure du covoiturage. Chaque compétence dit son niveau et, quand une promotion en demande plus, combien : « Cuisine, 2 sur 10, la prochaine promotion demande 4 ». Les menus du jeu n'ont aucune option pour quitter un emploi : un Sim qui manque sans cesse le travail est renvoyé, et le journal et l'ordinateur proposent d'autres emplois.
 
 ### Sélectionner les Sims et la caméra
 
@@ -101,6 +101,8 @@ L'emploi donne ses horaires et l'heure du covoiturage. Les menus du jeu n'ont au
 | Contrôle+Maj+1 à Contrôle+Maj+9 | Ouvre la fiche de ce Sim (biographie). |
 | Contrôle+Maj+F | La caméra suit le Sim sélectionné, ou reste libre. |
 | Contrôle+E | Le Sim sélectionné en une phrase : pièce, ce qu'il fait, besoins urgents, humeur. |
+| Contrôle+Maj+E | À quoi ressemble un Sim : sa tête et son corps (« tête : cheveux noirs, courts ; corps : costume, noir »). Le Sim qui a le focus parmi les objets du terrain, sinon le Sim sélectionné. Les détails d'un Sim (Contrôle+flèche haut dessus) le disent aussi. |
+| Contrôle+T | Annonce chaque nouvelle heure de l'horloge (« il est 14:00 »), ou arrête. Utile à la vitesse maximale. |
 | P | Pause (la touche du jeu) ; le mod dit l'heure et les fonds. 1, 2, 3 règlent la vitesse. |
 
 La caméra suit le Sim sélectionné, parce que les sons du jeu viennent de ce qui est à l'écran. Pendant que vous parcourez les objets du terrain, la caméra va sur chacun puis revient au Sim.
@@ -118,12 +120,12 @@ Inutile d'y aller avec Tab : les touches Page parcourent les objets depuis n'imp
 | Page suivante, Page précédente | Objet suivant ou précédent du type ou de la pièce choisis en dernier. |
 | Maj+Page suivante, Maj+Page précédente | Type d'objets suivant ou précédent. |
 | Contrôle+Page suivante, Contrôle+Page précédente | Pièce suivante ou précédente (au premier appui : la pièce du Sim sélectionné). |
-| Entrée | Les interactions de l'objet (en mode Achat : le prendre pour le déplacer). |
+| Entrée | Les interactions de l'objet (en mode Achat : le prendre pour le déplacer). Sur une entrée d'objets identiques (« Chaise pliante, 4 identiques ») : les liste un par un, du plus proche au plus loin ; Retour arrière revient. |
 | Contrôle+Entrée | Envoie le Sim sélectionné jusqu'à l'objet. |
 | Contrôle+F | Chercher un élément : tapez une partie de son nom ("tél" trouve le téléphone, les accents ne comptent pas). Haut et Bas parcourent les résultats, Entrée agit dessus, Contrôle+Entrée y envoie le Sim, Suppr enlève une porte ou une fenêtre, Échap revient là où vous étiez. |
 | Suppr | Sur une porte ou une fenêtre, en mode achat ou construction : l'enlève et la rembourse. |
 
-Un Sim ou un objet qui affiche encore une bulle la dit aussi (« Bella, Manger, pense : appétit »).
+Un Sim ou un objet qui affiche encore une bulle la dit aussi (« Bella, Manger, pense : appétit »). Ce qu'aucun Sim ne peut atteindre depuis l'entrée du terrain dit « aucun Sim ne peut l'atteindre ».
 
 Après les Sims vient **problèmes** : ce qui demande de l'attention, comme les objets cassés, ce qui est à nettoyer, les flaques, les ordures, les cendres, le feu et tout ce qui a des mouches. En dernier vient **portes, fenêtres et escaliers**.
 
@@ -144,10 +146,12 @@ Entrée sur un objet (ou sur un Sim) ouvre le menu d'interactions du jeu. Flèch
 
 | Touche | Ce qu'elle fait |
 |---|---|
-| Flèches | Une case ; avec Maj, cinq. Dit ce qui s'y trouve et vers où c'est orienté, la pièce et l'étage quand ils changent, les murs, clôtures, rambardes, portes et fenêtres de chaque côté. |
+| Flèches | Une case ; avec Maj, cinq. Dit ce qui s'y trouve et vers où c'est orienté, la pièce et l'étage quand ils changent, les murs, clôtures, rambardes, portes et fenêtres de chaque côté. Les murs, clôtures et fenêtres arrêtent le curseur ; les portes le laissent passer. |
+| Alt+Flèches | La même chose, à travers les murs. |
+| Virgule, point | Ce que dit chaque pas : tout, objets seulement, sols seulement (par leur nom, « Carrelage de granit clair »), murs seulement, pièces seulement. |
 | Début | Revient au Sim sélectionné. |
 | Contrôle+Maj+Page précédente, Page suivante | L'étage du dessus ou du dessous. |
-| Entrée | Le menu d'interactions de ce qui s'y trouve. |
+| Entrée | Le menu d'interactions de ce qui s'y trouve (ce qui est posé sur une table ou un bureau avant la table : l'ordinateur, pas son bureau). |
 | Contrôle+Entrée | Envoie le Sim sélectionné à cet endroit. |
 | Page suivante, Page précédente (et Maj, Contrôle) | Les objets du terrain comme toujours ; le plan va sur chacun. |
 | R | Tout sur la case. Contrôle+L, la disposition de la pièce. |
@@ -161,10 +165,12 @@ Le jeu ne montre beaucoup de choses qu'en images. Le mod les dit quand elles arr
 - **Les chemins bloqués** : « Bella ne peut pas passer : Chaise bloque le chemin ».
 - **Les visiteurs** qui arrivent et qui partent, les fantômes, le cambrioleur, la Faucheuse, le livreur de pizza, le covoiturage et le bus scolaire (quelle voiture klaxonne).
 - **Les objets emportés** par l'huissier ou un cambrioleur, avec leur valeur ; **les factures** qui arrivent.
-- **La surveillance de la famille** : ce que le Sim sélectionné commence à faire, sur votre ordre ou de lui-même (« Cris, de son propre chef : S'asseoir »), quand il a fini, les changements de pièce, les besoins qui baissent, l'humeur qui passe au rouge, les changements de relation de la journée (« Marisa avec Cris : +8, maintenant 28 »), et l'argent payé ou reçu en dehors du mode Achat.
+- **La surveillance de la famille** : ce que le Sim sélectionné commence à faire, sur votre ordre ou de lui-même (« Cris, de son propre chef : S'asseoir »), quand il a fini ou est interrompu (« Cris a arrêté S'asseoir pour Panique ; l'action attend dans la file »), les changements de pièce, les besoins qui baissent, l'humeur qui passe au rouge, les changements de relation de la journée (« Marisa avec Cris : +8, maintenant 28 » ; le panneau des relations du jeu montre aussi ces nombres), et l'argent payé ou reçu en dehors du mode Achat.
 - **Les sorties** : où vous êtes arrivé, et « de retour à la maison ».
 
 **Contrôle+N** change ce qui est dit : tout, les alertes seulement, ou rien. Les lignes non dites vont quand même dans le tampon des événements.
+
+**Contrôle+Maj+N** choisit de qui les conversations sont dites (ce que disent les Sims, leurs interactions sociales, les changements de relation qu'elles apportent) : quiconque parle avec votre famille (au départ), tout le monde sur le terrain, seulement votre famille, ou personne.
 
 Les sons que vous entendez (le téléphone, la sonnette, les alarmes) ne sont pas annoncés.
 
@@ -200,7 +206,8 @@ Pendant que vous tenez un objet, le mod a déjà trouvé les emplacements où il
 | Contrôle+Page suivante, Contrôle+Page précédente | Les pièces qui ont des emplacements. |
 | Maj+Page suivante, Maj+Page précédente (ou virgule, point) | Les autres orientations au même emplacement. |
 | Contrôle+Maj+Page suivante, Page précédente | À côté des objets du terrain, les plus proches d'abord. |
-| Flèches | Le déplace plutôt d'une case (Maj : cinq), en disant s'il tient et ce qu'il touche. |
+| Flèches | Le déplace plutôt d'une case (Maj : cinq), en disant s'il tient et ce qu'il touche. Les murs, clôtures et fenêtres l'arrêtent ; les portes le laissent passer. |
+| Alt+Flèches | La même chose, à travers les murs. |
 | Entrée | L'achète à cet endroit (ou le pose, quand vous le déplacez). |
 | Échap | Annule (un objet déplacé revient à sa place). |
 | Suppr | Vend l'objet tenu ; le remboursement est annoncé. |
@@ -208,9 +215,11 @@ Pendant que vous tenez un objet, le mod a déjà trouvé les emplacements où il
 
 Le tampon des détails contient la case de l'emplacement et les emplacements refusés par le jeu, avec la raison.
 
+Les emplacements d'un siège commencent là où quelque chose s'utilise assis et n'a pas encore de siège : « face au sud, pour utiliser Ordinateur assis ». Après la pose d'un objet, le mod dit comment il sera utilisé : « pour utiliser Ordinateur assis », « s'utilise depuis Chaise de bureau », « les Sims peuvent l'atteindre » ou « aucun Sim ne peut l'atteindre ».
+
 ### Déplacer et vendre
 
-En mode Achat, allez avec Page suivante sur un objet du terrain et appuyez sur Entrée : il est pris et la même liste d'emplacements apparaît. Les objets identiques sont listés un par un, et le dernier acheté dit « dernier achat ».
+En mode Achat, allez avec Page suivante sur un objet du terrain et appuyez sur Entrée : il est pris et la même liste d'emplacements apparaît, en commençant par la pièce d'où il vient. La première flèche met le curseur là où il était. Les objets identiques sont listés un par un, et le dernier acheté dit « dernier achat ».
 
 ## Le mode Construction
 
@@ -269,7 +278,7 @@ Le curseur de construction, le placement et le plan de la maison jouent un son b
 | Touche | Ce qu'elle fait |
 |---|---|
 | Contrôle+Maj+C | La console des codes du jeu. Flèche haut et flèche bas choisissent un code, ce que vous tapez s'y ajoute, Entrée l'exécute (encore une fois : le répète), Échap ferme. |
-| Contrôle+Maj+V | Éclaire à l'écran la commande sélectionnée, pour une personne voyante qui vous aide. |
+| Contrôle+Maj+V | Éclaire à l'écran la commande sélectionnée, pour une personne voyante qui vous aide. Sur le terrain, le pointeur de la souris va aussi sur l'objet sélectionné. |
 
 ## Les touches du jeu
 
@@ -295,6 +304,8 @@ Les réglages du mod sont dans `SimsAccess\SimsAccess.ini` dans le dossier du je
 | `cues` | 1 repères sonores activés, 0 coupés (Contrôle+Maj+S). |
 | `cue_volume` | Volume des repères sonores, de 0 à 100 (80 par défaut). |
 | `show_focus` | 1 éclaire à l'écran la commande sélectionnée (Contrôle+Maj+V). |
+| `social` | De qui les conversations sont dites : 3 tout le monde, 2 quiconque parle avec votre famille, 1 votre famille, 0 personne (Contrôle+Maj+N). |
+| `hours` | 1 annonce chaque nouvelle heure (Contrôle+T). |
 
 ## En cas de problème
 

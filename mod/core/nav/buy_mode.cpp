@@ -1,6 +1,7 @@
 #include "buy_mode.h"
 
 #include <algorithm>
+#include <cstdlib>
 
 #include "../game/buy.h"
 #include "../game/lot.h"
@@ -44,6 +45,9 @@ struct State {
 };
 
 State g;
+// Where the object being moved stood: the arrows' cursor starts there.
+game::Tile g_origin{-1, -1};
+int g_originDirection = 0;
 
 // The wall bit behind something facing an engine direction (6 north, 0 west, 2 south, 4 east).
 uint32_t kWallBehind(int direction) {
@@ -260,6 +264,7 @@ void Start(game::Ptr held) {
 void Reset() {
     if (g.session) game::StopShowingHeld();
     g = State{};
+    if (!game::IsPlacing()) g_origin = game::Tile{-1, -1};
 }
 
 // The press reaches the tool a moment later: until then the old product is still the session,
@@ -406,6 +411,16 @@ void Confirm() {
         if (check == 1) line += ". " + util::Format(S(Str::DoorBlocked), blocker.c_str());
         else if (check == 2) line += ". " + std::string(S(Str::DoorNoWay));
         else line += ". " + std::string(S(Str::DoorUsable));
+    } else if (!game::IsPortal(placed)) {
+        // How it will be used, as the door check says for doors (a tester could not tell whether
+        // his Sim would reach the computer on the desk or sit at it).
+        game::LotObject po;
+        bool seat = game::GetObject(placed, &po) && (po.functionFlags & game::kFnSeating);
+        std::string with = seat ? placement::SeatServesNow(placed) : placement::ServedByNow(placed);
+        int use = placement::CanUseNow(placed);
+        if (!with.empty()) line += ". " + util::Format(S(seat ? Str::SeatFor : Str::UsedFromSeat), with.c_str());
+        else if (use == 2) line += ". " + std::string(S(Str::NobodyReaches));
+        else if (use == 1) line += ". " + std::string(S(Str::SimsCanUse));
     }
     g.session = 0;  // the lot changed: the next one of a kind gets new spots
     if (Placing()) line += ". " + std::string(S(Str::AnotherInHand));
@@ -452,6 +467,12 @@ void PickUpFocused() {
     if (!object) {
         speech::Say(S(Str::NoObjects));
         return;
+    }
+    game::LotObject o;
+    if (game::GetObject(object, &o)) {
+        placement::SetMoveOrigin(game::Tile{o.x >> 4, o.y >> 4}, o.level);
+        g_origin = game::Tile{o.x >> 4, o.y >> 4};
+        g_originDirection = game::ObjectDirection(object);
     }
     int error = game::PickUp(object);
     if (error != 0) {
@@ -524,6 +545,15 @@ std::string FreeLine(bool withRoom = false) {
     for (const auto& side : kSides)
         if (walls & side.first) sides += (sides.empty() ? "" : ", ") + std::string(S(side.second));
     if (!sides.empty()) line += ", " + util::Format(S(Str::BuildWallsHere), sides.c_str());
+    else {  // the whole footprint away from any wall: what a tester's pet bed was, in mid-room
+        bool touches = false;
+        for (const game::Tile& t : footprint) touches |= game::WallsAt(level, t.x, t.y) != 0;
+        if (!touches && game::RoomAt(level, g.freeTile.x, g.freeTile.y) != game::kNoRoom) {
+            game::Room info;
+            if (game::GetRoom(game::RoomAt(level, g.freeTile.x, g.freeTile.y), &info) && !info.outside)
+                line += std::string(", ") + S(Str::AwayFromWalls);
+        }
+    }
     line += ", " + util::Format(S(Str::FacingDirection), S(placement::CompassWord(game::CompassOf(g.freeDirection))));
     // A door or window goes in the wall behind it: this is what turning it chooses.
     if (error == 0 && game::IsPortal(held) && (walls & kWallBehind(g.freeDirection))) {
@@ -539,11 +569,24 @@ std::string FreeLine(bool withRoom = false) {
 
 }  // namespace
 
-void MoveFree(int dx, int dy) {
+void MoveFree(int dx, int dy, bool throughWalls) {
     if (!Placing()) return;
     if (!g.free) {
         const placement::Spot* s = CurrentSpot();
         game::LotObject sim;
+        if (!game::IsBuying() && g_origin.x >= 0) {  // a moved object: from where it stood
+            g.freeTile = g_origin;
+            g.freeDirection = g_originDirection;
+            g.free = true;
+            g.freeRoom = -1;
+            std::string line = FreeLine(true);
+            buffers::SetDetails({line});
+            speech::Say(util::Format(S(Str::FromWhereItWas), line.c_str()));
+            cues::Tile(game::HeldLevel(), g.freeTile.x, g.freeTile.y, game::HeldObject());
+            cues::Fit(g.freeFits);
+            g_origin = game::Tile{-1, -1};  // later arrows go from the cursor
+            return;
+        }
         if (s) {
             g.freeTile = s->tile;
             g.freeDirection = s->direction >= 0 ? s->direction : game::ObjectDirection(game::HeldObject());
@@ -553,14 +596,31 @@ void MoveFree(int dx, int dy) {
         }
         g.free = true;
     }
-    game::Tile next{g.freeTile.x + dx, g.freeTile.y + dy};
-    if (!game::InGrid(next.x, next.y)) {
-        speech::Say(S(Str::BuildLotEdge));
-        cues::LotEdge();
+    // One tile at a time: a wall, fence or window stops the cursor (a door does not), unless Alt
+    // is held, so a room is not left by accident (a tester).
+    int steps = std::max(std::abs(dx), std::abs(dy));
+    int sx = dx > 0 ? 1 : dx < 0 ? -1 : 0, sy = dy > 0 ? 1 : dy < 0 ? -1 : 0;
+    int moved = 0;
+    std::string wall;
+    for (int i = 0; i < steps; i++) {
+        game::Tile next{g.freeTile.x + sx, g.freeTile.y + sy};
+        if (!game::InGrid(next.x, next.y)) break;
+        if (!throughWalls && cues::WallStops(game::HeldLevel(), g.freeTile.x, g.freeTile.y, sx, sy, &wall)) break;
+        g.freeTile = next;
+        moved++;
+    }
+    if (moved == 0) {
+        if (!wall.empty()) {
+            speech::Say(wall);
+            cues::Blocked();
+        } else {
+            speech::Say(S(Str::BuildLotEdge));
+            cues::LotEdge();
+        }
         return;
     }
-    g.freeTile = next;
     std::string line = FreeLine();
+    if (!wall.empty()) line += ". " + wall;
     buffers::SetDetails({line});
     speech::Say(line);
     // The tile's sounds, then whether the object fits on it (nav/cues.h).

@@ -34,6 +34,12 @@ void NoteDestination(const std::string& name);
 bool RelationSignSince(int neighborId, unsigned long long since);
 
 void CycleVerbosity();  // Ctrl+N: everything -> warnings only -> off -> everything
+// Whose conversations are spoken (talk balloons, socials' icons, the + / -, relationship
+// numbers): everyone on the lot; anyone talking with the family (the default); the family's own;
+// nobody (kept in the events buffer). Ctrl+Shift+N cycles it.
+enum SocialScopeLevel { kSocialNobody = 0, kSocialFamily = 1, kSocialWithFamily = 2, kSocialEveryone = 3 };
+void CycleSocial();
+int SocialScope();
 void SayStatus();       // Ctrl+E: the selected Sim's room, actions, low needs and mood
 
 // The balloon shown over a Sim or object right now, in a few words ("piensa: hambre"); empty

@@ -90,7 +90,7 @@ En un solar, la interfaz es un anillo de grupos como cualquier pantalla. Tab los
 
 Sobre un elemento de un panel del modo Vivir (una necesidad, una cualidad, un empleo, una puntuación de la casa), Intro lee la ventana emergente del juego.
 
-El empleo dice su horario y cuándo pasa el coche de la compañía. Los menús del juego no tienen ninguna opción para dejar un empleo: a un Sim que falta al trabajo una y otra vez lo despiden, y el periódico y el ordenador ofrecen otros empleos.
+El empleo dice su horario y cuándo pasa el coche de la compañía. Cada cualidad dice su nivel y, cuando un ascenso pide más, cuánto: «Cocina, 2 de 10, el próximo ascenso pide 4». Los menús del juego no tienen ninguna opción para dejar un empleo: a un Sim que falta al trabajo una y otra vez lo despiden, y el periódico y el ordenador ofrecen otros empleos.
 
 ### Seleccionar Sims y la cámara
 
@@ -101,6 +101,8 @@ El empleo dice su horario y cuándo pasa el coche de la compañía. Los menús d
 | Control+Mayúsculas+1 a Control+Mayúsculas+9 | Abre la ficha de ese Sim (biografía). |
 | Control+Mayúsculas+F | La cámara sigue al Sim seleccionado, o queda libre. |
 | Control+E | El Sim seleccionado en una frase: habitación, qué está haciendo, necesidades urgentes, humor. |
+| Control+Mayúsculas+E | Qué aspecto tiene un Sim: su cabeza y su cuerpo («cabeza: pelo negro, corto; cuerpo: traje, negro»). El Sim que tiene el foco entre los objetos del solar, si no el seleccionado. Los detalles de un Sim (Control+Arriba sobre él) también lo dicen. |
+| Control+T | Dice cada hora nueva del reloj («son las 14:00»), o deja de decirla. Útil a la velocidad máxima. |
 | P | Pausa (la tecla del juego); el mod dice la hora y los fondos. 1, 2, 3 ponen la velocidad. |
 
 La cámara sigue al Sim seleccionado porque los sonidos del juego salen de lo que hay en pantalla. Mientras recorres los objetos del solar, la cámara va a cada uno y después vuelve al Sim.
@@ -118,12 +120,12 @@ No hace falta ir hasta allí con Tab: las teclas de página recorren los objetos
 | Avanzar página, Retroceder página | Objeto siguiente o anterior del tipo o la habitación elegidos por última vez. |
 | Mayúsculas+Avanzar página, Mayúsculas+Retroceder página | Tipo de objetos siguiente o anterior. |
 | Control+Avanzar página, Control+Retroceder página | Habitación siguiente o anterior (la primera vez: la habitación del Sim seleccionado). |
-| Intro | Las interacciones del objeto (en el Modo Comprar: recogerlo para moverlo). |
+| Intro | Las interacciones del objeto (en el Modo Comprar: recogerlo para moverlo). Sobre una entrada de cosas iguales («Silla plegable, 4 iguales»): las lista una por una, la más cercana primero; Retroceso vuelve. |
 | Control+Intro | Lleva al Sim seleccionado hasta el objeto. |
 | Control+F | Buscar algo: escribe parte de su nombre ("tel" encuentra el teléfono, los acentos no importan). Arriba y Abajo recorren lo que coincide, Intro actúa sobre ello, Control+Intro lleva allí, Supr quita una puerta o ventana, Escape vuelve a donde estabas. |
 | Supr | Sobre una puerta o ventana, en modo comprar o construir: la quita y devuelve su valor. |
 
-Un Sim o un objeto que todavía muestra un globo también lo dice («Bella, Comer, piensa: hambre»).
+Un Sim o un objeto que todavía muestra un globo también lo dice («Bella, Comer, piensa: hambre»). Lo que ningún Sim puede alcanzar desde la entrada del solar dice «ningún Sim puede llegar».
 
 Después de los Sims viene **problemas**: lo que necesita atención, como cosas rotas, cosas por limpiar, charcos, basura, cenizas, fuego y cualquier cosa con moscas. Al final viene **puertas, ventanas y escaleras**.
 
@@ -144,10 +146,12 @@ Intro sobre un objeto (o sobre un Sim) abre el menú de interacciones del juego.
 
 | Tecla | Qué hace |
 |---|---|
-| Flechas | Una casilla; con Mayúsculas, cinco. Dice lo que hay y hacia dónde mira, la habitación y el piso cuando cambian, las paredes, vallas, barandillas, puertas y ventanas de cada lado. |
+| Flechas | Una casilla; con Mayúsculas, cinco. Dice lo que hay y hacia dónde mira, la habitación y el piso cuando cambian, las paredes, vallas, barandillas, puertas y ventanas de cada lado. Las paredes, vallas y ventanas paran el cursor; las puertas lo dejan pasar. |
+| Alt+Flechas | Lo mismo, atravesando las paredes. |
+| Coma, punto | Qué dice cada paso: todo, solo objetos, solo suelos (por su nombre, «Baldosa de granito claro»), solo paredes, solo habitaciones. |
 | Inicio | Vuelve al Sim seleccionado. |
 | Control+Mayúsculas+Retroceder página, Avanzar página | El piso de arriba o de abajo. |
-| Intro | El menú de interacciones de lo que hay allí. |
+| Intro | El menú de interacciones de lo que hay allí (lo que está sobre una mesa o escritorio antes que la mesa: el ordenador, no su escritorio). |
 | Control+Intro | Lleva allí al Sim seleccionado. |
 | Avanzar página, Retroceder página (y Mayúsculas, Control) | Los objetos del solar como siempre; el mapa va a cada uno. |
 | R | Todo sobre la casilla. Control+L, la distribución de la habitación. |
@@ -161,10 +165,12 @@ El juego muestra muchas cosas solo con imágenes. El mod las dice cuando pasan y
 - **Los caminos bloqueados**: «Bella no puede pasar: Silla bloquea el camino».
 - **Las visitas** que llegan y se van, los fantasmas, el ladrón, la Parca, el repartidor de pizza, el coche compartido y el autobús escolar (qué coche toca el claxon).
 - **Los objetos que se llevan** el embargador o un ladrón, con su valor; **las facturas** que llegan.
-- **La vigilancia de la familia**: lo que el Sim seleccionado empieza a hacer, por orden tuya o por su cuenta («Cris, por su cuenta: Sentarse»), cuándo termina, los cambios de habitación, las necesidades que bajan, el humor que se pone en rojo, los cambios de relación del día («Marisa, con Cris: +8, ahora 28») y el dinero pagado o recibido fuera del Modo Comprar.
+- **La vigilancia de la familia**: lo que el Sim seleccionado empieza a hacer, por orden tuya o por su cuenta («Cris, por su cuenta: Sentarse»), cuándo termina o se interrumpe («Cris dejó Sentarse por Pánico; sigue en la cola»), los cambios de habitación, las necesidades que bajan, el humor que se pone en rojo, los cambios de relación del día («Marisa, con Cris: +8, ahora 28»; el panel de relaciones del juego también muestra estos números) y el dinero pagado o recibido fuera del Modo Comprar.
 - **Los viajes**: adónde has llegado, y «de vuelta en casa».
 
 **Control+N** cambia cuánto se dice: todo, solo avisos o nada. Las líneas no dichas van igualmente al búfer de eventos.
+
+**Control+Mayúsculas+N** elige de quién se dicen las conversaciones (lo que dicen los Sims, sus interacciones sociales y los cambios de relación que traen): quien hable con tu familia (al principio), todos los del solar, solo tu familia o nadie.
 
 Los sonidos que oyes (el teléfono, el timbre, las alarmas) no se anuncian.
 
@@ -200,7 +206,8 @@ Mientras sostienes un objeto, el mod ya ha encontrado los sitios donde cabe **y 
 | Control+Avanzar página, Control+Retroceder página | Las habitaciones que tienen sitios. |
 | Mayúsculas+Avanzar página, Mayúsculas+Retroceder página (o coma, punto) | Las otras orientaciones en el mismo sitio. |
 | Control+Mayúsculas+Avanzar página, Retroceder página | Junto a los objetos del solar, los más cercanos primero. |
-| Flechas | Lo mueve una casilla en su lugar (Mayúsculas: cinco), diciendo si cabe y con qué choca. |
+| Flechas | Lo mueve una casilla en su lugar (Mayúsculas: cinco), diciendo si cabe y con qué choca. Las paredes, vallas y ventanas lo paran; las puertas lo dejan pasar. |
+| Alt+Flechas | Lo mismo, atravesando las paredes. |
 | Intro | Lo compra ahí (o lo suelta, si lo estás moviendo). |
 | Escape | Cancela (un objeto movido vuelve a su sitio). |
 | Suprimir | Vende el objeto que sostienes; se dice el reembolso. |
@@ -208,9 +215,11 @@ Mientras sostienes un objeto, el mod ya ha encontrado los sitios donde cabe **y 
 
 El búfer de detalles tiene la casilla del sitio y los sitios que el juego rechazó, con el motivo.
 
+Los sitios de un asiento empiezan por donde algo se usa sentado y aún no tiene asiento: «mirando al sur, para usar Ordenador sentado». Después de colocar un objeto el mod dice cómo se usará: «para usar Ordenador sentado», «se usa desde Silla de oficina», «los Sims pueden llegar» o «ningún Sim puede llegar».
+
 ### Mover y vender
 
-En el Modo Comprar, ve con Avanzar página a un objeto del solar y pulsa Intro: se recoge y aparece la misma lista de sitios. Los objetos idénticos se listan uno a uno, y la última compra dice «recién comprado».
+En el Modo Comprar, ve con Avanzar página a un objeto del solar y pulsa Intro: se recoge y aparece la misma lista de sitios, empezando por la habitación de donde viene. La primera flecha pone el cursor donde estaba. Los objetos idénticos se listan uno a uno, y la última compra dice «recién comprado».
 
 ## El Modo Construir
 
@@ -269,7 +278,7 @@ El cursor de construcción, la colocación y el mapa de la casa hacen un sonido 
 | Tecla | Qué hace |
 |---|---|
 | Control+Mayúsculas+C | La consola de trucos del juego. Arriba y Abajo eligen un truco, lo que escribes se le añade, Intro lo ejecuta (otra vez: lo repite), Escape cierra. |
-| Control+Mayúsculas+V | Ilumina en pantalla el control seleccionado, para quien te ayude viendo la pantalla. |
+| Control+Mayúsculas+V | Ilumina en pantalla el control seleccionado, para quien te ayude viendo la pantalla. En el solar, el puntero del ratón también va a la cosa que tiene el foco. |
 
 ## Las teclas del juego
 
@@ -295,6 +304,8 @@ Los ajustes del mod están en `SimsAccess\SimsAccess.ini` en la carpeta del jueg
 | `cues` | 1 señales sonoras activadas, 0 desactivadas (Control+Mayúsculas+S). |
 | `cue_volume` | Volumen de las señales sonoras, de 0 a 100 (80 por defecto). |
 | `show_focus` | 1 ilumina en pantalla el control seleccionado (Control+Mayúsculas+V). |
+| `social` | De quién se dicen las conversaciones: 3 todos, 2 quien hable con tu familia, 1 tu familia, 0 nadie (Control+Mayúsculas+N). |
+| `hours` | 1 dice cada hora nueva (Control+T). |
 
 ## Si algo va mal
 

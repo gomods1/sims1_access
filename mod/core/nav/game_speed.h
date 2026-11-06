@@ -8,6 +8,8 @@
 namespace nav::speed {
 
 void Reset();
-void Tick(Ptr root);  // from the navigator's tick, with the current input root
+void Tick(Ptr root);
+// Ctrl+T: every new hour of the game's clock spoken ("son las 14:00"), or not ([mod] hours).
+void ToggleHours();  // from the navigator's tick, with the current input root
 
 }  // namespace nav::speed

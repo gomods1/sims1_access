@@ -29,7 +29,7 @@ for moving.
 | Up / Down | previous / next item of the group (the lot view's HUD too); at the ends the item is said again (a catalog page turns) |
 | Left / Right | the same as Up / Down; on a slider, value picker or personality bar, its value (PageUp / PageDown too) |
 | Home / End | first / last item of the group |
-| Enter (Space outside the lot view) | press; on a kind or a room, open its things; on a thing, its interactions (buy mode: pick it up) |
+| Enter (Space outside the lot view) | press; on a kind or a room, open its things; on an entry of identical things ("2 alike"), open them one by one (a level, as a kind is); on a thing, its interactions (buy mode: pick it up) |
 | Backspace | back up a level (a kind's or room's things to the kinds or rooms); a text field's is the game's |
 | PageDown / PageUp (lot view, every mode) | next / previous thing of the kind or room chosen last, from anywhere in the lot view; focus goes to it in its group |
 | Shift+PageDown / Shift+PageUp | next / previous kind of things, on its nearest thing |
@@ -68,9 +68,15 @@ When the task is a place, the arrows move in space:
 
 | Tool | Arrows | PageDown / PageUp | Ctrl+PageDown / PageUp | Shift+PageDown / PageUp | Tab / Shift+Tab | comma / period | Other |
 |---|---|---|---|---|---|---|---|
-| Placing (buy mode, `nav/buy_mode.cpp`, `PlacingKey`) | one tile, Shift five | the spots where it fits | the rooms with spots | the other directions on the tile | the spots too | the directions too | Enter buys, Delete sells, Escape stops, R repeats |
+| Placing (buy mode, `nav/buy_mode.cpp`, `PlacingKey`) | one tile, Shift five; walls, fences and windows stop it, Alt+arrows go through | the spots where it fits | the rooms with spots | the other directions on the tile | the spots too | the directions too | Enter buys, Delete sells, Escape stops, R repeats |
 | Build cursor (`nav/build_mode.cpp`) | one corner or tile, Shift five | the floor above / below | the rooms (their north-west corner) | | the rooms too | the ready-made room sizes (Insert builds one) | Space marks, Enter builds, Ctrl+Enter or Delete removes, Home back to the Sim, R, Escape leaves |
-| Live map (`nav/map_mode.cpp`, Ctrl+M) | one tile, Shift five | the lot's things (the map goes to each) | the rooms, as the lot's things | the kinds, as the lot's things | the HUD's groups as usual | | Ctrl+Shift+PageUp/Down the floors, Enter the menu of what stands there, Ctrl+Enter walks there, Home back to the Sim, R, Escape or Ctrl+M leaves |
+| Live map (`nav/map_mode.cpp`, Ctrl+M) | one tile, Shift five; walls, fences and windows stop it, Alt+arrows go through | the lot's things (the map goes to each) | the rooms, as the lot's things | the kinds, as the lot's things | the HUD's groups as usual | the layer each step says: everything, objects, floors, walls, rooms | Ctrl+Shift+PageUp/Down the floors, Enter the menu of what stands there, Ctrl+Enter walks there, Home back to the Sim, R, Escape or Ctrl+M leaves |
+
+A spatial tool that walks the house stops at walls (the tester's "Zones" idea, 2026-11-06: a room
+was left by accident); Alt with the arrows goes through, since Ctrl+arrows are the review buffers
+everywhere. The build cursor keeps crossing walls: walls are its work. Its comma / period stay what
+it holds (sizes); the map's are its layers (from Oxygen Not Included's overlays: one kind of
+thing per step on a furnished lot).
 
 Every spatial tool also plays the sound cues of `nav/cues.h` on each step (Ctrl+Shift+S turns them
 off): the floor, each side's wall, fence, door or window, what stands on the tile.

@@ -90,7 +90,7 @@ Op een kavel is het bedieningspaneel een ring van groepen, zoals elk scherm. Tab
 
 Op een item van een paneel van Leven (een behoefte, vaardigheid, baan, beoordeling van het huis) leest Enter de pop-up van het spel ervoor voor.
 
-De baan noemt de werktijden en wanneer de carpool komt. De menu's van het spel hebben geen optie om ontslag te nemen: een Sim die steeds niet komt werken wordt ontslagen, en de krant en de computer bieden andere banen.
+De baan noemt de werktijden en wanneer de carpool komt. Elke vaardigheid noemt haar niveau en, als een promotie meer vraagt, hoeveel: "Koken, 2 van 10, de volgende promotie vraagt 4". De menu's van het spel hebben geen optie om ontslag te nemen: een Sim die steeds niet komt werken wordt ontslagen, en de krant en de computer bieden andere banen.
 
 ### Sims selecteren en de camera
 
@@ -101,6 +101,8 @@ De baan noemt de werktijden en wanneer de carpool komt. De menu's van het spel h
 | Control+Shift+1 tot Control+Shift+9 | De kaart van die Sim openen (biografie). |
 | Control+Shift+F | De camera volgt de geselecteerde Sim, of blijft vrij. |
 | Control+E | De geselecteerde Sim in één regel: kamer, wat hij doet, dringende behoeften, humeur. |
+| Control+Shift+E | Hoe een Sim eruitziet: hoofd en lichaam ("hoofd: zwart haar, kort; lichaam: pak, zwart"). De Sim die de focus heeft onder de voorwerpen op het kavel, anders de geselecteerde. De details van een Sim (Control+pijl omhoog erop) zeggen het ook. |
+| Control+T | Elk nieuw uur van de klok zeggen ("het is 14:00"), of ermee stoppen. Handig op de hoogste snelheid. |
 | P | Pauze (de toets van het spel); de mod zegt de tijd en het geld. 1, 2, 3 stellen de snelheid in. |
 
 De camera volgt de geselecteerde Sim, omdat de geluiden van het spel komen van wat er op het scherm is. Terwijl je door de voorwerpen op het kavel bladert, gaat de camera naar elk voorwerp en komt daarna terug bij de Sim.
@@ -118,12 +120,12 @@ Je hoeft er niet met Tab heen: de Page-toetsen bladeren overal op het kavel door
 | Page Down, Page Up | Volgend of vorig voorwerp van de soort of kamer die je het laatst koos. |
 | Shift+Page Down, Shift+Page Up | Volgende of vorige soort voorwerpen. |
 | Control+Page Down, Control+Page Up | Volgende of vorige kamer (de eerste keer: de kamer van de geselecteerde Sim). |
-| Enter | De interacties van het voorwerp (in Kopen: het oppakken om het te verplaatsen). |
+| Enter | De interacties van het voorwerp (in Kopen: het oppakken om het te verplaatsen). Op een regel met gelijke voorwerpen ("Klapstoel, 4 gelijke"): noemt ze een voor een, het dichtstbijzijnde eerst; Backspace gaat terug. |
 | Control+Enter | De geselecteerde Sim naar het voorwerp laten lopen. |
 | Control+F | Iets zoeken: typ een deel van de naam ("tel" vindt de telefoon, accenten maken niet uit). Pijl omhoog en omlaag lopen door de treffers, Enter werkt erop, Control+Enter stuurt de Sim erheen, Delete verwijdert een deur of raam, Escape gaat terug naar waar je was. |
 | Delete | Op een deur of raam, in koop- of bouwmodus: verwijdert het en betaalt het terug. |
 
-Een Sim of voorwerp waarboven nog een ballon staat, zegt die ook ("Bella, Eten, denkt: honger").
+Een Sim of voorwerp waarboven nog een ballon staat, zegt die ook ("Bella, Eten, denkt: honger"). Iets wat geen Sim vanaf de ingang van het kavel kan bereiken, zegt "geen Sim kan erbij".
 
 Na de Sims komt **problemen**: wat aandacht vraagt, zoals kapotte dingen, wat schoongemaakt moet worden, plassen, afval, as, vuur en alles met vliegen erboven. Als laatste komt **deuren, ramen en trappen**.
 
@@ -144,10 +146,12 @@ Enter op een voorwerp (of op een Sim) opent het interactiemenu van het spel. Pij
 
 | Toets | Wat hij doet |
 |---|---|
-| Pijltoetsen | Eén vak; met Shift vijf. Zegt wat er staat en welke kant het op kijkt, de kamer en verdieping als die veranderen, de muren, hekken, leuningen, deuren en ramen per kant. |
+| Pijltoetsen | Eén vak; met Shift vijf. Zegt wat er staat en welke kant het op kijkt, de kamer en verdieping als die veranderen, de muren, hekken, leuningen, deuren en ramen per kant. Muren, hekken en ramen houden de cursor tegen; deuren laten hem door. |
+| Alt+Pijltoetsen | Hetzelfde, door muren heen. |
+| Komma, punt | Wat elke stap zegt: alles, alleen voorwerpen, alleen vloeren (bij naam, "Lichte granieten tegel"), alleen muren, alleen kamers. |
 | Home | Terug naar de geselecteerde Sim. |
 | Control+Shift+Page Up, Page Down | De verdieping erboven of eronder. |
-| Enter | Het interactiemenu van wat er staat. |
+| Enter | Het interactiemenu van wat er staat (iets op een tafel of bureau gaat voor de tafel: de computer, niet zijn bureau). |
 | Control+Enter | De geselecteerde Sim erheen laten lopen. |
 | Page Down, Page Up (en Shift, Control) | De voorwerpen op het kavel zoals altijd; de plattegrond gaat naar elk ervan. |
 | R | Alles over het vak. Control+L de indeling van de kamer. |
@@ -161,10 +165,12 @@ Het spel laat veel dingen alleen als plaatjes zien. De mod zegt ze terwijl ze ge
 - **Geblokkeerde routes**: "Bella kan er niet langs: Stoel staat in de weg".
 - **Bezoekers** die aankomen en weggaan, geesten, de inbreker, Magere Hein, de pizzabezorger, de carpool en de schoolbus (welke auto toetert).
 - **Voorwerpen meegenomen** door de deurwaarder of een inbreker, met hun waarde; **rekeningen** die binnenkomen.
-- **De familiewacht**: wat de geselecteerde Sim gaat doen, in jouw opdracht of uit zichzelf ("Cris, uit zichzelf: Zitten"), wanneer hij klaar is, wisselingen van kamer, behoeften die laag worden, het humeur dat rood wordt, de relatieveranderingen van de dag ("Marisa met Cris: +8, nu 28"), en geld dat buiten Kopen wordt betaald of ontvangen.
+- **De familiewacht**: wat de geselecteerde Sim gaat doen, in jouw opdracht of uit zichzelf ("Cris, uit zichzelf: Zitten"), wanneer hij klaar is of onderbroken wordt ("Cris stopte met Zitten voor Paniek; het wacht in de wachtrij"), wisselingen van kamer, behoeften die laag worden, het humeur dat rood wordt, de relatieveranderingen van de dag ("Marisa met Cris: +8, nu 28"; het relatiepaneel van het spel toont deze getallen ook), en geld dat buiten Kopen wordt betaald of ontvangen.
 - **Uitstapjes**: waar je aangekomen bent, en "weer thuis".
 
 **Control+N** verandert hoeveel er gezegd wordt: alles, alleen waarschuwingen, of uit. Regels die niet worden uitgesproken, komen toch in de gebeurtenissenbuffer.
+
+**Control+Shift+N** kiest wiens gesprekken worden gezegd (wat Sims zeggen, hun sociale interacties, de relatieveranderingen die ze brengen): iedereen die met je familie praat (aan het begin), iedereen op het kavel, alleen je familie, of niemand.
 
 Geluiden die je kunt horen (de telefoon, de deurbel, alarmen) worden niet aangekondigd.
 
@@ -200,7 +206,8 @@ Terwijl je een voorwerp vasthoudt, heeft de mod de plekken al gevonden waar het 
 | Control+Page Down, Control+Page Up | De kamers met plekken. |
 | Shift+Page Down, Shift+Page Up (of komma, punt) | De andere richtingen op dezelfde plek. |
 | Control+Shift+Page Down, Page Up | Naast de voorwerpen op het kavel, het dichtstbijzijnde eerst. |
-| Pijltoetsen | Het in plaats daarvan één vak verplaatsen (Shift: vijf), met de melding of het past en waar het tegenaan komt. |
+| Pijltoetsen | Het in plaats daarvan één vak verplaatsen (Shift: vijf), met de melding of het past en waar het tegenaan komt. Muren, hekken en ramen houden het tegen; deuren laten het door. |
+| Alt+Pijltoetsen | Hetzelfde, door muren heen. |
 | Enter | Het daar kopen (of neerzetten, bij verplaatsen). |
 | Escape | Annuleren (een verplaatst voorwerp gaat terug). |
 | Delete | Het vastgehouden voorwerp verkopen; het terugbetaalde bedrag wordt genoemd. |
@@ -208,9 +215,11 @@ Terwijl je een voorwerp vasthoudt, heeft de mod de plekken al gevonden waar het 
 
 De detailbuffer bevat het vak van de plek en de plekken die het spel weigerde, met de reden.
 
+De plekken van een zitplaats komen eerst waar iets zittend gebruikt wordt en nog geen zitplaats heeft: "gericht naar het zuiden, om Computer zittend te gebruiken". Nadat een voorwerp is geplaatst, zegt de mod hoe het gebruikt wordt: "om Computer zittend te gebruiken", "wordt gebruikt vanaf Bureaustoel", "Sims kunnen erbij" of "geen Sim kan erbij".
+
 ### Verplaatsen en verkopen
 
-Ga in Kopen met Page Down naar een voorwerp op het kavel en druk op Enter: het wordt opgepakt en dezelfde lijst met plekken verschijnt. Gelijke voorwerpen worden een voor een genoemd, en de laatste aankoop zegt "net gekocht".
+Ga in Kopen met Page Down naar een voorwerp op het kavel en druk op Enter: het wordt opgepakt en dezelfde lijst met plekken verschijnt, te beginnen in de kamer waar het vandaan kwam. Het eerste pijltje zet de cursor waar het stond. Gelijke voorwerpen worden een voor een genoemd, en de laatste aankoop zegt "net gekocht".
 
 ## Bouwen
 
@@ -269,7 +278,7 @@ De bouwcursor, het plaatsen en de plattegrond spelen bij elke stap een kort gelu
 | Toets | Wat hij doet |
 |---|---|
 | Control+Shift+C | De cheatconsole van het spel. Pijl omhoog en pijl omlaag kiezen een cheat, typen vult hem aan, Enter voert hem uit (nog eens: herhaalt), Escape sluit. |
-| Control+Shift+V | Het gekozen bedieningselement op het scherm oplichten, voor een ziende helper. |
+| Control+Shift+V | Het gekozen bedieningselement op het scherm oplichten, voor een ziende helper. Op het kavel gaat de muisaanwijzer ook naar het voorwerp dat de focus heeft. |
 
 ## De eigen toetsen van het spel
 
@@ -295,6 +304,8 @@ De instellingen van de mod staan in `SimsAccess\SimsAccess.ini` in de map van he
 | `cues` | 1 geluidssignalen aan, 0 uit (Control+Shift+S). |
 | `cue_volume` | Volume van de geluidssignalen, 0 tot 100 (standaard 80). |
 | `show_focus` | 1 laat het gekozen bedieningselement op het scherm oplichten (Control+Shift+V). |
+| `social` | Wiens gesprekken worden gezegd: 3 iedereen, 2 iedereen die met je familie praat, 1 je familie, 0 niemand (Control+Shift+N). |
+| `hours` | 1 zegt elk nieuw uur (Control+T). |
 
 ## Als er iets misgaat
 

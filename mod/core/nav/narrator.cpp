@@ -49,6 +49,7 @@ constexpr ULONGLONG kVisitorStayMs = 1000;
 // 5:48 on an almost empty lot), removes himself 2.5 s later: no alarm for that.
 constexpr ULONGLONG kBurglarStayMs = 5000;
 constexpr ULONGLONG kLotSettleMs = 8000;
+constexpr ULONGLONG kVisitorNameWaitMs = 10000;  // a visitor with no name yet is announced once named
 constexpr ULONGLONG kBillsPollMs = 1000;
 constexpr ULONGLONG kBillsQuietMs = 3000;
 constexpr ULONGLONG kSameLineMs = 5000;  // identical words from different objects
@@ -59,6 +60,7 @@ struct Shown {
 };
 
 struct Visitor {
+    Ptr person = 0;
     std::string name;
     std::string burglarShout;  // the game's cry when it is the burglar, else empty
     bool waitsForGreeting = false;  // the pizza man: he leaves with the pizza unless greeted
@@ -141,6 +143,19 @@ int CurrentVerbosity() {
 }
 
 bool Contains(const std::vector<int>& ids, int id) { return std::find(ids.begin(), ids.end(), id) != ids.end(); }
+
+// Whose conversations are spoken (Ctrl+Shift+N, "social" in SimsAccess.ini): talk balloons,
+// socials' icons, the + / - after them and relationship numbers. Testers wanted to hear what
+// visitors answer their Sims and how other Sims get on.
+int g_social = -1;  // read from the settings on first use
+
+int CurrentSocial() {
+    if (g_social < 0) {
+        g_social = util::GetSetting("social", kSocialWithFamily);
+        if (g_social < kSocialNobody || g_social > kSocialEveryone) g_social = kSocialWithFamily;
+    }
+    return g_social;
+}
 
 // ---- What a balloon shows, in words --------------------------------------------------------
 
@@ -267,14 +282,48 @@ std::string Line(const Balloon& b, const std::string& content, const std::string
     return named ? util::Format(S(Str::BalloonShows), n, c) : content;
 }
 
-// Whose balloons are spoken: everything over the family and over objects; a visitor's only when
-// it concerns the family (a social interaction with one of them) or is a shout. Skill progress
-// bars are not spoken (every tenth of a skill point; the game announces each point gained
-// itself) but stay in the object browser's description. The others are logged.
+// A balloon of a conversation: what is said, the socials' icons, the + / - after them.
+bool Conversational(const Balloon& b) {
+    return b.kind == BalloonKind::Speak || b.group == grp::kConversation || b.group == grp::kConversation2 ||
+           b.group == grp::kSocial || b.group == grp::kRelationship;
+}
+
+// Whose balloons are spoken: everything over objects; the family's thoughts and shouts, a
+// visitor's shouts (and every thought with the scope "everyone"); conversations by the scope
+// (Ctrl+Shift+N). Skill progress bars are not spoken (every tenth of a skill point; the game
+// announces each point gained itself) but stay in the object browser's description. The others
+// are logged.
 bool Speak(const Balloon& b, bool person, bool family, bool withFamily) {
     if (b.group == grp::kProgress) return false;
-    if (!person || family) return true;
-    return withFamily || b.kind == BalloonKind::Scream;
+    if (!person || RouteTrouble(b)) return true;
+    int scope = CurrentSocial();
+    if (!Conversational(b)) return family || b.kind == BalloonKind::Scream || scope == kSocialEveryone;
+    switch (scope) {
+    case kSocialEveryone: return true;
+    case kSocialWithFamily: return family || withFamily;
+    case kSocialFamily: return family;
+    }
+    return false;
+}
+
+// Whether a Sim from outside the family is busy with one of the family: the balloon's stack
+// object, either one's running action with the other (actions name the other Sim).
+bool TalkingWithFamily(const Balloon& b, Ptr owner, const std::vector<int>& family) {
+    game::LotObject other;
+    if (b.otherId != b.ownerId && game::GetObject(game::ObjectById(b.otherId), &other) && other.person &&
+        Contains(family, game::SimNeighborId(other.object)))
+        return true;
+    int ownerId = game::SimNeighborId(owner);
+    std::string ownerName = game::NeighborName(ownerId);
+    for (const game::SimAction& a : game::SimActionList(ownerId))
+        if (a.running && !a.target.empty())
+            for (int id : family)
+                if (a.target == game::NeighborName(id)) return true;
+    if (ownerName.empty()) return false;
+    for (int id : family)
+        for (const game::SimAction& a : game::SimActionList(id))
+            if (a.running && a.target == ownerName) return true;
+    return false;
 }
 
 std::string Trimmed(const std::string& s) {
@@ -307,9 +356,7 @@ void Report(const Balloon& b, const std::vector<int>& family) {
     if (name == content) name.clear();  // the flies' own balloon: "moscas", not "moscas: moscas"
     std::string line = Line(b, content, name);
     bool inFamily = o.person && Contains(family, game::SimNeighborId(owner));
-    game::LotObject other;
-    bool withFamily = b.otherId != b.ownerId && game::GetObject(game::ObjectById(b.otherId), &other) &&
-                      other.person && Contains(family, game::SimNeighborId(other.object));
+    bool withFamily = o.person && !inFamily && TalkingWithFamily(b, owner, family);
     bool speak = Speak(b, o.person, inFamily, withFamily);
     // The + or - after a social: when it concerns the selected Sim the family watch says it with
     // the number (polled once a second), so the balloon waits a moment and is dropped then.
@@ -386,6 +433,7 @@ void PollVisitors(const std::vector<int>& family) {
             continue;
         }
         Visitor v;  // new here; those present when the lot was first seen count as announced
+        v.person = person;
         v.name = Trimmed(game::ObjectName(o));
         v.ghost = game::IsGhost(person);
         v.reaperFor = Trimmed(game::ReaperFor(person));
@@ -399,6 +447,14 @@ void PollVisitors(const std::vector<int>& family) {
     }
     for (auto& [id, v] : present) {
         if (v.announced || now - v.since < (v.burglarShout.empty() ? kVisitorStayMs : kBurglarStayMs)) continue;
+        // The name now: a service Sim is made from a template and named a moment after it is
+        // placed ("*TemplatePerson" when a maid came, a tester).
+        game::LotObject now_;
+        if (game::GetObject(v.person, &now_)) {
+            std::string name = Trimmed(game::ObjectName(now_));
+            if (!name.empty()) v.name = name;
+        }
+        if (v.name.empty() && now - v.since < kVisitorNameWaitMs) continue;  // not named yet
         v.announced = true;
         if (v.name.empty()) continue;
         if (v.ghost) {
@@ -530,6 +586,21 @@ void CycleVerbosity() {
                   : g_verbosity == kWarnings ? Str::NarratorWarnings
                                              : Str::NarratorOff));
 }
+
+void CycleSocial() {
+    int v = CurrentSocial();
+    g_social = v == kSocialWithFamily ? kSocialEveryone
+             : v == kSocialEveryone   ? kSocialFamily
+             : v == kSocialFamily     ? kSocialNobody
+                                      : kSocialWithFamily;
+    util::SetSetting("social", g_social);
+    speech::Say(S(g_social == kSocialEveryone ? Str::SocialEveryone
+                  : g_social == kSocialWithFamily ? Str::SocialWithFamily
+                  : g_social == kSocialFamily ? Str::SocialFamilyOnly
+                                              : Str::SocialNobody));
+}
+
+int SocialScope() { return CurrentSocial(); }
 
 void SayStatus() {
     if (!LotViewActive() || !game::LotModule()) {

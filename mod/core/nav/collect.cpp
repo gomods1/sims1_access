@@ -230,7 +230,15 @@ struct Walker {
                     Add(member, Role::PickerMember, "", game::FamilyMemberId(member), kMembersGroup);
             return false;
         }
-        if (IsKindOf(w, "cWinLotBtn")) { Add(w, Role::Lot); return true; }
+        if (IsKindOf(w, "cWinLotBtn")) {
+            // A travel map's filter chosen (its bar's buttons): the list keeps the lots it marks,
+            // as the map shows them (a tester found the filters did nothing).
+            Ptr map = game::TravelMap(w);
+            int bit = map ? game::MapFilterChosen(map) : 0;
+            if (bit && !(game::LotFilterBits(w) & bit)) return true;
+            Add(w, Role::Lot);
+            return true;
+        }
         if (IsKindOf(w, "cWinMotive")) { Add(w, Role::Motive, game::Caption(w)); return false; }
         if (IsKindOf(w, "cActionIcon")) {
             std::string action = game::Tooltip(w);

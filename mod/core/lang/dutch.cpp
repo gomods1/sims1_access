@@ -1028,6 +1028,44 @@ const Translation kEntries[] = {
     {Str::ManualButton, "Handleiding Toegankelijkheid voor De Sims"},
     {Str::GroupModHelp, "mod-hulp"},
     {Str::KeysButton, "Toetsen voor dit scherm"},
+    // Tester feedback, 2026-11-06
+    {Str::HourChanged, "het is %s"},
+    {Str::HoursOn, "elk nieuw uur wordt gezegd"},
+    {Str::HoursOff, "de uren worden niet meer gezegd"},
+    {Str::SocialEveryone, "gesprekken: die van iedereen"},
+    {Str::SocialWithFamily, "gesprekken: iedereen die met je familie praat"},
+    {Str::SocialFamilyOnly, "gesprekken: alleen die van je familie"},
+    {Str::SocialNobody, "gesprekken: geen, ze blijven in de gebeurtenissen"},
+    {Str::ActionInterrupted, "%1$s stopte met %2$s voor %3$s"},
+    {Str::ActionInterruptedWaits, "%1$s stopte met %2$s voor %3$s; het wacht in de wachtrij"},
+    {Str::SameObjectsHint, "Enter noemt ze een voor een"},
+    {Str::SeatFor, "om %s zittend te gebruiken"},
+    {Str::UsedFromSeat, "wordt gebruikt vanaf %s"},
+    {Str::NobodyReaches, "geen Sim kan erbij"},
+    {Str::SimsCanUse, "Sims kunnen erbij"},
+    {Str::FromWhereItWas, "waar het stond: %s"},
+    {Str::MapNoWalls, "geen muren"},
+    {Str::MapLayerAll, "alles"},
+    {Str::MapLayerObjects, "alleen voorwerpen"},
+    {Str::MapLayerFloors, "alleen vloeren"},
+    {Str::MapLayerWalls, "alleen muren"},
+    {Str::MapLayerRooms, "alleen kamers"},
+    {Str::SimLookHead, "hoofd: %s"},
+    {Str::SimLookBody, "lichaam: %s"},
+    {Str::SimLookUnknown, "%s: de mod heeft geen beschrijving van dit uiterlijk"},
+    {Str::KeysLotMore,
+     "Enter op een regel met gelijke voorwerpen noemt ze een voor een. Control+T zegt elk nieuw uur van de klok, "
+     "of stopt daarmee. Control+Shift+N kiest wiens gesprekken worden gezegd: iedereen die met je familie praat, "
+     "iedereen, alleen je familie of niemand. Control+Shift+E zegt hoe een Sim eruitziet."},
+    {Str::KeysMapMore,
+     "Muren, hekken en ramen houden de pijltjes tegen; Alt met de pijltjes gaat erdoorheen. Komma en punt kiezen "
+     "wat elke stap zegt: alles, voorwerpen, vloeren, muren of kamers."},
+    {Str::KeysPlacingWalls,
+     "Muren, hekken en ramen houden de pijltjes tegen; Alt met de pijltjes gaat erdoorheen. Bij het verplaatsen "
+     "van een voorwerp begint het eerste pijltje waar het stond."},
+    {Str::KeysShowFocusThings,
+     "Als het aan staat, gaat de muisaanwijzer ook naar het voorwerp van het perceel dat de focus heeft."},
+    {Str::SkillNeededForPromotion, "de volgende promotie vraagt %d"},
 };
 
 }  // namespace

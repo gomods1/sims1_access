@@ -26,6 +26,9 @@ std::string NeighborName(int id) {
     auto fn = (NameFn)Va(addr::kNeighborName);
     if (!Guarded([&] { fn(id, str); })) return "";
     std::string name = ReadStdStringUtf8((Ptr)str);
+    // A service Sim is made from a template and named a moment later: "*TemplatePerson" (a
+    // tester heard it when a maid came) is no name to say, nor to keep.
+    if (!name.empty() && name[0] == '*') return "";
     if (!name.empty()) cache[id] = name;
     return name;
 }
@@ -85,7 +88,8 @@ std::vector<SimAction> SimActionList(int neighborId) {
             a.name = ReadStdStringUtf8(e + addr::kQueueEntryName);
             a.running = Rd<uint8_t>(e + addr::kQueueEntryRunning) != 0;
             Ptr record = Rd<Ptr>(e + addr::kQueueEntryRecord);
-            a.byPlayer = record && Rd<int>(record + addr::kQueueRecordPriority) >= addr::kPlayerPriority;
+            a.priority = record ? Rd<int>(record + addr::kQueueRecordPriority) : 0;
+            a.byPlayer = record && a.priority >= addr::kPlayerPriority;
             // The object whose interaction it is: another Sim, for a social.
             Ptr callee = record ? Rd<Ptr>(record + addr::kQueueRecordObject) : 0;
             if (IsKindOf(callee, "cXPerson")) {
@@ -175,19 +179,6 @@ int MoodBars(int mood) {
     return bars < -5 ? -5 : bars > 5 ? 5 : bars;
 }
 
-bool SkillPoints(int neighborId, int slot, int* points) {
-    typedef int(__cdecl * SkillFn)(int id, int index);
-    bool pet = slot >= kPetSkillSlot;
-    int i = pet ? slot - kPetSkillSlot : slot;
-    if (neighborId < 0 || i < 0 || i >= (pet ? addr::kPetPanelSkillCount : addr::kJobPanelSkillCount) ||
-        !FunctionOk(addr::kSimSkill))
-        return false;
-    int index = Rd<int>(Va(pet ? addr::kPetPanelSkillIds : addr::kJobPanelSkillIds) + i * 4, -1);
-    if (index < 0) return false;
-    auto fn = (SkillFn)Va(addr::kSimSkill);
-    return Guarded([&] { *points = fn(neighborId, index); });
-}
-
 namespace {
 
 bool PersonDataValue(int id, int index, short* value) {
@@ -199,7 +190,30 @@ bool PersonDataValue(int id, int index, short* value) {
     return Read(data + index * 2, value, sizeof *value);
 }
 
-}  // namespace
+}
+
+bool SkillPoints(int neighborId, int slot, int* points) {
+    bool pet = slot >= kPetSkillSlot;
+    int i = pet ? slot - kPetSkillSlot : slot;
+    if (neighborId < 0 || i < 0 || i >= (pet ? addr::kPetPanelSkillCount : addr::kJobPanelSkillCount)) return false;
+    int index = Rd<int>(Va(pet ? addr::kPetPanelSkillIds : addr::kJobPanelSkillIds) + i * 4, -1);
+    if (index < 0) return false;
+    // The person data holds the points (the panel draws value / 100 bars, 0x4df680); 0x43bc30 is
+    // the level the next promotion asks for, 0 once reached (a tester heard "0 de 10" for all).
+    short value = 0;
+    if (!PersonDataValue(neighborId, index, &value)) return false;
+    *points = value < 0 ? 0 : value;
+    return true;
+}
+
+bool SkillNeeded(int neighborId, int slot, int* points) {
+    typedef int(__cdecl * SkillFn)(int id, int index);
+    if (neighborId < 0 || slot < 0 || slot >= addr::kJobPanelSkillCount || !FunctionOk(addr::kSimSkill)) return false;
+    int index = Rd<int>(Va(addr::kJobPanelSkillIds) + slot * 4, -1);
+    if (index < 0) return false;
+    auto fn = (SkillFn)Va(addr::kSimSkill);
+    return Guarded([&] { *points = fn(neighborId, index); });
+}
 
 bool Personality(int neighborId, int out[kTraitCount]) {
     const int kIndices[kTraitCount] = {7, 6, 3, 5, 2};

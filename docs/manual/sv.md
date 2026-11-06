@@ -90,7 +90,7 @@ På en tomt är kontrollpanelen en ring av grupper som vilken skärm som helst. 
 
 På ett objekt i en panel i Boendeläge (ett behov, en färdighet, ett jobb, ett betyg för huset) läser Enter upp spelets popupruta för det.
 
-Jobbet säger arbetstiderna och när samåkningen kommer. Spelets menyer har inget alternativ för att säga upp sig: en sim som fortsätter att missa jobbet får sparken, och tidningen och datorn erbjuder andra jobb.
+Jobbet säger arbetstiderna och när samåkningen kommer. Varje färdighet säger sin nivå och, när en befordran kräver mer, hur mycket: "Matlagning, 2 av 10, nästa befordran kräver 4". Spelets menyer har inget alternativ för att säga upp sig: en sim som fortsätter att missa jobbet får sparken, och tidningen och datorn erbjuder andra jobb.
 
 ### Välja simmar och kameran
 
@@ -101,6 +101,8 @@ Jobbet säger arbetstiderna och när samåkningen kommer. Spelets menyer har ing
 | Kontroll+Skift+1 till Kontroll+Skift+9 | Öppnar den simmens kort (bakgrund). |
 | Kontroll+Skift+F | Kameran följer den valda simmen, eller är fri. |
 | Kontroll+E | Den valda simmen på en rad: rum, vad den gör, akuta behov, humör. |
+| Kontroll+Skift+E | Hur en sim ser ut: huvud och kropp ("huvud: svart hår, kort; kropp: kostym, svart"). Simmen som har fokus bland tomtens föremål, annars den valda. En simmes detaljer (Kontroll+Pil upp på den) säger det också. |
+| Kontroll+T | Säger varje ny timme på klockan ("klockan är 14:00"), eller slutar med det. Användbart på högsta hastigheten. |
 | P | Paus (spelets tangent); modden säger tid och pengar. 1, 2, 3 ställer in hastigheten. |
 
 Kameran följer den valda simmen, eftersom spelets ljud kommer från det som syns på skärmen. Medan du bläddrar bland tomtens föremål går kameran till varje föremål och kommer sedan tillbaka till simmen.
@@ -118,12 +120,12 @@ Du behöver inte tabba dit: Page-tangenterna bläddrar bland föremålen var du 
 | Page Down, Page Up | Nästa eller föregående föremål av den sort eller i det rum du valde senast. |
 | Skift+Page Down, Skift+Page Up | Nästa eller föregående sort av föremål. |
 | Kontroll+Page Down, Kontroll+Page Up | Nästa eller föregående rum (första trycket: den valda simmens rum). |
-| Enter | Föremålets interaktioner (i Köpläge: plockar upp det för att flytta det). |
+| Enter | Föremålets interaktioner (i Köpläge: plockar upp det för att flytta det). På en rad med likadana saker ("Fällstol, 4 likadana"): listar dem en i taget, närmast först; Backspace går tillbaka. |
 | Kontroll+Enter | Låter den valda simmen gå till föremålet. |
 | Kontroll+F | Sök något: skriv en del av namnet ("tel" hittar telefonen, accenter spelar ingen roll). Pil upp och ned går igenom träffarna, Enter agerar på den, Kontroll+Enter skickar dit simmen, Delete tar bort en dörr eller ett fönster, Escape går tillbaka dit du var. |
 | Delete | På en dörr eller ett fönster, i köp- eller byggläge: tar bort det och ger pengarna tillbaka. |
 
-En sim eller ett föremål som fortfarande visar en bubbla säger den också ("Bella, Ät, tänker: hunger").
+En sim eller ett föremål som fortfarande visar en bubbla säger den också ("Bella, Ät, tänker: hunger"). Något som ingen sim kan nå från tomtens ingång säger "ingen sim kan nå den".
 
 Efter simmarna kommer **problem**: det som behöver uppmärksamhet, som trasiga saker, det som behöver städas, vattenpölar, skräp, aska, eld och allt med flugor över. Sist kommer **dörrar, fönster och trappor**.
 
@@ -144,10 +146,12 @@ Enter på ett föremål (eller på en sim) öppnar spelets interaktionsmeny. Pil
 
 | Tangent | Vad den gör |
 |---|---|
-| Piltangenterna | En ruta; med Skift fem. Säger vad som står där och åt vilket håll det är vänt, rummet och våningen när de byts, väggarna, staketen, räckena, dörrarna och fönstren på varje sida. |
+| Piltangenterna | En ruta; med Skift fem. Säger vad som står där och åt vilket håll det är vänt, rummet och våningen när de byts, väggarna, staketen, räckena, dörrarna och fönstren på varje sida. Väggar, staket och fönster stoppar markören; dörrar släpper igenom den. |
+| Alt+Piltangenterna | Samma sak, genom väggar. |
+| Komma, punkt | Vad varje steg säger: allt, bara föremål, bara golv (med namn, "Ljus granitplatta"), bara väggar, bara rum. |
 | Home | Tillbaka till den valda simmen. |
 | Kontroll+Skift+Page Up, Page Down | Våningen ovanför eller under. |
-| Enter | Interaktionsmenyn för det som står där. |
+| Enter | Interaktionsmenyn för det som står där (något på ett bord eller skrivbord före bordet: datorn, inte dess skrivbord). |
 | Kontroll+Enter | Låter den valda simmen gå dit. |
 | Page Down, Page Up (och Skift, Kontroll) | Tomtens föremål som vanligt; kartan går till vart och ett. |
 | R | Allt om rutan. Kontroll+L rummets planlösning. |
@@ -161,10 +165,12 @@ Spelet visar många saker bara som bilder. Modden säger dem när de händer och
 - **Blockerade vägar**: "Bella kommer inte förbi: Stol står i vägen".
 - **Besökare** som kommer och går, spöken, inbrottstjuven, Liemannen, pizzabudet, samåkningen och skolbussen (vilken bil som tutar).
 - **Saker som tas** av kronofogden eller en inbrottstjuv, med deras värde; **räkningar** som kommer.
-- **Familjevakten**: vad den valda simmen börjar göra, på din order eller på eget initiativ ("Cris, på eget initiativ: Sitt"), när den är klar, byten av rum, behov som blir låga, humöret som blir rött, dagens ändringar i förhållanden ("Marisa med Cris: +8, nu 28"), och pengar som betalas eller tas emot utanför Köpläge.
+- **Familjevakten**: vad den valda simmen börjar göra, på din order eller på eget initiativ ("Cris, på eget initiativ: Sitt"), när den är klar eller blir avbruten ("Cris avbröt Sitt för Panik; det väntar i kön"), byten av rum, behov som blir låga, humöret som blir rött, dagens ändringar i förhållanden ("Marisa med Cris: +8, nu 28"; spelets relationspanel visar också de här siffrorna), och pengar som betalas eller tas emot utanför Köpläge.
 - **Resor**: vart du har kommit, och "hemma igen".
 
 **Kontroll+N** ändrar hur mycket som sägs: allt, bara varningar eller av. Rader som inte sägs hamnar ändå i händelsebufferten.
+
+**Kontroll+Skift+N** väljer vems samtal som sägs (vad simmarna säger, deras sociala interaktioner, relationsändringarna de för med sig): alla som pratar med din familj (från början), alla på tomten, bara din familj eller ingen.
 
 Ljud som du kan höra (telefonen, dörrklockan, larm) meddelas inte.
 
@@ -200,7 +206,8 @@ Medan du håller ett föremål har modden redan hittat platserna där det får p
 | Kontroll+Page Down, Kontroll+Page Up | Rummen som har platser. |
 | Skift+Page Down, Skift+Page Up (eller komma, punkt) | De andra riktningarna på samma plats. |
 | Kontroll+Skift+Page Down, Page Up | Bredvid tomtens föremål, närmast först. |
-| Piltangenterna | Flyttar det i stället en ruta (Skift: fem) och säger om det får plats och vad det stöter emot. |
+| Piltangenterna | Flyttar det i stället en ruta (Skift: fem) och säger om det får plats och vad det stöter emot. Väggar, staket och fönster stoppar det; dörrar släpper igenom det. |
+| Alt+Piltangenterna | Samma sak, genom väggar. |
 | Enter | Köper det där (eller ställer ner det, när du flyttar). |
 | Escape | Avbryter (ett flyttat föremål går tillbaka). |
 | Delete | Säljer föremålet du håller; återbetalningen sägs. |
@@ -208,9 +215,11 @@ Medan du håller ett föremål har modden redan hittat platserna där det får p
 
 Detaljbufferten innehåller platsens ruta och de platser spelet avvisade, med skälet.
 
+En sittplats platser kommer först där något används sittande och ännu inte har någon sittplats: "vänd mot söder, för att använda Dator sittande". När ett föremål har placerats säger modden hur det kommer att användas: "för att använda Dator sittande", "används från Kontorsstol", "simmarna kan nå den" eller "ingen sim kan nå den".
+
 ### Flytta och sälja
 
-I Köpläge, gå med Page Down till ett föremål på tomten och tryck Enter: det plockas upp och samma lista över platser visas. Likadana föremål listas ett i taget, och det senaste köpet säger "nyss köpt".
+I Köpläge, gå med Page Down till ett föremål på tomten och tryck Enter: det plockas upp och samma lista över platser visas, med början i rummet det kom från. Den första pilen sätter markören där det stod. Likadana föremål listas ett i taget, och det senaste köpet säger "nyss köpt".
 
 ## Byggläge
 
@@ -269,7 +278,7 @@ Byggmarkören, placeringen och husets karta spelar ett kort ljud vid varje steg:
 | Tangent | Vad den gör |
 |---|---|
 | Kontroll+Skift+C | Spelets fuskkonsol. Pil upp och Pil ned väljer ett fusk, det du skriver läggs till, Enter kör det (igen: upprepar), Escape stänger. |
-| Kontroll+Skift+V | Lyser upp den valda kontrollen på skärmen för en seende hjälpare. |
+| Kontroll+Skift+V | Lyser upp den valda kontrollen på skärmen för en seende hjälpare. På tomten går muspekaren också till saken som har fokus. |
 
 ## Spelets egna tangenter
 
@@ -295,6 +304,8 @@ Moddens inställningar finns i `SimsAccess\SimsAccess.ini` i spelets mapp, avsni
 | `cues` | 1 ljudsignaler på, 0 av (Kontroll+Skift+S). |
 | `cue_volume` | Ljudsignalernas volym, 0 till 100 (standard 80). |
 | `show_focus` | 1 lyser upp den valda kontrollen på skärmen (Kontroll+Skift+V). |
+| `social` | Vems samtal som sägs: 3 alla, 2 alla som pratar med din familj, 1 din familj, 0 ingen (Kontroll+Skift+N). |
+| `hours` | 1 säger varje ny timme (Kontroll+T). |
 
 ## När något går fel
 

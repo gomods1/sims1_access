@@ -114,6 +114,7 @@ constexpr Va kStringSetDtor = 0x58c4b0;       // void ()
 constexpr size_t kStringSetSize = 0x100;      // fields used up to +0x6c
 constexpr uint32_t kResourceCTSS = 0x43545353;  // 'CTSS'
 constexpr uint32_t kResourceSTR = 0x53545223;   // 'STR#'
+constexpr int kBodyStringsId = 200;  // a character file's STR# "bodystring": 1 body, 2 head
 constexpr uint32_t kResourceTTAs = 0x54544173;  // 'TTAs': the interactions' names
 // thiscall TreeTable* (): an object type's interactions (cached at type + 0x64). TreeTable: +4
 // int count, +0x10 entry pointer array; entry +0x00 u16 action tree, +0x02 u16 test tree, +0x14
@@ -425,6 +426,10 @@ constexpr int kByteMapRows = 0x10;    // these two maps keep their rows (by tile
 // granite tiles and linoleum 1, macadam, cement, concrete and gravel 3.
 constexpr Va kFloorStyles = 0xa72e40;
 constexpr int kFloorStyleSound = 0x44;
+constexpr int kBaseFloors = 29;          // patterns 1-29: their names are in Build.iff STR# 130
+constexpr int kBaseFloorStrings = 130;
+constexpr int kFloorStyleName = 0x14;  // std::string, the catalog's name in the game's language
+                                       // ("Roca y gravilla", read live 2026-11-06)
 }  // namespace grid
 
 // ---- The cheat console (main window, cTSMainWindowW95) ------------------------------------

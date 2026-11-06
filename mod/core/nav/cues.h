@@ -51,5 +51,8 @@ void Fit(bool fits);  // placing: the held object fits here or not
 std::string SurfaceWord(game::Surface s);
 Str SideWord(int side);          // north, east, south, west (the build cursor's words)
 std::string EdgesLine(const TileSense& t);  // "pared al norte, puerta al este"; empty when none
+// A step of one tile (dx, dy: -1, 0 or 1, not both) from the tile: whether a wall, fence, railing
+// or window on that side stops it (a door does not); `what` gets its words ("pared al este").
+bool WallStops(int level, int x, int y, int dx, int dy, std::string* what);
 
 }  // namespace nav::cues

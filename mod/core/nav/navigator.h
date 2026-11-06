@@ -45,6 +45,7 @@ void Move(int delta);        // previous/next item in the current group (no wrap
 void MoveToEdge(bool last);  // first/last item in the current group
 void NextGroup(int delta);   // previous/next group (wraps)
 void JumpToGroup(char letter);
+void SayLook();  // Ctrl+Shift+E: what the focused or selected Sim looks like
 void ToggleShowFocus();         // Ctrl+Shift+V: the focused control lit on screen, for a sighted helper  // Alt+letter: the next group whose spoken name starts with it
 bool Back();                 // Backspace: up a level (a kind's or room's things to the kinds or
                              // rooms); false at a top level

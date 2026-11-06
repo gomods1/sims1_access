@@ -1017,6 +1017,43 @@ const Translation kEntries[] = {
     {Str::ManualButton, "Manual de Acessibilidade para The Sims"},
     {Str::GroupModHelp, "ajuda do mod"},
     {Str::KeysButton, "Teclas desta tela"},
+    // Tester feedback, 2026-11-06
+    {Str::HourChanged, "são %s"},
+    {Str::HoursOn, "cada nova hora é anunciada"},
+    {Str::HoursOff, "as horas não são mais anunciadas"},
+    {Str::SocialEveryone, "conversas: as de todos"},
+    {Str::SocialWithFamily, "conversas: quem fala com sua família"},
+    {Str::SocialFamilyOnly, "conversas: só as da sua família"},
+    {Str::SocialNobody, "conversas: nenhuma, ficam nos eventos"},
+    {Str::ActionInterrupted, "%1$s deixou %2$s por %3$s"},
+    {Str::ActionInterruptedWaits, "%1$s deixou %2$s por %3$s; continua na fila"},
+    {Str::SameObjectsHint, "Enter lista um por um"},
+    {Str::SeatFor, "para usar %s sentado"},
+    {Str::UsedFromSeat, "usado a partir de %s"},
+    {Str::NobodyReaches, "nenhum Sim consegue chegar"},
+    {Str::SimsCanUse, "os Sims conseguem chegar"},
+    {Str::FromWhereItWas, "onde estava: %s"},
+    {Str::MapNoWalls, "sem paredes"},
+    {Str::MapLayerAll, "tudo"},
+    {Str::MapLayerObjects, "só objetos"},
+    {Str::MapLayerFloors, "só pisos"},
+    {Str::MapLayerWalls, "só paredes"},
+    {Str::MapLayerRooms, "só cômodos"},
+    {Str::SimLookHead, "cabeça: %s"},
+    {Str::SimLookBody, "corpo: %s"},
+    {Str::SimLookUnknown, "%s: o mod não tem descrição desta aparência"},
+    {Str::KeysLotMore,
+     "Enter em uma entrada de coisas iguais lista uma por uma. Control+T diz cada nova hora do relógio, ou para "
+     "de dizer. Control+Shift+N escolhe de quem são as conversas ditas: quem fala com sua família, todos, só sua "
+     "família ou ninguém. Control+Shift+E diz como é a aparência de um Sim."},
+    {Str::KeysMapMore,
+     "Paredes, cercas e janelas param as setas; Alt com as setas atravessa. Vírgula e ponto escolhem o que cada "
+     "passo diz: tudo, objetos, pisos, paredes ou cômodos."},
+    {Str::KeysPlacingWalls,
+     "Paredes, cercas e janelas param as setas; Alt com as setas atravessa. Ao mover um objeto, a primeira seta "
+     "começa onde ele estava."},
+    {Str::KeysShowFocusThings, "Ativado, o ponteiro do mouse também vai até a coisa do lote que está em foco."},
+    {Str::SkillNeededForPromotion, "a próxima promoção exige %d"},
 };
 
 }  // namespace

@@ -1,6 +1,7 @@
 #include "map_mode.h"
 
 #include <algorithm>
+#include <cstdlib>
 #include <string>
 #include <vector>
 
@@ -27,8 +28,14 @@ namespace {
 
 constexpr int kMaxLevel = 2;  // The Sims 1 builds two floors (the maps above hold garbage)
 
+// What each step says (comma / period cycle them; a tester's idea, from Oxygen Not Included's
+// overlays: everything at once was too much on a furnished lot).
+enum Layer { kAll, kObjects, kFloors, kWalls, kRooms, kLayers };
+
 struct State {
     bool active = false;
+    int layer = kAll;
+    std::string lastFloor;
     int x = 0, y = 0, level = 1;
     int lastRoom = -2;
     int lastLevel = 0;
@@ -71,6 +78,9 @@ std::vector<game::LotObject> ThingsHere() {
         bool seen = std::any_of(out.begin(), out.end(), [&](const game::LotObject& e) { return e.id == o.id; });
         if (!seen) out.push_back(o);
     }
+    // Sims first, then what stands on something (the computer on its desk: what Enter takes),
+    // then the rest.
+    std::stable_partition(out.begin(), out.end(), [](const game::LotObject& o) { return game::ContainerOf(o.object) != 0; });
     std::stable_partition(out.begin(), out.end(), [](const game::LotObject& o) { return o.person; });
     return out;
 }
@@ -85,17 +95,31 @@ std::string ThingWords(const game::LotObject& o) {
 
 // The line for the cursor's tile: what stands there, the room and floor when they change, the
 // walls and openings, stairs, a slope; the tile last (as the build cursor's line).
+// The floor in words: its catalog name ("Roca y gravilla"), else what it is made of.
+std::string FloorWords(const cues::TileSense& t) {
+    std::string name = game::FloorName(g.level, g.x, g.y);
+    return name.empty() ? cues::SurfaceWord(t.surface) : name;
+}
+
 std::string Line(bool full) {
     std::vector<std::string> parts;
-    for (const game::LotObject& o : ThingsHere()) parts.push_back(ThingWords(o));
+    int layer = g.layer;
+    bool all = layer == kAll;
+    if (all || layer == kObjects) {
+        std::vector<game::LotObject> here = ThingsHere();
+        for (const game::LotObject& o : here) parts.push_back(ThingWords(o));
+        if (here.empty() && layer == kObjects) parts.push_back(S(Str::MapNothingHere));
+    }
     cues::TileSense t = cues::Sense(g.level, g.x, g.y);
-    if (t.stairs) parts.push_back(S(Str::MapStairs));
+    if (t.stairs && (all || layer == kObjects || layer == kWalls)) parts.push_back(S(Str::MapStairs));
     int room = game::RoomAt(g.level, g.x, g.y);
     std::string roomName = RoomName(g.level, g.x, g.y);
     // The half tiles beside a diagonal wall belong to no room: the room goes on being the last one.
     if (!roomName.empty()) {
         bool roomChanged = room != g.lastRoom || g.level != g.lastLevel;
-        if (full || roomChanged) {
+        if (layer == kRooms) {
+            parts.push_back(roomName);
+        } else if (layer != kFloors && (full || roomChanged)) {
             if (!full && !g.lastRoomName.empty() && g.lastLevel == g.level && g.lastRoomName != roomName)
                 parts.push_back(util::Format(S(Str::RoomChange), g.lastRoomName.c_str(), roomName.c_str()));
             else
@@ -105,12 +129,17 @@ std::string Line(bool full) {
         g.lastLevel = g.level;
         g.lastRoomName = roomName;
     }
-    if (full || !g.haveSurface || t.surface != g.lastSurface) parts.push_back(cues::SurfaceWord(t.surface));
+    std::string floor = FloorWords(t);
+    if (layer == kFloors || (all && (full || !g.haveSurface || floor != g.lastFloor))) parts.push_back(floor);
     g.lastSurface = t.surface;
+    g.lastFloor = floor;
     g.haveSurface = true;
-    std::string edges = cues::EdgesLine(t);
-    if (!edges.empty()) parts.push_back(edges);
-    if (t.sloped) parts.push_back(S(Str::TerrainSloped));
+    if (all || layer == kWalls) {
+        std::string edges = cues::EdgesLine(t);
+        if (!edges.empty()) parts.push_back(edges);
+        else if (layer == kWalls) parts.push_back(S(Str::MapNoWalls));
+    }
+    if (t.sloped && (all || layer == kFloors)) parts.push_back(S(Str::TerrainSloped));
     std::string line;
     for (const std::string& p : parts) line += (line.empty() ? "" : ", ") + p;
     return line + (line.empty() ? "" : ". ") + util::Format(S(Str::TileAt), g.x, g.y);
@@ -205,17 +234,43 @@ void End() {
     speech::Say(S(Str::MapOff));
 }
 
-void Move(int dx, int dy) {
+void Move(int dx, int dy, bool throughWalls) {
     int n = game::GridSize();
-    int x = std::clamp(g.x + dx, 1, n - 2), y = std::clamp(g.y + dy, 1, n - 2);
-    if (x == g.x && y == g.y) {
-        speech::Say(S(Str::BuildLotEdge));
-        cues::LotEdge();
+    int steps = std::max(std::abs(dx), std::abs(dy));
+    int sx = dx > 0 ? 1 : dx < 0 ? -1 : 0, sy = dy > 0 ? 1 : dy < 0 ? -1 : 0;
+    int moved = 0;
+    std::string wall;
+    for (int i = 0; i < steps; i++) {
+        int x = std::clamp(g.x + sx, 1, n - 2), y = std::clamp(g.y + sy, 1, n - 2);
+        if (x == g.x && y == g.y) break;
+        // A wall, fence or window stops the cursor (doors let it through), as walking would:
+        // a tester left rooms by accident. Alt with the arrow goes through.
+        if (!throughWalls && cues::WallStops(g.level, g.x, g.y, sx, sy, &wall)) break;
+        g.x = x;
+        g.y = y;
+        moved++;
+    }
+    if (moved == 0) {
+        if (!wall.empty()) {
+            speech::Say(wall);
+            cues::Blocked();
+        } else {
+            speech::Say(S(Str::BuildLotEdge));
+            cues::LotEdge();
+        }
         return;
     }
-    g.x = x;
-    g.y = y;
     SayHere();
+    if (!wall.empty()) speech::Say(wall);  // stopped before it after a few steps (Shift)
+}
+
+void NextLayer(int delta) {
+    g.layer = ((g.layer + delta) % kLayers + kLayers) % kLayers;
+    static const Str kNames[kLayers] = {Str::MapLayerAll, Str::MapLayerObjects, Str::MapLayerFloors, Str::MapLayerWalls,
+                                        Str::MapLayerRooms};
+    std::string line = Line(true);
+    buffers::SetDetails({line});
+    speech::Say(std::string(S(kNames[g.layer])) + ". " + line);
 }
 
 void Home() {

@@ -1012,6 +1012,43 @@ const Translation kEntries[] = {
     {Str::ManualButton, "Håndbok for Sims-tilgjengelighet"},
     {Str::GroupModHelp, "modhjelp"},
     {Str::KeysButton, "Taster på denne skjermen"},
+    // Tester feedback, 2026-11-06
+    {Str::HourChanged, "klokken er %s"},
+    {Str::HoursOn, "hver ny time sies"},
+    {Str::HoursOff, "timene sies ikke lenger"},
+    {Str::SocialEveryone, "samtaler: alles"},
+    {Str::SocialWithFamily, "samtaler: alle som snakker med familien din"},
+    {Str::SocialFamilyOnly, "samtaler: bare familiens"},
+    {Str::SocialNobody, "samtaler: ingen, de blir i hendelsene"},
+    {Str::ActionInterrupted, "%1$s avbrøt %2$s for %3$s"},
+    {Str::ActionInterruptedWaits, "%1$s avbrøt %2$s for %3$s; den venter i køen"},
+    {Str::SameObjectsHint, "Enter viser dem én og én"},
+    {Str::SeatFor, "for å bruke %s sittende"},
+    {Str::UsedFromSeat, "brukes fra %s"},
+    {Str::NobodyReaches, "ingen sim kan nå det"},
+    {Str::SimsCanUse, "simmene kan nå det"},
+    {Str::FromWhereItWas, "der det stod: %s"},
+    {Str::MapNoWalls, "ingen vegger"},
+    {Str::MapLayerAll, "alt"},
+    {Str::MapLayerObjects, "bare objekter"},
+    {Str::MapLayerFloors, "bare gulv"},
+    {Str::MapLayerWalls, "bare vegger"},
+    {Str::MapLayerRooms, "bare rom"},
+    {Str::SimLookHead, "hode: %s"},
+    {Str::SimLookBody, "kropp: %s"},
+    {Str::SimLookUnknown, "%s: modden har ingen beskrivelse av dette utseendet"},
+    {Str::KeysLotMore,
+     "Enter på en oppføring med like ting viser dem én og én. Kontroll+T sier hver ny time på klokken, eller "
+     "slutter med det. Kontroll+Skift+N velger hvem sine samtaler som sies: alle som snakker med familien din, "
+     "alle, bare familien din eller ingen. Kontroll+Skift+E sier hvordan en sim ser ut."},
+    {Str::KeysMapMore,
+     "Vegger, gjerder og vinduer stopper pilene; Alt med pilene går gjennom. Komma og punktum velger hva hvert "
+     "steg sier: alt, objekter, gulv, vegger eller rom."},
+    {Str::KeysPlacingWalls,
+     "Vegger, gjerder og vinduer stopper pilene; Alt med pilene går gjennom. Når du flytter et objekt, starter "
+     "den første pilen der det stod."},
+    {Str::KeysShowFocusThings, "Når det er på, går også musepekeren til tingen på tomten som har fokus."},
+    {Str::SkillNeededForPromotion, "neste forfremmelse krever %d"},
 };
 
 }  // namespace

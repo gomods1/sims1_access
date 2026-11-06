@@ -5,7 +5,11 @@
 //   Ctrl+M                         the map on / off (it starts at the selected Sim)
 //   Arrows                         one tile (Shift: five): what stands there and which way it
 //                                  faces, the room when it changes, the floor when it changes,
-//                                  walls, fences, doors and windows by side, stairs, slopes
+//                                  walls, fences, doors and windows by side, stairs, slopes.
+//                                  Walls, fences and windows stop it (doors do not)
+//   Alt+arrows                     the same through walls
+//   Comma / period                 the layer said on each step: everything, objects, floors
+//                                  (by name), walls, rooms
 //   Home                           back to the selected Sim
 //   Ctrl+Shift+PageUp / PageDown   the floor above / below
 //   PageDown / PageUp (Shift, Ctrl) the lot's things as everywhere; the cursor goes to the thing
@@ -24,7 +28,8 @@ bool CursorTile(int* x, int* y, int* level);
 
 void Toggle();
 void End();
-void Move(int dx, int dy);
+void Move(int dx, int dy, bool throughWalls = false);
+void NextLayer(int delta);
 void Home();
 void ChangeFloor(int delta);
 void Repeat();

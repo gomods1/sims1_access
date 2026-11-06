@@ -1018,6 +1018,43 @@ const Translation kEntries[] = {
     {Str::ManualButton, "Manuale di Accessibilità per The Sims"},
     {Str::GroupModHelp, "aiuto della mod"},
     {Str::KeysButton, "Tasti di questa schermata"},
+    // Tester feedback, 2026-11-06
+    {Str::HourChanged, "sono le %s"},
+    {Str::HoursOn, "ogni nuova ora viene detta"},
+    {Str::HoursOff, "le ore non vengono più dette"},
+    {Str::SocialEveryone, "conversazioni: quelle di tutti"},
+    {Str::SocialWithFamily, "conversazioni: chiunque parli con la tua famiglia"},
+    {Str::SocialFamilyOnly, "conversazioni: solo quelle della tua famiglia"},
+    {Str::SocialNobody, "conversazioni: nessuna, restano negli eventi"},
+    {Str::ActionInterrupted, "%1$s ha lasciato %2$s per %3$s"},
+    {Str::ActionInterruptedWaits, "%1$s ha lasciato %2$s per %3$s; resta in coda"},
+    {Str::SameObjectsHint, "Invio li elenca uno per uno"},
+    {Str::SeatFor, "per usare %s da seduti"},
+    {Str::UsedFromSeat, "si usa da %s"},
+    {Str::NobodyReaches, "nessun Sim può raggiungerlo"},
+    {Str::SimsCanUse, "i Sim possono raggiungerlo"},
+    {Str::FromWhereItWas, "dov'era: %s"},
+    {Str::MapNoWalls, "senza muri"},
+    {Str::MapLayerAll, "tutto"},
+    {Str::MapLayerObjects, "solo oggetti"},
+    {Str::MapLayerFloors, "solo pavimenti"},
+    {Str::MapLayerWalls, "solo muri"},
+    {Str::MapLayerRooms, "solo stanze"},
+    {Str::SimLookHead, "testa: %s"},
+    {Str::SimLookBody, "corpo: %s"},
+    {Str::SimLookUnknown, "%s: il mod non ha una descrizione di questo aspetto"},
+    {Str::KeysLotMore,
+     "Invio su una voce di cose uguali le elenca una per una. Control+T dice ogni nuova ora dell'orologio, o "
+     "smette di dirla. Control+Maiusc+N sceglie di chi si dicono le conversazioni: chiunque parli con la tua "
+     "famiglia, tutti, solo la tua famiglia o nessuno. Control+Maiusc+E dice che aspetto ha un Sim."},
+    {Str::KeysMapMore,
+     "Muri, recinti e finestre fermano le frecce; Alt con le frecce li attraversa. Virgola e punto scelgono cosa "
+     "dice ogni passo: tutto, oggetti, pavimenti, muri o stanze."},
+    {Str::KeysPlacingWalls,
+     "Muri, recinti e finestre fermano le frecce; Alt con le frecce li attraversa. Quando sposti un oggetto, la "
+     "prima freccia parte da dove si trovava."},
+    {Str::KeysShowFocusThings, "Se attivo, anche il puntatore del mouse va sulla cosa del lotto selezionata."},
+    {Str::SkillNeededForPromotion, "la prossima promozione richiede %d"},
 };
 
 }  // namespace

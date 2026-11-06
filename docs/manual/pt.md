@@ -129,7 +129,7 @@ No lote, o HUD é um anel de grupos como qualquer tela. Tab percorre os grupos n
 Em um item de painel (uma necessidade, habilidade, trabalho, avaliação da casa), Enter lê o
 popup do jogo sobre ele.
 
-O emprego diz o horário e quando a carona passa. Os menus do jogo não têm opção para pedir demissão: um Sim que falta ao trabalho sem parar é demitido, e o jornal e o computador oferecem outros empregos.
+O emprego diz o horário e quando a carona passa. Cada habilidade diz seu nível e, quando uma promoção exige mais, quanto: "Culinária, 2 de 10, a próxima promoção exige 4". Os menus do jogo não têm opção para pedir demissão: um Sim que falta ao trabalho sem parar é demitido, e o jornal e o computador oferecem outros empregos.
 
 ### Selecionar Sims e a câmera
 
@@ -140,6 +140,8 @@ O emprego diz o horário e quando a carona passa. Os menus do jogo não têm op�
 | Control+Shift+1 a Control+Shift+9 | Abre o cartão desse Sim (biografia). |
 | Control+Shift+F | A câmera segue o Sim selecionado ou fica livre. |
 | Control+E | O Sim selecionado em uma frase: cômodo, o que está fazendo, necessidades urgentes, humor. |
+| Control+Shift+E | Como é a aparência de um Sim: cabeça e corpo ("cabeça: cabelo preto, curto; corpo: terno, preto"). O Sim em foco entre os objetos do lote, senão o selecionado. Os detalhes de um Sim (Control+Seta para cima nele) também dizem. |
+| Control+T | Diz cada nova hora do relógio ("são 14:00"), ou para de dizer. Útil na velocidade máxima. |
 | P | Pausa (a tecla do jogo); o mod diz a hora e os fundos. 1, 2, 3 definem a velocidade. |
 
 A câmera segue o Sim selecionado porque os sons do jogo vêm do que está na tela. Enquanto você
@@ -164,12 +166,12 @@ nos modos Simulação, Compra e Construção.
 | Page Down, Page Up | Objeto seguinte ou anterior do tipo ou cômodo escolhido por último. |
 | Shift+Page Down, Shift+Page Up | Tipo de objeto seguinte ou anterior. |
 | Control+Page Down, Control+Page Up | Cômodo seguinte ou anterior (o primeiro toque: o cômodo do Sim selecionado). |
-| Enter | As interações do objeto (no Modo Compra: pega o objeto para movê-lo). |
+| Enter | As interações do objeto (no Modo Compra: pega o objeto para movê-lo). Em uma entrada de coisas iguais ("Cadeira dobrável, 4 iguais"): lista uma por uma, a mais próxima primeiro; Backspace volta. |
 | Control+Enter | Leva o Sim selecionado até o objeto. |
 | Control+F | Procurar algo: digite parte do nome ("tel" encontra o telefone, acentos não importam). Seta para cima e para baixo percorrem os resultados, Enter age sobre ele, Control+Enter leva o Sim até lá, Delete remove uma porta ou janela, Esc volta para onde você estava. |
 | Delete | Em uma porta ou janela, no modo compra ou construção: remove e devolve o valor. |
 
-Um Sim ou objeto que ainda mostra um balão também o diz ("Bella, Comer, pensa: fome").
+Um Sim ou objeto que ainda mostra um balão também o diz ("Bella, Comer, pensa: fome"). Algo que nenhum Sim alcança a partir da entrada do lote diz "nenhum Sim consegue chegar".
 
 Depois dos Sims vem **problemas**: o que precisa de atenção, como coisas quebradas, o que precisa de limpeza, poças, lixo, cinzas, fogo e tudo com moscas em cima. Por último vem **portas, janelas e escadas**.
 
@@ -195,10 +197,12 @@ volta.
 
 | Tecla | O que faz |
 |---|---|
-| Setas | Um quadrado; com Shift, cinco. Diz o que há ali e para onde está virado, o cômodo e o andar quando mudam, as paredes, cercas, grades, portas e janelas de cada lado. |
+| Setas | Um quadrado; com Shift, cinco. Diz o que há ali e para onde está virado, o cômodo e o andar quando mudam, as paredes, cercas, grades, portas e janelas de cada lado. Paredes, cercas e janelas param o cursor; as portas o deixam passar. |
+| Alt+Setas | O mesmo, atravessando paredes. |
+| Vírgula, ponto | O que cada passo diz: tudo, só objetos, só pisos (pelo nome, "Ladrilho de granito claro"), só paredes, só cômodos. |
 | Home | Volta ao Sim selecionado. |
 | Control+Shift+Page Up, Page Down | O andar de cima ou de baixo. |
-| Enter | O menu de interações do que está ali. |
+| Enter | O menu de interações do que está ali (algo sobre uma mesa ou escrivaninha antes da mesa: o computador, não a escrivaninha). |
 | Control+Enter | Leva o Sim selecionado até lá. |
 | Page Down, Page Up (e Shift, Control) | Os objetos do lote, como sempre; o mapa vai até cada um. |
 | R | Tudo sobre o quadrado. Control+L, a disposição do cômodo. |
@@ -217,13 +221,18 @@ eventos:
   carona e o ônibus escolar (qual carro buzina).
 - **Objetos levados** pelo cobrador ou por um ladrão, com o valor; **contas** que chegam.
 - **O acompanhamento da família**: o que o Sim selecionado começa a fazer, por ordem sua ou por
-  conta própria ("Cris, por conta própria: Sentar"), quando termina, mudanças de cômodo,
-  necessidades baixas, o humor ficando vermelho, as mudanças de relacionamento do dia ("Marisa
-  com Cris: +8, agora 28") e dinheiro pago ou recebido fora do Modo Compra.
+  conta própria ("Cris, por conta própria: Sentar"), quando termina ou é interrompido ("Cris deixou
+  Sentar por Pânico; continua na fila"), mudanças de cômodo, necessidades baixas, o humor ficando
+  vermelho, as mudanças de relacionamento do dia ("Marisa com Cris: +8, agora 28"; o painel de
+  relacionamentos do jogo também mostra esses números) e dinheiro pago ou recebido fora do Modo Compra.
 - **Viagens**: aonde você chegou, e "de volta a casa".
 
 **Control+N** muda quanto é falado: tudo, só avisos ou desligado. As linhas não faladas continuam
 indo para o buffer de eventos.
+
+**Control+Shift+N** escolhe de quem são as conversas faladas (o que os Sims dizem, suas interações
+sociais, as mudanças de relacionamento que elas trazem): quem fala com sua família (no início),
+todos no lote, só sua família ou ninguém.
 
 Os sons que você ouve (o telefone, a campainha, os alarmes) não são anunciados.
 
@@ -271,7 +280,8 @@ para usá-lo). O lugar diz o cômodo, ao lado do que está e para onde está vir
 | Control+Page Down, Control+Page Up | Os cômodos que têm lugares. |
 | Shift+Page Down, Shift+Page Up (ou vírgula, ponto) | As outras direções no mesmo lugar. |
 | Control+Shift+Page Down, Page Up | Ao lado dos objetos do lote, do mais próximo ao mais distante. |
-| Setas | Move o objeto um quadrado em vez disso (Shift: cinco), dizendo se ele cabe e no que esbarra. |
+| Setas | Move o objeto um quadrado em vez disso (Shift: cinco), dizendo se ele cabe e no que esbarra. Paredes, cercas e janelas o param; as portas o deixam passar. |
+| Alt+Setas | O mesmo, atravessando paredes. |
 | Enter | Compra ali (ou o coloca, ao mover). |
 | Esc | Cancela (um objeto movido volta ao lugar). |
 | Delete | Vende o objeto seguro; o reembolso é dito. |
@@ -279,10 +289,16 @@ para usá-lo). O lugar diz o cômodo, ao lado do que está e para onde está vir
 
 O buffer de detalhes tem o quadrado do lugar e os lugares que o jogo recusou, com o motivo.
 
+Os lugares de um assento começam por onde algo é usado sentado e ainda não tem assento: "virado
+para o sul, para usar Computador sentado". Depois de colocar um objeto, o mod diz como ele será
+usado: "para usar Computador sentado", "usado a partir de Cadeira de escritório", "os Sims
+conseguem chegar" ou "nenhum Sim consegue chegar".
+
 ### Mover e vender
 
 No Modo Compra, vá com Page Down até um objeto do lote e pressione Enter: ele é pego e aparece a
-mesma lista de lugares. Objetos idênticos são listados um a um, e a última compra diz
+mesma lista de lugares, começando pelo cômodo de onde ele veio. A primeira seta põe o cursor onde
+ele estava. Objetos idênticos são listados um a um, e a última compra diz
 "recém-comprado".
 
 ## Modo Construção
@@ -354,7 +370,7 @@ cômodo, a borda do lote, declives e se um objeto cabe. **Control+Shift+S** os d
 | Tecla | O que faz |
 |---|---|
 | Control+Shift+C | O console de trapaças do jogo. Seta para cima e Seta para baixo escolhem uma trapaça, digitar acrescenta a ela, Enter a executa (de novo: repete), Esc fecha. |
-| Control+Shift+V | Destaca na tela o controle selecionado, para alguém que enxerga e está ajudando. |
+| Control+Shift+V | Destaca na tela o controle selecionado, para alguém que enxerga e está ajudando. No lote, o ponteiro do mouse também vai até a coisa em foco. |
 
 ## As teclas do próprio jogo
 
@@ -381,6 +397,8 @@ teclas que as mudam as salvam na hora.
 | `cues` | 1 sinais sonoros ligados, 0 desligados (Control+Shift+S). |
 | `cue_volume` | Volume dos sinais sonoros, de 0 a 100 (padrão 80). |
 | `show_focus` | 1 destaca na tela o controle selecionado (Control+Shift+V). |
+| `social` | De quem são as conversas faladas: 3 todos, 2 quem fala com sua família, 1 sua família, 0 ninguém (Control+Shift+N). |
+| `hours` | 1 diz cada nova hora (Control+T). |
 
 ## Quando algo dá errado
 

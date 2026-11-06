@@ -142,7 +142,27 @@ bool StillListed(Ptr w) {
     return false;
 }
 
+// A thing of the lot focused while the focus is shown: the camera centres on it, and the mouse
+// pointer goes to the middle of the game's window, over it. The partner of a tester saw the
+// pointer resting on a vegetable cart while the mod had the cactus beside it. Only while the
+// game's window is in front, and never in buy or build mode (the held object follows the pointer).
+void PointAtThing(const Item* it) {
+    if (!ShowFocus() || !it || it->role != Role::LotObject || game::InBuyTool() || !LotViewActive() ||
+        build::Active() || game::BuildPanelShown(g.root))
+        return;
+    HWND front = GetForegroundWindow();
+    DWORD pid = 0;
+    GetWindowThreadProcessId(front, &pid);
+    if (!front || pid != GetCurrentProcessId()) return;
+    RECT r;
+    if (!GetClientRect(front, &r)) return;
+    POINT p{(r.right - r.left) / 2, (r.bottom - r.top) / 2};
+    ClientToScreen(front, &p);
+    SetCursorPos(p.x, p.y);
+}
+
 void HoverFocused(const Item* it) {
+    PointAtThing(it);
     Ptr want = ShowFocus() && it && !IsVirtual(*it) && it->role != Role::PieItem ? it->widget : 0;
     if (want == g_hovered) return;
     if (g_hovered && StillListed(g_hovered)) game::Unhover(g_hovered);  // a widget gone may be freed
@@ -777,6 +797,24 @@ char FirstLetter(const std::string& utf8) {
     return f == '/' ? 0 : f;
 }
 
+// Ctrl+Shift+E: what a Sim looks like; the Sim focused among the lot's things, else the selected one.
+void SayLook() {
+    if (!LotViewActive() || !game::LotModule()) {
+        speech::Say(S(Str::NotOnLot));
+        return;
+    }
+    EnsureCurrent();
+    const Item* it = Focused();
+    Ptr person = 0;
+    if (it && it->role == Role::LotObject) {
+        Ptr focused = world::FocusedObject();
+        if (game::IsKindOf(focused, "cXPerson")) person = focused;
+    }
+    if (!person) person = game::SelectedSim();
+    std::string line = person ? world::SimLookLine(person) : "";
+    speech::Say(line.empty() ? S(Str::NoSimSelected) : line);
+}
+
 void ToggleShowFocus() {
     g_showFocus = ShowFocus() ? 0 : 1;
     util::SetSetting("show_focus", g_showFocus);
@@ -825,6 +863,16 @@ void Activate() {
         Ptr key = Groups()[g.group].key;
         world::Open(key, it->number);
         g.focus = ItemId{};  // it goes away with its level: no "focus moved" line before the new one
+        Refresh();
+        for (int gi = 0; gi < (int)Groups().size(); gi++)
+            if (Groups()[gi].key == key && !Groups()[gi].items.empty()) SetFocus(gi, 0);
+        AnnounceFocus(true);
+        return;
+    }
+    if (it->role == Role::LotObject && !game::InBuyTool() && world::OpenSame(Groups()[g.group].key, it->number)) {
+        // identical things merged into one entry: each of them, nearest first
+        Ptr key = Groups()[g.group].key;
+        g.focus = ItemId{};
         Refresh();
         for (int gi = 0; gi < (int)Groups().size(); gi++)
             if (Groups()[gi].key == key && !Groups()[gi].items.empty()) SetFocus(gi, 0);

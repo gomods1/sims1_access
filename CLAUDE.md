@@ -155,6 +155,22 @@ eturn_focus.txt`; a dev core hands the foreground back to it
     (`+0xf4`) is clear (the spellbook's last-page "siguiente": pressing it anyway crashed the game).
     Placing: Ctrl+Shift+PageDown/Up put the held object beside the lot's things (nearest first,
     in their room, facing them when it fits); the arrow line names what it runs into and faces.
+  - Tester feedback 2026-11-06 (keys in `docs/manual/en.md`): Ctrl+T says each game hour
+    (`[mod] hours`); Ctrl+Shift+N whose conversations are spoken, anyone with the family /
+    everyone / family / nobody (`[mod] social`, balloons and relationship numbers of other
+    pairs, `narrator::SocialScope`); Ctrl+Shift+E a Sim's head and body (the character file's
+    STR# 200 "bodystring": 1 body, 2 head as `mesh,BODY=texture`, the texture keys
+    `nav/appearance.cpp`; read through the person's object type, `game::SimLook`); Enter on
+    "N iguales" lists them (`world::OpenSame`); the map's comma / period layers (floors by name:
+    the floor style's `+0x14` std::string, base floors 1-29 from `Build.iff` STR# 130) and its
+    walls stop the arrows (placing's too), Alt+arrows go through (`cues::WallStops`,
+    `OnSysKeyDown`); a player's action interrupted is said (requeued, or what runs now has a
+    priority above 50); seats are offered and named for what is used sitting (a thing on a
+    desk, electronics/appliances/misc, one use spot: `placement::UsedSitting`); spots and
+    reach are measured from the lot's entrance, not from Sims (a sleeping Sim hid a chair that
+    cut a bedroom off); a moved object's spots start where it stood (`SetMoveOrigin`, the pick
+    up moves it under the pointer first); names starting with "*" ("*TemplatePerson", a maid
+    before she is named) are never spoken.
   - Ctrl+N: the narrator's verbosity, everything / warnings only / off (saved in
     `SimsAccess\SimsAccess.ini`, `[mod] narrator=2/1/0`); unspoken lines still go to eventos.
   - Ctrl+M (lot view): the live map (`nav/map_mode.cpp`), a tile cursor from the selected Sim:
@@ -391,8 +407,10 @@ eturn_focus.txt`; a dev core hands the foreground back to it
   `SIMS_SKU`); every language is in the one installed depot. Steam's "russian" writes "Russian",
   which the game ignores (English). **Without touching Steam** (tests): `python tools/launch.py fr`
   (en, en-gb, fr, de, it, es, nl, da, sv, no, fi, pt, ja, pl, zh-hans, zh-hant, th, ko; `--restart`
-  closes a running game first) starts `Sims.exe` directly with the switch, which works while Steam
-  runs and avoids the confirmation Steam shows for `steam://run` arguments; the names are `USEnglish`,
+  closes a running game first) starts `Sims.exe` directly with the switch. **It no longer avoids
+  Steam's prompt** (2026-11-06: SteamStub relaunched through Steam with the arguments and Steam
+  waited for "launch with these arguments"): for Spanish tests launch with no arguments
+  (`steam://run/3314060`, the registry already says Spanish); the names are `USEnglish`,
   `UKEnglish`, `French`, `German`, `Italian`, `Spanish`, `Dutch`, `Danish`, `Swedish`, `Norwegian`,
   `Finnish`, `Portuguese`, `Japanese`, `Polish`, `SimplifiedChinese`, `TraditionalChinese`, `Thai`,
   `Korean` (case-sensitive, after a dash: the switch parser `0x6e1550`). The registry names are

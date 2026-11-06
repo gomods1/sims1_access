@@ -277,6 +277,25 @@ for a second Enter. A new room without a door is said, not asked about. Still to
   (tile flag 0x20 at the corner) matches the wall tool's own (`0x58a660`) except under the
   move_objects cheat; waiting for the tool, floor and place it happened at.
 
+## Tester feedback 2026-11-06: open checks
+
+Done in code; still to see live:
+- Interrupted actions ("X stopped A for B"): told by the player's action going back to the queue or
+  by a priority above 50 on what pushes in; the gnome case the tester met was not reproduced, and
+  the priorities of reactions (fire, ghosts, a burglar) are only logged.
+- Conversations of visitors with the family (Ctrl+Shift+N): a visitor counts as talking with the
+  family by the balloon's stack object or either Sim's running action naming the other; not
+  heard live yet. Relationship numbers of other pairs: heard ("Elvira, con Casandra: -2").
+- The travel maps' filters now hide the lots they do not mark; whether pressing a filter again
+  clears it (so the list comes back) is not verified.
+- Control+Shift+V moves the real mouse pointer onto the focused thing (the game's window in
+  front, live mode only); not tried on this PC, where the user works with the mouse.
+- The job panel's skills read the person data now (the game's own bars); the Lápidas had no
+  points, so a skilled Sim is still to be heard.
+- Placing's arrows crossed from a living room into the yard at a tile with no wall bit (Lápida
+  house, tile 30,26 to 31,26); the engine refused the spot ("can't go through a wall"), so the
+  wall is there in some form the wall mask does not show.
+
 ## Expansions (each flow end to end)
 
 - **Livin' Large**: its new objects and events (genie lamp, chemistry set, servo, visitors such as

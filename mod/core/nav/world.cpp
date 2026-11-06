@@ -16,10 +16,12 @@
 #include "../util/log.h"
 #include "../util/strings.h"
 #include "../util/text.h"
+#include "appearance.h"
 #include "buffers.h"
 #include "camera.h"
 #include "narrator.h"
 #include "navigator.h"
+#include "placement.h"
 #include "room_names.h"
 
 namespace nav::world {
@@ -116,6 +118,16 @@ Ptr g_lastGroup = kKindsGroup;  // the list a kind or room was opened in last: P
 int g_focusId = -1;          // object id of the thing focus was last on
 int g_boughtId = -1;         // object id of the last purchase ("recién comprado")
 std::map<int, std::vector<std::string>> g_details;  // object id -> its details, from the last list
+// Identical things merged into one entry ("Silla, 2 iguales"): the members of each listed entry,
+// by the entry's object id; Enter on one lists them one by one (a tester could not tell two
+// identical things apart). The group key -> the entry open that way.
+std::map<int, std::vector<int>> g_mergedIds;
+struct SameOpen {
+    std::vector<int> ids;
+    std::string name;
+    int entryId = 0;
+};
+std::map<Ptr, SameOpen> g_same;
 constexpr ULONGLONG kLotCacheMs = 1000;
 
 // One reading of the lot, taken for each key press.
@@ -219,6 +231,25 @@ Str Direction(const LotObject& from, const LotObject& to) {
     return kDirections[sector];
 }
 
+// Objects no Sim can get to from the lot's entrance (a tester's Sim never reached the chair he
+// had placed), per floor, read at most every few seconds.
+bool Unreachable(int id) {
+    static std::vector<int> ids;
+    static ULONGLONG at = 0;
+    static Ptr module = 0;
+    ULONGLONG now = GetTickCount64();
+    if (!at || now - at > 3000 || module != game::LotModule()) {
+        at = now;
+        module = game::LotModule();
+        ids.clear();
+        for (int level = 1; level <= 2; level++) {
+            placement::ReachReport r = placement::CheckReach(level);
+            ids.insert(ids.end(), r.unusableIds.begin(), r.unusableIds.end());
+        }
+    }
+    return std::find(ids.begin(), ids.end(), id) != ids.end();
+}
+
 // "Nevera Porcina, cocina, a 21 casillas al sur"; "Silla Parisienne, 6 iguales, comedor, a 11
 // casillas al suroeste" (the nearest one). The room is left out in room mode, where the player
 // already knows it.
@@ -227,6 +258,7 @@ std::string Describe(const Entry& e, const Lot& lot) {
     std::string s = e.name;
     if (e.ids.size() > 1) s += ", " + util::Format(S(Str::SameObjects), (int)e.ids.size());
     if (o.id == g_boughtId) s += std::string(", ") + S(Str::JustBought);
+    if (!o.person && Unreachable(o.id)) s += std::string(", ") + S(Str::NobodyReaches);
     if (!o.person && game::ObjectBroken(o.object)) s += std::string(", ") + S(Str::ConditionBroken);
     else if (!o.person && game::ObjectDirty(o.object)) s += std::string(", ") + S(Str::ConditionDirty);
     const LotObject* ref = lot.Ref();
@@ -251,16 +283,30 @@ std::string Describe(const Entry& e, const Lot& lot) {
     return s;
 }
 
+// What a Sim looks like (a tester: "the second game will need it even more"): the head and body
+// in the words create-a-Sim uses.
+std::vector<std::string> LookLines(Ptr person) {
+    std::string head, body;
+    std::vector<std::string> lines;
+    if (!game::SimLook(person, &head, &body)) return lines;
+    std::string h = appearance::Describe(head), b = appearance::Describe(body);
+    if (!h.empty()) lines.push_back(util::Format(S(Str::SimLookHead), h.c_str()));
+    if (!b.empty()) lines.push_back(util::Format(S(Str::SimLookBody), b.c_str()));
+    return lines;
+}
+
 // The details buffer's lines for an entry: its name, what a Sim is doing and has queued, where it
 // is, its buy mode categories and what selling it would pay.
 std::vector<std::string> Details(const Entry& e, const Lot& lot) {
     const LotObject& o = e.nearest;
     std::vector<std::string> lines;
     lines.push_back(e.ids.size() > 1 ? e.name + ", " + util::Format(S(Str::SameObjects), (int)e.ids.size()) : e.name);
+    if (e.ids.size() > 1) lines.push_back(S(Str::SameObjectsHint));
     if (o.person) {
         std::vector<std::string> actions = game::SimActions(game::SimNeighborId(o.object));
         for (size_t i = 0; i < actions.size(); i++)
             lines.push_back(i == 0 ? actions[i] : util::Format(S(Str::QueuedAction), actions[i].c_str()));
+        for (const std::string& look : LookLines(o.object)) lines.push_back(look);
     }
     std::string balloon = narrator::ShownBalloon(o.object);
     if (!balloon.empty()) lines.push_back(balloon);
@@ -334,6 +380,16 @@ std::string DescribeObject(game::Ptr object) {
     return Describe(e, lot);
 }
 
+std::string SimLookLine(Ptr person) {
+    game::LotObject o;
+    if (!game::GetObject(person, &o) || !o.person) return "";
+    std::vector<std::string> lines = LookLines(person);
+    std::string line = game::ObjectName(o);
+    if (lines.empty()) return util::Format(S(Str::SimLookUnknown), line.c_str());
+    for (const std::string& l : lines) line += ". " + l;
+    return line;
+}
+
 std::string DescribeSpot(int tileX, int tileY, int level) {
     Lot lot = ReadLot();
     LotObject o;
@@ -366,6 +422,8 @@ void Reset() {
     g_lastGroup = kKindsGroup;
     g_focusId = -1;
     g_details.clear();
+    g_mergedIds.clear();
+    g_same.clear();
     g_lotAt = 0;
 }
 
@@ -415,8 +473,25 @@ void AddThings(Group& g, const std::vector<Entry>& list, const Lot& lot, Mode mo
         it.number = e.nearest.id;
         it.label = Describe(e, lot);
         g_details[e.nearest.id] = Details(e, lot);
+        if (e.ids.size() > 1) g_mergedIds[e.nearest.id] = e.ids;
+        else g_mergedIds.erase(e.nearest.id);
         g.items.push_back(std::move(it));
     }
+}
+
+// The members of an open merged entry, each on its own, nearest first.
+bool AddSame(Group& g, const Lot& lot, Mode mode) {
+    auto open = g_same.find(g.key);
+    if (open == g_same.end()) return false;
+    std::vector<LotObject> members;
+    for (const LotObject& o : lot.objects)
+        if (std::find(open->second.ids.begin(), open->second.ids.end(), o.id) != open->second.ids.end())
+            members.push_back(o);
+    SortByDistance(members, lot.Ref());
+    std::vector<Entry> list;
+    for (const LotObject& o : members) list.push_back(Entry{o, {o.id}, DisplayName(o)});
+    AddThings(g, list, lot, mode);
+    return true;
 }
 
 }  // namespace
@@ -426,6 +501,7 @@ Group KindsGroup() {
     g.key = kKindsGroup;
     if (!game::LotModule()) return g;
     const Lot& lot = CachedLot();
+    if (AddSame(g, lot, Mode::Category)) return g;
     if (g_openKind == kFindKind) {
         AddThings(g, FindMatches(lot, g_findFolded), lot, Mode::Category);
         return g;
@@ -452,6 +528,7 @@ Group RoomsGroup() {
     g.key = kRoomsGroup;
     if (!game::LotModule()) return g;
     const Lot& lot = CachedLot();
+    if (AddSame(g, lot, Mode::Room)) return g;
     if (g_openRoom > 0) {
         AddThings(g, Collapse(InRoom(lot, g_openRoom - 1)), lot, Mode::Room);
         return g;
@@ -473,6 +550,9 @@ Group RoomsGroup() {
 
 std::string LevelName(Ptr group) {
     const Lot& lot = CachedLot();
+    auto same = g_same.find(group);
+    if (same != g_same.end())
+        return same->second.name + ", " + util::Format(S(Str::SameObjects), (int)same->second.ids.size());
     if (group == kKindsGroup && g_openKind == kFindKind) return util::Format(S(Str::FindResults), g_findLabel.c_str());
     if (group == kKindsGroup) return g_openKind > 0 ? S(kCategories[g_openKind - 1].name) : S(Str::ThingsByKind);
     if (g_openRoom > 0) return rooms::NameOf(lot.rooms, g_openRoom - 1);
@@ -481,6 +561,7 @@ std::string LevelName(Ptr group) {
 
 void Open(Ptr group, int number) {
     g_lotAt = 0;  // read the lot again: what is in the kind or room now
+    g_same.erase(group);
     g_lastGroup = group;
     if (group == kKindsGroup) g_openKind = number;
     if (group == kRoomsGroup) g_openRoom = number;
@@ -528,7 +609,27 @@ Ptr LastGroup() { return g_lastGroup; }
 
 int FocusedId() { return g_focusId; }
 
+bool OpenSame(Ptr group, int objectId) {
+    auto merged = g_mergedIds.find(objectId);
+    if (merged == g_mergedIds.end() || merged->second.size() < 2) return false;
+    SameOpen open;
+    open.ids = merged->second;
+    open.entryId = objectId;
+    for (const LotObject& o : CachedLot().objects)
+        if (o.id == objectId) open.name = DisplayName(o);
+    g_same[group] = open;
+    g_lotAt = 0;
+    return true;
+}
+
 int Close(Ptr group) {
+    auto same = g_same.find(group);
+    if (same != g_same.end()) {  // back to the kind or room, on the merged entry
+        int entry = same->second.entryId;
+        g_same.erase(same);
+        g_lotAt = 0;
+        return entry;
+    }
     int* open = group == kKindsGroup ? &g_openKind : group == kRoomsGroup ? &g_openRoom : nullptr;
     if (!open || !*open) return 0;
     int was = *open;

@@ -123,7 +123,7 @@ On a lot the HUD is a ring of groups like any screen. Tab goes through them in t
 
 On a live panel item (a need, skill, job, house rating), Enter speaks the game's popup for it.
 
-The job says its hours and when the carpool comes. The game's menus have no option to quit a job: a Sim who keeps missing work gets fired, and the newspaper and the computer offer other jobs.
+The job says its hours and when the carpool comes. Each skill says its level and, when a promotion needs more, how much: "Cooking, 2 of 10, the next promotion needs 4". The game's menus have no option to quit a job: a Sim who keeps missing work gets fired, and the newspaper and the computer offer other jobs.
 
 ### Selecting Sims and the camera
 
@@ -134,6 +134,8 @@ The job says its hours and when the carpool comes. The game's menus have no opti
 | Control+Shift+1 to Control+Shift+9 | Open that Sim's card (biography). |
 | Control+Shift+F | The camera follows the selected Sim, or stays free. |
 | Control+E | The selected Sim in one line: room, what it is doing, urgent needs, mood. |
+| Control+Shift+E | What a Sim looks like: its head and body ("head: black hair, short; body: suit, black"). The Sim focused among the lot's things, else the selected one. A Sim's details (Control+Up on it) say it too. |
+| Control+T | Say each new hour of the clock ("it is 14:00"), or stop. Useful at the fastest speed. |
 | P | Pause (the game's key); the mod says the time and funds. 1, 2, 3 set the speed. |
 
 The camera follows the selected Sim, because the game's sounds come from what is on screen.
@@ -158,12 +160,12 @@ buy and build mode.
 | Page Down, Page Up | Next or previous thing of the kind or room chosen last. |
 | Shift+Page Down, Shift+Page Up | Next or previous kind of things. |
 | Control+Page Down, Control+Page Up | Next or previous room (the first press: the selected Sim's room). |
-| Enter | The thing's interactions (in buy mode: pick it up to move it). |
+| Enter | The thing's interactions (in buy mode: pick it up to move it). On an entry of identical things ("Folding chair, 4 alike"): lists them one by one, nearest first; Backspace goes back. |
 | Control+Enter | Walk the selected Sim to the thing. |
 | Control+F | Find a thing: type part of its name ("tel" finds the telephone, accents do not matter). Up and Down go through what matches, Enter acts on it, Control+Enter walks there, Delete removes a door or window, Escape goes back to where you were. |
 | Delete | On a door or window, in buy or build mode: removes it and refunds it. |
 
-A Sim or an object still showing a balloon says it too ("Bella, Eat, thinks: hunger").
+A Sim or an object still showing a balloon says it too ("Bella, Eat, thinks: hunger"). A thing no Sim can get to from the lot's entrance says "no Sim can reach it".
 
 After the Sims comes **problems**: what wants attention, such as broken things, things that need cleaning, puddles, rubbish, ashes, fire, and anything with flies over it. Last comes **doors, windows and stairs**.
 
@@ -189,10 +191,12 @@ around it.
 
 | Key | What it does |
 |---|---|
-| Arrows | One tile; with Shift, five. Says what stands there and which way it faces, the room and floor when they change, the walls, fences, railings, doors and windows by side. |
+| Arrows | One tile; with Shift, five. Says what stands there and which way it faces, the room and floor when they change, the walls, fences, railings, doors and windows by side. Walls, fences and windows stop the cursor; doors let it through. |
+| Alt+Arrows | The same, through walls. |
+| Comma, period | What each step says: everything, objects only, floors only (by name, "Light granite tile"), walls only, rooms only. |
 | Home | Back to the selected Sim. |
 | Control+Shift+Page Up, Page Down | The floor above or below. |
-| Enter | The interaction menu of what stands there. |
+| Enter | The interaction menu of what stands there (a thing on a table or desk before the table: the computer, not its desk). |
 | Control+Enter | Walk the selected Sim there. |
 | Page Down, Page Up (and Shift, Control) | The lot's things as always; the map goes to each one. |
 | R | Everything about the tile. Control+L the room's layout. |
@@ -211,13 +215,18 @@ the events buffer:
   the carpool and school bus (which car honks).
 - **Things taken** by the repo man or a burglar, with their value; **bills** arriving.
 - **The family watch**: what the selected Sim starts doing, by your order or on its own
-  ("Cris, on its own: Sit"), when it finishes, room changes, needs falling low, the mood turning
-  red, the day's relationship changes ("Marisa, with Cris: +8, now 28"), and money paid or
-  received outside buy mode.
+  ("Cris, on its own: Sit"), when it finishes or is interrupted ("Cris stopped Sit for Panic;
+  it waits in the queue"), room changes, needs falling low, the mood turning red, the day's
+  relationship changes ("Marisa, with Cris: +8, now 28"; the game's relationship panel shows
+  these numbers too), and money paid or received outside buy mode.
 - **Trips**: where you arrived, and "back home".
 
 **Control+N** changes how much is spoken: everything, warnings only, or off. Lines not spoken
 still go to the events buffer.
+
+**Control+Shift+N** chooses whose conversations are spoken (what Sims say, their socials, the
+relationship changes they bring): anyone talking with your family (the start), everyone on the
+lot, only your family, or nobody.
 
 Sounds you can hear (the phone, the doorbell, alarms) are not announced.
 
@@ -264,7 +273,8 @@ spot says its room, what it is next to and which way it faces.
 | Control+Page Down, Control+Page Up | The rooms that have spots. |
 | Shift+Page Down, Shift+Page Up (or comma, period) | The other directions on the same spot. |
 | Control+Shift+Page Down, Page Up | Beside the lot's things, nearest first. |
-| Arrows | Move it one tile instead (Shift: five), saying whether it fits and what it runs into. |
+| Arrows | Move it one tile instead (Shift: five), saying whether it fits and what it runs into. Walls, fences and windows stop it; doors let it through. |
+| Alt+Arrows | The same, through walls. |
 | Enter | Buy it there (or put it down, when moving). |
 | Escape | Cancel (a moved object goes back). |
 | Delete | Sell the held object; the refund is said. |
@@ -272,10 +282,15 @@ spot says its room, what it is next to and which way it faces.
 
 The details buffer holds the spot's tile and the spots the game refused, with its reason.
 
+A seat's spots come first where something is used sitting down and has no seat yet: "facing
+south, to use Computer sitting down". After an object is placed the mod says how it will be used:
+"to use Computer sitting down", "used from Office chair", "Sims can reach it" or "no Sim can
+reach it".
+
 ### Moving and selling
 
 In buy mode, Page Down to a thing of the lot and press Enter: it is picked up and the same spot list
-appears. Identical objects are listed one by one, and the last purchase says "just bought".
+appears, starting in the room it came from. The first arrow puts the cursor where it stood. Identical objects are listed one by one, and the last purchase says "just bought".
 
 ## Build mode
 
@@ -344,7 +359,7 @@ side's wall, fence, door or window (each side sounds different), objects, a room
 | Key | What it does |
 |---|---|
 | Control+Shift+C | The game's cheat console. Up and Down pick a cheat, typing adds to it, Enter runs it (again: repeats), Escape closes. |
-| Control+Shift+V | Light the focused control on screen, for a sighted helper. |
+| Control+Shift+V | Light the focused control on screen, for a sighted helper. On the lot, the mouse pointer also goes to the thing in focus. |
 
 ## The game's own keys
 
@@ -371,6 +386,8 @@ keys that change them save them at once.
 | `cues` | 1 sound cues on, 0 off (Control+Shift+S). |
 | `cue_volume` | Volume of the sound cues, 0 to 100 (default 80). |
 | `show_focus` | 1 lights the focused control on screen (Control+Shift+V). |
+| `social` | Whose conversations are spoken: 3 everyone, 2 anyone with your family, 1 your family, 0 nobody (Control+Shift+N). |
+| `hours` | 1 says each new hour (Control+T). |
 
 ## When something goes wrong
 

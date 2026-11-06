@@ -1014,6 +1014,44 @@ const Translation kEntries[] = {
     {Str::ManualButton, "Instrukcja modułu dostępności The Sims"},
     {Str::GroupModHelp, "pomoc moda"},
     {Str::KeysButton, "Klawisze tego ekranu"},
+    // Tester feedback, 2026-11-06
+    {Str::HourChanged, "godzina %s"},
+    {Str::HoursOn, "każda nowa godzina jest podawana"},
+    {Str::HoursOff, "godziny nie są już podawane"},
+    {Str::SocialEveryone, "rozmowy: wszystkich"},
+    {Str::SocialWithFamily, "rozmowy: każdego z twoją rodziną"},
+    {Str::SocialFamilyOnly, "rozmowy: tylko twojej rodziny"},
+    {Str::SocialNobody, "rozmowy: żadne, zostają w zdarzeniach"},
+    {Str::ActionInterrupted, "%1$s przerywa %2$s na rzecz %3$s"},
+    {Str::ActionInterruptedWaits, "%1$s przerywa %2$s na rzecz %3$s; czeka w kolejce"},
+    {Str::SameObjectsHint, "Enter wymienia je po kolei"},
+    {Str::SeatFor, "do używania na siedząco: %s"},
+    {Str::UsedFromSeat, "używany z: %s"},
+    {Str::NobodyReaches, "żaden Sim nie może tam dojść"},
+    {Str::SimsCanUse, "Simowie mogą tam dojść"},
+    {Str::FromWhereItWas, "poprzednie miejsce: %s"},
+    {Str::MapNoWalls, "bez ścian"},
+    {Str::MapLayerAll, "wszystko"},
+    {Str::MapLayerObjects, "tylko obiekty"},
+    {Str::MapLayerFloors, "tylko podłogi"},
+    {Str::MapLayerWalls, "tylko ściany"},
+    {Str::MapLayerRooms, "tylko pokoje"},
+    {Str::SimLookHead, "głowa: %s"},
+    {Str::SimLookBody, "ciało: %s"},
+    {Str::SimLookUnknown, "%s: mod nie ma opisu tego wyglądu"},
+    {Str::KeysLotMore,
+     "Enter na pozycji z identycznymi rzeczami wymienia je po kolei. Control+T podaje każdą nową godzinę zegara "
+     "albo przestaje. Control+Shift+N wybiera, czyje rozmowy są mówione: każdego z twoją rodziną, wszystkich, "
+     "tylko twojej rodziny albo niczyje. Control+Shift+E mówi, jak wygląda Sim."},
+    {Str::KeysMapMore,
+     "Ściany, płoty i okna zatrzymują strzałki; Alt ze strzałkami przez nie przechodzi. Przecinek i kropka "
+     "wybierają, co mówi każdy krok: wszystko, obiekty, podłogi, ściany albo pokoje."},
+    {Str::KeysPlacingWalls,
+     "Ściany, płoty i okna zatrzymują strzałki; Alt ze strzałkami przez nie przechodzi. Przy przenoszeniu "
+     "obiektu pierwsza strzałka zaczyna tam, gdzie stał."},
+    {Str::KeysShowFocusThings,
+     "Gdy jest włączone, wskaźnik myszy przechodzi też do rzeczy z parceli, która ma fokus."},
+    {Str::SkillNeededForPromotion, "następny awans wymaga %d"},
 };
 
 }  // namespace

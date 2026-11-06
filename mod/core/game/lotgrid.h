@@ -5,6 +5,7 @@
 #pragma once
 
 #include <cstdint>
+#include <string>
 #include <vector>
 
 #include "memory.h"
@@ -23,6 +24,7 @@ int FloorPattern(int level, int x, int y);  // 0 none, 255 the half tile of a di
 // What the floor is made of, as the game's footsteps hear it.
 enum class Surface { Ground, Wood, Tile, Carpet, Paving, NoFloor, Water, PoolRim };
 Surface SurfaceAt(int level, int x, int y);
+std::string FloorName(int level, int x, int y);  // the floor's catalog name, empty on bare ground
 // The ground height at a tile's four corners (the terrain map, world + 0x14: 4 bytes per tile,
 // grid order; what 0x585940 reads). false outside the grid.
 bool TileHeights(int x, int y, uint8_t out[4]);

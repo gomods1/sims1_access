@@ -1022,6 +1022,43 @@ const Translation kEntries[] = {
     {Str::ManualButton, "Manual de Accesibilidad de Los Sims"},
     {Str::GroupModHelp, "ayuda del mod"},
     {Str::KeysButton, "Teclas de esta pantalla"},
+    // Tester feedback, 2026-11-06
+    {Str::HourChanged, "son las %s"},
+    {Str::HoursOn, "se dice cada hora nueva"},
+    {Str::HoursOff, "ya no se dicen las horas"},
+    {Str::SocialEveryone, "conversaciones: las de todos"},
+    {Str::SocialWithFamily, "conversaciones: quien hable con tu familia"},
+    {Str::SocialFamilyOnly, "conversaciones: solo las de tu familia"},
+    {Str::SocialNobody, "conversaciones: ninguna, quedan en los eventos"},
+    {Str::ActionInterrupted, "%1$s dejó %2$s por %3$s"},
+    {Str::ActionInterruptedWaits, "%1$s dejó %2$s por %3$s; sigue en la cola"},
+    {Str::SameObjectsHint, "Intro los lista uno por uno"},
+    {Str::SeatFor, "para usar %s sentado"},
+    {Str::UsedFromSeat, "se usa desde %s"},
+    {Str::NobodyReaches, "ningún Sim puede llegar"},
+    {Str::SimsCanUse, "los Sims pueden llegar"},
+    {Str::FromWhereItWas, "donde estaba: %s"},
+    {Str::MapNoWalls, "sin paredes"},
+    {Str::MapLayerAll, "todo"},
+    {Str::MapLayerObjects, "solo objetos"},
+    {Str::MapLayerFloors, "solo suelos"},
+    {Str::MapLayerWalls, "solo paredes"},
+    {Str::MapLayerRooms, "solo habitaciones"},
+    {Str::SimLookHead, "cabeza: %s"},
+    {Str::SimLookBody, "cuerpo: %s"},
+    {Str::SimLookUnknown, "%s: el mod no tiene descripción de este aspecto"},
+    {Str::KeysLotMore,
+     "Intro sobre una entrada de cosas iguales las lista una por una. Control+T dice cada hora nueva del reloj, "
+     "o deja de decirla. Control+Mayúsculas+N elige de quién se dicen las conversaciones: quien hable con tu "
+     "familia, todos, solo tu familia o nadie. Control+Mayúsculas+E dice qué aspecto tiene un Sim."},
+    {Str::KeysMapMore,
+     "Las paredes, vallas y ventanas paran las flechas; Alt con las flechas las atraviesa. Coma y punto eligen "
+     "qué dice cada paso: todo, objetos, suelos, paredes o habitaciones."},
+    {Str::KeysPlacingWalls,
+     "Las paredes, vallas y ventanas paran las flechas; Alt con las flechas las atraviesa. Al mover un objeto, "
+     "la primera flecha empieza donde estaba."},
+    {Str::KeysShowFocusThings, "Activado, el puntero del ratón también va a la cosa del solar que tiene el foco."},
+    {Str::SkillNeededForPromotion, "el próximo ascenso pide %d"},
 };
 
 }  // namespace

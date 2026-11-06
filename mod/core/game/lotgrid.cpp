@@ -5,7 +5,10 @@
 #include <cstring>
 
 #include "addresses.h"
+#include "iff_strings.h"
 #include "rtti.h"
+#include "../util/text.h"
+#include "../util/log.h"
 
 namespace game {
 namespace {
@@ -89,23 +92,37 @@ uint8_t ByteMapAt(int mapOffset, int x, int y) {
 
 // The footstep sound of a floor pattern, from the game's floor styles (a red-black tree: left
 // +0, parent +4, right +8, is-nil byte +0xd, key +0x10, value +0x14).
-int FloorSound(int pattern) {
+Ptr FloorStyle(int pattern) {
     Ptr map = Rd<Ptr>(Va(addr::grid::kFloorStyles));
     Ptr head = map ? Rd<Ptr>(map) : 0;
-    if (!head) return 2;
+    if (!head) return 0;
     Ptr node = Rd<Ptr>(head + 4);  // the root
     for (int depth = 0; node && node != head && !Rd<uint8_t>(node + 0xd) && depth < 64; depth++) {
         int key = Rd<int>(node + 0x10);
-        if (key == pattern) {
-            Ptr style = Rd<Ptr>(node + 0x14);
-            return style ? Rd<uint8_t>(style + addr::grid::kFloorStyleSound, 2) : 2;
-        }
+        if (key == pattern) return Rd<Ptr>(node + 0x14);
         node = Rd<Ptr>(node + (pattern < key ? 0 : 8));
     }
-    return 2;
+    return 0;
+}
+
+int FloorSound(int pattern) {
+    Ptr style = FloorStyle(pattern);
+    return style ? Rd<uint8_t>(style + addr::grid::kFloorStyleSound, 2) : 2;
 }
 
 }  // namespace
+
+std::string FloorName(int level, int x, int y) {
+    int pattern = FloorPattern(level, x, y);
+    if (pattern == 0 || pattern == 0xff) return "";
+    Ptr style = FloorStyle(pattern);
+    std::string name = style ? util::CleanForSpeech(ReadStdStringUtf8(style + addr::grid::kFloorStyleName)) : "";
+    // The base game's 29 floors keep no name in their style: Build.iff STR# 130 has them, three
+    // entries per floor (price, name, description).
+    if (name.empty() && pattern >= 1 && pattern <= addr::grid::kBaseFloors)
+        name = util::CleanForSpeech(GameDataString("Build.iff", addr::grid::kBaseFloorStrings, (pattern - 1) * 3 + 1));
+    return name;
+}
 
 Surface SurfaceAt(int level, int x, int y) {
     if (level == 1) {

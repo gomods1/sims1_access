@@ -1035,6 +1035,44 @@ const Translation kEntries[] = {
     {Str::ManualButton, "Manuel d'Accessibilité pour Les Sims"},
     {Str::GroupModHelp, "aide du mod"},
     {Str::KeysButton, "Touches de cet écran"},
+    // Tester feedback, 2026-11-06
+    {Str::HourChanged, "il est %s"},
+    {Str::HoursOn, "chaque nouvelle heure est annoncée"},
+    {Str::HoursOff, "les heures ne sont plus annoncées"},
+    {Str::SocialEveryone, "conversations : celles de tous"},
+    {Str::SocialWithFamily, "conversations : quiconque parle avec votre famille"},
+    {Str::SocialFamilyOnly, "conversations : seulement celles de votre famille"},
+    {Str::SocialNobody, "conversations : aucune, gardées dans les événements"},
+    {Str::ActionInterrupted, "%1$s a arrêté %2$s pour %3$s"},
+    {Str::ActionInterruptedWaits, "%1$s a arrêté %2$s pour %3$s ; l'action attend dans la file"},
+    {Str::SameObjectsHint, "Entrée les liste un par un"},
+    {Str::SeatFor, "pour utiliser %s assis"},
+    {Str::UsedFromSeat, "s'utilise depuis %s"},
+    {Str::NobodyReaches, "aucun Sim ne peut l'atteindre"},
+    {Str::SimsCanUse, "les Sims peuvent l'atteindre"},
+    {Str::FromWhereItWas, "là où il était : %s"},
+    {Str::MapNoWalls, "sans murs"},
+    {Str::MapLayerAll, "tout"},
+    {Str::MapLayerObjects, "objets seulement"},
+    {Str::MapLayerFloors, "sols seulement"},
+    {Str::MapLayerWalls, "murs seulement"},
+    {Str::MapLayerRooms, "pièces seulement"},
+    {Str::SimLookHead, "tête : %s"},
+    {Str::SimLookBody, "corps : %s"},
+    {Str::SimLookUnknown, "%s : le mod n'a pas de description de cette apparence"},
+    {Str::KeysLotMore,
+     "Entrée sur une entrée d'objets identiques les liste un par un. Contrôle+T annonce chaque nouvelle heure de "
+     "l'horloge, ou arrête. Contrôle+Maj+N choisit de qui les conversations sont dites : quiconque parle avec "
+     "votre famille, tout le monde, seulement votre famille, ou personne. Contrôle+Maj+E dit à quoi ressemble un "
+     "Sim."},
+    {Str::KeysMapMore,
+     "Les murs, clôtures et fenêtres arrêtent les flèches ; Alt avec les flèches passe à travers. Virgule et "
+     "point choisissent ce que dit chaque pas : tout, objets, sols, murs ou pièces."},
+    {Str::KeysPlacingWalls,
+     "Les murs, clôtures et fenêtres arrêtent les flèches ; Alt avec les flèches passe à travers. Quand on "
+     "déplace un objet, la première flèche part de l'endroit où il était."},
+    {Str::KeysShowFocusThings, "Activé, le pointeur de la souris va aussi sur l'objet du terrain sélectionné."},
+    {Str::SkillNeededForPromotion, "la prochaine promotion demande %d"},
 };
 
 }  // namespace

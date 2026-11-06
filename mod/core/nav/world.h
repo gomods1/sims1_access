@@ -38,6 +38,10 @@ std::string LevelName(game::Ptr group);  // the group's name: its open kind or r
 // the number of the kind or room that was open (0: none was).
 void Open(game::Ptr group, int number);
 int Close(game::Ptr group);
+// Enter on an entry standing for identical things ("Silla, 2 iguales"): its members one by one,
+// nearest first. false when the entry is a single thing. Close goes back to the kind or room and
+// returns the entry's number.
+bool OpenSame(game::Ptr group, int objectId);
 // The kind or room after the open one (delta +1) or before it, skipping empty ones, wrapping; with
 // none open the first kind (the last going back) or the selected Sim's room. 0: the lot has none.
 int Step(game::Ptr group, int delta);
@@ -61,5 +65,7 @@ void MarkBought(game::Ptr object);
 // its details in the buffer; or for a bare tile of a floor.
 std::string DescribeObject(game::Ptr object);
 std::string DescribeSpot(int tileX, int tileY, int level);
+// "Bella. Cabeza: pelo negro, largo. Cuerpo: vestido, rojo": what the Sim looks like.
+std::string SimLookLine(game::Ptr person);
 
 }  // namespace nav::world
