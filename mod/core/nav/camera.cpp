@@ -1,5 +1,7 @@
 #include "camera.h"
 
+#include <algorithm>
+
 #include "../game/view.h"
 #include "../game/lot.h"
 #include "../game/people.h"
@@ -8,6 +10,7 @@
 #include "../speech/speech.h"
 #include "../util/log.h"
 #include "../util/strings.h"
+#include "../util/settings.h"
 #include "../util/text.h"
 #include "buffers.h"
 #include "buy_mode.h"
@@ -114,7 +117,11 @@ void Tick() {
 void LookAt(game::Ptr object) {
     if (!object || !LotViewActive()) return;
     PauseFollow();
-    if (!game::CenterViewOn(object)) LogVerbose("camera: could not center on %p", (void*)object);
+    // A slower glide than the game's 250 ms: a tester's partner got dizzy watching the camera
+    // rush from thing to thing ([mod] camera_glide, milliseconds; 0 the game's own).
+    static int glideMs = -1;
+    if (glideMs < 0) glideMs = std::max(0, std::min(3000, util::GetSetting("camera_glide", 800)));
+    if (!game::CenterViewOn(object, glideMs)) LogVerbose("camera: could not center on %p", (void*)object);
 }
 
 void ToggleFollow() {

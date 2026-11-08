@@ -74,6 +74,11 @@ std::vector<LotObject> LotThings();
 // dirty (an unmade bed, a used toilet, a trash pile).
 bool ObjectBroken(Ptr object);
 bool ObjectDirty(Ptr object);
+// A pet food bowl's food (Unleashed's "Pet - Food Bowl - Cheap / Expensive": its attribute 3, the
+// servings its "Eat" takes one by one and "Fill Bowl" sets); -1 for anything else.
+int PetBowlFood(Ptr object);
+// Attribute n of the object (SimAntics "My attribute"), 0 when it has fewer.
+int ObjectAttribute(Ptr object, int n);
 
 // A Sim's name, or the object's catalog name in the game's language; empty for objects that are
 // not in the catalog (default lot objects such as the mailbox). UTF-8.

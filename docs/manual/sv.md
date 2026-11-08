@@ -105,7 +105,7 @@ Jobbet säger arbetstiderna och när samåkningen kommer. Varje färdighet säge
 | Kontroll+T | Säger varje ny timme på klockan ("klockan är 14:00"), eller slutar med det. Användbart på högsta hastigheten. |
 | P | Paus (spelets tangent); modden säger tid och pengar. 1, 2, 3 ställer in hastigheten. |
 
-Kameran följer den valda simmen, eftersom spelets ljud kommer från det som syns på skärmen. Medan du bläddrar bland tomtens föremål går kameran till varje föremål och kommer sedan tillbaka till simmen.
+Kameran följer den valda simmen, eftersom spelets ljud kommer från det som syns på skärmen. Medan du bläddrar bland tomtens föremål går kameran till varje föremål och kommer sedan tillbaka till simmen. Den glider dit långsamt, så att bilden inte rusar (inställningen `camera_glide`).
 
 Zoomen och kamerans riktning sägs när de ändras (plus och minus zoomar, komma och punkt vrider vyn), och de finns också i statusraden: "kamera: mellanvy, vänd mot nordväst". Riktningen är det som skärmens överkant visar. Modets norr vrids inte med kameran.
 
@@ -127,7 +127,7 @@ Du behöver inte tabba dit: Page-tangenterna bläddrar bland föremålen var du 
 
 En sim eller ett föremål som fortfarande visar en bubbla säger den också ("Bella, Ät, tänker: hunger"). Något som ingen sim kan nå från tomtens ingång säger "ingen sim kan nå den".
 
-Efter simmarna kommer **problem**: det som behöver uppmärksamhet, som trasiga saker, det som behöver städas, vattenpölar, skräp, aska, eld och allt med flugor över. Sist kommer **dörrar, fönster och trappor**.
+Efter simmarna kommer **problem**: det som behöver uppmärksamhet, som trasiga saker, det som behöver städas, vattenpölar, skräp, aska, eld och allt med flugor över. En tom matskål för husdjur finns också här; i alla listor säger en matskål om det finns mat i den. Sist kommer **dörrar, fönster och trappor**.
 
 ### Interaktionsmenyer
 
@@ -306,6 +306,7 @@ Moddens inställningar finns i `SimsAccess\SimsAccess.ini` i spelets mapp, avsni
 | `show_focus` | 1 lyser upp den valda kontrollen på skärmen (Kontroll+Skift+V). |
 | `social` | Vems samtal som sägs: 3 alla, 2 alla som pratar med din familj, 1 din familj, 0 ingen (Kontroll+Skift+N). |
 | `hours` | 1 säger varje ny timme (Kontroll+T). |
+| `camera_glide` | Hur länge kameran glider till ett föremål du bläddrar till, i millisekunder (standard 800; 0 spelets egna snabba 250). |
 
 ## När något går fel
 

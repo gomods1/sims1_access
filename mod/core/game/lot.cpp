@@ -511,6 +511,18 @@ bool SimLook(Ptr person, std::string* head, std::string* body) {
     return !head->empty() || !body->empty();
 }
 
+int ObjectAttribute(Ptr object, int n) {
+    Ptr values = Rd<Ptr>(object + addr::objattr::kValues);
+    int count = Rd<int>(object + addr::objattr::kCount);
+    if (!values || n < 0 || n >= count || count > 1000) return 0;
+    return Rd<short>(values + 2 * n);
+}
+
+int PetBowlFood(Ptr object) {
+    if (!object || InternalName(Rd<Ptr>(object + addr::obj::kType)).rfind("Pet - Food Bowl", 0) != 0) return -1;
+    return ObjectAttribute(object, addr::objattr::kBowlFood);
+}
+
 std::string ObjectInternalName(const LotObject& o) { return InternalName(Rd<Ptr>(o.object + addr::obj::kType)); }
 
 std::string TypeInternalName(Ptr type) { return type ? InternalName(type) : ""; }

@@ -140,7 +140,7 @@ The job says its hours and when the carpool comes. Each skill says its level and
 
 The camera follows the selected Sim, because the game's sounds come from what is on screen.
 While you browse the lot's things, the camera goes to each thing and comes back to the Sim
-afterwards.
+afterwards. It glides there slowly, so the view does not rush (the `camera_glide` setting).
 
 The zoom and the way the camera faces are said when they change (plus and minus zoom, comma and period turn the view), and the status line has them too: "camera: medium view, facing north-west". The facing is what the top of the screen looks toward. The mod's north does not turn with the camera.
 
@@ -167,7 +167,7 @@ buy and build mode.
 
 A Sim or an object still showing a balloon says it too ("Bella, Eat, thinks: hunger"). A thing no Sim can get to from the lot's entrance says "no Sim can reach it".
 
-After the Sims comes **problems**: what wants attention, such as broken things, things that need cleaning, puddles, rubbish, ashes, fire, and anything with flies over it. Last comes **doors, windows and stairs**.
+After the Sims comes **problems**: what wants attention, such as broken things, things that need cleaning, puddles, rubbish, ashes, fire, and anything with flies over it. An empty pet food bowl is here too; in any list a food bowl says whether it has food. Last comes **doors, windows and stairs**.
 
 ### Interaction menus
 
@@ -388,6 +388,7 @@ keys that change them save them at once.
 | `show_focus` | 1 lights the focused control on screen (Control+Shift+V). |
 | `social` | Whose conversations are spoken: 3 everyone, 2 anyone with your family, 1 your family, 0 nobody (Control+Shift+N). |
 | `hours` | 1 says each new hour (Control+T). |
+| `camera_glide` | How long the camera takes to glide to a thing you browse, in milliseconds (default 800; 0 the game's own quick 250). |
 
 ## When something goes wrong
 

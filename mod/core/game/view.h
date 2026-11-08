@@ -6,9 +6,10 @@
 
 namespace game {
 
-// Scrolls the view to the object (any cXObject or cXPerson on the lot), switching floors if
-// needed, immediately. false when the object refuses (not placed, or the function is missing).
-bool CenterViewOn(Ptr object);
+// Glides the view to the object (any cXObject or cXPerson on the lot), switching floors if
+// needed, in glideMs milliseconds (the game's own glide, which takes 250 ms; <= 0 keeps that).
+// false when the object refuses (not placed, or the function is missing).
+bool CenterViewOn(Ptr object, int glideMs = 0);
 
 // The Sim the camera follows every frame (0 = none), and setting it. Following a Sim goes
 // through the family panel when it is there, so the panel's own state stays consistent.

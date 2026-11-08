@@ -143,7 +143,7 @@ Praca podaje godziny i kiedy przyjeżdża samochód. Każda umiejętność podaj
 | P | Pauza (klawisz gry); mod mówi godzinę i fundusze. 1, 2, 3 ustawiają prędkość. |
 
 Kamera śledzi wybranego Sima, bo dźwięki gry pochodzą z tego, co jest na ekranie. Kiedy
-przeglądasz obiekty na parceli, kamera przesuwa się do każdego z nich, a potem wraca do Sima.
+przeglądasz obiekty na parceli, kamera przesuwa się do każdego z nich, a potem wraca do Sima. Przesuwa się powoli, żeby obraz nie pędził (ustawienie `camera_glide`).
 
 Przybliżenie i kierunek kamery są podawane, gdy się zmieniają (plus i minus przybliżają, przecinek i kropka obracają widok), a także w wierszu stanu: "kamera: widok średni, w kierunku północnego zachodu". Kierunek to to, co pokazuje górna krawędź ekranu. Północ moda nie obraca się z kamerą.
 
@@ -171,7 +171,7 @@ trybie życia, kupowania i budowania.
 
 Sim lub obiekt, nad którym wciąż widać dymek, też to mówi ("Bella, Zjedz, myśli: głód"). Rzecz, do której żaden Sim nie może dojść od wejścia na parcelę, mówi "żaden Sim nie może tam dojść".
 
-Po Simach są **problemy**: to, co wymaga uwagi, czyli zepsute rzeczy, rzeczy do sprzątnięcia, kałuże, śmieci, popiół, ogień i wszystko z muchami. Na końcu są **drzwi, okna i schody**.
+Po Simach są **problemy**: to, co wymaga uwagi, czyli zepsute rzeczy, rzeczy do sprzątnięcia, kałuże, śmieci, popiół, ogień i wszystko z muchami. Pusta miska dla zwierzaka też tu jest; na każdej liście miska mówi, czy jest w niej jedzenie. Na końcu są **drzwi, okna i schody**.
 
 ### Menu działań
 
@@ -395,6 +395,7 @@ które je zmieniają, od razu je zapisują.
 | `show_focus` | 1 podświetla wybrany element na ekranie (Control+Shift+V). |
 | `social` | Czyje rozmowy są mówione: 3 wszystkich, 2 każdego z twoją rodziną, 1 twojej rodziny, 0 niczyje (Control+Shift+N). |
 | `hours` | 1 podaje każdą nową godzinę (Control+T). |
+| `camera_glide` | Jak długo kamera płynie do przeglądanego obiektu, w milisekundach (domyślnie 800; 0 to szybkie 250 samej gry). |
 
 ## Gdy coś nie działa
 

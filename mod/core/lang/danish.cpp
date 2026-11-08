@@ -118,6 +118,8 @@ const Translation kEntries[] = {
     {Str::CategoryPortals, "døre, vinduer og trapper"},
     {Str::ConditionBroken, "i stykker"},
     {Str::ConditionDirty, "skal rengøres"},
+    {Str::BowlEmpty, "uden foder"},
+    {Str::BowlHasFood, "med foder"},
     {Str::ObjPuddle, "vandpyt"},
     {Str::ObjAshes, "aske"},
     {Str::ObjFire, "ild"},

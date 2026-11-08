@@ -119,6 +119,8 @@ const Translation kEntries[] = {
     {Str::CategoryPortals, "ovet, ikkunat ja portaat"},
     {Str::ConditionBroken, "rikki"},
     {Str::ConditionDirty, "kaipaa siivousta"},
+    {Str::BowlEmpty, "ei ruokaa"},
+    {Str::BowlHasFood, "ruokaa on"},
     {Str::ObjPuddle, "lätäkkö"},
     {Str::ObjAshes, "tuhka"},
     {Str::ObjFire, "tuli"},

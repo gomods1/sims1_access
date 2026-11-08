@@ -105,7 +105,7 @@ Il lavoro dice gli orari e quando passa l'auto. Ogni abilità dice il suo livell
 | Control+T | Dice ogni nuova ora dell'orologio ("sono le 14:00"), o smette di dirla. Utile alla velocità massima. |
 | P | Pausa (il tasto del gioco); la mod dice l'ora e il denaro. 1, 2, 3 impostano la velocità. |
 
-La telecamera segue il Sim selezionato, perché i suoni del gioco provengono da ciò che è sullo schermo. Mentre scorri gli oggetti del lotto, la telecamera va su ognuno e poi torna al Sim.
+La telecamera segue il Sim selezionato, perché i suoni del gioco provengono da ciò che è sullo schermo. Mentre scorri gli oggetti del lotto, la telecamera va su ognuno e poi torna al Sim. Ci scivola lentamente, così la vista non corre (l'impostazione `camera_glide`).
 
 Lo zoom e la direzione della telecamera vengono detti quando cambiano (più e meno per lo zoom, virgola e punto ruotano la vista), e sono anche nella riga di stato: "telecamera: vista media, rivolta a nord-ovest". La direzione è ciò che mostra la parte alta dello schermo. Il nord del mod non ruota con la telecamera.
 
@@ -127,7 +127,7 @@ Non serve andarci con Tab: i tasti Pagina scorrono gli oggetti da qualsiasi punt
 
 Un Sim o un oggetto che mostra ancora un fumetto lo dice anche ("Bella, Mangia, pensa: mangiare"). Ciò che nessun Sim può raggiungere dall'ingresso del lotto dice "nessun Sim può raggiungerlo".
 
-Dopo i Sim viene **problemi**: ciò che richiede attenzione, come oggetti rotti, cose da pulire, pozzanghere, rifiuti, cenere, fuoco e tutto ciò che ha mosche. Per ultimo viene **porte, finestre e scale**.
+Dopo i Sim viene **problemi**: ciò che richiede attenzione, come oggetti rotti, cose da pulire, pozzanghere, rifiuti, cenere, fuoco e tutto ciò che ha mosche. Anche una ciotola per animali vuota è qui; in ogni elenco una ciotola dice se contiene cibo. Per ultimo viene **porte, finestre e scale**.
 
 ### I menu delle interazioni
 
@@ -306,6 +306,7 @@ Le impostazioni della mod sono in `SimsAccess\SimsAccess.ini` nella cartella del
 | `show_focus` | 1 evidenzia sullo schermo il controllo selezionato (Control+Maiusc+V). |
 | `social` | Di chi si dicono le conversazioni: 3 tutti, 2 chiunque parli con la tua famiglia, 1 la tua famiglia, 0 nessuno (Control+Maiusc+N). |
 | `hours` | 1 dice ogni nuova ora (Control+T). |
+| `camera_glide` | Quanto impiega la telecamera a scivolare sull'oggetto che scorri, in millisecondi (predefinito 800; 0 i rapidi 250 del gioco). |
 
 ## Quando qualcosa non va
 

@@ -231,7 +231,7 @@ the record from `+0x0c` and carry `+0x09` = 1 for the running one.
 ## Camera
 
 - `[0xa67548]` `cXPerson*`: the Sim the camera follows. The house viewer's frame function `0x567d30` calls its vtable slot 33 (`cXPerson` `0x5f5f90`) each frame while `viewer + 0x1c0` is 0; `0x57f480(person)` (cdecl) sets it, `cWinPeople::0x4ba880()` clears it with the panel's marker at `cWinPeople + 0x4a4` (the "following" icon on the portrait).
-- `cXObject::0x53a210(char immediate)` (thiscall) scrolls the view to the object: its grid position through `0x57a850`, rotated for the camera with `0x586ae0`, then `0x5e0130(x, y, level, 1, !immediate)` (-> `0x565d70`), `0x5e0180(0)`. Works on Sims, objects and the held buy-mode object.
+- `cXObject::0x53a210(char glide)` (thiscall) scrolls the view to the object: its grid position through `0x57a850`, rotated for the camera with `0x586ae0`, then `0x5e0130(x, y, level, 1, !glide)` (-> `0x565d70`), `0x5e0180(0)`. Works on Sims, objects and the held buy-mode object. In `0x565d70` a last argument of 0 (glide 1) starts the HouseViewer's animator at `+0x1a0` (`0x64ce80(1)` fixed-duration mode, `0x64ce70([0xa519a4])` its length, 250 ms, then `0x64ceb0(from, to...)` against the clock `[0xa53240]`); 1 (glide 0) jumps through `0x5661d0`, which adds the offset to the scroll globals `[0xa67110]`/`[0xa67114]` at once. (The parameter was named `immediate` until 2026-11-08: the mod's 1 always was the glide; polled live: the jump moves the globals in one step, the glide over the frames.)
 - The lot view's key handler `0x40e610` (`cDDDSimsView` slot 53): Enter in live mode follows the selected Sim (`cWinPeople::0x4bc220`), Tab/PageUp/PageDown change floors (`0x408000`), Home/End cycle the wall modes (`0x408630`), Escape cancels the tutorial (`0x548720`), F1..F5 the modes (`0x408050(mode)`: 0 build, 1 buy, 2 live, 3 options, 4 camera; F1 in live mode toggles the panel with `0x407d90`). Plain arrows do nothing here; scrolling is polled elsewhere.
 - `cWinPeople + 0x140`: index of the selected portrait (-1 none); `+0x148` the portrait vector (`people::kMemberButtons`), whose index is also the family member index for `0x43b3b0`.
 - `CPState` (`[0xa63570] + 0xc4`): `+0x50` camera rotation 0..3 (`0x407cf0` / `0x407d50` rotate, calling `0x5662c0`), `+0x240/+0x244` the camera-mode frame position (`0x407500`).
@@ -386,7 +386,8 @@ end hour; the carpool is an hour before the start. The popup (`0x4dea70`) fills 
 entry 23 with them, through `[0xa7f464]` slot 1's slot 32 (`std::string* out, int hour, 0, 0, 0`).
 
 Variables (the accessor `0x610d90`): an object's attributes are `short*` at `cXObject + 0x2c`,
-count at `+0x30`; globals are shorts at `[[0xa67044] + 0x1c]` (`cSimulator`) `+ 0x10`: 0 hour,
+count at `+0x30` (the pet food bowl's 8: attribute 3 its servings, `PetFoodBowl.iff` "decrement
+food" / "Eat TEST" / "Fill Bowl", refilled to 11); globals are shorts at `[[0xa67044] + 0x1c]` (`cSimulator`) `+ 0x10`: 0 hour,
 1 day of month, 2 zoom, 3 selected Sim's object id, 4 time of day, 5 minute, 6 second, 7 month,
 8 year (names: `Behavior.iff` STR# 129; read live at 2:13 AM: 2, 17, 1, 21, ...).
 

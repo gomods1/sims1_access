@@ -3,6 +3,7 @@
 #include "../util/log.h"
 #include "addresses.h"
 #include "hooks.h"
+#include "memory.h"
 #include "people.h"
 #include "rtti.h"
 #include "ui.h"
@@ -27,10 +28,17 @@ Ptr FamilyPanel(Ptr lotView) {
     return 0;
 }
 
-bool CenterViewOn(Ptr object) {
-    typedef void(__thiscall * Fn)(void*, char immediate);
+bool CenterViewOn(Ptr object, int glideMs) {
+    typedef void(__thiscall * Fn)(void*, char glide);
     if (!IsKindOf(object, "cXObject") || !FunctionOk(addr::camera::kCenterOnObject)) return false;
+    // The glide's length is read from a global while the call starts it; the game's own value
+    // goes back right after, so its other scrolls keep their pace.
+    Ptr duration = Va(addr::camera::kGlideMs);
+    uint32_t was = Rd<uint32_t>(duration);
+    bool longer = glideMs > 0 && was > 0 && was < 10000 && (uint32_t)glideMs != was;
+    if (longer) WriteU32(duration, (uint32_t)glideMs);
     bool ok = Guarded([&] { ((Fn)Va(addr::camera::kCenterOnObject))((void*)object, 1); });
+    if (longer) WriteU32(duration, was);
     if (!ok) Log("camera: centering on %p failed", (void*)object);
     return ok;
 }

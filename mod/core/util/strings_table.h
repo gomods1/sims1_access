@@ -113,6 +113,8 @@
     X(CategoryPortals, "doors, windows and stairs")                                                                    \
     X(ConditionBroken, "broken")                                                                                       \
     X(ConditionDirty, "needs cleaning")                                                                                \
+    X(BowlEmpty, "no food")                                                                                            \
+    X(BowlHasFood, "has food")                                                                                         \
     X(ObjPuddle, "puddle")                                                                                             \
     X(ObjAshes, "ashes")                                                                                               \
     X(ObjFire, "fire")                                                                                                 \

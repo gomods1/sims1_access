@@ -116,6 +116,8 @@ const Translation kEntries[] = {
     {Str::CategoryPortals, "ประตู หน้าต่าง และบันได"},
     {Str::ConditionBroken, "เสีย"},
     {Str::ConditionDirty, "ต้องทำความสะอาด"},
+    {Str::BowlEmpty, "ไม่มีอาหาร"},
+    {Str::BowlHasFood, "มีอาหาร"},
     {Str::ObjPuddle, "แอ่งน้ำ"},
     {Str::ObjAshes, "ขี้เถ้า"},
     {Str::ObjFire, "ไฟ"},

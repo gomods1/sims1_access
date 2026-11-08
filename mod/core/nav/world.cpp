@@ -55,11 +55,12 @@ bool IsMess(const std::string& internal) {
     return false;
 }
 
-// What wants someone's attention: what the game's repairman and maid would go for, messes, and
-// whatever has flies over it.
+// What wants someone's attention: what the game's repairman and maid would go for, messes,
+// whatever has flies over it, and an empty pet food bowl.
 bool IsProblem(const LotObject& o) {
     if (o.person) return false;
     if (game::ObjectBroken(o.object) || game::ObjectDirty(o.object)) return true;
+    if (game::PetBowlFood(o.object) == 0) return true;
     if (IsMess(game::ObjectInternalName(o))) return true;
     return narrator::ShownBalloon(o.object) == S(Str::HeadlineFlies);
 }
@@ -261,6 +262,8 @@ std::string Describe(const Entry& e, const Lot& lot) {
     if (!o.person && Unreachable(o.id)) s += std::string(", ") + S(Str::NobodyReaches);
     if (!o.person && game::ObjectBroken(o.object)) s += std::string(", ") + S(Str::ConditionBroken);
     else if (!o.person && game::ObjectDirty(o.object)) s += std::string(", ") + S(Str::ConditionDirty);
+    int food = o.person ? -1 : game::PetBowlFood(o.object);  // a tester asked whether the bowl was empty
+    if (food >= 0) s += std::string(", ") + S(food > 0 ? Str::BowlHasFood : Str::BowlEmpty);
     const LotObject* ref = lot.Ref();
     if (ref && o.object == ref->object) s += std::string(", ") + S(Str::SelectedSimSuffix);
     if (o.person) {  // what the Sim is doing: its current action

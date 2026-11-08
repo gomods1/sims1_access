@@ -105,7 +105,7 @@ Der Beruf nennt seine Arbeitszeiten und wann die Fahrgemeinschaft kommt. Jede F�
 | Strg+T | Sagt jede neue Stunde der Uhr an („es ist 14:00“), oder hört damit auf. Nützlich bei der höchsten Geschwindigkeit. |
 | P | Pause (die Taste des Spiels); der Mod sagt Uhrzeit und Vermögen. 1, 2, 3 stellen die Geschwindigkeit ein. |
 
-Die Kamera folgt dem ausgewählten Sim, weil die Klänge des Spiels von dem kommen, was auf dem Bildschirm ist. Während Du die Objekte des Grundstücks durchgehst, fährt die Kamera zu jedem und kehrt danach zum Sim zurück.
+Die Kamera folgt dem ausgewählten Sim, weil die Klänge des Spiels von dem kommen, was auf dem Bildschirm ist. Während Du die Objekte des Grundstücks durchgehst, fährt die Kamera zu jedem und kehrt danach zum Sim zurück. Sie gleitet langsam dorthin, damit das Bild nicht rast (die Einstellung `camera_glide`).
 
 Zoom und Blickrichtung der Kamera werden gesagt, wenn sie sich ändern (Plus und Minus zoomen, Komma und Punkt drehen die Ansicht), und stehen auch in der Statuszeile: "Kamera: mittlere Ansicht, Blick nach Nordwesten". Die Blickrichtung ist, was der obere Bildschirmrand zeigt. Der Norden des Mods dreht sich nicht mit der Kamera.
 
@@ -127,7 +127,7 @@ Du musst nicht mit Tab dorthin: die Bild-Tasten gehen von überall auf dem Grund
 
 Ein Sim oder ein Objekt, über dem noch eine Sprechblase steht, sagt sie mit („Bella, Essen, denkt: Hunger“). Was kein Sim vom Eingang des Grundstücks aus erreichen kann, sagt „kein Sim kommt dorthin“.
 
-Nach den Sims kommt **Probleme**: was Aufmerksamkeit braucht, etwa Kaputtes, was gereinigt werden muss, Pfützen, Müll, Asche, Feuer und alles mit Fliegen. Zuletzt kommt **Türen, Fenster und Treppen**.
+Nach den Sims kommt **Probleme**: was Aufmerksamkeit braucht, etwa Kaputtes, was gereinigt werden muss, Pfützen, Müll, Asche, Feuer und alles mit Fliegen. Ein leerer Futternapf für Haustiere steht auch hier; in jeder Liste sagt ein Futternapf, ob Futter darin ist. Zuletzt kommt **Türen, Fenster und Treppen**.
 
 ### Interaktionsmenüs
 
@@ -306,6 +306,7 @@ Die Einstellungen des Mods stehen in `SimsAccess\SimsAccess.ini` im Ordner des S
 | `show_focus` | 1 hebt das gewählte Steuerelement auf dem Bildschirm hervor (Strg+Umschalt+V). |
 | `social` | Wessen Gespräche gesagt werden: 3 alle, 2 jeder, der mit Deiner Familie redet, 1 Deine Familie, 0 niemand (Strg+Umschalt+N). |
 | `hours` | 1 sagt jede neue Stunde an (Strg+T). |
+| `camera_glide` | Wie lange die Kamera zu einem durchgegangenen Objekt gleitet, in Millisekunden (Standard 800; 0 die schnellen 250 des Spiels). |
 
 ## Wenn etwas nicht klappt
 

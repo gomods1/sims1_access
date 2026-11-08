@@ -105,7 +105,7 @@ De baan noemt de werktijden en wanneer de carpool komt. Elke vaardigheid noemt h
 | Control+T | Elk nieuw uur van de klok zeggen ("het is 14:00"), of ermee stoppen. Handig op de hoogste snelheid. |
 | P | Pauze (de toets van het spel); de mod zegt de tijd en het geld. 1, 2, 3 stellen de snelheid in. |
 
-De camera volgt de geselecteerde Sim, omdat de geluiden van het spel komen van wat er op het scherm is. Terwijl je door de voorwerpen op het kavel bladert, gaat de camera naar elk voorwerp en komt daarna terug bij de Sim.
+De camera volgt de geselecteerde Sim, omdat de geluiden van het spel komen van wat er op het scherm is. Terwijl je door de voorwerpen op het kavel bladert, gaat de camera naar elk voorwerp en komt daarna terug bij de Sim. Hij glijdt er langzaam heen, zodat het beeld niet raast (de instelling `camera_glide`).
 
 De zoom en de richting van de camera worden gezegd als ze veranderen (plus en min zoomen, komma en punt draaien het beeld), en staan ook in de statusregel: "camera: middelste weergave, gericht naar het noordwesten". De richting is wat de bovenkant van het scherm toont. Het noorden van de mod draait niet mee met de camera.
 
@@ -127,7 +127,7 @@ Je hoeft er niet met Tab heen: de Page-toetsen bladeren overal op het kavel door
 
 Een Sim of voorwerp waarboven nog een ballon staat, zegt die ook ("Bella, Eten, denkt: honger"). Iets wat geen Sim vanaf de ingang van het kavel kan bereiken, zegt "geen Sim kan erbij".
 
-Na de Sims komt **problemen**: wat aandacht vraagt, zoals kapotte dingen, wat schoongemaakt moet worden, plassen, afval, as, vuur en alles met vliegen erboven. Als laatste komt **deuren, ramen en trappen**.
+Na de Sims komt **problemen**: wat aandacht vraagt, zoals kapotte dingen, wat schoongemaakt moet worden, plassen, afval, as, vuur en alles met vliegen erboven. Een lege voerbak voor huisdieren staat hier ook; in elke lijst zegt een voerbak of er voer in zit. Als laatste komt **deuren, ramen en trappen**.
 
 ### Interactiemenu's
 
@@ -306,6 +306,7 @@ De instellingen van de mod staan in `SimsAccess\SimsAccess.ini` in de map van he
 | `show_focus` | 1 laat het gekozen bedieningselement op het scherm oplichten (Control+Shift+V). |
 | `social` | Wiens gesprekken worden gezegd: 3 iedereen, 2 iedereen die met je familie praat, 1 je familie, 0 niemand (Control+Shift+N). |
 | `hours` | 1 zegt elk nieuw uur (Control+T). |
+| `camera_glide` | Hoe lang de camera erover doet om naar een voorwerp te glijden waar je doorheen bladert, in milliseconden (standaard 800; 0 de snelle 250 van het spel zelf). |
 
 ## Als er iets misgaat
 

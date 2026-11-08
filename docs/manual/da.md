@@ -105,7 +105,7 @@ Jobbet siger arbejdstiden, og hvornår samkørslen kommer. Hver færdighed siger
 | Kontrol+T | Siger hver ny time på uret ("klokken er 14:00"), eller holder op med det. Nyttigt ved den højeste hastighed. |
 | P | Pause (spillets tast); modden siger klokken og pengene. 1, 2, 3 indstiller hastigheden. |
 
-Kameraet følger den valgte Sim, fordi spillets lyde kommer fra det, der er på skærmen. Mens du gennemgår grundens objekter, går kameraet hen til hvert objekt og vender bagefter tilbage til Simmen.
+Kameraet følger den valgte Sim, fordi spillets lyde kommer fra det, der er på skærmen. Mens du gennemgår grundens objekter, går kameraet hen til hvert objekt og vender bagefter tilbage til Simmen. Det glider langsomt derhen, så billedet ikke farer af sted (indstillingen `camera_glide`).
 
 Zoom og kameraets retning siges, når de ændres (plus og minus zoomer, komma og punktum drejer visningen), og de står også i statuslinjen: "kamera: mellem visning, vendt mod nordvest". Retningen er det, toppen af skærmen viser. Modets nord drejer ikke med kameraet.
 
@@ -127,7 +127,7 @@ Du behøver ikke at tabbe derhen: Side-tasterne gennemgår objekterne fra hvor s
 
 En Sim eller et objekt, der stadig viser en boble, siger den også ("Bella, Spise, tænker: sult"). Noget, som ingen Sim kan nå fra grundens indgang, siger "ingen Sim kan nå det".
 
-Efter simmerne kommer **problemer**: det, der kræver opmærksomhed, som ting i stykker, det der skal rengøres, vandpytter, affald, aske, ild og alt med fluer over. Til sidst kommer **døre, vinduer og trapper**.
+Efter simmerne kommer **problemer**: det, der kræver opmærksomhed, som ting i stykker, det der skal rengøres, vandpytter, affald, aske, ild og alt med fluer over. En tom madskål til kæledyr er her også; i alle lister siger en madskål, om der er mad i den. Til sidst kommer **døre, vinduer og trapper**.
 
 ### Handlingsmenuer
 
@@ -306,6 +306,7 @@ Moddens indstillinger ligger i `SimsAccess\SimsAccess.ini` i spillets mappe, sek
 | `show_focus` | 1 fremhæver det valgte kontrolelement på skærmen (Kontrol+Skift+V). |
 | `social` | Hvis samtaler der siges: 3 alle, 2 alle, der taler med din familie, 1 din familie, 0 ingen (Kontrol+Skift+N). |
 | `hours` | 1 siger hver ny time (Kontrol+T). |
+| `camera_glide` | Hvor længe kameraet er om at glide hen til et objekt, du gennemgår, i millisekunder (standard 800; 0 spillets egen hurtige 250). |
 
 ## Når noget går galt
 

@@ -145,7 +145,7 @@ O emprego diz o horário e quando a carona passa. Cada habilidade diz seu nível
 | P | Pausa (a tecla do jogo); o mod diz a hora e os fundos. 1, 2, 3 definem a velocidade. |
 
 A câmera segue o Sim selecionado porque os sons do jogo vêm do que está na tela. Enquanto você
-percorre os objetos do lote, a câmera vai até cada objeto e depois volta para o Sim.
+percorre os objetos do lote, a câmera vai até cada objeto e depois volta para o Sim. Ela desliza devagar, para a vista não correr (a configuração `camera_glide`).
 
 O zoom e a direção da câmera são ditos quando mudam (mais e menos dão zoom, vírgula e ponto giram a vista), e também estão na linha de status: "câmera: vista média, de frente para o noroeste". A direção é o que a parte de cima da tela mostra. O norte do mod não gira com a câmera.
 
@@ -173,7 +173,7 @@ nos modos Simulação, Compra e Construção.
 
 Um Sim ou objeto que ainda mostra um balão também o diz ("Bella, Comer, pensa: fome"). Algo que nenhum Sim alcança a partir da entrada do lote diz "nenhum Sim consegue chegar".
 
-Depois dos Sims vem **problemas**: o que precisa de atenção, como coisas quebradas, o que precisa de limpeza, poças, lixo, cinzas, fogo e tudo com moscas em cima. Por último vem **portas, janelas e escadas**.
+Depois dos Sims vem **problemas**: o que precisa de atenção, como coisas quebradas, o que precisa de limpeza, poças, lixo, cinzas, fogo e tudo com moscas em cima. Uma tigela de comida de animal vazia também está aqui; em qualquer lista, uma tigela diz se tem comida. Por último vem **portas, janelas e escadas**.
 
 ### Menus de interação
 
@@ -399,6 +399,7 @@ teclas que as mudam as salvam na hora.
 | `show_focus` | 1 destaca na tela o controle selecionado (Control+Shift+V). |
 | `social` | De quem são as conversas faladas: 3 todos, 2 quem fala com sua família, 1 sua família, 0 ninguém (Control+Shift+N). |
 | `hours` | 1 diz cada nova hora (Control+T). |
+| `camera_glide` | Quanto tempo a câmera leva para deslizar até o objeto que você percorre, em milissegundos (padrão 800; 0 os 250 rápidos do próprio jogo). |
 
 ## Quando algo dá errado
 

@@ -140,7 +140,7 @@ Työ kertoo työajat ja milloin kimppakyyti tulee. Jokainen taito kertoo tasonsa
 | P | Tauko (pelin näppäin); modi kertoo ajan ja rahat. 1, 2, 3 asettavat nopeuden. |
 
 Kamera seuraa valittua simiä, koska pelin äänet tulevat siitä, mitä näytöllä on. Kun selaat
-tontin esineitä, kamera siirtyy kunkin luo ja palaa sen jälkeen simin luo.
+tontin esineitä, kamera siirtyy kunkin luo ja palaa sen jälkeen simin luo. Se liukuu sinne hitaasti, jotta näkymä ei kiidä (asetus `camera_glide`).
 
 Zoom ja kameran suunta sanotaan, kun ne muuttuvat (plus ja miinus zoomaavat, pilkku ja piste kääntävät näkymää), ja ne ovat myös tilarivillä: "kamera: keskinäkymä, luoteissuuntaan". Suunta on se, mitä näytön yläreuna näyttää. Modin pohjoinen ei käänny kameran mukana.
 
@@ -168,7 +168,7 @@ tontilla, Pelaa-, Osta- ja Rakenna-tilassa.
 
 Simi tai esine, jonka yllä on yhä puhekupla, sanoo senkin ("Bella, Syö, ajattelee: nälkä"). Asia, jonka luo yksikään simi ei pääse tontin sisäänkäynniltä, sanoo "yksikään simi ei pääse sen luo".
 
-Simien jälkeen tulee **ongelmat**: huomiota vaativat asiat, kuten rikkinäiset esineet, siivousta kaipaavat, lätäköt, roskat, tuhka, tuli ja kaikki, joiden yllä on kärpäsiä. Viimeisenä tulee **ovet, ikkunat ja portaat**.
+Simien jälkeen tulee **ongelmat**: huomiota vaativat asiat, kuten rikkinäiset esineet, siivousta kaipaavat, lätäköt, roskat, tuhka, tuli ja kaikki, joiden yllä on kärpäsiä. Myös tyhjä lemmikin ruokakuppi on täällä; kaikissa luetteloissa ruokakuppi kertoo, onko siinä ruokaa. Viimeisenä tulee **ovet, ikkunat ja portaat**.
 
 ### Toimintovalikot
 
@@ -396,6 +396,7 @@ Asetuksia muuttavat näppäimet tallentavat ne heti.
 | `show_focus` | 1 korostaa valitun säätimen näytöllä (Control+Vaihto+V). |
 | `social` | Kenen keskustelut kerrotaan: 3 kaikkien, 2 kaikki, jotka puhuvat perheesi kanssa, 1 perheesi, 0 ei kenenkään (Control+Vaihto+N). |
 | `hours` | 1 kertoo jokaisen uuden tunnin (Control+T). |
+| `camera_glide` | Kuinka kauan kamera liukuu selattavan esineen luo, millisekunteina (oletus 800; 0 pelin oma nopea 250). |
 
 ## Kun jokin menee vikaan
 

@@ -778,6 +778,15 @@ constexpr int kDirtyAbove = 400;
 constexpr int kFlags = 8;
 constexpr int kFlagNotCleanable = 0x20;
 }  // namespace objvar
+// SimAntics attributes ("My attribute n"): short* at +0x2c, their count at +0x30 (the variable
+// accessor 0x610d90). The pet food bowl (Unleashed, PetFoodBowl.iff) keeps its servings in
+// attribute 3: "decrement food" takes one, "Eat TEST" wants it above 0, "Update Table Graphics"
+// draws the empty bowl at 0.
+namespace objattr {
+constexpr int kValues = 0x2c;
+constexpr int kCount = 0x30;
+constexpr int kBowlFood = 3;
+}  // namespace objattr
 namespace objtype {
 constexpr int kResFile = 0x00;     // ObjResFile* (the object's IFF)
 constexpr int kInternalName = 0x18; // char* (English internal name, e.g. "Trash Outside")
@@ -856,8 +865,11 @@ constexpr int kSubMenu = 0x14c;    // cTSPieMenu* of sub-levels (entries ending 
 // house viewer (0x567d30) calls slot 33 of [kFollowed] every frame while it is set (what Enter
 // does in live mode through cWinPeople 0x4bc220).
 namespace camera {
-constexpr Va kCenterOnObject = 0x53a210;   // cXObject: thiscall void (char immediate): scrolls the
-                                           // view (rotation applied, floor set) to the object
+constexpr Va kCenterOnObject = 0x53a210;   // cXObject: thiscall void (char glide): scrolls the
+                                           // view (rotation applied, floor set) to the object; 1
+                                           // glides (the HouseViewer's animator at +0x1a0, 0x64ceb0,
+                                           // over [kGlideMs] ms), 0 jumps (0x5661d0)
+constexpr Va kGlideMs = 0xa519a4;          // u32: the glide's length, 250 ms
 constexpr Va kFollowed = 0xa67548;         // cXPerson*: the Sim the camera follows, 0 = none
 constexpr Va kSetFollowed = 0x57f480;      // cdecl void (cXPerson*): sets it (fires event 0xf5)
 constexpr Va kPeopleStopFollow = 0x4ba880; // cWinPeople: thiscall void (): clears its PIP, then follows nobody

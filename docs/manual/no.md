@@ -105,7 +105,7 @@ Jobben sier arbeidstiden og når samkjøringen kommer. Hver ferdighet sier nivå
 | Kontroll+T | Sier hver ny time på klokken ("klokken er 14:00"), eller slutter med det. Nyttig på raskeste hastighet. |
 | P | Pause (spillets tast); modden sier klokkeslett og midler. 1, 2, 3 stiller inn hastigheten. |
 
-Kameraet følger den valgte simmen, fordi spillets lyder kommer fra det som er på skjermen. Mens du blar gjennom tomtens objekter, går kameraet til hvert objekt og kommer tilbake til simmen etterpå.
+Kameraet følger den valgte simmen, fordi spillets lyder kommer fra det som er på skjermen. Mens du blar gjennom tomtens objekter, går kameraet til hvert objekt og kommer tilbake til simmen etterpå. Det glir sakte dit, så bildet ikke farer av gårde (innstillingen `camera_glide`).
 
 Zoom og kameraets retning sies når de endres (pluss og minus zoomer, komma og punktum snur visningen), og de står også i statuslinjen: "kamera: middels visning, vendt mot nordvest". Retningen er det toppen av skjermen viser. Modens nord snur seg ikke med kameraet.
 
@@ -127,7 +127,7 @@ Du trenger ikke å tabbe dit: Side-tastene blar gjennom objektene fra hvor som h
 
 En sim eller et objekt som fortsatt viser en boble, sier den også ("Bella, Spis, tenker: sult"). En ting ingen sim kan komme til fra tomtens inngang, sier "ingen sim kan nå det".
 
-Etter simmene kommer **problemer**: det som trenger oppmerksomhet, som ødelagte ting, det som må rengjøres, vannpytter, søppel, aske, ild og alt med fluer over. Til slutt kommer **dører, vinduer og trapper**.
+Etter simmene kommer **problemer**: det som trenger oppmerksomhet, som ødelagte ting, det som må rengjøres, vannpytter, søppel, aske, ild og alt med fluer over. En tom matskål for kjæledyr er her også; i alle lister sier en matskål om det er mat i den. Til slutt kommer **dører, vinduer og trapper**.
 
 ### Handlingsmenyer
 
@@ -306,6 +306,7 @@ Moddens innstillinger ligger i `SimsAccess\SimsAccess.ini` i spillets mappe, del
 | `show_focus` | 1 fremhever den valgte kontrollen på skjermen (Kontroll+Skift+V). |
 | `social` | Hvem sine samtaler som sies: 3 alle, 2 alle som snakker med familien din, 1 familien din, 0 ingen (Kontroll+Skift+N). |
 | `hours` | 1 sier hver ny time (Kontroll+T). |
+| `camera_glide` | Hvor lenge kameraet bruker på å gli til et objekt du blar til, i millisekunder (standard 800; 0 spillets egne raske 250). |
 
 ## Når noe går galt
 

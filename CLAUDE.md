@@ -125,7 +125,7 @@ eturn_focus.txt`; a dev core hands the foreground back to it
     sprites on screen). Refunded (a window: +$160). Enter on one picks it up to move it.
   - Things kinds (`nav/world.cpp`): **problems** comes right after Sims (what the game's repairman
     and maid look for: object variable 15 above 0, variable 39 above 400; messes by internal name;
-    whatever has the flies balloon) and **doors, windows and stairs** last. Those are OBJD type 8,
+    whatever has the flies balloon; an empty pet food bowl) and **doors, windows and stairs** last. Those are OBJD type 8,
     left out of `LotObjects` so rooms' contents are not counted with them; use `LotThings` to name
     them. A door the list could not reach was the tester's "no way to interact with it".
   - The camera's zoom and facing are said when they change and are a status line item
@@ -135,6 +135,10 @@ eturn_focus.txt`; a dev core hands the foreground back to it
   - Actions with another Sim name it everywhere (`SimAction::target`, the queue record's `+0x0c`
     when it is a person; `Spoken()`), for free will too.
   - After a door is placed the mod says whether Sims can use it (`placement::CheckDoor`).
+  - A pet food bowl (Unleashed's "Pet - Food Bowl - Cheap / Expensive") says "con comida" or "sin
+    comida" in every list (`game::PetBowlFood`: attribute 3, the servings; "Fill Bowl" sets 11, each
+    meal takes one; read live on El Paseo del Inglés 56, 2026-11-08: 3, 3, 2 going down as the pets
+    ate, 11 after Ginia refilled one). A tester asked whether the bowl was empty.
   - Ctrl+E (lot view): the selected Sim's state in one line ("Cris, en exterior, Tomar un
     tentempié; necesidades urgentes: comodidad, higiene; humor, 3 de 5 barras en rojo").
   - Ctrl+L (lot view): the room's layout (the build cursor's, else the selected Sim's): size,
@@ -257,7 +261,10 @@ eturn_focus.txt`; a dev core hands the foreground back to it
     camera follows the selected Sim (the game's own follow mode, what Enter does in live mode)
     because the game's sounds come from what is on screen; while the focus is on a thing of the lot
     (or a placement spot) the camera points at it instead (following pauses) and follows the Sim
-    again once the focus leaves the things. Ctrl+Shift+F turns following
+    again once the focus leaves the things. It glides there in 800 ms (`[mod] camera_glide`, 0 the
+    game's own 250 ms; 2026-11-08: a tester's partner got dizzy at the camera rushing between
+    things): `CenterViewOn` sets the glide's length `[0xa519a4]` around the game's call and puts
+    the game's value back. Ctrl+Shift+F turns following
     off ("cámara libre") and on ("siguiendo a Isabel"). Ctrl+n presses the portrait as a click
     does (the click is what the tutorial detects); the game opens the Sim's card instead when it
     sees Ctrl held at that moment, so `GetAsyncKeyState` is hooked to report Ctrl up for 400 ms.

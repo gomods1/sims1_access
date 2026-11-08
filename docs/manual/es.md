@@ -105,7 +105,7 @@ El empleo dice su horario y cuándo pasa el coche de la compañía. Cada cualida
 | Control+T | Dice cada hora nueva del reloj («son las 14:00»), o deja de decirla. Útil a la velocidad máxima. |
 | P | Pausa (la tecla del juego); el mod dice la hora y los fondos. 1, 2, 3 ponen la velocidad. |
 
-La cámara sigue al Sim seleccionado porque los sonidos del juego salen de lo que hay en pantalla. Mientras recorres los objetos del solar, la cámara va a cada uno y después vuelve al Sim.
+La cámara sigue al Sim seleccionado porque los sonidos del juego salen de lo que hay en pantalla. Mientras recorres los objetos del solar, la cámara va a cada uno y después vuelve al Sim. Se desliza despacio, para que la vista no vaya a saltos (el ajuste `camera_glide`).
 
 El zoom y hacia dónde mira la cámara se dicen cuando cambian (más y menos acercan y alejan, coma y punto giran la vista), y también están en la línea de estado: "cámara: vista media, mirando al noroeste". Hacia donde mira es lo que muestra la parte de arriba de la pantalla. El norte del mod no gira con la cámara.
 
@@ -127,7 +127,7 @@ No hace falta ir hasta allí con Tab: las teclas de página recorren los objetos
 
 Un Sim o un objeto que todavía muestra un globo también lo dice («Bella, Comer, piensa: hambre»). Lo que ningún Sim puede alcanzar desde la entrada del solar dice «ningún Sim puede llegar».
 
-Después de los Sims viene **problemas**: lo que necesita atención, como cosas rotas, cosas por limpiar, charcos, basura, cenizas, fuego y cualquier cosa con moscas. Al final viene **puertas, ventanas y escaleras**.
+Después de los Sims viene **problemas**: lo que necesita atención, como cosas rotas, cosas por limpiar, charcos, basura, cenizas, fuego y cualquier cosa con moscas. Un comedero de mascota vacío también está aquí; en cualquier lista, un comedero dice si tiene comida. Al final viene **puertas, ventanas y escaleras**.
 
 ### Menús de interacciones
 
@@ -306,6 +306,7 @@ Los ajustes del mod están en `SimsAccess\SimsAccess.ini` en la carpeta del jueg
 | `show_focus` | 1 ilumina en pantalla el control seleccionado (Control+Mayúsculas+V). |
 | `social` | De quién se dicen las conversaciones: 3 todos, 2 quien hable con tu familia, 1 tu familia, 0 nadie (Control+Mayúsculas+N). |
 | `hours` | 1 dice cada hora nueva (Control+T). |
+| `camera_glide` | Cuánto tarda la cámara en deslizarse hasta el objeto que recorres, en milisegundos (800 por defecto; 0 los 250 rápidos del propio juego). |
 
 ## Si algo va mal
 

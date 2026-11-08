@@ -105,7 +105,7 @@ L'emploi donne ses horaires et l'heure du covoiturage. Chaque compétence dit so
 | Contrôle+T | Annonce chaque nouvelle heure de l'horloge (« il est 14:00 »), ou arrête. Utile à la vitesse maximale. |
 | P | Pause (la touche du jeu) ; le mod dit l'heure et les fonds. 1, 2, 3 règlent la vitesse. |
 
-La caméra suit le Sim sélectionné, parce que les sons du jeu viennent de ce qui est à l'écran. Pendant que vous parcourez les objets du terrain, la caméra va sur chacun puis revient au Sim.
+La caméra suit le Sim sélectionné, parce que les sons du jeu viennent de ce qui est à l'écran. Pendant que vous parcourez les objets du terrain, la caméra va sur chacun puis revient au Sim. Elle y glisse lentement, pour que la vue ne file pas (le réglage `camera_glide`).
 
 Le zoom et l'orientation de la caméra sont annoncés quand ils changent (plus et moins pour le zoom, virgule et point pour tourner la vue), et ils figurent aussi dans la ligne d'état : "caméra : vue moyenne, orientée nord-ouest". L'orientation est ce que montre le haut de l'écran. Le nord du mod ne tourne pas avec la caméra.
 
@@ -127,7 +127,7 @@ Inutile d'y aller avec Tab : les touches Page parcourent les objets depuis n'imp
 
 Un Sim ou un objet qui affiche encore une bulle la dit aussi (« Bella, Manger, pense : appétit »). Ce qu'aucun Sim ne peut atteindre depuis l'entrée du terrain dit « aucun Sim ne peut l'atteindre ».
 
-Après les Sims vient **problèmes** : ce qui demande de l'attention, comme les objets cassés, ce qui est à nettoyer, les flaques, les ordures, les cendres, le feu et tout ce qui a des mouches. En dernier vient **portes, fenêtres et escaliers**.
+Après les Sims vient **problèmes** : ce qui demande de l'attention, comme les objets cassés, ce qui est à nettoyer, les flaques, les ordures, les cendres, le feu et tout ce qui a des mouches. Une gamelle pour animal vide est là aussi ; dans toutes les listes, une gamelle dit si elle contient de la nourriture. En dernier vient **portes, fenêtres et escaliers**.
 
 ### Les menus d'interactions
 
@@ -306,6 +306,7 @@ Les réglages du mod sont dans `SimsAccess\SimsAccess.ini` dans le dossier du je
 | `show_focus` | 1 éclaire à l'écran la commande sélectionnée (Contrôle+Maj+V). |
 | `social` | De qui les conversations sont dites : 3 tout le monde, 2 quiconque parle avec votre famille, 1 votre famille, 0 personne (Contrôle+Maj+N). |
 | `hours` | 1 annonce chaque nouvelle heure (Contrôle+T). |
+| `camera_glide` | Durée du glissement de la caméra vers l'objet parcouru, en millisecondes (800 par défaut ; 0 les 250 rapides du jeu). |
 
 ## En cas de problème
 
