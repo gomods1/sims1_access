@@ -830,6 +830,22 @@ const Translation kEntries[] = {
     // Placing: free cursor
     {Str::FreeFits, "ci sta"},
     {Str::FreeNoFit, "non ci sta: %s"},
+    {Str::FitsTurned, "ci sta se ruotato, %s"},
+    {Str::NearestFit, "posto più vicino %1$s, %2$s"},
+    {Str::NoFitNearby, "non ci sta da nessuna parte entro %d caselle"},
+    {Str::CursorCorner, "cursore nel suo angolo %s"},
+    {Str::CursorEdge, "cursore sul suo lato %s"},
+    {Str::CursorMiddle, "cursore al suo interno"},
+    {Str::ObjectExtends, "si estende %s"},
+    // Money, light, sizes, catalog pages
+    {Str::MoneySpoken, "%s Simoleon"},
+    {Str::LightLevel, "luce %d%%"},
+    {Str::ProductSize, "%1$d per %2$d caselle"},
+    {Str::NoNextPage, "ultima pagina"},
+    {Str::NoPreviousPage, "prima pagina"},
+    {Str::KeysCatalogPages,
+     "Nei cataloghi delle modalità acquisto e costruzione, Su e Giù scorrono i prodotti, Sinistra e Destra "
+     "girano le pagine."},
     {Str::KeysPlacingFree,
      "Le frecce lo spostano di una casella alla volta, con Maiusc di cinque, e dicono se ci sta; virgola e punto "
      "lo ruotano, Invio lo mette lì, Pagina giù torna ai posti."},

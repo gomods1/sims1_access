@@ -830,6 +830,22 @@ const Translation kEntries[] = {
     // Placing: free cursor
     {Str::FreeFits, "cabe"},
     {Str::FreeNoFit, "não cabe: %s"},
+    {Str::FitsTurned, "cabe se girado, %s"},
+    {Str::NearestFit, "lugar mais próximo onde cabe %1$s, %2$s"},
+    {Str::NoFitNearby, "não cabe em lugar nenhum a menos de %d quadrados"},
+    {Str::CursorCorner, "cursor no seu canto %s"},
+    {Str::CursorEdge, "cursor na sua borda %s"},
+    {Str::CursorMiddle, "cursor no seu interior"},
+    {Str::ObjectExtends, "ele se estende %s"},
+    // Money, light, sizes, catalog pages
+    {Str::MoneySpoken, "%s Simoleons"},
+    {Str::LightLevel, "luz %d%%"},
+    {Str::ProductSize, "%1$d por %2$d quadrados"},
+    {Str::NoNextPage, "última página"},
+    {Str::NoPreviousPage, "primeira página"},
+    {Str::KeysCatalogPages,
+     "Nos catálogos dos modos compra e construção, Cima e Baixo percorrem os produtos, Esquerda e Direita viram "
+     "as páginas."},
     {Str::KeysPlacingFree,
      "As setas o movem de quadrado em quadrado, com Shift de cinco em cinco, dizendo se cabe ali; vírgula e "
      "ponto o giram, Enter o coloca ali, Page Down volta aos lugares."},

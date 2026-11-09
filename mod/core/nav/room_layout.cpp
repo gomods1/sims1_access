@@ -16,6 +16,7 @@
 #include "build_mode.h"
 #include "map_mode.h"
 #include "navigator.h"
+#include "placement.h"
 #include "room_names.h"
 #include "world.h"
 
@@ -96,6 +97,8 @@ void SayRoomLayout() {
         lines.push_back(util::Format(S(Str::LayoutOutside), label.c_str(), tiles));
     else
         lines.push_back(util::Format(S(Str::LayoutSize), label.c_str(), x2 - x1 + 1, y2 - y1 + 1, tiles, x1, y1, x2, y2));
+    std::string light = placement::RoomLight(room);
+    if (!light.empty()) lines[0] += ", " + light;
 
     // Doors and windows: portals standing in a wall of this room (their tile or the one behind).
     std::vector<std::string> doors, windows;

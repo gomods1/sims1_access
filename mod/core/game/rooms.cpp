@@ -48,6 +48,7 @@ bool GetRoom(int id, Room* out) {
     out->impact = Rd<int>(room + addr::rooms::kImpact);
     out->goodObjects = Rd<int>(room + addr::rooms::kGoodObjects);
     out->lamps = Rd<int>(room + addr::rooms::kLamps);
+    out->light = Rd<float>(room + addr::rooms::kLightLevel);
     return true;
 }
 

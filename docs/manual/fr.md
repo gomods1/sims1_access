@@ -25,7 +25,7 @@ Chaque écran, boîte de dialogue, panneau et mode fonctionne de la même façon
 | Touche | Ce qu'elle fait |
 |---|---|
 | Tab, Maj+Tab | Groupe suivant ou précédent. Le nom du groupe et son nombre d'éléments sont dits d'abord. |
-| Flèche haut, flèche bas (ou flèche gauche, flèche droite) | Élément précédent ou suivant du groupe. |
+| Flèche haut, flèche bas (ou flèche gauche, flèche droite) | Élément précédent ou suivant du groupe. Dans les catalogues des modes achat et construction, flèche gauche et flèche droite tournent la page. |
 | Début, Fin | Premier ou dernier élément du groupe. |
 | Entrée | Active l'élément. Sur un niveau (un type ou une pièce des objets du terrain), l'ouvre. |
 | Espace | Active, sauf dans la vue du terrain, où Espace est la touche « Sim suivant » du jeu. |
@@ -137,7 +137,7 @@ Entrée sur un objet (ou sur un Sim) ouvre le menu d'interactions du jeu. Flèch
 
 | Touche | Ce qu'elle fait |
 |---|---|
-| Contrôle+L | La disposition de la pièce : taille, portes et fenêtres par mur et où elles mènent ; ce qui se trouve le long de chaque mur est dans le tampon des détails. |
+| Contrôle+L | La disposition de la pièce : taille, portes et fenêtres par mur et où elles mènent ; ce qui se trouve le long de chaque mur est dans le tampon des détails. Elle dit aussi la lumière de la pièce, qui compte dans son score. |
 | Contrôle+Maj+L | L'aperçu de la maison : étages, pièces, évaluations, ce qui manque (toilettes, douche, lits, réfrigérateur, cuisinière, téléphone, détecteur de fumée), pièces sans accès, objets que personne ne peut atteindre, pièces sombres ou mal aimées. |
 
 ### Le plan de la maison
@@ -146,7 +146,7 @@ Entrée sur un objet (ou sur un Sim) ouvre le menu d'interactions du jeu. Flèch
 
 | Touche | Ce qu'elle fait |
 |---|---|
-| Flèches | Une case ; avec Maj, cinq. Dit ce qui s'y trouve et vers où c'est orienté, la pièce et l'étage quand ils changent, les murs, clôtures, rambardes, portes et fenêtres de chaque côté. Les murs, clôtures et fenêtres arrêtent le curseur ; les portes le laissent passer. |
+| Flèches | Une case ; avec Maj, cinq. Dit ce qui s'y trouve et vers où c'est orienté, la pièce et l'étage quand ils changent, les murs, clôtures, rambardes, portes et fenêtres de chaque côté. Les murs, clôtures et fenêtres arrêtent le curseur ; les portes le laissent passer. Avec la pièce vient sa lumière (« lumière 64 % » : fenêtres et lampes ; la lumière du jour dehors), qui compte dans le score de la pièce. |
 | Alt+Flèches | La même chose, à travers les murs. |
 | Virgule, point | Ce que dit chaque pas : tout, objets seulement, sols seulement (par leur nom, « Carrelage de granit clair »), murs seulement, pièces seulement. |
 | Début | Revient au Sim sélectionné. |
@@ -188,12 +188,13 @@ Utilisez les interactions du téléphone pour appeler les services. Il faut salu
 
 ## Le mode Achat
 
-F2 ouvre le mode Achat. Les catégories du catalogue sont des onglets et ses produits des boutons : chaque produit dit son nom, son prix, ses principales évaluations et sa description, et le tampon des détails contient toutes ses évaluations et les pièces auxquelles il est destiné. Aller au-delà du dernier produit d'une page tourne la page.
+F2 ouvre le mode Achat. Les catégories du catalogue sont des onglets et ses produits des boutons : chaque produit dit son nom, son prix, ses principales évaluations et sa description, et le tampon des détails contient toutes ses évaluations et les pièces auxquelles il est destiné. Aller au-delà du dernier produit d'une page tourne la page. Chaque produit dit aussi sa taille en cases, le plus long côté d'abord (« 2 sur 1 cases »). L'argent est dit en simflouz, la monnaie du jeu.
 
 | Touche | Ce qu'elle fait |
 |---|---|
 | Contrôle+R | Limite le catalogue aux produits d'un type de pièce (cuisine, salle de bains, chambre, salon, salle à manger, bureau, extérieur) ou à tous. |
 | Retour arrière | Le « Précédent » du catalogue. |
+| Flèche gauche, flèche droite | La page précédente ou suivante du catalogue ; haut et bas vont de produit en produit. |
 | Entrée sur un produit | Commence à le placer. |
 
 ### Placer un objet
@@ -212,6 +213,13 @@ Pendant que vous tenez un objet, le mod a déjà trouvé les emplacements où il
 | Échap | Annule (un objet déplacé revient à sa place). |
 | Suppr | Vend l'objet tenu ; le remboursement est annoncé. |
 | R | Redit l'emplacement. |
+
+Quand l'objet ne tient pas là où les flèches le mettent, la ligne finit par ce qui marcherait :
+l'orientation qui tient sur la même case (« tient une fois tourné, orienté sud »), sinon la case
+la plus proche où il tient (« place la plus proche à 1 case direction ouest, orienté nord »). Pour
+un objet de plusieurs cases, la première flèche et chaque rotation disent sur quelle partie se
+trouve le curseur et où va le reste (« curseur sur son bord nord, il s'étend à 1 case direction
+sud ») ; les détails de l'emplacement disent la même chose.
 
 Le tampon des détails contient la case de l'emplacement et les emplacements refusés par le jeu, avec la raison.
 

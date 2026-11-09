@@ -7,6 +7,7 @@
 #include "../game/hooks.h"
 #include "../game/pie.h"
 #include "../game/ui.h"
+#include "../game/view_control.h"
 #include "../nav/buffers.h"
 #include "../nav/build_mode.h"
 #include "../nav/buy_mode.h"
@@ -114,8 +115,8 @@ void SayKeyHelp() {
     else if (nav::cheats::Entering()) speech::Say(S(Str::CheatHint));
     else if (nav::buy::Placing()) speech::Say(std::string(S(Str::KeysPlacing)) + " " + S(Str::KeysPlacingFree) + " " + S(Str::KeysPlacingWalls) + " " + S(Str::KeysPlacingThings) + " " + S(Str::KeysCuesHint));
     else if (nav::FindActive()) speech::Say(S(Str::FindPrompt));
-    else if (nav::LotViewActive() && game::InBuyTool()) speech::Say(std::string(S(Str::KeysBuy)) + " " + S(Str::KeysRoomFilter) + " " + S(Str::KeysFind) + " " + S(Str::KeysPortalDelete) + " " + S(Str::KeysLayoutHint) + " " + S(Str::KeysMapHint));
-    else if (nav::LotViewActive()) speech::Say(std::string(S(Str::KeysLot)) + " " + S(Str::KeysLotMore) + " " + S(Str::KeysFind) + " " + S(Str::KeysSimCard) + " " + S(Str::KeysLayoutHint) + " " + S(Str::KeysMapHint));
+    else if (nav::LotViewActive() && game::InBuyTool()) speech::Say(std::string(S(Str::KeysBuy)) + " " + S(Str::KeysCatalogPages) + " " + S(Str::KeysRoomFilter) + " " + S(Str::KeysFind) + " " + S(Str::KeysPortalDelete) + " " + S(Str::KeysLayoutHint) + " " + S(Str::KeysMapHint));
+    else if (nav::LotViewActive()) speech::Say(std::string(S(Str::KeysLot)) + " " + S(Str::KeysLotMore) + (game::BuildPanelShown(game::InputRoot()) ? std::string(" ") + S(Str::KeysCatalogPages) : std::string()) + " " + S(Str::KeysFind) + " " + S(Str::KeysSimCard) + " " + S(Str::KeysLayoutHint) + " " + S(Str::KeysMapHint));
     else if (nav::FocusedLotNumber() >= 0) speech::Say(std::string(S(Str::KeysScreen)) + " " + S(Str::KeysHouseFile));
     else speech::Say(S(Str::KeysScreen));
     speech::Say(std::string(S(Str::KeysGroupLetter)) + " " + S(Str::KeysShowFocus) + " " + S(Str::KeysShowFocusThings) + " " + S(Str::KeysManual));
@@ -126,7 +127,7 @@ namespace {
 // Up/Down and Left/Right move through the group, the lot view's HUD included; Left/Right
 // change a slider or value picker instead of leaving it.
 void Arrow(bool vertical, int delta) {
-    if (!vertical && nav::Adjust(delta)) return;
+    if (!vertical && (nav::Adjust(delta) || nav::TurnPageKey(delta))) return;
     nav::Move(delta);
 }
 

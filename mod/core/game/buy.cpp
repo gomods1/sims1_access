@@ -2,6 +2,8 @@
 
 #include <algorithm>
 #include <cstring>
+#include <map>
+#include <vector>
 
 #include "../util/log.h"
 #include "../util/strings.h"
@@ -114,6 +116,56 @@ bool ReadProduct(Ptr product, ProductInfo* out) {
         p.skillFlags = field(kObjdSkillFlags);
     }
     *out = p;
+    return true;
+}
+
+bool ProductSize(Ptr type, int* across, int* deep) {
+    Ptr objd = type ? Rd<Ptr>(type + addr::product::kTypeObjd) : 0;
+    if (!objd) return false;
+    uint16_t master = Rd<uint16_t>(objd + 2 * addr::objd::kMasterId);
+    if (master == 0) {
+        *across = *deep = 1;
+        return true;
+    }
+    // Every loaded object type grouped by (file, MasterID): their SubIndex is the tile offset,
+    // (y << 8) | x; -1 is the group's controller, which takes no tile.
+    using Key = std::pair<Ptr, uint16_t>;
+    static Ptr cachedFolder = 0;
+    static uint32_t cachedCount = 0;
+    static std::map<Key, std::vector<uint16_t>> groups;
+    Ptr folder = Rd<Ptr>(Rd<Ptr>(Va(addr::kSimRoot)) + addr::folder::kObjectFolder);
+    if (!folder) return false;
+    Ptr head = Rd<Ptr>(folder + addr::folder::kGuidList);
+    uint32_t count = Rd<uint32_t>(folder + addr::folder::kGuidList + 4);
+    if (folder != cachedFolder || count != cachedCount) {
+        groups.clear();
+        cachedFolder = folder;
+        cachedCount = count;
+        if (head && count < 100000) {
+            Ptr node = Rd<Ptr>(head);
+            for (uint32_t i = 0; node && node != head && i <= count; i++, node = Rd<Ptr>(node)) {
+                Ptr t = Rd<Ptr>(node + 12);
+                Ptr d = t ? Rd<Ptr>(t + addr::product::kTypeObjd) : 0;
+                if (!d) continue;
+                uint16_t m = Rd<uint16_t>(d + 2 * addr::objd::kMasterId);
+                if (m) groups[{Rd<Ptr>(t + addr::objtype::kResFile), m}].push_back(Rd<uint16_t>(d + 2 * addr::objd::kSubIndex));
+            }
+        }
+    }
+    auto hit = groups.find({Rd<Ptr>(type + addr::objtype::kResFile), master});
+    if (hit == groups.end()) return false;
+    int x0 = 1 << 30, x1 = -(1 << 30), y0 = x0, y1 = x1;
+    for (uint16_t sub : hit->second) {
+        if (sub == 0xffff) continue;
+        int x = (int8_t)(sub & 0xff), y = (int8_t)(sub >> 8);
+        x0 = std::min(x0, x);
+        x1 = std::max(x1, x);
+        y0 = std::min(y0, y);
+        y1 = std::max(y1, y);
+    }
+    if (x0 > x1) return false;
+    *across = x1 - x0 + 1;
+    *deep = y1 - y0 + 1;
     return true;
 }
 

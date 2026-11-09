@@ -1,5 +1,7 @@
 #include "text.h"
 
+#include "strings.h"
+
 #include <windows.h>
 
 #include <algorithm>
@@ -125,6 +127,37 @@ std::string Money(int amount) {
     const char* separator = DigitGroupSeparator();
     for (int i = (int)digits.size() - 3; i > 0; i -= 3) digits.insert(i, separator);
     return (amount < 0 ? "-$" : "$") + digits;
+}
+
+std::string SpokenMoney(const std::string& s) {
+    if (s.find('$') == std::string::npos) return s;
+    auto digit = [&](size_t i) { return i < s.size() && s[i] >= '0' && s[i] <= '9'; };
+    std::string out;
+    for (size_t i = 0; i < s.size();) {
+        if (s[i] != '$' || !digit(i + 1)) {
+            out += s[i++];
+            continue;
+        }
+        size_t j = i + 1;
+        while (j < s.size()) {
+            if (digit(j)) {
+                j++;
+                continue;
+            }
+            // a group separator: . , ' space or a no-break space, then exactly three digits
+            size_t sep = (s[j] == '.' || s[j] == ',' || s[j] == ' ' || s[j] == '\'') ? 1
+                         : s.compare(j, 2, "\xc2\xa0") == 0 ? 2
+                                                             : 0;
+            if (sep && digit(j + sep) && digit(j + sep + 1) && digit(j + sep + 2) && !digit(j + sep + 3)) {
+                j += sep + 3;
+                continue;
+            }
+            break;
+        }
+        out += Format(S(Str::MoneySpoken), s.substr(i + 1, j - i - 1).c_str());
+        i = j;
+    }
+    return out;
 }
 
 std::string Format(const char* fmt, ...) {

@@ -262,6 +262,8 @@ The records live in a `std::map<u16, Room*>` in the room manager `[[0xa67044]] +
 | 0x54 | good object count |
 | 0x58 | bed count (the house panel counts rooms with beds as bedrooms) |
 | 0x5c | bathroom object count (toilet, sink, shower...) |
+| 0x68 | float: basic score (debug window "Basic Score") |
+| 0x6c | float: light level, 0 dark .. 1 lit (debug window "Light Level"; the room score's "light score for 0.0 / 1.0" interpolates it). Read live on the Lápida lot: 1.0 everywhere at 16:10, at 23:00 0 in rooms without lamps and 0.636 in the living room with one |
 | 0x280 / 0x284 | lamp count / people count |
 
 A new empty 5 by 4 room read: area field 68 (the record said 34 tiles, the room map 20), window

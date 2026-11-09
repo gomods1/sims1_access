@@ -38,7 +38,7 @@ and some items open a deeper **level**.
 | Key | What it does |
 |---|---|
 | Tab, Shift+Tab | Next or previous group. The group's name and number of items are said first. |
-| Up, Down (or Left, Right) | Previous or next item in the group. |
+| Up, Down (or Left, Right) | Previous or next item in the group. In the catalogs of buy and build mode, Left and Right turn the page instead. |
 | Home, End | First or last item in the group. |
 | Enter | Press the item. On a level (a kind or a room of the lot's things) open it. |
 | Space | Press, except in the lot view, where Space is the game's "next Sim" key. |
@@ -180,7 +180,7 @@ interactions; for children only: Play").
 
 | Key | What it does |
 |---|---|
-| Control+L | The room's layout: size, doors and windows by wall and where they lead; what stands along each wall is in the details buffer. |
+| Control+L | The room's layout: size, doors and windows by wall and where they lead; what stands along each wall is in the details buffer. It also says the room's light, which counts toward the room's score. |
 | Control+Shift+L | The house overview: floors, rooms, ratings, what is missing (toilet, shower, beds, fridge, stove, phone, smoke alarm), rooms with no way in, things nobody can reach, dark or disliked rooms. |
 
 ### The house map
@@ -191,7 +191,7 @@ around it.
 
 | Key | What it does |
 |---|---|
-| Arrows | One tile; with Shift, five. Says what stands there and which way it faces, the room and floor when they change, the walls, fences, railings, doors and windows by side. Walls, fences and windows stop the cursor; doors let it through. |
+| Arrows | One tile; with Shift, five. Says what stands there and which way it faces, the room and floor when they change, the walls, fences, railings, doors and windows by side. Walls, fences and windows stop the cursor; doors let it through. With the room comes its light ("light 64%": windows and lamps; daylight outdoors), which counts toward the room's score. |
 | Alt+Arrows | The same, through walls. |
 | Comma, period | What each step says: everything, objects only, floors only (by name, "Light granite tile"), walls only, rooms only. |
 | Home | Back to the selected Sim. |
@@ -253,12 +253,13 @@ leaves with the pizza and the money comes back.
 
 F2 opens buy mode. The catalog's categories are tabs and its products are buttons: each product
 says its name, price, main ratings and description, and the details buffer holds all its ratings
-and the rooms it is meant for. Moving past a page's last product turns the page.
+and the rooms it is meant for. Moving past a page's last product turns the page. Each product also says its size in tiles, the longer side first ("2 by 1 tiles"). Money is said in simoleons, the game's currency.
 
 | Key | What it does |
 |---|---|
 | Control+R | Keep the catalog to products for one kind of room (kitchen, bathroom, bedroom, living room, dining room, study, outside) or all. |
 | Backspace | The catalog's "Back". |
+| Left, Right | The previous or next page of the catalog; Up and Down go product by product. |
 | Enter on a product | Start placing it. |
 
 ### Placing an object
@@ -279,6 +280,12 @@ spot says its room, what it is next to and which way it faces.
 | Escape | Cancel (a moved object goes back). |
 | Delete | Sell the held object; the refund is said. |
 | R | Say the spot again. |
+
+When the object does not fit where the arrows put it, the line ends with what would work: the
+facing that fits on the same tile ("fits when turned, facing south"), else the nearest tile
+where it fits ("nearest fit 1 tile west, facing north"). For an object of several tiles, the
+first arrow and each turn say which part of it the cursor is on and where the rest goes ("cursor
+on its north edge, it extends 1 tile south"); the spot's details hold the same.
 
 The details buffer holds the spot's tile and the spots the game refused, with its reason.
 

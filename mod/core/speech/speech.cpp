@@ -125,7 +125,7 @@ void Stop() {
 }
 
 void Say(const std::string& utf8, bool interrupt) {
-    std::string text = util::CleanForSpeech(utf8);
+    std::string text = util::SpokenMoney(util::CleanForSpeech(utf8));
     if (text.empty()) return;
     Log("Spoke: %s", text.c_str());
     Enqueue(std::string("say ") + (interrupt ? "1 " : "0 ") + text + "\n");

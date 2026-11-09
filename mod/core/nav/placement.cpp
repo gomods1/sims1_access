@@ -763,6 +763,20 @@ std::string Describe(const Spot& spot) {
 // A room's name for door descriptions ("comedor", "exterior").
 Str CompassWord(int compass) { return DirectionName(compass & 7); }
 
+std::string RoomLight(int room) {
+    game::Room info;
+    if (room == game::kNoRoom || !game::GetRoom(room, &info)) return "";
+    float light = info.light;
+    if (!(light >= 0 && light <= 1.5f)) return "";  // not a light level: unknown
+    LogVerbose("room %d light %.3f (window %d, object %d)", room, light, info.windowLight, info.objectLight);
+    return util::Format(S(Str::LightLevel), (int)(std::min(light, 1.0f) * 100 + 0.5f));
+}
+
+std::string RoomWithLight(int room) {
+    std::string name = RoomNameOf(room), light = RoomLight(room);
+    return light.empty() ? name : name + ", " + light;
+}
+
 std::string RoomNameOf(int room) {
     std::string name = rooms::NameOf(rooms::NameRooms(game::LotObjects()), room);
     if (!name.empty()) return name;

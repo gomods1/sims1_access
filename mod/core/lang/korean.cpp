@@ -749,6 +749,20 @@ const Translation kEntries[] = {
     // Placing: free cursor
     {Str::FreeFits, "놓을 수 있음"},
     {Str::FreeNoFit, "놓을 수 없음: %s"},
+    {Str::FitsTurned, "돌리면 놓을 수 있음, %s"},
+    {Str::NearestFit, "가장 가까운 놓을 수 있는 곳 %1$s, %2$s"},
+    {Str::NoFitNearby, "%d칸 안에 놓을 곳 없음"},
+    {Str::CursorCorner, "커서는 %s 모서리"},
+    {Str::CursorEdge, "커서는 %s 가장자리"},
+    {Str::CursorMiddle, "커서는 안쪽"},
+    {Str::ObjectExtends, "뻗은 방향: %s"},
+    // Money, light, sizes, catalog pages
+    {Str::MoneySpoken, "%s 시몰레온"},
+    {Str::LightLevel, "조명 %d%%"},
+    {Str::ProductSize, "%1$d×%2$d칸"},
+    {Str::NoNextPage, "마지막 페이지"},
+    {Str::NoPreviousPage, "첫 페이지"},
+    {Str::KeysCatalogPages, "구매 모드와 건축 모드의 카탈로그에서 위아래 화살표는 상품을, 왼쪽 오른쪽 화살표는 페이지를 넘깁니다."},
     {Str::KeysPlacingFree,
      "화살표로 한 칸씩, Shift와 함께 다섯 칸씩 움직이며 놓을 수 있는지 알려 줍니다. 쉼표와 마침표로 돌리고, Enter로 그 자리에 놓고, Page Down으로 자리 목록으로 돌아갑니다."},
     // Sim card

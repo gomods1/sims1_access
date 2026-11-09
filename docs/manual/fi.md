@@ -37,7 +37,7 @@ ja jotkin kohteet avaavat syvemmän **tason**.
 | Näppäin | Mitä se tekee |
 |---|---|
 | Sarkain, Vaihto+Sarkain | Seuraava tai edellinen ryhmä. Ensin kerrotaan ryhmän nimi ja kohteiden määrä. |
-| Nuoli ylös, nuoli alas (tai nuoli vasemmalle, nuoli oikealle) | Ryhmän edellinen tai seuraava kohde. |
+| Nuoli ylös, nuoli alas (tai nuoli vasemmalle, nuoli oikealle) | Ryhmän edellinen tai seuraava kohde. Osto- ja rakennustilan luetteloissa nuoli vasemmalle ja nuoli oikealle kääntävät sen sijaan sivua. |
 | Home, End | Ryhmän ensimmäinen tai viimeinen kohde. |
 | Enter | Aktivoi kohteen. Tasolla (tontin esineiden laji tai huone) avaa sen. |
 | Välilyönti | Aktivoi, paitsi tontilla, jossa välilyönti on pelin "seuraava simi" -näppäin. |
@@ -181,7 +181,7 @@ jonossa"). Kun valikko on tyhjä, modi kertoo syyn ("ei toimintoja; vain lapsill
 
 | Näppäin | Mitä se tekee |
 |---|---|
-| Control+L | Huoneen pohja: koko, ovet ja ikkunat seinittäin ja minne ne johtavat; mitä kunkin seinän vieressä on, löytyy tiedot-puskurista. |
+| Control+L | Huoneen pohja: koko, ovet ja ikkunat seinittäin ja minne ne johtavat; mitä kunkin seinän vieressä on, löytyy tiedot-puskurista. Se kertoo myös huoneen valon, joka vaikuttaa huoneen pisteisiin. |
 | Control+Vaihto+L | Talon yleiskatsaus: kerrokset, huoneet, arviot, mitä puuttuu (WC, suihku, sängyt, jääkaappi, liesi, puhelin, palovaroitin), huoneet, joihin ei pääse, esineet, joiden luo kukaan ei pääse, pimeät tai epämieluisat huoneet. |
 
 ### Talon kartta
@@ -192,7 +192,7 @@ aidalle, ovelle tai ikkunalle.
 
 | Näppäin | Mitä se tekee |
 |---|---|
-| Nuolinäppäimet | Yksi ruutu; Vaihdon kanssa viisi. Kertoo, mitä siinä on ja mihin suuntaan se on käännetty, huoneen ja kerroksen kun ne vaihtuvat, seinät, aidat, kaiteet, ovet ja ikkunat sivuittain. Seinät, aidat ja ikkunat pysäyttävät kohdistimen; ovista se pääsee läpi. |
+| Nuolinäppäimet | Yksi ruutu; Vaihdon kanssa viisi. Kertoo, mitä siinä on ja mihin suuntaan se on käännetty, huoneen ja kerroksen kun ne vaihtuvat, seinät, aidat, kaiteet, ovet ja ikkunat sivuittain. Seinät, aidat ja ikkunat pysäyttävät kohdistimen; ovista se pääsee läpi. Huoneen mukana tulee sen valo ("valo 64 %": ikkunat ja lamput; ulkona päivänvalo), joka vaikuttaa huoneen pisteisiin. |
 | Alt+Nuolinäppäimet | Sama, seinien läpi. |
 | Pilkku, piste | Mitä kukin askel kertoo: kaiken, vain esineet, vain lattiat (nimeltä, "Vaalea graniittilaatta"), vain seinät, vain huoneet. |
 | Home | Takaisin valittuun simiin. |
@@ -256,12 +256,13 @@ tervehdi häntä, hän lähtee pizzan kanssa ja rahat palautetaan.
 F2 avaa Osta-tilan. Tavaraluettelon luokat ovat välilehtiä ja tuotteet painikkeita: jokainen tuote
 kertoo nimensä, hintansa, tärkeimmät arvionsa ja kuvauksensa, ja tiedot-puskurissa ovat kaikki sen
 arviot ja huoneet, joihin se on tarkoitettu. Kun liikut sivun viimeisen tuotteen ohi, sivu
-kääntyy.
+kääntyy. Jokainen tuote kertoo myös kokonsa ruutuina, pidempi sivu ensin ("2 kertaa 1 ruutua"). Raha sanotaan simoleoneina, pelin valuuttana.
 
 | Näppäin | Mitä se tekee |
 |---|---|
 | Control+R | Rajaa luettelo yhdenlaisen huoneen tuotteisiin (keittiö, kylpyhuone, makuuhuone, olohuone, ruokailuhuone, työhuone, ulkona) tai kaikkiin. |
 | Askelpalautin | Luettelon "Takaisin". |
+| Nuoli vasemmalle, nuoli oikealle | Luettelon edellinen tai seuraava sivu; ylös ja alas käyvät tuote kerrallaan. |
 | Enter tuotteen kohdalla | Aloita sen sijoittaminen. |
 
 ### Esineen sijoittaminen
@@ -282,6 +283,13 @@ sitä). Paikka kertoo huoneensa, minkä vieressä se on ja mihin suuntaan se on 
 | Escape | Peruuta (siirretty esine palaa paikalleen). |
 | Delete | Myy pidetty esine; hyvitys kerrotaan. |
 | R | Sano paikka uudelleen. |
+
+Kun esine ei mahdu siihen, mihin nuolet sen vievät, rivi päättyy siihen, mikä toimisi: suunta,
+jossa se mahtuu samaan ruutuun ("mahtuu käännettynä, etupuoli eteläsuuntaan"), muuten lähin
+ruutu, johon se mahtuu ("lähin paikka johon mahtuu 1 ruutu länsisuuntaan, etupuoli
+pohjoissuuntaan"). Usean ruudun esineestä ensimmäinen nuoli ja jokainen käännös kertovat, missä
+osassa kohdistin on ja minne loput ulottuvat ("kohdistin sen pohjoisreunalla, se ulottuu 1
+ruutu eteläsuuntaan"); paikan tiedoissa on sama.
 
 Tiedot-puskurissa ovat paikan ruutu ja paikat, jotka peli hylkäsi, syineen.
 

@@ -68,6 +68,8 @@ void FindEdge(bool last);
 void FindConfirm(bool walk);
 void FindCancel();
 void FindEnd();              // over, with the matches left as they are (another key took over)
+// Left / Right in a paged list of the lot view (the catalogs): turns the page; false elsewhere.
+bool TurnPageKey(int delta);
 bool Adjust(int delta);      // change the focused value (a slider, a value picker, a personality
                              // bar); false if the focus holds none
 void RepeatFocus();          // say the focused item again, with its group

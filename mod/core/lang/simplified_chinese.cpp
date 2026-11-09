@@ -722,6 +722,20 @@ const Translation kEntries[] = {
     // Placing: free cursor
     {Str::FreeFits, "放得下"},
     {Str::FreeNoFit, "放不下：%s"},
+    {Str::FitsTurned, "转向后可放置，%s"},
+    {Str::NearestFit, "最近的可放置位置：%1$s，%2$s"},
+    {Str::NoFitNearby, "%d格以内无处可放"},
+    {Str::CursorCorner, "光标在其%s角"},
+    {Str::CursorEdge, "光标在其%s边"},
+    {Str::CursorMiddle, "光标在其内部"},
+    {Str::ObjectExtends, "延伸：%s"},
+    // Money, light, sizes, catalog pages
+    {Str::MoneySpoken, "%s模拟币"},
+    {Str::LightLevel, "光照%d%%"},
+    {Str::ProductSize, "%1$d×%2$d格"},
+    {Str::NoNextPage, "最后一页"},
+    {Str::NoPreviousPage, "第一页"},
+    {Str::KeysCatalogPages, "在购买模式和建筑模式的目录中，上下键浏览商品，左右键翻页。"},
     {Str::KeysPlacingFree, "方向键一次移动一格，按住 Shift 一次五格，并说明能否放下；逗号和句号旋转，回车放在这里，Page Down 回到位置列表。"},
     // Sim card
     {Str::BioFor, "%s 的个人简历"},

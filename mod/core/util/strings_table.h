@@ -2,7 +2,7 @@
 // X(Id, "English"), grouped by feature. A translation keeps the printf placeholders (it may
 // reorder them as %1$s, %2$d); tools/mod_strings.py checks that and lists missing translations.
 // The direction words (Dir*) are only ever inserted into TilesAway, OneTileAway, FacingDirection,
-// InCorner, AgainstWall, BesideWall, DoorInWall, StairsClimb, CameraFacing and CameraStatus; a translation may store them in the form those need
+// InCorner, CursorCorner, CursorEdge, AgainstWall, BesideWall, DoorInWall, StairsClimb, CameraFacing and CameraStatus; a translation may store them in the form those need
 // (Finnish keeps compound stems), so never speak one on its own.
 #pragma once
 
@@ -815,7 +815,21 @@
       "greets him he leaves with it.")                                                                                 \
     /* Placing: free cursor */                                                                                       \
     X(FreeFits, "fits")                                                                                              \
-    X(FreeNoFit, "does not fit: %s")                                                                                 \
+    X(FreeNoFit, "does not fit: %s")                                                                                  \
+    X(FitsTurned, "fits when turned, %s")                                                                             \
+    X(NearestFit, "nearest fit %1$s, %2$s")                                                                           \
+    X(NoFitNearby, "fits nowhere within %d tiles")                                                                    \
+    X(CursorCorner, "cursor at its %s corner")                                                                        \
+    X(CursorEdge, "cursor on its %s edge")                                                                            \
+    X(CursorMiddle, "cursor inside it")                                                                               \
+    X(ObjectExtends, "it extends %s")                                                                                 \
+    /* Money, light, sizes, catalog pages */                                                                          \
+    X(MoneySpoken, "%s simoleons")                                                                                    \
+    X(LightLevel, "light %d%%")                                                                                       \
+    X(ProductSize, "%1$d by %2$d tiles")                                                                              \
+    X(NoNextPage, "last page")                                                                                        \
+    X(NoPreviousPage, "first page")                                                                                   \
+    X(KeysCatalogPages, "In the catalogs of buy and build mode, Up and Down go through the products, Left and Right turn the pages.") \
     X(KeysPlacingFree,                                                                                                 \
       "The arrows move it one tile at a time instead, Shift with them five, saying whether it fits there; comma "      \
       "and period turn it, Enter puts it there, Page Down goes back to the spots.")                                    \

@@ -173,6 +173,7 @@ constexpr int kDirt = 0x4c;
 constexpr int kImpact = 0x50;
 constexpr int kGoodObjects = 0x54;
 constexpr int kLamps = 0x280;
+constexpr int kLightLevel = 0x6c;     // Room: float, the debug window's "Light Level" (the room score's light)
 }  // namespace rooms
 
 // cObjPickerTool vtable slot 30: void (int worldX, int worldY, short objectId, pickInfo*):

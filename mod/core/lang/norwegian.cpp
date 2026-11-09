@@ -825,6 +825,21 @@ const Translation kEntries[] = {
     // Placing: free cursor
     {Str::FreeFits, "passer"},
     {Str::FreeNoFit, "passer ikke: %s"},
+    {Str::FitsTurned, "passer snudd, %s"},
+    {Str::NearestFit, "nærmeste sted den passer %1$s, %2$s"},
+    {Str::NoFitNearby, "passer ingen steder innen %d fliser"},
+    {Str::CursorCorner, "markøren i hjørnet mot %s"},
+    {Str::CursorEdge, "markøren på kanten mot %s"},
+    {Str::CursorMiddle, "markøren inni den"},
+    {Str::ObjectExtends, "den strekker seg %s"},
+    // Money, light, sizes, catalog pages
+    {Str::MoneySpoken, "%s simoleoner"},
+    {Str::LightLevel, "lys %d %%"},
+    {Str::ProductSize, "%1$d ganger %2$d fliser"},
+    {Str::NoNextPage, "siste side"},
+    {Str::NoPreviousPage, "første side"},
+    {Str::KeysCatalogPages,
+     "I katalogene i kjøpe- og byggemodus går Opp og Ned gjennom produktene, Venstre og Høyre blar sidene."},
     {Str::KeysPlacingFree,
      "Piltastene flytter den én rute om gangen, med Skift fem, og sier om den passer; komma og punktum snur den, "
      "Enter setter den der, Side ned går tilbake til plassene."},

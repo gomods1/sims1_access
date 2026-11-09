@@ -39,7 +39,7 @@ a niektóre elementy otwierają głębszy **poziom**.
 | Klawisz | Co robi |
 |---|---|
 | Tab, Shift+Tab | Następna lub poprzednia grupa. Najpierw padają nazwa grupy i liczba elementów. |
-| Strzałka w górę, strzałka w dół (lub strzałka w lewo, strzałka w prawo) | Poprzedni lub następny element grupy. |
+| Strzałka w górę, strzałka w dół (lub strzałka w lewo, strzałka w prawo) | Poprzedni lub następny element grupy. W katalogach trybu kupowania i budowania strzałka w lewo i strzałka w prawo przewracają zamiast tego stronę. |
 | Home, End | Pierwszy lub ostatni element grupy. |
 | Enter | Aktywuje element. Na poziomie (rodzaj lub pokój obiektów na parceli) otwiera go. |
 | Spacja | Aktywuje, z wyjątkiem widoku parceli, gdzie Spacja to klawisz gry "następny Sim". |
@@ -185,7 +185,7 @@ Baw się").
 
 | Klawisz | Co robi |
 |---|---|
-| Control+L | Układ pokoju: wielkość, drzwi i okna według ścian i dokąd prowadzą; co stoi wzdłuż każdej ściany, jest w buforze szczegółów. |
+| Control+L | Układ pokoju: wielkość, drzwi i okna według ścian i dokąd prowadzą; co stoi wzdłuż każdej ściany, jest w buforze szczegółów. Mówi też światło pokoju, które liczy się do jego oceny. |
 | Control+Shift+L | Przegląd domu: piętra, pokoje, oceny, czego brakuje (toaleta, prysznic, łóżka, lodówka, kuchenka, telefon, czujnik dymu), pokoje bez wejścia, obiekty, do których nikt nie dojdzie, ciemne lub nielubiane pokoje. |
 
 ### Mapa domu
@@ -195,7 +195,7 @@ Sima. Każdy krok odtwarza dźwięk podłogi i każdej ściany, płotu, drzwi lu
 
 | Klawisz | Co robi |
 |---|---|
-| Strzałki | Jedno pole; z Shift pięć. Mówi, co tam stoi i w którą stronę jest zwrócone, pokój i piętro, gdy się zmieniają, ściany, płoty, barierki, drzwi i okna według stron. Ściany, płoty i okna zatrzymują kursor; drzwi go przepuszczają. |
+| Strzałki | Jedno pole; z Shift pięć. Mówi, co tam stoi i w którą stronę jest zwrócone, pokój i piętro, gdy się zmieniają, ściany, płoty, barierki, drzwi i okna według stron. Ściany, płoty i okna zatrzymują kursor; drzwi go przepuszczają. Z pokojem przychodzi jego światło („światło 64%”: okna i lampy; na zewnątrz światło dzienne), które liczy się do oceny pokoju. |
 | Alt+strzałki | To samo, przez ściany. |
 | przecinek, kropka | Co mówi każdy krok: wszystko, tylko obiekty, tylko podłogi (po nazwie, "Jasna płytka granitowa"), tylko ściany, tylko pokoje. |
 | Home | Wraca do wybranego Sima. |
@@ -258,12 +258,13 @@ przywita, odejdzie z pizzą, a pieniądze wrócą.
 
 F2 otwiera tryb kupowania. Kategorie katalogu to karty, a produkty to przyciski: każdy produkt
 podaje nazwę, cenę, główne oceny i opis, a bufor szczegółów zawiera wszystkie jego oceny i pokoje,
-do których jest przeznaczony. Przejście za ostatni produkt strony przewraca stronę.
+do których jest przeznaczony. Przejście za ostatni produkt strony przewraca stronę. Każdy produkt mówi też swój rozmiar w polach, dłuższy bok najpierw („2 na 1 pól”). Pieniądze są podawane w simoleanach, walucie gry.
 
 | Klawisz | Co robi |
 |---|---|
 | Control+R | Ogranicza katalog do produktów dla jednego rodzaju pomieszczenia (kuchnia, łazienka, sypialnia, salon, jadalnia, gabinet, na zewnątrz) lub wszystkich. |
 | Backspace | "Wróć" katalogu. |
+| Strzałka w lewo, strzałka w prawo | Poprzednia lub następna strona katalogu; w górę i w dół przechodzą produkt po produkcie. |
 | Enter na produkcie | Zaczyna jego ustawianie. |
 
 ### Ustawianie obiektu
@@ -284,6 +285,14 @@ niego). Miejsce podaje swój pokój, obok czego jest i w którą stronę jest zw
 | Escape | Anuluje (przenoszony obiekt wraca na miejsce). |
 | Delete | Sprzedaje trzymany obiekt; mod podaje zwrot pieniędzy. |
 | R | Powtarza miejsce. |
+
+Gdy obiekt nie mieści się tam, gdzie stawiają go strzałki, wiersz kończy się tym, co by
+zadziałało: kierunkiem, w którym mieści się na tym samym polu („zmieści się po obróceniu, przodem
+w kierunku południa”), a jeśli takiego nie ma, najbliższym polem, na którym się mieści
+(„najbliższe miejsce, gdzie się zmieści: w kierunku zachodu, 1 pole, przodem w kierunku północy”).
+Przy obiekcie z wielu pól pierwsza strzałka i każdy obrót mówią, na której części jest kursor i
+dokąd sięga reszta („kursor na krawędzi od północy, sięga w kierunku południa, 1 pole”); szczegóły
+miejsca mówią to samo.
 
 Bufor szczegółów zawiera pole miejsca i miejsca odrzucone przez grę, z powodem.
 

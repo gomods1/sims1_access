@@ -834,6 +834,22 @@ const Translation kEntries[] = {
     // Placing: free cursor
     {Str::FreeFits, "cabe"},
     {Str::FreeNoFit, "no cabe: %s"},
+    {Str::FitsTurned, "cabe girado, %s"},
+    {Str::NearestFit, "sitio más cercano donde cabe %1$s, %2$s"},
+    {Str::NoFitNearby, "no cabe en ningún sitio a menos de %d casillas"},
+    {Str::CursorCorner, "cursor en su esquina %s"},
+    {Str::CursorEdge, "cursor en su borde %s"},
+    {Str::CursorMiddle, "cursor en su interior"},
+    {Str::ObjectExtends, "se extiende %s"},
+    // Money, light, sizes, catalog pages
+    {Str::MoneySpoken, "%s simoleones"},
+    {Str::LightLevel, "luz %d %%"},
+    {Str::ProductSize, "%1$d por %2$d casillas"},
+    {Str::NoNextPage, "última página"},
+    {Str::NoPreviousPage, "primera página"},
+    {Str::KeysCatalogPages,
+     "En los catálogos de los modos comprar y construir, Arriba y Abajo recorren los productos, Izquierda y "
+     "Derecha pasan las páginas."},
     {Str::KeysPlacingFree,
      "Las flechas lo mueven de casilla en casilla, con Mayúsculas de cinco en cinco, y dicen si cabe ahí; coma y "
      "punto lo giran, Intro lo pone ahí, Avanzar página vuelve a los sitios."},

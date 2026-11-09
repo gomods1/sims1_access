@@ -2,10 +2,15 @@
 
 The user's rule (2026-09-29): keyboard navigation follows what things **mean**, the way a screen
 reader user moves through an application, never how the screen **looks**. Every screen, panel,
-dialog and mode of the mod, today and later, uses this model and these keys (the same rule and
-keys as the Sims 2 mod, `..\sims2\NAVIGATION.md`; the Sims 4 mod is someone else's now). A new
-feature that navigates anything adds groups or items to this model; it never invents its own keys
-for moving.
+dialog and mode of the mod, today and later, uses this model (the same rule as the Sims 2 mod,
+`..\sims2\NAVIGATION.md`; the Sims 4 mod is someone else's now). A new feature that navigates
+anything adds groups or items to this model.
+
+**Keys** (the user, 2026-11-09, dropping the old "Left/Right do what Up/Down do everywhere" rule:
+"I never meant to use the same 4 keys. Just don't use super obscure keys that are unexplained"):
+a screen may give a key pair its own job where that helps (Left/Right turn the catalog's pages),
+as long as the keys are common ones and every key is explained: Ctrl+F1 on that screen, the
+manual, and the details where it applies. No obscure combinations nobody is told about.
 
 ## The model
 
@@ -27,7 +32,7 @@ for moving.
 |---|---|
 | Tab / Shift+Tab | next / previous group (wraps); says the group's name and size, then the item |
 | Up / Down | previous / next item of the group (the lot view's HUD too); at the ends the item is said again (a catalog page turns) |
-| Left / Right | the same as Up / Down; on a slider, value picker or personality bar, its value (PageUp / PageDown too) |
+| Left / Right | the same as Up / Down, except: on a slider, value picker or personality bar, its value (PageUp / PageDown too); in buy and build mode's catalogs (a group with page arrows), the previous / next page, landing on its first product ("última página" at the end) |
 | Home / End | first / last item of the group |
 | Enter (Space outside the lot view) | press; on a kind or a room, open its things; on an entry of identical things ("2 alike"), open them one by one (a level, as a kind is); on a thing, its interactions (buy mode: pick it up) |
 | Backspace | back up a level (a kind's or room's things to the kinds or rooms); a text field's is the game's |

@@ -80,11 +80,22 @@ std::string Ratings(const game::ProductInfo& p, bool all) {
     return s;
 }
 
-// "$80, comodidad 2": what follows the product's name.
+// "2 por 1 casillas": the floor it takes as the catalog shows it (a tester: a size helps pick
+// furniture for a room before placing it).
+std::string ProductSizeText(const game::ProductInfo& p) {
+    int across = 0, deep = 0;
+    if (!game::ProductSize(p.type, &across, &deep)) return "";
+    // before it is placed it faces no way: the longer side first, as players name sizes ("2 by 1")
+    return util::Format(S(Str::ProductSize), std::max(across, deep), std::min(across, deep));
+}
+
+// "$80, 1 por 1 casillas, comodidad 2": what follows the product's name.
 std::string ProductFacts(const game::ProductInfo& p, const std::string& price) {
     std::string s = price;
     int funds = 0;
     if (game::GetFunds(&funds) && p.price > funds) s += std::string(", ") + S(Str::CannotAfford);
+    std::string size = ProductSizeText(p);
+    if (!size.empty()) s += ", " + size;
     std::string ratings = Ratings(p, false);
     if (!ratings.empty()) s += ", " + ratings;
     return s;
@@ -183,6 +194,8 @@ std::vector<game::Tile> FrontTiles(const std::vector<game::Tile>& footprint, int
     return out;
 }
 
+std::string CursorPart(const std::vector<game::Tile>& footprint, game::Tile lead);
+
 // Everything about the focused spot, for the details buffer: what is held, the spot's parts, its
 // tile, and what else was checked in the area.
 std::vector<std::string> SpotDetails() {
@@ -196,6 +209,8 @@ std::vector<std::string> SpotDetails() {
         for (const std::string& part : placement::DescribeParts(*s)) lines.push_back(part);
         std::string size = SizeLine(*s);
         if (!size.empty()) lines.push_back(size);
+        std::string part = CursorPart(s->footprint, s->tile);
+        if (!part.empty()) lines.push_back(part);
         lines.push_back(util::Format(S(Str::TileAt), s->tile.x, s->tile.y));
         lines.push_back(s->useTiles.size() == 1 ? std::string(S(Str::UsedFromTile))
                                                 : util::Format(S(Str::UsedFromTiles), (int)s->useTiles.size()));
@@ -509,13 +524,120 @@ namespace {
 // "cabe, baño, paredes al norte, mirando al este, casilla 29, 31": the engine's verdict first,
 // the room when the cursor has just entered it, the walls, the facing; the tile last (a tester,
 // 2026-10-31: coordinates first made the line hard to follow).
-std::string FreeLine(bool withRoom = false) {
+// "a 3 casillas al este, a 2 casillas al norte": an offset on the lot in words.
+std::string OffsetWords(int dx, int dy) {
+    std::vector<std::string> parts;
+    auto add = [&](int tiles, int compass) {
+        if (tiles <= 0) return;
+        const char* dir = S(placement::CompassWord(compass));
+        parts.push_back(tiles == 1 ? util::Format(S(Str::OneTileAway), dir) : util::Format(S(Str::TilesAway), tiles, dir));
+    };
+    add(dx, 2);
+    add(-dx, 6);
+    add(dy, 4);
+    add(-dy, 0);
+    std::string out;
+    for (const std::string& part : parts) out += (out.empty() ? "" : ", ") + part;
+    return out;
+}
+
+// Which part of a held object of several tiles the cursor (its lead tile) is on, and where the
+// rest goes from there: "cursor en su esquina noroeste, se extiende a 1 casilla al este, a 1
+// casilla al sur". A turn changes it, and nothing else told a player which way it would extend
+// (a tester).
+std::string CursorPart(const std::vector<game::Tile>& footprint, game::Tile lead) {
+    std::vector<game::Tile> tiles;
+    for (const game::Tile& t : footprint)
+        if (std::find(tiles.begin(), tiles.end(), t) == tiles.end()) tiles.push_back(t);
+    if (tiles.size() < 2) return "";
+    int x0 = tiles[0].x, x1 = x0, y0 = tiles[0].y, y1 = y0;
+    for (const game::Tile& t : tiles) {
+        x0 = std::min(x0, t.x);
+        x1 = std::max(x1, t.x);
+        y0 = std::min(y0, t.y);
+        y1 = std::max(y1, t.y);
+    }
+    // -1 west / north end, +1 east / south end, 0 between, 2 the object is one tile that way
+    int ew = x1 == x0 ? 2 : lead.x <= x0 ? -1 : lead.x >= x1 ? 1 : 0;
+    int ns = y1 == y0 ? 2 : lead.y <= y0 ? -1 : lead.y >= y1 ? 1 : 0;
+    bool ewEnd = ew == -1 || ew == 1, nsEnd = ns == -1 || ns == 1;
+    std::string where;
+    if (ewEnd && nsEnd) {
+        int compass = ns < 0 ? (ew < 0 ? 7 : 1) : (ew < 0 ? 5 : 3);
+        where = util::Format(S(Str::CursorCorner), S(placement::CompassWord(compass)));
+    } else if (ewEnd && ns != 0) {
+        where = util::Format(S(Str::CursorEdge), S(placement::CompassWord(ew < 0 ? 6 : 2)));
+    } else if (nsEnd && ew != 0) {
+        where = util::Format(S(Str::CursorEdge), S(placement::CompassWord(ns < 0 ? 0 : 4)));
+    } else {
+        where = S(Str::CursorMiddle);
+    }
+    // what lies beyond the cursor on each side
+    std::vector<std::string> parts;
+    auto add = [&](int tiles, int compass) {
+        if (tiles <= 0) return;
+        const char* dir = S(placement::CompassWord(compass));
+        parts.push_back(tiles == 1 ? util::Format(S(Str::OneTileAway), dir) : util::Format(S(Str::TilesAway), tiles, dir));
+    };
+    add(lead.y - y0, 0);
+    add(x1 - lead.x, 2);
+    add(y1 - lead.y, 4);
+    add(lead.x - x0, 6);
+    std::string extent;
+    for (const std::string& part : parts) extent += (extent.empty() ? "" : ", ") + part;
+    return extent.empty() ? where : where + ", " + util::Format(S(Str::ObjectExtends), extent.c_str());
+}
+
+constexpr int kNearestFitRadius = 6;
+
+// Where the held object (lifted) fits after all, when it does not on the cursor's tile facing
+// the cursor's way: turned on the same tile ("cabe girado: mirando al sur": a pool ladder was on
+// the right tile facing the wrong way, a tester), else the nearest tile it fits on. Leaves it
+// turned some other way: the caller turns it back.
+std::string FitHint(game::Tile tile, int level, int direction) {
+    ULONGLONG start = GetTickCount64();
+    std::vector<int> directions = {direction};
+    if (game::HeldRotationStep() > 0)
+        for (int k = 1; k < 4; k++) directions.push_back((direction + 2 * k) & 7);
+    for (size_t i = 1; i < directions.size(); i++)
+        if (game::TurnHeld(directions[i]) && game::CheckHeldAt(tile, level) == 0)
+            return util::Format(S(Str::FitsTurned),
+                                util::Format(S(Str::FacingDirection), S(placement::CompassWord(game::CompassOf(directions[i])))).c_str());
+    // the tiles around, nearest first (the cursor's room before others at the same distance)
+    int room = game::RoomAt(level, tile.x, tile.y);
+    std::vector<std::pair<int, game::Tile>> around;
+    for (int dy = -kNearestFitRadius; dy <= kNearestFitRadius; dy++)
+        for (int dx = -kNearestFitRadius; dx <= kNearestFitRadius; dx++) {
+            game::Tile t{tile.x + dx, tile.y + dy};
+            if ((dx == 0 && dy == 0) || !game::InGrid(t.x, t.y)) continue;
+            int key = (dx * dx + dy * dy) * 2 + (game::RoomAt(level, t.x, t.y) == room ? 0 : 1);
+            around.push_back({key, t});
+        }
+    std::stable_sort(around.begin(), around.end(), [](const auto& a, const auto& b) { return a.first < b.first; });
+    for (const auto& candidate : around)
+        for (int d : directions) {
+            if (!game::TurnHeld(d) || game::CheckHeldAt(candidate.second, level) != 0) continue;
+            LogVerbose("nearest fit %d,%d facing %d after %llu ms", candidate.second.x, candidate.second.y, d,
+                       GetTickCount64() - start);
+            return util::Format(S(Str::NearestFit), OffsetWords(candidate.second.x - tile.x, candidate.second.y - tile.y).c_str(),
+                                util::Format(S(Str::FacingDirection), S(placement::CompassWord(game::CompassOf(d)))).c_str());
+        }
+    LogVerbose("no fit within %d tiles (%llu ms)", kNearestFitRadius, GetTickCount64() - start);
+    return util::Format(S(Str::NoFitNearby), kNearestFitRadius);
+}
+
+std::string FreeLine(bool withRoom = false, bool withShape = false) {
     int level = game::HeldLevel();
     game::Ptr held = game::HeldObject();
     game::LiftHeld();
     game::TurnHeld(g.freeDirection);
     int error = game::CheckHeldAt(g.freeTile, level);
     g.freeFits = error == 0;
+    std::string hint;
+    if (error != 0) {
+        hint = FitHint(g.freeTile, level, g.freeDirection);
+        game::TurnHeld(g.freeDirection);
+    }
     game::ShowHeldAt(g.freeTile);
     camera::LookAt(held);
     std::vector<game::Tile> footprint = game::FootprintAt(held, g.freeTile);
@@ -537,6 +659,8 @@ std::string FreeLine(bool withRoom = false) {
             line += ", " + util::Format(S(Str::RoomChange), from.c_str(), room.c_str());
         else if (!room.empty())
             line += ", " + room;
+        std::string light = placement::RoomLight(roomId);
+        if (!room.empty() && !light.empty()) line += ", " + light;
     }
     uint32_t walls = game::WallsAt(level, g.freeTile.x, g.freeTile.y);
     std::string sides;
@@ -555,6 +679,10 @@ std::string FreeLine(bool withRoom = false) {
         }
     }
     line += ", " + util::Format(S(Str::FacingDirection), S(placement::CompassWord(game::CompassOf(g.freeDirection))));
+    if (withRoom || withShape) {
+        std::string part = CursorPart(footprint, g.freeTile);
+        if (!part.empty()) line += ", " + part;
+    }
     // A door or window goes in the wall behind it: this is what turning it chooses.
     if (error == 0 && game::IsPortal(held) && (walls & kWallBehind(g.freeDirection))) {
         game::Tile behind = game::Step(g.freeTile, (g.freeDirection + 4) & 7);
@@ -564,13 +692,17 @@ std::string FreeLine(bool withRoom = false) {
     }
     std::string faced = ObjectsOn(FrontTiles(footprint, g.freeDirection, level), level, held);
     if (!faced.empty()) line += ", " + util::Format(S(Str::FacingThing), faced.c_str());
-    return line + ", " + util::Format(S(Str::TileAt), g.freeTile.x, g.freeTile.y);
+    line += ", " + util::Format(S(Str::TileAt), g.freeTile.x, g.freeTile.y);
+    // last, as its own sentence: where it would fit (its facing must not read as the cursor's)
+    if (!hint.empty()) line += ". " + hint;
+    return line;
 }
 
 }  // namespace
 
 void MoveFree(int dx, int dy, bool throughWalls) {
     if (!Placing()) return;
+    bool first = !g.free;  // the first arrow also says which part of it the cursor is on
     if (!g.free) {
         const placement::Spot* s = CurrentSpot();
         game::LotObject sim;
@@ -619,7 +751,7 @@ void MoveFree(int dx, int dy, bool throughWalls) {
         }
         return;
     }
-    std::string line = FreeLine();
+    std::string line = FreeLine(false, first);
     if (!wall.empty()) line += ". " + wall;
     buffers::SetDetails({line});
     speech::Say(line);
@@ -715,7 +847,7 @@ bool FreeTurn(int delta) {
         return true;
     }
     g.freeDirection = ((g.freeDirection + delta * std::max(step, 2)) % 8 + 8) % 8;
-    std::string line = FreeLine();
+    std::string line = FreeLine(false, true);
     buffers::SetDetails({line});
     speech::Say(line);
     return true;
@@ -767,6 +899,8 @@ std::vector<std::string> ProductDetails(game::Ptr button) {
     int funds = 0;
     if (game::GetFunds(&funds) && p.price > funds) line += std::string(", ") + S(Str::CannotAfford);
     std::vector<std::string> lines = {line};
+    std::string size = ProductSizeText(p);
+    if (!size.empty()) lines.push_back(size);
     for (int i = 0; i < game::kRatingCount; i++)
         if (p.ratings[i] != 0) lines.push_back(util::Format("%s %d", S(kRatings[i]), p.ratings[i]));
     for (int i = 0; i < game::kSkillCount; i++)

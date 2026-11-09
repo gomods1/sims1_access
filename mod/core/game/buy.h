@@ -30,6 +30,9 @@ struct ProductInfo {
 bool IsProductButton(Ptr w);
 bool ReadProduct(Ptr product, ProductInfo* out);
 bool ReadProductOfButton(Ptr button, ProductInfo* out);
+// The floor a product takes as the catalog shows it (before any turn): its tiles across (x) and
+// deep (y), from the OBJD tile offsets of its multi-tile group. false when unknown.
+bool ProductSize(Ptr type, int* across, int* deep);
 
 // The product the buy tool holds, as the catalog lists it.
 bool HeldProduct(ProductInfo* out);

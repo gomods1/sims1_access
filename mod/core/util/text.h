@@ -29,6 +29,10 @@ std::string WithoutHotkey(const std::string& label);
 
 // Money: "$1,200" in English, "$1.200" in Spanish (util::DigitGroupSeparator).
 std::string Money(int amount);
+// What a screen reader would read as dollars, the game's currency by name: "$1.200" (the mod's
+// or the game's own text) -> "1.200 simoleones" (Str::MoneySpoken). A tester: Simoleons are the
+// game's money, and the screen reader said dollars.
+std::string SpokenMoney(const std::string& utf8);
 
 // printf into a std::string, of any length. Positional arguments (%2$s) work, so a translation
 // can put a string's values in another order.

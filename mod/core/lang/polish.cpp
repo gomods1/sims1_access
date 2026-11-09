@@ -827,6 +827,22 @@ const Translation kEntries[] = {
     // Placing: free cursor
     {Str::FreeFits, "mieści się"},
     {Str::FreeNoFit, "nie mieści się: %s"},
+    {Str::FitsTurned, "zmieści się po obróceniu, %s"},
+    {Str::NearestFit, "najbliższe miejsce, gdzie się zmieści: %1$s, %2$s"},
+    {Str::NoFitNearby, "nie zmieści się nigdzie w promieniu pól: %d"},
+    {Str::CursorCorner, "kursor w rogu od %s"},
+    {Str::CursorEdge, "kursor na krawędzi od %s"},
+    {Str::CursorMiddle, "kursor w środku"},
+    {Str::ObjectExtends, "sięga %s"},
+    // Money, light, sizes, catalog pages
+    {Str::MoneySpoken, "%s simoleanów"},
+    {Str::LightLevel, "światło %d%%"},
+    {Str::ProductSize, "%1$d na %2$d pól"},
+    {Str::NoNextPage, "ostatnia strona"},
+    {Str::NoPreviousPage, "pierwsza strona"},
+    {Str::KeysCatalogPages,
+     "W katalogach trybu kupowania i budowania strzałki w górę i w dół przechodzą przez produkty, w lewo i w "
+     "prawo przewracają strony."},
     {Str::KeysPlacingFree,
      "Strzałki przesuwają go o jedno pole, z Shiftem o pięć, i mówią, czy się mieści; przecinek i kropka go "
      "obracają, Enter stawia go tam, Page Down wraca do miejsc."},

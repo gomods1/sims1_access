@@ -25,7 +25,7 @@ Ogni schermata, finestra di dialogo, pannello e modalità funziona allo stesso m
 | Tasto | Cosa fa |
 |---|---|
 | Tab, Maiusc+Tab | Gruppo successivo o precedente. Prima vengono detti il nome del gruppo e il numero dei suoi elementi. |
-| Freccia su, freccia giù (o freccia sinistra, freccia destra) | Elemento precedente o successivo del gruppo. |
+| Freccia su, freccia giù (o freccia sinistra, freccia destra) | Elemento precedente o successivo del gruppo. Nei cataloghi delle modalità acquisto e costruzione, freccia sinistra e freccia destra girano invece la pagina. |
 | Inizio, Fine | Primo o ultimo elemento del gruppo. |
 | Invio | Attiva l'elemento. Su un livello (un tipo o una stanza degli oggetti del lotto) lo apre. |
 | Spazio | Attiva, tranne nella vista del lotto, dove Spazio è il tasto "Sim successivo" del gioco. |
@@ -137,7 +137,7 @@ Invio su un oggetto (o su un Sim) apre il menu delle interazioni del gioco. Frec
 
 | Tasto | Cosa fa |
 |---|---|
-| Control+L | La disposizione della stanza: misura, porte e finestre per muro e dove portano; cosa c'è lungo ogni muro è nel buffer dei dettagli. |
+| Control+L | La disposizione della stanza: misura, porte e finestre per muro e dove portano; cosa c'è lungo ogni muro è nel buffer dei dettagli. Dice anche la luce della stanza, che conta nel suo punteggio. |
 | Control+Maiusc+L | La panoramica della casa: piani, stanze, valutazioni, cosa manca (water, doccia, letti, frigorifero, fornello, telefono, rilevatore di fumo), stanze senza accesso, oggetti che nessuno può raggiungere, stanze buie o sgradite. |
 
 ### La mappa della casa
@@ -146,7 +146,7 @@ Invio su un oggetto (o su un Sim) apre il menu delle interazioni del gioco. Frec
 
 | Tasto | Cosa fa |
 |---|---|
-| Frecce | Una casella; con Maiusc, cinque. Dice cosa c'è e verso dove è rivolto, la stanza e il piano quando cambiano, i muri, recinti, ringhiere, porte e finestre su ogni lato. Muri, recinti e finestre fermano il cursore; le porte lo lasciano passare. |
+| Frecce | Una casella; con Maiusc, cinque. Dice cosa c'è e verso dove è rivolto, la stanza e il piano quando cambiano, i muri, recinti, ringhiere, porte e finestre su ogni lato. Muri, recinti e finestre fermano il cursore; le porte lo lasciano passare. Con la stanza arriva la sua luce ("luce 64%": finestre e lampade; fuori la luce del giorno), che conta nel punteggio della stanza. |
 | Alt+Frecce | Lo stesso, attraverso i muri. |
 | Virgola, punto | Cosa dice ogni passo: tutto, solo oggetti, solo pavimenti (per nome, "Piastrella di granito chiaro"), solo muri, solo stanze. |
 | Inizio | Torna al Sim selezionato. |
@@ -188,12 +188,13 @@ Usa le interazioni del telefono per chiamare i servizi. Il fattorino della pizza
 
 ## La modalità Compra
 
-F2 apre Compra. Le categorie del catalogo sono schede e i suoi prodotti pulsanti: ogni prodotto dice nome, prezzo, valutazioni principali e descrizione, e il buffer dei dettagli contiene tutte le sue valutazioni e le stanze a cui è destinato. Andando oltre l'ultimo prodotto di una pagina si gira pagina.
+F2 apre Compra. Le categorie del catalogo sono schede e i suoi prodotti pulsanti: ogni prodotto dice nome, prezzo, valutazioni principali e descrizione, e il buffer dei dettagli contiene tutte le sue valutazioni e le stanze a cui è destinato. Andando oltre l'ultimo prodotto di una pagina si gira pagina. Ogni prodotto dice anche la sua dimensione in caselle, prima il lato più lungo ("2 per 1 caselle"). Il denaro è detto in Simoleon, la valuta del gioco.
 
 | Tasto | Cosa fa |
 |---|---|
 | Control+R | Limita il catalogo ai prodotti per un tipo di stanza (cucina, bagno, camera da letto, soggiorno, sala da pranzo, studio, esterno) o a tutti. |
 | Backspace | L'"Indietro" del catalogo. |
+| Freccia sinistra, freccia destra | La pagina precedente o successiva del catalogo; su e giù vanno da un prodotto all'altro. |
 | Invio su un prodotto | Inizia a posizionarlo. |
 
 ### Posizionare un oggetto
@@ -212,6 +213,13 @@ Mentre tieni un oggetto, la mod ha già trovato le posizioni in cui ci sta **e s
 | Esc | Annulla (un oggetto spostato torna al suo posto). |
 | Canc | Vende l'oggetto che tieni; viene detto il rimborso. |
 | R | Ripete la posizione. |
+
+Quando l'oggetto non ci sta dove lo mettono le frecce, la riga finisce con ciò che andrebbe bene:
+l'orientamento con cui ci sta sulla stessa casella ("ci sta se ruotato, rivolto a sud"),
+altrimenti la casella più vicina dove ci sta ("posto più vicino a 1 casella a ovest, rivolto a
+nord"). Per un oggetto di più caselle, la prima freccia e ogni rotazione dicono su quale parte si
+trova il cursore e dove va il resto ("cursore sul suo lato nord, si estende a 1 casella a
+sud"); i dettagli del posto dicono lo stesso.
 
 Il buffer dei dettagli contiene la casella della posizione e le posizioni rifiutate dal gioco, con il motivo.
 

@@ -841,6 +841,22 @@ const Translation kEntries[] = {
     // Placing: free cursor
     {Str::FreeFits, "passt"},
     {Str::FreeNoFit, "passt nicht: %s"},
+    {Str::FitsTurned, "passt gedreht, %s"},
+    {Str::NearestFit, "nächster passender Platz %1$s, %2$s"},
+    {Str::NoFitNearby, "passt nirgends im Umkreis von %d Feldern"},
+    {Str::CursorCorner, "Cursor an seiner Ecke im %s"},
+    {Str::CursorEdge, "Cursor an seinem Rand im %s"},
+    {Str::CursorMiddle, "Cursor in seiner Mitte"},
+    {Str::ObjectExtends, "es reicht %s"},
+    // Money, light, sizes, catalog pages
+    {Str::MoneySpoken, "%s Simoleons"},
+    {Str::LightLevel, "Licht %d %%"},
+    {Str::ProductSize, "%1$d mal %2$d Felder"},
+    {Str::NoNextPage, "letzte Seite"},
+    {Str::NoPreviousPage, "erste Seite"},
+    {Str::KeysCatalogPages,
+     "In den Katalogen des Kauf- und Baumodus gehen Pfeil hoch und runter durch die Produkte, links und rechts "
+     "blättern um."},
     {Str::KeysPlacingFree,
      "Die Pfeiltasten verschieben es Feld für Feld, mit Umschalt um fünf, und sagen, ob es dort passt; Komma und "
      "Punkt drehen es, Eingabe stellt es dort hin, Bild ab kehrt zu den Plätzen zurück."},

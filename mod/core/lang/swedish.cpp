@@ -827,6 +827,21 @@ const Translation kEntries[] = {
     // Placing: free cursor
     {Str::FreeFits, "får plats"},
     {Str::FreeNoFit, "får inte plats: %s"},
+    {Str::FitsTurned, "får plats vriden, %s"},
+    {Str::NearestFit, "närmaste plats där den får plats %1$s, %2$s"},
+    {Str::NoFitNearby, "får inte plats någonstans inom %d rutor"},
+    {Str::CursorCorner, "markören i hörnet mot %s"},
+    {Str::CursorEdge, "markören på kanten mot %s"},
+    {Str::CursorMiddle, "markören inuti den"},
+    {Str::ObjectExtends, "den sträcker sig %s"},
+    // Money, light, sizes, catalog pages
+    {Str::MoneySpoken, "%s simdaler"},
+    {Str::LightLevel, "ljus %d %%"},
+    {Str::ProductSize, "%1$d gånger %2$d rutor"},
+    {Str::NoNextPage, "sista sidan"},
+    {Str::NoPreviousPage, "första sidan"},
+    {Str::KeysCatalogPages,
+     "I katalogerna i köp- och byggläget går Upp och Ned genom produkterna, Vänster och Höger bläddrar sidorna."},
     {Str::KeysPlacingFree,
      "Piltangenterna flyttar den en ruta i taget, med Skift fem, och säger om den får plats; komma och punkt "
      "vrider den, Enter ställer den där, Page Down går tillbaka till platserna."},

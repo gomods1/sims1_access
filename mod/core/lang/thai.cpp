@@ -813,6 +813,21 @@ const Translation kEntries[] = {
     // Placing: free cursor
     {Str::FreeFits, "วางได้"},
     {Str::FreeNoFit, "วางไม่ได้: %s"},
+    {Str::FitsTurned, "วางได้ถ้าหมุน %s"},
+    {Str::NearestFit, "ที่ใกล้ที่สุดที่วางได้ %1$s %2$s"},
+    {Str::NoFitNearby, "วางไม่ได้เลยในระยะ %d ช่อง"},
+    {Str::CursorCorner, "เคอร์เซอร์อยู่ที่มุมทิศ%s"},
+    {Str::CursorEdge, "เคอร์เซอร์อยู่ที่ขอบทิศ%s"},
+    {Str::CursorMiddle, "เคอร์เซอร์อยู่ด้านใน"},
+    {Str::ObjectExtends, "ยื่นออกไป %s"},
+    // Money, light, sizes, catalog pages
+    {Str::MoneySpoken, "%s เหรียญซิม"},
+    {Str::LightLevel, "แสง %d%%"},
+    {Str::ProductSize, "%1$d คูณ %2$d ช่อง"},
+    {Str::NoNextPage, "หน้าสุดท้าย"},
+    {Str::NoPreviousPage, "หน้าแรก"},
+    {Str::KeysCatalogPages,
+     "ในแคตตาล็อกของโหมดซื้อและโหมดสร้าง ปุ่มขึ้นและลงเลื่อนไปตามสินค้า ปุ่มซ้ายและขวาเปลี่ยนหน้า"},
     {Str::KeysPlacingFree,
      "ลูกศรเลื่อนทีละช่อง กด Shift ด้วยเลื่อนทีละห้าช่อง และบอกว่าวางได้หรือไม่; ลูกน้ำ (,) และจุด (.) หมุน, "
      "Enter วางตรงนั้น, Page Down กลับไปที่รายการตำแหน่ง"},

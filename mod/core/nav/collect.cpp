@@ -282,6 +282,9 @@ struct Walker {
         }
         if (IsKindOf(w, "cTSWinText") || IsKindOf(w, "cWinTextWrap")) {
             std::string text = util::CleanForSpeech(game::Caption(w));  // some titles are a lone space
+            // The frame rate the game's T key shows ("FPS: 117.9", in every language) changes every
+            // frame: as a text it was read after each press and took the focus (a tester).
+            if (text.rfind("FPS:", 0) == 0) return true;
             if (!text.empty()) Add(w, Role::Text, text);
             return true;
         }

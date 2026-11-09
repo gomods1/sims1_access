@@ -242,6 +242,8 @@ std::string ShortLine(bool withRoom = false, const std::string& fromRoom = "") {
             parts.push_back(util::Format(S(Str::RoomChange), fromRoom.c_str(), room.c_str()));
         else if (!room.empty())
             parts.push_back(room);
+        std::string light = placement::RoomLight(game::RoomAt(g.level, g.cursor.x, g.cursor.y));
+        if (!room.empty() && !light.empty()) parts.push_back(light);
     }
     if (g.floors && !g.paper && !g.pool && !g.terrain) {
         parts.push_back(S(game::HasFloor(g.level, g.cursor.x, g.cursor.y) ? Str::FloorHere : Str::FloorNone));

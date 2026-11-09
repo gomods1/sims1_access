@@ -39,7 +39,7 @@ Um grupo tem **itens**, e alguns itens abrem um **nível** mais profundo.
 | Tecla | O que faz |
 |---|---|
 | Tab, Shift+Tab | Grupo seguinte ou anterior. Primeiro são ditos o nome do grupo e o número de itens. |
-| Seta para cima, Seta para baixo (ou Seta para a esquerda, Seta para a direita) | Item anterior ou seguinte do grupo. |
+| Seta para cima, Seta para baixo (ou Seta para a esquerda, Seta para a direita) | Item anterior ou seguinte do grupo. Nos catálogos dos modos compra e construção, Seta para a esquerda e Seta para a direita viram a página. |
 | Home, End | Primeiro ou último item do grupo. |
 | Enter | Aciona o item. Em um nível (um tipo ou um cômodo dos objetos do lote), abre-o. |
 | Espaço | Aciona, exceto na vista do lote, onde Espaço é a tecla "próximo Sim" do jogo. |
@@ -186,7 +186,7 @@ vazio, o mod diz por quê ("sem interações; só para crianças: Brincar").
 
 | Tecla | O que faz |
 |---|---|
-| Control+L | A disposição do cômodo: tamanho, portas e janelas por parede e para onde dão; o que há ao longo de cada parede fica no buffer de detalhes. |
+| Control+L | A disposição do cômodo: tamanho, portas e janelas por parede e para onde dão; o que há ao longo de cada parede fica no buffer de detalhes. Também diz a luz do cômodo, que conta na pontuação dele. |
 | Control+Shift+L | A visão geral da casa: andares, cômodos, avaliações, o que falta (vaso sanitário, chuveiro, camas, geladeira, fogão, telefone, detector de fumaça), cômodos sem entrada, objetos que ninguém alcança, cômodos escuros ou de que os Sims não gostam. |
 
 ### O mapa da casa
@@ -197,7 +197,7 @@ volta.
 
 | Tecla | O que faz |
 |---|---|
-| Setas | Um quadrado; com Shift, cinco. Diz o que há ali e para onde está virado, o cômodo e o andar quando mudam, as paredes, cercas, grades, portas e janelas de cada lado. Paredes, cercas e janelas param o cursor; as portas o deixam passar. |
+| Setas | Um quadrado; com Shift, cinco. Diz o que há ali e para onde está virado, o cômodo e o andar quando mudam, as paredes, cercas, grades, portas e janelas de cada lado. Paredes, cercas e janelas param o cursor; as portas o deixam passar. Com o cômodo vem a sua luz ("luz 64%": janelas e lâmpadas; de dia, a luz do sol lá fora), que conta na pontuação do cômodo. |
 | Alt+Setas | O mesmo, atravessando paredes. |
 | Vírgula, ponto | O que cada passo diz: tudo, só objetos, só pisos (pelo nome, "Ladrilho de granito claro"), só paredes, só cômodos. |
 | Home | Volta ao Sim selecionado. |
@@ -260,12 +260,13 @@ ninguém o receber, ele vai embora com a pizza e o dinheiro é devolvido.
 F2 abre o Modo Compra. As categorias do catálogo são guias e os produtos são botões: cada produto
 diz o nome, o preço, as principais avaliações e a descrição, e o buffer de detalhes tem todas as
 avaliações e os cômodos a que ele se destina. Passar do último produto de uma página vira a
-página.
+página. Cada produto diz também o seu tamanho em quadrados, o lado mais longo primeiro ("2 por 1 quadrados"). O dinheiro é dito em Simoleons, a moeda do jogo.
 
 | Tecla | O que faz |
 |---|---|
 | Control+R | Deixa no catálogo só os produtos de um tipo de cômodo (cozinha, banheiro, quarto, sala de estar, sala de jantar, escritório, área externa) ou todos. |
 | Backspace | O "Voltar" do catálogo. |
+| Seta para a esquerda, Seta para a direita | A página anterior ou seguinte do catálogo; cima e baixo vão de produto em produto. |
 | Enter em um produto | Começa a posicioná-lo. |
 
 ### Posicionar um objeto
@@ -286,6 +287,13 @@ para usá-lo). O lugar diz o cômodo, ao lado do que está e para onde está vir
 | Esc | Cancela (um objeto movido volta ao lugar). |
 | Delete | Vende o objeto seguro; o reembolso é dito. |
 | R | Diz o lugar de novo. |
+
+Quando o objeto não cabe onde as setas o põem, a linha termina com o que funcionaria: a
+direção em que ele cabe no mesmo quadrado ("cabe se girado, de frente para o sul"), senão o
+quadrado mais próximo onde ele cabe ("lugar mais próximo onde cabe a 1 quadrado ao oeste, de
+frente para o norte"). Para um objeto de vários quadrados, a primeira seta e cada giro dizem em
+que parte dele está o cursor e para onde vai o resto ("cursor na sua borda norte, ele se
+estende a 1 quadrado ao sul"); os detalhes do lugar dizem o mesmo.
 
 O buffer de detalhes tem o quadrado do lugar e os lugares que o jogo recusou, com o motivo.
 

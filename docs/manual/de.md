@@ -25,7 +25,7 @@ Jeder Bildschirm, jeder Dialog, jedes Fenster und jeder Modus funktioniert gleic
 | Taste | Was sie tut |
 |---|---|
 | Tab, Umschalt+Tab | Nächste oder vorherige Gruppe. Zuerst werden der Name der Gruppe und die Zahl ihrer Elemente gesagt. |
-| Pfeil nach oben, Pfeil nach unten (oder Pfeil nach links, Pfeil nach rechts) | Vorheriges oder nächstes Element der Gruppe. |
+| Pfeil nach oben, Pfeil nach unten (oder Pfeil nach links, Pfeil nach rechts) | Vorheriges oder nächstes Element der Gruppe. In den Katalogen des Kauf- und Baumodus blättern Pfeil nach links und Pfeil nach rechts stattdessen um. |
 | Pos1, Ende | Erstes oder letztes Element der Gruppe. |
 | Eingabe | Aktiviert das Element. Auf einer Ebene (einer Art oder einem Raum der Objekte des Grundstücks) öffnet sie diese. |
 | Leertaste | Aktiviert, außer in der Grundstücksansicht, wo die Leertaste die Taste „nächster Sim“ des Spiels ist. |
@@ -137,7 +137,7 @@ Eingabe auf einem Objekt (oder einem Sim) öffnet das Interaktionsmenü des Spie
 
 | Taste | Was sie tut |
 |---|---|
-| Strg+L | Der Aufbau des Raums: Größe, Türen und Fenster nach Wand und wohin sie führen; was entlang jeder Wand steht, ist im Details-Puffer. |
+| Strg+L | Der Aufbau des Raums: Größe, Türen und Fenster nach Wand und wohin sie führen; was entlang jeder Wand steht, ist im Details-Puffer. Sie nennt auch das Licht des Raums, das in seine Bewertung eingeht. |
 | Strg+Umschalt+L | Die Hausübersicht: Stockwerke, Räume, Bewertungen, was fehlt (Toilette, Dusche, Betten, Kühlschrank, Herd, Telefon, Rauchmelder), Räume ohne Zugang, Objekte, die niemand erreichen kann, dunkle oder unbeliebte Räume. |
 
 ### Der Hausplan
@@ -146,7 +146,7 @@ Eingabe auf einem Objekt (oder einem Sim) öffnet das Interaktionsmenü des Spie
 
 | Taste | Was sie tut |
 |---|---|
-| Pfeiltasten | Ein Feld; mit Umschalt fünf. Sagt, was dort steht und wohin es schaut, den Raum und das Stockwerk, wenn sie wechseln, die Wände, Zäune, Geländer, Türen und Fenster auf jeder Seite. Wände, Zäune und Fenster halten den Cursor auf; Türen lassen ihn durch. |
+| Pfeiltasten | Ein Feld; mit Umschalt fünf. Sagt, was dort steht und wohin es schaut, den Raum und das Stockwerk, wenn sie wechseln, die Wände, Zäune, Geländer, Türen und Fenster auf jeder Seite. Wände, Zäune und Fenster halten den Cursor auf; Türen lassen ihn durch. Mit dem Raum kommt sein Licht („Licht 64 %“: Fenster und Lampen; draußen das Tageslicht), das in die Bewertung des Raums eingeht. |
 | Alt+Pfeiltasten | Dasselbe, durch Wände hindurch. |
 | Komma, Punkt | Was jeder Schritt sagt: alles, nur Objekte, nur Böden (mit Namen, „Heller Granitboden“), nur Wände, nur Räume. |
 | Pos1 | Zurück zum ausgewählten Sim. |
@@ -188,12 +188,13 @@ Benutze die Interaktionen des Telefons, um Dienste zu rufen. Der Pizzabote muss 
 
 ## Der Kaufmodus
 
-F2 öffnet den Kaufmodus. Die Kategorien des Katalogs sind Registerkarten und seine Produkte Schalter: jedes Produkt sagt Namen, Preis, wichtigste Bewertungen und Beschreibung, und der Details-Puffer enthält alle Bewertungen und die Räume, für die es gedacht ist. Wenn Du über das letzte Produkt einer Seite hinausgehst, wird umgeblättert.
+F2 öffnet den Kaufmodus. Die Kategorien des Katalogs sind Registerkarten und seine Produkte Schalter: jedes Produkt sagt Namen, Preis, wichtigste Bewertungen und Beschreibung, und der Details-Puffer enthält alle Bewertungen und die Räume, für die es gedacht ist. Wenn Du über das letzte Produkt einer Seite hinausgehst, wird umgeblättert. Jedes Produkt nennt auch seine Größe in Feldern, die längere Seite zuerst („2 mal 1 Felder“). Geld wird in Simoleons gesagt, der Währung des Spiels.
 
 | Taste | Was sie tut |
 |---|---|
 | Strg+R | Beschränkt den Katalog auf Produkte für eine Raumart (Küche, Bad, Schlafzimmer, Wohnzimmer, Esszimmer, Arbeitszimmer, draußen) oder auf alle. |
 | Rücktaste | Das „Zurück“ des Katalogs. |
+| Pfeil nach links, Pfeil nach rechts | Die vorige oder nächste Seite des Katalogs; oben und unten gehen von Produkt zu Produkt. |
 | Eingabe auf einem Produkt | Beginnt, es zu platzieren. |
 
 ### Ein Objekt platzieren
@@ -212,6 +213,13 @@ Während Du ein Objekt hältst, hat der Mod schon die Plätze gefunden, an die e
 | Esc | Bricht ab (ein verschobenes Objekt kehrt zurück). |
 | Entf | Verkauft das gehaltene Objekt; die Erstattung wird angesagt. |
 | R | Sagt den Platz noch einmal. |
+
+Passt das Objekt nicht dort, wo die Pfeile es hinsetzen, endet die Zeile mit dem, was gehen
+würde: der Ausrichtung, in der es auf dasselbe Feld passt („passt gedreht, Blick nach Süden“),
+sonst dem nächsten Feld, auf das es passt („nächster passender Platz 1 Feld Richtung Westen, Blick
+nach Norden“). Bei einem Objekt aus mehreren Feldern sagen der erste Pfeil und jede Drehung, auf
+welchem Teil der Cursor steht und wohin der Rest reicht („Cursor an seinem Rand im Norden, es
+reicht 1 Feld Richtung Süden“); die Details des Platzes enthalten dasselbe.
 
 Der Details-Puffer enthält das Feld des Platzes und die Plätze, die das Spiel abgelehnt hat, mit dem Grund.
 

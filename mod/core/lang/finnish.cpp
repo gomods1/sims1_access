@@ -831,6 +831,21 @@ const Translation kEntries[] = {
     // Placing: free cursor
     {Str::FreeFits, "mahtuu"},
     {Str::FreeNoFit, "ei mahdu: %s"},
+    {Str::FitsTurned, "mahtuu käännettynä, %s"},
+    {Str::NearestFit, "lähin paikka johon mahtuu %1$s, %2$s"},
+    {Str::NoFitNearby, "ei mahdu mihinkään %d ruudun säteellä"},
+    {Str::CursorCorner, "kohdistin sen %snurkassa"},
+    {Str::CursorEdge, "kohdistin sen %sreunalla"},
+    {Str::CursorMiddle, "kohdistin sen sisällä"},
+    {Str::ObjectExtends, "se ulottuu %s"},
+    // Money, light, sizes, catalog pages
+    {Str::MoneySpoken, "%s simoleonia"},
+    {Str::LightLevel, "valo %d %%"},
+    {Str::ProductSize, "%1$d kertaa %2$d ruutua"},
+    {Str::NoNextPage, "viimeinen sivu"},
+    {Str::NoPreviousPage, "ensimmäinen sivu"},
+    {Str::KeysCatalogPages,
+     "Osto- ja rakennustilan luetteloissa Ylös ja Alas käyvät tuotteet läpi, Vasen ja Oikea kääntävät sivuja."},
     {Str::KeysPlacingFree,
      "Nuolet siirtävät sitä ruutu kerrallaan, Vaihdon kanssa viisi, ja kertovat mahtuuko se; pilkku ja piste "
      "kääntävät sitä, Enter asettaa sen siihen, Page Down palaa paikkoihin."},

@@ -25,7 +25,7 @@ Hver skærm, dialogboks, hvert panel og hver funktion virker på samme måde. De
 | Tast | Hvad den gør |
 |---|---|
 | Tab, Skift+Tab | Næste eller forrige gruppe. Gruppens navn og antal elementer siges først. |
-| Pil op, Pil ned (eller Venstre pil, Højre pil) | Forrige eller næste element i gruppen. |
+| Pil op, Pil ned (eller Venstre pil, Højre pil) | Forrige eller næste element i gruppen. I katalogerne i køb- og byggetilstand bladrer Venstre pil og Højre pil i stedet siden. |
 | Home, End | Første eller sidste element i gruppen. |
 | Enter | Aktiverer elementet. På et niveau (en type eller et rum blandt grundens objekter): åbner det. |
 | Mellemrum | Aktiverer, undtagen på grunden, hvor Mellemrum er spillets tast for "næste Sim". |
@@ -137,7 +137,7 @@ Enter på et objekt (eller på en Sim) åbner spillets handlingsmenu. Pil op og 
 
 | Tast | Hvad den gør |
 |---|---|
-| Kontrol+L | Rummets indretning: størrelse, døre og vinduer for hver mur, og hvor de fører hen; hvad der står langs hver mur, er i detaljebufferen. |
+| Kontrol+L | Rummets indretning: størrelse, døre og vinduer for hver mur, og hvor de fører hen; hvad der står langs hver mur, er i detaljebufferen. Den siger også rummets lys, som tæller med i rummets score. |
 | Kontrol+Skift+L | Husoversigten: etager, rum, vurderinger, hvad der mangler (toilet, bruser, senge, køleskab, komfur, telefon, røgalarm), rum uden adgang, objekter som ingen kan nå, mørke eller upopulære rum. |
 
 ### Husets kort
@@ -146,7 +146,7 @@ Enter på et objekt (eller på en Sim) åbner spillets handlingsmenu. Pil op og 
 
 | Tast | Hvad den gør |
 |---|---|
-| Piletasterne | Ét felt; med Skift fem. Siger, hvad der står der, og hvilken vej det vender, rummet og etagen når de skifter, murene, hegnene, gelænderne, dørene og vinduerne på hver side. Mure, hegn og vinduer standser markøren; døre lukker den igennem. |
+| Piletasterne | Ét felt; med Skift fem. Siger, hvad der står der, og hvilken vej det vender, rummet og etagen når de skifter, murene, hegnene, gelænderne, dørene og vinduerne på hver side. Mure, hegn og vinduer standser markøren; døre lukker den igennem. Med rummet kommer dets lys ("lys 64 %": vinduer og lamper; dagslys udenfor), som tæller med i rummets score. |
 | Alt+Piletasterne | Det samme, gennem mure. |
 | Komma, punktum | Hvad hvert skridt siger: alt, kun objekter, kun gulve (ved navn, "Lyse granitfliser"), kun mure, kun rum. |
 | Home | Tilbage til den valgte Sim. |
@@ -188,12 +188,13 @@ Brug telefonens handlinger til at ringe efter tjenester. Pizzabuddet skal hilses
 
 ## Købefunktion
 
-F2 åbner Købefunktion. Katalogets kategorier er faner, og dets produkter er knapper: hvert produkt siger sit navn, pris, vigtigste vurderinger og beskrivelse, og detaljebufferen indeholder alle dets vurderinger og de rum, det er beregnet til. Går du forbi en sides sidste produkt, vendes siden.
+F2 åbner Købefunktion. Katalogets kategorier er faner, og dets produkter er knapper: hvert produkt siger sit navn, pris, vigtigste vurderinger og beskrivelse, og detaljebufferen indeholder alle dets vurderinger og de rum, det er beregnet til. Går du forbi en sides sidste produkt, vendes siden. Hvert produkt siger også sin størrelse i fliser, den længste side først ("2 gange 1 fliser"). Penge siges i simoleoner, spillets valuta.
 
 | Tast | Hvad den gør |
 |---|---|
 | Kontrol+R | Begrænser kataloget til produkter til én slags rum (køkken, badeværelse, soveværelse, stue, spisestue, arbejdsværelse, udendørs) eller alle. |
 | Backspace | Katalogets "Tilbage". |
+| Venstre pil, Højre pil | Katalogets forrige eller næste side; op og ned går produkt for produkt. |
 | Enter på et produkt | Begynder at placere det. |
 
 ### Placér et objekt
@@ -212,6 +213,13 @@ Mens du holder et objekt, har modden allerede fundet de steder, hvor det kan st�
 | Escape | Annullerer (et flyttet objekt går tilbage). |
 | Delete | Sælger det objekt, du holder; tilbagebetalingen siges. |
 | R | Siger stedet igen. |
+
+Når objektet ikke passer, hvor pilene sætter det, slutter linjen med det, der ville gå: den
+retning, det passer i på samme flise ("passer drejet, vendt mod syd"), ellers den nærmeste flise,
+hvor det passer ("nærmeste sted det passer 1 flise mod vest, vendt mod nord"). For et objekt på
+flere fliser siger den første pil og hver drejning, hvilken del af det markøren er på, og hvor
+resten går hen ("markøren på kanten mod nord, den strækker sig 1 flise mod syd"); stedets
+detaljer siger det samme.
 
 Detaljebufferen indeholder stedets felt og de steder, spillet afviste, med grunden.
 

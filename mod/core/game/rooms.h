@@ -22,6 +22,7 @@ struct Room {
     int impact = 0;       // room impact: what the room does to the Room need of Sims in it
     int goodObjects = 0;  // objects that raise it
     int lamps = 0;
+    float light = 0;      // the room score's light level, 0 dark .. 1 fully lit
 };
 bool GetRoom(int id, Room* out);
 // The room's tiles counted on the room map (its floor is id >> 10, plus 1). The record's own

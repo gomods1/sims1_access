@@ -840,6 +840,22 @@ const Translation kEntries[] = {
     // Placing: free cursor
     {Str::FreeFits, "past"},
     {Str::FreeNoFit, "past niet: %s"},
+    {Str::FitsTurned, "past gedraaid, %s"},
+    {Str::NearestFit, "dichtstbijzijnde plek waar het past %1$s, %2$s"},
+    {Str::NoFitNearby, "past nergens binnen %d tegels"},
+    {Str::CursorCorner, "cursor op de hoek in het %s"},
+    {Str::CursorEdge, "cursor op de rand in het %s"},
+    {Str::CursorMiddle, "cursor in het midden"},
+    {Str::ObjectExtends, "het loopt door %s"},
+    // Money, light, sizes, catalog pages
+    {Str::MoneySpoken, "%s Sim-dollars"},
+    {Str::LightLevel, "licht %d%%"},
+    {Str::ProductSize, "%1$d bij %2$d tegels"},
+    {Str::NoNextPage, "laatste pagina"},
+    {Str::NoPreviousPage, "eerste pagina"},
+    {Str::KeysCatalogPages,
+     "In de catalogi van koop- en bouwmodus gaan Omhoog en Omlaag door de producten, Links en Rechts slaan de "
+     "pagina's om."},
     {Str::KeysPlacingFree,
      "De pijltjes verplaatsen het vak voor vak, met Shift vijf tegelijk, en zeggen of het past; komma en punt "
      "draaien het, Enter zet het daar, Page Down gaat terug naar de plekken."},

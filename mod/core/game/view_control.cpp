@@ -1,5 +1,7 @@
 #include "view_control.h"
 
+#include <cctype>
+
 #include "addresses.h"
 #include "rtti.h"
 #include "ui.h"
@@ -53,7 +55,17 @@ bool BuildPanelShown(Ptr lotView) {
 
 std::string ClockText(Ptr vc) {
     if (!IsKindOf(vc, "cWinViewControl")) return "";
-    return ReadStdStringUtf8(vc + addr::viewctl::kClock);
+    std::string text = ReadStdStringUtf8(vc + addr::viewctl::kClock);
+    // The English game draws "AM" above the time, stored as "AM 10:00"; spoken that way it reads
+    // backwards (a tester): "10:00 AM". Only a Latin prefix moves: 午前 / 오전 come first in their
+    // languages.
+    size_t letters = 0;
+    while (letters < text.size() && (isalpha((unsigned char)text[letters]) || text[letters] == '.')) letters++;
+    size_t digit = letters;
+    while (digit < text.size() && (text[digit] == ' ' || text[digit] == '\n' || text[digit] == '\r')) digit++;
+    if (letters > 0 && digit > letters && digit < text.size() && isdigit((unsigned char)text[digit]))
+        text = text.substr(digit) + " " + text.substr(0, letters);
+    return text;
 }
 
 Ptr FundsButton(Ptr vc) { return ButtonAt(vc, addr::viewctl::kFundsButton); }

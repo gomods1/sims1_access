@@ -745,6 +745,20 @@ const Translation kEntries[] = {
     // Placing: free cursor
     {Str::FreeFits, "置ける"},
     {Str::FreeNoFit, "置けない: %s"},
+    {Str::FitsTurned, "回転すれば置ける、%s"},
+    {Str::NearestFit, "最も近い置ける場所 %1$s、%2$s"},
+    {Str::NoFitNearby, "%dマス以内に置ける場所なし"},
+    {Str::CursorCorner, "カーソルは%sの角"},
+    {Str::CursorEdge, "カーソルは%sの端"},
+    {Str::CursorMiddle, "カーソルは内側"},
+    {Str::ObjectExtends, "広がり：%s"},
+    // Money, light, sizes, catalog pages
+    {Str::MoneySpoken, "%sシムオリオン"},
+    {Str::LightLevel, "明るさ%d%%"},
+    {Str::ProductSize, "%1$d×%2$dマス"},
+    {Str::NoNextPage, "最後のページ"},
+    {Str::NoPreviousPage, "最初のページ"},
+    {Str::KeysCatalogPages, "購入モードと建築モードのカタログでは、上下キーで商品を移動し、左右キーでページをめくります。"},
     {Str::KeysPlacingFree,
      "矢印キーで1マスずつ動かし、Shiftと一緒なら5マスずつ動かして、置けるかどうかを伝えます。コンマとピリオドで回転、Enterでそこに置き、Page Downで場所の一覧に戻ります。"},
     // Sim card

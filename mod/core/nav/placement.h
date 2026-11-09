@@ -100,6 +100,11 @@ WallCheck CheckNewWalls(int level, const std::vector<WallEdgeAdd>& edges);
 // way to it from the lot's entrance.
 int CheckDoor(game::Tile tile, int direction, int level, std::string* blocker);
 std::string RoomNameOf(int room);  // "baño", "exterior", "habitación vacía, 20 casillas"
+// "luz 80 %": the room's light as the game scores it (windows, lamps, daylight outdoors), which
+// counts toward its Room rating (a tester); empty when unknown.
+std::string RoomLight(int room);
+// The room's name with its light: "baño, luz 80 %".
+std::string RoomWithLight(int room);
 Str CompassWord(int compass);      // 0 north ... 7 north-west
 // What Sims cannot reach from the lot's entrance on a floor now: the objects they could not use
 // (names, each once) and the rooms with floor they could not get into.

@@ -78,6 +78,8 @@ struct State {
     ItemId focus;           // focused item
     int group = -1;         // indices of `focus` in screen.groups
     int index = -1;
+    Ptr focusGroup = 0;     // the key of the focused group (its index changes when groups come and go)
+    std::vector<Ptr> focusPanels;  // that group's window and its parents, below the screen's root
     std::map<Ptr, Remembered> focusByScreen;  // focus to restore when coming back to a screen
     std::set<Ptr> knownGroups;         // group keys present at the last refresh
     ULONGLONG rootSince = 0;
@@ -94,6 +96,7 @@ struct State {
     ULONGLONG pageAt = 0;      // ...at this time
     bool pageFiltered = false; // ...looking for a product of the room filter
     int pageTurns = 0;         // pages turned in a row looking for one
+    bool pageToFirst = false;  // ...and lands on the page's first item either way (Left / Right)
     bool leftPie = false;      // the root before this one was an interaction menu
     ULONGLONG pieSeenAt = 0;   // when an interaction menu was last the root
     bool choseInPie = false;   // ...and the player chose an entry in it (not cancelled)
@@ -170,11 +173,22 @@ void HoverFocused(const Item* it) {
     if (want && game::Visible(want)) game::Hover(want);
 }
 
+// A group's window and its parents up to (not including) the screen's root; empty for the mod's
+// own groups, whose keys are small numbers.
+std::vector<Ptr> PanelChain(Ptr key) {
+    std::vector<Ptr> chain;
+    if (key < 0x10000) return chain;
+    for (Ptr w = key; w && w != g.root && chain.size() < 8; w = game::Parent(w)) chain.push_back(w);
+    return chain;
+}
+
 void SetFocus(int group, int index) {
     g.group = group;
     g.index = index;
     const Item* it = Focused();
     g.focus = it ? IdOf(*it) : ItemId{};
+    g.focusGroup = group >= 0 && group < (int)Groups().size() ? Groups()[group].key : 0;
+    g.focusPanels = PanelChain(g.focusGroup);
     if (it && it->role == Role::PieItem) game::PieHighlight(it->widget, it->number);
     if (it && it->role == Role::LotObject) world::Focus(it->number);  // the camera looks at it
     if (it && it->role == Role::TextField) text::TakeTyping(it->widget);  // typing follows the focus
@@ -292,27 +306,66 @@ bool FocusOpenedPanel() {
 }
 
 // After a refresh: find the focused widget again, or move focus to its closest replacement and
-// say where it went.
-void RelocateFocus() {
+// say where it went. The replacement is in the same group (by its key: groups that come and go
+// shift the indices), else in a panel that has just appeared (a panel that rebuilds its page as
+// it opens: the options page did, and focus fell on "mod help", the group then at the old index),
+// else the screen's default.
+void RelocateFocus(const std::set<Ptr>& before) {
     int gi, ii;
     if (g.focus && Locate(g.focus, &gi, &ii)) {
         g.group = gi;
         g.index = ii;
+        g.focusGroup = Groups()[gi].key;
         return;
     }
     bool hadFocus = (bool)g.focus;
-    if (g.group >= 0 && g.group < (int)Groups().size() && !Groups()[g.group].items.empty())
-        SetFocus(g.group, std::clamp(g.index, 0, (int)Groups()[g.group].items.size() - 1));
+    int same = -1, opened = -1;
+    for (int i = 0; i < (int)Groups().size(); i++) {
+        if (Groups()[i].key == g.focusGroup && !Groups()[i].items.empty()) same = i;
+        if (opened < 0 && !before.count(Groups()[i].key) && TakesFocusWhenOpened(Groups()[i])) opened = i;
+    }
+    // a group of the same panel: the one sharing the nearest parent with the lost group (the
+    // options panel's buttons, when the page that had focus closed)
+    int related = -1;
+    size_t nearest = SIZE_MAX;
+    if (same < 0 && opened < 0 && !g.focusPanels.empty())
+        for (int i = 0; i < (int)Groups().size(); i++) {
+            if (Groups()[i].items.empty() || IsTextOnly(Groups()[i])) continue;
+            for (Ptr w : PanelChain(Groups()[i].key)) {
+                auto hit = std::find(g.focusPanels.begin(), g.focusPanels.end(), w);
+                if (hit == g.focusPanels.end()) continue;
+                size_t depth = hit - g.focusPanels.begin();
+                if (depth < nearest) {
+                    nearest = depth;
+                    related = i;
+                }
+                break;
+            }
+        }
+    if (same >= 0)
+        SetFocus(same, std::clamp(g.index, 0, (int)Groups()[same].items.size() - 1));
+    else if (opened >= 0)
+        SetFocus(opened, FirstControl(Groups()[opened]));
+    else if (related >= 0)
+        SetFocus(related, FirstControl(Groups()[related]));
     else
         FocusDefault();
+    if (hadFocus) {
+        LogVerbose("focus lost (group key %p); now group %d (%s)", (void*)g.focusGroup, g.group,
+                   same >= 0 ? "same" : opened >= 0 ? "opened" : related >= 0 ? "same panel" : "default");
+        for (const Group& gr : Groups())
+            LogVerbose("  %s%s %p, %d items", before.count(gr.key) ? "" : "new ", GroupName(gr).c_str(), (void*)gr.key,
+                       (int)gr.items.size());
+    }
     if (hadFocus && !g.entering && g.focus && !g.pageAt) AnnounceFocus(true);  // a page turn says its own
 }
 
 void Refresh() {
     g.lastCollect = GetTickCount64();
+    std::set<Ptr> before = g.knownGroups;
     g.screen = Collect(g.root);
     if (!g.entering && FocusOpenedPanel()) return;
-    RelocateFocus();
+    RelocateFocus(before);
 }
 
 void CheckRootChange() {
@@ -483,8 +536,9 @@ bool MatchesFilter(const Item& it) {
     return game::ReadProductOfButton(it.widget, &p) && (p.roomFlags & kRoomChoices[g_roomChoice].flag);
 }
 
-void TurnPage(const Group& gr, Ptr arrow, int direction, bool filtered) {
+void TurnPage(const Group& gr, Ptr arrow, int direction, bool filtered, bool toFirst = false) {
     Log("page turn %s%s", direction > 0 ? "next" : "previous", filtered ? " (room filter)" : "");
+    g.pageToFirst = toFirst;
     g.pageGroup = gr.key;
     g.pageDirection = direction > 0 ? 1 : -1;
     g.pageRole = Focused()->role;
@@ -500,8 +554,8 @@ void FinishPageTurn() {
     if (!g.pageAt || GetTickCount64() - g.pageAt < kPageTurnMs) return;
     Ptr key = g.pageGroup;
     int direction = g.pageDirection;
+    Refresh();  // with pageAt still set: the page turn says its own line below, the refresh not
     g.pageAt = 0;
-    Refresh();
     for (int gi = 0; gi < (int)Groups().size(); gi++) {
         const Group& gr = Groups()[gi];
         if (gr.key != key) continue;
@@ -514,6 +568,8 @@ void FinishPageTurn() {
                     last = i;
                 }
         if (first < 0) return;
+        bool toFirst = g.pageToFirst;
+        if (toFirst) direction = 1;  // Left / Right: the new page from its start
         if (g.pageFiltered) {  // the first product of the filter's room, in the direction of travel
             int found = -1;
             for (int i = direction > 0 ? first : last; i >= first && i <= last; i += direction)
@@ -523,9 +579,10 @@ void FinishPageTurn() {
                 }
             if (found < 0) {
                 Ptr arrow = PageArrow(gr, direction);
+                if (toFirst) arrow = PageArrow(gr, g.pageDirection);
                 if (arrow && ++g.pageTurns < kMaxFilterPages) {
                     SetFocus(gi, first);
-                    TurnPage(gr, arrow, direction, true);
+                    TurnPage(gr, arrow, toFirst ? g.pageDirection : direction, true, toFirst);
                     return;
                 }
                 g.pageTurns = 0;
@@ -536,12 +593,12 @@ void FinishPageTurn() {
             g.pageTurns = 0;
             SetFocus(gi, found);
             buffers::SetDetails(DetailLines(*Focused(), gr, g.index));
-            speech::Say(std::string(S(direction > 0 ? Str::NextPage : Str::PreviousPage)) + ". " + Describe(*Focused()));
+            speech::Say(std::string(S(g.pageDirection > 0 ? Str::NextPage : Str::PreviousPage)) + ". " + Describe(*Focused()));
             return;
         }
         SetFocus(gi, direction > 0 ? first : last);
         buffers::SetDetails(DetailLines(*Focused(), gr, g.index));
-        speech::Say(std::string(S(direction > 0 ? Str::NextPage : Str::PreviousPage)) + ". " + Describe(*Focused()));
+        speech::Say(std::string(S(g.pageDirection > 0 ? Str::NextPage : Str::PreviousPage)) + ". " + Describe(*Focused()));
         return;
     }
 }
@@ -753,6 +810,27 @@ void Move(int delta) {
     int last = (int)gr.items.size() - 1;
     SetFocus(g.group, std::clamp(g.index + delta, 0, last));  // at either end the item repeats
     AnnounceFocus(false);
+}
+
+// Left / Right in a paged list of the lot view (buy mode's catalog, build mode's styles): the
+// page itself, while Up / Down go item by item (a tester: both pairs did the same and browsing
+// 750 products one by one was slow).
+bool TurnPageKey(int delta) {
+    if (!LotViewActive() || g.group < 0 || !Focused()) return false;
+    const Group& gr = Groups()[g.group];
+    bool paged = false;
+    for (const Item& it : gr.items) paged |= IsPageArrow(it);
+    if (!paged || IsPageArrow(*Focused())) return false;
+    int step = delta > 0 ? 1 : -1;
+    Ptr arrow = PageArrow(gr, step);
+    if (!arrow) {
+        speech::Say(S(step > 0 ? Str::NoNextPage : Str::NoPreviousPage));
+        return true;
+    }
+    g.pageTurns = 0;
+    TurnPage(gr, arrow, step, g_roomChoice != 0 && IsProduct(*Focused()), true);
+    g.pageRole = Role::Product;  // the new page's first product, also from a subcategory's tab
+    return true;
 }
 
 void CycleRoomFilter() {

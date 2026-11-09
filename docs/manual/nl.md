@@ -25,7 +25,7 @@ Elk scherm, dialoogvenster, paneel en elke stand werkt op dezelfde manier. Je ga
 | Toets | Wat hij doet |
 |---|---|
 | Tab, Shift+Tab | Volgende of vorige groep. Eerst worden de naam van de groep en het aantal items genoemd. |
-| Pijl omhoog, pijl omlaag (of pijl links, pijl rechts) | Vorig of volgend item in de groep. |
+| Pijl omhoog, pijl omlaag (of pijl links, pijl rechts) | Vorig of volgend item in de groep. In de catalogi van koop- en bouwmodus slaan pijl links en pijl rechts in plaats daarvan de pagina om. |
 | Home, End | Eerste of laatste item in de groep. |
 | Enter | Het item activeren. Op een niveau (een soort of een kamer van de voorwerpen op het kavel): het openen. |
 | Spatie | Activeren, behalve op het kavel, waar Spatie de toets "volgende Sim" van het spel is. |
@@ -137,7 +137,7 @@ Enter op een voorwerp (of op een Sim) opent het interactiemenu van het spel. Pij
 
 | Toets | Wat hij doet |
 |---|---|
-| Control+L | De indeling van de kamer: grootte, deuren en ramen per muur en waar ze heen leiden; wat er langs elke muur staat, staat in de detailbuffer. |
+| Control+L | De indeling van de kamer: grootte, deuren en ramen per muur en waar ze heen leiden; wat er langs elke muur staat, staat in de detailbuffer. Het noemt ook het licht van de kamer, dat meetelt voor de score van de kamer. |
 | Control+Shift+L | Het huisoverzicht: verdiepingen, kamers, beoordelingen, wat ontbreekt (wc, douche, bedden, koelkast, fornuis, telefoon, rookmelder), kamers zonder ingang, voorwerpen die niemand kan bereiken, donkere of onprettige kamers. |
 
 ### De plattegrond
@@ -146,7 +146,7 @@ Enter op een voorwerp (of op een Sim) opent het interactiemenu van het spel. Pij
 
 | Toets | Wat hij doet |
 |---|---|
-| Pijltoetsen | Eén vak; met Shift vijf. Zegt wat er staat en welke kant het op kijkt, de kamer en verdieping als die veranderen, de muren, hekken, leuningen, deuren en ramen per kant. Muren, hekken en ramen houden de cursor tegen; deuren laten hem door. |
+| Pijltoetsen | Eén vak; met Shift vijf. Zegt wat er staat en welke kant het op kijkt, de kamer en verdieping als die veranderen, de muren, hekken, leuningen, deuren en ramen per kant. Muren, hekken en ramen houden de cursor tegen; deuren laten hem door. Met de kamer komt het licht ("licht 64%": ramen en lampen; buiten het daglicht), dat meetelt voor de score van de kamer. |
 | Alt+Pijltoetsen | Hetzelfde, door muren heen. |
 | Komma, punt | Wat elke stap zegt: alles, alleen voorwerpen, alleen vloeren (bij naam, "Lichte granieten tegel"), alleen muren, alleen kamers. |
 | Home | Terug naar de geselecteerde Sim. |
@@ -188,12 +188,13 @@ Gebruik de interacties van de telefoon om diensten te bellen. De pizzabezorger m
 
 ## Kopen
 
-F2 opent Kopen. De categorieën van de catalogus zijn tabbladen en de producten zijn knoppen: elk product noemt zijn naam, prijs, belangrijkste beoordelingen en beschrijving, en de detailbuffer bevat al zijn beoordelingen en de kamers waarvoor het bedoeld is. Voorbij het laatste product van een pagina ga je naar de volgende pagina.
+F2 opent Kopen. De categorieën van de catalogus zijn tabbladen en de producten zijn knoppen: elk product noemt zijn naam, prijs, belangrijkste beoordelingen en beschrijving, en de detailbuffer bevat al zijn beoordelingen en de kamers waarvoor het bedoeld is. Voorbij het laatste product van een pagina ga je naar de volgende pagina. Elk product noemt ook zijn grootte in tegels, de langste kant eerst ("2 bij 1 tegels"). Geld wordt gezegd in Sim-dollars, de munt van het spel.
 
 | Toets | Wat hij doet |
 |---|---|
 | Control+R | De catalogus beperken tot producten voor één soort kamer (keuken, badkamer, slaapkamer, woonkamer, eetkamer, studeerkamer, buiten) of alles. |
 | Backspace | De knop "Terug" van de catalogus. |
+| Pijl links, pijl rechts | De vorige of volgende pagina van de catalogus; omhoog en omlaag gaan product voor product. |
 | Enter op een product | Beginnen met plaatsen. |
 
 ### Een voorwerp plaatsen
@@ -212,6 +213,13 @@ Terwijl je een voorwerp vasthoudt, heeft de mod de plekken al gevonden waar het 
 | Escape | Annuleren (een verplaatst voorwerp gaat terug). |
 | Delete | Het vastgehouden voorwerp verkopen; het terugbetaalde bedrag wordt genoemd. |
 | R | De plek nog eens zeggen. |
+
+Als het object niet past waar de pijlen het neerzetten, eindigt de regel met wat wel zou gaan: de
+richting waarin het op dezelfde tegel past ("past gedraaid, gericht naar het zuiden"), anders de
+dichtstbijzijnde tegel waar het past ("dichtstbijzijnde plek waar het past 1 tegels naar het
+westen, gericht naar het noorden"). Bij een object van meerdere tegels zeggen de eerste pijl en
+elke draai op welk deel de cursor staat en waar de rest heen gaat ("cursor op de rand in het
+noorden, het loopt door 1 tegels naar het zuiden"); de details van de plek zeggen hetzelfde.
 
 De detailbuffer bevat het vak van de plek en de plekken die het spel weigerde, met de reden.
 

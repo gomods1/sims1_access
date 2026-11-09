@@ -25,7 +25,7 @@ Todas las pantallas, diálogos, paneles y modos funcionan igual. Lo que recorres
 | Tecla | Qué hace |
 |---|---|
 | Tab, Mayúsculas+Tab | Grupo siguiente o anterior. Primero se dicen el nombre del grupo y su número de elementos. |
-| Arriba, Abajo (o Izquierda, Derecha) | Elemento anterior o siguiente del grupo. |
+| Arriba, Abajo (o Izquierda, Derecha) | Elemento anterior o siguiente del grupo. En los catálogos de los modos comprar y construir, Izquierda y Derecha pasan la página. |
 | Inicio, Fin | Primer o último elemento del grupo. |
 | Intro | Pulsa el elemento. En un nivel (un tipo o una habitación de los objetos del solar), lo abre. |
 | Espacio | Pulsa, salvo en la vista del solar, donde Espacio es la tecla «siguiente Sim» del juego. |
@@ -137,7 +137,7 @@ Intro sobre un objeto (o sobre un Sim) abre el menú de interacciones del juego.
 
 | Tecla | Qué hace |
 |---|---|
-| Control+L | La distribución de la habitación: tamaño, puertas y ventanas por pared y adónde dan; lo que hay a lo largo de cada pared está en el búfer de detalles. |
+| Control+L | La distribución de la habitación: tamaño, puertas y ventanas por pared y adónde dan; lo que hay a lo largo de cada pared está en el búfer de detalles. También dice la luz de la habitación, que cuenta para su puntuación. |
 | Control+Mayúsculas+L | El resumen de la casa: pisos, habitaciones, puntuaciones, lo que falta (váter, ducha, camas, nevera, cocina, teléfono, detector de humo), habitaciones sin forma de entrar, objetos a los que nadie puede llegar, habitaciones oscuras o que no gustan. |
 
 ### El mapa de la casa
@@ -146,7 +146,7 @@ Intro sobre un objeto (o sobre un Sim) abre el menú de interacciones del juego.
 
 | Tecla | Qué hace |
 |---|---|
-| Flechas | Una casilla; con Mayúsculas, cinco. Dice lo que hay y hacia dónde mira, la habitación y el piso cuando cambian, las paredes, vallas, barandillas, puertas y ventanas de cada lado. Las paredes, vallas y ventanas paran el cursor; las puertas lo dejan pasar. |
+| Flechas | Una casilla; con Mayúsculas, cinco. Dice lo que hay y hacia dónde mira, la habitación y el piso cuando cambian, las paredes, vallas, barandillas, puertas y ventanas de cada lado. Las paredes, vallas y ventanas paran el cursor; las puertas lo dejan pasar. Con la habitación llega su luz ("luz 64 %": ventanas y lámparas; de día, la luz del sol fuera), que cuenta para la puntuación de la habitación. |
 | Alt+Flechas | Lo mismo, atravesando las paredes. |
 | Coma, punto | Qué dice cada paso: todo, solo objetos, solo suelos (por su nombre, «Baldosa de granito claro»), solo paredes, solo habitaciones. |
 | Inicio | Vuelve al Sim seleccionado. |
@@ -188,12 +188,13 @@ Usa las interacciones del teléfono para llamar a los servicios. Al repartidor d
 
 ## El Modo Comprar
 
-F2 abre el Modo Comprar. Las categorías del catálogo son pestañas y sus productos, botones: cada producto dice su nombre, precio, puntuaciones principales y descripción, y el búfer de detalles tiene todas sus puntuaciones y las habitaciones para las que está pensado. Al pasar del último producto de una página, se pasa de página.
+F2 abre el Modo Comprar. Las categorías del catálogo son pestañas y sus productos, botones: cada producto dice su nombre, precio, puntuaciones principales y descripción, y el búfer de detalles tiene todas sus puntuaciones y las habitaciones para las que está pensado. Al pasar del último producto de una página, se pasa de página. Cada producto dice también su tamaño en casillas, el lado más largo primero ("2 por 1 casillas"). El dinero se dice en simoleones, la moneda del juego.
 
 | Tecla | Qué hace |
 |---|---|
 | Control+R | Deja el catálogo con los productos de un tipo de habitación (cocina, baño, dormitorio, sala de estar, comedor, estudio, exterior) o con todos. |
 | Retroceso | El «Atrás» del catálogo. |
+| Izquierda, Derecha | La página anterior o siguiente del catálogo; Arriba y Abajo van producto a producto. |
 | Intro sobre un producto | Empieza a colocarlo. |
 
 ### Colocar un objeto
@@ -212,6 +213,13 @@ Mientras sostienes un objeto, el mod ya ha encontrado los sitios donde cabe **y 
 | Escape | Cancela (un objeto movido vuelve a su sitio). |
 | Suprimir | Vende el objeto que sostienes; se dice el reembolso. |
 | R | Repite el sitio. |
+
+Cuando el objeto no cabe donde lo ponen las flechas, la línea termina con lo que sí valdría: la
+orientación con la que cabe en la misma casilla ("cabe girado, mirando al sur"), o si no la
+casilla más cercana donde cabe ("sitio más cercano donde cabe a 1 casilla al oeste, mirando al
+norte"). Con un objeto de varias casillas, la primera flecha y cada giro dicen en qué parte de él
+está el cursor y hacia dónde va el resto ("cursor en su borde norte, se extiende a 1 casilla al
+sur"); los detalles del sitio dicen lo mismo.
 
 El búfer de detalles tiene la casilla del sitio y los sitios que el juego rechazó, con el motivo.
 

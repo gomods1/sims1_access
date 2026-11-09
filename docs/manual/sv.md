@@ -25,7 +25,7 @@ Varje skärm, dialogruta, panel och läge fungerar på samma sätt. Det du rör 
 | Tangent | Vad den gör |
 |---|---|
 | Tabb, Skift+Tabb | Nästa eller föregående grupp. Gruppens namn och antal objekt sägs först. |
-| Pil upp, Pil ned (eller Pil vänster, Pil höger) | Föregående eller nästa objekt i gruppen. |
+| Pil upp, Pil ned (eller Pil vänster, Pil höger) | Föregående eller nästa objekt i gruppen. I katalogerna i köp- och byggläget bläddrar Pil vänster och Pil höger i stället sidan. |
 | Home, End | Första eller sista objektet i gruppen. |
 | Enter | Aktiverar objektet. På en nivå (en sort eller ett rum bland tomtens föremål): öppnar den. |
 | Mellanslag | Aktiverar, utom på tomten, där Mellanslag är spelets tangent för "nästa sim". |
@@ -137,7 +137,7 @@ Enter på ett föremål (eller på en sim) öppnar spelets interaktionsmeny. Pil
 
 | Tangent | Vad den gör |
 |---|---|
-| Kontroll+L | Rummets planlösning: storlek, dörrar och fönster för varje vägg och vart de leder; vad som står längs varje vägg finns i detaljbufferten. |
+| Kontroll+L | Rummets planlösning: storlek, dörrar och fönster för varje vägg och vart de leder; vad som står längs varje vägg finns i detaljbufferten. Den säger också rummets ljus, som räknas in i rummets poäng. |
 | Kontroll+Skift+L | Husöversikten: våningar, rum, betyg, vad som saknas (toalett, dusch, sängar, kylskåp, spis, telefon, brandvarnare), rum utan ingång, föremål som ingen kan nå, mörka eller ogillade rum. |
 
 ### Husets karta
@@ -146,7 +146,7 @@ Enter på ett föremål (eller på en sim) öppnar spelets interaktionsmeny. Pil
 
 | Tangent | Vad den gör |
 |---|---|
-| Piltangenterna | En ruta; med Skift fem. Säger vad som står där och åt vilket håll det är vänt, rummet och våningen när de byts, väggarna, staketen, räckena, dörrarna och fönstren på varje sida. Väggar, staket och fönster stoppar markören; dörrar släpper igenom den. |
+| Piltangenterna | En ruta; med Skift fem. Säger vad som står där och åt vilket håll det är vänt, rummet och våningen när de byts, väggarna, staketen, räckena, dörrarna och fönstren på varje sida. Väggar, staket och fönster stoppar markören; dörrar släpper igenom den. Med rummet kommer dess ljus ("ljus 64 %": fönster och lampor; dagsljus utomhus), som räknas in i rummets poäng. |
 | Alt+Piltangenterna | Samma sak, genom väggar. |
 | Komma, punkt | Vad varje steg säger: allt, bara föremål, bara golv (med namn, "Ljus granitplatta"), bara väggar, bara rum. |
 | Home | Tillbaka till den valda simmen. |
@@ -188,12 +188,13 @@ Använd telefonens interaktioner för att ringa efter tjänster. Pizzabudet mås
 
 ## Köpläge
 
-F2 öppnar Köpläge. Katalogens kategorier är flikar och dess produkter är knappar: varje produkt säger sitt namn, pris, viktigaste betyg och beskrivning, och detaljbufferten innehåller alla dess betyg och de rum den är tänkt för. Går du förbi en sidas sista produkt vänds sidan.
+F2 öppnar Köpläge. Katalogens kategorier är flikar och dess produkter är knappar: varje produkt säger sitt namn, pris, viktigaste betyg och beskrivning, och detaljbufferten innehåller alla dess betyg och de rum den är tänkt för. Går du förbi en sidas sista produkt vänds sidan. Varje produkt säger också sin storlek i rutor, den längsta sidan först ("2 gånger 1 rutor"). Pengar sägs i simdaler, spelets valuta.
 
 | Tangent | Vad den gör |
 |---|---|
 | Kontroll+R | Begränsar katalogen till produkter för en sorts rum (kök, badrum, sovrum, vardagsrum, matsal, arbetsrum, utomhus) eller alla. |
 | Backspace | Katalogens "Backa". |
+| Pil vänster, Pil höger | Katalogens föregående eller nästa sida; upp och ned går produkt för produkt. |
 | Enter på en produkt | Börjar placera den. |
 
 ### Placera ett föremål
@@ -212,6 +213,13 @@ Medan du håller ett föremål har modden redan hittat platserna där det får p
 | Escape | Avbryter (ett flyttat föremål går tillbaka). |
 | Delete | Säljer föremålet du håller; återbetalningen sägs. |
 | R | Säger platsen igen. |
+
+När objektet inte får plats där pilarna sätter det slutar raden med det som skulle gå: den
+riktning det får plats i på samma ruta ("får plats vriden, vänd mot söder"), annars närmaste
+ruta där det får plats ("närmaste plats där den får plats 1 ruta åt väster, vänd mot norr"). För
+ett objekt på flera rutor säger första pilen och varje vridning vilken del av det markören är på
+och vart resten går ("markören på kanten mot norr, den sträcker sig 1 ruta åt söder"); platsens
+detaljer säger detsamma.
 
 Detaljbufferten innehåller platsens ruta och de platser spelet avvisade, med skälet.
 

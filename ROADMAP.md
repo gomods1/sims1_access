@@ -277,6 +277,19 @@ for a second Enter. A new room without a door is said, not asked about. Still to
   (tile flag 0x20 at the corner) matches the wall tool's own (`0x58a660`) except under the
   move_objects cheat; waiting for the tool, floor and place it happened at.
 
+## Object descriptions (next sub-project)
+
+A tester (2026-11-09) asked for visual descriptions of every buy and build mode item (about 750
+in buy mode), traced from each object's sprites, as other mods have done for thousands of items.
+Plan (agreed with the user to do separately): extract and render each catalog object's sprites
+(SPR2 / DGRP chunks in the object IFFs inside the FAR archives; `tools/simsfmt.py` reads both
+containers), describe each one from the rendering with a fixed vocabulary of feature words
+(colors, materials, style, shape) as the head and body descriptions do (`nav/appearance.cpp`), so
+the 16 translations only need the vocabulary; key the table by object GUID; speak it after the
+product's name and keep it in the details buffer.
+
+Also from that tester: Vacation, Superstar and Makin' Magic's own trips and screens (see below).
+
 ## Tester feedback 2026-11-06: open checks
 
 Done in code; still to see live:

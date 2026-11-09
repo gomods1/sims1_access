@@ -3,8 +3,10 @@
 **Navigation follows meaning, not the screen's layout (the user's rule, 2026-09-29): read
 `NAVIGATION.md` before touching any key.** A ring of groups (Tab), items (arrows), levels (Enter /
 Backspace); groups in the order of importance, then the window tree's order, never sorted by
-position; one key grammar for every screen and mode (the lot view's HUD included); only the
-spatial tools (placing, the build cursor) use the arrows for space. Since 2026-10-29 (the user: "an overuse of
+position; the same model on every screen and mode (the lot view's HUD included); only the
+spatial tools (placing, the build cursor) use the arrows for space. Keys may differ per screen
+where it helps (2026-11-09: Left/Right turn the catalogs' pages; the user dropped "Left/Right =
+Up/Down everywhere"), but never obscure keys, and every key is explained (Ctrl+F1, the manual). Since 2026-10-29 (the user: "an overuse of
 arrow keys") the lot's things are on PageDown/PageUp in every mode, Shift+ the kinds, Ctrl+ the
 rooms, as placing's spots are (Ctrl+ its rooms, Shift+ its turns).
 
@@ -164,6 +166,21 @@ eturn_focus.txt`; a dev core hands the foreground back to it
     (`+0xf4`) is clear (the spellbook's last-page "siguiente": pressing it anyway crashed the game).
     Placing: Ctrl+Shift+PageDown/Up put the held object beside the lot's things (nearest first,
     in their room, facing them when it fits); the arrow line names what it runs into and faces.
+  - Tester feedback 2026-11-09 (a Sims veteran): money is spoken as simoleons
+    (`util::SpokenMoney` in `speech::Say` turns every "$1.200", the game's own text too, into
+    `Str::MoneySpoken` with the game's word per language); catalog products say their size, the
+    longer side first (`game::ProductSize`: the OBJD SubIndex offsets of every loaded type of the
+    product's (file, MasterID) group; a single bed really is 1 by 3 in the engine, wiki agrees);
+    rooms say their light where they are named (map, build cursor, placing's arrows, Ctrl+L;
+    `placement::RoomLight`, Room `+0x6c` float 0..1, read live: 1.0 by day, 0 at 23:00 without
+    lamps, 0.64 with one); placing's arrows end a no-fit line with the facing that fits on the
+    tile or the nearest tile within 6 that fits (`FitHint`) and say which part of a multi-tile
+    object the cursor is on (`CursorPart`, first arrow and turns); the English clock "AM 10:00"
+    reads "10:00 AM" (`game::ClockText`); Left/Right turn the catalogs' pages (`nav::TurnPageKey`);
+    the FPS counter (the game's T) is never collected (it was read after presses and took focus);
+    a focus whose widget vanished goes to its group by key, a just-opened panel, or the group of
+    the same panel (`RelocateFocus`), never to whatever group sits at the old index (the options
+    page closing put focus on "mod help").
   - Tester feedback 2026-11-06 (keys in `docs/manual/en.md`): Ctrl+T says each game hour
     (`[mod] hours`); Ctrl+Shift+N whose conversations are spoken, anyone with the family /
     everyone / family / nobody (`[mod] social`, balloons and relationship numbers of other
