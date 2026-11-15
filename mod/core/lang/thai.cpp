@@ -133,6 +133,15 @@ const Translation kEntries[] = {
     {Str::FindCancelled, "ยกเลิกการค้นหาแล้ว"},
     {Str::FindNotNow, "วางให้เสร็จก่อน: Escape แล้ว Control+F"},
     {Str::KeysFind, "Control+F ค้นหาสิ่งของในที่ดินโดยพิมพ์บางส่วนของชื่อ"},
+    {Str::FindCatalogPrompt,
+     "ค้นหาในแค็ตตาล็อกทั้งหมด: พิมพ์บางส่วนของชื่อสินค้า ลูกศรขึ้นและลงไล่ดูผลลัพธ์ Enter หยิบขึ้นมาเพื่อวาง "
+     "Escape ยกเลิก กด Control+F อีกครั้งเพื่อค้นหาสิ่งของในที่ดินแทน"},
+    {Str::FindSwitchToCatalog, "กด Control+F อีกครั้งเพื่อค้นหาในแค็ตตาล็อกแทน"},
+    {Str::GroupCatalogFind, "ค้นหาในแค็ตตาล็อก: %s"},
+    {Str::InCatalogCategory, "ในหมวด %s"},
+    {Str::KeysFindCatalog,
+     "Control+F ค้นหาในแค็ตตาล็อกทั้งหมดโดยพิมพ์บางส่วนของชื่อสินค้า กด Control+F "
+     "อีกครั้งเพื่อค้นหาสิ่งของในที่ดิน"},
     {Str::KeysPortalDelete, "Delete บนประตูหรือหน้าต่างในรายการจะเอาออก"},
     {Str::ZoomFar, "มุมมองไกล"},
     {Str::ZoomMedium, "มุมมองกลาง"},
@@ -965,6 +974,9 @@ const Translation kEntries[] = {
     {Str::LookPatterned, "มีลวดลาย"},
     // Makin' Magic book
     {Str::BookIngredients, "ส่วนผสม: %s"},
+    {Str::BookHasAll, "%s มีครบทุกอย่าง"},
+    {Str::BookMissing, "%s ยังขาด: %s"},
+    {Str::BookIngredientCount, "%2$s %1$d ชิ้น"},
     {Str::GroupSpells, "คาถา"},
     {Str::GroupRecipes, "สูตรอาหาร"},
     // Narrator: conversation topics

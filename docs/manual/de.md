@@ -186,6 +186,10 @@ Haus 7 der ersten Nachbarschaft startet das Tutorial des Spiels. Jeder Schritt w
 
 Benutze die Interaktionen des Telefons, um Dienste zu rufen. Der Pizzabote muss begrüßt werden: wenn er ankommt, geh zu Objekte nach Art, Sims, Pfeil nach unten bis zu ihm, Eingabe, Begrüßen. Begrüßt ihn niemand, geht er mit der Pizza wieder, und Du bekommst das Geld zurück.
 
+### Das Zauberbuch aus Makin' Magic
+
+Das Zauberbuch öffnet sich über seine eigene Interaktion, sobald der Sim einen MagiCo-Zauberstab hat (das Zauberstab-Ladegerät gibt einen). Eine Seite zeigt vier Zauber, je ein Element: seine drei Zutaten, danach, ob der ausgewählte Sim sie bei sich hat („Bob hat alle“ oder welche noch fehlen und wie viele). Eingabe auf einem Zauber liest seinen Namen und was er bewirkt; ein Zauber, den noch niemand gemacht hat, bleibt unbekannt, bis er einmal gemacht wurde. Das Kochbuch funktioniert genauso mit Rezepten.
+
 ## Der Kaufmodus
 
 F2 öffnet den Kaufmodus. Die Kategorien des Katalogs sind Registerkarten und seine Produkte Schalter: jedes Produkt sagt Namen, Preis, wichtigste Bewertungen und Beschreibung, und der Details-Puffer enthält alle Bewertungen und die Räume, für die es gedacht ist. Wenn Du über das letzte Produkt einer Seite hinausgehst, wird umgeblättert. Jedes Produkt nennt auch seine Größe in Feldern, die längere Seite zuerst („2 mal 1 Felder“). Geld wird in Simoleons gesagt, der Währung des Spiels.
@@ -193,6 +197,7 @@ F2 öffnet den Kaufmodus. Die Kategorien des Katalogs sind Registerkarten und se
 | Taste | Was sie tut |
 |---|---|
 | Strg+R | Beschränkt den Katalog auf Produkte für eine Raumart (Küche, Bad, Schlafzimmer, Wohnzimmer, Esszimmer, Arbeitszimmer, draußen) oder auf alle. |
+| Strg+F | Im ganzen Katalog suchen, alle Kategorien auf einmal: Tippe einen Teil des Produktnamens. Pfeil nach oben und unten gehen die Treffer durch (jeder nennt seine Kategorie), Eingabe beginnt das Platzieren, Esc führt zurück. Strg+F noch einmal sucht stattdessen auf dem Grundstück (um etwas zu verschieben oder zu verkaufen), mit demselben Text. |
 | Rücktaste | Das „Zurück“ des Katalogs. |
 | Pfeil nach links, Pfeil nach rechts | Die vorige oder nächste Seite des Katalogs; oben und unten gehen von Produkt zu Produkt. |
 | Eingabe auf einem Produkt | Beginnt, es zu platzieren. |

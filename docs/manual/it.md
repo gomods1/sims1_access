@@ -186,6 +186,10 @@ La casa 7 del primo Vicinato avvia il tutorial del gioco. Ogni passo viene letto
 
 Usa le interazioni del telefono per chiamare i servizi. Il fattorino della pizza va salutato: quando arriva, vai in oggetti per tipo, Sims, freccia giù fino a lui, Invio, Incontra. Se nessuno lo saluta, se ne va con la pizza e il denaro ti viene restituito.
 
+### Il libro degli incantesimi di Makin' Magic
+
+Il libro degli incantesimi si apre con la sua interazione quando il Sim ha una bacchetta MagiCo (la dà il caricatore di bacchette). Ogni pagina elenca quattro incantesimi, un elemento ciascuno: i suoi tre ingredienti, poi se il Sim selezionato li ha con sé ("Bob li ha tutti", oppure quali mancano ancora e quanti). Invio su un incantesimo ne legge il nome e l'effetto; un incantesimo che nessuno ha ancora fatto resta sconosciuto finché non viene fatto una volta. Il ricettario funziona allo stesso modo con le ricette.
+
 ## La modalità Compra
 
 F2 apre Compra. Le categorie del catalogo sono schede e i suoi prodotti pulsanti: ogni prodotto dice nome, prezzo, valutazioni principali e descrizione, e il buffer dei dettagli contiene tutte le sue valutazioni e le stanze a cui è destinato. Andando oltre l'ultimo prodotto di una pagina si gira pagina. Ogni prodotto dice anche la sua dimensione in caselle, prima il lato più lungo ("2 per 1 caselle"). Il denaro è detto in Simoleon, la valuta del gioco.
@@ -193,6 +197,7 @@ F2 apre Compra. Le categorie del catalogo sono schede e i suoi prodotti pulsanti
 | Tasto | Cosa fa |
 |---|---|
 | Control+R | Limita il catalogo ai prodotti per un tipo di stanza (cucina, bagno, camera da letto, soggiorno, sala da pranzo, studio, esterno) o a tutti. |
+| Control+F | Cerca in tutto il catalogo, tutte le categorie insieme: scrivi parte del nome di un prodotto. Freccia su e giù scorrono i risultati (ognuno dice la sua categoria), Invio inizia a piazzarlo, Esc torna indietro. Control+F di nuovo cerca invece nel lotto (per spostare o vendere qualcosa), con lo stesso testo. |
 | Backspace | L'"Indietro" del catalogo. |
 | Freccia sinistra, freccia destra | La pagina precedente o successiva del catalogo; su e giù vanno da un prodotto all'altro. |
 | Invio su un prodotto | Inizia a posizionarlo. |

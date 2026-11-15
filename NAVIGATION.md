@@ -40,7 +40,7 @@ manual, and the details where it applies. No obscure combinations nobody is told
 | Shift+PageDown / Shift+PageUp | next / previous kind of things, on its nearest thing |
 | Ctrl+PageDown / Ctrl+PageUp | next / previous room (the first press: the selected Sim's), on its nearest thing |
 | Ctrl+Enter | walk the selected Sim to the thing last focused |
-| Ctrl+F (lot view, every mode) | find a thing by typing part of its name: the matches are a list of "things by kind", best first; Up / Down (Page keys, Home / End) go through them, Enter acts, Ctrl+Enter walks, Delete removes a door or window, Tab leaves with the list kept, Escape goes back to where the focus was |
+| Ctrl+F (lot view, every mode) | find a thing by typing part of its name: the matches are a list of "things by kind", best first; Up / Down (Page keys, Home / End) go through them, Enter acts, Ctrl+Enter walks, Delete removes a door or window, Tab leaves with the list kept, Escape goes back to where the focus was. In buy mode it searches the whole catalog first (the group "catalog search", before the lot's things; Enter starts placing a product, `nav/catalog_find.cpp`); Ctrl+F again during the search switches to the lot's things and back, keeping the text |
 | Delete (buy and build mode) | on a door or window of the lot's things: removes it |
 | R | the item again, with its group |
 | Escape | close the interaction menu; otherwise the game's |

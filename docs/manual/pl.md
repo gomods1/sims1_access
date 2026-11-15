@@ -254,6 +254,10 @@ Usługi zamawia się działaniami telefonu. Dostawcę pizzy trzeba przywitać: g
 do obiektów według rodzaju, Simowie, strzałka w dół do niego, Enter, Przywitaj. Jeśli nikt go nie
 przywita, odejdzie z pizzą, a pieniądze wrócą.
 
+### Księga zaklęć z Makin' Magic
+
+Księga zaklęć otwiera się jej własną interakcją, gdy Sim ma różdżkę MagiCo (daje ją ładowarka różdżek). Strona pokazuje cztery zaklęcia, każde jako jeden element: trzy składniki, a potem, czy wybrany Sim je ma ("Bob ma wszystkie" albo których jeszcze brakuje i ile). Enter na zaklęciu odczytuje jego nazwę i działanie; zaklęcie, którego nikt jeszcze nie zrobił, pozostaje nieznane, dopóki nie zostanie zrobione raz. Książka kucharska działa tak samo z przepisami.
+
 ## Tryb kupowania
 
 F2 otwiera tryb kupowania. Kategorie katalogu to karty, a produkty to przyciski: każdy produkt
@@ -263,6 +267,7 @@ do których jest przeznaczony. Przejście za ostatni produkt strony przewraca st
 | Klawisz | Co robi |
 |---|---|
 | Control+R | Ogranicza katalog do produktów dla jednego rodzaju pomieszczenia (kuchnia, łazienka, sypialnia, salon, jadalnia, gabinet, na zewnątrz) lub wszystkich. |
+| Control+F | Szukaj w całym katalogu, we wszystkich kategoriach naraz: wpisz część nazwy produktu. Strzałka w górę i w dół przechodzą przez wyniki (każdy podaje swoją kategorię), Enter zaczyna go ustawiać, Escape wraca. Control+F ponownie szuka zamiast tego na działce (aby coś przenieść lub sprzedać), z tym samym tekstem. |
 | Backspace | "Wróć" katalogu. |
 | Strzałka w lewo, strzałka w prawo | Poprzednia lub następna strona katalogu; w górę i w dół przechodzą produkt po produkcie. |
 | Enter na produkcie | Zaczyna jego ustawianie. |

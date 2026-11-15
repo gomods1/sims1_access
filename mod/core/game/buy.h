@@ -37,6 +37,17 @@ bool ProductSize(Ptr type, int* across, int* deep);
 // The product the buy tool holds, as the catalog lists it.
 bool HeldProduct(ProductInfo* out);
 
+// Every product buy mode's catalog can show on this lot, in the catalog's order (each page shows
+// one category's share of them): objects with room flags, the test the page builder (0x4752d0)
+// applies before its category ones. Names starting with "*" are left out.
+std::vector<Ptr> BuyCatalogProducts();
+Ptr BuyCatalog();        // the Catalog those come from (it is made again when the lot changes)
+bool BuyCatalogShown();  // buy mode's catalog panel (cWinCatalog) is on screen
+// Chooses a product the way a press on its catalog button does (0x4744a0), whatever page the
+// catalog shows: the buy tool takes it in hand. The game refuses what the family cannot afford.
+enum class Choice { Chosen, CannotAfford, Failed };
+Choice ChooseProduct(Ptr product);
+
 // The family's money; false when the lot has unlimited funds or none is known.
 bool GetFunds(int* funds);
 // True on a lot nobody lives in: the simulator's unlimited-funds mode (the game shows no money

@@ -20,6 +20,15 @@ Ptr MagicBookOf(Ptr w);
 bool IsCookbook(Ptr book);
 // The entry's ingredients, left to right, as their tooltips name them.
 std::vector<std::string> EntryIngredients(Ptr entry);
+
+struct Ingredient {
+    std::string name;   // as its button's tooltip names it
+    uint32_t guid = 0;  // its object type; 0 when the entry's GUIDs could not be read
+};
+// The same, with the GUID of each (left to right).
+std::vector<Ingredient> EntryIngredientList(Ptr entry);
+// How many of the object type with this GUID the Sim carries (its inventory), 0 when none.
+int InventoryCount(int neighborId, uint32_t guid);
 // What the right-hand page shows for the chosen entry: its name and description (UTF-8).
 std::string ChosenEntryTitle(Ptr book);
 std::string ChosenEntryText(Ptr book);

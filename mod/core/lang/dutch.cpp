@@ -138,6 +138,16 @@ const Translation kEntries[] = {
     {Str::FindCancelled, "zoeken geannuleerd"},
     {Str::FindNotNow, "Maak eerst het plaatsen af: Escape, dan Control+F."},
     {Str::KeysFind, "Control+F zoekt iets op het perceel door een deel van de naam te typen."},
+    {Str::FindCatalogPrompt,
+     "In de hele catalogus zoeken: typ een deel van de naam van een product. Pijl omhoog en omlaag lopen door de "
+     "treffers, Enter pakt het om te plaatsen, Escape annuleert. Control+F nog een keer zoekt in plaats daarvan "
+     "op het perceel."},
+    {Str::FindSwitchToCatalog, "Control+F nog een keer zoekt in plaats daarvan in de catalogus."},
+    {Str::GroupCatalogFind, "zoeken in catalogus: %s"},
+    {Str::InCatalogCategory, "in %s"},
+    {Str::KeysFindCatalog,
+     "Control+F zoekt in de hele catalogus door een deel van de productnaam te typen; Control+F nog een keer "
+     "zoekt op het perceel."},
     {Str::KeysPortalDelete, "Delete op een deur of raam in de lijst verwijdert het."},
     {Str::ZoomFar, "verre weergave"},
     {Str::ZoomMedium, "middelste weergave"},
@@ -993,6 +1003,9 @@ const Translation kEntries[] = {
     {Str::LookPatterned, "bedrukt"},
     // Makin' Magic book
     {Str::BookIngredients, "ingrediënten: %s"},
+    {Str::BookHasAll, "%s heeft ze allemaal"},
+    {Str::BookMissing, "%s mist: %s"},
+    {Str::BookIngredientCount, "%d × %s"},
     {Str::GroupSpells, "spreuken"},
     {Str::GroupRecipes, "recepten"},
     // Narrator: conversation topics

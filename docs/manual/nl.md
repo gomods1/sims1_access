@@ -186,6 +186,10 @@ Huis 7 van de eerste buurt speelt de les van het spel. Elke stap wordt voorgelez
 
 Gebruik de interacties van de telefoon om diensten te bellen. De pizzabezorger moet begroet worden: als hij aankomt, ga naar voorwerpen per soort, Sims, pijl omlaag naar hem, Enter, Begroet. Als niemand hem begroet, gaat hij weg met de pizza en krijg je het geld terug.
 
+### Het spreukenboek van Makin' Magic
+
+Het spreukenboek gaat open via zijn eigen interactie zodra de Sim een MagiCo-toverstaf heeft (de toverstaflader geeft er een). Een pagina toont vier spreuken, elk één item: de drie ingrediënten, daarna of de geselecteerde Sim ze bij zich heeft ("Bob heeft ze allemaal", of welke nog ontbreken en hoeveel). Enter op een spreuk leest de naam en wat ze doet; een spreuk die nog niemand heeft gemaakt, blijft onbekend tot ze één keer is gemaakt. Het kookboek werkt net zo met recepten.
+
 ## Kopen
 
 F2 opent Kopen. De categorieën van de catalogus zijn tabbladen en de producten zijn knoppen: elk product noemt zijn naam, prijs, belangrijkste beoordelingen en beschrijving, en de detailbuffer bevat al zijn beoordelingen en de kamers waarvoor het bedoeld is. Voorbij het laatste product van een pagina ga je naar de volgende pagina. Elk product noemt ook zijn grootte in tegels, de langste kant eerst ("2 bij 1 tegels"). Geld wordt gezegd in Sim-dollars, de munt van het spel.
@@ -193,6 +197,7 @@ F2 opent Kopen. De categorieën van de catalogus zijn tabbladen en de producten 
 | Toets | Wat hij doet |
 |---|---|
 | Control+R | De catalogus beperken tot producten voor één soort kamer (keuken, badkamer, slaapkamer, woonkamer, eetkamer, studeerkamer, buiten) of alles. |
+| Control+F | In de hele catalogus zoeken, alle categorieën tegelijk: typ een deel van de productnaam. Pijl omhoog en omlaag lopen door de treffers (elk noemt zijn categorie), Enter begint met plaatsen, Escape gaat terug. Control+F nog een keer zoekt in plaats daarvan op het perceel (om iets te verplaatsen of te verkopen), met dezelfde tekst. |
 | Backspace | De knop "Terug" van de catalogus. |
 | Pijl links, pijl rechts | De vorige of volgende pagina van de catalogus; omhoog en omlaag gaan product voor product. |
 | Enter op een product | Beginnen met plaatsen. |

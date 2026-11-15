@@ -251,6 +251,10 @@ Tilaa palveluja puhelimen toiminnoilla. Pizzalähettiä on tervehdittävä: kun 
 ryhmään esineet lajeittain, simit, nuoli alas hänen kohdalleen, Enter, Tervehdi. Jos kukaan ei
 tervehdi häntä, hän lähtee pizzan kanssa ja rahat palautetaan.
 
+### Makin' Magicin loitsukirja
+
+Loitsukirja aukeaa kirjan omalla toiminnolla, kun simillä on MagiCo-taikasauva (sauvalaturi antaa sellaisen). Sivulla on neljä loitsua, kukin yksi kohde: sen kolme ainesosaa ja sitten, onko valitulla simillä ne mukanaan ("Bobilla on ne kaikki" tai mitkä vielä puuttuvat ja kuinka monta). Enter loitsun kohdalla lukee sen nimen ja mitä se tekee; loitsu, jota kukaan ei ole vielä tehnyt, pysyy tuntemattomana, kunnes se tehdään kerran. Keittokirja toimii samalla tavalla resepteillä.
+
 ## Osta-tila
 
 F2 avaa Osta-tilan. Tavaraluettelon luokat ovat välilehtiä ja tuotteet painikkeita: jokainen tuote
@@ -261,6 +265,7 @@ kääntyy. Jokainen tuote kertoo myös kokonsa ruutuina, pidempi sivu ensin ("2 
 | Näppäin | Mitä se tekee |
 |---|---|
 | Control+R | Rajaa luettelo yhdenlaisen huoneen tuotteisiin (keittiö, kylpyhuone, makuuhuone, olohuone, ruokailuhuone, työhuone, ulkona) tai kaikkiin. |
+| Control+F | Etsi koko luettelosta, kaikista ryhmistä kerralla: kirjoita osa tuotteen nimestä. Nuoli ylös ja alas selaavat tuloksia (kukin kertoo ryhmänsä), Enter aloittaa sijoittamisen, Escape palaa takaisin. Control+F uudelleen etsii sen sijaan tontilta (siirtääksesi tai myydäksesi jotakin), samalla tekstillä. |
 | Askelpalautin | Luettelon "Takaisin". |
 | Nuoli vasemmalle, nuoli oikealle | Luettelon edellinen tai seuraava sivu; ylös ja alas käyvät tuote kerrallaan. |
 | Enter tuotteen kohdalla | Aloita sen sijoittaminen. |

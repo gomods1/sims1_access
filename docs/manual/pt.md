@@ -255,6 +255,10 @@ Use as interações do telefone para chamar serviços. O entregador de pizza pre
 quando ele chegar, vá a objetos por tipo, Sims, Seta para baixo até ele, Enter, Receber. Se
 ninguém o receber, ele vai embora com a pizza e o dinheiro é devolvido.
 
+### O livro de feitiços de Makin' Magic
+
+O livro de feitiços abre pela própria interação do livro quando o Sim tem uma varinha MagiCo (o carregador de varinhas dá uma). Cada página lista quatro feitiços, um item cada: os três ingredientes e depois se o Sim selecionado os carrega ("Bob tem todos", ou quais ainda faltam e quantos). Enter num feitiço lê o nome e o que ele faz; um feitiço que ninguém fez ainda continua desconhecido até ser feito uma vez. O livro de receitas funciona do mesmo jeito com receitas.
+
 ## Modo Compra
 
 F2 abre o Modo Compra. As categorias do catálogo são guias e os produtos são botões: cada produto
@@ -265,6 +269,7 @@ página. Cada produto diz também o seu tamanho em quadrados, o lado mais longo 
 | Tecla | O que faz |
 |---|---|
 | Control+R | Deixa no catálogo só os produtos de um tipo de cômodo (cozinha, banheiro, quarto, sala de estar, sala de jantar, escritório, área externa) ou todos. |
+| Control+F | Procurar em todo o catálogo, todas as categorias de uma vez: digite parte do nome de um produto. Seta para cima e para baixo percorrem os resultados (cada um diz sua categoria), Enter começa a posicioná-lo, Esc volta. Control+F de novo procura no terreno (para mover ou vender algo), com o mesmo texto. |
 | Backspace | O "Voltar" do catálogo. |
 | Seta para a esquerda, Seta para a direita | A página anterior ou seguinte do catálogo; cima e baixo vão de produto em produto. |
 | Enter em um produto | Começa a posicioná-lo. |

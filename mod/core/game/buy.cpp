@@ -195,14 +195,81 @@ Ptr CatalogBackButton() {
 
 bool HeldProduct(ProductInfo* out) {
     Ptr type = HeldProductType();
-    Ptr catalog = type ? FindCatalog(MainWindow(), 0) : 0;
-    if (!catalog) return false;
-    Ptr begin = Rd<Ptr>(catalog + addr::kCatalogProducts), end = Rd<Ptr>(catalog + addr::kCatalogProducts + 4);
-    for (Ptr p = begin; p && p < end && p - begin < 4 * 2000; p += 4) {
-        Ptr product = Rd<Ptr>(p);
-        if (Rd<Ptr>(product + addr::product::kType) == type) return ReadProduct(product, out);
+    if (!type) return false;
+    Ptr catalog = FindCatalog(MainWindow(), 0);
+    if (catalog) {
+        Ptr begin = Rd<Ptr>(catalog + addr::kCatalogProducts), end = Rd<Ptr>(catalog + addr::kCatalogProducts + 4);
+        for (Ptr p = begin; p && p < end && p - begin < 4 * 2000; p += 4) {
+            Ptr product = Rd<Ptr>(p);
+            if (Rd<Ptr>(product + addr::product::kType) == type) return ReadProduct(product, out);
+        }
     }
+    // Chosen through the mod's catalog search: not on the page shown.
+    for (Ptr product : BuyCatalogProducts())
+        if (Rd<Ptr>(product + addr::product::kType) == type) return ReadProduct(product, out);
     return false;
+}
+
+Ptr BuyCatalog() {
+    Ptr state = Rd<Ptr>(Rd<Ptr>(Va(addr::kSimsApp)) + addr::catalog::kState);
+    Ptr catalog = IsKindOf(state, "CPState") ? Rd<Ptr>(state + addr::catalog::kCatalog) : 0;
+    return IsKindOf(catalog, "Catalog") ? catalog : 0;
+}
+
+bool BuyCatalogShown() {
+    Ptr catalog = FindCatalog(MainWindow(), 0);
+    return catalog && Visible(catalog);
+}
+
+std::vector<Ptr> BuyCatalogProducts() {
+    std::vector<Ptr> out;
+    Ptr catalog = BuyCatalog();
+    if (!catalog) return out;
+    Ptr begin = Rd<Ptr>(catalog + addr::catalog::kProducts), end = Rd<Ptr>(catalog + addr::catalog::kProducts + 4);
+    for (Ptr p = begin; p && p < end && p - begin < 4 * 20000; p += 4) {
+        Ptr product = Rd<Ptr>(p);
+        if (!product || Rd<int>(product + addr::product::kKind) != 1) continue;
+        Ptr type = Rd<Ptr>(product + addr::product::kType);
+        Ptr objd = type ? Rd<Ptr>(type + addr::product::kTypeObjd) : 0;
+        if (!objd || Rd<int16_t>(objd + addr::product::kObjdRoomFlagsByte) == 0) continue;
+        std::string name = ReadStdStringUtf8(product + addr::product::kName);
+        if (name.empty() || name[0] == '*') continue;
+        out.push_back(product);
+    }
+    return out;
+}
+
+Choice ChooseProduct(Ptr product) {
+    typedef void(__thiscall * SelectFn)(void*, int, void*);
+    typedef void(__thiscall * DirtyFn)(void*, uint32_t);
+    typedef void(__thiscall * CheckFn)(void*, int);
+    ProductInfo p;
+    if (!ReadProduct(product, &p)) return Choice::Failed;
+    int funds = 0;
+    if (GetFunds(&funds) && funds < p.price) return Choice::CannotAfford;
+    Ptr state = Rd<Ptr>(Rd<Ptr>(Va(addr::kSimsApp)) + addr::catalog::kState);
+    if (!IsKindOf(state, "CPState") || !FunctionOk(addr::kSelectProduct) || !FunctionOk(addr::kMarkPanelDirty)) {
+        Log("buy: cannot choose a product, panel state %s", ClassName(state).c_str());
+        return Choice::Failed;
+    }
+    // The index is only stored (CPState + 0x100, read by nothing): the product is what counts.
+    bool ok = Guarded([&] {
+        ((SelectFn)Va(addr::kSelectProduct))((void*)state, -1, (void*)product);
+        ((DirtyFn)Va(addr::kMarkPanelDirty))((void*)state, addr::kPanelSelectionChanged);
+    });
+    // The page's buttons as a press leaves them: only the chosen one (when shown) pressed.
+    Ptr catalog = FindCatalog(MainWindow(), 0);
+    if (ok && catalog && FunctionOk(addr::kButtonSetChecked)) {
+        Ptr begin = Rd<Ptr>(catalog + addr::kCatalogProducts), end = Rd<Ptr>(catalog + addr::kCatalogProducts + 4);
+        for (Ptr at = begin; at && at < end && at - begin < 4 * 2000; at += 4) {
+            Ptr shown = Rd<Ptr>(at);
+            Ptr button = shown ? Rd<Ptr>(shown + addr::product::kButton) : 0;
+            if (!IsProductButton(button) || Rd<Ptr>(button + addr::kProductButtonProduct) != shown) continue;
+            Guarded([&] { ((CheckFn)Va(addr::kButtonSetChecked))((void*)button, shown == product ? 1 : 0); });
+        }
+    }
+    Log("buy: chose %s ($%d) from the search", p.name.c_str(), p.price);
+    return ok ? Choice::Chosen : Choice::Failed;
 }
 
 bool UnlimitedFunds() {
@@ -276,7 +343,8 @@ void CancelPlacing() {
         ((DirtyFn)Va(addr::kMarkPanelDirty))((void*)state, addr::kPanelSelectionChanged);
     });
     // The catalog leaves the product's button pressed; a click elsewhere would release it.
-    if (IsProductButton(button) && FunctionOk(addr::kButtonSetChecked))
+    if (IsProductButton(button) && Rd<Ptr>(button + addr::kProductButtonProduct) == held.product &&
+        FunctionOk(addr::kButtonSetChecked))
         Guarded([&] { ((CheckFn)Va(addr::kButtonSetChecked))((void*)button, 0); });
 }
 

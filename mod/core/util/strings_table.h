@@ -129,6 +129,15 @@
     X(FindCancelled, "search cancelled")                                                                               \
     X(FindNotNow, "Finish placing first: Escape, then Control+F.")                                                     \
     X(KeysFind, "Control+F finds a thing of the lot by typing part of its name.")                                      \
+    X(FindCatalogPrompt,                                                                                               \
+      "Search the whole catalog: type part of a product's name. Up and Down go through what matches, Enter "           \
+      "takes it to place it, Escape cancels. Control+F again searches the lot's things instead.")                      \
+    X(FindSwitchToCatalog, "Control+F again searches the catalog instead.")                                            \
+    X(GroupCatalogFind, "catalog search: %s")                                                                          \
+    X(InCatalogCategory, "in %s")                                                                                      \
+    X(KeysFindCatalog,                                                                                                 \
+      "Control+F searches the whole catalog by typing part of a product's name; Control+F again searches the "         \
+      "lot's things.")                                                                                                 \
     X(KeysPortalDelete, "Delete on a door or window of the lot's things removes it.")                                  \
     X(ZoomFar, "far view")                                                                                             \
     X(ZoomMedium, "medium view")                                                                                       \
@@ -967,6 +976,9 @@
     X(LookPatterned, "patterned")                                                                                    \
     /* Makin' Magic book */                                                                                          \
     X(BookIngredients, "ingredients: %s")                                                                            \
+    X(BookHasAll, "%s has them all")                                                                                 \
+    X(BookMissing, "%s is missing: %s")                                                                              \
+    X(BookIngredientCount, "%d %s")                                                                                  \
     X(GroupSpells, "spells")                                                                                         \
     X(GroupRecipes, "recipes")                                                                                       \
     /* Narrator: conversation topics */                                                                              \

@@ -618,7 +618,7 @@ decompiled move tool (`re/decomp/0056*.c`), and purchases, moves and a sale driv
 | Buy panel state | `CPState` at `[0xa63570] + 0xc4` (also `cWinCatalog + 0x128`). `0x408750` (thiscall `(int index, Product*)`) selects a product; `(-1, 0)` swaps in the plain hand tool. `0x407fa0(0x200)` marks the panel changed | the catalog does exactly this when nothing is chosen (`0x4744a0`) |
 | `cWinCatalog + 0x474` | `std::vector<Product*>` of the shown page (26 at most; the page builder `0x4752d0` filters the category and subcategory set); `+0x480` the hover popup (`cWinCatalogPopup`, filled by `0x4775d0` on notification 0x13) | 26 dining chairs matched their 26 buttons |
 | `ProductButton + 0x1e0` | `Product*` | tooltips are the prices |
-| `Product` | `+0x04` std::string name, `+0x1c` std::string description (what the hover popup shows), `+0x34` int price (`0x5368e0`), `+0x38` its `ProductButton*`, `+0x40` object type record (whose `+0x60` is the lead OBJD) | popup layout `0x4761b0` reads `0x5368f0` (+4) and `0x5368c0` (+0x1c) |
+| `Product` | `+0x04` std::string name, `+0x1c` std::string description (what the hover popup shows), `+0x34` int price (`0x5368e0`), `+0x38` its `ProductButton*`, `+0x3c` int kind (1 = an object; the page builder's category checks `0x536a40`.. test it first, and buy mode shows only objects with OBJD room flags), `+0x40` object type record (whose `+0x60` is the lead OBJD) | popup layout `0x4761b0` reads `0x5368f0` (+4) and `0x5368c0` (+0x1c) |
 
 Parts of multi-tile objects (the six pieces of a dining table) have no function or room flags
 and often no catalog strings: the catalog's product whose file and OBJD MasterID match carries

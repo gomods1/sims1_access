@@ -136,6 +136,15 @@ const Translation kEntries[] = {
     {Str::FindCancelled, "sökning avbruten"},
     {Str::FindNotNow, "Slutför placeringen först: Escape, sedan Kontroll+F."},
     {Str::KeysFind, "Kontroll+F söker något på tomten när du skriver en del av namnet."},
+    {Str::FindCatalogPrompt,
+     "Sök i hela katalogen: skriv en del av en produkts namn. Pil upp och ned går igenom träffarna, Enter tar "
+     "den för att placera den, Escape avbryter. Kontroll+F igen söker i stället på tomten."},
+    {Str::FindSwitchToCatalog, "Kontroll+F igen söker i stället i katalogen."},
+    {Str::GroupCatalogFind, "sökning i katalogen: %s"},
+    {Str::InCatalogCategory, "under %s"},
+    {Str::KeysFindCatalog,
+     "Kontroll+F söker i hela katalogen när du skriver en del av en produkts namn; Kontroll+F igen söker på "
+     "tomten."},
     {Str::KeysPortalDelete, "Delete på en dörr eller ett fönster i listan tar bort det."},
     {Str::ZoomFar, "fjärrvy"},
     {Str::ZoomMedium, "mellanvy"},
@@ -979,6 +988,9 @@ const Translation kEntries[] = {
     {Str::LookPatterned, "mönstrad"},
     // Makin' Magic book
     {Str::BookIngredients, "ingredienser: %s"},
+    {Str::BookHasAll, "%s har alla"},
+    {Str::BookMissing, "%s saknar: %s"},
+    {Str::BookIngredientCount, "%d × %s"},
     {Str::GroupSpells, "trollformler"},
     {Str::GroupRecipes, "recept"},
     // Narrator: conversation topics

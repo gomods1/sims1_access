@@ -10,6 +10,7 @@
 #include "../util/game_settings.h"
 #include "../util/strings.h"
 #include "../util/text.h"
+#include "catalog_find.h"
 #include "tutorial.h"
 #include "world.h"
 
@@ -115,6 +116,7 @@ std::string GroupName(const Group& g) {
     if (g.key == kTipGroup) return S(Str::GroupTip);
     if (g.key == kModHelpGroup) return S(Str::GroupModHelp);
     if (g.key == kKindsGroup || g.key == kRoomsGroup) return world::LevelName(g.key);
+    if (g.key == kCatalogFindGroup) return catalog_find::GroupName();
     if (g.key == kBuildStylesGroup) {  // named after the tool that offers them
         std::string tool = game::CheckedTabOf(g.items.empty() ? 0 : game::Parent(g.items[0].widget));
         return tool.empty() ? S(Str::GroupBuildStyles) : tool;
@@ -168,6 +170,7 @@ bool IsActionQueue(const Group& g) { return g.key == kActionQueueGroup; }
 bool TakesFocusWhenOpened(const Group& g) {
     if (g.items.size() < 2 || IsTextOnly(g) || GroupOrder(g) < 4 || g.key == kSimPanelsGroup) return false;
     if (g.key == kKindsGroup || g.key == kRoomsGroup) return false;  // the mod's own, always there
+    if (g.key == kCatalogFindGroup) return false;  // the search puts focus there itself
     if (tutorial::IsStepGroup(g)) return false;  // announced by the tutorial watcher instead
     return true;
 }

@@ -186,6 +186,10 @@ La maison 7 du premier quartier lance le didacticiel du jeu. Chaque étape est l
 
 Utilisez les interactions du téléphone pour appeler les services. Il faut saluer le livreur de pizza : quand il arrive, allez dans objets par type, Sims, flèche bas jusqu'à lui, Entrée, Salue. Si personne ne le salue, il repart avec la pizza et l'argent vous est rendu.
 
+### Le grimoire de Makin' Magic
+
+Le grimoire s'ouvre par sa propre interaction dès que le Sim a une baguette MagiCo (le chargeur de baguettes en donne une). Une page présente quatre sorts, un élément chacun : ses trois ingrédients, puis si le Sim sélectionné les a sur lui (« Bob les a tous », ou ceux qui manquent encore et combien). Entrée sur un sort lit son nom et ce qu'il fait ; un sort que personne n'a encore fait reste inconnu jusqu'à ce qu'il soit fait une fois. Le livre de cuisine fonctionne de la même façon avec les recettes.
+
 ## Le mode Achat
 
 F2 ouvre le mode Achat. Les catégories du catalogue sont des onglets et ses produits des boutons : chaque produit dit son nom, son prix, ses principales évaluations et sa description, et le tampon des détails contient toutes ses évaluations et les pièces auxquelles il est destiné. Aller au-delà du dernier produit d'une page tourne la page. Chaque produit dit aussi sa taille en cases, le plus long côté d'abord (« 2 sur 1 cases »). L'argent est dit en simflouz, la monnaie du jeu.
@@ -193,6 +197,7 @@ F2 ouvre le mode Achat. Les catégories du catalogue sont des onglets et ses pro
 | Touche | Ce qu'elle fait |
 |---|---|
 | Contrôle+R | Limite le catalogue aux produits d'un type de pièce (cuisine, salle de bains, chambre, salon, salle à manger, bureau, extérieur) ou à tous. |
+| Contrôle+F | Chercher dans tout le catalogue, toutes catégories à la fois : tapez une partie du nom d'un produit. Haut et Bas parcourent les résultats (chacun dit sa catégorie), Entrée commence à le placer, Échap revient en arrière. Contrôle+F à nouveau cherche plutôt parmi les éléments du terrain (pour en déplacer ou vendre un), avec le même texte. |
 | Retour arrière | Le « Précédent » du catalogue. |
 | Flèche gauche, flèche droite | La page précédente ou suivante du catalogue ; haut et bas vont de produit en produit. |
 | Entrée sur un produit | Commence à le placer. |

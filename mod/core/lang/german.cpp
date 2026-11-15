@@ -139,6 +139,16 @@ const Translation kEntries[] = {
     {Str::FindCancelled, "Suche abgebrochen"},
     {Str::FindNotNow, "Beende zuerst das Platzieren: Esc, dann Strg+F."},
     {Str::KeysFind, "Strg+F sucht etwas auf dem Grundstück, wenn du einen Teil des Namens tippst."},
+    {Str::FindCatalogPrompt,
+     "Im ganzen Katalog suchen: Tippe einen Teil des Produktnamens. Pfeil nach oben und unten gehen die Treffer "
+     "durch, Eingabe nimmt es zum Platzieren, Esc bricht ab. Strg+F noch einmal sucht stattdessen auf dem "
+     "Grundstück."},
+    {Str::FindSwitchToCatalog, "Strg+F noch einmal sucht stattdessen im Katalog."},
+    {Str::GroupCatalogFind, "Katalogsuche: %s"},
+    {Str::InCatalogCategory, "unter %s"},
+    {Str::KeysFindCatalog,
+     "Strg+F sucht im ganzen Katalog, wenn du einen Teil des Produktnamens tippst; Strg+F noch einmal sucht auf "
+     "dem Grundstück."},
     {Str::KeysPortalDelete, "Entf auf einer Tür oder einem Fenster in der Objektliste entfernt es."},
     {Str::ZoomFar, "Fernansicht"},
     {Str::ZoomMedium, "mittlere Ansicht"},
@@ -996,6 +1006,9 @@ const Translation kEntries[] = {
     {Str::LookPatterned, "gemustert"},
     // Makin' Magic book
     {Str::BookIngredients, "Zutaten: %s"},
+    {Str::BookHasAll, "%s hat alle"},
+    {Str::BookMissing, "%s fehlt: %s"},
+    {Str::BookIngredientCount, "%d × %s"},
     {Str::GroupSpells, "Zaubersprüche"},
     {Str::GroupRecipes, "Rezepte"},
     // Narrator: conversation topics

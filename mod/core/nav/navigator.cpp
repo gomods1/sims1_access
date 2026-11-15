@@ -23,6 +23,7 @@
 #include "map_mode.h"
 #include "house_overview.h"
 #include "camera.h"
+#include "catalog_find.h"
 #include "cheat_console.h"
 #include "collect.h"
 #include "credits.h"
@@ -963,6 +964,10 @@ void Activate() {
         else world::Interact();
         return;
     }
+    if (it->role == Role::CatalogResult) {  // the product in hand: buy mode then speaks its spots
+        catalog_find::Choose(it->number);
+        return;
+    }
     if (it->role == Role::ModManual) {
         if (it->number) input::SayKeyHelp();
         else manual::Open();
@@ -1085,8 +1090,10 @@ namespace {
 
 struct FindState {
     bool active = false;
+    bool catalog = false;    // buy mode: the whole catalog is searched, not the lot's things
     std::string query;       // UTF-8
-    bool listed = false;     // the matches are the open list of the kinds group
+    bool listed = false;     // the matches are shown (the open list of the kinds group, or the
+                             // catalog search's group)
     unsigned char lead = 0;  // the first byte of a double-byte character
     // Where things were, for Escape.
     ItemId before;
@@ -1098,6 +1105,15 @@ FindState g_find;
 
 // Back to the list and the focus from before the search.
 void FindRestore() {
+    if (g_find.catalog) {
+        catalog_find::Clear();
+        g_find.listed = false;
+        g.focus = ItemId{};
+        Refresh();
+        int gi, ii;
+        if (g_find.before && Locate(g_find.before, &gi, &ii)) SetFocus(gi, ii);
+        return;
+    }
     world::Open(kKindsGroup, g_find.beforeKind);
     world::Open(g_find.beforeLast, world::OpenNumber(g_find.beforeLast));  // PageDown's list as it was
     world::ClearFindQuery();
@@ -1110,17 +1126,18 @@ void FindRestore() {
 
 // The matches for the query, focus on the best: "tel: 2 encontrados. Teléfono ..."
 void FindShow() {
-    int count = world::SetFindQuery(g_find.query);
+    int count = g_find.catalog ? catalog_find::SetQuery(g_find.query) : world::SetFindQuery(g_find.query);
     if (!count) {
         speech::Say(util::Format(S(Str::FindNoMatch), g_find.query.c_str()));
         return;
     }
-    world::Open(kKindsGroup, world::kFindKind);
+    if (!g_find.catalog) world::Open(kKindsGroup, world::kFindKind);
+    Ptr key = g_find.catalog ? kCatalogFindGroup : kKindsGroup;
     g_find.listed = true;
     g.focus = ItemId{};  // no "focus moved" line before the new one
     Refresh();
     for (int gi = 0; gi < (int)Groups().size(); gi++) {
-        if (Groups()[gi].key != kKindsGroup || Groups()[gi].items.empty()) continue;
+        if (Groups()[gi].key != key || Groups()[gi].items.empty()) continue;
         SetFocus(gi, 0);
         buffers::SetDetails(DetailLines(*Focused(), Groups()[gi], 0));
         std::string found = count == 1 ? util::Format(S(Str::FindCountOne), g_find.query.c_str())
@@ -1130,9 +1147,19 @@ void FindShow() {
     }
 }
 
+// What Ctrl+F says on starting: what is searched, and in buy mode that Ctrl+F again switches.
+std::string FindPromptText() {
+    if (g_find.catalog) return S(Str::FindCatalogPrompt);
+    std::string s = S(Str::FindPrompt);
+    if (game::BuyCatalogShown()) s += std::string(" ") + S(Str::FindSwitchToCatalog);
+    return s;
+}
+
 }  // namespace
 
 bool FindActive() { return g_find.active; }
+
+std::string FindHelp() { return FindPromptText(); }
 
 void FindBegin() {
     if (!LotViewActive() || !game::LotModule()) {
@@ -1143,17 +1170,27 @@ void FindBegin() {
         speech::Say(S(Str::FindNotNow));
         return;
     }
-    if (g_find.active) {  // the keys again
-        speech::Say(S(Str::FindPrompt));
+    if (g_find.active) {
+        if (!game::BuyCatalogShown()) {  // the keys again
+            speech::Say(FindPromptText());
+            return;
+        }
+        // Buy mode: Ctrl+F again searches the other list, the same text.
+        if (g_find.listed) FindRestore();
+        g_find.catalog = !g_find.catalog;
+        speech::Say(FindPromptText());
+        if (!g_find.query.empty()) FindShow();
         return;
     }
     EnsureCurrent();
+    catalog_find::Clear();  // a new search: the last one's list goes
     g_find = FindState{};
     g_find.active = true;
+    g_find.catalog = game::BuyCatalogShown();
     g_find.before = g.focus;
     g_find.beforeKind = world::OpenNumber(kKindsGroup);
     g_find.beforeLast = world::LastGroup();
-    speech::Say(S(Str::FindPrompt));
+    speech::Say(FindPromptText());
 }
 
 void FindChar(WPARAM ch) {
@@ -1216,7 +1253,7 @@ void FindConfirm(bool walk) {
         return;
     }
     g_find.active = false;
-    if (walk) world::WalkToFocus();
+    if (walk && !g_find.catalog) world::WalkToFocus();
     else Activate();
 }
 

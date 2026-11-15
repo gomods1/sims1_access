@@ -47,6 +47,8 @@ enum class Role {
     Level,         // lot view: a kind or a room of the lot's things (number: which); Enter opens its
                    // things (nav/world.h). widget = its group key: no game widget behind it
     LotObject,     // lot view: a thing of the lot (number = object id); Enter its interactions
+    CatalogResult, // buy mode: a product the catalog search found (number = its place in the list,
+                   // nav/catalog_find.h); Enter starts placing it. widget = its group key
     ModManual,     // the "mod help" group's buttons: Enter opens the manual (number 0, nav/manual.h)
                    // or says this screen's keys, as Control+F1 does (number 1)
 };
@@ -119,11 +121,13 @@ constexpr Ptr kKindsGroup = 13;        // lot view: the lot's things by kind (na
 constexpr Ptr kRoomsGroup = 14;        // lot view: the lot's things by room
 constexpr Ptr kModHelpGroup = 15;      // every screen's last group: this screen's keys, the manual
 constexpr Ptr kBuildStylesGroup = 16;  // build mode: what the chosen tool offers (styles, page arrows)
+constexpr Ptr kCatalogFindGroup = 17;  // buy mode: what Ctrl+F found in the whole catalog
 
 // Items the mod makes from game state, with no widget behind them (their widget is their group
 // key): nothing may read game memory through it.
 inline bool IsVirtual(const Item& it) {
-    return it.role == Role::Level || it.role == Role::LotObject || it.role == Role::ModManual;
+    return it.role == Role::Level || it.role == Role::LotObject || it.role == Role::ModManual ||
+           it.role == Role::CatalogResult;
 }
 
 inline bool HasRole(const Group& g, Role role) {

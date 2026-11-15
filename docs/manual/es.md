@@ -186,6 +186,10 @@ La casa 7 del primer barrio ejecuta el tutorial del juego. Cada paso se lee como
 
 Usa las interacciones del teléfono para llamar a los servicios. Al repartidor de pizza hay que saludarlo: cuando llegue, ve a objetos por tipo, Sims, Abajo hasta él, Intro, Saludar. Si nadie lo saluda, se va con la pizza y te devuelven el dinero.
 
+### El libro de conjuros de Makin' Magic
+
+El libro de conjuros se abre con su propia interacción cuando el Sim tiene una varita de MagiCo (la da el cargador de varitas). Cada página tiene cuatro conjuros, un elemento cada uno: sus tres ingredientes y después si el Sim seleccionado los lleva ("Bob los tiene todos", o cuáles le faltan y cuántos). Intro sobre un conjuro lee su nombre y lo que hace; un conjuro que nadie ha hecho sigue siendo desconocido hasta que se hace una vez. El libro de cocina funciona igual con las recetas.
+
 ## El Modo Comprar
 
 F2 abre el Modo Comprar. Las categorías del catálogo son pestañas y sus productos, botones: cada producto dice su nombre, precio, puntuaciones principales y descripción, y el búfer de detalles tiene todas sus puntuaciones y las habitaciones para las que está pensado. Al pasar del último producto de una página, se pasa de página. Cada producto dice también su tamaño en casillas, el lado más largo primero ("2 por 1 casillas"). El dinero se dice en simoleones, la moneda del juego.
@@ -193,6 +197,7 @@ F2 abre el Modo Comprar. Las categorías del catálogo son pestañas y sus produ
 | Tecla | Qué hace |
 |---|---|
 | Control+R | Deja el catálogo con los productos de un tipo de habitación (cocina, baño, dormitorio, sala de estar, comedor, estudio, exterior) o con todos. |
+| Control+F | Buscar en todo el catálogo, todas las categorías a la vez: escribe parte del nombre de un producto ("estan"). Arriba y Abajo recorren lo que coincide (cada uno dice su categoría), Intro empieza a colocarlo, Escape vuelve atrás. Control+F otra vez busca entre las cosas del solar (para mover o vender una), con el mismo texto. |
 | Retroceso | El «Atrás» del catálogo. |
 | Izquierda, Derecha | La página anterior o siguiente del catálogo; Arriba y Abajo van producto a producto. |
 | Intro sobre un producto | Empieza a colocarlo. |

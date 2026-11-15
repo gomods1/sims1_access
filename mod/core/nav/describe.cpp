@@ -27,6 +27,7 @@
 #include "camera.h"
 #include "world.h"
 #include "house_overview.h"
+#include "catalog_find.h"
 #include "screens.h"
 #include "tutorial.h"
 
@@ -479,6 +480,8 @@ std::string Describe(const Item& it) {
         return util::Format(S(Str::SkillValue), it.label.c_str(), game::InterestPoints(it.widget));
     case Role::Product:  // "Silla todoterreno Nalghaus, $80, comodidad 2"
         return buy::ProductText(it.widget);
+    case Role::CatalogResult:  // the same, with where the catalog files it
+        return catalog_find::Describe(it.number);
     case Role::Tab:
     case Role::FamilyMember:
         return ButtonText(it);
@@ -582,7 +585,9 @@ std::vector<std::string> PanelHelp(const Item& it) {
 std::vector<std::string> DetailLines(const Item& it, const Group& g, int index) {
     std::vector<std::string> lines;
     if (IsVirtual(it)) {  // no widget to read: the lot's things carry their own details
-        lines = it.role == Role::LotObject ? world::DetailsOf(it.number) : std::vector<std::string>{it.label};
+        lines = it.role == Role::LotObject       ? world::DetailsOf(it.number)
+                : it.role == Role::CatalogResult ? catalog_find::Details(it.number)
+                                                 : std::vector<std::string>{it.label};
         if (lines.empty()) lines.push_back(it.label);
         lines.push_back(util::Format(S(Str::PositionInGroup), index + 1, (int)g.items.size(), GroupName(g).c_str()));
         return lines;

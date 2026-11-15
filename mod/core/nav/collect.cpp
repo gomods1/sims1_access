@@ -22,6 +22,7 @@
 #include "../util/strings.h"
 #include "../util/text.h"
 #include "arrange.h"
+#include "catalog_find.h"
 #include "screens.h"
 #include "world.h"
 
@@ -41,6 +42,36 @@ bool IsTab(Ptr w) {
     if (IsKindOf(parent, "cWinOptions") || IsKindOf(parent, "cWinCatalog") || IsKindOf(parent, "cWinArch"))
         return true;
     return game::ClassName(parent) == "cTSWin" && IsKindOf(game::Parent(parent), "cWinPeople");
+}
+
+// A spell or recipe of Makin' Magic's book: its three ingredients, then whether the selected Sim
+// carries them (the book only draws them; a tester could not tell what they could mix).
+std::string DescribeBookEntry(Ptr entry) {
+    std::vector<game::Ingredient> list = game::EntryIngredientList(entry);
+    std::string names;
+    for (const game::Ingredient& i : list) names += (names.empty() ? "" : ", ") + i.name;
+    std::string text = util::Format(S(Str::BookIngredients), names.c_str());
+    int sim = game::SelectedNeighborId();
+    if (sim < 0 || list.empty()) return text;
+    // Needed and carried per ingredient, in the recipe's order (one may be needed twice).
+    std::vector<std::pair<const game::Ingredient*, int>> needed;
+    for (const game::Ingredient& i : list) {
+        if (!i.guid) return text;  // the GUIDs could not be read
+        auto it = std::find_if(needed.begin(), needed.end(), [&](const auto& n) { return n.first->guid == i.guid; });
+        if (it == needed.end()) needed.push_back({&i, 1});
+        else it->second++;
+    }
+    std::string missing;
+    for (const auto& [ingredient, count] : needed) {
+        int lacking = count - game::InventoryCount(sim, ingredient->guid);
+        if (lacking <= 0) continue;
+        std::string item = lacking > 1 ? util::Format(S(Str::BookIngredientCount), lacking, ingredient->name.c_str())
+                                      : ingredient->name;
+        missing += (missing.empty() ? "" : ", ") + item;
+    }
+    std::string name = game::NeighborName(sim);
+    return text + ". " + (missing.empty() ? util::Format(S(Str::BookHasAll), name.c_str())
+                                          : util::Format(S(Str::BookMissing), name.c_str(), missing.c_str()));
 }
 
 // A button whose meaning its panel defines (a skill of the job panel, a family portrait...).
@@ -261,9 +292,7 @@ struct Walker {
             return false;
         }
         if (game::IsBookEntry(w)) {  // one item per spell: its ingredients (the name shows once chosen)
-            std::string names;
-            for (const std::string& n : game::EntryIngredients(w)) names += (names.empty() ? "" : ", ") + n;
-            Add(w, Role::Button, util::Format(S(Str::BookIngredients), names.c_str()), 0, kBookEntriesGroup);
+            Add(w, Role::Button, DescribeBookEntry(w), 0, kBookEntriesGroup);
             return false;
         }
         if (IsKindOf(w, "cTSWinTextEdit2") && game::IsMagicBook(game::Parent(w))) {  // read-only description
@@ -409,7 +438,7 @@ Screen Collect(Ptr root) {
     if (game::IsKindOf(root, "cDDDSimsView")) {
         size_t at = 0;
         while (at < screen.groups.size() && GroupOrder(screen.groups[at]) < 4) at++;
-        for (Group g : {world::KindsGroup(), world::RoomsGroup()}) {
+        for (Group g : {catalog_find::ResultsGroup(), world::KindsGroup(), world::RoomsGroup()}) {
             if (g.items.empty()) continue;
             g.bounds = g.items.front().rect;
             screen.groups.insert(screen.groups.begin() + at++, std::move(g));

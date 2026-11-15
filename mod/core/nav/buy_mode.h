@@ -56,5 +56,9 @@ void Repeat();
 // details: name and price, each rating and skill, the rooms it is meant for, each sentence.
 std::string ProductText(game::Ptr button);
 std::vector<std::string> ProductDetails(game::Ptr button);
+// The same for a product the catalog search found (nav/catalog_find.h), whatever page it is on,
+// with the catalog's categories it is filed under: "Librería ..., botón, $250, en Varios. ...".
+std::string FoundProductText(game::Ptr product);
+std::vector<std::string> FoundProductDetails(game::Ptr product);
 
 }  // namespace nav::buy

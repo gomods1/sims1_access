@@ -125,6 +125,15 @@ eturn_focus.txt`; a dev core hands the foreground back to it
     runs the game's Ctrl+click on the move tool's mouse up (mode 3 or 4, `+0x77`, Ctrl through
     the GetKeyState hook, the door by id through a hook on `0x5e00c0`, whose own pick goes by the
     sprites on screen). Refunded (a window: +$160). Enter on one picks it up to move it.
+  - Ctrl+F in buy mode searches the whole catalog (a tester could not find a bookshelf,
+    2026-11-10; `nav/catalog_find.cpp`): the Catalog's product vector (`[0xa63570] + 0xc4 ->
+    + 0x70`, `+4/+8`) filtered as the page builder `0x4752d0` does (Product `+0x3c` == 1 and OBJD
+    room flags, field 39, non-zero), ranked like the lot's find; each result says its category.
+    Enter calls `CPState::SelectProduct` (`0x408750`) with the product, whatever page is shown:
+    the slot index it takes is only stored (`+0x100`, read by nothing), so the buy tool takes the
+    product as from its button (funds checked first, as `0x4744a0` does). Ctrl+F again during
+    the search switches to the lot's things and back. Verified live 2026-11-10: "estan" found
+    the bookshelf and bought it ($149).
   - Things kinds (`nav/world.cpp`): **problems** comes right after Sims (what the game's repairman
     and maid look for: object variable 15 above 0, variable 39 above 400; messes by internal name;
     whatever has the flies balloon; an empty pet food bowl) and **doors, windows and stairs** last. Those are OBJD type 8,
@@ -166,6 +175,15 @@ eturn_focus.txt`; a dev core hands the foreground back to it
     (`+0xf4`) is clear (the spellbook's last-page "siguiente": pressing it anyway crashed the game).
     Placing: Ctrl+Shift+PageDown/Up put the held object beside the lot's things (nearest first,
     in their room, facing them when it fits); the arrow line names what it runs into and faces.
+  - Makin' Magic's book (tester, 2026-11-15: "no te dice qué ingredientes podés mezclar"): each
+    spell says what the selected Sim still lacks ("A Homero le falta: 2 de Miel, Polvo de
+    duendecillo", or "los tiene todos"; `nav::DescribeBookEntry`). Ingredient GUIDs are the
+    entry's vector at `+0x1fc` (button i = GUID i); inventories are per Sim, the Neighborhood's
+    vector at `+0x19c` (`game::InventoryCount`, layout in `addresses.h` "inventory"). To open the
+    book without a wand or a good mood: `tools/frida/open_magic_book.js` replays the debug cheat
+    for the selected Sim (`magic_book` is not registered even with debug cheats patched on; the
+    constructor needs the Sim, it reads its `+0x604`). The book is modal: the Frida run returns
+    when it closes. Not verified: a Sim that carries the ingredients (no shop was open).
   - Tester feedback 2026-11-09 (a Sims veteran): money is spoken as simoleons
     (`util::SpokenMoney` in `speech::Say` turns every "$1.200", the game's own text too, into
     `Str::MoneySpoken` with the game's word per language); catalog products say their size, the

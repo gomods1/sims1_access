@@ -186,6 +186,10 @@ Hus 7 i det första grannskapet kör spelets övning. Varje steg läses som en t
 
 Använd telefonens interaktioner för att ringa efter tjänster. Pizzabudet måste hälsas på: när han kommer, gå till föremål efter sort, simmar, Pil ned till honom, Enter, Hälsa. Om ingen hälsar på honom går han med pizzan och pengarna kommer tillbaka.
 
+### Trollboken i Makin' Magic
+
+Trollboken öppnas med bokens egen interaktion när simmen har en MagiCo-trollstav (trollstavsladdaren ger en). En sida visar fyra trollformler, ett objekt var: de tre ingredienserna och sedan om den valda simmen har dem ("Bob har alla", eller vilka som fortfarande saknas och hur många). Enter på en trollformel läser namnet och vad den gör; en trollformel som ingen har gjort ännu förblir okänd tills den har gjorts en gång. Kokboken fungerar på samma sätt med recept.
+
 ## Köpläge
 
 F2 öppnar Köpläge. Katalogens kategorier är flikar och dess produkter är knappar: varje produkt säger sitt namn, pris, viktigaste betyg och beskrivning, och detaljbufferten innehåller alla dess betyg och de rum den är tänkt för. Går du förbi en sidas sista produkt vänds sidan. Varje produkt säger också sin storlek i rutor, den längsta sidan först ("2 gånger 1 rutor"). Pengar sägs i simdaler, spelets valuta.
@@ -193,6 +197,7 @@ F2 öppnar Köpläge. Katalogens kategorier är flikar och dess produkter är kn
 | Tangent | Vad den gör |
 |---|---|
 | Kontroll+R | Begränsar katalogen till produkter för en sorts rum (kök, badrum, sovrum, vardagsrum, matsal, arbetsrum, utomhus) eller alla. |
+| Kontroll+F | Sök i hela katalogen, alla kategorier på en gång: skriv en del av en produkts namn. Pil upp och ned går igenom träffarna (var och en säger sin kategori), Enter börjar placera den, Escape går tillbaka. Kontroll+F igen söker i stället på tomten (för att flytta eller sälja något), med samma text. |
 | Backspace | Katalogens "Backa". |
 | Pil vänster, Pil höger | Katalogens föregående eller nästa sida; upp och ned går produkt för produkt. |
 | Enter på en produkt | Börjar placera den. |

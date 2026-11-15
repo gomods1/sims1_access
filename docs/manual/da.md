@@ -186,6 +186,10 @@ Hus 7 i det første nabolag kører spillets træningsspil. Hvert trin læses som
 
 Brug telefonens handlinger til at ringe efter tjenester. Pizzabuddet skal hilses på: når han kommer, gå til objekter efter type, Simmere, Pil ned til ham, Enter, Hils. Hvis ingen hilser på ham, går han igen med pizzaen, og pengene kommer tilbage.
 
+### Tryllebogen i Makin' Magic
+
+Tryllebogen åbnes med bogens egen interaktion, når simmen har en MagiCo-tryllestav (tryllestavsladeren giver en). En side viser fire trylleformularer, ét element hver: de tre ingredienser og derefter, om den valgte sim har dem ("Bob har dem alle", eller hvilke der stadig mangler og hvor mange). Enter på en trylleformular læser navnet og hvad den gør; en trylleformular, som ingen har lavet endnu, er ukendt, indtil den er lavet én gang. Kogebogen virker på samme måde med opskrifter.
+
 ## Købefunktion
 
 F2 åbner Købefunktion. Katalogets kategorier er faner, og dets produkter er knapper: hvert produkt siger sit navn, pris, vigtigste vurderinger og beskrivelse, og detaljebufferen indeholder alle dets vurderinger og de rum, det er beregnet til. Går du forbi en sides sidste produkt, vendes siden. Hvert produkt siger også sin størrelse i fliser, den længste side først ("2 gange 1 fliser"). Penge siges i simoleoner, spillets valuta.
@@ -193,6 +197,7 @@ F2 åbner Købefunktion. Katalogets kategorier er faner, og dets produkter er kn
 | Tast | Hvad den gør |
 |---|---|
 | Kontrol+R | Begrænser kataloget til produkter til én slags rum (køkken, badeværelse, soveværelse, stue, spisestue, arbejdsværelse, udendørs) eller alle. |
+| Kontrol+F | Søg i hele kataloget, alle kategorier på én gang: skriv en del af et produkts navn. Pil op og ned går gennem resultaterne (hvert siger sin kategori), Enter begynder at placere det, Escape går tilbage. Kontrol+F igen søger i stedet på grunden (for at flytte eller sælge noget), med samme tekst. |
 | Backspace | Katalogets "Tilbage". |
 | Venstre pil, Højre pil | Katalogets forrige eller næste side; op og ned går produkt for produkt. |
 | Enter på et produkt | Begynder at placere det. |

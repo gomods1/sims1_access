@@ -249,6 +249,10 @@ Use the phone's interactions to call services. The pizza delivery person must be
 he arrives, go to things by kind, Sims, Down to him, Enter, Greet. If nobody greets him, he
 leaves with the pizza and the money comes back.
 
+### Makin' Magic's spell book
+
+The spell book opens from the book's own interaction once the Sim has a MagiCo wand (the wand charger gives one). A page lists four spells, one item each: its three ingredients, then whether the selected Sim carries them ("Bob has them all", or which are still missing and how many). Enter on a spell reads its name and what it does; a spell nobody has made yet stays unknown until it is made once. The cookbook works the same way with recipes.
+
 ## Buy mode
 
 F2 opens buy mode. The catalog's categories are tabs and its products are buttons: each product
@@ -258,6 +262,7 @@ and the rooms it is meant for. Moving past a page's last product turns the page.
 | Key | What it does |
 |---|---|
 | Control+R | Keep the catalog to products for one kind of room (kitchen, bathroom, bedroom, living room, dining room, study, outside) or all. |
+| Control+F | Search the whole catalog, every category at once: type part of a product's name ("book"). Up and Down go through what matches (each says its category), Enter starts placing it, Escape goes back. Control+F again searches the lot's things instead (to move or sell one), with the same text. |
 | Backspace | The catalog's "Back". |
 | Left, Right | The previous or next page of the catalog; Up and Down go product by product. |
 | Enter on a product | Start placing it. |

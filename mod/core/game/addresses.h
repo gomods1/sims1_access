@@ -206,6 +206,10 @@ constexpr int kPrice = 0x34;          // int (0x5368e0 returns it)
 constexpr int kButton = 0x38;         // ProductButton* showing it
 constexpr int kType = 0x40;           // object type record
 constexpr int kTypeObjd = 0x60;       // type record: the lead object's OBJD (u16 fields)
+constexpr int kKind = 0x3c;           // int: 1 = an object (the catalog's page builder 0x4752d0
+                                      // and its category checks 0x536a40.. test it first)
+constexpr int kObjdRoomFlagsByte = 0x4e;  // OBJD field 39: the buy catalog shows only objects with
+                                          // room flags (0x536a40, in both of its sort modes)
 }  // namespace product
 constexpr int kProductButtonProduct = 0x1e0;  // ProductButton: Product*
 // CPState ([kSimsApp] + catalog::kState): the buy panel's state. SelectProduct(-1, 0) is what the
@@ -625,6 +629,31 @@ constexpr int kPetTitles = 0x2ac;
 constexpr int kPetTexts = 0x2f4;
 constexpr int kTextStride = 0x18;
 }  // namespace trait
+
+// ---- Sims' inventories (what the inventory subpanel shows; its fill 0x4b3b70) --------------
+// The Neighborhood ([[kSimRoot]] + 0x24) keeps one SimInventory per Sim in a vector at +0x19c
+// (0x54b880 looks one up by neighbor id and creates it when missing: not called by the mod).
+// A SimInventory: short neighbor id at +0, then a vector (+4 begin, +8 end) of 12-byte records:
+// int kind (the panel's tabs: 0, 4, 5 / 7 / 8), u32 object GUID, short count. Read live
+// 2026-11-15: Unleashed's Old Town Sims carry one kind 7 item; two Sims 500 of a kind 6 one.
+namespace inventory {
+constexpr int kNeighborhood = 0x24;
+constexpr int kList = 0x19c;
+constexpr int kRecords = 4;
+constexpr int kRecordSize = 12;
+constexpr int kRecordGuid = 4;
+constexpr int kRecordCount = 8;
+}  // namespace inventory
+
+// ---- cPickSpellItem (a spell or recipe in Makin' Magic's book) -----------------------------
+// Its setter 0x4436f0 parses the entry's "%d,%d,%d" string (the book's STR#) into a vector of
+// ingredient GUIDs at +0x1fc (begin, end) and gives button i (cTSWinBtn* [3] at +0x1e0) the
+// name of the object type with GUID i (0x5738b0) as its tooltip, "ingredient ?" when none.
+namespace spellitem {
+constexpr int kButtons = 0x1e0;
+constexpr int kButtonCount = 3;
+constexpr int kGuids = 0x1fc;
+}  // namespace spellitem
 
 // ---- cWinGift (an item on the inventory subpanel: magic objects, ingredients, other) ------
 namespace gift {

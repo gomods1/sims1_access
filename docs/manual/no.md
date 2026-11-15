@@ -186,6 +186,10 @@ Hus 7 i det første nabolaget kjører spillets opplæring. Hvert trinn leses som
 
 Bruk telefonens handlinger for å ringe etter tjenester. Pizzabudet må hilses på: når han kommer, gå til objekter etter type, simmer, Pil ned til ham, Enter, Hils. Hvis ingen hilser på ham, går han med pizzaen, og pengene kommer tilbake.
 
+### Tryllebøka i Makin' Magic
+
+Tryllebøka åpnes med bokas egen interaksjon når simmen har en MagiCo-tryllestav (tryllestavladeren gir en). En side viser fire trylleformler, ett element hver: de tre ingrediensene og deretter om den valgte simmen har dem ("Bob har alle", eller hvilke som fortsatt mangler og hvor mange). Enter på en trylleformel leser navnet og hva den gjør; en trylleformel som ingen har laget ennå, er ukjent til den er laget én gang. Kokeboka virker på samme måte med oppskrifter.
+
 ## Kjøpemodus
 
 F2 åpner Kjøpemodus. Katalogens kategorier er faner og produktene er knapper: hvert produkt sier navn, pris, viktigste vurderinger og beskrivelse, og detaljbufferen inneholder alle vurderingene og rommene det er ment for. Går du forbi det siste produktet på en side, blas det til neste side. Hvert produkt sier også størrelsen i fliser, den lengste siden først ("2 ganger 1 fliser"). Penger sies i simoleoner, spillets valuta.
@@ -193,6 +197,7 @@ F2 åpner Kjøpemodus. Katalogens kategorier er faner og produktene er knapper: 
 | Tast | Hva den gjør |
 |---|---|
 | Kontroll+R | Begrenser katalogen til produkter for én type rom (kjøkken, bad, soverom, stue, spisestue, arbeidsrom, utendørs) eller alle. |
+| Kontroll+F | Søk i hele katalogen, alle kategorier samtidig: skriv en del av navnet på et produkt. Pil opp og ned går gjennom treffene (hvert sier sin kategori), Enter begynner å plassere det, Escape går tilbake. Kontroll+F igjen søker i stedet på tomten (for å flytte eller selge noe), med samme tekst. |
 | Backspace | Katalogens "Tilbake". |
 | Venstre pil, Høyre pil | Katalogens forrige eller neste side; opp og ned går produkt for produkt. |
 | Enter på et produkt | Begynner å plassere det. |

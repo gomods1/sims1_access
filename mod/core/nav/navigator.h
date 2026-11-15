@@ -60,6 +60,7 @@ void Activate();             // press the focused item
 // of the lot, Ctrl+Enter walks there, Escape goes back to where the focus was. The matches are a
 // list of the "things by kind" group, so everything else goes on from there once it is over.
 bool FindActive();
+std::string FindHelp();      // what Ctrl+F said on starting: what is searched and the keys
 void FindBegin();
 void FindChar(WPARAM ch);    // a typed character (ANSI, a double-byte one in two calls)
 void FindErase();            // Backspace

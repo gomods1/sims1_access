@@ -891,10 +891,56 @@ std::string SuggestedRooms(uint16_t flags) {
     return s.empty() ? s : util::Format(S(Str::MeantFor), s.c_str());
 }
 
+namespace {
+
+// "en Decorativo, Varios": the buy mode categories (function flags) the catalog files it under.
+std::string CategoriesText(uint16_t flags) {
+    struct Category {
+        uint16_t flag;
+        Str name;
+    };
+    const Category kOrder[] = {{game::kFnSeating, Str::CategorySeating},       {game::kFnSurfaces, Str::CategorySurfaces},
+                               {game::kFnAppliances, Str::CategoryAppliances}, {game::kFnElectronics, Str::CategoryElectronics},
+                               {game::kFnPlumbing, Str::CategoryPlumbing},     {game::kFnLighting, Str::CategoryLighting},
+                               {game::kFnDecorative, Str::CategoryDecorative}, {game::kFnMiscellaneous, Str::CategoryMiscellaneous}};
+    std::string s;
+    for (const Category& c : kOrder)
+        if (flags & c.flag) s += (s.empty() ? "" : ", ") + std::string(S(c.name));
+    return s.empty() ? s : util::Format(S(Str::InCatalogCategory), s.c_str());
+}
+
+std::vector<std::string> DetailsOf(const game::ProductInfo& p, const std::string& price);
+
+}  // namespace
+
+std::string FoundProductText(game::Ptr product) {
+    game::ProductInfo p;
+    if (!game::ReadProduct(product, &p)) return S(Str::Unavailable);
+    std::string s = p.name + ", " + S(Str::RoleButton) + ", " + ProductFacts(p, util::Money(p.price));
+    std::string categories = CategoriesText(p.functionFlags);
+    if (!categories.empty()) s += ", " + categories;
+    if (!p.description.empty()) s += ". " + p.description;
+    return s;
+}
+
+std::vector<std::string> FoundProductDetails(game::Ptr product) {
+    game::ProductInfo p;
+    if (!game::ReadProduct(product, &p)) return {S(Str::Unavailable)};
+    std::vector<std::string> lines = DetailsOf(p, util::Money(p.price));
+    std::string categories = CategoriesText(p.functionFlags);
+    if (!categories.empty()) lines.insert(lines.begin() + 1, categories);
+    return lines;
+}
+
 std::vector<std::string> ProductDetails(game::Ptr button) {
     game::ProductInfo p;
     if (!game::ReadProductOfButton(button, &p)) return {game::Tooltip(button)};
-    std::string price = game::Tooltip(button);
+    return DetailsOf(p, game::Tooltip(button));
+}
+
+namespace {
+
+std::vector<std::string> DetailsOf(const game::ProductInfo& p, const std::string& price) {
     std::string line = p.name + ", " + (price.empty() ? util::Money(p.price) : price);
     int funds = 0;
     if (game::GetFunds(&funds) && p.price > funds) line += std::string(", ") + S(Str::CannotAfford);
@@ -910,5 +956,7 @@ std::vector<std::string> ProductDetails(game::Ptr button) {
     for (const std::string& sentence : buffers::Sentences(p.description)) lines.push_back(sentence);
     return lines;
 }
+
+}  // namespace
 
 }  // namespace nav::buy

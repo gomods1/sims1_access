@@ -122,6 +122,12 @@ const Translation kEntries[] = {
     {Str::FindCancelled, "검색 취소됨"},
     {Str::FindNotNow, "먼저 배치를 끝내세요: 이스케이프, 그다음 컨트롤+F."},
     {Str::KeysFind, "컨트롤+F로 이름의 일부를 입력해 부지의 물건을 찾습니다."},
+    {Str::FindCatalogPrompt,
+     "카탈로그 전체 검색: 상품 이름의 일부를 입력하세요. 위아래 화살표로 결과를 살펴보고, 엔터로 집어서 배치하고, 이스케이프로 취소합니다. 컨트롤+F를 다시 누르면 부지의 물건을 찾습니다."},
+    {Str::FindSwitchToCatalog, "컨트롤+F를 다시 누르면 카탈로그를 검색합니다."},
+    {Str::GroupCatalogFind, "카탈로그 검색: %s"},
+    {Str::InCatalogCategory, "%s 분류"},
+    {Str::KeysFindCatalog, "컨트롤+F로 상품 이름의 일부를 입력해 카탈로그 전체를 검색합니다. 컨트롤+F를 다시 누르면 부지의 물건을 찾습니다."},
     {Str::KeysPortalDelete, "목록의 문이나 창문에서 Delete를 누르면 제거됩니다."},
     {Str::ZoomFar, "먼 보기"},
     {Str::ZoomMedium, "중간 보기"},
@@ -897,6 +903,9 @@ const Translation kEntries[] = {
     {Str::LookPatterned, "무늬"},
     // Makin' Magic book
     {Str::BookIngredients, "재료: %s"},
+    {Str::BookHasAll, "%s은(는) 모두 가지고 있습니다"},
+    {Str::BookMissing, "%s에게 부족한 것: %s"},
+    {Str::BookIngredientCount, "%2$s %1$d개"},
     {Str::GroupSpells, "주문"},
     {Str::GroupRecipes, "요리법"},
     // Narrator: conversation topics
