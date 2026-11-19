@@ -127,7 +127,7 @@ Du behöver inte tabba dit: Page-tangenterna bläddrar bland föremålen var du 
 
 En sim eller ett föremål som fortfarande visar en bubbla säger den också ("Bella, Ät, tänker: hunger"). Något som ingen sim kan nå från tomtens ingång säger "ingen sim kan nå den".
 
-Efter simmarna kommer **problem**: det som behöver uppmärksamhet, som trasiga saker, det som behöver städas, vattenpölar, skräp, aska, eld och allt med flugor över. En tom matskål för husdjur finns också här; i alla listor säger en matskål om det finns mat i den. Sist kommer **dörrar, fönster och trappor**.
+Efter simmarna kommer **problem**: det som behöver uppmärksamhet, som trasiga saker, det som behöver städas, vattenpölar, skräp, aska, eld och allt med flugor över. En tom matskål för husdjur finns också här; i alla listor säger en matskål om det finns mat i den. Kemisetet (Livin' Large) säger sin trolldryck bara efter färgen, så som en seende spelare ser den, aldrig efter verkan: "blå trolldryck klar", "trolldryck blandas, 40 %" eller "ingen trolldryck"; en trolldryck som blir klar meddelas. Sist kommer **dörrar, fönster och trappor**.
 
 ### Interaktionsmenyer
 
@@ -161,7 +161,7 @@ Enter på ett föremål (eller på en sim) öppnar spelets interaktionsmeny. Pil
 
 Spelet visar många saker bara som bilder. Modden säger dem när de händer och sparar dem i händelsebufferten:
 
-- **Bubblor** över simmar och föremål: "Bella tänker: hunger", "Mortimer skriker: blåsa", "Bella säger: Utomjordingar", ett ämne som den andra simmen ogillar ("..., inte intresserad"), "relationen blir sämre" och "Papperskorg: flugor".
+- **Bubblor** över simmar och föremål: "Bella tänker: hunger", "Mortimer skriker: blåsa", "Bella pratar om Utomjordingar", ett ämne som den andra simmen ogillar ("..., inte intresserad"), "relationen blir sämre" och "Papperskorg: flugor".
 - **Blockerade vägar**: "Bella kommer inte förbi: Stol står i vägen".
 - **Besökare** som kommer och går, spöken, inbrottstjuven, Liemannen, pizzabudet, samåkningen och skolbussen (vilken bil som tutar).
 - **Saker som tas** av kronofogden eller en inbrottstjuv, med deras värde; **räkningar** som kommer.
@@ -292,6 +292,7 @@ Byggmarkören, placeringen och husets karta spelar ett kort ljud vid varje steg:
 |---|---|
 | Kontroll+Skift+C | Spelets fuskkonsol. Pil upp och Pil ned väljer ett fusk, det du skriver läggs till, Enter kör det (igen: upprepar), Escape stänger. |
 | Kontroll+Skift+V | Lyser upp den valda kontrollen på skärmen för en seende hjälpare. På tomten går muspekaren också till saken som har fokus. |
+| Kontroll+Skift+F12 | Stänger av modden och slår på den igen. Avstängd körs spelet som om modden inte var installerad: ingenting läses upp och alla tangenter går till spelet. När spelet startas om är den påslagen igen. |
 
 ## Spelets egna tangenter
 

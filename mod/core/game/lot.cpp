@@ -398,16 +398,19 @@ Family FamilyOf(Ptr object) {
             ObjdField(object, addr::objd::kMasterId)};
 }
 
-// The part that stands for a multi-tile object: the one with the catalog strings, else the one
-// with the lowest tile offset (a cheap single bed has parts at offsets 1, 0x101 and 0x201 and no
-// strings in any: none is at 0).
-bool Represents(Ptr object, const std::map<Family, bool>& familyHasStrings, const std::map<Family, uint16_t>& familyFirstSub) {
+// The part that stands for a multi-tile object: of the parts with catalog strings, else of all,
+// the one with the lowest tile offset (a cheap single bed has parts at offsets 1, 0x101 and 0x201
+// and no strings in any: none is at 0; both halves of Livin' Large's chemistry set have strings,
+// and it was listed as "2 iguales").
+bool Represents(Ptr object, const std::map<Family, uint16_t>& familyFirstStringSub,
+                const std::map<Family, uint16_t>& familyFirstSub) {
     if (ObjdField(object, addr::objd::kMasterId) == 0) return true;  // single tile
     bool hasStrings = ObjdField(object, addr::objd::kCatalogStringsId) != 0;
-    auto family = familyHasStrings.find(FamilyOf(object));
-    if (family != familyHasStrings.end() && family->second) return hasStrings;
+    uint16_t sub = ObjdField(object, addr::objd::kSubIndex);
+    auto withStrings = familyFirstStringSub.find(FamilyOf(object));
+    if (withStrings != familyFirstStringSub.end()) return hasStrings && sub == withStrings->second;
     auto first = familyFirstSub.find(FamilyOf(object));
-    return first != familyFirstSub.end() && ObjdField(object, addr::objd::kSubIndex) == first->second;
+    return first != familyFirstSub.end() && sub == first->second;
 }
 
 namespace {
@@ -421,7 +424,7 @@ std::vector<LotObject> ListObjects(bool withPortals) {
     size_t count = (end - begin) / 4;
     if (count > 20000) return out;
     std::vector<Ptr> candidates;
-    std::map<Family, bool> familyHasStrings;
+    std::map<Family, uint16_t> familyFirstStringSub;  // the lowest offset of the parts with strings
     std::map<Family, uint16_t> familyFirstSub;
     for (size_t i = 0; i < count; i++) {
         Ptr object = Rd<Ptr>(begin + i * 4);
@@ -436,14 +439,18 @@ std::vector<LotObject> ListObjects(bool withPortals) {
         candidates.push_back(object);
         if (ObjdField(object, addr::objd::kMasterId) != 0) {
             Family family = FamilyOf(object);
-            familyHasStrings[family] |= ObjdField(object, addr::objd::kCatalogStringsId) != 0;
             uint16_t sub = ObjdField(object, addr::objd::kSubIndex);
             auto first = familyFirstSub.find(family);
             if (first == familyFirstSub.end() || sub < first->second) familyFirstSub[family] = sub;
+            if (ObjdField(object, addr::objd::kCatalogStringsId) != 0) {
+                auto firstString = familyFirstStringSub.find(family);
+                if (firstString == familyFirstStringSub.end() || sub < firstString->second)
+                    familyFirstStringSub[family] = sub;
+            }
         }
     }
     for (Ptr object : candidates) {
-        if (!Represents(object, familyHasStrings, familyFirstSub)) continue;
+        if (!Represents(object, familyFirstStringSub, familyFirstSub)) continue;
         LotObject o;
         if (GetObject(object, &o)) out.push_back(o);
     }
@@ -521,6 +528,18 @@ int ObjectAttribute(Ptr object, int n) {
 int PetBowlFood(Ptr object) {
     if (!object || InternalName(Rd<Ptr>(object + addr::obj::kType)).rfind("Pet - Food Bowl", 0) != 0) return -1;
     return ObjectAttribute(object, addr::objattr::kBowlFood);
+}
+
+bool ChemistryPotion(Ptr object, int* type, int* progress) {
+    if (!object || InternalName(Rd<Ptr>(object + addr::obj::kType)).rfind("Chemistry Set", 0) != 0) return false;
+    for (Ptr part : ObjectParts(object)) {
+        if (InternalName(Rd<Ptr>(part + addr::obj::kType)) != "Chemistry Set - Left") continue;
+        int t = ObjectAttribute(part, addr::objattr::kPotionType);
+        *type = t >= 0 && t <= 7 ? t : -1;
+        *progress = ObjectAttribute(part, addr::objattr::kPotionProgress);
+        return true;
+    }
+    return false;
 }
 
 std::string ObjectInternalName(const LotObject& o) { return InternalName(Rd<Ptr>(o.object + addr::obj::kType)); }

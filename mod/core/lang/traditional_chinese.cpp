@@ -10,6 +10,8 @@ namespace {
 const Translation kEntries[] = {
     // Startup
     {Str::ModLoaded, "模擬市民無障礙模組已載入"},
+    {Str::ModOff, "模擬市民無障礙模組已關閉。按 Ctrl Shift F12 重新開啟。"},
+    {Str::ModOn, "模擬市民無障礙模組已開啟"},
     // Key help (Ctrl+F1)
     {Str::KeysScreen,
      "Tab和Shift+Tab切換群組，方向鍵在群組內移動，Home和End移到群組的兩端，Enter執行；在地段物品的某個類型或房間上按Enter，會開啟其中的物品；退格鍵返回，R重複朗讀。在滑桿或選擇器上，左右方向"
@@ -105,6 +107,16 @@ const Translation kEntries[] = {
     {Str::ConditionDirty, "需要清潔"},
     {Str::BowlEmpty, "沒有食物"},
     {Str::BowlHasFood, "有食物"},
+    {Str::Potion0, "橙色藥水已完成"},
+    {Str::Potion1, "紅色藥水已完成"},
+    {Str::Potion2, "藍色藥水已完成"},
+    {Str::Potion3, "淺綠色藥水已完成"},
+    {Str::Potion4, "白色藥水已完成"},
+    {Str::Potion5, "黃色藥水已完成"},
+    {Str::Potion6, "紫色藥水已完成"},
+    {Str::Potion7, "綠色藥水已完成"},
+    {Str::PotionBrewing, "正在製造藥水，%d%%"},
+    {Str::PotionNone, "沒有藥水"},
     {Str::ObjPuddle, "水窪"},
     {Str::ObjAshes, "灰燼"},
     {Str::ObjFire, "火"},
@@ -376,13 +388,13 @@ const Translation kEntries[] = {
     // Balloons over Sims and objects, visitors, taken objects (nav/narrator.cpp)
     {Str::BalloonThinks, "%1$s在想：%2$s"},
     {Str::BalloonShouts, "%1$s在喊：%2$s"},
-    {Str::BalloonSays, "%1$s在說：%2$s"},
+    {Str::BalloonSays, "%1$s聊起%2$s"},
     {Str::BalloonShows, "%1$s：%2$s"},
     {Str::BalloonRouteBlocked, "%1$s過不去：%2$s擋住了路"},
     {Str::BalloonRouteFailed, "%1$s到不了：%2$s"},
     {Str::ShownThinks, "在想：%s"},
     {Str::ShownShouts, "在喊：%s"},
-    {Str::ShownSays, "在說：%s"},
+    {Str::ShownSays, "聊起%s"},
     {Str::ShownRouteBlocked, "過不去：%s擋住了路"},
     {Str::ShownRouteFailed, "到不了：%s"},
     {Str::BalloonCrossedOut, "%s，被劃掉"},
@@ -920,6 +932,7 @@ const Translation kEntries[] = {
     // The manual (Control+Shift+F1, the mod help button)
     {Str::ManualHint, "Ctrl Shift F1開啟手冊；Ctrl F1說出每個畫面的按鍵。"},
     {Str::KeysManual, "Ctrl Shift F1在瀏覽器中開啟模組的完整手冊。"},
+    {Str::KeysToggle, "Ctrl Shift F12 關閉模組，再按一次重新開啟。"},
     {Str::ManualOpening, "正在瀏覽器中開啟手冊"},
     {Str::ManualMissing, "找不到手冊：請重新安裝模組"},
     {Str::ManualButton, "模擬市民無障礙模組手冊"},

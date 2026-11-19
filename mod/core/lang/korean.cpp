@@ -10,6 +10,8 @@ namespace {
 const Translation kEntries[] = {
     // Startup
     {Str::ModLoaded, "더 심즈 접근성 기능을 불러왔습니다"},
+    {Str::ModOff, "더 심즈 접근성 기능을 껐습니다. Ctrl Shift F12로 다시 켭니다."},
+    {Str::ModOn, "더 심즈 접근성 기능을 켰습니다"},
     // Key help (Ctrl+F1)
     {Str::KeysScreen,
      "탭과 시프트+탭으로 그룹을 바꾸고, 화살표로 그룹 안을 이동하고, 홈과 엔드로 그룹의 처음과 끝으로 가고, 엔터로 누릅니다. 부지 물건의 종류나 방에서 엔터를 누르면 그 물건들이 열립니다. "
@@ -108,6 +110,16 @@ const Translation kEntries[] = {
     {Str::ConditionDirty, "청소 필요"},
     {Str::BowlEmpty, "먹이 없음"},
     {Str::BowlHasFood, "먹이 있음"},
+    {Str::Potion0, "주황색 물약 완성"},
+    {Str::Potion1, "빨간색 물약 완성"},
+    {Str::Potion2, "파란색 물약 완성"},
+    {Str::Potion3, "연두색 물약 완성"},
+    {Str::Potion4, "흰색 물약 완성"},
+    {Str::Potion5, "노란색 물약 완성"},
+    {Str::Potion6, "보라색 물약 완성"},
+    {Str::Potion7, "초록색 물약 완성"},
+    {Str::PotionBrewing, "물약 만드는 중, %d%%"},
+    {Str::PotionNone, "물약 없음"},
     {Str::ObjPuddle, "물웅덩이"},
     {Str::ObjAshes, "재"},
     {Str::ObjFire, "불"},
@@ -398,13 +410,13 @@ const Translation kEntries[] = {
     // Balloons over Sims and objects, visitors, taken objects (nav/narrator.cpp)
     {Str::BalloonThinks, "%1$s의 생각: %2$s"},
     {Str::BalloonShouts, "%1$s의 고함: %2$s"},
-    {Str::BalloonSays, "%1$s의 말: %2$s"},
+    {Str::BalloonSays, "%1$s의 화제: %2$s"},
     {Str::BalloonShows, "%1$s: %2$s"},
     {Str::BalloonRouteBlocked, "%1$s 지나갈 수 없음: %2$s이(가) 길을 막고 있음"},
     {Str::BalloonRouteFailed, "%1$s 갈 수 없음: %2$s"},
     {Str::ShownThinks, "생각: %s"},
     {Str::ShownShouts, "고함: %s"},
-    {Str::ShownSays, "말: %s"},
+    {Str::ShownSays, "화제: %s"},
     {Str::ShownRouteBlocked, "지나갈 수 없음: %s이(가) 길을 막고 있음"},
     {Str::ShownRouteFailed, "갈 수 없음: %s"},
     {Str::BalloonCrossedOut, "%s, 가위표"},
@@ -951,6 +963,7 @@ const Translation kEntries[] = {
     // The manual (Control+Shift+F1, the mod help button)
     {Str::ManualHint, "Ctrl Shift F1은 설명서를 엽니다. Ctrl F1은 각 화면의 키를 알려 줍니다."},
     {Str::KeysManual, "Ctrl Shift F1은 모드의 전체 설명서를 브라우저에서 엽니다."},
+    {Str::KeysToggle, "Ctrl Shift F12로 모드를 끄고 다시 켭니다."},
     {Str::ManualOpening, "브라우저에서 설명서를 여는 중"},
     {Str::ManualMissing, "설명서가 없습니다: 모드를 다시 설치하세요"},
     {Str::ManualButton, "더 심즈 접근성 설명서"},

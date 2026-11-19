@@ -127,7 +127,7 @@ Du trenger ikke å tabbe dit: Side-tastene blar gjennom objektene fra hvor som h
 
 En sim eller et objekt som fortsatt viser en boble, sier den også ("Bella, Spis, tenker: sult"). En ting ingen sim kan komme til fra tomtens inngang, sier "ingen sim kan nå det".
 
-Etter simmene kommer **problemer**: det som trenger oppmerksomhet, som ødelagte ting, det som må rengjøres, vannpytter, søppel, aske, ild og alt med fluer over. En tom matskål for kjæledyr er her også; i alle lister sier en matskål om det er mat i den. Til slutt kommer **dører, vinduer og trapper**.
+Etter simmene kommer **problemer**: det som trenger oppmerksomhet, som ødelagte ting, det som må rengjøres, vannpytter, søppel, aske, ild og alt med fluer over. En tom matskål for kjæledyr er her også; i alle lister sier en matskål om det er mat i den. Kjemisettet (Livin' Large) sier miksturen sin bare etter fargen, slik en seende spiller ser den, aldri etter virkningen: "blå mikstur klar", "mikstur lages, 40 %" eller "ingen mikstur"; en mikstur som blir klar, blir meldt. Til slutt kommer **dører, vinduer og trapper**.
 
 ### Handlingsmenyer
 
@@ -161,7 +161,7 @@ Enter på et objekt (eller på en sim) åpner spillets handlingsmeny. Pil opp og
 
 Spillet viser mange ting bare som bilder. Modden sier dem mens de skjer og lagrer dem i hendelsesbufferen:
 
-- **Bobler** over simmer og objekter: "Bella tenker: sult", "Mortimer roper: blære", "Bella sier: Romvesener", et emne den andre simmen misliker ("..., ikke interessert"), "forholdet blir dårligere", og "Søppeldunk: fluer".
+- **Bobler** over simmer og objekter: "Bella tenker: sult", "Mortimer roper: blære", "Bella snakker om Romvesener", et emne den andre simmen misliker ("..., ikke interessert"), "forholdet blir dårligere", og "Søppeldunk: fluer".
 - **Blokkerte veier**: "Bella kommer ikke forbi: Stol står i veien".
 - **Besøkende** som kommer og går, spøkelser, innbruddstyven, Mannen med ljåen, pizzabudet, samkjøringen og skolebussen (hvilken bil som tuter).
 - **Ting som blir tatt** av namsmannen eller en innbruddstyv, med verdien; **regninger** som kommer.
@@ -292,6 +292,7 @@ Byggmarkøren, plasseringen og husets kart spiller en kort lyd for hvert steg: g
 |---|---|
 | Kontroll+Skift+C | Spillets juksekonsoll. Pil opp og Pil ned velger en juksekode, det du skriver legges til, Enter kjører den (igjen: gjentar), Escape lukker. |
 | Kontroll+Skift+V | Fremhever den valgte kontrollen på skjermen for en seende hjelper. På tomten går musepekeren også til tingen som har fokus. |
+| Kontroll+Skift+F12 | Slår modden av og på. Når den er av, kjører spillet som om modden ikke var installert: ingenting leses opp, og alle taster går til spillet. Når spillet startes på nytt, er den på igjen. |
 
 ## Spillets egne taster
 

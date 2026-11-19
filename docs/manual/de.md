@@ -127,7 +127,7 @@ Du musst nicht mit Tab dorthin: die Bild-Tasten gehen von überall auf dem Grund
 
 Ein Sim oder ein Objekt, über dem noch eine Sprechblase steht, sagt sie mit („Bella, Essen, denkt: Hunger“). Was kein Sim vom Eingang des Grundstücks aus erreichen kann, sagt „kein Sim kommt dorthin“.
 
-Nach den Sims kommt **Probleme**: was Aufmerksamkeit braucht, etwa Kaputtes, was gereinigt werden muss, Pfützen, Müll, Asche, Feuer und alles mit Fliegen. Ein leerer Futternapf für Haustiere steht auch hier; in jeder Liste sagt ein Futternapf, ob Futter darin ist. Zuletzt kommt **Türen, Fenster und Treppen**.
+Nach den Sims kommt **Probleme**: was Aufmerksamkeit braucht, etwa Kaputtes, was gereinigt werden muss, Pfützen, Müll, Asche, Feuer und alles mit Fliegen. Ein leerer Futternapf für Haustiere steht auch hier; in jeder Liste sagt ein Futternapf, ob Futter darin ist. Der Chemiebaukasten (Livin' Large) nennt seinen Trank nur nach der Farbe, wie ein sehender Spieler ihn sieht, nie nach seiner Wirkung: „blauer Trank fertig“, „Trank wird zubereitet, 40 %“ oder „kein Trank“; ein Trank, der fertig wird, wird angesagt. Zuletzt kommt **Türen, Fenster und Treppen**.
 
 ### Interaktionsmenüs
 
@@ -161,7 +161,7 @@ Eingabe auf einem Objekt (oder einem Sim) öffnet das Interaktionsmenü des Spie
 
 Vieles zeigt das Spiel nur als Bild. Der Mod sagt es, wenn es passiert, und behält es im Ereignis-Puffer:
 
-- **Sprechblasen** über Sims und Objekten: „Bella denkt: Hunger“, „Mortimer schreit: Harndrang“, „Bella sagt: Aliens“, ein Thema, das der andere Sim nicht mag („..., interessiert sich nicht dafür“), „Beziehung schlechter“ und „Abfalleimer: Fliegen“.
+- **Sprechblasen** über Sims und Objekten: „Bella denkt: Hunger“, „Mortimer schreit: Harndrang“, „Bella spricht über Aliens“, ein Thema, das der andere Sim nicht mag („..., interessiert sich nicht dafür“), „Beziehung schlechter“ und „Abfalleimer: Fliegen“.
 - **Blockierte Wege**: „Bella kommt nicht vorbei: Stuhl ist im Weg“.
 - **Besucher**, die kommen und gehen, Geister, der Einbrecher, der Sensenmann, der Pizzabote, die Fahrgemeinschaft und der Schulbus (welches Auto hupt).
 - **Mitgenommene Objekte** durch den Gerichtsvollzieher oder einen Einbrecher, mit ihrem Wert; **Rechnungen**, die ankommen.
@@ -292,6 +292,7 @@ Der Bau-Cursor, das Platzieren und der Hausplan spielen bei jedem Schritt einen 
 |---|---|
 | Strg+Umschalt+C | Die Cheat-Konsole des Spiels. Pfeil nach oben und Pfeil nach unten wählen einen Cheat, Tippen ergänzt ihn, Eingabe führt ihn aus (noch einmal: wiederholt ihn), Esc schließt. |
 | Strg+Umschalt+V | Hebt das gewählte Steuerelement auf dem Bildschirm hervor, für eine sehende Hilfe. Auf dem Grundstück geht auch der Mauszeiger zum gewählten Ding. |
+| Strg+Umschalt+F12 | Schaltet den Mod aus und wieder ein. Ausgeschaltet läuft das Spiel, als wäre der Mod nicht installiert: Nichts wird gesprochen, und alle Tasten gehen an das Spiel. Ein Neustart des Spiels schaltet ihn wieder ein. |
 
 ## Die Tasten des Spiels
 

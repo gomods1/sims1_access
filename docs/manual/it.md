@@ -127,7 +127,7 @@ Non serve andarci con Tab: i tasti Pagina scorrono gli oggetti da qualsiasi punt
 
 Un Sim o un oggetto che mostra ancora un fumetto lo dice anche ("Bella, Mangia, pensa: mangiare"). Ciò che nessun Sim può raggiungere dall'ingresso del lotto dice "nessun Sim può raggiungerlo".
 
-Dopo i Sim viene **problemi**: ciò che richiede attenzione, come oggetti rotti, cose da pulire, pozzanghere, rifiuti, cenere, fuoco e tutto ciò che ha mosche. Anche una ciotola per animali vuota è qui; in ogni elenco una ciotola dice se contiene cibo. Per ultimo viene **porte, finestre e scale**.
+Dopo i Sim viene **problemi**: ciò che richiede attenzione, come oggetti rotti, cose da pulire, pozzanghere, rifiuti, cenere, fuoco e tutto ciò che ha mosche. Anche una ciotola per animali vuota è qui; in ogni elenco una ciotola dice se contiene cibo. Il laboratorio di chimica (Livin' Large) dice la sua pozione solo dal colore, come la vede un giocatore vedente, mai dall'effetto: "pozione blu pronta", "pozione in preparazione, 40%" o "nessuna pozione"; una pozione che diventa pronta viene annunciata. Per ultimo viene **porte, finestre e scale**.
 
 ### I menu delle interazioni
 
@@ -161,7 +161,7 @@ Invio su un oggetto (o su un Sim) apre il menu delle interazioni del gioco. Frec
 
 Il gioco mostra molte cose solo come immagini. La mod le dice quando succedono e le tiene nel buffer degli eventi:
 
-- **I fumetti** sopra Sim e oggetti: "Bella pensa: mangiare", "Mortimer grida: WC", "Bella dice: Alieni", un argomento che all'altro Sim non piace ("..., nessun interesse"), "il rapporto peggiora" e "Cestino per i Rifiuti: mosche".
+- **I fumetti** sopra Sim e oggetti: "Bella pensa: mangiare", "Mortimer grida: WC", "Bella parla di Alieni", un argomento che all'altro Sim non piace ("..., nessun interesse"), "il rapporto peggiora" e "Cestino per i Rifiuti: mosche".
 - **I percorsi bloccati**: "Bella non riesce a passare: Sedia blocca la strada".
 - **I visitatori** che arrivano e se ne vanno, i fantasmi, il ladro, la Morte, il fattorino della pizza, il car pooling e lo scuolabus (quale auto suona il clacson).
 - **Gli oggetti portati via** dall'ufficiale giudiziario o da un ladro, con il loro valore; **le bollette** che arrivano.
@@ -292,6 +292,7 @@ Il cursore di costruzione, il posizionamento e la mappa della casa riproducono u
 |---|---|
 | Control+Maiusc+C | La console dei trucchi del gioco. Freccia su e freccia giù scelgono un trucco, ciò che scrivi si aggiunge, Invio lo esegue (di nuovo: lo ripete), Esc chiude. |
 | Control+Maiusc+V | Evidenzia sullo schermo il controllo selezionato, per chi ti aiuta e vede. Sul lotto, anche il puntatore del mouse va sulla cosa selezionata. |
+| Control+Maiusc+F12 | Disattiva la mod e la riattiva. Da disattivata, il gioco funziona come se la mod non fosse installata: non viene letto nulla e tutti i tasti vanno al gioco. Riavviare il gioco la riattiva. |
 
 ## I tasti del gioco
 

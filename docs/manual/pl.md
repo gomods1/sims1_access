@@ -171,7 +171,7 @@ trybie życia, kupowania i budowania.
 
 Sim lub obiekt, nad którym wciąż widać dymek, też to mówi ("Bella, Zjedz, myśli: głód"). Rzecz, do której żaden Sim nie może dojść od wejścia na parcelę, mówi "żaden Sim nie może tam dojść".
 
-Po Simach są **problemy**: to, co wymaga uwagi, czyli zepsute rzeczy, rzeczy do sprzątnięcia, kałuże, śmieci, popiół, ogień i wszystko z muchami. Pusta miska dla zwierzaka też tu jest; na każdej liście miska mówi, czy jest w niej jedzenie. Na końcu są **drzwi, okna i schody**.
+Po Simach są **problemy**: to, co wymaga uwagi, czyli zepsute rzeczy, rzeczy do sprzątnięcia, kałuże, śmieci, popiół, ogień i wszystko z muchami. Pusta miska dla zwierzaka też tu jest; na każdej liście miska mówi, czy jest w niej jedzenie. Zestaw chemiczny (Livin' Large) podaje napój tylko po kolorze, tak jak widzi go widzący gracz, nigdy po działaniu: "niebieski napój gotowy", "przygotowywanie napoju, 40%" albo "brak napoju"; gotowy napój jest ogłaszany. Na końcu są **drzwi, okna i schody**.
 
 ### Menu działań
 
@@ -212,7 +212,7 @@ Gra wiele rzeczy pokazuje tylko obrazkami. Mod mówi o nich, gdy się dzieją, i
 buforze zdarzeń:
 
 - **Dymki** nad Simami i obiektami: "Bella myśli: głód", "Mortimer krzyczy: wydalanie", "Bella
-  mówi: Obcy", temat, którego drugi Sim nie lubi ("..., nie interesuje się tym"), "relacja się
+  rozmawia na temat: Obcy", temat, którego drugi Sim nie lubi ("..., nie interesuje się tym"), "relacja się
   pogarsza" i "Kosz na śmieci: muchy".
 - **Zablokowane przejścia**: "Bella nie może przejść: na drodze stoi Krzesło".
 - **Goście**, którzy przychodzą i odchodzą, duchy, włamywacz, Śmierć, dostawca pizzy, wspólny
@@ -381,6 +381,7 @@ wyłącza je i włącza.
 |---|---|
 | Control+Shift+C | Konsola kodów gry. Strzałka w górę i strzałka w dół wybierają kod, pisanie coś do niego dodaje, Enter go wykonuje (ponownie: powtarza), Escape zamyka. |
 | Control+Shift+V | Podświetla wybrany element na ekranie dla widzącej osoby pomagającej. Na parceli wskaźnik myszy przechodzi też do rzeczy, która ma fokus. |
+| Control+Shift+F12 | Wyłącza moda i włącza go z powrotem. Gdy jest wyłączony, gra działa tak, jakby mod nie był zainstalowany: nic nie jest czytane, a wszystkie klawisze trafiają do gry. Ponowne uruchomienie gry znów go włącza. |
 
 ## Klawisze samej gry
 

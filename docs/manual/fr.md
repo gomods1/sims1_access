@@ -127,7 +127,7 @@ Inutile d'y aller avec Tab : les touches Page parcourent les objets depuis n'imp
 
 Un Sim ou un objet qui affiche encore une bulle la dit aussi (« Bella, Manger, pense : appétit »). Ce qu'aucun Sim ne peut atteindre depuis l'entrée du terrain dit « aucun Sim ne peut l'atteindre ».
 
-Après les Sims vient **problèmes** : ce qui demande de l'attention, comme les objets cassés, ce qui est à nettoyer, les flaques, les ordures, les cendres, le feu et tout ce qui a des mouches. Une gamelle pour animal vide est là aussi ; dans toutes les listes, une gamelle dit si elle contient de la nourriture. En dernier vient **portes, fenêtres et escaliers**.
+Après les Sims vient **problèmes** : ce qui demande de l'attention, comme les objets cassés, ce qui est à nettoyer, les flaques, les ordures, les cendres, le feu et tout ce qui a des mouches. Une gamelle pour animal vide est là aussi ; dans toutes les listes, une gamelle dit si elle contient de la nourriture. Le labo de chimie (Livin' Large) dit sa potion par sa couleur seulement, comme un joueur voyant la voit, jamais par son effet : « potion bleue prête », « potion en préparation, 40 % » ou « pas de potion » ; une potion qui devient prête est annoncée. En dernier vient **portes, fenêtres et escaliers**.
 
 ### Les menus d'interactions
 
@@ -161,7 +161,7 @@ Entrée sur un objet (ou sur un Sim) ouvre le menu d'interactions du jeu. Flèch
 
 Le jeu ne montre beaucoup de choses qu'en images. Le mod les dit quand elles arrivent et les garde dans le tampon des événements :
 
-- **Les bulles** au-dessus des Sims et des objets : « Bella pense : appétit », « Mortimer crie : petits besoins », « Bella dit : Aliens », un sujet que l'autre Sim n'aime pas (« ..., ça ne l'intéresse pas »), « la relation se dégrade », et « Poubelle : mouches ».
+- **Les bulles** au-dessus des Sims et des objets : « Bella pense : appétit », « Mortimer crie : petits besoins », « Bella parle de Aliens », un sujet que l'autre Sim n'aime pas (« ..., ça ne l'intéresse pas »), « la relation se dégrade », et « Poubelle : mouches ».
 - **Les chemins bloqués** : « Bella ne peut pas passer : Chaise bloque le chemin ».
 - **Les visiteurs** qui arrivent et qui partent, les fantômes, le cambrioleur, la Faucheuse, le livreur de pizza, le covoiturage et le bus scolaire (quelle voiture klaxonne).
 - **Les objets emportés** par l'huissier ou un cambrioleur, avec leur valeur ; **les factures** qui arrivent.
@@ -292,6 +292,7 @@ Le curseur de construction, le placement et le plan de la maison jouent un son b
 |---|---|
 | Contrôle+Maj+C | La console des codes du jeu. Flèche haut et flèche bas choisissent un code, ce que vous tapez s'y ajoute, Entrée l'exécute (encore une fois : le répète), Échap ferme. |
 | Contrôle+Maj+V | Éclaire à l'écran la commande sélectionnée, pour une personne voyante qui vous aide. Sur le terrain, le pointeur de la souris va aussi sur l'objet sélectionné. |
+| Contrôle+Maj+F12 | Désactive le mod et le réactive. Désactivé, le jeu fonctionne comme si le mod n'était pas installé : rien n'est prononcé et toutes les touches vont au jeu. Relancer le jeu le réactive. |
 
 ## Les touches du jeu
 

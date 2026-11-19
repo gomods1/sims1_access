@@ -22,6 +22,9 @@ namespace nav::world {
 // The name a player hears for an object: its catalog name, the mod's name for default lot objects
 // (mailbox, trees), else its internal name.
 std::string DisplayName(const game::LotObject& o);
+// The chemistry set's potion: "poción naranja lista", "preparando una poción, 40%", "sin poción";
+// empty for anything else. By color only: a sighted player learns the effect by drinking it.
+std::string PotionState(game::Ptr object);
 
 void Reset();
 void Refocus();  // the lot changed: read it again on the next list

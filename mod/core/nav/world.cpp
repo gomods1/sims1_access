@@ -8,6 +8,7 @@
 #include <map>
 #include <vector>
 
+#include "../game/addresses.h"
 #include "../game/buy.h"
 #include "../game/lot.h"
 #include "../game/lotgrid.h"
@@ -264,6 +265,8 @@ std::string Describe(const Entry& e, const Lot& lot) {
     else if (!o.person && game::ObjectDirty(o.object)) s += std::string(", ") + S(Str::ConditionDirty);
     int food = o.person ? -1 : game::PetBowlFood(o.object);  // a tester asked whether the bowl was empty
     if (food >= 0) s += std::string(", ") + S(food > 0 ? Str::BowlHasFood : Str::BowlEmpty);
+    std::string potion = o.person ? "" : PotionState(o.object);  // a tester: "no podés saber de qué color es"
+    if (!potion.empty()) s += ", " + potion;
     const LotObject* ref = lot.Ref();
     if (ref && o.object == ref->object) s += std::string(", ") + S(Str::SelectedSimSuffix);
     if (o.person) {  // what the Sim is doing: its current action
@@ -726,6 +729,16 @@ void WalkToSpot(int worldX, int worldY) {
     ChooseInNextMenu(0);  // the floor's menu: "Ir a este punto"
     if (game::WalkTo(worldX, worldY, 512, 384)) speech::Say(S(Str::WalkingThere));
     else speech::Say(S(Str::CannotWalk));
+}
+
+std::string PotionState(game::Ptr object) {
+    static const Str kColors[] = {Str::Potion0, Str::Potion1, Str::Potion2, Str::Potion3,
+                                  Str::Potion4, Str::Potion5, Str::Potion6, Str::Potion7};
+    int type = -1, progress = 0;
+    if (!game::ChemistryPotion(object, &type, &progress)) return "";
+    if (type >= 0 && progress >= game::addr::objattr::kPotionReady) return S(kColors[type]);
+    if (type >= 0 && progress > 0) return util::Format(S(Str::PotionBrewing), progress);
+    return S(Str::PotionNone);
 }
 
 }  // namespace nav::world

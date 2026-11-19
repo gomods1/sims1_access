@@ -10,6 +10,8 @@ namespace {
 const Translation kEntries[] = {
     // Startup
     {Str::ModLoaded, "Tillgänglighet för The Sims laddad"},
+    {Str::ModOff, "Tillgänglighet för The Sims avstängd. Kontroll Skift F12 slår på den igen."},
+    {Str::ModOn, "Tillgänglighet för The Sims påslagen"},
     // Key help (Ctrl+F1)
     {Str::KeysScreen,
      "Tabb och Skift+Tabb byter grupp, piltangenterna flyttar inom en grupp, Home och End går till dess ändar; "
@@ -120,6 +122,16 @@ const Translation kEntries[] = {
     {Str::ConditionDirty, "behöver städas"},
     {Str::BowlEmpty, "utan mat"},
     {Str::BowlHasFood, "med mat"},
+    {Str::Potion0, "orange trolldryck klar"},
+    {Str::Potion1, "röd trolldryck klar"},
+    {Str::Potion2, "blå trolldryck klar"},
+    {Str::Potion3, "ljusgrön trolldryck klar"},
+    {Str::Potion4, "vit trolldryck klar"},
+    {Str::Potion5, "gul trolldryck klar"},
+    {Str::Potion6, "lila trolldryck klar"},
+    {Str::Potion7, "grön trolldryck klar"},
+    {Str::PotionBrewing, "trolldryck blandas, %d %%"},
+    {Str::PotionNone, "ingen trolldryck"},
     {Str::ObjPuddle, "vattenpöl"},
     {Str::ObjAshes, "aska"},
     {Str::ObjFire, "eld"},
@@ -461,13 +473,13 @@ const Translation kEntries[] = {
     // Balloons over Sims and objects, visitors, taken objects (nav/narrator.cpp)
     {Str::BalloonThinks, "%1$s tänker: %2$s"},
     {Str::BalloonShouts, "%1$s skriker: %2$s"},
-    {Str::BalloonSays, "%1$s säger: %2$s"},
+    {Str::BalloonSays, "%1$s pratar om %2$s"},
     {Str::BalloonShows, "%1$s: %2$s"},
     {Str::BalloonRouteBlocked, "%1$s kommer inte förbi: %2$s står i vägen"},
     {Str::BalloonRouteFailed, "%1$s kommer inte fram: %2$s"},
     {Str::ShownThinks, "tänker: %s"},
     {Str::ShownShouts, "skriker: %s"},
-    {Str::ShownSays, "säger: %s"},
+    {Str::ShownSays, "pratar om %s"},
     {Str::ShownRouteBlocked, "kommer inte förbi: %s står i vägen"},
     {Str::ShownRouteFailed, "kommer inte fram: %s"},
     {Str::BalloonCrossedOut, "%s, överstruket"},
@@ -1039,6 +1051,7 @@ const Translation kEntries[] = {
     // The manual (Control+Shift+F1, the mod help button)
     {Str::ManualHint, "Kontroll Skift F1 öppnar handboken; Kontroll F1 säger tangenterna på varje skärm."},
     {Str::KeysManual, "Kontroll Skift F1 öppnar moddens fullständiga handbok i webbläsaren."},
+    {Str::KeysToggle, "Kontroll Skift F12 stänger av modden och slår på den igen."},
     {Str::ManualOpening, "öppnar handboken i webbläsaren"},
     {Str::ManualMissing, "handboken saknas: installera om modden"},
     {Str::ManualButton, "Handbok för Tillgänglighet för The Sims"},

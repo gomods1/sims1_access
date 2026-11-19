@@ -167,7 +167,7 @@ buy and build mode.
 
 A Sim or an object still showing a balloon says it too ("Bella, Eat, thinks: hunger"). A thing no Sim can get to from the lot's entrance says "no Sim can reach it".
 
-After the Sims comes **problems**: what wants attention, such as broken things, things that need cleaning, puddles, rubbish, ashes, fire, and anything with flies over it. An empty pet food bowl is here too; in any list a food bowl says whether it has food. Last comes **doors, windows and stairs**.
+After the Sims comes **problems**: what wants attention, such as broken things, things that need cleaning, puddles, rubbish, ashes, fire, and anything with flies over it. An empty pet food bowl is here too; in any list a food bowl says whether it has food. The chemistry set (Livin' Large) names its potion by its color only, as a sighted player sees it, never by its effect: "blue potion ready", "brewing a potion, 40%" or "no potion"; a potion that becomes ready is announced. Last comes **doors, windows and stairs**.
 
 ### Interaction menus
 
@@ -208,7 +208,7 @@ The game shows many things only as pictures. The mod says them as they happen an
 the events buffer:
 
 - **Balloons** over Sims and objects: "Bella thinks: hunger", "Mortimer shouts: bladder",
-  "Bella says: Aliens", a topic the other Sim dislikes ("..., not interested"), "the
+  "Bella talks about Aliens", a topic the other Sim dislikes ("..., not interested"), "the
   relationship worsens", and "Trash can: flies".
 - **Blocked routes**: "Bella cannot get through: Chair blocks the way".
 - **Visitors** arriving and leaving, ghosts, the burglar, the Grim Reaper, the pizza delivery,
@@ -372,6 +372,7 @@ side's wall, fence, door or window (each side sounds different), objects, a room
 |---|---|
 | Control+Shift+C | The game's cheat console. Up and Down pick a cheat, typing adds to it, Enter runs it (again: repeats), Escape closes. |
 | Control+Shift+V | Light the focused control on screen, for a sighted helper. On the lot, the mouse pointer also goes to the thing in focus. |
+| Control+Shift+F12 | Turns the mod off and on. While it is off the game runs as if the mod were not installed: nothing is spoken and every key goes to the game. Starting the game again turns it back on. |
 
 ## The game's own keys
 

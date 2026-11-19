@@ -77,6 +77,10 @@ bool ObjectDirty(Ptr object);
 // A pet food bowl's food (Unleashed's "Pet - Food Bowl - Cheap / Expensive": its attribute 3, the
 // servings its "Eat" takes one by one and "Fill Bowl" sets); -1 for anything else.
 int PetBowlFood(Ptr object);
+// The chemistry set's potion (Livin' Large): false for anything else. *type is 0..7 or -1 with
+// none chosen; *progress 0..100, ready at 100 (addresses.h "objattr"). Potions are known by
+// their color (Str::Potion0..7), never by their effect: the player finds that out by drinking.
+bool ChemistryPotion(Ptr object, int* type, int* progress);
 // Attribute n of the object (SimAntics "My attribute"), 0 when it has fewer.
 int ObjectAttribute(Ptr object, int n);
 

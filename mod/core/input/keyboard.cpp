@@ -119,7 +119,7 @@ void SayKeyHelp() {
     else if (nav::LotViewActive()) speech::Say(std::string(S(Str::KeysLot)) + " " + S(Str::KeysLotMore) + (game::BuildPanelShown(game::InputRoot()) ? std::string(" ") + S(Str::KeysCatalogPages) : std::string()) + " " + S(Str::KeysFind) + " " + S(Str::KeysSimCard) + " " + S(Str::KeysLayoutHint) + " " + S(Str::KeysMapHint));
     else if (nav::FocusedLotNumber() >= 0) speech::Say(std::string(S(Str::KeysScreen)) + " " + S(Str::KeysHouseFile));
     else speech::Say(S(Str::KeysScreen));
-    speech::Say(std::string(S(Str::KeysGroupLetter)) + " " + S(Str::KeysShowFocus) + " " + S(Str::KeysShowFocusThings) + " " + S(Str::KeysManual));
+    speech::Say(std::string(S(Str::KeysGroupLetter)) + " " + S(Str::KeysShowFocus) + " " + S(Str::KeysShowFocusThings) + " " + S(Str::KeysManual) + " " + S(Str::KeysToggle));
 }
 
 namespace {

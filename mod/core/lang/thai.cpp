@@ -10,6 +10,8 @@ namespace {
 const Translation kEntries[] = {
     // Startup
     {Str::ModLoaded, "โหลดม็อดการเข้าถึงเดอะซิมส์แล้ว"},
+    {Str::ModOff, "ปิดม็อดการเข้าถึงเดอะซิมส์แล้ว Control Shift F12 เปิดอีกครั้ง"},
+    {Str::ModOn, "เปิดม็อดการเข้าถึงเดอะซิมส์แล้ว"},
     // Key help (Ctrl+F1)
     {Str::KeysScreen,
      "Tab และ Shift+Tab เปลี่ยนกลุ่ม, ปุ่มลูกศรเลื่อนไปภายในกลุ่ม, Home และ End "
@@ -118,6 +120,16 @@ const Translation kEntries[] = {
     {Str::ConditionDirty, "ต้องทำความสะอาด"},
     {Str::BowlEmpty, "ไม่มีอาหาร"},
     {Str::BowlHasFood, "มีอาหาร"},
+    {Str::Potion0, "ยาวิเศษสีส้มเสร็จแล้ว"},
+    {Str::Potion1, "ยาวิเศษสีแดงเสร็จแล้ว"},
+    {Str::Potion2, "ยาวิเศษสีน้ำเงินเสร็จแล้ว"},
+    {Str::Potion3, "ยาวิเศษสีเขียวอ่อนเสร็จแล้ว"},
+    {Str::Potion4, "ยาวิเศษสีขาวเสร็จแล้ว"},
+    {Str::Potion5, "ยาวิเศษสีเหลืองเสร็จแล้ว"},
+    {Str::Potion6, "ยาวิเศษสีม่วงเสร็จแล้ว"},
+    {Str::Potion7, "ยาวิเศษสีเขียวเสร็จแล้ว"},
+    {Str::PotionBrewing, "กำลังผสมยาวิเศษ %d%%"},
+    {Str::PotionNone, "ไม่มียาวิเศษ"},
     {Str::ObjPuddle, "แอ่งน้ำ"},
     {Str::ObjAshes, "ขี้เถ้า"},
     {Str::ObjFire, "ไฟ"},
@@ -452,13 +464,13 @@ const Translation kEntries[] = {
     // Balloons over Sims and objects, visitors, taken objects (nav/narrator.cpp)
     {Str::BalloonThinks, "%1$s คิด: %2$s"},
     {Str::BalloonShouts, "%1$s ตะโกน: %2$s"},
-    {Str::BalloonSays, "%1$s พูด: %2$s"},
+    {Str::BalloonSays, "%1$s คุยเรื่อง %2$s"},
     {Str::BalloonShows, "%1$s: %2$s"},
     {Str::BalloonRouteBlocked, "%1$s ผ่านไปไม่ได้: %2$s ขวางทางอยู่"},
     {Str::BalloonRouteFailed, "%1$s ไปไม่ถึง: %2$s"},
     {Str::ShownThinks, "คิด: %s"},
     {Str::ShownShouts, "ตะโกน: %s"},
-    {Str::ShownSays, "พูด: %s"},
+    {Str::ShownSays, "คุยเรื่อง %s"},
     {Str::ShownRouteBlocked, "ผ่านไปไม่ได้: %s ขวางทางอยู่"},
     {Str::ShownRouteFailed, "ไปไม่ถึง: %s"},
     {Str::BalloonCrossedOut, "%s, ถูกขีดฆ่า"},
@@ -1024,6 +1036,7 @@ const Translation kEntries[] = {
     // The manual (Control+Shift+F1, the mod help button)
     {Str::ManualHint, "Control Shift F1 เปิดคู่มือ Control F1 บอกปุ่มของแต่ละหน้าจอ"},
     {Str::KeysManual, "Control Shift F1 เปิดคู่มือฉบับเต็มของม็อดในเบราว์เซอร์"},
+    {Str::KeysToggle, "Control Shift F12 ปิดม็อดและเปิดอีกครั้ง"},
     {Str::ManualOpening, "กำลังเปิดคู่มือในเบราว์เซอร์"},
     {Str::ManualMissing, "ไม่พบคู่มือ: ติดตั้งม็อดใหม่"},
     {Str::ManualButton, "คู่มือม็อดการเข้าถึงเดอะซิมส์"},

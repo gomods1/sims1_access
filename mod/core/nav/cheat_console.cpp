@@ -4,6 +4,7 @@
 
 #include <algorithm>
 #include <string>
+#include <vector>
 
 #include "../game/buy.h"
 #include "../game/cheats.h"
@@ -25,7 +26,27 @@ struct State {
     bool open = false;
     ULONGLONG openedAt = 0;
     bool hinted = false;       // the keys were said once this session
+    game::Ptr before = 0;      // what owned input while the console was closed, and its screen
+    game::Ptr beforeScreen = 0;
 } g;
+
+// Hiding the console (0x6f0c50 with 0) gives input to the main window's sim view (+0x148)
+// whatever screen is up: closed on the neighborhood, the hidden lot view took the keys and its
+// clock ran under the neighborhood's picture (a tester, 2026-11-15). Input goes back to the
+// screen that had it, while that screen is still there.
+void GiveInputBack() {
+    game::Ptr now = game::KeyboardFocus();
+    if (!g.before || now == g.before || !game::IsKindOf(now, "cDDDSimsView") ||
+        game::IsKindOf(g.beforeScreen, "cDDDSimsView"))
+        return;
+    std::vector<game::Ptr> screens = game::Children(game::MainWindow());
+    if (std::find(screens.begin(), screens.end(), g.beforeScreen) == screens.end() ||
+        !game::Visible(g.beforeScreen) || !game::IsKindOf(g.before, "cTSWin"))
+        return;
+    bool ok = game::GiveInput(g.before);
+    Log("cheats: the console closed, input back to %s %p: %s", game::ClassName(g.beforeScreen).c_str(),
+        (void*)g.beforeScreen, ok ? "yes" : "no");
+}
 
 // "grid [on|off] - enables/disables terrain grid drawing" -> the part after the name, if any.
 std::string UsageOf(const game::CheatCommand& c) {
@@ -98,6 +119,11 @@ void Run() {
 void Tick() {
     bool open = game::CheatConsoleOpen();
     if (open && !g.open) g.openedAt = GetTickCount64();
+    if (!open && g.open) GiveInputBack();
+    if (!game::CheatField() || !game::Visible(game::CheatField())) {  // the console is gone, not under a box
+        g.before = game::KeyboardFocus();
+        g.beforeScreen = game::InputRoot();
+    }
     g.open = open;
     if (open && !g.hinted && GetTickCount64() - g.openedAt > kHintMs) {
         g.hinted = true;

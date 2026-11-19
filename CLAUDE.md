@@ -110,6 +110,10 @@ eturn_focus.txt`; a dev core hands the foreground back to it
   "held" and every key went to the game. Read results in
   `<game>\SimsAccess\SimsAccess.log` (every spoken line is logged as `Spoke:`).
 - Mod keys (none is a game hotkey; Ctrl/Alt combinations are free for later features):
+  - Ctrl+Shift+F12 anywhere (the loader, `ToggleMod`): the mod off and on until the game exits.
+    Off, the core says so (`SA_Toggled`, optional export) and is unloaded as for a hot reload
+    (hooks removed, speech stopped): the game runs as stock. On loads it again and says so. The dev
+    auto reload waits while it is off; Ctrl+Alt+F12 turns it on. Verified 2026-11-19 by keys.py.
   - Ctrl+F1 anywhere: the mod's keys for the current screen, spoken. Ctrl+Shift+F1: the player's
     manual (`docs/manual/<tag>.md`, built by `tools/build_docs.py` with pandoc into
     `SimsAccess\docs\<tag>.html`) opens in the browser in the game's language (`util::DocTag`,
@@ -150,6 +154,21 @@ eturn_focus.txt`; a dev core hands the foreground back to it
     comida" in every list (`game::PetBowlFood`: attribute 3, the servings; "Fill Bowl" sets 11, each
     meal takes one; read live on El Paseo del Inglés 56, 2026-11-08: 3, 3, 2 going down as the pets
     ate, 11 after Ginia refilled one). A tester asked whether the bowl was empty.
+  - Livin' Large's chemistry set (`Juego "Bajobrebajo"`, `ChemistrySet.iff` in
+    `ExpansionPack.far`) says its potion by color only, never the effect (a tester: the player
+    learns it by drinking): "poción azul lista", "preparando una poción, 40%", "sin poción", and
+    the narrator says a potion that becomes ready (`game::ChemistryPotion`, `world::PotionState`).
+    The part "Chemistry Set - Left" (GUID 0xF6618C39) holds attribute 8, the brewing 0..100, and
+    9, the type (65535 none): 0 invisibility, 1 love, 2 motive enhancer, 3 motive subtractor,
+    4 cure, 5 personality inversion, 6 monster, 7 clone (BHAVs "select potion", "do outcome").
+    The color is the flask accessory the Sim holds ("add flask full accessory": type 0
+    `suit-flask-full`, t `suit-flask-full<t+1>`, textures `flaskacc`/`flaskac2..8.bmp`): orange,
+    red, blue, light green, white, yellow, purple, green. The table's flask sprites (SPR2 322-352)
+    are empty stubs in this build. Verified live by writing the attributes (memtool) after the
+    set exploded for a low-logic Sim. Both halves have catalog strings, so the lot lists used to
+    show it as "2 iguales": `Represents` now keeps the lowest-offset part among those with
+    strings (the mailbox lost its "2 iguales" too). `tools/bhav_dump.py` had the wrong operator
+    table (FreeSO's: 0 >, 1 <, 2 ==, 3 +=, 4 -=, 5 :=); fixed.
   - Ctrl+E (lot view): the selected Sim's state in one line ("Cris, en exterior, Tomar un
     tentempié; necesidades urgentes: comodidad, higiene; humor, 3 de 5 barras en rojo").
   - Ctrl+L (lot view): the room's layout (the build cursor's, else the selected Sim's): size,
@@ -246,7 +265,11 @@ eturn_focus.txt`; a dev core hands the foreground back to it
     has one) and put its name in the field; typing is echoed and adds to it ("set_hour 12");
     Enter runs the line through the game's interpreter and keeps the console open, so Enter
     again repeats it ("truco: rosebud. fondos $4.232, +$1.000"); the game's errors come as a
-    message box ("Sorry. No such cheat!"); Escape closes.
+    message box ("Sorry. No such cheat!"); Escape closes. Hiding the console (`0x6f0c50` with 0)
+    gives input to the main window's sim view (`+0x148`, through `0x4800b0`) whatever screen is
+    up: closed on the neighborhood, the hidden lot view took the keys and its clock ran (tester,
+    2026-11-15). `nav::cheats::Tick` hands input back to the screen that had it
+    (`game::GiveInput`, the game's SetInput); verified on the neighborhood.
   - Screens and dialogs: arrows (move in group), Home/End, Tab/Shift+Tab (groups, said with their
     name and size on entering, even of one item), Enter/Space (press; texts the press changes are
     read, e.g. a help topic), Backspace (back a level), R (repeat), Escape (cancel an
@@ -340,7 +363,7 @@ eturn_focus.txt`; a dev core hands the foreground back to it
     announced ("Dandi de la Pizza Dale ha llegado", the narrator below).
   - The narrator (`nav/narrator.cpp`, `game/simantics.cpp`; layouts in `STRUCTS.md` "SimAntics and
     balloons"): every balloon the game shows is heard as it appears and kept in the eventos
-    buffer: "Bella piensa: hambre", "Mortimer grita: vejiga", "Bella dice: Alienígenas" (topics
+    buffer: "Bella piensa: hambre", "Mortimer grita: vejiga", "Bella habla de Alienígenas" (topics
     by the game's interest names; a crossed-out topic reads "..., no le interesa"), "Cassandra: la relación empeora" (the `-` after a social),
     "Cubo de basura: moscas", and route failures as "Bella no puede pasar: Silla ... bloquea el
     camino" (the global tree 0x18e, what the help tip about blocked Sims refers to). The hook is

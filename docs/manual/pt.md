@@ -173,7 +173,7 @@ nos modos Simulação, Compra e Construção.
 
 Um Sim ou objeto que ainda mostra um balão também o diz ("Bella, Comer, pensa: fome"). Algo que nenhum Sim alcança a partir da entrada do lote diz "nenhum Sim consegue chegar".
 
-Depois dos Sims vem **problemas**: o que precisa de atenção, como coisas quebradas, o que precisa de limpeza, poças, lixo, cinzas, fogo e tudo com moscas em cima. Uma tigela de comida de animal vazia também está aqui; em qualquer lista, uma tigela diz se tem comida. Por último vem **portas, janelas e escadas**.
+Depois dos Sims vem **problemas**: o que precisa de atenção, como coisas quebradas, o que precisa de limpeza, poças, lixo, cinzas, fogo e tudo com moscas em cima. Uma tigela de comida de animal vazia também está aqui; em qualquer lista, uma tigela diz se tem comida. O kit de química (Livin' Large) diz a poção só pela cor, como um jogador que enxerga a vê, nunca pelo efeito: "poção azul pronta", "preparando uma poção, 40%" ou "sem poção"; uma poção que fica pronta é anunciada. Por último vem **portas, janelas e escadas**.
 
 ### Menus de interação
 
@@ -213,8 +213,8 @@ volta.
 O jogo mostra muitas coisas só com imagens. O mod as diz quando acontecem e as guarda no buffer de
 eventos:
 
-- **Balões** sobre Sims e objetos: "Bella pensa: fome", "Mortimer grita: banheiro", "Bella diz:
-  Alienígenas", um assunto de que o outro Sim não gosta ("..., não tem interesse"), "o
+- **Balões** sobre Sims e objetos: "Bella pensa: fome", "Mortimer grita: banheiro", "Bella fala
+  sobre Alienígenas", um assunto de que o outro Sim não gosta ("..., não tem interesse"), "o
   relacionamento piora" e "Lata de Lixo: moscas".
 - **Caminhos bloqueados**: "Bella não consegue passar: Cadeira está no caminho".
 - **Visitantes** que chegam e vão embora, fantasmas, o ladrão, a Morte, o entregador de pizza, a
@@ -384,6 +384,7 @@ cômodo, a borda do lote, declives e se um objeto cabe. **Control+Shift+S** os d
 |---|---|
 | Control+Shift+C | O console de trapaças do jogo. Seta para cima e Seta para baixo escolhem uma trapaça, digitar acrescenta a ela, Enter a executa (de novo: repete), Esc fecha. |
 | Control+Shift+V | Destaca na tela o controle selecionado, para alguém que enxerga e está ajudando. No lote, o ponteiro do mouse também vai até a coisa em foco. |
+| Control+Shift+F12 | Desativa o mod e o ativa de novo. Desativado, o jogo funciona como se o mod não estivesse instalado: nada é falado e todas as teclas vão para o jogo. Iniciar o jogo de novo o ativa outra vez. |
 
 ## As teclas do próprio jogo
 

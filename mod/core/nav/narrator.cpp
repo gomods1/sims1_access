@@ -7,6 +7,7 @@
 #include <set>
 #include <vector>
 
+#include "../game/addresses.h"
 #include "../game/lot.h"
 #include "../game/neighborhood.h"
 #include "../game/people.h"
@@ -90,6 +91,7 @@ struct State {
     bool billsSeeded = false;
     ULONGLONG billsPolled = 0;
     ULONGLONG billsArrivedAt = 0;                 // the last new bill, while its line waits
+    std::map<int, bool> potionReady;              // by chemistry set id: its potion was ready
 };
 
 std::map<int, ULONGLONG> g_relationSignAt;  // by neighbor ID: the last + / - balloon over the Sim
@@ -485,8 +487,21 @@ void PollBills() {
     if (now - g.billsPolled < kBillsPollMs) return;
     g.billsPolled = now;
     std::set<int> bills;
-    for (const game::LotObject& o : game::LotObjects())
+    std::map<int, bool> potions;
+    for (const game::LotObject& o : game::LotObjects()) {
         if (game::ObjectInternalName(o) == "Bills") bills.insert(o.id);
+        // A chemistry set's potion that becomes ready is said with its color (a sighted player
+        // sees the flask); the browser's line keeps saying it.
+        int type = -1, progress = 0;
+        if (o.person || !game::ChemistryPotion(o.object, &type, &progress)) continue;
+        bool ready = type >= 0 && progress >= game::addr::objattr::kPotionReady;
+        auto was = g.potionReady.find(o.id);
+        if (ready && was != g.potionReady.end() && !was->second)
+            Announce(util::Format(S(Str::BalloonShows), world::DisplayName(o).c_str(),
+                                  world::PotionState(o.object).c_str()), false);
+        potions[o.id] = ready;
+    }
+    g.potionReady = std::move(potions);
     bool arrived = false;
     for (int id : bills) arrived |= !g.bills.count(id);
     // They come one by one within seconds: one line once no new one has come for a moment.

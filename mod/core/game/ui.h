@@ -45,6 +45,7 @@ std::string TextFieldText(Ptr edit);  // UTF-8
 std::string TextFieldRaw(Ptr edit);   // game text: one byte per character, two for a double-byte one
 int TextFieldCaret(Ptr edit);
 bool FocusTextField(Ptr edit);        // typing goes to it, as after a click (the caret stays put)
+bool GiveInput(Ptr w);                // the widget owns input (+0x24), through the game's SetInput
 
 // Check boxes (cTSWinCheck): a container holding the actual tick button; the box's name is a
 // separate label button next to it.

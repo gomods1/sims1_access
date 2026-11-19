@@ -381,7 +381,8 @@ Object variables are shorts from `cXObject + 0x4a` (FreeSO's stack object number
 8 flags). 15 above 0 means broken (the repairman's "can repair"; a clog sets it to 100); 39 above 400
 with flag bit 0x20 clear means dirty (global tree 303 "Clean test", the maid's; read live: an unmade
 bed and a used toilet 1000, trash pile and roaches 800, a tub 605, a sink 350 not yet). `tools/bhav_dump.py`
-prints expression operators in the wrong order: FreeSO's are 0 `>`, 1 `<`, 2 `==`, 3 `+=`, 4 `-=`, 5 `:=`.
+printed expression operators in the wrong order until 2026-11-15 (fixed: FreeSO's 0 `>`, 1 `<`, 2 `==`,
+3 `+=`, 4 `-=`, 5 `:=`); these thresholds were read live, not from its output.
 
 Job: `0x43ac50` (cdecl, neighbor id) returns the job level, 0 unemployed: `+0x48` start hour, `+0x4c`
 end hour; the carpool is an hour before the start. The popup (`0x4dea70`) fills Live.iff STR# 137

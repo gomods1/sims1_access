@@ -127,7 +127,7 @@ Je hoeft er niet met Tab heen: de Page-toetsen bladeren overal op het kavel door
 
 Een Sim of voorwerp waarboven nog een ballon staat, zegt die ook ("Bella, Eten, denkt: honger"). Iets wat geen Sim vanaf de ingang van het kavel kan bereiken, zegt "geen Sim kan erbij".
 
-Na de Sims komt **problemen**: wat aandacht vraagt, zoals kapotte dingen, wat schoongemaakt moet worden, plassen, afval, as, vuur en alles met vliegen erboven. Een lege voerbak voor huisdieren staat hier ook; in elke lijst zegt een voerbak of er voer in zit. Als laatste komt **deuren, ramen en trappen**.
+Na de Sims komt **problemen**: wat aandacht vraagt, zoals kapotte dingen, wat schoongemaakt moet worden, plassen, afval, as, vuur en alles met vliegen erboven. Een lege voerbak voor huisdieren staat hier ook; in elke lijst zegt een voerbak of er voer in zit. De scheikundeset (Livin' Large) noemt zijn drankje alleen bij de kleur, zoals een ziende speler het ziet, nooit bij het effect: "blauw drankje klaar", "drankje wordt gemaakt, 40%" of "geen drankje"; een drankje dat klaar is, wordt gemeld. Als laatste komt **deuren, ramen en trappen**.
 
 ### Interactiemenu's
 
@@ -161,7 +161,7 @@ Enter op een voorwerp (of op een Sim) opent het interactiemenu van het spel. Pij
 
 Het spel laat veel dingen alleen als plaatjes zien. De mod zegt ze terwijl ze gebeuren en bewaart ze in de gebeurtenissenbuffer:
 
-- **Ballonnen** boven Sims en voorwerpen: "Bella denkt: honger", "Mortimer schreeuwt: blaas", "Bella zegt: Buitenaardse wezens", een onderwerp waar de andere Sim niet van houdt ("..., niet geïnteresseerd"), "relatie slechter", en "De Vuilnisbak: vliegen".
+- **Ballonnen** boven Sims en voorwerpen: "Bella denkt: honger", "Mortimer schreeuwt: blaas", "Bella praat over Buitenaardse wezens", een onderwerp waar de andere Sim niet van houdt ("..., niet geïnteresseerd"), "relatie slechter", en "De Vuilnisbak: vliegen".
 - **Geblokkeerde routes**: "Bella kan er niet langs: Stoel staat in de weg".
 - **Bezoekers** die aankomen en weggaan, geesten, de inbreker, Magere Hein, de pizzabezorger, de carpool en de schoolbus (welke auto toetert).
 - **Voorwerpen meegenomen** door de deurwaarder of een inbreker, met hun waarde; **rekeningen** die binnenkomen.
@@ -292,6 +292,7 @@ De bouwcursor, het plaatsen en de plattegrond spelen bij elke stap een kort gelu
 |---|---|
 | Control+Shift+C | De cheatconsole van het spel. Pijl omhoog en pijl omlaag kiezen een cheat, typen vult hem aan, Enter voert hem uit (nog eens: herhaalt), Escape sluit. |
 | Control+Shift+V | Het gekozen bedieningselement op het scherm oplichten, voor een ziende helper. Op het kavel gaat de muisaanwijzer ook naar het voorwerp dat de focus heeft. |
+| Control+Shift+F12 | Schakelt de mod uit en weer in. Uitgeschakeld werkt het spel alsof de mod niet geïnstalleerd is: er wordt niets uitgesproken en alle toetsen gaan naar het spel. Het spel opnieuw starten schakelt hem weer in. |
 
 ## De eigen toetsen van het spel
 

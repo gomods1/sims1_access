@@ -10,6 +10,8 @@ namespace {
 const Translation kEntries[] = {
     // Startup
     {Str::ModLoaded, "Sims-tilgjengelighet lastet inn"},
+    {Str::ModOff, "Sims-tilgjengelighet slått av. Kontroll Skift F12 slår den på igjen."},
+    {Str::ModOn, "Sims-tilgjengelighet slått på"},
     // Key help (Ctrl+F1)
     {Str::KeysScreen,
      "Tab og Skift+Tab bytter gruppe, piltastene flytter innenfor en gruppe, Home og End går til endene av den; "
@@ -120,6 +122,16 @@ const Translation kEntries[] = {
     {Str::ConditionDirty, "må rengjøres"},
     {Str::BowlEmpty, "uten mat"},
     {Str::BowlHasFood, "med mat"},
+    {Str::Potion0, "oransje mikstur klar"},
+    {Str::Potion1, "rød mikstur klar"},
+    {Str::Potion2, "blå mikstur klar"},
+    {Str::Potion3, "lysegrønn mikstur klar"},
+    {Str::Potion4, "hvit mikstur klar"},
+    {Str::Potion5, "gul mikstur klar"},
+    {Str::Potion6, "lilla mikstur klar"},
+    {Str::Potion7, "grønn mikstur klar"},
+    {Str::PotionBrewing, "mikstur lages, %d %%"},
+    {Str::PotionNone, "ingen mikstur"},
     {Str::ObjPuddle, "vannpytt"},
     {Str::ObjAshes, "aske"},
     {Str::ObjFire, "ild"},
@@ -458,13 +470,13 @@ const Translation kEntries[] = {
     // Balloons over Sims and objects, visitors, taken objects (nav/narrator.cpp)
     {Str::BalloonThinks, "%1$s tenker: %2$s"},
     {Str::BalloonShouts, "%1$s roper: %2$s"},
-    {Str::BalloonSays, "%1$s sier: %2$s"},
+    {Str::BalloonSays, "%1$s snakker om %2$s"},
     {Str::BalloonShows, "%1$s: %2$s"},
     {Str::BalloonRouteBlocked, "%1$s kommer ikke forbi: %2$s står i veien"},
     {Str::BalloonRouteFailed, "%1$s kommer ikke fram: %2$s"},
     {Str::ShownThinks, "tenker: %s"},
     {Str::ShownShouts, "roper: %s"},
-    {Str::ShownSays, "sier: %s"},
+    {Str::ShownSays, "snakker om %s"},
     {Str::ShownRouteBlocked, "kommer ikke forbi: %s står i veien"},
     {Str::ShownRouteFailed, "kommer ikke fram: %s"},
     {Str::BalloonCrossedOut, "%s, overstreket"},
@@ -1036,6 +1048,7 @@ const Translation kEntries[] = {
     // The manual (Control+Shift+F1, the mod help button)
     {Str::ManualHint, "Kontroll Skift F1 åpner håndboken; Kontroll F1 sier tastene på hver skjerm."},
     {Str::KeysManual, "Kontroll Skift F1 åpner moddens fullstendige håndbok i nettleseren."},
+    {Str::KeysToggle, "Kontroll Skift F12 slår modden av og på."},
     {Str::ManualOpening, "åpner håndboken i nettleseren"},
     {Str::ManualMissing, "håndboken mangler: installer modden på nytt"},
     {Str::ManualButton, "Håndbok for Sims-tilgjengelighet"},

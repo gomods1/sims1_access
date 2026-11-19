@@ -127,7 +127,7 @@ No hace falta ir hasta allí con Tab: las teclas de página recorren los objetos
 
 Un Sim o un objeto que todavía muestra un globo también lo dice («Bella, Comer, piensa: hambre»). Lo que ningún Sim puede alcanzar desde la entrada del solar dice «ningún Sim puede llegar».
 
-Después de los Sims viene **problemas**: lo que necesita atención, como cosas rotas, cosas por limpiar, charcos, basura, cenizas, fuego y cualquier cosa con moscas. Un comedero de mascota vacío también está aquí; en cualquier lista, un comedero dice si tiene comida. Al final viene **puertas, ventanas y escaleras**.
+Después de los Sims viene **problemas**: lo que necesita atención, como cosas rotas, cosas por limpiar, charcos, basura, cenizas, fuego y cualquier cosa con moscas. Un comedero de mascota vacío también está aquí; en cualquier lista, un comedero dice si tiene comida. El juego de química (Livin' Large) dice su poción solo por el color, como la ve quien mira la pantalla, nunca por su efecto: «poción azul lista», «preparando una poción, 40%» o «sin poción»; una poción que queda lista se anuncia. Al final viene **puertas, ventanas y escaleras**.
 
 ### Menús de interacciones
 
@@ -161,7 +161,7 @@ Intro sobre un objeto (o sobre un Sim) abre el menú de interacciones del juego.
 
 El juego muestra muchas cosas solo con imágenes. El mod las dice cuando pasan y las guarda en el búfer de eventos:
 
-- **Los globos** sobre Sims y objetos: «Bella piensa: hambre», «Mortimer grita: vejiga», «Bella dice: Alienígenas», un tema que al otro Sim no le gusta («..., no le interesa»), «la relación empeora» y «Cubo de basura: moscas».
+- **Los globos** sobre Sims y objetos: «Bella piensa: hambre», «Mortimer grita: vejiga», «Bella habla de Alienígenas», un tema que al otro Sim no le gusta («..., no le interesa»), «la relación empeora» y «Cubo de basura: moscas».
 - **Los caminos bloqueados**: «Bella no puede pasar: Silla bloquea el camino».
 - **Las visitas** que llegan y se van, los fantasmas, el ladrón, la Parca, el repartidor de pizza, el coche compartido y el autobús escolar (qué coche toca el claxon).
 - **Los objetos que se llevan** el embargador o un ladrón, con su valor; **las facturas** que llegan.
@@ -292,6 +292,7 @@ El cursor de construcción, la colocación y el mapa de la casa hacen un sonido 
 |---|---|
 | Control+Mayúsculas+C | La consola de trucos del juego. Arriba y Abajo eligen un truco, lo que escribes se le añade, Intro lo ejecuta (otra vez: lo repite), Escape cierra. |
 | Control+Mayúsculas+V | Ilumina en pantalla el control seleccionado, para quien te ayude viendo la pantalla. En el solar, el puntero del ratón también va a la cosa que tiene el foco. |
+| Control+Mayúsculas+F12 | Desactiva el mod y lo vuelve a activar. Desactivado, el juego funciona como si el mod no estuviera instalado: no se dice nada y todas las teclas van al juego. Al volver a iniciar el juego, el mod vuelve a estar activado. |
 
 ## Las teclas del juego
 

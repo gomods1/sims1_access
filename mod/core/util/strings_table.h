@@ -9,6 +9,8 @@
 #define SA_STRINGS(X) \
     /* Startup */                                                                                                      \
     X(ModLoaded, "Sims accessibility loaded")                                                                          \
+    X(ModOff, "Sims accessibility off. Control+Shift+F12 turns it back on.") \
+    X(ModOn, "Sims accessibility on") \
     /* Key help (Ctrl+F1) */                                                                                           \
     X(KeysScreen,                                                                                                      \
       "Tab and Shift+Tab go from group to group; the arrows move within a group, Home and End go to its ends; "        \
@@ -115,6 +117,17 @@
     X(ConditionDirty, "needs cleaning")                                                                                \
     X(BowlEmpty, "no food")                                                                                            \
     X(BowlHasFood, "has food")                                                                                         \
+    /* The chemistry set's potion, by its color only (game::ChemistryPotion) */                                        \
+    X(Potion0, "orange potion ready")                                                                                  \
+    X(Potion1, "red potion ready")                                                                                     \
+    X(Potion2, "blue potion ready")                                                                                    \
+    X(Potion3, "light green potion ready")                                                                             \
+    X(Potion4, "white potion ready")                                                                                   \
+    X(Potion5, "yellow potion ready")                                                                                  \
+    X(Potion6, "purple potion ready")                                                                                  \
+    X(Potion7, "green potion ready")                                                                                   \
+    X(PotionBrewing, "brewing a potion, %d%%")                                                                         \
+    X(PotionNone, "no potion")                                                                                         \
     X(ObjPuddle, "puddle")                                                                                             \
     X(ObjAshes, "ashes")                                                                                               \
     X(ObjFire, "fire")                                                                                                 \
@@ -448,13 +461,13 @@
     /* Balloons over Sims and objects, visitors, taken objects (nav/narrator.cpp) */                                   \
     X(BalloonThinks, "%1$s thinks: %2$s")                                                                              \
     X(BalloonShouts, "%1$s shouts: %2$s")                                                                              \
-    X(BalloonSays, "%1$s says: %2$s")                                                                                  \
+    X(BalloonSays, "%1$s talks about %2$s")                                                                            \
     X(BalloonShows, "%1$s: %2$s")                                                                                      \
     X(BalloonRouteBlocked, "%1$s can't get past %2$s")                                                                 \
     X(BalloonRouteFailed, "%1$s can't get there: %2$s")                                                                \
     X(ShownThinks, "thinks: %s")                                                                                       \
     X(ShownShouts, "shouts: %s")                                                                                       \
-    X(ShownSays, "says: %s")                                                                                           \
+    X(ShownSays, "talks about %s")                                                                                     \
     X(ShownRouteBlocked, "can't get past %s")                                                                          \
     X(ShownRouteFailed, "can't get there: %s")                                                                         \
     X(BalloonCrossedOut, "%s, crossed out")                                                                            \
@@ -1020,6 +1033,7 @@
     /* The manual (Control+Shift+F1, the mod help button) */                                                         \
     X(ManualHint, "Control+Shift+F1 opens the manual; Control+F1 says the keys of each screen.")                     \
     X(KeysManual, "Control+Shift+F1 opens the mod's full manual in your browser.")                                   \
+    X(KeysToggle, "Control+Shift+F12 turns the mod off and on.") \
     X(ManualOpening, "opening the manual in your browser")                                                           \
     X(ManualMissing, "the manual is missing: reinstall the mod")                                                     \
     X(ManualButton, "Sims Accessibility manual")                                                                     \

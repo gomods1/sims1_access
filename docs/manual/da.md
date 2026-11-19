@@ -127,7 +127,7 @@ Du behøver ikke at tabbe derhen: Side-tasterne gennemgår objekterne fra hvor s
 
 En Sim eller et objekt, der stadig viser en boble, siger den også ("Bella, Spise, tænker: sult"). Noget, som ingen Sim kan nå fra grundens indgang, siger "ingen Sim kan nå det".
 
-Efter simmerne kommer **problemer**: det, der kræver opmærksomhed, som ting i stykker, det der skal rengøres, vandpytter, affald, aske, ild og alt med fluer over. En tom madskål til kæledyr er her også; i alle lister siger en madskål, om der er mad i den. Til sidst kommer **døre, vinduer og trapper**.
+Efter simmerne kommer **problemer**: det, der kræver opmærksomhed, som ting i stykker, det der skal rengøres, vandpytter, affald, aske, ild og alt med fluer over. En tom madskål til kæledyr er her også; i alle lister siger en madskål, om der er mad i den. Kemisættet (Livin' Large) siger sin mikstur kun ved farven, sådan som en seende spiller ser den, aldrig ved virkningen: "blå mikstur klar", "mikstur laves, 40 %" eller "ingen mikstur"; en mikstur, der bliver klar, bliver meldt. Til sidst kommer **døre, vinduer og trapper**.
 
 ### Handlingsmenuer
 
@@ -161,7 +161,7 @@ Enter på et objekt (eller på en Sim) åbner spillets handlingsmenu. Pil op og 
 
 Spillet viser mange ting kun som billeder. Modden siger dem, mens de sker, og gemmer dem i hændelsesbufferen:
 
-- **Bobler** over Simmere og objekter: "Bella tænker: sult", "Mortimer råber: blære", "Bella siger: Rumvæsener", et emne den anden Sim ikke kan lide ("..., ikke interesseret"), "forholdet bliver dårligere" og "Affaldsspand: fluer".
+- **Bobler** over Simmere og objekter: "Bella tænker: sult", "Mortimer råber: blære", "Bella taler om Rumvæsener", et emne den anden Sim ikke kan lide ("..., ikke interesseret"), "forholdet bliver dårligere" og "Affaldsspand: fluer".
 - **Blokerede veje**: "Bella kan ikke komme forbi: Stol står i vejen".
 - **Gæster**, der kommer og går, spøgelser, indbrudstyven, Manden med leen, pizzabuddet, samkørslen og skolebussen (hvilken bil der dytter).
 - **Ting taget** af fogeden eller en indbrudstyv, med deres værdi; **regninger** der kommer.
@@ -292,6 +292,7 @@ Byggemarkøren, placeringen og husets kort spiller en kort lyd ved hvert skridt:
 |---|---|
 | Kontrol+Skift+C | Spillets snydekonsol. Pil op og Pil ned vælger en snydekode, det du skriver føjes til den, Enter kører den (igen: gentager), Escape lukker. |
 | Kontrol+Skift+V | Fremhæver det valgte kontrolelement på skærmen for en seende hjælper. På grunden går musemarkøren også hen til den ting, der har fokus. |
+| Kontrol+Skift+F12 | Slår modden fra og til. Når den er slået fra, kører spillet, som om modden ikke var installeret: intet bliver læst op, og alle taster går til spillet. Når spillet startes igen, er den slået til. |
 
 ## Spillets egne taster
 

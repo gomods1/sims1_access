@@ -10,6 +10,8 @@ namespace {
 const Translation kEntries[] = {
     // Startup
     {Str::ModLoaded, "シムピープル アクセシビリティを読み込みました"},
+    {Str::ModOff, "シムピープル アクセシビリティをオフにしました。Ctrl Shift F12でまたオンにします。"},
+    {Str::ModOn, "シムピープル アクセシビリティをオンにしました"},
     // Key help (Ctrl+F1)
     {Str::KeysScreen,
      "タブとシフト+タブでグループを切り替え、矢印キーでグループ内を移動、ホームとエンドでグループの端へ移動、エンターで押します。区画のオブジェクトの種類や部屋の上でエンターを押すと、そのオブジェクトが開きます。バックス"
@@ -107,6 +109,16 @@ const Translation kEntries[] = {
     {Str::ConditionDirty, "掃除が必要"},
     {Str::BowlEmpty, "餌なし"},
     {Str::BowlHasFood, "餌あり"},
+    {Str::Potion0, "オレンジ色の薬が完成"},
+    {Str::Potion1, "赤い薬が完成"},
+    {Str::Potion2, "青い薬が完成"},
+    {Str::Potion3, "黄緑色の薬が完成"},
+    {Str::Potion4, "白い薬が完成"},
+    {Str::Potion5, "黄色い薬が完成"},
+    {Str::Potion6, "紫色の薬が完成"},
+    {Str::Potion7, "緑色の薬が完成"},
+    {Str::PotionBrewing, "薬を作っています、%d%%"},
+    {Str::PotionNone, "薬なし"},
     {Str::ObjPuddle, "水たまり"},
     {Str::ObjAshes, "灰"},
     {Str::ObjFire, "火"},
@@ -397,13 +409,13 @@ const Translation kEntries[] = {
     // Balloons over Sims and objects, visitors, taken objects (nav/narrator.cpp)
     {Str::BalloonThinks, "%1$sが考えている: %2$s"},
     {Str::BalloonShouts, "%1$sが叫んでいる: %2$s"},
-    {Str::BalloonSays, "%1$sが話している: %2$s"},
+    {Str::BalloonSays, "%1$sの話題: %2$s"},
     {Str::BalloonShows, "%1$s: %2$s"},
     {Str::BalloonRouteBlocked, "%1$sは通れません: %2$sがじゃまです"},
     {Str::BalloonRouteFailed, "%1$sはたどり着けません: %2$s"},
     {Str::ShownThinks, "考えている: %s"},
     {Str::ShownShouts, "叫んでいる: %s"},
-    {Str::ShownSays, "話している: %s"},
+    {Str::ShownSays, "話題: %s"},
     {Str::ShownRouteBlocked, "通れません: %sがじゃまです"},
     {Str::ShownRouteFailed, "たどり着けません: %s"},
     {Str::BalloonCrossedOut, "%s、バツ印"},
@@ -946,6 +958,7 @@ const Translation kEntries[] = {
     // The manual (Control+Shift+F1, the mod help button)
     {Str::ManualHint, "Ctrl Shift F1でマニュアルを開きます。Ctrl F1で各画面のキーを読み上げます。"},
     {Str::KeysManual, "Ctrl Shift F1でモッドの完全なマニュアルをブラウザーで開きます。"},
+    {Str::KeysToggle, "Ctrl Shift F12でモッドをオフにし、もう一度押すとオンに戻します。"},
     {Str::ManualOpening, "ブラウザーでマニュアルを開いています"},
     {Str::ManualMissing, "マニュアルが見つかりません。モッドを入れ直してください"},
     {Str::ManualButton, "シムピープル アクセシビリティ マニュアル"},

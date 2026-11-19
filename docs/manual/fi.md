@@ -168,7 +168,7 @@ tontilla, Pelaa-, Osta- ja Rakenna-tilassa.
 
 Simi tai esine, jonka yllä on yhä puhekupla, sanoo senkin ("Bella, Syö, ajattelee: nälkä"). Asia, jonka luo yksikään simi ei pääse tontin sisäänkäynniltä, sanoo "yksikään simi ei pääse sen luo".
 
-Simien jälkeen tulee **ongelmat**: huomiota vaativat asiat, kuten rikkinäiset esineet, siivousta kaipaavat, lätäköt, roskat, tuhka, tuli ja kaikki, joiden yllä on kärpäsiä. Myös tyhjä lemmikin ruokakuppi on täällä; kaikissa luetteloissa ruokakuppi kertoo, onko siinä ruokaa. Viimeisenä tulee **ovet, ikkunat ja portaat**.
+Simien jälkeen tulee **ongelmat**: huomiota vaativat asiat, kuten rikkinäiset esineet, siivousta kaipaavat, lätäköt, roskat, tuhka, tuli ja kaikki, joiden yllä on kärpäsiä. Myös tyhjä lemmikin ruokakuppi on täällä; kaikissa luetteloissa ruokakuppi kertoo, onko siinä ruokaa. Kemiansarja (Livin' Large) kertoo juomansa vain värin mukaan, niin kuin näkevä pelaaja sen näkee, ei koskaan vaikutuksen mukaan: "sininen juoma valmis", "juomaa tehdään, 40 %" tai "ei juomaa"; valmistuva juoma ilmoitetaan. Viimeisenä tulee **ovet, ikkunat ja portaat**.
 
 ### Toimintovalikot
 
@@ -209,7 +209,7 @@ Peli näyttää monet asiat vain kuvina. Modi sanoo ne niiden tapahtuessa ja tal
 tapahtumat-puskuriin:
 
 - **Puhekuplat** simien ja esineiden yllä: "Bella ajattelee: nälkä", "Mortimer huutaa: rakko",
-  "Bella sanoo: Avaruusoliot", aihe, josta toinen simi ei pidä ("..., ei kiinnosta"), "suhde
+  "Bella puhuu aiheesta Avaruusoliot", aihe, josta toinen simi ei pidä ("..., ei kiinnosta"), "suhde
   huononee" ja "Roska-astia: kärpäset".
 - **Tukitut reitit**: "Bella ei pääse ohi: Tuoli on tiellä".
 - **Vieraat**, jotka saapuvat ja lähtevät, aaveet, murtovaras, Viikatemies, pizzalähetti,
@@ -381,6 +381,7 @@ pois ja päälle.
 |---|---|
 | Control+Vaihto+C | Pelin huijauskonsoli. Nuoli ylös ja nuoli alas valitsevat huijauksen, kirjoittaminen lisää siihen, Enter suorittaa sen (uudelleen: toistaa), Escape sulkee. |
 | Control+Vaihto+V | Korosta valittu säädin näytöllä näkevää auttajaa varten. Tontilla myös hiiren osoitin siirtyy kohdistettuun asiaan. |
+| Control+Vaihto+F12 | Kytkee modin pois päältä ja takaisin päälle. Kun se on pois päältä, peli toimii kuin modia ei olisi asennettu: mitään ei puhuta ja kaikki näppäimet menevät pelille. Pelin uudelleenkäynnistys kytkee sen taas päälle. |
 
 ## Pelin omat näppäimet
 

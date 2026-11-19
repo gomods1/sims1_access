@@ -816,6 +816,13 @@ namespace objattr {
 constexpr int kValues = 0x2c;
 constexpr int kCount = 0x30;
 constexpr int kBowlFood = 3;
+// Livin' Large's chemistry set ("Concoctanation Station", ChemistrySet.iff) keeps its potion on
+// the part "Chemistry Set - Left" (GUID 0xF6618C39, the part its trees look up): attribute 8 the
+// brewing, 0..100 ("Should Exit Make Potion?" stops at 100, "Drink Potion TEST" wants 100),
+// attribute 9 the potion, 0..7 ("select potion"; 65535 none, "clear potion type" after a drink).
+constexpr int kPotionProgress = 8;
+constexpr int kPotionType = 9;
+constexpr int kPotionReady = 100;
 }  // namespace objattr
 namespace objtype {
 constexpr int kResFile = 0x00;     // ObjResFile* (the object's IFF)

@@ -54,15 +54,22 @@ std::string TextFieldText(Ptr edit) { return util::GameTextToUtf8(TextFieldRaw(e
 
 int TextFieldCaret(Ptr edit) { return Rd<int>(edit + addr::textedit::kCaret); }
 
-bool FocusTextField(Ptr edit) {
+bool GiveInput(Ptr w) {
     typedef Ptr(__thiscall * SetInputFn)(void*, void*);
     Ptr mgr = WinMgr();
-    if (!mgr || !IsKindOf(edit, "cTSWinTextEdit2") || !Visible(edit)) return false;
-    if (KeyboardFocus() == edit) return true;
+    if (!mgr || !w || !Visible(w)) return false;
+    if (KeyboardFocus() == w) return true;
     if (!FunctionOk(addr::winmgr::kSetInput)) return false;
-    bool ok = Guarded([&] { ((SetInputFn)Va(addr::winmgr::kSetInput))((void*)mgr, (void*)edit); });
-    Log("text field %p takes typing: %s", (void*)edit, ok && KeyboardFocus() == edit ? "yes" : "no");
-    return ok && KeyboardFocus() == edit;
+    bool ok = Guarded([&] { ((SetInputFn)Va(addr::winmgr::kSetInput))((void*)mgr, (void*)w); });
+    return ok && KeyboardFocus() == w;
+}
+
+bool FocusTextField(Ptr edit) {
+    if (!IsKindOf(edit, "cTSWinTextEdit2") || !Visible(edit)) return false;
+    if (KeyboardFocus() == edit) return true;
+    bool ok = GiveInput(edit);
+    Log("text field %p takes typing: %s", (void*)edit, ok ? "yes" : "no");
+    return ok;
 }
 
 Ptr MainWindow() { return Rd<Ptr>(WinMgr() + addr::winmgr::kMainWindow); }

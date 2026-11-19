@@ -10,6 +10,8 @@ namespace {
 const Translation kEntries[] = {
     // Startup
     {Str::ModLoaded, "Accessibilità per The Sims caricata"},
+    {Str::ModOff, "Accessibilità per The Sims disattivata. Control Maiusc F12 la riattiva."},
+    {Str::ModOn, "Accessibilità per The Sims attivata"},
     // Key help (Ctrl+F1)
     {Str::KeysScreen,
      "Tab e Maiuscole+Tab cambiano gruppo, le frecce si spostano in un gruppo, Inizio e Fine vanno ai suoi "
@@ -120,6 +122,16 @@ const Translation kEntries[] = {
     {Str::ConditionDirty, "da pulire"},
     {Str::BowlEmpty, "senza cibo"},
     {Str::BowlHasFood, "con cibo"},
+    {Str::Potion0, "pozione arancione pronta"},
+    {Str::Potion1, "pozione rossa pronta"},
+    {Str::Potion2, "pozione blu pronta"},
+    {Str::Potion3, "pozione verde chiaro pronta"},
+    {Str::Potion4, "pozione bianca pronta"},
+    {Str::Potion5, "pozione gialla pronta"},
+    {Str::Potion6, "pozione viola pronta"},
+    {Str::Potion7, "pozione verde pronta"},
+    {Str::PotionBrewing, "pozione in preparazione, %d%%"},
+    {Str::PotionNone, "nessuna pozione"},
     {Str::ObjPuddle, "pozzanghera"},
     {Str::ObjAshes, "cenere"},
     {Str::ObjFire, "fuoco"},
@@ -463,13 +475,13 @@ const Translation kEntries[] = {
     // Balloons over Sims and objects, visitors, taken objects (nav/narrator.cpp)
     {Str::BalloonThinks, "%1$s pensa: %2$s"},
     {Str::BalloonShouts, "%1$s grida: %2$s"},
-    {Str::BalloonSays, "%1$s dice: %2$s"},
+    {Str::BalloonSays, "%1$s parla di %2$s"},
     {Str::BalloonShows, "%1$s: %2$s"},
     {Str::BalloonRouteBlocked, "%1$s non riesce a passare: %2$s blocca la strada"},
     {Str::BalloonRouteFailed, "%1$s non riesce ad arrivare: %2$s"},
     {Str::ShownThinks, "pensa: %s"},
     {Str::ShownShouts, "grida: %s"},
-    {Str::ShownSays, "dice: %s"},
+    {Str::ShownSays, "parla di %s"},
     {Str::ShownRouteBlocked, "non riesce a passare: %s blocca la strada"},
     {Str::ShownRouteFailed, "non riesce ad arrivare: %s"},
     {Str::BalloonCrossedOut, "%s, barrato"},
@@ -1043,6 +1055,7 @@ const Translation kEntries[] = {
     // The manual (Control+Shift+F1, the mod help button)
     {Str::ManualHint, "Control Maiusc F1 apre il manuale; Control F1 dice i tasti di ogni schermata."},
     {Str::KeysManual, "Control Maiusc F1 apre il manuale completo della mod nel browser."},
+    {Str::KeysToggle, "Control Maiusc F12 disattiva la mod e la riattiva."},
     {Str::ManualOpening, "apro il manuale nel browser"},
     {Str::ManualMissing, "il manuale non c'è: reinstalla la mod"},
     {Str::ManualButton, "Manuale di Accessibilità per The Sims"},

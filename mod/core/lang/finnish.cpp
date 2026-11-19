@@ -10,6 +10,8 @@ namespace {
 const Translation kEntries[] = {
     // Startup
     {Str::ModLoaded, "Sims-saavutettavuus ladattu"},
+    {Str::ModOff, "Sims-saavutettavuus pois päältä. Control Vaihto F12 kytkee sen takaisin päälle."},
+    {Str::ModOn, "Sims-saavutettavuus päällä"},
     // Key help (Ctrl+F1)
     {Str::KeysScreen,
      "Sarkain ja Vaihto+Sarkain vaihtavat ryhmää, nuolinäppäimet liikkuvat ryhmän sisällä, Home ja End siirtyvät "
@@ -121,6 +123,16 @@ const Translation kEntries[] = {
     {Str::ConditionDirty, "kaipaa siivousta"},
     {Str::BowlEmpty, "ei ruokaa"},
     {Str::BowlHasFood, "ruokaa on"},
+    {Str::Potion0, "oranssi juoma valmis"},
+    {Str::Potion1, "punainen juoma valmis"},
+    {Str::Potion2, "sininen juoma valmis"},
+    {Str::Potion3, "vaaleanvihreä juoma valmis"},
+    {Str::Potion4, "valkoinen juoma valmis"},
+    {Str::Potion5, "keltainen juoma valmis"},
+    {Str::Potion6, "violetti juoma valmis"},
+    {Str::Potion7, "vihreä juoma valmis"},
+    {Str::PotionBrewing, "juomaa tehdään, %d %%"},
+    {Str::PotionNone, "ei juomaa"},
     {Str::ObjPuddle, "lätäkkö"},
     {Str::ObjAshes, "tuhka"},
     {Str::ObjFire, "tuli"},
@@ -464,13 +476,13 @@ const Translation kEntries[] = {
     // Balloons over Sims and objects, visitors, taken objects (nav/narrator.cpp)
     {Str::BalloonThinks, "%1$s ajattelee: %2$s"},
     {Str::BalloonShouts, "%1$s huutaa: %2$s"},
-    {Str::BalloonSays, "%1$s sanoo: %2$s"},
+    {Str::BalloonSays, "%1$s puhuu aiheesta %2$s"},
     {Str::BalloonShows, "%1$s: %2$s"},
     {Str::BalloonRouteBlocked, "%1$s ei pääse ohi: %2$s on tiellä"},
     {Str::BalloonRouteFailed, "%1$s ei pääse perille: %2$s"},
     {Str::ShownThinks, "ajattelee: %s"},
     {Str::ShownShouts, "huutaa: %s"},
-    {Str::ShownSays, "sanoo: %s"},
+    {Str::ShownSays, "puhuu aiheesta %s"},
     {Str::ShownRouteBlocked, "ei pääse ohi: %s on tiellä"},
     {Str::ShownRouteFailed, "ei pääse perille: %s"},
     {Str::BalloonCrossedOut, "%s, yliviivattu"},
@@ -1041,6 +1053,7 @@ const Translation kEntries[] = {
     // The manual (Control+Shift+F1, the mod help button)
     {Str::ManualHint, "Control Vaihto F1 avaa käyttöoppaan; Control F1 kertoo kunkin näkymän näppäimet."},
     {Str::KeysManual, "Control Vaihto F1 avaa modin koko käyttöoppaan selaimessa."},
+    {Str::KeysToggle, "Control Vaihto F12 kytkee modin pois päältä ja takaisin päälle."},
     {Str::ManualOpening, "avataan käyttöopas selaimessa"},
     {Str::ManualMissing, "käyttöopas puuttuu: asenna modi uudelleen"},
     {Str::ManualButton, "Sims-saavutettavuuden käyttöopas"},

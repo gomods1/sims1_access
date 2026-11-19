@@ -10,6 +10,8 @@ namespace {
 const Translation kEntries[] = {
     // Startup
     {Str::ModLoaded, "模拟人生无障碍模组已加载"},
+    {Str::ModOff, "模拟人生无障碍模组已关闭。按 Ctrl Shift F12 重新开启。"},
+    {Str::ModOn, "模拟人生无障碍模组已开启"},
     // Key help (Ctrl+F1)
     {Str::KeysScreen,
      "Tab和Shift+Tab切换组，方向键在组内移动，Home和End跳到组的两端，回车激活；在地块物品的某个类型或房间上按回车，会打开其中的物品；退格键返回，R重复朗读。在滑块或选择器上，左右方向键调整数值。Ctr"
@@ -105,6 +107,16 @@ const Translation kEntries[] = {
     {Str::ConditionDirty, "需要清洁"},
     {Str::BowlEmpty, "没有食物"},
     {Str::BowlHasFood, "有食物"},
+    {Str::Potion0, "橙色的药已做好"},
+    {Str::Potion1, "红色的药已做好"},
+    {Str::Potion2, "蓝色的药已做好"},
+    {Str::Potion3, "浅绿色的药已做好"},
+    {Str::Potion4, "白色的药已做好"},
+    {Str::Potion5, "黄色的药已做好"},
+    {Str::Potion6, "紫色的药已做好"},
+    {Str::Potion7, "绿色的药已做好"},
+    {Str::PotionBrewing, "正在做药，%d%%"},
+    {Str::PotionNone, "没有药"},
     {Str::ObjPuddle, "水洼"},
     {Str::ObjAshes, "灰烬"},
     {Str::ObjFire, "火"},
@@ -376,13 +388,13 @@ const Translation kEntries[] = {
     // Balloons over Sims and objects, visitors, taken objects (nav/narrator.cpp)
     {Str::BalloonThinks, "%1$s在想：%2$s"},
     {Str::BalloonShouts, "%1$s在喊：%2$s"},
-    {Str::BalloonSays, "%1$s在说：%2$s"},
+    {Str::BalloonSays, "%1$s聊起%2$s"},
     {Str::BalloonShows, "%1$s：%2$s"},
     {Str::BalloonRouteBlocked, "%1$s过不去：%2$s挡住了路"},
     {Str::BalloonRouteFailed, "%1$s到不了：%2$s"},
     {Str::ShownThinks, "在想：%s"},
     {Str::ShownShouts, "在喊：%s"},
-    {Str::ShownSays, "在说：%s"},
+    {Str::ShownSays, "聊起%s"},
     {Str::ShownRouteBlocked, "过不去：%s挡住了路"},
     {Str::ShownRouteFailed, "到不了：%s"},
     {Str::BalloonCrossedOut, "%s，被划掉"},
@@ -920,6 +932,7 @@ const Translation kEntries[] = {
     // The manual (Control+Shift+F1, the mod help button)
     {Str::ManualHint, "Ctrl Shift F1打开手册；Ctrl F1说出每个画面的按键。"},
     {Str::KeysManual, "Ctrl Shift F1在浏览器中打开模组的完整手册。"},
+    {Str::KeysToggle, "Ctrl Shift F12 关闭模组，再按一次重新开启。"},
     {Str::ManualOpening, "正在浏览器中打开手册"},
     {Str::ManualMissing, "找不到手册：请重新安装模组"},
     {Str::ManualButton, "模拟人生无障碍模组手册"},
