@@ -122,6 +122,7 @@ const Translation kEntries[] = {
     {Str::ConditionDirty, "skal rengøres"},
     {Str::BowlEmpty, "uden foder"},
     {Str::BowlHasFood, "med foder"},
+    // The chemistry set's potion, by its color only (game::ChemistryPotion)
     {Str::Potion0, "orange mikstur klar"},
     {Str::Potion1, "rød mikstur klar"},
     {Str::Potion2, "blå mikstur klar"},
@@ -1078,11 +1079,13 @@ const Translation kEntries[] = {
     {Str::MapLayerRooms, "kun rum"},
     {Str::SimLookHead, "hoved: %s"},
     {Str::SimLookBody, "krop: %s"},
+    {Str::AnimNone, "%s: ingen animation kører"},
     {Str::SimLookUnknown, "%s: modden har ingen beskrivelse af dette udseende"},
     {Str::KeysLotMore,
      "Enter på en linje med ens ting viser dem én ad gangen. Kontrol+T siger hver ny time på uret, eller holder "
      "op med det. Kontrol+Skift+N vælger, hvis samtaler der siges: alle, der taler med din familie, alle, kun "
-     "din familie eller ingen. Kontrol+Skift+E siger, hvordan en Sim ser ud."},
+     "din familie eller ingen. Kontrol+Skift+E siger, hvordan en Sim ser ud. Kontrol+Skift+A siger, hvad dens "
+     "krop gør, ud fra spillets animationer."},
     {Str::KeysMapMore,
      "Mure, hegn og vinduer standser piletasterne; Alt sammen med piletasterne går igennem. Komma og punktum "
      "vælger, hvad hvert skridt siger: alt, objekter, gulve, mure eller rum."},

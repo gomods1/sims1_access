@@ -102,6 +102,7 @@ De baan noemt de werktijden en wanneer de carpool komt. Elke vaardigheid noemt h
 | Control+Shift+F | De camera volgt de geselecteerde Sim, of blijft vrij. |
 | Control+E | De geselecteerde Sim in één regel: kamer, wat hij doet, dringende behoeften, humeur. |
 | Control+Shift+E | Hoe een Sim eruitziet: hoofd en lichaam ("hoofd: zwart haar, kort; lichaam: pak, zwart"). De Sim die de focus heeft onder de voorwerpen op het kavel, anders de geselecteerde. De details van een Sim (Control+pijl omhoog erop) zeggen het ook. |
+| Control+Shift+A | Wat het lichaam van een Sim nu doet, beschreven aan de hand van de animaties die het spel afspeelt: het wachten, de reacties en de manieren waarop ze iets doen die de charme van het spel zijn. De Sim met focus tussen de dingen van het perceel, anders de gekozen Sim. |
 | Control+T | Elk nieuw uur van de klok zeggen ("het is 14:00"), of ermee stoppen. Handig op de hoogste snelheid. |
 | P | Pauze (de toets van het spel); de mod zegt de tijd en het geld. 1, 2, 3 stellen de snelheid in. |
 

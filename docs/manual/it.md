@@ -102,6 +102,7 @@ Il lavoro dice gli orari e quando passa l'auto. Ogni abilità dice il suo livell
 | Control+Maiusc+F | La telecamera segue il Sim selezionato, o resta libera. |
 | Control+E | Il Sim selezionato in una frase: stanza, cosa sta facendo, bisogni urgenti, umore. |
 | Control+Maiusc+E | Che aspetto ha un Sim: la testa e il corpo ("testa: capelli neri, corti; corpo: completo, nero"). Il Sim su cui si trova il focus tra gli oggetti del lotto, altrimenti quello selezionato. Anche i dettagli di un Sim (Control+Freccia su su di lui) lo dicono. |
+| Control+Maiusc+A | Cosa sta facendo ora il corpo di un Sim, descritto dalle animazioni che il gioco gli fa eseguire: le pause, le reazioni e i modi di fare le cose che danno fascino al gioco. Il Sim selezionato tra le cose del lotto, altrimenti quello attivo. |
 | Control+T | Dice ogni nuova ora dell'orologio ("sono le 14:00"), o smette di dirla. Utile alla velocità massima. |
 | P | Pausa (il tasto del gioco); la mod dice l'ora e il denaro. 1, 2, 3 impostano la velocità. |
 

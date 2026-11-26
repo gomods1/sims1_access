@@ -125,6 +125,7 @@ const Translation kEntries[] = {
     {Str::ConditionDirty, "muss gereinigt werden"},
     {Str::BowlEmpty, "ohne Futter"},
     {Str::BowlHasFood, "mit Futter"},
+    // The chemistry set's potion, by its color only (game::ChemistryPotion)
     {Str::Potion0, "orangefarbener Trank fertig"},
     {Str::Potion1, "roter Trank fertig"},
     {Str::Potion2, "blauer Trank fertig"},
@@ -1099,11 +1100,13 @@ const Translation kEntries[] = {
     {Str::MapLayerRooms, "nur Räume"},
     {Str::SimLookHead, "Kopf: %s"},
     {Str::SimLookBody, "Körper: %s"},
+    {Str::AnimNone, "%s: keine Animation läuft"},
     {Str::SimLookUnknown, "%s: der Mod hat keine Beschreibung dieses Aussehens"},
     {Str::KeysLotMore,
      "Eingabe auf einem Eintrag gleicher Dinge listet sie einzeln auf. Strg+T sagt jede neue Stunde der Uhr an, "
      "oder hört damit auf. Strg+Umschalt+N wählt, wessen Gespräche gesagt werden: jeder, der mit deiner Familie "
-     "redet, alle, nur deine Familie oder niemand. Strg+Umschalt+E sagt, wie ein Sim aussieht."},
+     "redet, alle, nur deine Familie oder niemand. Strg+Umschalt+E sagt, wie ein Sim aussieht. Strg+Umschalt+A "
+     "sagt, was sein Körper gerade tut, nach den Animationen des Spiels."},
     {Str::KeysMapMore,
      "Wände, Zäune und Fenster halten die Pfeile auf; Alt mit den Pfeilen geht hindurch. Komma und Punkt wählen, "
      "was jeder Schritt sagt: alles, Objekte, Böden, Wände oder Räume."},

@@ -102,6 +102,7 @@ Jobbet säger arbetstiderna och när samåkningen kommer. Varje färdighet säge
 | Kontroll+Skift+F | Kameran följer den valda simmen, eller är fri. |
 | Kontroll+E | Den valda simmen på en rad: rum, vad den gör, akuta behov, humör. |
 | Kontroll+Skift+E | Hur en sim ser ut: huvud och kropp ("huvud: svart hår, kort; kropp: kostym, svart"). Simmen som har fokus bland tomtens föremål, annars den valda. En simmes detaljer (Kontroll+Pil upp på den) säger det också. |
+| Kontroll+Skift+A | Vad en Sims kropp gör nu, beskrivet utifrån de animationer spelet spelar upp: vilorörelser, reaktioner och sätt att göra saker som ger spelet dess charm. Den Sim som har fokus bland tomtens saker, annars den valda. |
 | Kontroll+T | Säger varje ny timme på klockan ("klockan är 14:00"), eller slutar med det. Användbart på högsta hastigheten. |
 | P | Paus (spelets tangent); modden säger tid och pengar. 1, 2, 3 ställer in hastigheten. |
 

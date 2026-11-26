@@ -102,6 +102,7 @@ Jobben sier arbeidstiden og når samkjøringen kommer. Hver ferdighet sier nivå
 | Kontroll+Skift+F | Kameraet følger den valgte simmen, eller er fritt. |
 | Kontroll+E | Den valgte simmen på én linje: rom, hva den gjør, akutte behov, humør. |
 | Kontroll+Skift+E | Hvordan en sim ser ut: hodet og kroppen ("hode: svart hår, kort; kropp: dress, svart"). Simmen som har fokus blant tomtens objekter, ellers den valgte. En sims detaljer (Kontroll+Pil opp på den) sier det også. |
+| Kontroll+Skift+A | Hva kroppen til en simmer gjør nå, beskrevet ut fra animasjonene spillet spiller av: hvilebevegelser, reaksjoner og måter å gjøre ting på som gir spillet sjarmen. Simmeren med fokus blant tingene på tomten, ellers den valgte. |
 | Kontroll+T | Sier hver ny time på klokken ("klokken er 14:00"), eller slutter med det. Nyttig på raskeste hastighet. |
 | P | Pause (spillets tast); modden sier klokkeslett og midler. 1, 2, 3 stiller inn hastigheten. |
 

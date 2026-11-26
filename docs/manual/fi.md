@@ -136,6 +136,7 @@ Työ kertoo työajat ja milloin kimppakyyti tulee. Jokainen taito kertoo tasonsa
 | Control+Vaihto+F | Kamera seuraa valittua simiä tai on vapaa. |
 | Control+E | Valittu simi yhdellä rivillä: huone, mitä se tekee, kiireelliset tarpeet, mieliala. |
 | Control+Vaihto+E | Miltä simi näyttää: pää ja vartalo ("pää: mustat hiukset, lyhyet; vartalo: puku, musta"). Tontin esineistä kohdistettu simi, muuten valittu. Simin tiedot (Control+nuoli ylös sen kohdalla) kertovat sen myös. |
+| Control+Vaihto+A | Mitä Simin keho tekee nyt, kuvattuna pelin toistamien animaatioiden perusteella: odotusliikkeet, reaktiot ja tavat tehdä asioita, jotka tekevät pelin viehätyksen. Tontin asioista kohdistettu Sim, muuten valittu. |
 | Control+T | Kertoo kellon jokaisen uuden tunnin ("kello on 14:00") tai lopettaa sen. Hyödyllinen suurimmalla nopeudella. |
 | P | Tauko (pelin näppäin); modi kertoo ajan ja rahat. 1, 2, 3 asettavat nopeuden. |
 

@@ -109,6 +109,7 @@ const Translation kEntries[] = {
     {Str::ConditionDirty, "掃除が必要"},
     {Str::BowlEmpty, "餌なし"},
     {Str::BowlHasFood, "餌あり"},
+    // The chemistry set's potion, by its color only (game::ChemistryPotion)
     {Str::Potion0, "オレンジ色の薬が完成"},
     {Str::Potion1, "赤い薬が完成"},
     {Str::Potion2, "青い薬が完成"},
@@ -988,10 +989,11 @@ const Translation kEntries[] = {
     {Str::MapLayerRooms, "部屋のみ"},
     {Str::SimLookHead, "頭：%s"},
     {Str::SimLookBody, "体：%s"},
+    {Str::AnimNone, "%s: 再生中のアニメーションなし"},
     {Str::SimLookUnknown, "%s：この見た目の説明はモッドにありません"},
     {Str::KeysLotMore,
      "同じ物をまとめた項目でエンターを押すと、1つずつ一覧にします。コントロール+Tで、時計の新しい時刻を毎時読むか、やめます。コントロール+シフト+Nで、誰の会話を読むかを選びます：家族と話す人、全員、家族だけ、誰も読"
-     "まない。コントロール+シフト+Eで、シムの見た目を読みます。"},
+     "まない。コントロール+シフト+Eで、シムの見た目を読みます。コントロール+シフト+A で体が何をしているかをゲームのアニメーションから言います。"},
     {Str::KeysMapMore, "壁、フェンス、窓で矢印キーは止まります。Altと矢印キーで通り抜けます。コンマとピリオドで、1歩ごとに読む内容を選びます：すべて、物、床、壁、部屋。"},
     {Str::KeysPlacingWalls, "壁、フェンス、窓で矢印キーは止まります。Altと矢印キーで通り抜けます。物を移動するときは、最初の矢印キーが元の場所から始まります。"},
     {Str::KeysShowFocusThings, "オンのとき、マウスポインターも区画の選択中の物へ移動します。"},

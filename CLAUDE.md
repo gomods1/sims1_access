@@ -223,7 +223,11 @@ eturn_focus.txt`; a dev core hands the foreground back to it
     everyone / family / nobody (`[mod] social`, balloons and relationship numbers of other
     pairs, `narrator::SocialScope`); Ctrl+Shift+E a Sim's head and body (the character file's
     STR# 200 "bodystring": 1 body, 2 head as `mesh,BODY=texture`, the texture keys
-    `nav/appearance.cpp`; read through the person's object type, `game::SimLook`); Enter on
+    `nav/appearance.cpp`; read through the person's object type, `game::SimLook`);
+    Ctrl+Shift+A (2026-11-25, a Sims 2 tester's wish) what a Sim's body is doing: the animator's
+    running animations (STRUCTS.md "Animations"), described from `mod/anims/<tag>.tsv` (written
+    for both mods, kept and merged in the Sims 2 repo: `tools/anim_keys.py merge` copies them
+    here; `nav/anim_names.cpp` is the same file there); Enter on
     "N iguales" lists them (`world::OpenSame`); the map's comma / period layers (floors by name:
     the floor style's `+0x14` std::string, base floors 1-29 from `Build.iff` STR# 130) and its
     walls stop the arrows (placing's too), Alt+arrows go through (`cues::WallStops`,

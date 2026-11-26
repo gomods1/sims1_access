@@ -107,6 +107,7 @@ const Translation kEntries[] = {
     {Str::ConditionDirty, "需要清洁"},
     {Str::BowlEmpty, "没有食物"},
     {Str::BowlHasFood, "有食物"},
+    // The chemistry set's potion, by its color only (game::ChemistryPotion)
     {Str::Potion0, "橙色的药已做好"},
     {Str::Potion1, "红色的药已做好"},
     {Str::Potion2, "蓝色的药已做好"},
@@ -962,10 +963,11 @@ const Translation kEntries[] = {
     {Str::MapLayerRooms, "仅房间"},
     {Str::SimLookHead, "头部：%s"},
     {Str::SimLookBody, "身体：%s"},
+    {Str::AnimNone, "%s：没有正在播放的动画"},
     {Str::SimLookUnknown, "%s：模组没有这个外观的描述"},
     {Str::KeysLotMore,
      "在相同物品的条目上按回车，逐个列出它们。Ctrl+T朗读时钟的每个新整点，或停止朗读。Ctrl+Shift+N选择朗读谁的对话：任何与你的家庭交谈的人、所有人、只有你的家庭，或没有人。Ctrl+Shift+E朗读模"
-     "拟市民的外貌。"},
+     "拟市民的外貌。Ctrl+Shift+A 根据游戏的动画说出其身体正在做什么。"},
     {Str::KeysMapMore, "墙、围栏和窗户会挡住方向键；按住Alt加方向键可以穿过。逗号和句号选择每一步朗读什么：全部、物品、地板、墙或房间。"},
     {Str::KeysPlacingWalls, "墙、围栏和窗户会挡住方向键；按住Alt加方向键可以穿过。移动物品时，第一次按方向键从它原来的位置开始。"},
     {Str::KeysShowFocusThings, "开启时，鼠标指针也会移到地块上获得焦点的东西。"},

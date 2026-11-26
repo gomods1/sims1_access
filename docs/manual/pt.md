@@ -141,6 +141,7 @@ O emprego diz o horário e quando a carona passa. Cada habilidade diz seu nível
 | Control+Shift+F | A câmera segue o Sim selecionado ou fica livre. |
 | Control+E | O Sim selecionado em uma frase: cômodo, o que está fazendo, necessidades urgentes, humor. |
 | Control+Shift+E | Como é a aparência de um Sim: cabeça e corpo ("cabeça: cabelo preto, curto; corpo: terno, preto"). O Sim em foco entre os objetos do lote, senão o selecionado. Os detalhes de um Sim (Control+Seta para cima nele) também dizem. |
+| Control+Shift+A | O que o corpo de um Sim está fazendo agora, descrito a partir das animações que o jogo executa: as pausas, as reações e os jeitos de fazer as coisas que dão charme ao jogo. O Sim em foco entre as coisas do lote, senão o selecionado. |
 | Control+T | Diz cada nova hora do relógio ("são 14:00"), ou para de dizer. Útil na velocidade máxima. |
 | P | Pausa (a tecla do jogo); o mod diz a hora e os fundos. 1, 2, 3 definem a velocidade. |
 

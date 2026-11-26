@@ -518,6 +518,23 @@ bool SimLook(Ptr person, std::string* head, std::string* body) {
     return !head->empty() || !body->empty();
 }
 
+std::vector<std::string> SimAnimations(Ptr person) {
+    std::vector<std::string> out;
+    if (!IsKindOf(person, "cXPerson")) return out;
+    Ptr animator = Rd<Ptr>(person + addr::anim::kPersonAnimator);
+    if (!IsKindOf(animator, "SAnimator")) return out;
+    for (int slot : addr::anim::kPractices) {
+        // The background one (a2o-standing-loop under a Sim playing the piano, seen live) only
+        // when nothing else runs: it is the pose under the others.
+        if (slot == addr::anim::kPractices[2] && !out.empty()) break;
+        Ptr practice = Rd<Ptr>(animator + slot);
+        Ptr skill = practice ? Rd<Ptr>(practice + addr::anim::kPracticeSkill) : 0;
+        std::string name = skill ? ReadStdString(skill + addr::anim::kSkillName) : "";
+        if (!name.empty() && name.size() < 200) out.push_back(name);
+    }
+    return out;
+}
+
 int ObjectAttribute(Ptr object, int n) {
     Ptr values = Rd<Ptr>(object + addr::objattr::kValues);
     int count = Rd<int>(object + addr::objattr::kCount);

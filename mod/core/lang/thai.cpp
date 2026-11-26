@@ -120,6 +120,7 @@ const Translation kEntries[] = {
     {Str::ConditionDirty, "ต้องทำความสะอาด"},
     {Str::BowlEmpty, "ไม่มีอาหาร"},
     {Str::BowlHasFood, "มีอาหาร"},
+    // The chemistry set's potion, by its color only (game::ChemistryPotion)
     {Str::Potion0, "ยาวิเศษสีส้มเสร็จแล้ว"},
     {Str::Potion1, "ยาวิเศษสีแดงเสร็จแล้ว"},
     {Str::Potion2, "ยาวิเศษสีน้ำเงินเสร็จแล้ว"},
@@ -1066,11 +1067,13 @@ const Translation kEntries[] = {
     {Str::MapLayerRooms, "เฉพาะห้อง"},
     {Str::SimLookHead, "ศีรษะ: %s"},
     {Str::SimLookBody, "ร่างกาย: %s"},
+    {Str::AnimNone, "%s: ไม่มีแอนิเมชันที่กำลังเล่น"},
     {Str::SimLookUnknown, "%s: ม็อดไม่มีคำอธิบายของรูปลักษณ์นี้"},
     {Str::KeysLotMore,
      "Enter บนรายการของสิ่งที่เหมือนกันจะแสดงทีละชิ้น, Control+T บอกทุกชั่วโมงใหม่ของนาฬิกา หรือหยุดบอก, "
      "Control+Shift+N เลือกว่าจะพูดบทสนทนาของใคร: ทุกคนที่คุยกับครอบครัวของคุณ, ทุกคน, เฉพาะครอบครัวของคุณ "
-     "หรือไม่มีใคร, Control+Shift+E บอกรูปลักษณ์ของซิม"},
+     "หรือไม่มีใคร, Control+Shift+E บอกรูปลักษณ์ของซิม Control+Shift+A บอกว่าร่างกายกำลังทำอะไร "
+     "ตามแอนิเมชันของเกม"},
     {Str::KeysMapMore,
      "กำแพง รั้ว และหน้าต่างหยุดลูกศร Alt กับลูกศรเดินทะลุไปได้ ลูกน้ำ (,) และจุด (.) "
      "เลือกว่าแต่ละก้าวจะบอกอะไร: ทั้งหมด วัตถุ พื้น กำแพง หรือห้อง"},

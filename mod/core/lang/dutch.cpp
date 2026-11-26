@@ -124,6 +124,7 @@ const Translation kEntries[] = {
     {Str::ConditionDirty, "moet schoongemaakt"},
     {Str::BowlEmpty, "zonder voer"},
     {Str::BowlHasFood, "met voer"},
+    // The chemistry set's potion, by its color only (game::ChemistryPotion)
     {Str::Potion0, "oranje drankje klaar"},
     {Str::Potion1, "rood drankje klaar"},
     {Str::Potion2, "blauw drankje klaar"},
@@ -1096,11 +1097,13 @@ const Translation kEntries[] = {
     {Str::MapLayerRooms, "alleen kamers"},
     {Str::SimLookHead, "hoofd: %s"},
     {Str::SimLookBody, "lichaam: %s"},
+    {Str::AnimNone, "%s: geen animatie bezig"},
     {Str::SimLookUnknown, "%s: de mod heeft geen beschrijving van dit uiterlijk"},
     {Str::KeysLotMore,
      "Enter op een regel met gelijke voorwerpen noemt ze een voor een. Control+T zegt elk nieuw uur van de klok, "
      "of stopt daarmee. Control+Shift+N kiest wiens gesprekken worden gezegd: iedereen die met je familie praat, "
-     "iedereen, alleen je familie of niemand. Control+Shift+E zegt hoe een Sim eruitziet."},
+     "iedereen, alleen je familie of niemand. Control+Shift+E zegt hoe een Sim eruitziet. Control+Shift+A zegt "
+     "wat zijn lichaam doet, volgens de animaties van het spel."},
     {Str::KeysMapMore,
      "Muren, hekken en ramen houden de pijltjes tegen; Alt met de pijltjes gaat erdoorheen. Komma en punt kiezen "
      "wat elke stap zegt: alles, voorwerpen, vloeren, muren of kamers."},

@@ -102,6 +102,7 @@ Der Beruf nennt seine Arbeitszeiten und wann die Fahrgemeinschaft kommt. Jede F�
 | Strg+Umschalt+F | Die Kamera folgt dem ausgewählten Sim oder bleibt frei. |
 | Strg+E | Der ausgewählte Sim in einer Zeile: Raum, was er tut, dringende Bedürfnisse, Stimmung. |
 | Strg+Umschalt+E | Wie ein Sim aussieht: sein Kopf und sein Körper („Kopf: schwarze Haare, kurz; Körper: Anzug, schwarz“). Der Sim, der unter den Objekten des Grundstücks gewählt ist, sonst der ausgewählte. Die Details eines Sims (Strg+Pfeil nach oben auf ihm) sagen es auch. |
+| Strg+Umschalt+A | Was der Körper eines Sims gerade tut, beschrieben nach den Animationen, die das Spiel abspielt: die Leerlaufbewegungen, Reaktionen und Arten, Dinge zu tun, die den Reiz des Spiels ausmachen. Der fokussierte Sim unter den Dingen des Grundstücks, sonst der ausgewählte. |
 | Strg+T | Sagt jede neue Stunde der Uhr an („es ist 14:00“), oder hört damit auf. Nützlich bei der höchsten Geschwindigkeit. |
 | P | Pause (die Taste des Spiels); der Mod sagt Uhrzeit und Vermögen. 1, 2, 3 stellen die Geschwindigkeit ein. |
 

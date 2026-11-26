@@ -297,6 +297,11 @@ bool Dispatch(WPARAM vk, bool shift, bool ctrl) {
         g_swallowChar = 'h';
         nav::tutorial::OpenTip();
         return true;
+    case 'A':  // Ctrl+Shift+A: what a Sim's body is doing (Ctrl+A alone is left to the game)
+        if (!ctrl || !shift) return false;
+        g_swallowChar = 'a';
+        nav::SayAnimation();
+        return true;
     case 'E':  // Ctrl+E the selected Sim's state, Ctrl+Shift+E what the Sim looks like
         if (!ctrl) return false;
         g_swallowChar = 'e';
@@ -435,7 +440,7 @@ bool OnKeyDown(WPARAM vk, LPARAM lp) {
     bool ctrl = Held(VK_CONTROL);
     bool ctrlKey = vk == VK_PRIOR || vk == VK_NEXT || vk == VK_RETURN || vk == VK_F1 || vk == VK_UP ||
                    vk == VK_DOWN || vk == VK_LEFT || vk == VK_RIGHT || (vk >= '1' && vk <= '9') || vk == 'F' || vk == 'H' || vk == 'E' || vk == 'N' || vk == 'T' || vk == 'L' || vk == 'R' || vk == 'M' || vk == VK_DELETE ||
-                   ((vk == 'C' || vk == 'V' || vk == 'S') && Held(VK_SHIFT));  // the mod's Ctrl combinations
+                   ((vk == 'C' || vk == 'V' || vk == 'S' || vk == 'A') && Held(VK_SHIFT));  // the mod's Ctrl combinations
     if (Held(VK_MENU) || (ctrl && !ctrlKey)) {
         LogVerbose("key 0x%02x left to the game: %s held", (unsigned)vk, ctrl ? "Ctrl" : "Alt");
         return false;

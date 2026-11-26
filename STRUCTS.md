@@ -352,6 +352,19 @@ carries its own names for them (`nav/world.cpp`, `KnownObject`).
 The buy catalog (`[0xa63570] + 0xc4 -> + 0x70`) keeps a vector of `Product` at `+4/+8` (name
 `std::string` at `+4`, type record at `+0x40`): the same names, for objects that can be bought.
 
+## Animations (static analysis 2026-11-25, read live on the Lápida lot)
+
+- `cXPerson + 0xB58`: the Sim's `SAnimator` (vtable `0x991960`, made in the person's constructor
+  `0x5ef930` by `0x5cda60`); `Animator` / `SAnimator` slot 10 (`0x57fe50` / `0x5d6380`) is the
+  animate primitive's work ("Could not start animation <skill>, id N" in the log).
+- The animator's practices (VitaBoy's running animations, 0x80 bytes, made by `0x6d2090` /
+  `0x6cc110`): `+0xc` the main one, `+0x10` a carried object's, `+0x14` the background one (the
+  base pose: `a2o-standing-loop` under Homero playing the piano). A practice's `+4` is its skill
+  (`+0` a reference count, `+4` the name as an MSVC std::string: "a2o-piano-play", `+0x14` its size).
+- `game::SimAnimations` reads them for Control+Shift+A; the names become descriptions through
+  the Sims 2 mod's shared files (`mod/anims/<tag>.tsv`, `nav/anim_names.cpp`, its
+  `tools/anim_keys.py` and `tools/anim_style.md`).
+
 ## SimAntics and balloons
 
 Evidence: the decompiled dispatcher `0x615cb0`, the balloon primitive `0x61bc40`, its debugger

@@ -30,6 +30,7 @@
 #include "../game/neighborhood.h"
 #include "describe.h"
 #include "arrange.h"
+#include "anim_names.h"
 #include "buffers.h"
 #include "game_speed.h"
 #include "narrator.h"
@@ -892,6 +893,36 @@ void SayLook() {
     if (!person) person = game::SelectedSim();
     std::string line = person ? world::SimLookLine(person) : "";
     speech::Say(line.empty() ? S(Str::NoSimSelected) : line);
+}
+
+void SayAnimation() {
+    if (!LotViewActive() || !game::LotModule()) {
+        speech::Say(S(Str::NotOnLot));
+        return;
+    }
+    EnsureCurrent();
+    const Item* it = Focused();
+    Ptr person = 0;
+    if (it && it->role == Role::LotObject) {
+        Ptr focused = world::FocusedObject();
+        if (game::IsKindOf(focused, "cXPerson")) person = focused;
+    }
+    if (!person) person = game::SelectedSim();
+    game::LotObject o;
+    if (!person || !game::GetObject(person, &o)) {
+        speech::Say(S(Str::NoSimSelected));
+        return;
+    }
+    std::vector<std::string> parts;
+    for (const std::string& name : game::SimAnimations(person)) {
+        std::string words = anims::Spoken(name);
+        if (!words.empty() && std::find(parts.begin(), parts.end(), words) == parts.end()) parts.push_back(words);
+    }
+    std::string sim = game::ObjectName(o);
+    std::string line = anims::Join(parts);
+    line = line.empty() ? util::Format(S(Str::AnimNone), sim.c_str()) : sim + ": " + line;
+    speech::Say(line);
+    buffers::SetDetails({line});
 }
 
 void ToggleShowFocus() {

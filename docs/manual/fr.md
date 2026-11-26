@@ -102,6 +102,7 @@ L'emploi donne ses horaires et l'heure du covoiturage. Chaque compétence dit so
 | Contrôle+Maj+F | La caméra suit le Sim sélectionné, ou reste libre. |
 | Contrôle+E | Le Sim sélectionné en une phrase : pièce, ce qu'il fait, besoins urgents, humeur. |
 | Contrôle+Maj+E | À quoi ressemble un Sim : sa tête et son corps (« tête : cheveux noirs, courts ; corps : costume, noir »). Le Sim qui a le focus parmi les objets du terrain, sinon le Sim sélectionné. Les détails d'un Sim (Contrôle+flèche haut dessus) le disent aussi. |
+| Contrôle+Maj+A | Ce que fait maintenant le corps d'un Sim, décrit d'après les animations que le jeu lui fait jouer : les attentes, les réactions et les façons de faire qui font le charme du jeu. Le Sim sélectionné parmi les choses du terrain, sinon le Sim actif. |
 | Contrôle+T | Annonce chaque nouvelle heure de l'horloge (« il est 14:00 »), ou arrête. Utile à la vitesse maximale. |
 | P | Pause (la touche du jeu) ; le mod dit l'heure et les fonds. 1, 2, 3 règlent la vitesse. |
 

@@ -352,6 +352,16 @@ Done in code; still to see live:
   caught and released, heard through the game's own sounds). Volleyball and the voucher games are
   ordinary interaction menus, not tried one by one.
 
+## Animations (2026-11-25)
+
+A Sims 2 tester asked to know what animation a Sim runs, in both games: much of the game's charm
+is in them. Control+Shift+A says it, from the Sim's animator (STRUCTS.md "Animations"), each
+animation described in the player's language (about 15,000 descriptions written for both games'
+Sim animations, `mod/anims/<tag>.tsv`, made in the Sims 2 repo). Heard live on the Lápida lot:
+"Homero: playing the piano", "Elvira: waiting, weight on the left foot". Open: whether the carried
+object's practice (`+0x10`) ever says something worth hearing; animations the archives' scan
+missed are said by their key's words.
+
 ## Travel
 
 Every trip away from the home lot (downtown, vacation, studio, magic town, and any other magic

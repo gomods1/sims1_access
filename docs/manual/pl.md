@@ -139,6 +139,7 @@ Praca podaje godziny i kiedy przyjeżdża samochód. Każda umiejętność podaj
 | Control+Shift+F | Kamera śledzi wybranego Sima albo jest swobodna. |
 | Control+E | Wybrany Sim w jednym zdaniu: pokój, co robi, pilne potrzeby, nastrój. |
 | Control+Shift+E | Jak wygląda Sim: jego głowa i ciało ("głowa: czarne włosy, krótkie; ciało: garnitur, czarny"). Sim, na którym jest fokus wśród rzeczy na parceli, a jeśli nie, wybrany Sim. Szczegóły Sima (Control+strzałka w górę na nim) też to podają. |
+| Control+Shift+A | Co robi teraz ciało Sima, opisane na podstawie animacji, które odtwarza gra: ruchy w bezczynności, reakcje i sposoby robienia rzeczy, które dają grze urok. Sim w fokusie wśród rzeczy parceli, w przeciwnym razie wybrany. |
 | Control+T | Podaje każdą nową godzinę zegara ("godzina 14:00") albo przestaje. Przydatne przy najszybszej prędkości. |
 | P | Pauza (klawisz gry); mod mówi godzinę i fundusze. 1, 2, 3 ustawiają prędkość. |
 

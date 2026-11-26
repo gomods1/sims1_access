@@ -110,6 +110,7 @@ const Translation kEntries[] = {
     {Str::ConditionDirty, "청소 필요"},
     {Str::BowlEmpty, "먹이 없음"},
     {Str::BowlHasFood, "먹이 있음"},
+    // The chemistry set's potion, by its color only (game::ChemistryPotion)
     {Str::Potion0, "주황색 물약 완성"},
     {Str::Potion1, "빨간색 물약 완성"},
     {Str::Potion2, "파란색 물약 완성"},
@@ -993,10 +994,11 @@ const Translation kEntries[] = {
     {Str::MapLayerRooms, "방만"},
     {Str::SimLookHead, "머리: %s"},
     {Str::SimLookBody, "몸: %s"},
+    {Str::AnimNone, "%s: 재생 중인 애니메이션 없음"},
     {Str::SimLookUnknown, "%s: 모드에 이 모습의 설명이 없습니다"},
     {Str::KeysLotMore,
      "같은 물건을 묶은 항목에서 엔터를 누르면 하나씩 나열합니다. 컨트롤+T로 시계의 새 시각을 매시 알려 주거나 멈춥니다. 컨트롤+시프트+N으로 누구의 대화를 알려 줄지 고릅니다: 가족과 "
-     "이야기하는 사람, 모두, 가족만, 아무도 없음. 컨트롤+시프트+E로 심의 모습을 알려 줍니다."},
+     "이야기하는 사람, 모두, 가족만, 아무도 없음. 컨트롤+시프트+E로 심의 모습을 알려 줍니다. 컨트롤+시프트+A는 게임의 애니메이션에 따라 몸이 무엇을 하는지 알려 줍니다."},
     {Str::KeysMapMore, "벽, 울타리, 창문은 화살표를 막고, Alt와 화살표는 통과합니다. 쉼표와 마침표로 한 걸음마다 알려 줄 것을 고릅니다: 전부, 물건, 바닥, 벽, 방."},
     {Str::KeysPlacingWalls, "벽, 울타리, 창문은 화살표를 막고, Alt와 화살표는 통과합니다. 물건을 옮길 때 첫 화살표는 원래 있던 자리에서 시작합니다."},
     {Str::KeysShowFocusThings, "켜 두면 마우스 포인터도 부지에서 선택한 물건으로 갑니다."},

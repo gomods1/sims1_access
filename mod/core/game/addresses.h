@@ -199,6 +199,17 @@ constexpr int kFunds = 0x90;          // cSimulator: int funds
 constexpr int kFundsMode = 0x50;      // cSimulator: short; 1 = unlimited (the funds getter
                                       // 0x556e20 answers 999999)
 }  // namespace sim
+// What a Sim's body is doing (static analysis 2026-11-25, STRUCTS.md "Animations"): cXPerson
+// +0xB58 its SAnimator (created in the person's constructor 0x5ef930 by 0x5cda60); the animator's
+// "practices" (VitaBoy's running animations, 0x80 bytes, made by 0x6cc110): +0xc the main one,
+// +0x10 a carried object's, +0x14 the background one; a practice's +4 its skill (refcount at +0,
+// the name an MSVC std::string at +4: "a2o-fridge-open", what 0x57fe50's log prints).
+namespace anim {
+constexpr int kPersonAnimator = 0xB58;
+constexpr int kPractices[] = {0xc, 0x10, 0x14};
+constexpr int kPracticeSkill = 4;
+constexpr int kSkillName = 4;
+}  // namespace anim
 namespace product {
 constexpr int kName = 0x04;           // Product: std::string, the catalog name
 constexpr int kDescription = 0x1c;    // std::string, the catalog description

@@ -58,6 +58,8 @@ def main():
         files.append((f, "SimsAccess/sounds/" + f.name))
     for f in sorted((OUT / "docs").glob("*.html")):  # the manual, one page per language
         files.append((f, "SimsAccess/docs/" + f.name))
+    for f in sorted((ROOT / "mod" / "anims").glob("*.tsv")):  # what the animations mean, per language
+        files.append((f, "SimsAccess/anims/" + f.name))
     for f in sorted((PRISM / "LICENSES").rglob("*")):
         if f.is_file():
             files.append((f, "SimsAccess/licenses/Prism/" + f.relative_to(PRISM / "LICENSES").as_posix()))

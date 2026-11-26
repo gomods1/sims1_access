@@ -1063,8 +1063,9 @@
     X(MapLayerRooms, "rooms only")                                                                                   \
     X(SimLookHead, "head: %s")                                                                                       \
     X(SimLookBody, "body: %s")                                                                                       \
+    X(AnimNone, "%s: no animation running")                                                                          \
     X(SimLookUnknown, "%s: the mod has no description of this look")                                                 \
-    X(KeysLotMore, "Enter on an entry of identical things lists them one by one. Control+T says each new hour of the clock, or stops. Control+Shift+N chooses whose conversations are said: anyone with your family, everyone, only your family, or nobody. Control+Shift+E says what a Sim looks like.") \
+    X(KeysLotMore, "Enter on an entry of identical things lists them one by one. Control+T says each new hour of the clock, or stops. Control+Shift+N chooses whose conversations are said: anyone with your family, everyone, only your family, or nobody. Control+Shift+E says what a Sim looks like. Control+Shift+A says what its body is doing, from the game's animations.") \
     X(KeysMapMore, "Walls, fences and windows stop the arrows; Alt with the arrows goes through. Comma and period choose what each step says: everything, objects, floors, walls or rooms.") \
     X(KeysPlacingWalls, "Walls, fences and windows stop the arrows; Alt with the arrows goes through. When moving an object, the first arrow starts where it stood.") \
     X(KeysShowFocusThings, "With it on, the mouse pointer also goes to the lot's thing in focus.")                   \

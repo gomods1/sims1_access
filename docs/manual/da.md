@@ -102,6 +102,7 @@ Jobbet siger arbejdstiden, og hvornår samkørslen kommer. Hver færdighed siger
 | Kontrol+Skift+F | Kameraet følger den valgte Sim eller er frit. |
 | Kontrol+E | Den valgte Sim på én linje: rum, hvad den laver, akutte behov, humør. |
 | Kontrol+Skift+E | Hvordan en Sim ser ud: hoved og krop ("hoved: sort hår, kort; krop: jakkesæt, sort"). Den Sim, der har fokus blandt grundens objekter, ellers den valgte. En Sims detaljer (Kontrol+Pil op på den) siger det også. |
+| Kontrol+Skift+A | Hvad en Sims krop gør nu, beskrevet ud fra de animationer, spillet afspiller: hvilebevægelser, reaktioner og måder at gøre ting på, som giver spillet dets charme. Den Sim der har fokus blandt grundens ting, ellers den valgte. |
 | Kontrol+T | Siger hver ny time på uret ("klokken er 14:00"), eller holder op med det. Nyttigt ved den højeste hastighed. |
 | P | Pause (spillets tast); modden siger klokken og pengene. 1, 2, 3 indstiller hastigheden. |
 

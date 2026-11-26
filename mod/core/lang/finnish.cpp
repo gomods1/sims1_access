@@ -123,6 +123,7 @@ const Translation kEntries[] = {
     {Str::ConditionDirty, "kaipaa siivousta"},
     {Str::BowlEmpty, "ei ruokaa"},
     {Str::BowlHasFood, "ruokaa on"},
+    // The chemistry set's potion, by its color only (game::ChemistryPotion)
     {Str::Potion0, "oranssi juoma valmis"},
     {Str::Potion1, "punainen juoma valmis"},
     {Str::Potion2, "sininen juoma valmis"},
@@ -1083,11 +1084,13 @@ const Translation kEntries[] = {
     {Str::MapLayerRooms, "vain huoneet"},
     {Str::SimLookHead, "pää: %s"},
     {Str::SimLookBody, "vartalo: %s"},
+    {Str::AnimNone, "%s: ei animaatiota käynnissä"},
     {Str::SimLookUnknown, "%s: modilla ei ole kuvausta tälle ulkonäölle"},
     {Str::KeysLotMore,
      "Enter samanlaisten asioiden rivillä luettelee ne yksitellen. Control+T kertoo kellon jokaisen uuden tunnin "
      "tai lopettaa sen. Control+Vaihto+N valitsee, kenen keskustelut kerrotaan: kaikki, jotka puhuvat perheesi "
-     "kanssa, kaikki, vain perheesi tai ei kenenkään. Control+Vaihto+E kertoo, miltä simi näyttää."},
+     "kanssa, kaikki, vain perheesi tai ei kenenkään. Control+Vaihto+E kertoo, miltä simi näyttää. "
+     "Control+Vaihto+A kertoo, mitä sen keho tekee, pelin animaatioiden mukaan."},
     {Str::KeysMapMore,
      "Seinät, aidat ja ikkunat pysäyttävät nuolet; Alt nuolten kanssa kulkee läpi. Pilkku ja piste valitsevat, "
      "mitä kukin askel kertoo: kaiken, esineet, lattiat, seinät tai huoneet."},

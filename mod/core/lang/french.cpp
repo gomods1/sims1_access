@@ -124,6 +124,7 @@ const Translation kEntries[] = {
     {Str::ConditionDirty, "à nettoyer"},
     {Str::BowlEmpty, "sans nourriture"},
     {Str::BowlHasFood, "avec de la nourriture"},
+    // The chemistry set's potion, by its color only (game::ChemistryPotion)
     {Str::Potion0, "potion orange prête"},
     {Str::Potion1, "potion rouge prête"},
     {Str::Potion2, "potion bleue prête"},
@@ -1103,12 +1104,13 @@ const Translation kEntries[] = {
     {Str::MapLayerRooms, "pièces seulement"},
     {Str::SimLookHead, "tête : %s"},
     {Str::SimLookBody, "corps : %s"},
+    {Str::AnimNone, "%s : aucune animation en cours"},
     {Str::SimLookUnknown, "%s : le mod n'a pas de description de cette apparence"},
     {Str::KeysLotMore,
      "Entrée sur une entrée d'objets identiques les liste un par un. Contrôle+T annonce chaque nouvelle heure de "
      "l'horloge, ou arrête. Contrôle+Maj+N choisit de qui les conversations sont dites : quiconque parle avec "
      "votre famille, tout le monde, seulement votre famille, ou personne. Contrôle+Maj+E dit à quoi ressemble un "
-     "Sim."},
+     "Sim. Contrôle+Maj+A dit ce que fait son corps, d'après les animations du jeu."},
     {Str::KeysMapMore,
      "Les murs, clôtures et fenêtres arrêtent les flèches ; Alt avec les flèches passe à travers. Virgule et "
      "point choisissent ce que dit chaque pas : tout, objets, sols, murs ou pièces."},
